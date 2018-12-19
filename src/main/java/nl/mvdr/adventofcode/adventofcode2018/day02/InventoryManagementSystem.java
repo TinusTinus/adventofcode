@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -27,11 +28,11 @@ public class InventoryManagementSystem implements PathSolver {
 				.collect(Collectors.toList());
 		
 		long boxIdsWith2OfAnyLetter = boxIds.stream()
-				.filter(id -> containsExactlyNOfAnyLetter(id, 2))
+				.filter(id -> containsExactlyNOfAnyLetter(id, 2L))
 				.count();
 		
 		long boxIdsWith3OfAnyLetter = boxIds.stream()
-				.filter(id -> containsExactlyNOfAnyLetter(id, 3))
+				.filter(id -> containsExactlyNOfAnyLetter(id, 3L))
 				.count();
 		
 		long checksum = boxIdsWith2OfAnyLetter * boxIdsWith3OfAnyLetter;
@@ -47,8 +48,13 @@ public class InventoryManagementSystem implements PathSolver {
 	 * @return whether any of the letters in the box id occurs exactly the given number of times
 	 */
 	// default visibility for unit tests
-	static boolean containsExactlyNOfAnyLetter(String boxId, int n) {
-		return false; // TODO implement
+	static boolean containsExactlyNOfAnyLetter(String boxId, long n) {
+		// Count the number of occurences of each character.
+		Map<Character, Long> characterCounts = boxId.chars()
+				.mapToObj(c -> Character.valueOf((char) c))
+				.collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+		
+		return characterCounts.values().contains(Long.valueOf(n));
 	}
 	
 	/**
