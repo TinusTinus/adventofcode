@@ -161,5 +161,10 @@ public class InventoryManagementSystemTest extends SolverTest<InventoryManagemen
 		
 		Assertions.assertTrue(result, "contains three a and three b");
     }
-
+	
+    /** Test case based on the accepted solution. */
+    @Test
+    public void testSolution() {
+        assertSolution("6696", "input-day02-2018.txt");
+    }
 }
