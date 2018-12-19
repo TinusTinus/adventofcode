@@ -39,4 +39,10 @@ public class ChronalCalibrationTest extends SolverTest<ChronalCalibration> {
     public void testExample3() {
         assertSolution("-6", "example-day01-2018-3.txt");
     }
+    
+    /** Test case based on the accepted slution. */
+    @Test
+    public void testSolution() {
+        assertSolution("425", "input-day01-2018.txt");
+    }
 }
