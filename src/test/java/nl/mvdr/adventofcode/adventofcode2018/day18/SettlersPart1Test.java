@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit tests for {@link Settlers}.
+ * Unit tests for {@link SettlersPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class SettlersTest extends SolverTest<Settlers> {
+public class SettlersPart1Test extends SolverTest<SettlersPart1> {
     /** Constructor. */
-    public SettlersTest() {
-        super(Settlers.class);
+    public SettlersPart1Test() {
+        super(SettlersPart1.class);
     }
     
     /** Test case based on the example from the puzzle. */

@@ -11,30 +11,24 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class Settlers implements PathSolver {
-
+abstract class Settlers implements PathSolver {
+    private final int minutes;
+    
+    protected Settlers(int minutes) {
+        super();
+        
+        this.minutes = minutes;
+    }
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
         
         LumberCollectionArea area = LumberCollectionArea.parse(inputFilePath);
         
-        area = area.tick(10);
+        area = area.tick(minutes);
 
         long resourceValue = area.computeResourceValue();
         
         return "" + resourceValue;
-    }
-
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are ignored
-     */
-    public static void main(String[] args) {
-        Settlers instance = new Settlers();
-
-        String result = instance.solve("input-day18-2018.txt");
-
-        System.out.println(result);
     }
 }
