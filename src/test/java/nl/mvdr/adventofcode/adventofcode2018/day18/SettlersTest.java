@@ -20,4 +20,10 @@ public class SettlersTest extends SolverTest<Settlers> {
     public void testExample() {
         assertSolution("1147", "example-day18-2018.txt");
     }
+    
+    /** Test case based on the accepted solution to the puzzle. */
+    @Test
+    public void testSolution() {
+        assertSolution("531417", "input-day18-2018.txt");
+    }
 }
