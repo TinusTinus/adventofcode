@@ -153,9 +153,8 @@ class LumberCollectionArea {
      */
     private LumberCollectionArea tick() {
         List<List<AcreType>> nextAcres = IntStream.range(0, acres.size())
-                .parallel()
                 .mapToObj(this::computeNextRow)
-                .collect(Collectors.toList());  // TODO test if this maintains the order of the rows
+                .collect(Collectors.toList());
         
         return new LumberCollectionArea(nextAcres);
     }
