@@ -136,6 +136,10 @@ class LumberCollectionArea {
             result = this;
             for (int i = 0; i != minutes; i++) {
                 result = result.tick();
+                
+                if (0 < i && i % 10_000 == 0) {
+                    System.out.println(i + " ticks computed out of " + minutes + " (" + 100 * i / minutes + "%)");
+                }
             }
         }
         return result;

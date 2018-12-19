@@ -26,6 +26,8 @@ abstract class Settlers implements PathSolver {
         LumberCollectionArea area = LumberCollectionArea.parse(inputFilePath);
         
         area = area.tick(minutes);
+        
+        System.out.println(area);
 
         long resourceValue = area.computeResourceValue();
         
