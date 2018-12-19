@@ -1,15 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day01;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 
-import nl.mvdr.adventofcode.Solver;
+import nl.mvdr.adventofcode.PathSolver;
 
 /**
  * Solution to the day 1 puzzle of 2018's Advent of Code:
@@ -17,33 +13,19 @@ import nl.mvdr.adventofcode.Solver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCalibration implements Solver {
+public class ChronalCalibration implements PathSolver {
 	
-	/** {@inheritDoc} */
 	@Override
-	public String solve(String filename) {
-		String result;
-		try {
-			URL url = getClass().getClassLoader().getResource(filename);
-			if (url == null) {
-				throw new IllegalArgumentException("Unable to open file: " + filename);
-			}
-			Path inputFilePath = Paths.get(url.toURI());
-			
-			int sum = Files.lines(inputFilePath)
-					// ignore empty lines (the last line in the file)
-					.filter(Objects::nonNull)
-					.mapToInt(Integer::parseInt)
-					.sum();
-			
-			result = "" + sum;
-		} catch (URISyntaxException e) {
-			throw new IllegalArgumentException("Unable to open file: " + filename, e);
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-
-		return result;
+	public String solve(Path inputFilePath) throws IOException {
+		int sum = Files.lines(inputFilePath)
+				// ignore empty lines (the last line in the file)
+				.filter(Objects::nonNull)
+				.filter(line -> !line.isBlank())
+				// parse each line to an integer
+				.mapToInt(Integer::parseInt)
+				.sum();
+		
+		return "" + sum;
 	}
 
 	/**
@@ -58,5 +40,4 @@ public class ChronalCalibration implements Solver {
 		
 		System.out.println(result);
 	}
-
 }

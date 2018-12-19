@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode;
 
 /**
  * Solver interface.
+ * 
+ * Each Advent of Code puzzle seems to take an input file and deliver a String answer. 
  *
  * @author Martijn van de Rijdt
  */
