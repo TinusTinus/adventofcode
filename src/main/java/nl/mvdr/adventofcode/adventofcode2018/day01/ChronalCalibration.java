@@ -11,7 +11,7 @@ import java.util.Objects;
 
 /**
  * Solution to the day 1 puzzle of 2018's Advent of Code:
- * <a hreaf="https://adventofcode.com/2018/day/1">Chronal Calibration</a>.
+ * <a href="https://adventofcode.com/2018/day/1">Chronal Calibration</a>.
  *
  * @author Martijn van de Rijdt
  */
@@ -51,7 +51,7 @@ public class ChronalCalibration {
 	/**
 	 * Main method.
 	 * 
-	 * @param args commandline arguments
+	 * @param args commandline arguments; these are ignored
 	 */
 	public static void main(String[] args) {
 		ChronalCalibration instance = new ChronalCalibration();
