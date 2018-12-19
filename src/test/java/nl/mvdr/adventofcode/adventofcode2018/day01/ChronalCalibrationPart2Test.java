@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day01;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -45,6 +46,11 @@ public class ChronalCalibrationPart2Test extends SolverTest<ChronalCalibrationPa
     public void testExample7() {
         assertSolution("14", "example-day01-2018-7.txt");
     }
-
     
+    /** Test case based on the accepted solution. */
+    @Test
+    @Disabled // This takes several seconds.
+    public void testSolution() {
+        assertSolution("57538", "input-day01-2018.txt");
+    }
 }
