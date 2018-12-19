@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2018.day18;
 
-import nl.mvdr.adventofcode.Solver;
+import java.io.IOException;
+import java.nio.file.Path;
+
+import nl.mvdr.adventofcode.PathSolver;
 
 /**
  * Solution to the day 18 puzzle of 2018's Advent of Code:
@@ -8,11 +11,15 @@ import nl.mvdr.adventofcode.Solver;
  *
  * @author Martijn van de Rijdt
  */
-public class Settlers implements Solver {
+public class Settlers implements PathSolver {
 
     @Override
-    public String solve(String inputfile) {
-        // TODO Auto-generated method stub
+    public String solve(Path inputFilePath) throws IOException {
+        LumberCollectionArea area = LumberCollectionArea.parse(inputFilePath);
+
+        // TODO
+        System.out.println(area);
+        
         return null;
     }
 
