@@ -5,8 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -206,16 +208,13 @@ class LumberCollectionArea {
      * @return the resource value of this lumber collection area
      */
     long computeResourceValue() {
-        long woodedAcres = acres.stream()
+        Map<AcreType, Long> acreTypeCounts = acres.stream()
                 .flatMap(List::stream)
-                .filter(acreType -> acreType.equals(AcreType.TREES))
-                .count();
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         
-        long lumberyards = acres.stream()
-                .flatMap(List::stream)
-                .filter(acreType -> acreType.equals(AcreType.LUMBERYARD))
-                .count();
+        Long woodedAcres = acreTypeCounts.getOrDefault(AcreType.TREES, Long.valueOf(0L));
+        Long lumberyards = acreTypeCounts.getOrDefault(AcreType.LUMBERYARD, Long.valueOf(0L));
                 
-        return woodedAcres * lumberyards;
+        return woodedAcres.longValue() * lumberyards.longValue();
     }
 }
