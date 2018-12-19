@@ -197,4 +197,25 @@ class LumberCollectionArea {
     List<List<AcreType>> getAcres() {
         return acres;
     }
+    
+    /**
+     * Computes the resource value of this lumber collection area.
+     * 
+     * Multiplying the number of wooded acres by the number of lumberyards gives the total resource value.
+     * 
+     * @return the resource value of this lumber collection area
+     */
+    long computeResourceValue() {
+        long woodedAcres = acres.stream()
+                .flatMap(List::stream)
+                .filter(acreType -> acreType.equals(AcreType.TREES))
+                .count();
+        
+        long lumberyards = acres.stream()
+                .flatMap(List::stream)
+                .filter(acreType -> acreType.equals(AcreType.LUMBERYARD))
+                .count();
+                
+        return woodedAcres * lumberyards;
+    }
 }

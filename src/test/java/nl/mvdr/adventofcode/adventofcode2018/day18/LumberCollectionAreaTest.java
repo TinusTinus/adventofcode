@@ -178,5 +178,19 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute10.txt"));
         Assertions.assertEquals(expected.getAcres(), result.getAcres());
     }
+    
+    /**
+     * Test case for {@link LumberCollectionArea#computeResourceValue()}.
+     * 
+     * @throws IOException unexpected
+     */
+    @Test
+    public void testResourceValue() throws IOException {
+        LumberCollectionArea area = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute10.txt"));
+        
+        long resourceValue = area.computeResourceValue();
+        
+        Assertions.assertEquals(1147L, resourceValue);
+    }
 
 }
