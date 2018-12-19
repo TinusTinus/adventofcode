@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * A lumber collection area.
@@ -151,52 +152,54 @@ class LumberCollectionArea {
      * @return new state of the lumber collection area
      */
     private LumberCollectionArea tick() {
-        List<List<AcreType>> nextAcres = new ArrayList<>();
-        
-        for (int x = 0; x != acres.size(); x++) {
-            List<AcreType> nextRow = new ArrayList<>();
-            
-            for (int y = 0; y != acres.get(x).size(); y++) {
-                AcreType acreType = acres.get(x).get(y);
-                List<AcreType> neighbours = getNeighbours(x, y);
-                
-                AcreType nextAcreType;
-                if (acreType == AcreType.OPEN_GROUND) {
-                    // An open acre will become filled with trees if three or more adjacent
-                    // acres contained trees. Otherwise, nothing happens.
-                    if (3 <= neighbours.stream().filter(neighbour -> neighbour == AcreType.TREES).count()) {
-                        nextAcreType = AcreType.TREES;
-                    } else {
-                        nextAcreType = acreType;
-                    }
-                } else if (acreType == AcreType.TREES) {
-                    // An acre filled with trees will become a lumberyard if three or more
-                    // adjacent acres were lumberyards. Otherwise, nothing happens.
-                    if (3 <= neighbours.stream().filter(neighbour -> neighbour == AcreType.LUMBERYARD).count()) {
-                        nextAcreType = AcreType.LUMBERYARD;
-                    } else {
-                        nextAcreType = acreType;
-                    }
-                } else if (acreType == AcreType.LUMBERYARD) {
-                    // An acre containing a lumberyard will remain a lumberyard if it was
-                    // adjacent to at least one other lumberyard and at least one acre
-                    // containing trees. Otherwise, it becomes open.
-                    if (neighbours.contains(AcreType.LUMBERYARD) && neighbours.contains(AcreType.TREES)) {
-                        nextAcreType = AcreType.LUMBERYARD;
-                    } else {
-                        nextAcreType = AcreType.OPEN_GROUND;
-                    }
-                    
-                } else {
-                    throw new IllegalStateException("Unexpected acre type: " + acreType);
-                }
-                nextRow.add(nextAcreType);
-            }
-            
-            nextAcres.add(nextRow);
-        }
+        List<List<AcreType>> nextAcres = IntStream.range(0, acres.size())
+                .parallel()
+                .mapToObj(this::computeNextRow)
+                .collect(Collectors.toList());  // TODO test if this maintains the order of the rows
         
         return new LumberCollectionArea(nextAcres);
+    }
+
+    private List<AcreType> computeNextRow(int x) {
+        List<AcreType> nextRow = new ArrayList<>();
+        
+        for (int y = 0; y != acres.get(x).size(); y++) {
+            AcreType acreType = acres.get(x).get(y);
+            List<AcreType> neighbours = getNeighbours(x, y);
+            
+            AcreType nextAcreType;
+            if (acreType == AcreType.OPEN_GROUND) {
+                // An open acre will become filled with trees if three or more adjacent
+                // acres contained trees. Otherwise, nothing happens.
+                if (3 <= neighbours.stream().filter(neighbour -> neighbour == AcreType.TREES).count()) {
+                    nextAcreType = AcreType.TREES;
+                } else {
+                    nextAcreType = acreType;
+                }
+            } else if (acreType == AcreType.TREES) {
+                // An acre filled with trees will become a lumberyard if three or more
+                // adjacent acres were lumberyards. Otherwise, nothing happens.
+                if (3 <= neighbours.stream().filter(neighbour -> neighbour == AcreType.LUMBERYARD).count()) {
+                    nextAcreType = AcreType.LUMBERYARD;
+                } else {
+                    nextAcreType = acreType;
+                }
+            } else if (acreType == AcreType.LUMBERYARD) {
+                // An acre containing a lumberyard will remain a lumberyard if it was
+                // adjacent to at least one other lumberyard and at least one acre
+                // containing trees. Otherwise, it becomes open.
+                if (neighbours.contains(AcreType.LUMBERYARD) && neighbours.contains(AcreType.TREES)) {
+                    nextAcreType = AcreType.LUMBERYARD;
+                } else {
+                    nextAcreType = AcreType.OPEN_GROUND;
+                }
+                
+            } else {
+                throw new IllegalStateException("Unexpected acre type: " + acreType);
+            }
+            nextRow.add(nextAcreType);
+        }
+        return nextRow;
     }
     
     // getter for unit tests
