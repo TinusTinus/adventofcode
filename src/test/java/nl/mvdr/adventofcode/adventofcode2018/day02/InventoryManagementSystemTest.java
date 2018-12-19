@@ -160,6 +160,6 @@ public class InventoryManagementSystemTest extends SolverTest<InventoryManagemen
 		boolean result = InventoryManagementSystem.containsExactlyNOfAnyLetter(id, 3);
 		
 		Assertions.assertTrue(result, "contains three a and three b");
-	}	
-	
+    }
+
 }

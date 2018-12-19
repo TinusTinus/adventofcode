@@ -14,30 +14,30 @@ import nl.mvdr.adventofcode.PathSolver;
  * @author Martijn van de Rijdt
  */
 public class ChronalCalibration implements PathSolver {
-	
-	@Override
-	public String solve(Path inputFilePath) throws IOException {
-		int sum = Files.lines(inputFilePath)
-				// ignore empty lines (the last line in the file)
-				.filter(Objects::nonNull)
-				.filter(line -> !line.isBlank())
-				// parse each line to an integer
-				.mapToInt(Integer::parseInt)
-				.sum();
-		
-		return "" + sum;
-	}
 
-	/**
-	 * Main method.
-	 * 
-	 * @param args commandline arguments; these are ignored
-	 */
-	public static void main(String[] args) {
-		ChronalCalibration instance = new ChronalCalibration();
-		
-		String result = instance.solve("input-day01-2018.txt");
-		
-		System.out.println(result);
-	}
+    @Override
+    public String solve(Path inputFilePath) throws IOException {
+        int sum = Files.lines(inputFilePath)
+                // ignore empty lines (the last line in the file)
+                .filter(Objects::nonNull)
+                .filter(line -> !line.isBlank())
+                // parse each line to an integer
+                .mapToInt(Integer::parseInt)
+                .sum();
+
+        return "" + sum;
+    }
+
+    /**
+     * Main method.
+     * 
+     * @param args commandline arguments; these are ignored
+     */
+    public static void main(String[] args) {
+        ChronalCalibration instance = new ChronalCalibration();
+
+        String result = instance.solve("input-day01-2018.txt");
+
+        System.out.println(result);
+    }
 }
