@@ -16,6 +16,8 @@ public class Settlers implements PathSolver {
     @Override
     public String solve(Path inputFilePath) throws IOException {
         LumberCollectionArea area = LumberCollectionArea.parse(inputFilePath);
+        
+        area = area.tick(10);
 
         // TODO
         System.out.println(area);
