@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.PathSolver;
@@ -55,7 +56,7 @@ public class InventoryManagementSystem implements PathSolver {
         // Count the number of occurences of each character.
         Map<Character, Long> characterCounts = boxId.chars()
                 .mapToObj(c -> Character.valueOf((char) c))
-                .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
         return characterCounts.values().contains(Long.valueOf(n));
     }
