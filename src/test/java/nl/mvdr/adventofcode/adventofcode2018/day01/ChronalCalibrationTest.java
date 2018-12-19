@@ -1,62 +1,42 @@
 package nl.mvdr.adventofcode.adventofcode2018.day01;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import nl.mvdr.adventofcode.SolverTest;
 
 /**
  * Unit test cases for {@link ChronalCalibration}.
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCalibrationTest {
+public class ChronalCalibrationTest extends SolverTest<ChronalCalibration> {
 	
-	/** Object under test. */
-	private ChronalCalibration chronalCalibration;
-	
-	/** Setup method. */
-	@BeforeEach
-	public void setUp() {
-		this.chronalCalibration = new ChronalCalibration();
+	/** Constructor. */
+	public ChronalCalibrationTest() {
+		super(ChronalCalibration.class);
 	}
 	
 	/** Test case based on the first example from the puzzle text. */
 	@Test
 	public void testExample0() {
-		String inputFile = "example0-day01-2018.txt";
-		
-		String result = this.chronalCalibration.solve(inputFile);
-		
-		Assertions.assertEquals("3", result);
+		assertSolution("3", "example0-day01-2018.txt");
 	}
 	
 	/** Test case based on the second example from the puzzle text. */
 	@Test
 	public void testExample1() {
-		String inputFile = "example1-day01-2018.txt";
-		
-		String result = this.chronalCalibration.solve(inputFile);
-		
-		Assertions.assertEquals("3", result);
+		assertSolution("3", "example1-day01-2018.txt");
 	}
 	
 	/** Test case based on the third example from the puzzle text. */
 	@Test
 	public void testExample2() {
-		String inputFile = "example2-day01-2018.txt";
-		
-		String result = this.chronalCalibration.solve(inputFile);
-		
-		Assertions.assertEquals("0", result);
+		assertSolution("0", "example2-day01-2018.txt");
 	}
 	
 	/** Test case based on the second example from the puzzle text. */
 	@Test
 	public void testExample3() {
-		String inputFile = "example3-day01-2018.txt";
-		
-		String result = this.chronalCalibration.solve(inputFile);
-		
-		Assertions.assertEquals("-6", result);
+		assertSolution("-6", "example3-day01-2018.txt");
 	}
 }

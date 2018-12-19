@@ -9,20 +9,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import nl.mvdr.adventofcode.Solver;
+
 /**
  * Solution to the day 1 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/1">Chronal Calibration</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCalibration {
-
-	/**
-	 * Solver method.
-	 * 
-	 * @param filename filename of the input file (on the classpath)
-	 * @return solution to the puzzle for the given input
-	 */
+public class ChronalCalibration implements Solver {
+	
+	/** {@inheritDoc} */
+	@Override
 	public String solve(String filename) {
 		String result;
 		try {
