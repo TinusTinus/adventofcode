@@ -192,4 +192,9 @@ class LumberCollectionArea {
         
         return new LumberCollectionArea(nextAcres);
     }
+    
+    // getter for unit tests
+    List<List<AcreType>> getAcres() {
+        return acres;
+    }
 }
