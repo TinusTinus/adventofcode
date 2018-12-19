@@ -132,11 +132,11 @@ class LumberCollectionArea {
         LumberCollectionArea result;
         if (minutes < 0) {
             throw new IllegalArgumentException("Minutes may not be negative, was: " + minutes);
-        } else if (minutes == 0) {
-            result = this;
         } else {
-            LumberCollectionArea next = tick();
-            result = next.tick(minutes - 1);
+            result = this;
+            for (int i = 0; i != minutes; i++) {
+                result = result.tick();
+            }
         }
         return result;
     }
