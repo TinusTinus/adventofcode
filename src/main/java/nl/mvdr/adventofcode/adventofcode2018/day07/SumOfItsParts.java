@@ -1,7 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2018.day07;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import nl.mvdr.adventofcode.PathSolver;
 
@@ -13,10 +20,41 @@ import nl.mvdr.adventofcode.PathSolver;
  */
 public class SumOfItsParts implements PathSolver {
 
+    private static final Pattern PATTERN = Pattern.compile("Step ([A-Z]) must be finished before step ([A-Z]) can begin\\.");
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        // TODO
-        return null;
+        // Build a map, with the remaining steps as the key, and the set of direct unfulfilled prerequisites as the corresponding values.
+        Map<Character, Set<Character>> remainingSteps = new HashMap<>();
+        Files.lines(inputFilePath)
+            // ignore empty lines (the last line in the file)
+            .filter(Objects::nonNull)
+            .filter(line -> !line.isBlank())
+            .peek(System.out::println)
+            .map(line -> PATTERN.matcher(line))
+            .peek(System.out::println)
+            .forEach(matcher -> {
+                char prerequisite = matcher.group(1).charAt(0);
+                char step = matcher.group(2).charAt(0);
+                
+                remainingSteps.putIfAbsent(Character.valueOf(step), new HashSet<>());
+                remainingSteps.get(Character.valueOf(step)).add(Character.valueOf(prerequisite));
+            });
+        
+        String result = "";
+        while (!remainingSteps.isEmpty()) {
+            Character nextStep = remainingSteps.keySet().stream()
+                    .filter(step -> remainingSteps.get(step).isEmpty())
+                    .sorted()
+                    .findFirst()
+                    .get();
+            result = result + nextStep;
+            
+            remainingSteps.remove(nextStep);
+            remainingSteps.values().stream()
+                    .forEach(prerequisites -> prerequisites.remove(nextStep));
+        }
+        return result;
     }
 
     /**
