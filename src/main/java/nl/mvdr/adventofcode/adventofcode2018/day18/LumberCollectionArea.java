@@ -28,6 +28,7 @@ class LumberCollectionArea {
      * Constructor.
      * 
      * @param acres list of rows of acres
+     * @see #parse(Path)
      */
     private LumberCollectionArea(List<List<AcreType>> acres) {
         super();

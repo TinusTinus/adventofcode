@@ -1,7 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day03;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.PathSolver;
 
@@ -15,7 +19,16 @@ public class Slice implements PathSolver {
 
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        List<Claim> claims = Files.lines(inputFilePath)
+                // ignore empty lines (the last line in the file)
+                .filter(Objects::nonNull)
+                .filter(line -> !line.isBlank())
+                .map(Claim::parse)
+                .collect(Collectors.toList());
+        
         // TODO
+        System.out.println(claims);
+        
         return null;
     }
 
