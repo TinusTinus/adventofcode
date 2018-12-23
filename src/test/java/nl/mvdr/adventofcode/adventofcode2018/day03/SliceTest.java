@@ -44,4 +44,10 @@ public class SliceTest extends SolverTest<Slice> {
     public void testExample4() {
         assertSolution("0", "example-day03-2018-4.txt");
     }
+    
+    /** Test case based on the accepted solution. */
+    @Test
+    public void testSolution() {
+        assertSolution("124850", "input-day03-2018.txt");
+    }
 }

@@ -3,8 +3,12 @@ package nl.mvdr.adventofcode.adventofcode2018.day03;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.PathSolver;
@@ -26,10 +30,18 @@ public class Slice implements PathSolver {
                 .map(Claim::parse)
                 .collect(Collectors.toList());
         
-        // TODO
-        System.out.println(claims);
+        Map<SquareInch, Set<Claim>> claimedFabric = new HashMap<>();
         
-        return null;
+        for (Claim claim : claims) {
+            for (SquareInch squareInch : claim.getFabric()) {
+                claimedFabric.putIfAbsent(squareInch, new HashSet<>());
+                claimedFabric.get(squareInch).add(claim);
+            }
+        }
+        
+        return "" + claimedFabric.values().stream()
+                .filter(cs -> 2 <= cs.size())
+                .count();
     }
 
     /**
