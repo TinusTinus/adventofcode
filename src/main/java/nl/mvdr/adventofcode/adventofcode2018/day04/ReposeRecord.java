@@ -39,6 +39,15 @@ public class ReposeRecord implements PathSolver {
                 .sorted()
                 .collect(Collectors.toList());
         
+        Map<Integer, Guard> guards = process(records);
+        
+        Guard guard = guards.values().stream()
+                .max(Comparator.comparing(Guard::getMinutesAsleep))
+                .get();
+        return "" + guard.getId() * guard.computeMostAsleepMinute();
+    }
+
+    private Map<Integer, Guard> process(List<String> records) {
         Map<Integer, Guard> guards = new HashMap<>();
         
         Guard currentGuard = null;
@@ -69,12 +78,7 @@ public class ReposeRecord implements PathSolver {
                 currentGuard.sleep(napStart, napEnd);
             }
         }
-        
-        Guard guard = guards.values().stream()
-                .max(Comparator.comparing(Guard::getMinutesAsleep))
-                .get();
-                
-        return "" + guard.getId() * guard.computeMostAsleepMinute();
+        return guards;
     }
 
     /**
