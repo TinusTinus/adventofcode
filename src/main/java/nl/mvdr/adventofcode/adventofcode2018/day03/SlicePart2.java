@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day03;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,14 +13,17 @@ import java.util.Set;
 public class SlicePart2 extends Slice {
 
     @Override
-    protected String solve(Map<SquareInch, Set<Claim>> claimedFabric) {
-        // Nope, this is wrong.
-        return "" + claimedFabric.values().stream()
-                .filter(cs -> cs.size() == 1)
-                .map(cs -> cs.iterator().next())
+    protected String solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric) {
+        return "" + claims.stream()
+                .filter(claim -> isUncontested(claim, claimedFabric))
                 .mapToInt(Claim::getId)
                 .findAny()
                 .getAsInt();
+    }
+    
+    private boolean isUncontested(Claim claim, Map<SquareInch, Set<Claim>> claimedFabric) {
+        return claimedFabric.values().stream()
+                .allMatch(set -> !set.contains(claim) || set.size() == 1); 
     }
     
     /**

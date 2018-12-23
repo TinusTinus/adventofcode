@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day03;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 public class SlicePart1 extends Slice {
 
     @Override
-    protected String solve(Map<SquareInch, Set<Claim>> claimedFabric) {
+    protected String solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric) {
         return "" + claimedFabric.values().stream()
                 .filter(cs -> 2 <= cs.size())
                 .count();

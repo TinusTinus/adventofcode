@@ -37,8 +37,8 @@ abstract class Slice implements PathSolver{
             }
         }
         
-        return solve(claimedFabric);
+        return solve(claims, claimedFabric);
     }
     
-    protected abstract String solve(Map<SquareInch, Set<Claim>> claimedFabric); 
+    protected abstract String solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric); 
 }

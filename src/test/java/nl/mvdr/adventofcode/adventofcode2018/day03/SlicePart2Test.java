@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day03;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -22,13 +21,9 @@ public class SlicePart2Test extends SolverTest<SlicePart2> {
         assertSolution("3", "example-day03-2018-1.txt");
     }
     
-    /** Test case based on a wrong answer. */
+    /** Test case based on the accepted solution. */
     @Test
-    public void testWrongAnswer() {
-        SlicePart2 solver = new SlicePart2();
-        
-        String result = solver.solve("input-day03-2018.txt");
-        
-        Assertions.assertTrue(942 < Integer.valueOf(result));
+    public void testSolution() {
+        assertSolution("1097", "input-day03-2018.txt");
     }
 }
