@@ -141,28 +141,27 @@ class LumberCollectionArea {
         
         int minute = 0;
         
-        while(minute != minutes /* TODO && cycleIndex < 0 */) {
+        while(minute != minutes && cycleIndex < 0) {
             LumberCollectionArea nextResult = results.get(results.size() - 1).tick();
             
             cycleIndex = results.indexOf(nextResult);
             
-            if (0 < cycleIndex) {
-                System.out.println("Cycle found: cycleIndex = " + cycleIndex + ", minute = " + minute);
+            if (cycleIndex < 0) {
+                results.add(nextResult);
+                minute++;
             }
-            
-            results.add(nextResult);
-            minute++;
         }
         
         LumberCollectionArea result;
-        // TODO handle cycles
-//        if (0 <= cycleIndex) {
-//            // Cycle found!
-//            // tick(cycleIndex) == tick(results.size())
-//            throw new RuntimeException("Cycle found. cycleIndex = " + cycleIndex + ", minute = " + minute);
-//        } else {
+        if (0 <= cycleIndex) {
+            // Cycle found.
+            int cycleSize = results.size() - cycleIndex;
+            int remainingMinutes = minutes - minute;
+            int remainder = remainingMinutes % cycleSize;
+            result = results.get(cycleIndex + remainder - 1);
+        } else {
             result = results.get(results.size() - 1);
-//        }
+        }
         return result;
     }
     
