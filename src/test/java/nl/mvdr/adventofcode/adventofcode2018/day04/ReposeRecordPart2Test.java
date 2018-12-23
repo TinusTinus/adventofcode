@@ -26,4 +26,10 @@ public class ReposeRecordPart2Test extends SolverTest<ReposeRecordPart2> {
     public void testExampleJumbled() {
         assertSolution("4455", "example-day04-2018-jumbled.txt");
     }
+    
+    /** Test case based on the accepted solution. */
+    @Test
+    public void testSolution() {
+        assertSolution("96951", "input-day04-2018.txt");
+    }
 }
