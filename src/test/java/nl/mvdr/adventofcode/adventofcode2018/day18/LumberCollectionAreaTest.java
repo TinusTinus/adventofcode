@@ -25,7 +25,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute01.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
     
     /**
@@ -40,7 +40,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute02.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
     
     /**
@@ -55,7 +55,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute03.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
 
     
@@ -71,7 +71,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute04.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
 
     /**
@@ -86,7 +86,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute05.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
 
     /**
@@ -101,7 +101,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute06.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
 
     /**
@@ -116,7 +116,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute07.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
 
     /**
@@ -131,7 +131,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute08.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
 
     /**
@@ -146,7 +146,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute09.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
 
     /**
@@ -161,7 +161,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(1);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute10.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
     
     /**
@@ -176,7 +176,7 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea result = area.tick(10);
         
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute10.txt"));
-        Assertions.assertEquals(expected.getAcres(), result.getAcres());
+        Assertions.assertEquals(expected, result);
     }
 
     /**

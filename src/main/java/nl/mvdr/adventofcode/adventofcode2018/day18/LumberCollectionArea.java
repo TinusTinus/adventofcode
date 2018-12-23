@@ -130,18 +130,34 @@ class LumberCollectionArea {
      * @return new state of the lumber collection area
      */
     LumberCollectionArea tick(int minutes) {
-        LumberCollectionArea result;
         if (minutes < 0) {
             throw new IllegalArgumentException("Minutes may not be negative, was: " + minutes);
-        } else {
-            result = this;
-            for (int i = 0; i != minutes; i++) {
-                result = result.tick();
-                
-                if (0 < i && i % 10_000 == 0) {
-                    System.out.println(i + " ticks computed out of " + minutes + " (" + 100 * i / minutes + "%)");
-                }
+        }
+        
+        List<LumberCollectionArea> results = new ArrayList<>();
+        results.add(this);
+        
+        int cycleIndex = -1;
+        
+        int minute = 0;
+        
+        while(minute != minutes && cycleIndex < 0) {
+            LumberCollectionArea nextResult = results.get(results.size() - 1).tick();
+            
+            cycleIndex = results.indexOf(nextResult);
+            
+            if (cycleIndex < 0) {
+                results.add(nextResult);
+                minute++;
             }
+        }
+        
+        LumberCollectionArea result;
+        if (0 <= cycleIndex) {
+            // TODO
+            throw new RuntimeException("cycle found at " + cycleIndex);
+        } else {
+            result = results.get(results.size() - 1);
         }
         return result;
     }
@@ -222,5 +238,22 @@ class LumberCollectionArea {
         Long lumberyards = acreTypeCounts.getOrDefault(AcreType.LUMBERYARD, Long.valueOf(0L));
                 
         return woodedAcres.longValue() * lumberyards.longValue();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(acres);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LumberCollectionArea other = (LumberCollectionArea) obj;
+        return Objects.equals(acres, other.acres);
     }
 }
