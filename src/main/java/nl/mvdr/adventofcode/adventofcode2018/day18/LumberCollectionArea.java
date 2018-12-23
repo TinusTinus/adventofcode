@@ -12,6 +12,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.annotation.processing.Generated;
+
 /**
  * A lumber collection area.
  *
@@ -244,11 +246,13 @@ class LumberCollectionArea {
     }
 
     @Override
+    @Generated("Eclipse")
     public int hashCode() {
         return Objects.hash(acres);
     }
 
     @Override
+    @Generated("Eclipse")
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
