@@ -222,11 +222,6 @@ class LumberCollectionArea {
         return nextRow;
     }
     
-    // getter for unit tests
-    List<List<AcreType>> getAcres() {
-        return acres;
-    }
-    
     /**
      * Computes the resource value of this lumber collection area.
      * 
