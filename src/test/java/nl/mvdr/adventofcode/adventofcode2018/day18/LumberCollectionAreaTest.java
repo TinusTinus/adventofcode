@@ -205,5 +205,49 @@ public class LumberCollectionAreaTest {
         
         Assertions.assertEquals(1147L, resourceValue);
     }
-
+    
+    /**
+     * Test case for {@link LumberCollectionArea#tick(int)}.
+     * 
+     * @throws IOException unexpected
+     */
+    @Test
+    public void testCycle0() throws IOException {
+        LumberCollectionArea area = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "input-day18-2018.txt"));
+        
+        LumberCollectionArea result = area.tick(512);
+        
+        LumberCollectionArea expected = area.tick(540);
+        Assertions.assertEquals(expected, result);
+    }
+    
+    /**
+     * Test case for {@link LumberCollectionArea#tick(int)}.
+     * 
+     * @throws IOException unexpected
+     */
+    @Test
+    public void testCycle1() throws IOException {
+        LumberCollectionArea area = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "input-day18-2018.txt"));
+        
+        LumberCollectionArea result = area.tick(513);
+        
+        LumberCollectionArea expected = area.tick(541);
+        Assertions.assertEquals(expected, result);
+    }
+    
+    /**
+     * Test case for {@link LumberCollectionArea#tick(int)}.
+     * 
+     * @throws IOException unexpected
+     */
+    @Test
+    public void testCycle2() throws IOException {
+        LumberCollectionArea area = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "input-day18-2018.txt"));
+        
+        LumberCollectionArea result = area.tick(514);
+        
+        LumberCollectionArea expected = area.tick(542);
+        Assertions.assertEquals(expected, result);
+    }
 }
