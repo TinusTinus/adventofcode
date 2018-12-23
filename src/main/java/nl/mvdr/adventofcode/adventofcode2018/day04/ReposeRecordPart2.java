@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day04;
 
+import java.util.Comparator;
 import java.util.Map;
 
 /**
@@ -12,8 +13,13 @@ public class ReposeRecordPart2 extends ReposeRecord {
     
     @Override
     protected String solve(Map<Integer, Guard> guards) {
-        // TODO Auto-generated method stub
-        return null;
+        Comparator<Guard> guardComparator = Comparator.comparing(guard -> guard.getNumberOfTimesAsleep(guard.computeMostAsleepMinute()));
+        
+        Guard guard = guards.values().stream()
+                .max(guardComparator)
+                .get();
+        
+        return "" + guard.getId() * guard.computeMostAsleepMinute();
     }
 
     /**

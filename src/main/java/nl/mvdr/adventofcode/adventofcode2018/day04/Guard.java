@@ -59,4 +59,8 @@ class Guard {
             .get()
             .intValue();
     }
+    
+    int getNumberOfTimesAsleep(int minute) {
+        return numberOfTimesAsleep[minute];
+    }
 }
