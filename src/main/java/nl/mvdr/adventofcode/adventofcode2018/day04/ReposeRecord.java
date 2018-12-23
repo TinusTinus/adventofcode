@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2018.day04;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,12 +15,12 @@ import java.util.stream.Collectors;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to the day 4 puzzle of 2018's Advent of Code:
- * <a href="https://adventofcode.com/2018/day/4">Repose Record</a>.
+ * Common superclass for {@link ReposeRecordPart1} and {@link ReposeRecordPart2}.
  *
  * @author Martijn van de Rijdt
+ * 
  */
-public class ReposeRecord implements PathSolver {
+abstract class ReposeRecord implements PathSolver {
     /** Regular expression for a record indicating the start of a shift. Group 1 is the guard id. */
     private static final Pattern PATTERN_BEGIN_SHIFT = Pattern.compile("\\[\\d\\d\\d\\d-\\d\\d-\\d\\d \\d\\d:\\d\\d\\] Guard #(\\d+) begins shift");
     /** Regular expression for a record indicating that a guard falls asleep. Group 1 is the minute of the midnight hour. */
@@ -41,10 +40,7 @@ public class ReposeRecord implements PathSolver {
         
         Map<Integer, Guard> guards = process(records);
         
-        Guard guard = guards.values().stream()
-                .max(Comparator.comparing(Guard::getMinutesAsleep))
-                .get();
-        return "" + guard.getId() * guard.computeMostAsleepMinute();
+        return solve(guards);
     }
 
     private Map<Integer, Guard> process(List<String> records) {
@@ -80,17 +76,6 @@ public class ReposeRecord implements PathSolver {
         }
         return guards;
     }
-
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are ignored
-     */
-    public static void main(String[] args) {
-        ReposeRecord instance = new ReposeRecord();
-
-        String result = instance.solve("input-day04-2018.txt");
-
-        System.out.println(result);
-    }
+    
+    protected abstract String solve(Map<Integer, Guard> guards);
 }
