@@ -12,15 +12,22 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class AlchemicalReduction implements PathSolver {
+public class AlchemicalReductionPart2 implements PathSolver {
 
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
+        String polymer = Files.lines(inputFilePath)
                 .findFirst()
+                .get();
+                
+        return "" + polymer.chars()
+                .map(character -> Character.toLowerCase((char)character))
+                .distinct()
+                .mapToObj(character -> polymer.replaceAll("" + (char)character, "").replaceAll("" + Character.toUpperCase((char)character), ""))
                 .map(Polymers::react)
-                .get()
-                .length() + "";
+                .mapToInt(String::length)
+                .min()
+                .getAsInt();
     }
 
     /**
@@ -29,7 +36,7 @@ public class AlchemicalReduction implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        AlchemicalReduction instance = new AlchemicalReduction();
+        AlchemicalReductionPart2 instance = new AlchemicalReductionPart2();
 
         String result = instance.solve("input-day05-2018.txt");
 
