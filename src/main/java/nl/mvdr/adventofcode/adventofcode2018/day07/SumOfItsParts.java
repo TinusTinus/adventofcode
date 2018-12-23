@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nl.mvdr.adventofcode.PathSolver;
@@ -30,15 +31,15 @@ public class SumOfItsParts implements PathSolver {
             // ignore empty lines (the last line in the file)
             .filter(Objects::nonNull)
             .filter(line -> !line.isBlank())
-            .peek(System.out::println)
             .map(line -> PATTERN.matcher(line))
-            .peek(System.out::println)
+            .peek(Matcher::matches)
             .forEach(matcher -> {
                 char prerequisite = matcher.group(1).charAt(0);
                 char step = matcher.group(2).charAt(0);
                 
                 remainingSteps.putIfAbsent(Character.valueOf(step), new HashSet<>());
                 remainingSteps.get(Character.valueOf(step)).add(Character.valueOf(prerequisite));
+                remainingSteps.putIfAbsent(Character.valueOf(prerequisite), new HashSet<>());
             });
         
         String result = "";
