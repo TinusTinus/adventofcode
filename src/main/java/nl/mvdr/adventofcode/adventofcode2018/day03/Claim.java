@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
  * @author Martijn van de Rijdt
  */
 class Claim {
+    private static final Pattern PATTERN = Pattern.compile("#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)");
+    
     private final int id;
     private final int x;
     private final int y;
@@ -32,8 +34,7 @@ class Claim {
      * @return claim
      */
     static Claim parse(String claimString) {
-        Pattern pattern = Pattern.compile("#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)");
-        Matcher matcher = pattern.matcher(claimString);
+        Matcher matcher = PATTERN.matcher(claimString);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid claim: " + claimString);
         }
