@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day04;
 
+import java.util.Comparator;
 import java.util.stream.IntStream;
 
 /**
@@ -42,7 +43,20 @@ class Guard {
                 .forEach(minute -> numberOfTimesAsleep[minute]++);
     }
 
+    int getId() {
+        return id;
+    }
+    
     int getMinutesAsleep() {
         return minutesAsleep;
+    }
+    
+    /** @return the minute during the midnight hour, in which the guard has been asleep the most number of times */
+    int computeMostAsleepMinute() {
+        return IntStream.range(0, numberOfTimesAsleep.length)
+            .mapToObj(Integer::valueOf)
+            .max(Comparator.comparing(i -> numberOfTimesAsleep[i]))
+            .get()
+            .intValue();
     }
 }

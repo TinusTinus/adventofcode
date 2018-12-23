@@ -74,13 +74,10 @@ public class ReposeRecord implements PathSolver {
                 .max(Comparator.comparing(Guard::getMinutesAsleep))
                 .get();
                 
-        System.out.println(guard);
-        
-        // TODO implement
-        return null;
+        return "" + guard.getId() * guard.computeMostAsleepMinute();
     }
 
-        /**
+    /**
      * Main method.
      * 
      * @param args commandline arguments; these are ignored
