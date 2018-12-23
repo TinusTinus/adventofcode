@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day03;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,5 +64,18 @@ class Claim {
         builder.append("x");
         builder.append(height);
         return builder.toString();
+    }
+    
+    /** @return the claimed fabric */
+    Set<SquareInch> getFabric() {
+        Set<SquareInch> result = new HashSet<>();
+        
+        for (int i = x; i != x + width; i++) {
+            for (int j = y; j != y + height; j++) {
+                result.add(new SquareInch(i, j));
+            }
+        }
+        
+        return result;
     }
 }
