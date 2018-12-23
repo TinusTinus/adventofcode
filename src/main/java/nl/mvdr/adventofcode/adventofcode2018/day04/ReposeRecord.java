@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2018.day04;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 import nl.mvdr.adventofcode.PathSolver;
 
@@ -15,6 +17,15 @@ public class ReposeRecord implements PathSolver {
 
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        Files.lines(inputFilePath)
+                // ignore empty lines (the last line in the file)
+                .filter(Objects::nonNull)
+                .filter(line -> !line.isBlank())
+                // sort input in chronological order (which is equal to lexicographical order)
+                .sorted()
+                .forEach(System.out::println);
+        
+        
         // TODO implement
         return null;
     }
