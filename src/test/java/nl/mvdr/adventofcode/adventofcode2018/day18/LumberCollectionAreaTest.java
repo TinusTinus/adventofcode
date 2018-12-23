@@ -178,6 +178,19 @@ public class LumberCollectionAreaTest {
         LumberCollectionArea expected = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018-minute10.txt"));
         Assertions.assertEquals(expected.getAcres(), result.getAcres());
     }
+
+    /**
+     * Test case for {@link LumberCollectionArea#tick(int)} with negative input.
+     * 
+     * @thrown IOException unexpected
+     */
+    @Test
+    public void testTickNegative() throws IOException {
+        LumberCollectionArea area = LumberCollectionArea.parse(PathSolver.toPath(getClass(), "example-day18-2018.txt"));
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> area.tick(-1));
+    }
+
     
     /**
      * Test case for {@link LumberCollectionArea#computeResourceValue()}.
