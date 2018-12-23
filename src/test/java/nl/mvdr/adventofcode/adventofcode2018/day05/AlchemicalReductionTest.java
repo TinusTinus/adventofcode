@@ -38,4 +38,10 @@ public class AlchemicalReductionTest extends SolverTest<AlchemicalReduction> {
     public void testExample3() {
         assertSolution("10", "example-day05-2018-3.txt");
     }
+
+    /** Test case based on the accepted solution. */
+    @Test
+    public void testSolution() {
+        assertSolution("9296", "input-day05-2018.txt");
+    }
 }
