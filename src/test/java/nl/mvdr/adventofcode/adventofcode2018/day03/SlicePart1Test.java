@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link Slice}.
+ * Unit test for {@link SlicePart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class SliceTest extends SolverTest<Slice> {
+public class SlicePart1Test extends SolverTest<SlicePart1> {
     /** Constructor. */
-    public SliceTest() {
-        super(Slice.class);
+    public SlicePart1Test() {
+        super(SlicePart1.class);
     }
 
     /** Test case based on an example from the puzzle. */

@@ -9,26 +9,22 @@ import java.util.Set;
  *
  * @author Martijn van de Rijdt
  */
-public class SlicePart2 extends Slice {
+public class SlicePart1 extends Slice {
 
     @Override
     protected String solve(Map<SquareInch, Set<Claim>> claimedFabric) {
-        // Nope, this is wrong.
         return "" + claimedFabric.values().stream()
-                .filter(cs -> cs.size() == 1)
-                .map(cs -> cs.iterator().next())
-                .mapToInt(Claim::getId)
-                .findAny()
-                .getAsInt();
+                .filter(cs -> 2 <= cs.size())
+                .count();
     }
-    
+
     /**
      * Main method.
      * 
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SlicePart2 instance = new SlicePart2();
+        SlicePart1 instance = new SlicePart1();
 
         String result = instance.solve("input-day03-2018.txt");
 

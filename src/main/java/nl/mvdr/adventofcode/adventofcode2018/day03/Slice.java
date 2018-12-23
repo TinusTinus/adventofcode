@@ -14,13 +14,11 @@ import java.util.stream.Collectors;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to the day 3 puzzle of 2018's Advent of Code:
- * <a href="https://adventofcode.com/2018/day/3">No Matter How You Slice It</a>.
+ * Common ancestor for {@link SlicePart1} and {@link SlicePart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class Slice implements PathSolver {
-
+abstract class Slice implements PathSolver{
     @Override
     public String solve(Path inputFilePath) throws IOException {
         List<Claim> claims = Files.lines(inputFilePath)
@@ -39,21 +37,8 @@ public class Slice implements PathSolver {
             }
         }
         
-        return "" + claimedFabric.values().stream()
-                .filter(cs -> 2 <= cs.size())
-                .count();
+        return solve(claimedFabric);
     }
-
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are ignored
-     */
-    public static void main(String[] args) {
-        Slice instance = new Slice();
-
-        String result = instance.solve("input-day03-2018.txt");
-
-        System.out.println(result);
-    }
+    
+    protected abstract String solve(Map<SquareInch, Set<Claim>> claimedFabric); 
 }

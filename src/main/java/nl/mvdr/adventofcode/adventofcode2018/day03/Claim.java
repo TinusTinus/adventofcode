@@ -78,4 +78,8 @@ class Claim {
         
         return result;
     }
+    
+    int getId() {
+        return id;
+    }
 }
