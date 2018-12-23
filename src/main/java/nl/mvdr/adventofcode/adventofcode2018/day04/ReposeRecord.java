@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day04;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,20 @@ abstract class ReposeRecord implements PathSolver {
     /** Regular expression for a record indicating that a guard wakes up. Group 1 is the minute of the midnight hour. */
     private static final Pattern PATTERN_WAKE_UP = Pattern.compile("\\[\\d\\d\\d\\d-\\d\\d-\\d\\d \\d\\d:(\\d\\d)\\] wakes up");
     
+    /** Comparator, used to determine which guard to pick. */
+    private final Comparator<Guard> comparator;
+    
+    /**
+     * Constructor.
+     * 
+     * @param comparator used to determine which guard to pick
+     */
+    protected ReposeRecord(Comparator<Guard> comparator) {
+        super();
+        
+        this.comparator = comparator;
+    }
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
         List<String> records = Files.lines(inputFilePath)
@@ -40,7 +55,11 @@ abstract class ReposeRecord implements PathSolver {
         
         Map<Integer, Guard> guards = process(records);
         
-        return solve(guards);
+        Guard guard = guards.values().stream()
+                .max(comparator)
+                .get();
+        
+        return "" + guard.getId() * guard.computeMostAsleepMinute();
     }
 
     private Map<Integer, Guard> process(List<String> records) {
@@ -76,6 +95,4 @@ abstract class ReposeRecord implements PathSolver {
         }
         return guards;
     }
-    
-    protected abstract String solve(Map<Integer, Guard> guards);
 }
