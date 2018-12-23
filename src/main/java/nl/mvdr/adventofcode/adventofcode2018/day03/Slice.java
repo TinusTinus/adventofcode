@@ -40,5 +40,12 @@ abstract class Slice implements PathSolver{
         return solve(claims, claimedFabric);
     }
     
+    /**
+     * Solver method.
+     * 
+     * @param claims all claims from the input
+     * @param claimedFabric map containing, for every square inch of fabric, the set of claims to that particular square inch of fabric
+     * @return puzzle solution
+     */
     protected abstract String solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric); 
 }
