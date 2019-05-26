@@ -23,8 +23,8 @@ class Step {
     /** Identification of this step. Should be a capital letter. */
     private final char id;
     
-    /** Identifications of the steps that need to be completed before work on this step can be started. */
-    private final Set<Character> prerequisites;
+    /** Steps that need to be completed before work on this step can be started. */
+    private final Set<Step> prerequisites;
     
     /** Time remaining before this step is complete, in seconds. */
     int remainingTime;
@@ -45,10 +45,10 @@ class Step {
     /**
      * Adds a prerequisite to this step.
      * 
-     * @param prerequisiteId id of the prerequisite
+     * @param prerequisite prerequisite step
      */
-    private void addPrerequisite(char prerequisiteId) {
-        this.prerequisites.add(Character.valueOf(prerequisiteId));
+    private void addPrerequisite(Step prerequisite) {
+        this.prerequisites.add(prerequisite);
     }
 
     /** @return identification of this step; should be a capital letter */
@@ -57,7 +57,7 @@ class Step {
     }
     
     /** @return identifications of the steps that need to be completed before work on this step can be started */
-    Set<Character> getPrerequisites() {
+    Set<Step> getPrerequisites() {
         return prerequisites;
     }
 
@@ -66,6 +66,24 @@ class Step {
         return remainingTime;
     }
     
+    /** @return whether this step has been completed */
+    boolean isDone() {
+        return remainingTime <= 0;
+    }
+    
+    /** Works on this step for a second. This decreases the remaining time of this step. */
+    void work() {
+        remainingTime--;
+    }
+    
+    /**
+     * Builds a list of steps based on the text in the given text file.
+     * 
+     * @param inputFilePath file path of the text file
+     * @param baseTime basic number of seconds needed to complete any step (0 in the example, 60 in the actual puzzle input)
+     * @return list of steps, sorted by ascending identification
+     * @throws IOException exception when reading the text  file
+     */
     static List<Step> parse(Path inputFilePath, int baseTime) throws IOException {
         List<Step> result = new ArrayList<Step>();
         
@@ -79,6 +97,15 @@ class Step {
                 char prerequisiteStepId = matcher.group(1).charAt(0);
                 char stepId = matcher.group(2).charAt(0);
                 
+                Step prerequisite = result.stream()
+                        .filter(step -> step.id == prerequisiteStepId)
+                        .findFirst()
+                        .orElseGet(() -> {
+                            Step newStep = new Step(prerequisiteStepId, baseTime);
+                            result.add(newStep);
+                            return newStep;
+                        });
+                        
                 if (!result.stream().anyMatch(step -> step.id == prerequisiteStepId)) {
                     result.add(new Step(prerequisiteStepId, baseTime));
                 }
@@ -91,7 +118,7 @@ class Step {
                         result.add(step);
                         return step;
                     })
-                    .addPrerequisite(prerequisiteStepId);
+                    .addPrerequisite(prerequisite);
             });
         
         result.sort(Comparator.comparing(Step::getId));

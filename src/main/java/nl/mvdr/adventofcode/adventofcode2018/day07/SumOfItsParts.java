@@ -1,15 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2018.day07;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.Optional;
 
 import nl.mvdr.adventofcode.PathSolver;
 
@@ -20,42 +14,39 @@ import nl.mvdr.adventofcode.PathSolver;
  * @author Martijn van de Rijdt
  */
 public class SumOfItsParts implements PathSolver {
-
-    private static final Pattern PATTERN = Pattern.compile("Step ([A-Z]) must be finished before step ([A-Z]) can begin\\.");
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        // Build a map, with the remaining steps as the key, and the set of direct unfulfilled prerequisites as the corresponding values.
-        Map<Character, Set<Character>> remainingSteps = new HashMap<>();
-        Files.lines(inputFilePath)
-            // ignore empty lines (the last line in the file)
-            .filter(Objects::nonNull)
-            .filter(line -> !line.isBlank())
-            .map(line -> PATTERN.matcher(line))
-            .peek(Matcher::matches)
-            .forEach(matcher -> {
-                char prerequisite = matcher.group(1).charAt(0);
-                char step = matcher.group(2).charAt(0);
-                
-                remainingSteps.putIfAbsent(Character.valueOf(step), new HashSet<>());
-                remainingSteps.get(Character.valueOf(step)).add(Character.valueOf(prerequisite));
-                remainingSteps.putIfAbsent(Character.valueOf(prerequisite), new HashSet<>());
-            });
+        
+        List<Step> steps = Step.parse(inputFilePath, 0);
         
         String result = "";
-        while (!remainingSteps.isEmpty()) {
-            Character nextStep = remainingSteps.keySet().stream()
-                    .filter(step -> remainingSteps.get(step).isEmpty())
-                    .sorted()
-                    .findFirst()
-                    .get();
-            result = result + nextStep;
-            
-            remainingSteps.remove(nextStep);
-            remainingSteps.values().stream()
-                    .forEach(prerequisites -> prerequisites.remove(nextStep));
+        Optional<Step> step = nextStep(steps);
+        while (step.isPresent()) {
+            while (!step.get().isDone()) {
+                step.get().work();
+            }
+            result = result + step.get().getId();
+            step = nextStep(steps);
         }
         return result;
+    }
+    
+    /**
+     * Determines the next step to be performed.
+     * 
+     * If no more steps can be performed, this method returns an empty optional.
+     * This typically means that all steps are done.
+     * It could also mean that a deadlock has occurred, because prerequisites cannot be filled.
+     * 
+     * @param steps all steps; should be sorted in alphabetical order
+     * @return next step to be performed; empty in case no more steps can be performed
+     */
+    private Optional<Step> nextStep(List<Step> steps) {
+        return steps.stream()
+                .filter(step -> !step.isDone())
+                .filter(step -> step.getPrerequisites().stream().allMatch(Step::isDone))
+                .findFirst();
     }
 
     /**
