@@ -21,7 +21,7 @@ public class SumOfItsPartsTest extends SolverTest<SumOfItsParts> {
         assertSolution("CABDFE", "example-day07-2018.txt");
     }
     
-    /** Test case based on the accepted solution. */
+    /** Test case based on the accepted solution for part 1. */
     @Test
     public void testSolution() {
         assertSolution("PFKQWJSVUXEMNIHGTYDOZACRLB", "input-day07-2018.txt");
