@@ -76,6 +76,11 @@ class Step {
         remainingTime--;
     }
     
+    @Override
+    public String toString() {
+        return "" + id;
+    }
+    
     /**
      * Builds a list of steps based on the text in the given text file.
      * 

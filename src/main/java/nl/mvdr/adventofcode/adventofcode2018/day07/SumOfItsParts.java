@@ -2,8 +2,9 @@ package nl.mvdr.adventofcode.adventofcode2018.day07;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 import nl.mvdr.adventofcode.PathSolver;
 
@@ -37,45 +38,41 @@ abstract class SumOfItsParts implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         
         List<Step> steps = Step.parse(inputFilePath, baseTime);
-        
-        String stepsPerformed = "";
+
+        StringBuilder stepsPerformed = new StringBuilder();
         int timeSpent = 0;
         
-        Optional<Step> step = nextStep(steps);
-        while (step.isPresent()) {
-            while (!step.get().isDone()) {
-                step.get().work();
-                timeSpent++;
-            }
-            stepsPerformed = stepsPerformed + step.get().getId();
-            step = nextStep(steps);
+        Set<Step> stepsInProgress = new HashSet<>();
+        
+        while(!steps.stream().allMatch(Step::isDone)) {
+            // Start of a new second.
+            // Find steps to start for any idle workers
+            steps.stream()
+                // Don't work on steps that have already been completed
+                .filter(step -> !step.isDone())
+                // Don't work on steps that someone is already working on
+                .filter(step -> !stepsInProgress.contains(step))
+                // Only work on steps for which all prerequisites have been met
+                .filter(step -> step.getPrerequisites().stream().allMatch(Step::isDone))
+                // Limit to the number of workers
+                .limit(workers - stepsInProgress.size())
+                .peek(stepsPerformed::append)
+                .forEach(stepsInProgress::add);
+            
+            stepsInProgress.forEach(Step::work);
+            timeSpent++;
+            
+            stepsInProgress.removeIf(Step::isDone);
         }
         
         String result;
         if (solution == SumOfItsPartsSolution.STEPS) {
-            result = stepsPerformed; 
+            result = stepsPerformed.toString(); 
         } else if (solution == SumOfItsPartsSolution.TIME) {
             result = "" + timeSpent;
         } else {
             throw new IllegalStateException("Unexpected solution specified: " + solution);
         }
         return result;
-    }
-    
-    /**
-     * Determines the next step to be performed.
-     * 
-     * If no more steps can be performed, this method returns an empty optional.
-     * This typically means that all steps are done.
-     * It could also mean that a deadlock has occurred, because prerequisites cannot be filled.
-     * 
-     * @param steps all steps; should be sorted in alphabetical order
-     * @return next step to be performed; empty in case no more steps can be performed
-     */
-    private Optional<Step> nextStep(List<Step> steps) {
-        return steps.stream()
-                .filter(step -> !step.isDone())
-                .filter(step -> step.getPrerequisites().stream().allMatch(Step::isDone))
-                .findFirst();
     }
 }
