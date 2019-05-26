@@ -20,16 +20,19 @@ public class SumOfItsParts implements PathSolver {
         
         List<Step> steps = Step.parse(inputFilePath, 0);
         
-        String result = "";
+        String stepsPerformed = "";
+        int timeSpent = 0;
+        
         Optional<Step> step = nextStep(steps);
         while (step.isPresent()) {
             while (!step.get().isDone()) {
                 step.get().work();
+                timeSpent++;
             }
-            result = result + step.get().getId();
+            stepsPerformed = stepsPerformed + step.get().getId();
             step = nextStep(steps);
         }
-        return result;
+        return stepsPerformed;
     }
     
     /**
