@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link SumOfItsParts}.
+ * Unit test for {@link SumOfItsPartsPart1}.
  *
  * @author Martijn van de Rijdt
  */

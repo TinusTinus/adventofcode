@@ -39,7 +39,7 @@ public abstract class SolverTest<S extends Solver> {
             result = constructor.newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {
-            throw new IllegalStateException("Unable to instantiate solver: " + solverClass);
+            throw new IllegalStateException("Unable to instantiate solver: " + solverClass, e);
         }
 
         return result;

@@ -19,7 +19,13 @@ abstract class SumOfItsParts implements PathSolver {
     private final int baseTime;
     private final int workers;
     
-    /** Constructor. */
+    /**
+     * Constructor.
+     * 
+     * @param solution preferred output
+     * @param baseTime basic number of seconds needed to complete any step (0 in the example, 60 in the actual puzzle input)
+     * @param workers number of parallel workers
+     */
     protected SumOfItsParts(SumOfItsPartsSolution solution, int baseTime, int workers) {
         super();
         this.solution = solution;
