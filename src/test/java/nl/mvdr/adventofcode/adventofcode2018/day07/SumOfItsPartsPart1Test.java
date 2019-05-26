@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class SumOfItsPartsTest extends SolverTest<SumOfItsParts> {
+public class SumOfItsPartsPart1Test extends SolverTest<SumOfItsPartsPart1> {
     /** Constructor. */
-    public SumOfItsPartsTest() {
-        super(SumOfItsParts.class);
+    public SumOfItsPartsPart1Test() {
+        super(SumOfItsPartsPart1.class);
     }
 
     /** Test case based on an example from the puzzle. */

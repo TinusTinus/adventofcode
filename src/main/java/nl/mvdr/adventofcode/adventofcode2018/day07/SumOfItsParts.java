@@ -13,18 +13,18 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SumOfItsParts implements PathSolver {
+abstract class SumOfItsParts implements PathSolver {
     
     private final SumOfItsPartsSolution solution;
     private final int baseTime;
     private final int workers;
     
     /** Constructor. */
-    public SumOfItsParts() {
+    protected SumOfItsParts(SumOfItsPartsSolution solution, int baseTime, int workers) {
         super();
-        this.solution = SumOfItsPartsSolution.STEPS;
-        this.baseTime = 0;
-        this.workers = 1;
+        this.solution = solution;
+        this.baseTime = baseTime;
+        this.workers = workers;
     }
     
     @Override
@@ -71,18 +71,5 @@ public class SumOfItsParts implements PathSolver {
                 .filter(step -> !step.isDone())
                 .filter(step -> step.getPrerequisites().stream().allMatch(Step::isDone))
                 .findFirst();
-    }
-
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are ignored
-     */
-    public static void main(String[] args) {
-        SumOfItsParts instance = new SumOfItsParts();
-
-        String result = instance.solve("input-day07-2018.txt");
-
-        System.out.println(result);
     }
 }
