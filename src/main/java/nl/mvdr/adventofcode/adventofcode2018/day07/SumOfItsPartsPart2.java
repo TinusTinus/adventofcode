@@ -10,7 +10,7 @@ public class SumOfItsPartsPart2 extends SumOfItsParts {
     /** Constructor. */
     public SumOfItsPartsPart2() {
         // parameters from the example
-        this(0, 5);
+        this(0, 2);
     }
     
     /**
