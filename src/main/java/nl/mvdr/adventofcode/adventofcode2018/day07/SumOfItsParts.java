@@ -15,10 +15,22 @@ import nl.mvdr.adventofcode.PathSolver;
  */
 public class SumOfItsParts implements PathSolver {
     
+    private final SumOfItsPartsSolution solution;
+    private final int baseTime;
+    private final int workers;
+    
+    /** Constructor. */
+    public SumOfItsParts() {
+        super();
+        this.solution = SumOfItsPartsSolution.STEPS;
+        this.baseTime = 0;
+        this.workers = 1;
+    }
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
         
-        List<Step> steps = Step.parse(inputFilePath, 0);
+        List<Step> steps = Step.parse(inputFilePath, baseTime);
         
         String stepsPerformed = "";
         int timeSpent = 0;
@@ -32,7 +44,16 @@ public class SumOfItsParts implements PathSolver {
             stepsPerformed = stepsPerformed + step.get().getId();
             step = nextStep(steps);
         }
-        return stepsPerformed;
+        
+        String result;
+        if (solution == SumOfItsPartsSolution.STEPS) {
+            result = stepsPerformed; 
+        } else if (solution == SumOfItsPartsSolution.TIME) {
+            result = "" + timeSpent;
+        } else {
+            throw new IllegalStateException("Unexpected solution specified: " + solution);
+        }
+        return result;
     }
     
     /**
