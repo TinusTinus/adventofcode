@@ -20,7 +20,10 @@ public class ChronalCoordinates implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        // TODO Auto-generated method stub
+        Point.parse(inputFilePath).forEach(point -> LOGGER.info("point: " + point));
+        
+        
+        // TODO implement
         return null;
     }
     
