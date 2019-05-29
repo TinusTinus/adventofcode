@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day06;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -28,7 +29,7 @@ public class ChronalCoordinates implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Set<Point> points = Point.parse(inputFilePath);
 
-        // Construct a rectangle around all of the points
+        // Construct a rectangle surrounding all of the points
         int minX = points.stream().mapToInt(Point::getX).min().getAsInt() - 1;
         int maxX = points.stream().mapToInt(Point::getX).max().getAsInt() + 1;
         int minY = points.stream().mapToInt(Point::getY).min().getAsInt() - 1;
@@ -41,9 +42,34 @@ public class ChronalCoordinates implements PathSolver {
                         .flatMap(x -> IntStream.range(minY, maxY + 1).mapToObj(y -> new Point(Integer.valueOf(x), y)))
                         .collect(Collectors.toMap(Function.identity(), point -> closest(point, points)));
         
-        // TODO implement
-        return null;
+        int result = points.stream()
+                .map(Optional::of)
+                .map(point -> minimalDistances.entrySet().stream()
+                        .filter(entry -> point.equals(entry.getValue()))
+                        .map(Entry::getKey)
+                        .collect(Collectors.toSet()))
+                .filter(area -> isFinite(area, minX, minY, maxX, maxY))
+                .mapToInt(Set::size)
+                .max()
+                .getAsInt();
+        
+        return "" + result;
     }
+    
+    /**
+     * Determines whether the given area is finite.
+     * 
+     * @param area area
+     * @param minX minimum x coordinate of the rectangle surrounding all of the points
+     * @param minY minimum y coordinate of the rectangle surrounding all of the points
+     * @param maxX maximum x coordinate of the rectangle surrounding all of the points
+     * @param maxY maximum y coordinate of the rectangle surrounding all of the points
+     * @return whether the area is finite
+     */
+    private boolean isFinite(Set<Point> area, int minX, int minY, int maxX, int maxY) {
+        return area.stream().allMatch(point -> point.getX() != minX && point.getX() != maxX && point.getY() != minY && point.getY() != maxY);
+    }
+    
     
     /**
      * Given a point, this method determines the closest element of the given set of points, according to the Manhattan distance.
