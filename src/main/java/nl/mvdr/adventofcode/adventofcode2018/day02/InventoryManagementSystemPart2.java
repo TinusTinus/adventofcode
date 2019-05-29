@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
@@ -18,6 +21,8 @@ import nl.mvdr.adventofcode.PathSolver;
  */
 public class InventoryManagementSystemPart2 implements PathSolver {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryManagementSystemPart2.class);
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
         List<String> boxIds = Files.lines(inputFilePath)
@@ -59,6 +64,6 @@ public class InventoryManagementSystemPart2 implements PathSolver {
 
         String result = instance.solve("input-day02-2018.txt");
 
-        System.out.println(result);
+        LOGGER.info(result);
     }
 }

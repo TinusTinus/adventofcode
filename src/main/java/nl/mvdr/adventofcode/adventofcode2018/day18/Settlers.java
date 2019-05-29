@@ -3,6 +3,9 @@ package nl.mvdr.adventofcode.adventofcode2018.day18;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
@@ -12,6 +15,9 @@ import nl.mvdr.adventofcode.PathSolver;
  * @author Martijn van de Rijdt
  */
 abstract class Settlers implements PathSolver {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Settlers.class);
+    
     private final int minutes;
     
     protected Settlers(int minutes) {
@@ -27,7 +33,7 @@ abstract class Settlers implements PathSolver {
         
         area = area.tick(minutes);
         
-        System.out.println(area);
+        LOGGER.debug("Area:\n{}", area);
 
         long resourceValue = area.computeResourceValue();
         

@@ -9,6 +9,9 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
@@ -20,6 +23,8 @@ import nl.mvdr.adventofcode.PathSolver;
  */
 public class InventoryManagementSystem implements PathSolver {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryManagementSystem.class);
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
 
@@ -71,6 +76,6 @@ public class InventoryManagementSystem implements PathSolver {
 
         String result = instance.solve("input-day02-2018.txt");
 
-        System.out.println(result);
+        LOGGER.info(result);
     }
 }

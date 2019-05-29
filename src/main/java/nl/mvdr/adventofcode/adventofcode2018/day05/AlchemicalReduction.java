@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
@@ -14,6 +17,8 @@ import nl.mvdr.adventofcode.PathSolver;
  */
 public class AlchemicalReduction implements PathSolver {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlchemicalReduction.class);
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
         return Files.lines(inputFilePath)
@@ -33,6 +38,6 @@ public class AlchemicalReduction implements PathSolver {
 
         String result = instance.solve("input-day05-2018.txt");
 
-        System.out.println(result);
+        LOGGER.info(result);
     }
 }

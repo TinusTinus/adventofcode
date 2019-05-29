@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
@@ -18,6 +21,8 @@ import nl.mvdr.adventofcode.PathSolver;
  */
 public class ChronalCalibrationPart2 implements PathSolver {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCalibrationPart2.class);
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
         List<Integer> frequencyChanges = Files.lines(inputFilePath)
@@ -56,6 +61,6 @@ public class ChronalCalibrationPart2 implements PathSolver {
 
         String result = instance.solve("input-day01-2018.txt");
 
-        System.out.println(result);
+        LOGGER.info(result);
     }
 }

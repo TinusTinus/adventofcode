@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Solution to the day 3 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/3">No Matter How You Slice It</a>.
@@ -12,6 +15,8 @@ import java.util.Set;
  */
 public class SlicePart1 extends Slice {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SlicePart1.class);
+    
     @Override
     protected String solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric) {
         return "" + claimedFabric.values().stream()
@@ -29,6 +34,6 @@ public class SlicePart1 extends Slice {
 
         String result = instance.solve("input-day03-2018.txt");
 
-        System.out.println(result);
+        LOGGER.info(result);
     }
 }
