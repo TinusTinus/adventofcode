@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.processing.Generated;
+
 /**
  * A point in two dimensions.
  *
@@ -51,9 +53,50 @@ class Point {
         return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
     }
     
+    /**
+     * Computes the total distance to the given set of points.
+     * 
+     * @param points set of points points
+     * @return total distance
+     */
+    int totalManhattanDistance(Set<Point> points) {
+        return points.stream()
+                .mapToInt(this::manhattanDistance)
+                .sum();
+    }
+    
+    /** @return the four neighbouring points to this one */
+    Set<Point> neighbours() {
+        return Set.of(
+            new Point(x - 1, y),
+            new Point(x + 1, y),
+            new Point(x, y - 1),
+            new Point(x, y + 1)
+        );
+    }
+    
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+    
+    @Override
+    @Generated("Eclipse")
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
+    @Override
+    @Generated("Eclipse")
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Point other = (Point) obj;
+        return x == other.x && y == other.y;
     }
     
     /**
