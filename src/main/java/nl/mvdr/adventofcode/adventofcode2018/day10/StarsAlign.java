@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to part 1 of the day 10 puzzle of 2018's Advent of Code:
+ * Solution to the day 10 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/10">The Stars Align</a>.
  *
  * @author Martijn van de Rijdt
