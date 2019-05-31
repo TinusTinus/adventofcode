@@ -94,8 +94,7 @@ class Tree {
         
         // The input consists of a sequence of integers, separated by spaces.
         List<Integer> numbers = Stream.of(line.split(" "))
-                .mapToInt(Integer::valueOf)
-                .mapToObj(Integer::valueOf)
+                .map(Integer::valueOf)
                 .collect(Collectors.toList());
         
         return build(numbers, 0);
