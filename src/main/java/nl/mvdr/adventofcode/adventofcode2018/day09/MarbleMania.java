@@ -31,6 +31,7 @@ public class MarbleMania implements PathSolver {
         Arrays.fill(scores, BigDecimal.valueOf(0L));
         LinkedList<Integer> marbles = new LinkedList<>(List.of(Integer.valueOf(0)));
         
+        // Invariant: the first element of marbles is the current marble.
         for (int marble = 1; marble != puzzleInput.getPoints(); marble++) {
             int playerIndex = marble % puzzleInput.getPlayers();
             if (marble % 23 == 0) {
@@ -59,22 +60,14 @@ public class MarbleMania implements PathSolver {
             StringBuilder builder = new StringBuilder("[");
             // player number (1-based rather than the 0-based index)
             builder.append(String.format("%" + ("" + puzzleInput.getPlayers()).length() + "d", playerIndex + 1));
-            builder.append("] ");
+            builder.append("] (");
             // marbles
-            for (int i = 0; i != marbles.size(); i++) {
-                if (i == 0) {
-                    // mark the current marble with round brackets
-                    builder.append("(");
-                } else {
-                    builder.append(" ");
-                }
+            builder.append(marbles.get(0));
+            builder.append(")");
+            for (int i = 1; i != marbles.size(); i++) {
+                builder.append(" ");
                 builder.append(String.format("%" + ("" + puzzleInput.getPoints()).length() + "d", marbles.get(i)));
-                if (i == 0) {
-                    // mark the current marble with round brackets
-                    builder.append(")");
-                } else {
-                    builder.append(" ");
-                }
+                builder.append(" ");
             }
             LOGGER.debug(builder.toString());
         }
