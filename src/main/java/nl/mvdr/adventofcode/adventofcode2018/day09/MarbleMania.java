@@ -72,7 +72,7 @@ public class MarbleMania implements PathSolver {
         }
         
         if (marble % 100_000 == 0) {
-            LOGGER.info(marble + " / " + puzzleInput.getPoints());
+            LOGGER.info("Progress: " + marble + " / " + puzzleInput.getPoints() + " (" + marble * 100 / puzzleInput.getPoints() + "%)");
         }
     }
     
