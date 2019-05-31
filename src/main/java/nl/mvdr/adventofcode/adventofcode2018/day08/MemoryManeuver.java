@@ -1,11 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day08;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,16 +20,9 @@ public class MemoryManeuver implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        // All of the input is on the first line of the input.
-        String line = Files.lines(inputFilePath).findFirst().get();
+        Tree tree = Tree.parse(inputFilePath);
         
-        // The input consists of a sequence of integers, separated by spaced.
-        List<Integer> numbers = Stream.of(line.split(" "))
-                .mapToInt(Integer::valueOf)
-                .mapToObj(Integer::valueOf)
-                .collect(Collectors.toList());
-        
-        return null; // TODO
+        return "" + tree.sum();
     }
     
     /**

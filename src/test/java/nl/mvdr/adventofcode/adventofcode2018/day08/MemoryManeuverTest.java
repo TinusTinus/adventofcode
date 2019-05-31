@@ -20,4 +20,12 @@ public class MemoryManeuverTest extends SolverTest<MemoryManeuver> {
     public void testExample() {
         assertSolution("138", "example-day08-2018.txt");
     }
+    
+    /** Test case based on the accepted solution to the puzzle. */
+    @Test
+    public void test() {
+        assertSolution("40984", "input-day08-2018.txt");
+    }
+    
+    
 }
