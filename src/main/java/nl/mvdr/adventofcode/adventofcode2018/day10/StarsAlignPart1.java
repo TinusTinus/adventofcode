@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +47,7 @@ public class StarsAlignPart1 implements PathSolver {
                 .collect(Collectors.toSet());
 
         log(stars, 0);
-        for (int second = 1; second < 10; second++) {
+        for (int second = 1; second < 100_000; second++) {
             stars = stars.stream()
                      .map(Star::tick)
                      .collect(Collectors.toSet());
@@ -70,21 +69,25 @@ public class StarsAlignPart1 implements PathSolver {
         int minY = stars.stream().map(Star::getLocation).mapToInt(Point::getY).min().getAsInt();
         int maxY = stars.stream().map(Star::getLocation).mapToInt(Point::getY).max().getAsInt();
 
-        StringBuilder builder = new StringBuilder();
-        for (int y = minY; y != maxY + 1; y++) {
-            for (int x = minX; x != maxX + 1; x++) {
-                Point point = new Point(x, y);
-                char c;
-                if (stars.stream().anyMatch(star -> point.equals(star.getLocation()))) {
-                    c = '#';
-                } else {
-                    c = '.';
+        int height = maxY - minY;
+        
+        if (height <= 10) {
+            StringBuilder builder = new StringBuilder();
+            for (int y = minY; y != maxY + 1; y++) {
+                for (int x = minX; x != maxX + 1; x++) {
+                    Point point = new Point(x, y);
+                    char c;
+                    if (stars.stream().anyMatch(star -> point.equals(star.getLocation()))) {
+                        c = '#';
+                    } else {
+                        c = '.';
+                    }
+                    builder.append(c);
                 }
-                builder.append(c);
+                builder.append("\n");
             }
-            builder.append("\n");
+            LOGGER.info("After {} seconds: \n{}", Integer.valueOf(second), builder);
         }
-        LOGGER.info("After {} seconds: \n{}", Integer.valueOf(second), builder);
     }
 
     /**
