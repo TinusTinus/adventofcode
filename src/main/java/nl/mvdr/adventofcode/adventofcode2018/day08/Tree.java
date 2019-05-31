@@ -53,7 +53,27 @@ class Tree {
     
     /** @return value of this tree */
     int value() {
-        return sum(); // TODO implement correctly
+        int result;
+        
+        if (children.isEmpty()) {
+            result = metadataEntries.stream()
+                    .mapToInt(Integer::valueOf)
+                    .sum();
+        } else {
+            result = metadataEntries.stream()
+                    .mapToInt(Integer::valueOf)
+                    // 1-based numbering -> 0-based numbering
+                    .map(i -> i - 1)
+                    // skip references that do not exist
+                    .filter(i -> 0 <= i)
+                    .filter(i -> i < children.size())
+                    // the value of this node is the sum of the values of the child nodes referenced by the metadata entries
+                    .mapToObj(children::get)
+                    .mapToInt(Tree::value)
+                    .sum();
+        }
+        
+        return result;
     }
     
     @Override
