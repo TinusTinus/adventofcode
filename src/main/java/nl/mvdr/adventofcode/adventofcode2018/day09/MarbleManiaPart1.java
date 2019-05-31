@@ -37,7 +37,7 @@ public class MarbleManiaPart1 implements PathSolver {
                 currentMarbleIndex = (currentMarbleIndex - 7 + marbles.size()) % marbles.size();
                 scores[playerIndex] += marbles.remove(currentMarbleIndex).intValue();
             } else {
-                currentMarbleIndex = (currentMarbleIndex + 2) % marbles.size() + 1;
+                currentMarbleIndex = (currentMarbleIndex + 1) % marbles.size() + 1;
                 marbles.add(currentMarbleIndex, Integer.valueOf(marble));
             }
             
@@ -50,18 +50,21 @@ public class MarbleManiaPart1 implements PathSolver {
 
     private void logGameState(PuzzleInput puzzleInput, List<Integer> marbles, int currentMarbleIndex, int playerIndex) {
         if (LOGGER.isDebugEnabled()) {
-
             StringBuilder builder = new StringBuilder("[");
+            // player number (1-based rather than the 0-based index)
             builder.append(String.format("%" + ("" + puzzleInput.getPlayers()).length() + "d", playerIndex + 1));
             builder.append("] ");
+            // marbles
             for (int i = 0; i != marbles.size(); i++) {
                 if (i == currentMarbleIndex) {
+                    // mark the current marble with round brackets
                     builder.append("(");
                 } else {
                     builder.append(" ");
                 }
                 builder.append(String.format("%" + ("" + puzzleInput.getPoints()).length() + "d", marbles.get(i)));
                 if (i == currentMarbleIndex) {
+                    // mark the current marble with round brackets
                     builder.append(")");
                 } else {
                     builder.append(" ");
