@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
@@ -18,9 +17,9 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MarbleManiaPart1 implements PathSolver {
+public class MarbleMania implements PathSolver {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(MarbleManiaPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MarbleMania.class);
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
@@ -41,14 +40,13 @@ public class MarbleManiaPart1 implements PathSolver {
                 marbles.add(currentMarbleIndex, Integer.valueOf(marble));
             }
             
-            logGameState(puzzleInput, marbles, currentMarbleIndex, playerIndex);
-            
+            logGameState(marble, puzzleInput, marbles, currentMarbleIndex, playerIndex);
         }
         
         return "" + IntStream.of(scores).max().getAsInt();
     }
 
-    private void logGameState(PuzzleInput puzzleInput, List<Integer> marbles, int currentMarbleIndex, int playerIndex) {
+    private void logGameState(int marble, PuzzleInput puzzleInput, List<Integer> marbles, int currentMarbleIndex, int playerIndex) {
         if (LOGGER.isDebugEnabled()) {
             StringBuilder builder = new StringBuilder("[");
             // player number (1-based rather than the 0-based index)
@@ -72,6 +70,10 @@ public class MarbleManiaPart1 implements PathSolver {
             }
             LOGGER.debug(builder.toString());
         }
+        
+        if (marble % 100_000 == 0) {
+            LOGGER.info(marble + " / " + puzzleInput.getPoints());
+        }
     }
     
     /**
@@ -80,10 +82,9 @@ public class MarbleManiaPart1 implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        MarbleManiaPart1 instance = new MarbleManiaPart1();
+        MarbleMania instance = new MarbleMania();
 
-        String result = instance.solve("input-day09-2018.txt");
-
-        LOGGER.info(result);
+        LOGGER.info("Part 1: " + instance.solve("input-day09-2018.txt"));
+        LOGGER.info("Part 2: " + instance.solve("input-day09-2018-2.txt"));
     }
 }

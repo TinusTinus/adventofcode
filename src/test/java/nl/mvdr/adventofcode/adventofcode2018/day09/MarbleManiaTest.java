@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link MarbleManiaPart1}.
+ * Unit test for {@link MarbleMania}.
  *
  * @author Martijn van de Rijdt
  */
-public class MarbleManiaPart1Test extends SolverTest<MarbleManiaPart1> {
+public class MarbleManiaTest extends SolverTest<MarbleMania> {
     /** Constructor. */
-    public MarbleManiaPart1Test() {
-        super(MarbleManiaPart1.class);
+    public MarbleManiaTest() {
+        super(MarbleMania.class);
     }
 
     /** Test case based on an example from the puzzle. */
