@@ -1,10 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2018.day09;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,8 @@ public class MarbleMania implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         PuzzleInput puzzleInput = PuzzleInput.parse(inputFilePath);
         
-        int[] scores = new int[puzzleInput.getPlayers()];
+        BigDecimal[] scores = new BigDecimal[puzzleInput.getPlayers()];
+        Arrays.fill(scores, BigDecimal.valueOf(0L));
         LinkedList<Integer> marbles = new LinkedList<>(List.of(Integer.valueOf(0)));
         
         for (int marble = 1; marble != puzzleInput.getPoints(); marble++) {
@@ -36,7 +39,7 @@ public class MarbleMania implements PathSolver {
                 }
                 int removedMarble = marbles.removeLast();
                 int points = marble + removedMarble;
-                scores[playerIndex] += points;
+                scores[playerIndex] = scores[playerIndex].add(BigDecimal.valueOf(points));
             } else {
                 marbles.add(marbles.pop());
                 marbles.add(marbles.pop());
@@ -46,7 +49,9 @@ public class MarbleMania implements PathSolver {
             logGameState(marble, puzzleInput, marbles, playerIndex);
         }
         
-        return "" + IntStream.of(scores).max().getAsInt();
+        return "" + Stream.of(scores)
+                .max(BigDecimal::compareTo)
+                .get();
     }
 
     private void logGameState(int marble, PuzzleInput puzzleInput, List<Integer> marbles, int playerIndex) {
@@ -74,7 +79,7 @@ public class MarbleMania implements PathSolver {
             LOGGER.debug(builder.toString());
         }
         
-        if (marble % 100_000 == 0) {
+        if (marble % 1_000_000 == 0) {
             LOGGER.info("  Progress: " + marble + " / " + puzzleInput.getPoints() + " (" + marble * 100 / puzzleInput.getPoints() + "%)");
         }
     }

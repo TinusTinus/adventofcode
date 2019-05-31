@@ -55,7 +55,13 @@ public class MarbleManiaTest extends SolverTest<MarbleMania> {
     
     /** Test case based on the puzzle. */
     @Test
-    public void testSolution() {
+    public void testSolutionPart1() {
         assertSolution("434674", "input-day09-2018.txt");
+    }
+    
+    /** Test case based on the puzzle. */
+    @Test
+    public void testSolutionPart2() {
+        assertSolution("3653994575", "input-day09-2018-2.txt");
     }
 }
