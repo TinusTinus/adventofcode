@@ -51,6 +51,11 @@ class Tree {
         return childrenSum + metadataSum;
     }
     
+    /** @return value of this tree */
+    int value() {
+        return sum(); // TODO implement correctly
+    }
+    
     @Override
     public String toString() {
         return children + ", " + metadataEntries;

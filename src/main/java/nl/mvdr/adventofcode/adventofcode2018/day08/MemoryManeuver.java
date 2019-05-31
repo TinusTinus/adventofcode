@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MemoryManeuver implements PathSolver {
+public abstract class MemoryManeuver implements PathSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoryManeuver.class);
     
@@ -22,19 +22,16 @@ public class MemoryManeuver implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Tree tree = Tree.parse(inputFilePath);
         
-        return "" + tree.sum();
+        LOGGER.debug("Tree: {}", tree);
+        
+        return solve(tree);
     }
     
     /**
-     * Main method.
+     * Solver method.
      * 
-     * @param args commandline arguments; these are ignored
+     * @param tree input tree
+     * @return solution to the puzzle for the given tree
      */
-    public static void main(String[] args) {
-        MemoryManeuver instance = new MemoryManeuver();
-
-        String result = instance.solve("input-day08-2018.txt");
-
-        LOGGER.info(result);
-    }
+    protected abstract String solve(Tree tree);
 }

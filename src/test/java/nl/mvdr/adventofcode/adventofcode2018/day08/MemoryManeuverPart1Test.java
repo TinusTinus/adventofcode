@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link MemoryManeuver}.
+ * Unit test for {@link MemoryManeuverPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class MemoryManeuverTest extends SolverTest<MemoryManeuver> {
+public class MemoryManeuverPart1Test extends SolverTest<MemoryManeuverPart1> {
     /** Constructor. */
-    public MemoryManeuverTest() {
-        super(MemoryManeuver.class);
+    public MemoryManeuverPart1Test() {
+        super(MemoryManeuverPart1.class);
     }
 
     /** Test case based on an example from the puzzle. */
@@ -26,6 +26,4 @@ public class MemoryManeuverTest extends SolverTest<MemoryManeuver> {
     public void test() {
         assertSolution("40984", "input-day08-2018.txt");
     }
-    
-    
 }
