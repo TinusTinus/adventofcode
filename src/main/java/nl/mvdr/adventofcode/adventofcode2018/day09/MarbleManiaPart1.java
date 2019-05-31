@@ -25,11 +25,7 @@ public class MarbleManiaPart1 implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        String line = Files.lines(inputFilePath).findFirst().get();
-        Matcher matcher = PATTERN.matcher(line);
-        matcher.matches();
-        int players = Integer.parseInt(matcher.group(1));
-        int points = Integer.parseInt(matcher.group(2));
+        PuzzleInput puzzleInput = PuzzleInput.parse(inputFilePath);
         
         // TODO
         return null;
