@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Solution to part 1 of the day 8 puzzle of 2018's Advent of Code:
+ * Solution to part 2 of the day 8 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/8">Memory Maneuver</a>.
  *
  * @author Martijn van de Rijdt
