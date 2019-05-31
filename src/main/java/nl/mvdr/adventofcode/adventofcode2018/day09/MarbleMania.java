@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day09;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -26,28 +26,30 @@ public class MarbleMania implements PathSolver {
         PuzzleInput puzzleInput = PuzzleInput.parse(inputFilePath);
         
         int[] scores = new int[puzzleInput.getPlayers()];
-        List<Integer> marbles = new ArrayList<>(List.of(Integer.valueOf(0)));
-        int currentMarbleIndex = 0;
+        LinkedList<Integer> marbles = new LinkedList<>(List.of(Integer.valueOf(0)));
         
         for (int marble = 1; marble != puzzleInput.getPoints(); marble++) {
             int playerIndex = marble % puzzleInput.getPlayers();
             if (marble % 23 == 0) {
-                currentMarbleIndex = (currentMarbleIndex - 7 + marbles.size()) % marbles.size();
-                int removedMarble = marbles.remove(currentMarbleIndex).intValue();
+                for (int i = 0; i != 6; i++) {
+                    marbles.push(marbles.removeLast());
+                }
+                int removedMarble = marbles.removeLast();
                 int points = marble + removedMarble;
                 scores[playerIndex] += points;
             } else {
-                currentMarbleIndex = (currentMarbleIndex + 1) % marbles.size() + 1;
-                marbles.add(currentMarbleIndex, Integer.valueOf(marble));
+                marbles.add(marbles.pop());
+                marbles.add(marbles.pop());
+                marbles.push(Integer.valueOf(marble));
             }
             
-            logGameState(marble, puzzleInput, marbles, currentMarbleIndex, playerIndex);
+            logGameState(marble, puzzleInput, marbles, playerIndex);
         }
         
         return "" + IntStream.of(scores).max().getAsInt();
     }
 
-    private void logGameState(int marble, PuzzleInput puzzleInput, List<Integer> marbles, int currentMarbleIndex, int playerIndex) {
+    private void logGameState(int marble, PuzzleInput puzzleInput, List<Integer> marbles, int playerIndex) {
         if (LOGGER.isDebugEnabled()) {
             StringBuilder builder = new StringBuilder("[");
             // player number (1-based rather than the 0-based index)
@@ -55,14 +57,14 @@ public class MarbleMania implements PathSolver {
             builder.append("] ");
             // marbles
             for (int i = 0; i != marbles.size(); i++) {
-                if (i == currentMarbleIndex) {
+                if (i == 0) {
                     // mark the current marble with round brackets
                     builder.append("(");
                 } else {
                     builder.append(" ");
                 }
                 builder.append(String.format("%" + ("" + puzzleInput.getPoints()).length() + "d", marbles.get(i)));
-                if (i == currentMarbleIndex) {
+                if (i == 0) {
                     // mark the current marble with round brackets
                     builder.append(")");
                 } else {
