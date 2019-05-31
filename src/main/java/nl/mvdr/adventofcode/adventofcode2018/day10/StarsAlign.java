@@ -20,9 +20,9 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class StarsAlignPart1 implements PathSolver {
+public class StarsAlign implements PathSolver {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(StarsAlignPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StarsAlign.class);
     
     private static final Pattern PATTERN = Pattern.compile("position=<\\s*(-?\\d+),\\s*(-?\\d+)> velocity=<\\s*(-?\\d+),\\s*(-?\\d+)>");
     
@@ -96,7 +96,7 @@ public class StarsAlignPart1 implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        StarsAlignPart1 instance = new StarsAlignPart1();
+        StarsAlign instance = new StarsAlign();
 
         instance.solve("input-day10-2018.txt");
     }
