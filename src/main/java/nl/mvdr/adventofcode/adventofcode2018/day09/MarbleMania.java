@@ -36,9 +36,6 @@ public class MarbleMania implements PathSolver {
                 int removedMarble = marbles.remove(currentMarbleIndex).intValue();
                 int points = marble + removedMarble;
                 scores[playerIndex] += points;
-                LOGGER.debug(
-                        "Player {} gained {} points and now has {}: {} for the new marble and {} for the removed marble.",
-                        playerIndex + 1, points, scores[playerIndex], marble, removedMarble);
             } else {
                 currentMarbleIndex = (currentMarbleIndex + 1) % marbles.size() + 1;
                 marbles.add(currentMarbleIndex, Integer.valueOf(marble));
