@@ -32,9 +32,13 @@ public class MarbleMania implements PathSolver {
         for (int marble = 1; marble != puzzleInput.getPoints(); marble++) {
             int playerIndex = marble % puzzleInput.getPlayers();
             if (marble % 23 == 0) {
-                scores[playerIndex] += marble;
                 currentMarbleIndex = (currentMarbleIndex - 7 + marbles.size()) % marbles.size();
-                scores[playerIndex] += marbles.remove(currentMarbleIndex).intValue();
+                int removedMarble = marbles.remove(currentMarbleIndex).intValue();
+                int points = marble + removedMarble;
+                scores[playerIndex] += points;
+                LOGGER.debug(
+                        "Player {} gained {} points and now has {}: {} for the new marble and {} for the removed marble.",
+                        playerIndex + 1, points, scores[playerIndex], marble, removedMarble);
             } else {
                 currentMarbleIndex = (currentMarbleIndex + 1) % marbles.size() + 1;
                 marbles.add(currentMarbleIndex, Integer.valueOf(marble));
@@ -72,7 +76,7 @@ public class MarbleMania implements PathSolver {
         }
         
         if (marble % 100_000 == 0) {
-            LOGGER.info("Progress: " + marble + " / " + puzzleInput.getPoints() + " (" + marble * 100 / puzzleInput.getPoints() + "%)");
+            LOGGER.info("  Progress: " + marble + " / " + puzzleInput.getPoints() + " (" + marble * 100 / puzzleInput.getPoints() + "%)");
         }
     }
     
