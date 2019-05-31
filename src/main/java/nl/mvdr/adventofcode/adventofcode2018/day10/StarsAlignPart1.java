@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,13 @@ public class StarsAlignPart1 implements PathSolver {
                 })
                 .collect(Collectors.toSet());
 
-        log(stars);
+        log(stars, 0);
+        for (int second = 1; second < 10; second++) {
+            stars = stars.stream()
+                     .map(Star::tick)
+                     .collect(Collectors.toSet());
+            log(stars, second);
+        }
         
         return null;
     }
@@ -56,7 +63,7 @@ public class StarsAlignPart1 implements PathSolver {
      * 
      * @param stars stars
      */
-    private void log(Set<Star> stars) {
+    private void log(Set<Star> stars, int second) {
         // Construct a rectangle containing all of the stars
         int minX = stars.stream().map(Star::getLocation).mapToInt(Point::getX).min().getAsInt();
         int maxX = stars.stream().map(Star::getLocation).mapToInt(Point::getX).max().getAsInt();
@@ -77,7 +84,7 @@ public class StarsAlignPart1 implements PathSolver {
             }
             builder.append("\n");
         }
-        LOGGER.info("\n" + builder);
+        LOGGER.info("After {} seconds: \n{}", Integer.valueOf(second), builder);
     }
 
     /**

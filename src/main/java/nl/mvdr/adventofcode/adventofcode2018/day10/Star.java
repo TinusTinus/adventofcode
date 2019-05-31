@@ -27,6 +27,16 @@ class Star {
         return location;
     }
     
+    /**
+     * Computes the new location of this star after a second has passed.
+     * 
+     * @return updated star
+     */
+    Star tick() {
+        Point newLocation = location.translate(velocity);
+        return new Star(newLocation, velocity);
+    }
+    
     @Override
     public String toString() {
         return "[" + location + ", v=" + velocity + "]";

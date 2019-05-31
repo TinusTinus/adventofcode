@@ -37,6 +37,16 @@ class Point {
         return y;
     }
     
+    /**
+     * Translates this point with the given coordinates.
+     * 
+     * @param other x and y coordinates to be added
+     * @return translated point
+     */
+    Point translate(Point other) {
+        return new Point(this.x + other.x, this.y + other.y);
+    }
+    
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
