@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day11;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,15 +19,14 @@ public class ChronalChargePart2 extends ChronalCharge {
     
     @Override
     protected Set<Square> getSquares(int[][] grid) {
-        Set<Square> squares = new HashSet<>();
-        for (int x = 0; x < GRID_SIZE; x++) {
-            for (int y = 0; y < GRID_SIZE; y++) {
-                for (int squareSize = 1; squareSize < GRID_SIZE - Math.max(x, y); squareSize++) {
-                    squares.add(new Square(grid, x, y, squareSize, true));
-                }
-            }
-        }
-        return squares;
+        return IntStream.range(0, GRID_SIZE)
+                .mapToObj(Integer::valueOf)
+                .parallel()
+                .flatMap(x -> IntStream.range(0, GRID_SIZE)
+                        .mapToObj(Integer::valueOf)
+                        .parallel()
+                        .flatMap(y -> IntStream.range(1, GRID_SIZE - Math.max(x, y)).mapToObj(squareSize -> new Square(grid, x, y, squareSize, true))))
+                .collect(Collectors.toSet());
     }
 
     /**
