@@ -19,21 +19,23 @@ abstract class ChronalCharge implements PathSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCharge.class);
     
+    protected static final int GRID_SIZE = 300;
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
         int serialNumber = Integer.parseInt(Files.lines(inputFilePath).findFirst().get());
         LOGGER.debug("Serial number: {}", serialNumber);
         
-        Cell cell = solve(serialNumber);
+        Square square = solve(serialNumber);
         
-        return cell.toString();
+        return square.toString();
     }
 
     /**
      * Solver method.
      * 
      * @param serialNumber grid serial number
-     * @return top left corner of the square with the maximum power level
+     * @return the square with the maximum power level
      */
-    abstract protected Cell solve(int serialNumber);
+    abstract protected Square solve(int serialNumber);
 }

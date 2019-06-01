@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day11;
 
 import java.util.Comparator;
-import java.util.stream.IntStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +18,29 @@ public class ChronalChargePart1 extends ChronalCharge {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalChargePart1.class);
     
     @Override
-    protected Cell solve(int serialNumber) {
-        return IntStream.range(0, 298)
-                .mapToObj(Integer::valueOf)
-                .flatMap(x -> IntStream.range(0, 298).mapToObj(y -> new Cell(x, y, serialNumber)))
-                .max(Comparator.comparing(Cell::squareTotalPowerLevel))
+    protected Square solve(int serialNumber) {
+        Cell[][] grid = new Cell[GRID_SIZE][GRID_SIZE];
+        
+        for (int x = 0; x < GRID_SIZE; x++) {
+            for (int y = 0; y < GRID_SIZE; y++) {
+                Cell cell = new Cell(x, y, serialNumber);
+                grid[x][y] = cell;
+            }
+        }
+        
+        LOGGER.debug("Grid constructed.");
+        
+        Set<Square> squares = new HashSet<>();
+        for (int x = 0; x < GRID_SIZE - 3; x++) {
+            for (int y = 0; y < GRID_SIZE - 3; y++) {
+                squares.add(new Square(grid, x, y, 3, false));
+            }
+        }
+        
+        LOGGER.debug("Set of {} squares constructed.", squares.size());
+        
+        return squares.parallelStream()
+                .max(Comparator.comparing(Square::totalPowerLevel))
                 .get();
     }
 

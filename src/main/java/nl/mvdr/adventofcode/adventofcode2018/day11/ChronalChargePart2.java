@@ -20,21 +20,31 @@ public class ChronalChargePart2 extends ChronalCharge {
     private static final int GRID_SIZE = 300;
     
     @Override
-    protected Cell solve(int serialNumber) {
-        Set<Cell> squares = new HashSet<>();
+    protected Square solve(int serialNumber) {
+        Cell[][] grid = new Cell[GRID_SIZE][GRID_SIZE];
+        
+        for (int x = 0; x < GRID_SIZE; x++) {
+            for (int y = 0; y < GRID_SIZE; y++) {
+                Cell cell = new Cell(x, y, serialNumber);
+                grid[x][y] = cell;
+            }
+        }
+        
+        LOGGER.debug("Grid constructed.");
+        
+        Set<Square> squares = new HashSet<>();
         for (int x = 0; x < GRID_SIZE; x++) {
             for (int y = 0; y < GRID_SIZE; y++) {
                 for (int squareSize = 1; squareSize < GRID_SIZE - Math.max(x, y); squareSize++) {
-                    Cell square = new Cell(x, y, serialNumber, squareSize);
-                    squares.add(square);
+                    squares.add(new Square(grid, x, y, squareSize, true));
                 }
             }
         }
         
-        LOGGER.debug("Starting computation with {} cells", squares.size());
+        LOGGER.debug("Set of {} squares constructed.", squares.size());
         
         return squares.parallelStream()
-                .max(Comparator.comparing(Cell::squareTotalPowerLevel))
+                .max(Comparator.comparing(Square::totalPowerLevel))
                 .get();
     }
 
