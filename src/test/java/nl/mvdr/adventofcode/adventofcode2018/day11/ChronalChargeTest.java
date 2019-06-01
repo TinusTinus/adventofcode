@@ -9,21 +9,6 @@ import org.junit.jupiter.api.Test;
  * @author Martijn van de Rijdt
  */
 public class ChronalChargeTest {
-    
-    /**
-     * Performs a test case for {@link ChronalCharge#calculatePowerLevel(int, int, int)}.
-     * 
-     * @param x cell's x coordinate
-     * @param y cell's y coordinate
-     * @param serialNumber grid's serial number
-     * @param expectedPowerLevel expected power level
-     */
-    private void testPowerLevel(int x, int y, int serialNumber, int expectedPowerLevel) {
-        int powerLevel = ChronalCharge.calculatePowerLevel(x, y, serialNumber);
-        
-        Assertions.assertEquals(expectedPowerLevel, powerLevel);
-    }
-    
     /**
      * Test case for {@link ChronalCharge#calculatePowerLevel(int, int, int)} based on the first example from the puzzle description.
      * 
@@ -40,7 +25,9 @@ public class ChronalChargeTest {
      */
     @Test
     public void testPowerLevelExample0() {
-        testPowerLevel(3, 5, 8, 4);
+        int powerLevel = ChronalCharge.calculatePowerLevel(3, 5, 8);
+        
+        Assertions.assertEquals(4, powerLevel);
     }
     
     /**
@@ -50,7 +37,9 @@ public class ChronalChargeTest {
      */
     @Test
     public void testPowerLevelExample1() {
-        testPowerLevel(122, 79, 57, -5);
+        int powerLevel = ChronalCharge.calculatePowerLevel(122, 79, 57);
+        
+        Assertions.assertEquals(-5, powerLevel);
     }
     
     /**
@@ -60,7 +49,9 @@ public class ChronalChargeTest {
      */
     @Test
     public void testPowerLevelExample2() {
-        testPowerLevel(217, 196, 39, 0);
+        int powerLevel = ChronalCharge.calculatePowerLevel(217, 196, 39);
+        
+        Assertions.assertEquals(0, powerLevel);
     }
     
     /**
@@ -70,6 +61,8 @@ public class ChronalChargeTest {
      */
     @Test
     public void testPowerLevelExample3() {
-        testPowerLevel(101, 153, 71, 4);
+        int powerLevel = ChronalCharge.calculatePowerLevel(101, 153, 71);
+        
+        Assertions.assertEquals(4, powerLevel);
     }
 }
