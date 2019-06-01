@@ -18,7 +18,7 @@ public class ChronalChargePart1 extends ChronalCharge {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalChargePart1.class);
     
     @Override
-    protected Square solve(Cell[][] grid) {
+    protected Square solve(int[][] grid) {
         Set<Square> squares = new HashSet<>();
         for (int x = 0; x < GRID_SIZE - 3; x++) {
             for (int y = 0; y < GRID_SIZE - 3; y++) {

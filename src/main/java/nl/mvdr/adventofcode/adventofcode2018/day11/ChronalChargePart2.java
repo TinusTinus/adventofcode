@@ -20,7 +20,7 @@ public class ChronalChargePart2 extends ChronalCharge {
     private static final int GRID_SIZE = 300;
     
     @Override
-    protected Square solve(Cell[][] grid) {
+    protected Square solve(int[][] grid) {
         Set<Square> squares = new HashSet<>();
         for (int x = 0; x < GRID_SIZE; x++) {
             for (int y = 0; y < GRID_SIZE; y++) {

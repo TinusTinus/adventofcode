@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit test cases for {@link Cell}.
+ * Unit test cases for {@link ChronalCharge}.
  *
  * @author Martijn van de Rijdt
  */
-public class CellTest {
+public class ChronalChargeTest {
     
     /**
-     * Performs a test case for {@link Cell#powerLevel}.
+     * Performs a test case for {@link ChronalCharge#calculatePowerLevel(int, int, int)}.
      * 
      * @param x cell's x coordinate
      * @param y cell's y coordinate
@@ -19,15 +19,13 @@ public class CellTest {
      * @param expectedPowerLevel expected power level
      */
     private void testPowerLevel(int x, int y, int serialNumber, int expectedPowerLevel) {
-        Cell cell = new Cell(x, y, serialNumber);
-        
-        int powerLevel = cell.getPowerLevel();
+        int powerLevel = ChronalCharge.calculatePowerLevel(x, y, serialNumber);
         
         Assertions.assertEquals(expectedPowerLevel, powerLevel);
     }
     
     /**
-     * Test case for {@link Cell#powerLevel()} based on the first example from the puzzle description.
+     * Test case for {@link ChronalCharge#calculatePowerLevel(int, int, int)} based on the first example from the puzzle description.
      * 
      * "For example, to find the power level of the fuel cell at 3,5 in a grid with serial number 8:
      * <ul>
@@ -46,7 +44,7 @@ public class CellTest {
     }
     
     /**
-     * Test case for {@link Cell#powerLevel()} based on an example from the puzzle description.
+     * Test case for {@link ChronalCharge#calculatePowerLevel(int, int, int)} based on an example from the puzzle description.
      * 
      * "Fuel cell at  122,79, grid serial number 57: power level -5."
      */
@@ -56,7 +54,7 @@ public class CellTest {
     }
     
     /**
-     * Test case for {@link Cell#powerLevel()} based on an example from the puzzle description.
+     * Test case for {@link ChronalCharge#calculatePowerLevel(int, int, int)} based on an example from the puzzle description.
      * 
      * "Fuel cell at 217,196, grid serial number 39: power level 0."
      */
@@ -66,7 +64,7 @@ public class CellTest {
     }
     
     /**
-     * Test case for {@link Cell#powerLevel()} based on an example from the puzzle description.
+     * Test case for {@link ChronalCharge#calculatePowerLevel(int, int, int)} based on an example from the puzzle description.
      * 
      * "Fuel cell at 101,153, grid serial number 71: power level 4."
      */

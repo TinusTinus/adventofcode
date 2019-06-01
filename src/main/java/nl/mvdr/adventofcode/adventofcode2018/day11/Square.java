@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
  * @author Martijn van de Rijdt
  */
 class Square {
-    private final Cell[][] grid;
+    private final int[][] grid;
     
     private final int x;
     
@@ -27,7 +27,7 @@ class Square {
      * @param size size of this square
      * @param printSize whether the size should be included in {@link #toString()}
      */
-    Square(Cell[][] grid, int x, int y, int size, boolean printSize) {
+    Square(int[][] grid, int x, int y, int size, boolean printSize) {
         super();
         this.grid = grid;
         this.x = x;
@@ -39,9 +39,7 @@ class Square {
     /** @return total power level of this square */
     int totalPowerLevel() {
         return IntStream.range(0, size)
-                .mapToObj(Integer::valueOf)
-                .flatMap(dx -> IntStream.range(0, size).mapToObj(dy -> grid[x + dx][y + dy]))
-                .mapToInt(Cell::getPowerLevel)
+                .flatMap(dx -> IntStream.range(0, size).map(dy -> grid[x + dx][y + dy]))
                 .sum();
     }
     
