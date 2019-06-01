@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day11;
 
+import java.util.stream.IntStream;
+
 /**
  * A fuel cell.
  *
@@ -59,5 +61,15 @@ class Cell {
         result = result - 5;
         
         return result;
+    }
+    
+    /** @return the power level of the 3x3 square, of which this cell is the top left one */
+    int squareTotalPowerLevel() {
+        return IntStream.range(0, 3)
+                .mapToObj(Integer::valueOf)
+                .flatMap(x -> IntStream.range(0, 3).mapToObj(y -> new Cell(this.x + x, this.y + y, this.serialNumber)))
+                .mapToInt(Cell::powerLevel)
+                .sum();
+                
     }
 }

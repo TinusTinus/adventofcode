@@ -74,4 +74,24 @@ public class CellTest {
     public void testPowerLevelExample3() {
         testPowerLevel(101, 153, 71, 4);
     }
+    
+    /** Test case for {@link Cell#squareTotalPowerLevel()} based on an example from the puzzle description. */
+    @Test
+    public void testSquareTotalPowerLevelExample0() {
+        Cell cell = new Cell(33, 45, 18);
+        
+        int result = cell.squareTotalPowerLevel();
+        
+        Assertions.assertEquals(29, result);
+    }
+    
+    /** Test case for {@link Cell#squareTotalPowerLevel()} based on an example from the puzzle description. */
+    @Test
+    public void testSquareTotalPowerLevelExample1() {
+        Cell cell = new Cell(21, 61, 42);
+        
+        int result = cell.squareTotalPowerLevel();
+        
+        Assertions.assertEquals(30, result);
+    }
 }
