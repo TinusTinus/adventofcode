@@ -63,11 +63,25 @@ class Cell {
         return result;
     }
     
-    /** @return the power level of the 3x3 square, of which this cell is the top left one */
+    /**
+     * Computes the total power level of a 3x3 square of power cells, of which this cell is the top left one.
+     * 
+     * @return total power level
+     */
     int squareTotalPowerLevel() {
-        return IntStream.range(0, 3)
+        return squareTotalPowerLevel(3);
+    }
+    
+    /**
+     * Computes the total power level of a square of power cells, of which this cell is the top left one.
+     * 
+     * @param squareSize size of the square
+     * @return total power level
+     */
+    int squareTotalPowerLevel(int squareSize) {
+        return IntStream.range(0, squareSize)
                 .mapToObj(Integer::valueOf)
-                .flatMap(x -> IntStream.range(0, 3).mapToObj(y -> new Cell(this.x + x, this.y + y, this.serialNumber)))
+                .flatMap(x -> IntStream.range(0, squareSize).mapToObj(y -> new Cell(this.x + x, this.y + y, this.serialNumber)))
                 .mapToInt(Cell::powerLevel)
                 .sum();
     }

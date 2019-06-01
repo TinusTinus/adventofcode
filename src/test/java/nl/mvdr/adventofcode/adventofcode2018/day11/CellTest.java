@@ -102,4 +102,32 @@ public class CellTest {
         
         Assertions.assertEquals(30, result);
     }
+    
+    /**
+     * Test case for {@link Cell#squareTotalPowerLevel(int)} based on an example from the puzzle description.
+     * 
+     * "For grid serial number 18, the largest total square (with a total power of 113) is 16x16 and has a top-left corner of 90,269, so its identifier is 90,269,16."
+     */
+    @Test
+    public void testSquareTotalPowerLevelAnySizeExample0() {
+        Cell cell = new Cell(90, 269, 18);
+        
+        int result = cell.squareTotalPowerLevel(16);
+        
+        Assertions.assertEquals(113, result);
+    }
+    
+    /**
+     * Test case for {@link Cell#squareTotalPowerLevel(int)} based on an example from the puzzle description.
+     * 
+     * "For grid serial number 42, the largest total square (with a total power of 119) is 12x12 and has a top-left corner of 232,251, so its identifier is 232,251,12."
+     */
+    @Test
+    public void testSquareTotalPowerLevelAnySizeExample1() {
+        Cell cell = new Cell(232, 251, 42);
+        
+        int result = cell.squareTotalPowerLevel(12);
+        
+        Assertions.assertEquals(119, result);
+    }
 }
