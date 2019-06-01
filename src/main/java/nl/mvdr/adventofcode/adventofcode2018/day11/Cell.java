@@ -87,7 +87,7 @@ class Cell {
     }
     
     /**
-     * Computes the total power level of a 3x3 square of power cells, of which this cell is the top left one.
+     * Computes the total power level of a square of power cells, of which this cell is the top left one.
      * 
      * @return total power level
      */

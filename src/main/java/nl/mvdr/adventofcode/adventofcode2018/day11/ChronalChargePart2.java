@@ -25,12 +25,15 @@ public class ChronalChargePart2 extends ChronalCharge {
         for (int x = 0; x < GRID_SIZE; x++) {
             for (int y = 0; y < GRID_SIZE; y++) {
                 for (int squareSize = 1; squareSize < GRID_SIZE - Math.max(x, y); squareSize++) {
-                    squares.add(new Cell(x, y, serialNumber, squareSize));
+                    Cell square = new Cell(x, y, serialNumber, squareSize);
+                    squares.add(square);
                 }
             }
         }
         
-        return squares.stream()
+        LOGGER.debug("Starting computation with {} cells", squares.size());
+        
+        return squares.parallelStream()
                 .max(Comparator.comparing(Cell::squareTotalPowerLevel))
                 .get();
     }
