@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day12;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -24,12 +23,12 @@ public class SubterraneanSustainability implements PathSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(SubterraneanSustainability.class);
     
-    private final BigDecimal generations;
+    private final int generations;
     
     /** Constructor, for solving with 20 generations. */
     public SubterraneanSustainability() {
         // 20, as in the example and Part 1
-        this(BigDecimal.valueOf(20));
+        this(20);
     }
     
     /**
@@ -37,7 +36,7 @@ public class SubterraneanSustainability implements PathSolver {
      * 
      * @param generations number of generations
      */
-    private SubterraneanSustainability(BigDecimal generations) {
+    private SubterraneanSustainability(int generations) {
         super();
         this.generations = generations;
     }
@@ -59,13 +58,9 @@ public class SubterraneanSustainability implements PathSolver {
                 .collect(Collectors.toSet());
         LOGGER.debug("Notes: {}", notes);
         
-        for (BigDecimal i = BigDecimal.ZERO; !i.equals(generations); i = i.add(BigDecimal.ONE)) {
+        for (int i = 0; i != generations; i++) {
             state = state.nextGeneration(notes);
             LOGGER.debug("State: {}", state);
-            
-            if (1 < i.compareTo(BigDecimal.ZERO) && i.divide(BigDecimal.valueOf(1_000_000L)).equals(BigDecimal.ZERO)) {
-                LOGGER.info("Completed {} iterations.", i);
-            }
         }
         
         return state.getValue() + "";
@@ -77,13 +72,16 @@ public class SubterraneanSustainability implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SubterraneanSustainability solverPart1 = new SubterraneanSustainability(BigDecimal.valueOf(20));
-        String solutionPart1 = solverPart1.solve("input-day12-2018.txt");
-        LOGGER.info("Part 1: {}", solutionPart1);
+        SubterraneanSustainability instance = new SubterraneanSustainability();
+
+        String solution = instance.solve("input-day12-2018.txt");
         
-        BigDecimal fiftyBillion = BigDecimal.valueOf(5_000_000_000L).multiply(BigDecimal.valueOf(10));
-        SubterraneanSustainability solverPart2 = new SubterraneanSustainability(fiftyBillion);
-        String solutionPart2 = solverPart2.solve("input-day12-2018.txt");
-        LOGGER.info("Part 2: {}", solutionPart2);
+        LOGGER.info("Part 1 solution: {}", solution);
+
+        // Note: eventually the puzzle reaches a point where the plants all shift one position to the right in each generation.
+        // This results in a value increase of 42 for each generation.
+        // This happens sometime before 1000 iterations. The value of generation 1000 is equal to 42061.
+        // 42061 + (50000000000 - 1000) * 42 = 2100000000061
+        LOGGER.info("Part 2 solution: 2100000000061");
     }
 }
