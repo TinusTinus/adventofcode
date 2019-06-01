@@ -3,6 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2018.day11;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +38,14 @@ abstract class ChronalCharge implements PathSolver {
         
         LOGGER.debug("Grid constructed.");
         
-        Square square = solve(grid);
+        Set<Square> squares = getSquares(grid);
         
-        return square.toString();
+        LOGGER.debug("Set of {} squares constructed.", squares.size());
+        
+        return squares.parallelStream()
+                .max(Comparator.comparing(Square::totalPowerLevel))
+                .get()
+                .toString();
     }
     
     /**
@@ -80,7 +87,7 @@ abstract class ChronalCharge implements PathSolver {
      * Solver method.
      * 
      * @param grid grid
-     * @return the square with the maximum power level
+     * @return all squares to be considered
      */
-    abstract protected Square solve(int[][] grid);
+    abstract protected Set<Square> getSquares(int[][] grid);
 }

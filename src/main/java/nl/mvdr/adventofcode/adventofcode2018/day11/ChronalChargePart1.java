@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day11;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +17,7 @@ public class ChronalChargePart1 extends ChronalCharge {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalChargePart1.class);
     
     @Override
-    protected Square solve(int[][] grid) {
+    protected Set<Square> getSquares(int[][] grid) {
         Set<Square> squares = new HashSet<>();
         for (int x = 0; x < GRID_SIZE - 3; x++) {
             for (int y = 0; y < GRID_SIZE - 3; y++) {
@@ -26,11 +25,7 @@ public class ChronalChargePart1 extends ChronalCharge {
             }
         }
         
-        LOGGER.debug("Set of {} squares constructed.", squares.size());
-        
-        return squares.parallelStream()
-                .max(Comparator.comparing(Square::totalPowerLevel))
-                .get();
+        return squares;
     }
 
     /**
