@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day12;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -23,12 +24,12 @@ public class SubterraneanSustainability implements PathSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(SubterraneanSustainability.class);
     
-    private final int generations;
+    private final BigDecimal generations;
     
     /** Constructor, for solving with 20 generations. */
     public SubterraneanSustainability() {
         // 20, as in the example and Part 1
-        this(20);
+        this(BigDecimal.valueOf(20));
     }
     
     /**
@@ -36,7 +37,7 @@ public class SubterraneanSustainability implements PathSolver {
      * 
      * @param generations number of generations
      */
-    private SubterraneanSustainability(int generations) {
+    private SubterraneanSustainability(BigDecimal generations) {
         super();
         this.generations = generations;
     }
@@ -58,9 +59,13 @@ public class SubterraneanSustainability implements PathSolver {
                 .collect(Collectors.toSet());
         LOGGER.debug("Notes: {}", notes);
         
-        for (int i = 0; i != generations; i++) {
+        for (BigDecimal i = BigDecimal.ZERO; !i.equals(generations); i = i.add(BigDecimal.ONE)) {
             state = state.nextGeneration(notes);
             LOGGER.debug("State: {}", state);
+            
+            if (1 < i.compareTo(BigDecimal.ZERO) && i.divide(BigDecimal.valueOf(1_000_000L)).equals(BigDecimal.ZERO)) {
+                LOGGER.info("Completed {} iterations.", i);
+            }
         }
         
         return state.getValue() + "";
@@ -72,10 +77,13 @@ public class SubterraneanSustainability implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SubterraneanSustainability instance = new SubterraneanSustainability();
-
-        String solution = instance.solve("input-day12-2018.txt");
+        SubterraneanSustainability solverPart1 = new SubterraneanSustainability(BigDecimal.valueOf(20));
+        String solutionPart1 = solverPart1.solve("input-day12-2018.txt");
+        LOGGER.info("Part 1: {}", solutionPart1);
         
-        LOGGER.info(solution);
+        BigDecimal fiftyBillion = BigDecimal.valueOf(5_000_000_000L).multiply(BigDecimal.valueOf(10));
+        SubterraneanSustainability solverPart2 = new SubterraneanSustainability(fiftyBillion);
+        String solutionPart2 = solverPart2.solve("input-day12-2018.txt");
+        LOGGER.info("Part 2: {}", solutionPart2);
     }
 }

@@ -111,6 +111,11 @@ class State {
         return potsWithPlants.contains(Integer.valueOf(pot));
     }
     
+    /** @return the number of pots with plants */
+    int numberOfPotsWithPlants() {
+        return potsWithPlants.size();
+    }
+    
     @Override
     public String toString() {
         OptionalInt optionalFirstPlant = potsWithPlants.stream()
