@@ -8,8 +8,6 @@ import java.util.stream.IntStream;
  * @author Martijn van de Rijdt
  */
 class Square {
-    private final int[][] grid;
-    
     private final int x;
     
     private final int y;
@@ -17,6 +15,8 @@ class Square {
     private final int size;
     
     private final boolean printSize;
+    
+    private final int totalPowerLevel;
     
     /**
      * Constructor.
@@ -29,18 +29,20 @@ class Square {
      */
     Square(int[][] grid, int x, int y, int size, boolean printSize) {
         super();
-        this.grid = grid;
+        
         this.x = x;
         this.y = y;
         this.size = size;
         this.printSize = printSize;
+        
+        this.totalPowerLevel = IntStream.range(0, size)
+                .flatMap(dx -> IntStream.range(0, size).map(dy -> grid[x + dx][y + dy]))
+                .sum();
     }
     
     /** @return total power level of this square */
-    int totalPowerLevel() {
-        return IntStream.range(0, size)
-                .flatMap(dx -> IntStream.range(0, size).map(dy -> grid[x + dx][y + dy]))
-                .sum();
+    int getTotalPowerLevel() {
+        return totalPowerLevel;
     }
     
     @Override

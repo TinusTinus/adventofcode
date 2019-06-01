@@ -43,7 +43,7 @@ abstract class ChronalCharge implements PathSolver {
         LOGGER.debug("Set of {} squares constructed.", squares.size());
         
         return squares.parallelStream()
-                .max(Comparator.comparing(Square::totalPowerLevel))
+                .max(Comparator.comparing(Square::getTotalPowerLevel))
                 .get()
                 .toString();
     }
