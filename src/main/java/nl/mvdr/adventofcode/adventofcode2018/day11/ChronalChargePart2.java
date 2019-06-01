@@ -16,8 +16,6 @@ public class ChronalChargePart2 extends ChronalCharge {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalChargePart2.class);
     
-    private static final int GRID_SIZE = 300;
-    
     @Override
     protected Set<Square> getSquares(int[][] grid) {
         Set<Square> squares = new HashSet<>();
