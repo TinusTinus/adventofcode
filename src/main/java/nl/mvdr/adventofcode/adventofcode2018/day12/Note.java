@@ -15,6 +15,58 @@ class Note {
     private final boolean next;
     
     /**
+     * Parses the string representation of a note.
+     * 
+     * @param note string representation of a note, of the form LLCRR => N
+     * @return note
+     */
+    static Note parse(String note) {
+        boolean farLeft = toBoolean(note.charAt(0));
+        boolean left = toBoolean(note.charAt(1));
+        boolean current = toBoolean(note.charAt(2));
+        boolean right = toBoolean(note.charAt(3));
+        boolean farRight = toBoolean(note.charAt(4));
+        
+        boolean next = toBoolean(note.charAt(9));
+        
+        return new Note(farLeft, left, current, right, farRight, next);
+    }
+    
+    /**
+     * Converts a character representation of a pot to a boolean.
+     * 
+     * @param c character representation of a pot: # in case of a plant, . otherwise
+     * @return whether this pot contains a plant
+     */    
+    private static boolean toBoolean(char c) {
+        boolean result;
+        if (c == PlantConstants.PLANT) {
+            result = true;
+        } else if (c == PlantConstants.NO_PLANT) {
+            result = false;
+        } else {
+            throw new IllegalArgumentException("Unexpected character: " + c);
+        }
+        return result;
+    }
+    
+    /**
+     * Converts a boolean value to its character representation.
+     * 
+     * @param b boolean indicating whether a pot contains a plant
+     * @return # in case of a plant, . otherwise
+     */
+    private static char toChar(boolean b) {
+        char result;
+        if (b) {
+            result = PlantConstants.PLANT;
+        } else {
+            result = PlantConstants.NO_PLANT;
+        }
+        return result;
+    }
+    
+    /**
      * Constructor.
      * 
      * @param farLeft precondition: whether the pot two spaces left of the current pot contains a plant (the first L in LLCRR => N)
@@ -35,57 +87,28 @@ class Note {
         
         this.next = next;
     }
-    
+
     /**
-     * Converts a character representation of a pot to a boolean.
+     * Checks whether this note has the given precondition.
      * 
-     * @param c character repsentation of a pot: # in case of a plant, . otherwise
-     * @return whether this pot contains a plant
-     */    
-    private static boolean toBoolean(char c) {
-        boolean result;
-        if (c == PlantConstants.PLANT) {
-            result = true;
-        } else if (c == PlantConstants.NO_PLANT) {
-            result = false;
-        } else {
-            throw new IllegalArgumentException("Unexpected character: " + c);
-        }
-        return result;
+     * @param farLeft whether the pot two spaces left of the current pot contains a plant
+     * @param left whether the pot directly left of the current pot contains a plant
+     * @param current whether the current pot contains a plant
+     * @param right whether the pot directly right of the current pot contains a plant
+     * @param farRight whether the pot two spaces right of the current pot contains a plant
+     * @return whether this note matches the given precondition
+     */
+    boolean hasPrecondition(boolean farLeft, boolean left, boolean current, boolean right, boolean farRight) {
+        return this.farLeft == farLeft
+                && this.left == left
+                && this.current == current
+                && this.right == right
+                && this.farRight == farRight;
     }
     
-    /**
-     * Parses the string representation of a note.
-     * 
-     * @param note string representation of a note, of the form LLCRR => N
-     * @return note
-     */
-    static Note parse(String note) {
-        boolean farLeft = toBoolean(note.charAt(0));
-        boolean left = toBoolean(note.charAt(1));
-        boolean current = toBoolean(note.charAt(2));
-        boolean right = toBoolean(note.charAt(3));
-        boolean farRight = toBoolean(note.charAt(4));
-        
-        boolean next = toBoolean(note.charAt(9));
-        
-        return new Note(farLeft, left, current, right, farRight, next);
-    }
-    
-    /**
-     * Converts a boolean value to its character representation.
-     * 
-     * @param b boolean indicating whether a pot contains a plant
-     * @return # in case of a plant, . otherwise
-     */
-    private static char toChar(boolean b) {
-        char result;
-        if (b) {
-            result = PlantConstants.PLANT;
-        } else {
-            result = PlantConstants.NO_PLANT;
-        }
-        return result;
+    /** @return whether the current pot will contain a plant in the next generation, if the precondition applies */
+    public boolean isNext() {
+        return next;
     }
     
     @Override

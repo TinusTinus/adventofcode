@@ -20,4 +20,10 @@ public class SubterraneanSustainabilityPart1Test extends SolverTest<Subterranean
     public void testExample0() {
         assertSolution("325", "example-day12-2018.txt");
     }
+    
+    /** Test case based on the accepted solution to the puzzle. */
+    @Test
+    public void testSolution() {
+        assertSolution("2166", "input-day12-2018.txt");
+    }
 }

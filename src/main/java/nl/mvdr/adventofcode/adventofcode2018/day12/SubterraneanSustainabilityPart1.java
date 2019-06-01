@@ -40,7 +40,12 @@ public class SubterraneanSustainabilityPart1 implements PathSolver {
                 .collect(Collectors.toSet());
         LOGGER.debug("Notes: {}", notes);
         
-        return null; // TODO
+        for (int i = 0; i != 20; i++) {
+            state = state.nextGeneration(notes);
+            LOGGER.debug("State: {}", state);
+        }
+        
+        return state.getValue() + "";
     }
 
     /**
