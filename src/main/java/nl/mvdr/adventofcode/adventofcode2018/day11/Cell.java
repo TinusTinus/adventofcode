@@ -119,7 +119,7 @@ class Cell {
     public String toString() {
         String result = x + "," + y;
         if (includeSquareSizeInToString) {
-            result = result + ", " + squareSize;
+            result = result + "," + squareSize;
         }
         return result;
     }

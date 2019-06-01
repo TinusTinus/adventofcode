@@ -30,6 +30,6 @@ public class ChronalChargePart2Test extends SolverTest<ChronalChargePart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("TODO", "input-day11-2018.txt");
+        assertSolution("236,175,11", "input-day11-2018.txt");
     }
 }
