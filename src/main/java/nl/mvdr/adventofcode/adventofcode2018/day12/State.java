@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day12;
 
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,13 +34,40 @@ class State {
      */
     static State parseInitial(String line) {
         Set<Integer> potsWithPlants = IntStream.range(INITIAL_STATE_PREFIX_LENGTH, line.length())
-            .filter(i -> line.charAt(i) == '#')
-            .map(i -> i - INITIAL_STATE_PREFIX_LENGTH)
-            .boxed()
-            .collect(Collectors.toSet());
+                .filter(i -> line.charAt(i) == '#')
+                .map(i -> i - INITIAL_STATE_PREFIX_LENGTH)
+                .boxed()
+                .collect(Collectors.toSet());
         
         return new State(potsWithPlants);
     }
     
-    // TODO implement toString
+    @Override
+    public String toString() {
+        OptionalInt optionalFirstPlant = potsWithPlants.stream()
+                .mapToInt(Integer::intValue)
+                .min();
+        
+        StringBuilder result = new StringBuilder();
+        if (optionalFirstPlant.isPresent()) {
+            int firstPlant = optionalFirstPlant.getAsInt();
+            
+            result.append(firstPlant);
+            result.append(": ");
+            
+            int lastPlant = potsWithPlants.stream()
+                    .mapToInt(Integer::intValue)
+                    .max()
+                    .getAsInt();
+            for (int i = firstPlant; i <= lastPlant; i++) {
+                if (potsWithPlants.contains(Integer.valueOf(i))) {
+                    result.append('#');
+                } else {
+                    result.append('.');
+                }
+            }
+        }
+        
+        return result.toString();
+    }
 }
