@@ -14,6 +14,10 @@ class Cell {
     private final int y;
     
     private final int serialNumber;
+    
+    private final int squareSize;
+    
+    private final boolean includeSquareSizeInToString;
 
     /**
      * Constructor.
@@ -27,6 +31,25 @@ class Cell {
         this.x = x;
         this.y = y;
         this.serialNumber = serialNumber;
+        this.squareSize = 3;
+        this.includeSquareSizeInToString = false;
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param x x coordinate (horizontal)
+     * @param y y coordinate (vertical)
+     * @param serialNumber the grid serial number
+     * @param squareSize size of the square, of which this cell is the upper left corner, for total power calculation
+     */
+    Cell(int x, int y, int serialNumber, int squareSize) {
+        super();
+        this.x = x;
+        this.y = y;
+        this.serialNumber = serialNumber;
+        this.squareSize = squareSize;
+        this.includeSquareSizeInToString = true;
     }
     
     /**
@@ -69,16 +92,6 @@ class Cell {
      * @return total power level
      */
     int squareTotalPowerLevel() {
-        return squareTotalPowerLevel(3);
-    }
-    
-    /**
-     * Computes the total power level of a square of power cells, of which this cell is the top left one.
-     * 
-     * @param squareSize size of the square
-     * @return total power level
-     */
-    int squareTotalPowerLevel(int squareSize) {
         return IntStream.range(0, squareSize)
                 .mapToObj(Integer::valueOf)
                 .flatMap(x -> IntStream.range(0, squareSize).mapToObj(y -> new Cell(this.x + x, this.y + y, this.serialNumber)))
@@ -88,6 +101,10 @@ class Cell {
     
     @Override
     public String toString() {
-        return x + "," + y;
+        String result = x + "," + y;
+        if (includeSquareSizeInToString) {
+            result = result + ", " + squareSize;
+        }
+        return result;
     }
 }

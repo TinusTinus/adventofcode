@@ -110,9 +110,9 @@ public class CellTest {
      */
     @Test
     public void testSquareTotalPowerLevelAnySizeExample0() {
-        Cell cell = new Cell(90, 269, 18);
+        Cell cell = new Cell(90, 269, 18, 16);
         
-        int result = cell.squareTotalPowerLevel(16);
+        int result = cell.squareTotalPowerLevel();
         
         Assertions.assertEquals(113, result);
     }
@@ -124,9 +124,9 @@ public class CellTest {
      */
     @Test
     public void testSquareTotalPowerLevelAnySizeExample1() {
-        Cell cell = new Cell(232, 251, 42);
+        Cell cell = new Cell(232, 251, 42, 12);
         
-        int result = cell.squareTotalPowerLevel(12);
+        int result = cell.squareTotalPowerLevel();
         
         Assertions.assertEquals(119, result);
     }
