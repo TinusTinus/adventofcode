@@ -10,7 +10,7 @@ class Cell {
     private final int powerLevel;
 
     /**
-     * Computes this cell's power level.
+     * Computes the power level of a cell.
      * 
      * The power level in a given fuel cell can be found through the following process:
      * <ul>

@@ -26,7 +26,18 @@ abstract class ChronalCharge implements PathSolver {
         int serialNumber = Integer.parseInt(Files.lines(inputFilePath).findFirst().get());
         LOGGER.debug("Serial number: {}", serialNumber);
         
-        Square square = solve(serialNumber);
+        Cell[][] grid = new Cell[GRID_SIZE][GRID_SIZE];
+        
+        for (int x = 0; x < GRID_SIZE; x++) {
+            for (int y = 0; y < GRID_SIZE; y++) {
+                Cell cell = new Cell(x, y, serialNumber);
+                grid[x][y] = cell;
+            }
+        }
+        
+        LOGGER.debug("Grid constructed.");
+        
+        Square square = solve(grid);
         
         return square.toString();
     }
@@ -34,8 +45,8 @@ abstract class ChronalCharge implements PathSolver {
     /**
      * Solver method.
      * 
-     * @param serialNumber grid serial number
+     * @param grid grid
      * @return the square with the maximum power level
      */
-    abstract protected Square solve(int serialNumber);
+    abstract protected Square solve(Cell[][] grid);
 }
