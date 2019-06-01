@@ -1,7 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2018.day12;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +25,18 @@ public class SubterraneanSustainabilityPart1 implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        List<String> lines = Files.lines(inputFilePath)
+                // ignore empty lines
+                .filter(Objects::nonNull)
+                .filter(line -> !line.isBlank())
+                .collect(Collectors.toList());
+        
+        Set<Note> notes = lines.subList(1, lines.size())
+                .stream()
+                .map(Note::parse)
+                .collect(Collectors.toSet());
+        LOGGER.debug("Notes: {}", notes);
+        
         return null; // TODO
     }
 
@@ -31,7 +48,7 @@ public class SubterraneanSustainabilityPart1 implements PathSolver {
     public static void main(String[] args) {
         SubterraneanSustainabilityPart1 instance = new SubterraneanSustainabilityPart1();
 
-        String solution = instance.solve("input-day09-2018.txt");
+        String solution = instance.solve("input-day12-2018.txt");
         
         LOGGER.info(solution);
     }
