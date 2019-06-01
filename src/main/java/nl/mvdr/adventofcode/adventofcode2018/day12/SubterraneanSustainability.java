@@ -14,14 +14,32 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to part 1 of the day 12 puzzle of 2018's Advent of Code:
+ * Solution to the day 12 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/12">Subterranean Sustainability</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class SubterraneanSustainabilityPart1 implements PathSolver {
+public class SubterraneanSustainability implements PathSolver {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubterraneanSustainabilityPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SubterraneanSustainability.class);
+    
+    private final int generations;
+    
+    /** Constructor, for solving with 20 generations. */
+    public SubterraneanSustainability() {
+        // 20, as in the example and Part 1
+        this(20);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param generations number of generations
+     */
+    private SubterraneanSustainability(int generations) {
+        super();
+        this.generations = generations;
+    }
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
@@ -40,7 +58,7 @@ public class SubterraneanSustainabilityPart1 implements PathSolver {
                 .collect(Collectors.toSet());
         LOGGER.debug("Notes: {}", notes);
         
-        for (int i = 0; i != 20; i++) {
+        for (int i = 0; i != generations; i++) {
             state = state.nextGeneration(notes);
             LOGGER.debug("State: {}", state);
         }
@@ -54,7 +72,7 @@ public class SubterraneanSustainabilityPart1 implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SubterraneanSustainabilityPart1 instance = new SubterraneanSustainabilityPart1();
+        SubterraneanSustainability instance = new SubterraneanSustainability();
 
         String solution = instance.solve("input-day12-2018.txt");
         

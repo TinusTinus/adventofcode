@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link SubterraneanSustainabilityPart1}.
+ * Unit test for {@link SubterraneanSustainability}.
  *
  * @author Martijn van de Rijdt
  */
-public class SubterraneanSustainabilityPart1Test extends SolverTest<SubterraneanSustainabilityPart1> {
+public class SubterraneanSustainabilityTest extends SolverTest<SubterraneanSustainability> {
     /** Constructor. */
-    public SubterraneanSustainabilityPart1Test() {
-        super(SubterraneanSustainabilityPart1.class);
+    public SubterraneanSustainabilityTest() {
+        super(SubterraneanSustainability.class);
     }
 
     /** Test case based on an example from the puzzle. */
