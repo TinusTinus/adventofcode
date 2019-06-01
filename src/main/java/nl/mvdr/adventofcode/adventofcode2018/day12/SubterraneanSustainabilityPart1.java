@@ -31,6 +31,9 @@ public class SubterraneanSustainabilityPart1 implements PathSolver {
                 .filter(line -> !line.isBlank())
                 .collect(Collectors.toList());
         
+        State state = State.parseInitial(lines.get(0));
+        LOGGER.debug("Initial state: {}", state);
+        
         Set<Note> notes = lines.subList(1, lines.size())
                 .stream()
                 .map(Note::parse)
