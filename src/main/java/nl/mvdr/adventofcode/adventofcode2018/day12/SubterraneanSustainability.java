@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day12;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -72,16 +73,24 @@ public class SubterraneanSustainability implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SubterraneanSustainability instance = new SubterraneanSustainability();
-
-        String solution = instance.solve("input-day12-2018.txt");
         
-        LOGGER.info("Part 1 solution: {}", solution);
+        // --- Part 1 ---
+        SubterraneanSustainability solverPart1 = new SubterraneanSustainability();
+        String solutionPart1 = solverPart1.solve("input-day12-2018.txt");
+        LOGGER.info("Part 1 solution: {}", solutionPart1);
 
+        // --- Part 2 ---
         // Note: eventually the puzzle reaches a point where the plants all shift one position to the right in each generation.
         // This results in a value increase of 42 for each generation.
-        // This happens sometime before 1000 iterations. The value of generation 1000 is equal to 42061.
-        // 42061 + (50000000000 - 1000) * 42 = 2100000000061
-        LOGGER.info("Part 2 solution: 2100000000061");
+        // This starts happening sometime before 1000 iterations.
+        
+        SubterraneanSustainability solverPart2 = new SubterraneanSustainability(1_000);
+        int stateValue1000 = Integer.parseInt(solverPart2.solve("input-day12-2018.txt"));
+        
+        BigDecimal fiftyBillion = BigDecimal.valueOf(5_000_000_000L).multiply(BigDecimal.valueOf(10));
+        BigDecimal remainingGenerations = fiftyBillion.subtract(BigDecimal.valueOf(1000L));
+        BigDecimal remainingGenerationValues = remainingGenerations.multiply(BigDecimal.valueOf(42L));
+        BigDecimal solutionPart2 = remainingGenerationValues.add(BigDecimal.valueOf(stateValue1000));
+        LOGGER.info("Part 2 solution: {}", solutionPart2);
     }
 }
