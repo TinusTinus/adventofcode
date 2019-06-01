@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day11;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -9,6 +10,7 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
+@Disabled // These test cases take a long time
 public class ChronalChargePart2Test extends SolverTest<ChronalChargePart2> {
     /** Constructor. */
     public ChronalChargePart2Test() {
