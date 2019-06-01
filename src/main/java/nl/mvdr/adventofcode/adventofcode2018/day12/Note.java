@@ -7,9 +7,6 @@ package nl.mvdr.adventofcode.adventofcode2018.day12;
  */
 class Note {
     
-    private static final char PLANT = '#';
-    private static final char NO_PLANT = '.';
-
     private final boolean farLeft;
     private final boolean left;
     private final boolean current;
@@ -47,9 +44,9 @@ class Note {
      */    
     private static boolean toBoolean(char c) {
         boolean result;
-        if (c == PLANT) {
+        if (c == PlantConstants.PLANT) {
             result = true;
-        } else if (c == NO_PLANT) {
+        } else if (c == PlantConstants.NO_PLANT) {
             result = false;
         } else {
             throw new IllegalArgumentException("Unexpected character: " + c);
@@ -84,9 +81,9 @@ class Note {
     private static char toChar(boolean b) {
         char result;
         if (b) {
-            result = PLANT;
+            result = PlantConstants.PLANT;
         } else {
-            result = NO_PLANT;
+            result = PlantConstants.NO_PLANT;
         }
         return result;
     }

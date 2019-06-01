@@ -34,7 +34,7 @@ class State {
      */
     static State parseInitial(String line) {
         Set<Integer> potsWithPlants = IntStream.range(INITIAL_STATE_PREFIX_LENGTH, line.length())
-                .filter(i -> line.charAt(i) == '#')
+                .filter(i -> line.charAt(i) == PlantConstants.PLANT)
                 .map(i -> i - INITIAL_STATE_PREFIX_LENGTH)
                 .boxed()
                 .collect(Collectors.toSet());
@@ -61,9 +61,9 @@ class State {
                     .getAsInt();
             for (int i = firstPlant; i <= lastPlant; i++) {
                 if (potsWithPlants.contains(Integer.valueOf(i))) {
-                    result.append('#');
+                    result.append(PlantConstants.PLANT);
                 } else {
-                    result.append('.');
+                    result.append(PlantConstants.NO_PLANT);
                 }
             }
         }
