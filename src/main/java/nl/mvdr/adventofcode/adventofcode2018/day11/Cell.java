@@ -18,40 +18,9 @@ class Cell {
     private final int squareSize;
     
     private final boolean includeSquareSizeInToString;
+    
+    private final int powerLevel;
 
-    /**
-     * Constructor.
-     * 
-     * @param x x coordinate (horizontal)
-     * @param y y coordinate (vertical)
-     * @param serialNumber the grid serial number
-     */
-    Cell(int x, int y, int serialNumber) {
-        super();
-        this.x = x;
-        this.y = y;
-        this.serialNumber = serialNumber;
-        this.squareSize = 3;
-        this.includeSquareSizeInToString = false;
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param x x coordinate (horizontal)
-     * @param y y coordinate (vertical)
-     * @param serialNumber the grid serial number
-     * @param squareSize size of the square, of which this cell is the upper left corner, for total power calculation
-     */
-    Cell(int x, int y, int serialNumber, int squareSize) {
-        super();
-        this.x = x;
-        this.y = y;
-        this.serialNumber = serialNumber;
-        this.squareSize = squareSize;
-        this.includeSquareSizeInToString = true;
-    }
-    
     /**
      * Computes this cell's power level.
      * 
@@ -67,7 +36,7 @@ class Cell {
      * 
      * @return this cell's power level
      */
-    int powerLevel() {
+    private static int calculatePowerLevel(int x, int y, int serialNumber) {
         // Find the fuel cell's rack ID, which is its X coordinate plus 10.
         int rackId = x + 10;
         
@@ -87,6 +56,48 @@ class Cell {
     }
     
     /**
+     * Constructor, for a 3x3 square.
+     * 
+     * @param x x coordinate (horizontal)
+     * @param y y coordinate (vertical)
+     * @param serialNumber the grid serial number
+     */
+    Cell(int x, int y, int serialNumber) {
+        this(x, y, serialNumber, 3, false);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param x x coordinate (horizontal)
+     * @param y y coordinate (vertical)
+     * @param serialNumber the grid serial number
+     * @param squareSize size of the square, of which this cell is the upper left corner, for total power calculation
+     */
+    Cell(int x, int y, int serialNumber, int squareSize) {
+        this(x, y, serialNumber, squareSize, true);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param x x coordinate (horizontal)
+     * @param y y coordinate (vertical)
+     * @param serialNumber the grid serial number
+     * @param squareSize size of the square, of which this cell is the upper left corner, for total power calculation
+     * @param includeSquareSizeInToString whether the square size should be included in the output of {@link #toString()}
+     */
+    private Cell(int x, int y, int serialNumber, int squareSize, boolean includeSquareSizeInToString) {
+        super();
+        this.x = x;
+        this.y = y;
+        this.serialNumber = serialNumber;
+        this.squareSize = squareSize;
+        this.includeSquareSizeInToString = includeSquareSizeInToString;
+        this.powerLevel = calculatePowerLevel(x, y, serialNumber);
+    }
+    
+    /**
      * Computes the total power level of a square of power cells, of which this cell is the top left one.
      * 
      * @return total power level
@@ -95,8 +106,13 @@ class Cell {
         return IntStream.range(0, squareSize)
                 .mapToObj(Integer::valueOf)
                 .flatMap(x -> IntStream.range(0, squareSize).mapToObj(y -> new Cell(this.x + x, this.y + y, this.serialNumber)))
-                .mapToInt(Cell::powerLevel)
+                .mapToInt(Cell::getPowerLevel)
                 .sum();
+    }
+
+    /** @return power level of this cell */
+    int getPowerLevel() {
+        return powerLevel;
     }
     
     @Override

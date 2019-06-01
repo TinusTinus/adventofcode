@@ -21,7 +21,7 @@ public class CellTest {
     private void testPowerLevel(int x, int y, int serialNumber, int expectedPowerLevel) {
         Cell cell = new Cell(x, y, serialNumber);
         
-        int powerLevel = cell.powerLevel();
+        int powerLevel = cell.getPowerLevel();
         
         Assertions.assertEquals(expectedPowerLevel, powerLevel);
     }
