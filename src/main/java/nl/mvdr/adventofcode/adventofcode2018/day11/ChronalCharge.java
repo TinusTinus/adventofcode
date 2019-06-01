@@ -3,6 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2018.day11;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +26,13 @@ public class ChronalCharge implements PathSolver {
         int serialNumber = Integer.parseInt(Files.lines(inputFilePath).findFirst().get());
         LOGGER.debug("Serial number: {}", serialNumber);
         
+        Cell cell = IntStream.range(0, 298)
+                .mapToObj(Integer::valueOf)
+                .flatMap(x -> IntStream.range(0, 298).mapToObj(y -> new Cell(x, y, serialNumber)))
+                .max(Comparator.comparing(Cell::squareTotalPowerLevel))
+                .get();
         
-        // TODO
-        return null;
+        return cell.toString();
     }
 
     /**

@@ -75,7 +75,11 @@ public class CellTest {
         testPowerLevel(101, 153, 71, 4);
     }
     
-    /** Test case for {@link Cell#squareTotalPowerLevel()} based on an example from the puzzle description. */
+    /**
+     * Test case for {@link Cell#squareTotalPowerLevel()} based on an example from the puzzle description.
+     * 
+     * "For grid serial number 18, the largest total 3x3 square has a top-left corner of 33,45 (with a total power of 29)".
+     */
     @Test
     public void testSquareTotalPowerLevelExample0() {
         Cell cell = new Cell(33, 45, 18);
@@ -85,7 +89,11 @@ public class CellTest {
         Assertions.assertEquals(29, result);
     }
     
-    /** Test case for {@link Cell#squareTotalPowerLevel()} based on an example from the puzzle description. */
+    /**
+     * Test case for {@link Cell#squareTotalPowerLevel()} based on an example from the puzzle description.
+     * 
+     * "For grid serial number 42, the largest 3x3 square's top-left is 21,61 (with a total power of 30)".
+     */
     @Test
     public void testSquareTotalPowerLevelExample1() {
         Cell cell = new Cell(21, 61, 42);

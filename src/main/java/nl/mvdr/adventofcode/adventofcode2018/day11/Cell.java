@@ -70,6 +70,10 @@ class Cell {
                 .flatMap(x -> IntStream.range(0, 3).mapToObj(y -> new Cell(this.x + x, this.y + y, this.serialNumber)))
                 .mapToInt(Cell::powerLevel)
                 .sum();
-                
+    }
+    
+    @Override
+    public String toString() {
+        return x + "," + y;
     }
 }
