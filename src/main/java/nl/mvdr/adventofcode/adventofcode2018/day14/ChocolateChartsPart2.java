@@ -52,7 +52,7 @@ public class ChocolateChartsPart2 implements PathSolver {
             
             log(recipes, firstElfIndex, secondElfIndex);
             
-            // We just added 1 or 2 digits.
+            // We just added 1 or 2 recipes.
             // Only inspect the last part of the recipe list; the rest has already been inspected before.
             int skipped = Math.max(recipes.size() - inputString.length() - 1, 0);
             int index = recipes.subList(skipped, recipes.size())
