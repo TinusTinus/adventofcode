@@ -52,12 +52,20 @@ public class ChocolateChartsPart2 implements PathSolver {
             
             log(recipes, firstElfIndex, secondElfIndex);
             
+            // We just added 1 or 2 digits.
+            // Only inspect the last part of the recipe list; the rest has already been inspected before.
+            int skipped = Math.max(recipes.size() - inputString.length() - 1, 0);
             int index = recipes.stream()
+                    .skip(skipped)
                     .map(i -> i.toString())
                     .collect(Collectors.joining())
                     .indexOf(inputString);
             if (0 <= index) {
-                result = "" + index;
+                result = "" + (index + skipped);
+            }
+            
+            if (recipes.size() % 100_000 < 2) {
+                LOGGER.info("Generated {} recipes", Integer.valueOf(recipes.size()));
             }
         }
         
