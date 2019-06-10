@@ -44,6 +44,7 @@ public class ChocolateChartsTest extends SolverTest<ChocolateCharts> {
     @Test
     @Disabled // TODO
     public void testSolution() {
+        // 8131753921 is not it (too high)
         assertSolution("???", "input-day14-2018.txt");
     }
 }
