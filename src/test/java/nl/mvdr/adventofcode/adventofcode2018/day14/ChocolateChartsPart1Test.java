@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link ChocolateCharts}.
+ * Unit test for {@link ChocolateChartsPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class ChocolateChartsTest extends SolverTest<ChocolateCharts> {
+public class ChocolateChartsPart1Test extends SolverTest<ChocolateChartsPart1> {
     /** Constructor. */
-    public ChocolateChartsTest() {
-        super(ChocolateCharts.class);
+    public ChocolateChartsPart1Test() {
+        super(ChocolateChartsPart1.class);
     }
 
     /** Test case based on an example from the puzzle. */

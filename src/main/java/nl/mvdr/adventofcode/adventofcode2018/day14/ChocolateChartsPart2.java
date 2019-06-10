@@ -18,33 +18,25 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChocolateCharts implements PathSolver {
+public class ChocolateChartsPart2 implements PathSolver {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChocolateCharts.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChocolateChartsPart2.class);
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
         String inputString = Files.lines(inputFilePath)
                 .findFirst()
                 .get();
-        int input = Integer.parseInt(inputString);
-        return solve(input);
-    }
-    
-    /**
-     * Solver method
-     * 
-     * @param input input number
-     * @return solution to the puzzle for the given input
-     */
-    private String solve(int input) {
+        LOGGER.debug("Input: {}", inputString);
         
         List<Integer> recipes = new ArrayList<>(List.of(Integer.valueOf(3), Integer.valueOf(7)));
         int firstElfIndex = 0;
         int secondElfIndex = 1;
         
+        String result = null;
+        
         log(recipes, firstElfIndex, secondElfIndex);
-        while (recipes.size() < input + 10) {
+        while (result == null) {
             int firstElfRecipe = recipes.get(firstElfIndex).intValue();
             int secondElfRecipe = recipes.get(secondElfIndex).intValue();
             int sum = firstElfRecipe + secondElfRecipe;
@@ -59,13 +51,17 @@ public class ChocolateCharts implements PathSolver {
             secondElfIndex = (secondElfIndex + 1 + secondElfRecipe) % recipes.size();
             
             log(recipes, firstElfIndex, secondElfIndex);
+            
+            int index = recipes.stream()
+                    .map(i -> i.toString())
+                    .collect(Collectors.joining())
+                    .indexOf(inputString);
+            if (0 <= index) {
+                result = "" + index;
+            }
         }
         
-        return recipes.stream()
-                .skip(input)
-                .limit(10)
-                .map(i -> i.toString())
-                .collect(Collectors.joining());
+        return result;
     }
     
     private static void log(List<Integer> recipes, int firstElfIndex, int secondElfIndex) {
@@ -100,7 +96,7 @@ public class ChocolateCharts implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        ChocolateCharts solver = new ChocolateCharts();
+        ChocolateChartsPart2 solver = new ChocolateChartsPart2();
         String solution = solver.solve("input-day14-2018.txt");
         LOGGER.info(solution);
     }
