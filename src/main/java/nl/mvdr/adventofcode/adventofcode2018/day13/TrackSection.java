@@ -17,9 +17,9 @@ enum TrackSection {
     /** A horizontal straight section, allowing left-right and right-left movement. */
     HORIZONTAL_STRAIGHT_PATH('-', Map.of(Direction.LEFT, Direction.LEFT, Direction.RIGHT, Direction.RIGHT)),
     /** A curve, allowing down-left, up-right, left-up and right-down movement. */
-    CURVE_DOWN_LEFT('/', Map.of(Direction.DOWN, Direction.LEFT, Direction.UP, Direction.RIGHT, Direction.LEFT, Direction.UP, Direction.RIGHT, Direction.DOWN)),
+    CURVE_DOWN_LEFT('/', Map.of(Direction.DOWN, Direction.LEFT, Direction.UP, Direction.RIGHT, Direction.LEFT, Direction.DOWN, Direction.RIGHT, Direction.UP)),
     /** A curve, allowing down-right, up-left, left-down and right-up movement. */
-    CURVE_DOWN_RIGHT('\\', Map.of(Direction.DOWN, Direction.RIGHT, Direction.UP, Direction.LEFT, Direction.LEFT, Direction.UP, Direction.RIGHT, Direction.UP)),
+    CURVE_DOWN_RIGHT('\\', Map.of(Direction.DOWN, Direction.RIGHT, Direction.UP, Direction.LEFT, Direction.LEFT, Direction.UP, Direction.RIGHT, Direction.DOWN)),
     /** An intersecion, which allows a cart to turn. */
     // Empty directions: the next direction depends on the cart's own state.
     INTERSECTION('+', Map.of());

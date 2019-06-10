@@ -42,6 +42,6 @@ public class MineCartMadnessTest extends SolverTest<MineCartMadness> {
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("???", "input-day13-2018.txt");
+        assertSolution("124,130", "input-day13-2018.txt");
     }
 }
