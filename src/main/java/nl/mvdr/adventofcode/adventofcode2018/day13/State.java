@@ -56,7 +56,8 @@ class State {
                 .sorted(Comparator.comparing(MineCart::getY).thenComparing(MineCart::getX))
                 .collect(Collectors.toList());
         
-        for (int i = 0; i < cartList.size(); i++) {
+        int i = 0;
+        while (i < cartList.size()) {
             MineCart cart = cartList.get(i);
             
             MineCart movedCart = move(cart);
@@ -65,13 +66,21 @@ class State {
             if (collidingCarts.isEmpty()) {
                 // no collision
                 cartList.set(i, movedCart);
+                i++;
             } else if (throwOnCollision) {
                 throw new CollisionException(movedCart.getX(), movedCart.getY());
             } else {
                 LOGGER.debug("Collision detected at {},{}", Integer.valueOf(movedCart.getX()), Integer.valueOf(movedCart.getY()));
                 // remove the colliding carts from play
                 cartList.remove(i);
-                cartList.removeAll(collidingCarts);
+                
+                for (MineCart collidingCart : collidingCarts) {
+                    int index = cartList.indexOf(collidingCart);
+                    cartList.remove(index);
+                    if (index < i) {
+                        i--;
+                    }
+                }
             }
         }
         
