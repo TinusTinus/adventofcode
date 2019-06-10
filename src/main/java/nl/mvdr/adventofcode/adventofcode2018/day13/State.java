@@ -56,7 +56,7 @@ class State {
                 .sorted(Comparator.comparing(MineCart::getY).thenComparing(MineCart::getX))
                 .collect(Collectors.toList());
         
-        for (int i = 0; i != cartList.size(); i++) {
+        for (int i = 0; i < cartList.size(); i++) {
             MineCart cart = cartList.get(i);
             
             MineCart movedCart = move(cart);

@@ -1,32 +1,19 @@
 package nl.mvdr.adventofcode.adventofcode2018.day13;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
-
 /**
- * Solution to the day 13 puzzle of 2018's Advent of Code:
- * <a href="https://adventofcode.com/2018/day/13">Mine Cart Madness</a>.
- *
- * Soundtrack for this puzzle:
- * <a href="https://www.youtube.com/watch?v=PVPqxuebYQw">Mine Cart Madness</a>
- * by <a href="https://en.wikipedia.org/wiki/David_Wise_(composer)">David
- * Wise</a>.
+ * Solution to part 2 of the puzzle.
  * 
  * @author Martijn van de Rijdt
  */
-public class MineCartMadnessPart2 implements PathSolver {
+public class MineCartMadnessPart2 extends MineCartMadness {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MineCartMadnessPart2.class);
 
     @Override
-    public String solve(Path inputFilePath) throws IOException {
-        State state = State.parse(inputFilePath);
-
+    public String solve(State state) {
         while (1 < state.getCarts().size()) {
             state = state.tick(false);
         }
