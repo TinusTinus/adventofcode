@@ -17,20 +17,26 @@ public class MineCartMadnessTest extends SolverTest<MineCartMadness> {
 
     /** Test case based on an example from the puzzle. */
     @Test
-    public void testExample00() {
-        assertSolution("0,3", "example-day13-2018-00.txt");
+    public void testExample0() {
+        assertSolution("0,3", "example-day13-2018-0.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
-    public void testExample01() {
-        assertSolution("0,3", "example-day13-2018-01.txt");
+    public void testExample1() {
+        assertSolution("0,3", "example-day13-2018-1.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
-    public void testExample02() {
-        assertSolution("7,3", "example-day13-2018-02.txt");
+    public void testExample2() {
+        assertSolution("7,3", "example-day13-2018-2.txt");
+    }
+    
+    /** Test case based on an example from the puzzle. */
+    @Test
+    public void testExample3() {
+        assertSolution("7,3", "example-day13-2018-3.txt");
     }
         
     /** Test case based on the accepted solution to the puzzle. */
