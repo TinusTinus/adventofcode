@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day13;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
@@ -60,14 +61,16 @@ class State {
             
             MineCart movedCart = move(cart);
             
-            if (cartList.stream().anyMatch(otherCart -> otherCart.getX() == movedCart.getX() && otherCart.getY() == movedCart.getY())) {
+            if (!cartsAt(cartList, movedCart.getX(), movedCart.getY()).isEmpty()) {
                 throw new CollisionException(movedCart.getX(), movedCart.getY());
             }
             
             cartList.set(i, movedCart);
         }
         
-        return new State(map, new HashSet<>(cartList));
+        State result = new State(map, new HashSet<>(cartList));
+        LOGGER.debug("State after tick:\n{}", result);
+        return result;
     }
     
     /**
@@ -147,9 +150,9 @@ class State {
             }
         }
         
-        LOGGER.debug("Parsed a {} x {} map with {} mine carts.", Integer.valueOf(width), Integer.valueOf(height), Integer.valueOf(carts.size()));
-        
-        return new State(map, carts);
+        State result = new State(map, carts);
+        LOGGER.debug("Parsed state:\n{}", result);
+        return result;
     }
     
     /**
@@ -163,5 +166,44 @@ class State {
     private static Optional<MineCart> parseMineCart(int x, int y, char c) {
         return Direction.of(c)
                 .map(direction -> new MineCart(x, y, direction));
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        
+        int width = map.length;
+        int height = map[0].length;
+        
+        for (int y = 0; y != height; y++) {
+            for (int x = 0; x != width; x++) {
+                Set<MineCart> cartsHere = cartsAt(carts, x, y);
+                if (cartsHere.isEmpty()) {
+                    builder.append(map[x][y]);
+                } else if (1 < cartsHere.size()) {
+                    // should not occur but hey
+                    builder.append('X');
+                } else {
+                    builder.append(cartsHere.iterator().next().getDirection());
+                }
+            }
+            builder.append("\n");
+        }
+        
+        return builder.toString();
+    }
+    
+    /**
+     * Returns all mine carts from the given collection at the given coordinates.
+     * 
+     * @param carts carts
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return
+     */
+    private static Set<MineCart> cartsAt(Collection<MineCart> carts, int x, int y) {
+        return carts.stream()
+                .filter(cart -> cart.getX() == x && cart.getY() == y)
+                .collect(Collectors.toSet());
     }
 }

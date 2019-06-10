@@ -14,9 +14,9 @@ enum Direction {
     /** Down / south. */
     DOWN('v', true),
     /** Left / west. */
-    LEFT('>', false),
+    LEFT('<', false),
     /** Right / east. */
-    RIGHT('<', false);
+    RIGHT('>', false);
     
     /** Character representation of a minecart facing this direction. */
     private final char representation;
