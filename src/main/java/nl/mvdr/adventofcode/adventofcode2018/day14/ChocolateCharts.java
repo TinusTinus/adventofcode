@@ -50,15 +50,11 @@ public class ChocolateCharts implements PathSolver {
             int secondElfRecipe = recipes.get(secondElfIndex).intValue();
             int sum = firstElfRecipe + secondElfRecipe;
             
-            // find the digits of this sum (by pushing them onto a stack in reverse order)
-            Stack<Integer> digits = new Stack<>();
-            while(0 < sum) {
-                digits.push(Integer.valueOf(sum % 10));
-                sum = sum / 10;
+            // sum is the sum of two digits, so it is at most 9 + 9 = 18: one or two digits
+            if (10 <= sum) {
+                recipes.add(Integer.valueOf(sum / 10));
             }
-            while (!digits.isEmpty()) {
-                recipes.add(digits.pop());
-            }
+            recipes.add(Integer.valueOf(sum % 10));
             
             firstElfIndex = (firstElfIndex + 1 + firstElfRecipe) % recipes.size();
             secondElfIndex = (secondElfIndex + 1 + secondElfRecipe) % recipes.size();

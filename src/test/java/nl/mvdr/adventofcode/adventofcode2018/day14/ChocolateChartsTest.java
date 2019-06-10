@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day14;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -54,9 +53,7 @@ public class ChocolateChartsTest extends SolverTest<ChocolateCharts> {
         
     /** Test case based on the accepted solution to the puzzle. */
     @Test
-    @Disabled // TODO
     public void testSolution() {
-        // 8131753921 is not it (too high)
-        assertSolution("???", "input-day14-2018.txt");
+        assertSolution("1474315445", "input-day14-2018.txt");
     }
 }
