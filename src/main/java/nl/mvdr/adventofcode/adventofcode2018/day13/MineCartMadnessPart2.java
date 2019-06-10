@@ -19,24 +19,21 @@ import nl.mvdr.adventofcode.PathSolver;
  * 
  * @author Martijn van de Rijdt
  */
-public class MineCartMadness implements PathSolver {
+public class MineCartMadnessPart2 implements PathSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MineCartMadness.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MineCartMadnessPart2.class);
 
     @Override
     public String solve(Path inputFilePath) throws IOException {
         State state = State.parse(inputFilePath);
 
-        String result;
-        try {
-            while (true) {
-                state = state.tick();
-            }
-        } catch (CollisionException e) {
-            result = e.getX() + "," + e.getY();
+        while (1 < state.getCarts().size()) {
+            state = state.tick(false);
         }
 
-        return result;
+        MineCart remainingCart = state.getCarts().iterator().next();
+        
+        return remainingCart.getX() + "," + remainingCart.getY();
     }
 
     /**
@@ -45,7 +42,7 @@ public class MineCartMadness implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        MineCartMadness solver = new MineCartMadness();
+        MineCartMadnessPart2 solver = new MineCartMadnessPart2();
         String solution = solver.solve("input-day13-2018.txt");
         LOGGER.info(solution);
     }

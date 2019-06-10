@@ -6,7 +6,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day13;
  * @author Martijn van de Rijdt
  */
 @SuppressWarnings("serial") // this non-public class is not intended for serialization
-class CollisionException extends Exception {
+class CollisionException extends RuntimeException {
     
     private final int x;
     private final int y;

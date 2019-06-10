@@ -51,7 +51,7 @@ class State {
      * @return new state
      * @throws CollisionException exception indicating that two mine carts have collided
      */
-    State tick() throws CollisionException {
+    State tick(boolean throwOnCollision) throws CollisionException {
         List<MineCart> cartList = carts.stream()
                 .sorted(Comparator.comparing(MineCart::getY).thenComparing(MineCart::getX))
                 .collect(Collectors.toList());
@@ -61,11 +61,18 @@ class State {
             
             MineCart movedCart = move(cart);
             
-            if (!cartsAt(cartList, movedCart.getX(), movedCart.getY()).isEmpty()) {
+            Set<MineCart> collidingCarts = cartsAt(cartList, movedCart.getX(), movedCart.getY());
+            if (collidingCarts.isEmpty()) {
+                // no collision
+                cartList.set(i, movedCart);
+            } else if (throwOnCollision) {
                 throw new CollisionException(movedCart.getX(), movedCart.getY());
+            } else {
+                LOGGER.debug("Collision detected at {},{}", Integer.valueOf(movedCart.getX()), Integer.valueOf(movedCart.getY()));
+                // remove the colliding carts from play
+                cartList.remove(i);
+                cartList.removeAll(collidingCarts);
             }
-            
-            cartList.set(i, movedCart);
         }
         
         State result = new State(map, new HashSet<>(cartList));
@@ -113,6 +120,10 @@ class State {
         }
         
         return new MineCart(nextX, nextY, nextDirection, nextActions);
+    }
+    
+    Set<MineCart> getCarts() {
+        return carts;
     }
     
     /**
