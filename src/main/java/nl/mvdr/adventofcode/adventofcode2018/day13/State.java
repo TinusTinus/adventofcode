@@ -48,6 +48,7 @@ class State {
     /**
      * Performs a single tick.
      * 
+     * @param throwOnCollision whether this method should throw a {@link CollisionException} as soon as a collision occurs
      * @return new state
      * @throws CollisionException exception indicating that two mine carts have collided
      */
