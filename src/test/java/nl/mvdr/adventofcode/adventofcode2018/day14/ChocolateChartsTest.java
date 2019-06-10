@@ -39,6 +39,18 @@ public class ChocolateChartsTest extends SolverTest<ChocolateCharts> {
     public void testExample3() {
         assertSolution("5941429882", "example-day14-2018-3.txt");
     }
+    
+    /** Test case based on an example from the puzzle. */
+    @Test
+    public void testExample4() {
+        assertSolution("1589167792", "example-day14-2018-4.txt");
+    }
+    
+    /** Test case based on an example from the puzzle. */
+    @Test
+    public void testExample5() {
+        assertSolution("3710101245", "example-day14-2018-5.txt");
+    }
         
     /** Test case based on the accepted solution to the puzzle. */
     @Test
