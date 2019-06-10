@@ -10,33 +10,29 @@ import java.util.stream.Stream;
  */
 enum Direction {
     /** Up / north. */
-    UP('^', TrackSection.VERTICAL_STRAIGHT_PATH),
+    UP('^', true),
     /** Down / south. */
-    DOWN('v', TrackSection.VERTICAL_STRAIGHT_PATH),
+    DOWN('v', true),
     /** Left / west. */
-    LEFT('>', TrackSection.HORIZONTAL_STRAIGHT_PATH),
+    LEFT('>', false),
     /** Right / east. */
-    RIGHT('<', TrackSection.HORIZONTAL_STRAIGHT_PATH);
+    RIGHT('<', false);
     
     /** Character representation of a minecart facing this direction. */
     private final char representation;
     
-    /**
-     * The straight path matching the direction of this cart.
-     * 
-     * On an initial map, the track under each cart is a straight path matching the direction the cart is facing.
-     */
-    private final TrackSection straightPath;
+    /** Whether this direction is vertical. */
+    private final boolean vertical;
     
     /**
      * Constructor.
      * 
      * @param representation character representation of a minecart facing this direction
-     * @param straightPath the straight path corresponding to this direction
+     * @param vertical whether this direction is vertical
      */
-    Direction(char representation, TrackSection straightPath) {
+    Direction(char representation, boolean vertical) {
         this.representation = representation;
-        this.straightPath = straightPath;
+        this.vertical = vertical;
     }
     
     /**
@@ -53,7 +49,13 @@ enum Direction {
     
     /** @return the straight path matching the direction of this cart */
     TrackSection getStraightPath() {
-        return straightPath;
+        TrackSection result;
+        if (vertical) {
+            result = TrackSection.VERTICAL_STRAIGHT_PATH;
+        } else {
+            result = TrackSection.HORIZONTAL_STRAIGHT_PATH;
+        }
+        return result;
     }
     
     @Override
