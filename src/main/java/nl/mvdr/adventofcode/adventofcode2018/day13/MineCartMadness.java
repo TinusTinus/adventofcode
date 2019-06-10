@@ -13,20 +13,30 @@ import nl.mvdr.adventofcode.PathSolver;
  * <a href="https://adventofcode.com/2018/day/13">Mine Cart Madness</a>.
  *
  * Soundtrack for this puzzle:
- * <a href="https://www.youtube.com/watch?v=PVPqxuebYQw">Mine Cart Madness</a> by
- * <a href="https://en.wikipedia.org/wiki/David_Wise_(composer)">David Wise</a>.
+ * <a href="https://www.youtube.com/watch?v=PVPqxuebYQw">Mine Cart Madness</a>
+ * by <a href="https://en.wikipedia.org/wiki/David_Wise_(composer)">David
+ * Wise</a>.
  * 
  * @author Martijn van de Rijdt
  */
 public class MineCartMadness implements PathSolver {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MineCartMadness.class);
-    
+
     @Override
     public String solve(Path inputFilePath) throws IOException {
         State state = State.parse(inputFilePath);
-        
-        return null; // TODO
+
+        String result;
+        try {
+            while (true) {
+                state = state.tick();
+            }
+        } catch (CollisionException e) {
+            result = e.getX() + "," + e.getY();
+        }
+
+        return result;
     }
 
     /**

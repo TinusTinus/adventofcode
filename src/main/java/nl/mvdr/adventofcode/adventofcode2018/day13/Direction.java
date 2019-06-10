@@ -51,6 +51,7 @@ enum Direction {
                 .findFirst();
     }
     
+    /** @return the straight path matching the direction of this cart */
     TrackSection getStraightPath() {
         return straightPath;
     }

@@ -3,7 +3,10 @@ package nl.mvdr.adventofcode.adventofcode2018.day13;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -41,9 +44,72 @@ class State {
         this.carts = carts;
     }
     
-    State tick() {
-        // TODO
-        return this;
+    /**
+     * Performs a single tick.
+     * 
+     * @return new state
+     * @throws CollisionException exception indicating that two mine carts have collided
+     */
+    State tick() throws CollisionException {
+        List<MineCart> cartList = carts.stream()
+                .sorted(Comparator.comparing(MineCart::getY).thenComparing(MineCart::getX))
+                .collect(Collectors.toList());
+        
+        for (int i = 0; i != cartList.size(); i++) {
+            MineCart cart = cartList.get(i);
+            
+            MineCart movedCart = move(cart);
+            
+            if (cartList.stream().anyMatch(otherCart -> otherCart.getX() == movedCart.getX() && otherCart.getY() == movedCart.getY())) {
+                throw new CollisionException(movedCart.getX(), movedCart.getY());
+            }
+            
+            cartList.set(i, movedCart);
+        }
+        
+        return new State(map, new HashSet<>(cartList));
+    }
+    
+    /**
+     * Moves the given cart to its next position.
+     * 
+     * @param cart current position
+     * @return new cart instance, containing the next position of the given cart
+     */
+    private MineCart move(MineCart cart) {
+        // Determine the cart's next position, based on the direction it is currently facing.
+        int nextX = cart.getX();
+        int nextY = cart.getY();
+        if (cart.getDirection() == Direction.UP) {
+            nextY--;
+        } else if (cart.getDirection() == Direction.DOWN) {
+            nextY++;
+        } else if (cart.getDirection() == Direction.LEFT) {
+            nextX--;
+        } else if (cart.getDirection() == Direction.RIGHT) {
+            nextX++;
+        } else {
+            throw new IllegalStateException("Unexpected direction: " + cart.getDirection());
+        }
+        
+        // Determine whether and how the cart should turn, based on the next section it travels onto.
+        Direction nextDirection;
+        Deque<Action> nextActions;
+        
+        TrackSection nextSection = map[nextX][nextY];
+        
+        if (nextSection == TrackSection.INTERSECTION) {
+            nextActions = new LinkedList<>(cart.getActions());
+            Action action = nextActions.removeFirst();
+            nextActions.addLast(action);
+            
+            nextDirection = action.getNextDirection(cart.getDirection());
+        } else {
+            nextDirection = nextSection.getNextDirection(cart.getDirection());
+            nextActions = cart.getActions();
+        }
+        
+        return new MineCart(nextX, nextY, nextDirection, nextActions);
     }
     
     /**
@@ -81,7 +147,7 @@ class State {
             }
         }
         
-        LOGGER.info("Parsed a {} x {} map with {} mine carts.", Integer.valueOf(width), Integer.valueOf(height), Integer.valueOf(carts.size()));
+        LOGGER.debug("Parsed a {} x {} map with {} mine carts.", Integer.valueOf(width), Integer.valueOf(height), Integer.valueOf(carts.size()));
         
         return new State(map, carts);
     }
