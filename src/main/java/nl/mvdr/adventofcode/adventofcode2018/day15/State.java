@@ -73,9 +73,8 @@ class State {
         int totalHitPoints = units.stream()
                 .mapToInt(Unit::getHitPoints)
                 .sum();
-        int completedRounds = Math.max(0, rounds - 1);
         
-        return totalHitPoints * completedRounds; 
+        return totalHitPoints * rounds; 
     }
 
     /**
@@ -240,7 +239,12 @@ class State {
             }
         }
         
-        State result = new State(map, new HashSet<>(sortedUnits), rounds + 1);
+        int nextRounds = rounds;
+        if (!done) {
+            nextRounds++;
+        }
+        
+        State result = new State(map, new HashSet<>(sortedUnits), nextRounds);
         LOGGER.debug("Next state:\n{}", result);
         return result;
     }
