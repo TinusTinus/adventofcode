@@ -168,7 +168,7 @@ class State {
                                 if (!pathLength.isPresent() || altPathLength <= pathLength.getAsInt()) {
                                     shortestPaths.get(u).stream()
                                         .map(ArrayList::new)
-                                        .peek(list -> list.add(u))
+                                        .peek(list -> list.add(neighbour))
                                         .forEach(paths::add);
                                 }
                             }
@@ -178,6 +178,8 @@ class State {
                                 .filter(p -> !shortestPaths.get(p).isEmpty())
                                 .min(Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size()));
                     }
+                    
+                    LOGGER.trace("Shortest paths: {}", shortestPaths);
                     
                     // If multiple squares are in range and tied for being reachable in the fewest
                     // steps, the square which is first in reading order is chosen.
