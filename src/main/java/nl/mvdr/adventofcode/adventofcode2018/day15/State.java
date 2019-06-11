@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day15;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -95,9 +96,54 @@ class State {
             done = targets.isEmpty();
             
             if (!done) {
-                // TODO move
-                // TODO attack
-                throw new IllegalStateException("Not implemented yet");
+                
+                Set<Unit> otherUnits = sortedUnits.stream()
+                        .filter(u -> u != unit)
+                        .collect(Collectors.toSet());
+                
+                // Then, the unit identifies all of the open squares (.) that are in range of
+                // each target. 
+                Set<Point> adjacentPointsToTarget = targets.stream()
+                        .map(Unit::getLocation)
+                        // These are the squares which are adjacent to any target...
+                        .flatMap(location -> location.adjacent().stream())
+                        // ... and which aren't already occupied by a wall...
+                        .filter(point -> map[point.getX()][point.getY()] == Square.OPEN_AREA)
+                        // ... or another unit.
+                        .filter(point -> otherUnits.stream().noneMatch(otherUnit -> otherUnit.getLocation().equals(point)))
+                        .collect(Collectors.toSet());
+                
+                if (adjacentPointsToTarget.contains(unit.getLocation())) {
+                    // The unit is already in range of a target.
+                } else {
+                    // TODO try to move
+                    throw new IllegalStateException("Not implemented yet");
+                }
+                
+                // After moving (or if the unit began its turn in range of a target), the unit attacks.
+                Optional<Unit> selectedTarget = targets.stream()
+                        // To attack, the unit first determines all of the targets that are in range of it by being immediately adjacent to it.
+                        .filter(target -> unit.getLocation().adjacent().contains(target.getLocation()))
+                        // Otherwise, the adjacent target with the fewest hit points is selected;
+                        // in a tie, the adjacent target with the fewest hit points which is first in reading order is selected.
+                        .min(Comparator.comparing(Unit::getHitPoints).thenComparing(Unit::getLocation));
+                if (selectedTarget.isPresent()) {
+                    Unit target = selectedTarget.get();
+                    int targetIndex = sortedUnits.indexOf(target);
+                    
+                    // The unit deals damage equal to its attack power to the selected target, reducing its hit points by that amount.
+                    int remainingHitPoints = target.getHitPoints() - Unit.ATTACK_POWER;
+                    if (0 < remainingHitPoints) {
+                        sortedUnits.set(targetIndex, new Unit(target.getRace(), target.getLocation(), remainingHitPoints));
+                    } else {
+                        // The selected target dies.
+                        sortedUnits.remove(targetIndex);
+                        if (targetIndex < i) { 
+                            i--;
+                        }
+                    }
+                }
+                i++;
             }
         }
         

@@ -45,9 +45,20 @@ class Unit {
      * @param hitPoints remaining hit points
      */
     Unit(Race race, int x, int y, int hitPoints) {
+        this (race, new Point(x, y), hitPoints);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param race the unit's race
+     * @param location the unit's location on the map
+     * @param hitPoints remaining hit points
+     */
+    Unit(Race race, Point location, int hitPoints) {
         super();
         this.race = race;
-        this.location = new Point(x, y);
+        this.location = location;
         this.hitPoints = hitPoints;
     }
     

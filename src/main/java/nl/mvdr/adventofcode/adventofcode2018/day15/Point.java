@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day15;
 
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.annotation.processing.Generated;
 
@@ -36,6 +37,11 @@ class Point implements Comparable<Point> {
     /** @return y coordinate (vertical) */
     int getY() {
         return y;
+    }
+    
+    /** @return set of adjacent points */
+    Set<Point> adjacent() {
+        return Set.of(new Point(x + 1, y), new Point(x - 1, y), new Point(x, y + 1), new Point(x, y - 1));
     }
     
     @Override

@@ -60,8 +60,24 @@ public class BeverageBanditsTest extends SolverTest<BeverageBandits> {
      * Expected result is; 0 * total hitpoints = 0.
      */
     @Test
-    public void testExample6() {
+    public void testExampleOneUnit() {
         assertSolution("0", "example-day15-2018-6.txt");
+    }
+    
+    
+    /**
+     * Test case based on a modified version of example 5 from the puzzle.
+     * 
+     * The input contains two units who start in adjacent squares.
+     * 
+     * The units should not move, and instead only attack each other.
+     * It is expected to take 200 / 3 = 66 rounds to whittle down one unit's health.
+     * The remaining unit is expected to have 200 % 3 = 2 hit points remaining.
+     * Expected result: 66 * 2 = 132. 
+     */
+    @Test
+    public void testExampleNoMovement() {
+        assertSolution("132", "example-day15-2018-7.txt");
     }
         
     /** Test case based on the accepted solution to the puzzle. */
