@@ -162,17 +162,26 @@ class State {
                                 }
                                 if (pathLength.isPresent() && altPathLength < pathLength.getAsInt()) {
                                     // Shorter path found.
+                                    LOGGER.debug("Shorter path found.");
                                     paths.clear();
                                 }
+                                
                                 if (!pathLength.isPresent() || altPathLength <= pathLength.getAsInt()) {
-                                    shortestPaths.get(u).stream()
+                                    Set<List<Point>> newPaths = shortestPaths.get(u).stream()
+                                        // copy the shortest path to u
                                         .map(ArrayList::new)
+                                        // add neighbour as the final step
                                         .peek(list -> list.add(neighbour))
-                                        .forEach(paths::add);
+                                        .collect(Collectors.toSet());
+                                    LOGGER.debug("Adding {} newly found shortest paths to {}.", newPaths.size(), neighbour);
+                                    paths.addAll(newPaths);
+                                    LOGGER.debug("Newly found shortest paths added to {}, total paths: {}.", neighbour, paths.size());
                                 }
+                                LOGGER.debug("Added shortest paths.");
                             }
                         }
                         
+                        LOGGER.debug("Remaining unvisited: {}", unvisited.size());
                         nextU = unvisited.stream()
                                 .filter(p -> !shortestPaths.get(p).isEmpty())
                                 .min(Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size()));
