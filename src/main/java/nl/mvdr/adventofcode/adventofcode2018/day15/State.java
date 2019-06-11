@@ -26,7 +26,8 @@ class State {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(State.class);
 
-    private static final int DEFAULT_ATTACK_POWER = 3;
+    /** Default attack power. */
+    static final int DEFAULT_ATTACK_POWER = 3;
     
     /** The static map, consisting of walls and open areas. */
     private final Square[][] map;
@@ -105,7 +106,7 @@ class State {
      * @param elfAttackPower elf attack power
      * @return state
      */
-    State wihtElfAttackPower(int elfAttackPower) {
+    State withElfAttackPower(int elfAttackPower) {
         Map<Race, Integer> newAttackPower = Map.of(Race.GOBLIN, attackPower.get(Race.GOBLIN), Race.ELF, elfAttackPower);
         
         return new State(map, units, rounds, newAttackPower);

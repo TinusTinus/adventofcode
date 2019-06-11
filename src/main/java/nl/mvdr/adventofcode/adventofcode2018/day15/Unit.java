@@ -12,11 +12,8 @@ class Unit {
     static final Comparator<Unit> READING_ORDER = Comparator.comparing(Unit::getLocation);
     
     /** Maximum hit points. */
-    private static final int MAX_HIT_POINTS = 200;
+    static final int MAX_HIT_POINTS = 200;
     
-    /** Attack power. */
-    static final int ATTACK_POWER = 3;
-
     /** This unit's race. */
     private final Race race;
     

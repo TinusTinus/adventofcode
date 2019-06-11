@@ -22,9 +22,31 @@ public class BeverageBanditsPart2 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         State initialState = State.parse(inputFilePath);
         
-        // TODO revise
+        // Binary search for the lowest attack power which lets the elves win.
+        int lowerBound = State.DEFAULT_ATTACK_POWER; // From part 1: the goblins win in a fair fight.
+        int upperBound = Unit.MAX_HIT_POINTS; // This means elves are oneshotting goblins. A higher attack power than this has no benefits.
         
-        return "" + initialState.performCombat().getOutcome();
+        while (lowerBound < upperBound - 1) {
+            int middle = Math.floorDiv(lowerBound + upperBound, 2);
+            LOGGER.debug("{}, {}, {}", lowerBound, middle, upperBound);
+            
+            State state = initialState.withElfAttackPower(middle);
+            State endState = state.performCombat();
+            Race winner = endState.getWinner();
+            if (winner == Race.GOBLIN) {
+                lowerBound = middle;
+            } else if (winner == Race.ELF) {
+                upperBound = middle;
+            } else {
+                throw new IllegalStateException("Unexpected winner: " + winner);
+            }
+        }
+        
+        LOGGER.info("{}, {}", lowerBound, upperBound);
+        
+        State state = initialState.withElfAttackPower(upperBound);
+        State endState = state.performCombat();
+        return "" + endState.getOutcome();
     }
     
     /**
