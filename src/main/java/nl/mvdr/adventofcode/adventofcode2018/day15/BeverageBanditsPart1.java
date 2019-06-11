@@ -22,7 +22,7 @@ public class BeverageBanditsPart1 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         State initialState = State.parse(inputFilePath);
         
-        return "" + initialState.performCombat().getOutcome();
+        return "" + initialState.performCombat(false).getOutcome();
     }
     
     /**

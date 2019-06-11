@@ -108,9 +108,10 @@ class State {
     /**
      * Performs a single round of combat.
      * 
+     * @param stopAtElfDeath whether to stop computation as soon as an elf dies
      * @return new state
      */
-    private State performCombatRound() {
+    private State performCombatRound(boolean stopAtElfDeath) {
         List<Unit> sortedUnits = units.stream()
                 .sorted(Unit.READING_ORDER)
                 .collect(Collectors.toList());
@@ -266,6 +267,7 @@ class State {
                         }
                         if (target.getRace() == Race.ELF) {
                             newElfDeaths++;
+                            done = stopAtElfDeath;
                         }
                     }
                 } else {
@@ -288,13 +290,14 @@ class State {
     /**
      * Resolves combat.
      * 
+     * @param stopAtElfDeath whether to stop computation as soon as an elf dies
      * @return end state, after combat is done
      */
-    State performCombat() {
+    State performCombat(boolean stopAtElfDeath) {
         State state = this;
         
         while(!state.isCombatDone()) {
-            state = state.performCombatRound();
+            state = state.performCombatRound(stopAtElfDeath);
         }
         
         return state;
