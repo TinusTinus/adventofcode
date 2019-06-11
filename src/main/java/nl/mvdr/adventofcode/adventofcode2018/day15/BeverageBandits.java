@@ -20,6 +20,8 @@ public class BeverageBandits implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        State state = State.parse(inputFilePath);
+        
         return null;
     }
     
