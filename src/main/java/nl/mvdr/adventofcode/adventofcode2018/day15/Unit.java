@@ -9,7 +9,7 @@ import java.util.Comparator;
  */
 class Unit {
     /** Comparator for the <em>reading order</em>: top-to-bottom, then left-to-right. */
-    static final Comparator<Unit> READING_ORDER = Comparator.comparing(Unit::getY).thenComparing(Unit::getX);
+    static final Comparator<Unit> READING_ORDER = Comparator.comparing(Unit::getLocation);
     
     /** Maximum hit points. */
     private static final int MAX_HIT_POINTS = 200;
@@ -20,12 +20,8 @@ class Unit {
     /** This unit's race. */
     private final Race race;
     
-    /** Horizontal coordinate. */
-    private final int x;
-    
-    /** Vertical coordinate. */
-    private final int y;
-    
+    private final Point location;
+
     /** Remaining hit points. Should be positive; otherwise this unit is no longer alive. */
     private final int hitPoints;
 
@@ -51,21 +47,16 @@ class Unit {
     Unit(Race race, int x, int y, int hitPoints) {
         super();
         this.race = race;
-        this.x = x;
-        this.y = y;
+        this.location = new Point(x, y);
         this.hitPoints = hitPoints;
+    }
+    
+    Point getLocation() {
+        return location;
     }
     
     Race getRace() {
         return race;
-    }
-    
-    int getX() {
-        return x;
-    }
-    
-    int getY() {
-        return y;
     }
     
     int getHitPoints() {

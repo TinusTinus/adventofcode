@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2018.day15;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -87,13 +86,17 @@ class State {
         
         while (!done && i < sortedUnits.size()) {
             Unit unit = sortedUnits.get(i);
+            
+            // Each unit begins its turn by identifying all possible targets (enemy units).
             Set<Unit> targets = sortedUnits.stream()
                     .filter(target -> target.getRace() != unit.getRace())
                     .collect(Collectors.toSet());
+            // If no targets remain, combat ends.
             done = targets.isEmpty();
             
             if (!done) {
-                // TODO do nothing, attack or move
+                // TODO move
+                // TODO attack
                 throw new IllegalStateException("Not implemented yet");
             }
         }
@@ -154,7 +157,7 @@ class State {
      */
     private Set<Unit> unitsAt(int x, int y) {
         return units.stream()
-                .filter(unit -> unit.getX() == x && unit.getY() == y)
+                .filter(unit -> unit.getLocation().getX() == x && unit.getLocation().getY() == y)
                 .collect(Collectors.toSet());
     }
     
@@ -166,8 +169,8 @@ class State {
      */
     private List<Unit> unitsAt(int y) {
         return units.stream()
-                .filter(unit -> unit.getY() == y)
-                .sorted(Comparator.comparing(Unit::getX))
+                .filter(unit -> unit.getLocation().getY() == y)
+                .sorted(Unit.READING_ORDER)
                 .collect(Collectors.toList());
     }
     
