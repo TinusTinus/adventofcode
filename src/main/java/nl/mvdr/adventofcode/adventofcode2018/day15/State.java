@@ -39,6 +39,44 @@ class State {
         this.units = units;
     }
     
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        
+        int width = map.length;
+        int height = map[0].length;
+        
+        for (int y = 0; y != height; y++) {
+            for (int x = 0; x != width; x++) {
+                Set<Unit> unitsHere = unitsAt(x, y);
+                if (unitsHere.isEmpty()) {
+                    builder.append(map[x][y]);
+                } else if (1 < unitsHere.size()) {
+                    // should not occur but hey
+                    builder.append('X');
+                } else {
+                    builder.append(unitsHere.iterator().next().getRace());
+                }
+            }
+            builder.append("\n");
+        }
+        
+        return builder.toString();
+    }
+    
+    /**
+     * Returns all units at the given coordinates.
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return units at x,y
+     */
+    private Set<Unit> unitsAt(int x, int y) {
+        return units.stream()
+                .filter(unit -> unit.getX() == x && unit.getY() == y)
+                .collect(Collectors.toSet());
+    }
+    
     /**
      * Parses the input file into a state.
      * 

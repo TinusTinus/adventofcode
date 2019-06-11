@@ -37,4 +37,9 @@ enum Race {
                 .filter(race -> race.representation == representation)
                 .findFirst();
     }
+    
+    @Override
+    public String toString() {
+        return "" + representation;
+    }
 }

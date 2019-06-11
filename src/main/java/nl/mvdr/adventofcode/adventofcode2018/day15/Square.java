@@ -37,4 +37,9 @@ enum Square {
                 .findFirst()
                 .get();
     }
+    
+    @Override
+    public String toString() {
+        return "" + representation;
+    }
 }
