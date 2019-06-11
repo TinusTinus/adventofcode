@@ -27,8 +27,8 @@ class State {
     private final Square[][] map;
     /** Currently alive units. */
     private final Set<Unit> units;
-    /** The number of rounds that have been completed. */
-    private final int completedRounds;
+    /** The number of rounds. Note that the last round was not complete. */
+    private final int rounds;
     
     /**
      * Constructor.
@@ -40,7 +40,7 @@ class State {
         super();
         this.map = map;
         this.units = units;
-        this.completedRounds = completedRounds;
+        this.rounds = completedRounds;
     }
     
     /**
@@ -69,6 +69,7 @@ class State {
         int totalHitPoints = units.stream()
                 .mapToInt(Unit::getHitPoints)
                 .sum();
+        int completedRounds = Math.max(0, rounds - 1);
         
         return totalHitPoints * completedRounds; 
     }
@@ -147,12 +148,7 @@ class State {
             }
         }
         
-        int nextCompletedRounds = completedRounds;
-        if (!done) {
-            nextCompletedRounds++;
-        }
-        
-        State result = new State(map, new HashSet<>(sortedUnits), nextCompletedRounds);
+        State result = new State(map, new HashSet<>(sortedUnits), rounds + 1);
         LOGGER.debug("Next state:\n{}", result);
         return result;
     }
@@ -166,7 +162,7 @@ class State {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("After ");
-        builder.append(completedRounds);
+        builder.append(rounds);
         builder.append(" round(s):\n");
         
         int width = map.length;
