@@ -79,12 +79,46 @@ class State {
      * @return new state
      */
     State performCombatRound() {
-        return null; // TODO
+        List<Unit> sortedUnits = units.stream()
+                .sorted(Unit.READING_ORDER)
+                .collect(Collectors.toList());
+        int i = 0;
+        boolean done = false;
+        
+        while (!done && i < sortedUnits.size()) {
+            Unit unit = sortedUnits.get(i);
+            Set<Unit> targets = sortedUnits.stream()
+                    .filter(target -> target.getRace() != unit.getRace())
+                    .collect(Collectors.toSet());
+            done = targets.isEmpty();
+            
+            if (!done) {
+                // TODO do nothing, attack or move
+                throw new IllegalStateException("Not implemented yet");
+            }
+        }
+        
+        int nextCompletedRounds = completedRounds;
+        if (!done) {
+            nextCompletedRounds++;
+        }
+        
+        State result = new State(map, new HashSet<>(sortedUnits), nextCompletedRounds);
+        LOGGER.debug("Next state:\n{}", result);
+        return result;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * Note: the output is multi-line
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append("After ");
+        builder.append(completedRounds);
+        builder.append(" round(s):\n");
         
         int width = map.length;
         int height = map[0].length;

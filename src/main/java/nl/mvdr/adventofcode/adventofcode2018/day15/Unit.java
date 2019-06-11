@@ -1,11 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2018.day15;
 
+import java.util.Comparator;
+
 /**
  * A unit in our little strategy game.
  *
  * @author Martijn van de Rijdt
  */
 class Unit {
+    /** Comparator for the <em>reading order</em>: top-to-bottom, then left-to-right. */
+    static final Comparator<Unit> READING_ORDER = Comparator.comparing(Unit::getY).thenComparing(Unit::getX);
+    
     /** Maximum hit points. */
     private static final int MAX_HIT_POINTS = 200;
     
