@@ -3,11 +3,15 @@ package nl.mvdr.adventofcode.adventofcode2018.day15;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -116,7 +120,61 @@ class State {
                 
                 if (adjacentPointsToTarget.contains(unit.getLocation())) {
                     // The unit is already in range of a target.
+                    // Do not move.
                 } else {
+                    // Try to move towards a closest target.
+                    // Use Dijkstra's shortest path algorithm.
+                    Set<Point> unvisited = new HashSet<>();
+                    Map<Point, Set<List<Point>>> shortestPaths = new HashMap<>();
+                    int width = map.length;
+                    int height = map[0].length;
+                    for (int x = 0; x != width; x++) {
+                        for (int y = 0; y != height; y++) {
+                            Point point = new Point(x, y);
+                            if (map[x][y] == Square.OPEN_AREA && otherUnits.stream().noneMatch(otherUnit -> otherUnit.getLocation().equals(point))) {
+                                unvisited.add(point);
+                                shortestPaths.put(point, new HashSet<>());
+                            }
+                        }
+                    }
+                    
+                    shortestPaths.get(unit.getLocation()).add(List.of());
+                    
+                    Optional<Point> nextU = unvisited.stream()
+                            .filter(p -> !shortestPaths.get(p).isEmpty())
+                            .min(Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size()));
+                    while (nextU.isPresent()) {
+                        Point u = nextU.get();
+                        unvisited.remove(u);
+                        
+                        int altPathLength = shortestPaths.get(u).iterator().next().size() + 1;
+                        for (Point neighbour : u.adjacent()) {
+                            if (unvisited.contains(neighbour)) {
+                                Set<List<Point>> paths = shortestPaths.get(neighbour);
+                                OptionalInt pathLength;
+                                if (paths.isEmpty()) {
+                                    pathLength = OptionalInt.empty();
+                                } else {
+                                    pathLength = OptionalInt.of(paths.iterator().next().size());
+                                }
+                                if (pathLength.isPresent() && altPathLength < pathLength.getAsInt()) {
+                                    // Shorter path found.
+                                    paths.clear();
+                                }
+                                if (!pathLength.isPresent() || altPathLength <= pathLength.getAsInt()) {
+                                    shortestPaths.get(u).stream()
+                                        .map(ArrayList::new)
+                                        .peek(list -> list.add(u))
+                                        .forEach(paths::add);
+                                }
+                            }
+                        }
+                        
+                        nextU = unvisited.stream()
+                                .filter(p -> !shortestPaths.get(p).isEmpty())
+                                .min(Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size()));
+                    }
+                    
                     // TODO try to move
                     throw new IllegalStateException("Not implemented yet");
                 }
