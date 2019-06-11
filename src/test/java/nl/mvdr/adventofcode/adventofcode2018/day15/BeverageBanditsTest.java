@@ -51,6 +51,18 @@ public class BeverageBanditsTest extends SolverTest<BeverageBandits> {
     public void testExample5() {
         assertSolution("18740", "example-day15-2018-5.txt");
     }
+    
+    /**
+     * Test case based on a modified version of example 5 from the puzzle.
+     * 
+     * The input contains only elves, so combat should end immediately before a single round can complete.
+     * 
+     * Expected result is; 0 * total hitpoints = 0.
+     */
+    @Test
+    public void testExample6() {
+        assertSolution("0", "example-day15-2018-6.txt");
+    }
         
     /** Test case based on the accepted solution to the puzzle. */
     @Disabled // TODO add test expectation
