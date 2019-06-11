@@ -27,6 +27,8 @@ class State {
     private final Square[][] map;
     /** Currently alive units. */
     private final Set<Unit> units;
+    /** The number of rounds that have been completed. */
+    private final int completedRounds;
     
     /**
      * Constructor.
@@ -34,10 +36,50 @@ class State {
      * @param map static map, consisting of walls and open areas
      * @param units currently alive units
      */
-    private State(Square[][] map, Set<Unit> units) { 
+    private State(Square[][] map, Set<Unit> units, int completedRounds) { 
         super();
         this.map = map;
         this.units = units;
+        this.completedRounds = completedRounds;
+    }
+    
+    /**
+     * If no targets remain, combat ends.
+     * 
+     * @return whether combat has ended; that is, whether either all elves or all goblins have died
+     */
+    boolean isCombatDone() {
+        return units.stream()
+                .map(Unit::getRace)
+                .distinct()
+                .count() < 2;
+    }
+    
+    /**
+     * Computes the outcome of this game state: the number of full rounds that were
+     * completed (not counting the round in which combat ends) multiplied by the sum
+     * of the hit points of all remaining units at the moment combat ends.
+     * 
+     * This is only relevant after combat has comleted (see
+     * {@link #isCombatDone()}).
+     * 
+     * @return outcome
+     */
+    int getOutcome() {
+        int totalHitPoints = units.stream()
+                .mapToInt(Unit::getHitPoints)
+                .sum();
+        
+        return totalHitPoints * completedRounds; 
+    }
+
+    /**
+     * Performs a single round of combat.
+     * 
+     * @return new state
+     */
+    State performCombatRound() {
+        return null; // TODO
     }
     
     @Override
@@ -129,7 +171,7 @@ class State {
             }
         }
         
-        State result = new State(map, units);
+        State result = new State(map, units, 0);
         LOGGER.debug("Parsed state:\n{}", result);
         return result;
     }
