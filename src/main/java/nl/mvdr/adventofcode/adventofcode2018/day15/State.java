@@ -59,11 +59,27 @@ class State {
     }
     
     /**
+     * Returns the race of this battle's winner.
+     * 
+     * This is only relevant after combat has completed (see
+     * {@link #isCombatDone()}).
+     * 
+     * @return the winning race
+     */
+    Race getWinner() {
+        return units.stream()
+            .map(Unit::getRace)
+            .distinct()
+            .findFirst()
+            .get();
+    }
+    
+    /**
      * Computes the outcome of this game state: the number of full rounds that were
      * completed (not counting the round in which combat ends) multiplied by the sum
      * of the hit points of all remaining units at the moment combat ends.
      * 
-     * This is only relevant after combat has comleted (see
+     * This is only relevant after combat has completed (see
      * {@link #isCombatDone()}).
      * 
      * @return outcome

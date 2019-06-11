@@ -14,9 +14,9 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class BeverageBandits implements PathSolver {
+public class BeverageBanditsPart1 implements PathSolver {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(BeverageBandits.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BeverageBanditsPart1.class);
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
@@ -35,7 +35,7 @@ public class BeverageBandits implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        BeverageBandits solver = new BeverageBandits();
+        BeverageBanditsPart1 solver = new BeverageBanditsPart1();
         String solution = solver.solve("input-day15-2018.txt");
         LOGGER.info(solution);
     }

@@ -20,6 +20,7 @@ class Unit {
     /** This unit's race. */
     private final Race race;
     
+    /** The unit's location. */
     private final Point location;
 
     /** Remaining hit points. Should be positive; otherwise this unit is no longer alive. */
