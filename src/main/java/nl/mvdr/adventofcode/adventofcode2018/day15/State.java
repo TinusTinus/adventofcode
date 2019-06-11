@@ -123,6 +123,7 @@ class State {
                     // The unit is already in range of a target.
                     // Do not move.
                     movedUnit = unit;
+                    LOGGER.debug("Unit {} stays at {}: target(s) already in range.", unit, unit.getLocation());
                 } else {
                     // Try to move towards a closest target to compute all shortest paths for all points.
                     
@@ -198,9 +199,11 @@ class State {
                         // Take this step.
                         movedUnit = new Unit(unit.getRace(), newLocation.get(), unit.getHitPoints());
                         sortedUnits.set(i, movedUnit);
+                        LOGGER.debug("Unit {} moved from {} to {}.", unit, unit.getLocation(), movedUnit.getLocation());
                     } else {
                         // Do not move.
                         movedUnit = unit;
+                        LOGGER.debug("Unit {} stays at {}: no path to target.", unit, unit.getLocation());
                     }
                 }
                 
@@ -214,6 +217,7 @@ class State {
                 if (selectedTarget.isPresent()) {
                     Unit target = selectedTarget.get();
                     int targetIndex = sortedUnits.indexOf(target);
+                    LOGGER.debug("Unit {} at {} is attacking {} at {}.", movedUnit, movedUnit.getLocation(), target, target.getLocation());
                     
                     // The unit deals damage equal to its attack power to the selected target, reducing its hit points by that amount.
                     int remainingHitPoints = target.getHitPoints() - Unit.ATTACK_POWER;
@@ -221,11 +225,14 @@ class State {
                         sortedUnits.set(targetIndex, new Unit(target.getRace(), target.getLocation(), remainingHitPoints));
                     } else {
                         // The selected target dies.
+                        LOGGER.debug("Target {} dies.", target);
                         sortedUnits.remove(targetIndex);
                         if (targetIndex < i) { 
                             i--;
                         }
                     }
+                } else {
+                    LOGGER.debug("Unit {} at {} cannot attack a target.", movedUnit, movedUnit.getLocation());
                 }
                 i++;
             }
