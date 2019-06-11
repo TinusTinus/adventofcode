@@ -167,17 +167,17 @@ class State {
                                 }
                                 
                                 if (!pathLength.isPresent() || altPathLength <= pathLength.getAsInt()) {
-                                    Set<List<Point>> newPaths = shortestPaths.get(u).stream()
+                                    LOGGER.debug("Finding new paths to {}, based on {} paths to {}.", neighbour, shortestPaths.get(u).size(), u);
+                                    Set<List<Point>> newPaths = shortestPaths.get(u).parallelStream()
                                         // copy the shortest path to u
                                         .map(ArrayList::new)
                                         // add neighbour as the final step
                                         .peek(list -> list.add(neighbour))
                                         .collect(Collectors.toSet());
-                                    LOGGER.debug("Adding {} newly found shortest paths to {}.", newPaths.size(), neighbour);
+                                    LOGGER.debug("Adding {} newly found shortest paths to {} ({} paths).", newPaths.size(), neighbour, paths.size());
                                     paths.addAll(newPaths);
                                     LOGGER.debug("Newly found shortest paths added to {}, total paths: {}.", neighbour, paths.size());
                                 }
-                                LOGGER.debug("Added shortest paths.");
                             }
                         }
                         
