@@ -22,7 +22,7 @@ public class BeverageBanditsPart2 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         State initialState = State.parse(inputFilePath);
         
-        LOGGER.debug("Initial state: \n{}", initialState);
+        LOGGER.debug("Initial state:\n{}", initialState);
         
         // Linear search for the lowest attack power which lets all of the elves survive.
         int i = State.DEFAULT_ATTACK_POWER + 1;
@@ -32,7 +32,7 @@ public class BeverageBanditsPart2 implements PathSolver {
             state = initialState.withElfAttackPower(i).performCombat(true);
         }
         
-        LOGGER.debug("Elf attack power: {}", i);
+        LOGGER.debug("End state, with elf attack power {}:\n{}", i, state);
         
         return "" + state.getOutcome();
     }
