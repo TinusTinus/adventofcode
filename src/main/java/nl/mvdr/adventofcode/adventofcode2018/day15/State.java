@@ -118,11 +118,14 @@ class State {
                         .filter(point -> otherUnits.stream().noneMatch(otherUnit -> otherUnit.getLocation().equals(point)))
                         .collect(Collectors.toSet());
                 
+                Unit movedUnit;
                 if (adjacentPointsToTarget.contains(unit.getLocation())) {
                     // The unit is already in range of a target.
                     // Do not move.
+                    movedUnit = unit;
                 } else {
-                    // Try to move towards a closest target.
+                    // Try to move towards a closest target to compute all shortest paths for all points.
+                    
                     // Use Dijkstra's shortest path algorithm.
                     Set<Point> unvisited = new HashSet<>();
                     Map<Point, Set<List<Point>>> shortestPaths = new HashMap<>();
@@ -175,14 +178,36 @@ class State {
                                 .min(Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size()));
                     }
                     
-                    // TODO try to move
-                    throw new IllegalStateException("Not implemented yet");
+                    // If multiple squares are in range and tied for being reachable in the fewest
+                    // steps, the square which is first in reading order is chosen.
+                    Comparator<Point> comparator = Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size());
+                    comparator = comparator.thenComparing(Comparator.naturalOrder());
+                    Optional<Point> newLocation = adjacentPointsToTarget.stream()
+                            .filter(p -> !shortestPaths.get(p).isEmpty())
+                            .min(comparator)
+                            .map(shortestPaths::get)
+                            .orElse(Set.of())
+                            .stream()
+                            // Find the first step.
+                            .map(path -> path.get(0))
+                            // If multiple steps would put the unit equally closer to its destination,
+                            // the unit chooses the step which is first in reading order.
+                            .min(Comparator.naturalOrder());
+                    
+                    if (newLocation.isPresent()) {
+                        // Take this step.
+                        movedUnit = new Unit(unit.getRace(), newLocation.get(), unit.getHitPoints());
+                        sortedUnits.set(i, movedUnit);
+                    } else {
+                        // Do not move.
+                        movedUnit = unit;
+                    }
                 }
                 
                 // After moving (or if the unit began its turn in range of a target), the unit attacks.
                 Optional<Unit> selectedTarget = targets.stream()
                         // To attack, the unit first determines all of the targets that are in range of it by being immediately adjacent to it.
-                        .filter(target -> unit.getLocation().adjacent().contains(target.getLocation()))
+                        .filter(target -> movedUnit.getLocation().adjacent().contains(target.getLocation()))
                         // Otherwise, the adjacent target with the fewest hit points is selected;
                         // in a tie, the adjacent target with the fewest hit points which is first in reading order is selected.
                         .min(Comparator.comparing(Unit::getHitPoints).thenComparing(Unit::getLocation));
