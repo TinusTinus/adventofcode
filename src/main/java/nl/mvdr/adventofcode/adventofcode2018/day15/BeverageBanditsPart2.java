@@ -24,33 +24,20 @@ public class BeverageBanditsPart2 implements PathSolver {
         
         LOGGER.debug("Initial state: \n{}", initialState);
         
-        // Binary search for the lowest attack power which lets the elves win.
-        int lowerBound = State.DEFAULT_ATTACK_POWER; // From part 1: the goblins win in a fair fight.
-        int upperBound = Unit.MAX_HIT_POINTS; // This means elves are oneshotting goblins. A higher attack power than this has no benefits.
+        // Linear search for the lowest attack power which lets all of the elves survive.
         
-        while (lowerBound < upperBound - 1) {
-            int middle = Math.floorDiv(lowerBound + upperBound, 2);
-            LOGGER.debug("{}, {}, {}", lowerBound, middle, upperBound);
-            
-            State state = initialState.withElfAttackPower(middle);
+        int i = State.DEFAULT_ATTACK_POWER + 1;
+        // Note: this could be optimized by stopping computation after the first elf death.
+        State state = initialState.withElfAttackPower(i).performCombat();
+        while(state.getElfDeaths() != 0) {
+            i++;
             // Note: this could be optimized by stopping computation after the first elf death.
-            State endState = state.performCombat();
-            if (endState.getElfDeaths() == 0) {
-                upperBound = middle;
-            } else {
-                lowerBound = middle;
-            }
+            state = initialState.withElfAttackPower(i).performCombat();
         }
         
-        LOGGER.debug("{}, {}", lowerBound, upperBound);
+        LOGGER.debug("Elf attack power: {}", i);
         
-        State state = initialState.withElfAttackPower(upperBound);
-        State endState = state.performCombat();
-        
-        LOGGER.debug("End state with attack power {}:\n{}", lowerBound, initialState.withElfAttackPower(lowerBound).performCombat());
-        LOGGER.debug("End state with attack power {}:\n{}", upperBound, endState);
-        
-        return "" + endState.getOutcome();
+        return "" + state.getOutcome();
     }
     
     /**
