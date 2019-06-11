@@ -25,12 +25,10 @@ public class BeverageBanditsPart2 implements PathSolver {
         LOGGER.debug("Initial state: \n{}", initialState);
         
         // Linear search for the lowest attack power which lets all of the elves survive.
-        
         int i = State.DEFAULT_ATTACK_POWER + 1;
         State state = initialState.withElfAttackPower(i).performCombat(true);
         while(state.getElfDeaths() != 0) {
             i++;
-            // Note: this could be optimized by stopping computation after the first elf death.
             state = initialState.withElfAttackPower(i).performCombat(true);
         }
         
