@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2018.day15;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -128,7 +127,9 @@ class State {
                     
                     // Use Dijkstra's shortest path algorithm.
                     Set<Point> unvisited = new HashSet<>();
-                    Map<Point, Set<List<Point>>> shortestPaths = new HashMap<>();
+                    Map<Point, OptionalInt> pathLengths = new HashMap<>();
+                    Map<Point, Set<Point>> firstSteps = new HashMap<>();
+                    
                     int width = map.length;
                     int height = map[0].length;
                     for (int x = 0; x != width; x++) {
@@ -136,71 +137,63 @@ class State {
                             Point point = new Point(x, y);
                             if (map[x][y] == Square.OPEN_AREA && otherUnits.stream().noneMatch(otherUnit -> otherUnit.getLocation().equals(point))) {
                                 unvisited.add(point);
-                                shortestPaths.put(point, new HashSet<>());
+                                firstSteps.put(point, new HashSet<>());
+                                pathLengths.put(point, OptionalInt.empty());
                             }
                         }
                     }
                     
-                    shortestPaths.get(unit.getLocation()).add(List.of());
+                    pathLengths.put(unit.getLocation(), OptionalInt.of(0));
                     
                     Optional<Point> nextU = unvisited.stream()
-                            .filter(p -> !shortestPaths.get(p).isEmpty())
-                            .min(Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size()));
+                            .filter(p -> pathLengths.get(p).isPresent())
+                            .min(Comparator.comparing(p -> pathLengths.get(p).getAsInt()));
                     while (nextU.isPresent()) {
                         Point u = nextU.get();
                         unvisited.remove(u);
                         
-                        int altPathLength = shortestPaths.get(u).iterator().next().size() + 1;
+                        int altPathLength = pathLengths.get(u).getAsInt() + 1;
                         for (Point neighbour : u.adjacent()) {
                             if (unvisited.contains(neighbour)) {
-                                Set<List<Point>> paths = shortestPaths.get(neighbour);
-                                OptionalInt pathLength;
-                                if (paths.isEmpty()) {
-                                    pathLength = OptionalInt.empty();
-                                } else {
-                                    pathLength = OptionalInt.of(paths.iterator().next().size());
-                                }
-                                if (pathLength.isPresent() && altPathLength < pathLength.getAsInt()) {
+                                if (pathLengths.get(neighbour).isPresent() && altPathLength < pathLengths.get(neighbour).getAsInt()) {
                                     // Shorter path found.
-                                    LOGGER.debug("Shorter path found.");
-                                    paths.clear();
+                                    LOGGER.trace("Shorter path found.");
+                                    firstSteps.get(neighbour).clear();
                                 }
                                 
-                                if (!pathLength.isPresent() || altPathLength <= pathLength.getAsInt()) {
-                                    LOGGER.debug("Finding new paths to {}, based on {} paths to {}.", neighbour, shortestPaths.get(u).size(), u);
-                                    Set<List<Point>> newPaths = shortestPaths.get(u).parallelStream()
-                                        // copy the shortest path to u
-                                        .map(ArrayList::new)
-                                        // add neighbour as the final step
-                                        .peek(list -> list.add(neighbour))
-                                        .collect(Collectors.toSet());
-                                    LOGGER.debug("Adding {} newly found shortest paths to {} ({} paths).", newPaths.size(), neighbour, paths.size());
-                                    paths.addAll(newPaths);
-                                    LOGGER.debug("Newly found shortest paths added to {}, total paths: {}.", neighbour, paths.size());
+                                if (!pathLengths.get(neighbour).isPresent() || altPathLength <= pathLengths.get(neighbour).getAsInt()) {
+                                    
+                                    Set<Point> newFirstSteps = firstSteps.get(u);
+                                    if (newFirstSteps.isEmpty()) {
+                                        // this is the very start of a path
+                                        newFirstSteps = Set.of(neighbour);
+                                    }
+                                    firstSteps.get(neighbour).addAll(newFirstSteps);
+                                    
+                                    pathLengths.put(neighbour, OptionalInt.of(altPathLength));
                                 }
                             }
                         }
                         
-                        LOGGER.debug("Remaining unvisited: {}", unvisited.size());
+                        LOGGER.trace("Remaining unvisited: {}", unvisited.size());
                         nextU = unvisited.stream()
-                                .filter(p -> !shortestPaths.get(p).isEmpty())
-                                .min(Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size()));
+                                .filter(p -> pathLengths.get(p).isPresent())
+                                .min(Comparator.comparing(p -> pathLengths.get(p).getAsInt()));
                     }
                     
-                    LOGGER.trace("Shortest paths: {}", shortestPaths);
+                    LOGGER.trace("First steps: {}", firstSteps);
                     
                     // If multiple squares are in range and tied for being reachable in the fewest
                     // steps, the square which is first in reading order is chosen.
-                    Comparator<Point> comparator = Comparator.comparing(p -> shortestPaths.get(p).iterator().next().size());
+                    Comparator<Point> comparator = Comparator.comparing(p -> pathLengths.get(p).getAsInt());
                     comparator = comparator.thenComparing(Comparator.naturalOrder());
                     Optional<Point> newLocation = adjacentPointsToTarget.stream()
-                            .filter(p -> !shortestPaths.get(p).isEmpty())
+                            .filter(p -> pathLengths.get(p).isPresent())
                             .min(comparator)
-                            .map(shortestPaths::get)
+                            // Find the first step.
+                            .map(firstSteps::get)
                             .orElse(Set.of())
                             .stream()
-                            // Find the first step.
-                            .map(path -> path.get(0))
                             // If multiple steps would put the unit equally closer to its destination,
                             // the unit chooses the step which is first in reading order.
                             .min(Comparator.naturalOrder());
