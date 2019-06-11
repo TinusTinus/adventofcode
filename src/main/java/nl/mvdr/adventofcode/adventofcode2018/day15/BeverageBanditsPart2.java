@@ -22,6 +22,8 @@ public class BeverageBanditsPart2 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         State initialState = State.parse(inputFilePath);
         
+        LOGGER.debug("Initial state: \n{}", initialState);
+        
         // Binary search for the lowest attack power which lets the elves win.
         int lowerBound = State.DEFAULT_ATTACK_POWER; // From part 1: the goblins win in a fair fight.
         int upperBound = Unit.MAX_HIT_POINTS; // This means elves are oneshotting goblins. A higher attack power than this has no benefits.
@@ -40,10 +42,14 @@ public class BeverageBanditsPart2 implements PathSolver {
             }
         }
         
-        LOGGER.info("{}, {}", lowerBound, upperBound);
+        LOGGER.debug("{}, {}", lowerBound, upperBound);
         
         State state = initialState.withElfAttackPower(upperBound);
         State endState = state.performCombat();
+        
+        LOGGER.debug("End state with attack power {}:\n{}", lowerBound, initialState.withElfAttackPower(lowerBound).performCombat());
+        LOGGER.debug("End state with attack power {}:\n{}", upperBound, endState);
+        
         return "" + endState.getOutcome();
     }
     

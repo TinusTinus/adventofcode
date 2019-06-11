@@ -50,6 +50,7 @@ public class BeverageBanditsPart2Test extends SolverTest<BeverageBanditsPart2> {
     @Disabled
     @Test
     public void testSolution() {
+        // 59960 is too low!
         assertSolution("?", "input-day15-2018.txt");
     }
 }
