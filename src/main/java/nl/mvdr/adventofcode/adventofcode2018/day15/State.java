@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day15;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +59,10 @@ class State {
                     builder.append(unitsHere.iterator().next().getRace());
                 }
             }
+            builder.append("    ");
+            builder.append(unitsAt(y).stream()
+                    .map(Unit::toString)
+                    .collect(Collectors.joining(", ")));
             builder.append("\n");
         }
         
@@ -75,6 +80,19 @@ class State {
         return units.stream()
                 .filter(unit -> unit.getX() == x && unit.getY() == y)
                 .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Returns all units at the given y coordinate, sorted by their x coordinate.
+     * 
+     * @param y y coordinate
+     * @return units at y
+     */
+    private List<Unit> unitsAt(int y) {
+        return units.stream()
+                .filter(unit -> unit.getY() == y)
+                .sorted(Comparator.comparing(Unit::getX))
+                .collect(Collectors.toList());
     }
     
     /**
