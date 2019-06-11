@@ -31,14 +31,12 @@ public class BeverageBanditsPart2 implements PathSolver {
             LOGGER.debug("{}, {}, {}", lowerBound, middle, upperBound);
             
             State state = initialState.withElfAttackPower(middle);
+            // Note: this could be optimized by stopping computation after the first elf death.
             State endState = state.performCombat();
-            Race winner = endState.getWinner();
-            if (winner == Race.GOBLIN) {
-                lowerBound = middle;
-            } else if (winner == Race.ELF) {
+            if (endState.getElfDeaths() == 0) {
                 upperBound = middle;
             } else {
-                throw new IllegalStateException("Unexpected winner: " + winner);
+                lowerBound = middle;
             }
         }
         

@@ -37,6 +37,8 @@ class State {
     private final int rounds;
     /** Attack power per race. */
     private final Map<Race, Integer> attackPower;
+    /** Number of elves that have died so far. */
+    private final int elfDeaths;
     
     /**
      * Constructor.
@@ -45,13 +47,15 @@ class State {
      * @param units currently alive units
      * @param completedRound number of completed rounds, where every unit got a turn
      * @param attackPower attack power
+     * @param elfDeaths number of elves that have died so far
      */
-    private State(Square[][] map, Set<Unit> units, int completedRounds, Map<Race, Integer> attackPower) { 
+    private State(Square[][] map, Set<Unit> units, int completedRounds, Map<Race, Integer> attackPower, int elfDeaths) { 
         super();
         this.map = map;
         this.units = units;
         this.rounds = completedRounds;
         this.attackPower = attackPower;
+        this.elfDeaths = elfDeaths;
     }
     
     /**
@@ -66,20 +70,9 @@ class State {
                 .count() < 2;
     }
     
-    /**
-     * Returns the race of this battle's winner.
-     * 
-     * This is only relevant after combat has completed (see
-     * {@link #isCombatDone()}).
-     * 
-     * @return the winning race
-     */
-    Race getWinner() {
-        return units.stream()
-            .map(Unit::getRace)
-            .distinct()
-            .findFirst()
-            .get();
+    /** @return number of elf deaths */
+    public int getElfDeaths() {
+        return elfDeaths;
     }
     
     /**
@@ -109,7 +102,7 @@ class State {
     State withElfAttackPower(int elfAttackPower) {
         Map<Race, Integer> newAttackPower = Map.of(Race.GOBLIN, attackPower.get(Race.GOBLIN), Race.ELF, elfAttackPower);
         
-        return new State(map, units, rounds, newAttackPower);
+        return new State(map, units, rounds, newAttackPower, elfDeaths);
     }
 
     /**
@@ -123,6 +116,8 @@ class State {
                 .collect(Collectors.toList());
         int i = 0;
         boolean done = false;
+        
+        int newElfDeaths = 0;
         
         while (!done && i < sortedUnits.size()) {
             Unit unit = sortedUnits.get(i);
@@ -269,6 +264,9 @@ class State {
                         if (targetIndex < i) { 
                             i--;
                         }
+                        if (target.getRace() == Race.ELF) {
+                            newElfDeaths++;
+                        }
                     }
                 } else {
                     LOGGER.debug("Unit {} at {} cannot attack a target.", movedUnit, movedUnit.getLocation());
@@ -282,7 +280,7 @@ class State {
             nextRounds++;
         }
         
-        State result = new State(map, new HashSet<>(sortedUnits), nextRounds, attackPower);
+        State result = new State(map, new HashSet<>(sortedUnits), nextRounds, attackPower, elfDeaths + newElfDeaths);
         LOGGER.debug("Next state:\n{}", result);
         return result;
     }
@@ -399,7 +397,7 @@ class State {
             }
         }
         
-        State result = new State(map, units, 0, Map.of(Race.GOBLIN, Integer.valueOf(DEFAULT_ATTACK_POWER), Race.ELF, Integer.valueOf(DEFAULT_ATTACK_POWER)));
+        State result = new State(map, units, 0, Map.of(Race.GOBLIN, Integer.valueOf(DEFAULT_ATTACK_POWER), Race.ELF, Integer.valueOf(DEFAULT_ATTACK_POWER)), 0);
         LOGGER.debug("Parsed state:\n{}", result);
         return result;
     }
