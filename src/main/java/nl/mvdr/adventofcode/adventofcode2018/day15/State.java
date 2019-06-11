@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 class State {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(State.class);
+
+    private static final int DEFAULT_ATTACK_POWER = 3;
     
     /** The static map, consisting of walls and open areas. */
     private final Square[][] map;
@@ -32,18 +34,23 @@ class State {
     private final Set<Unit> units;
     /** The number of rounds. Note that the last round was not complete. */
     private final int rounds;
+    /** Attack power per race. */
+    private final Map<Race, Integer> attackPower;
     
     /**
      * Constructor.
      * 
      * @param map static map, consisting of walls and open areas
      * @param units currently alive units
+     * @param completedRound number of completed rounds, where every unit got a turn
+     * @param attackPower attack power
      */
-    private State(Square[][] map, Set<Unit> units, int completedRounds) { 
+    private State(Square[][] map, Set<Unit> units, int completedRounds, Map<Race, Integer> attackPower) { 
         super();
         this.map = map;
         this.units = units;
         this.rounds = completedRounds;
+        this.attackPower = attackPower;
     }
     
     /**
@@ -51,7 +58,7 @@ class State {
      * 
      * @return whether combat has ended; that is, whether either all elves or all goblins have died
      */
-    boolean isCombatDone() {
+    private boolean isCombatDone() {
         return units.stream()
                 .map(Unit::getRace)
                 .distinct()
@@ -91,13 +98,25 @@ class State {
         
         return totalHitPoints * rounds; 
     }
+    
+    /**
+     * Returns a copy of this state with the given elf attack power value.
+     * 
+     * @param elfAttackPower elf attack power
+     * @return state
+     */
+    State wihtElfAttackPower(int elfAttackPower) {
+        Map<Race, Integer> newAttackPower = Map.of(Race.GOBLIN, attackPower.get(Race.GOBLIN), Race.ELF, elfAttackPower);
+        
+        return new State(map, units, rounds, newAttackPower);
+    }
 
     /**
      * Performs a single round of combat.
      * 
      * @return new state
      */
-    State performCombatRound() {
+    private State performCombatRound() {
         List<Unit> sortedUnits = units.stream()
                 .sorted(Unit.READING_ORDER)
                 .collect(Collectors.toList());
@@ -239,7 +258,7 @@ class State {
                     LOGGER.debug("Unit {} at {} is attacking {} at {}.", movedUnit, movedUnit.getLocation(), target, target.getLocation());
                     
                     // The unit deals damage equal to its attack power to the selected target, reducing its hit points by that amount.
-                    int remainingHitPoints = target.getHitPoints() - Unit.ATTACK_POWER;
+                    int remainingHitPoints = target.getHitPoints() - attackPower.get(unit.getRace());
                     if (0 < remainingHitPoints) {
                         sortedUnits.set(targetIndex, new Unit(target.getRace(), target.getLocation(), remainingHitPoints));
                     } else {
@@ -262,9 +281,24 @@ class State {
             nextRounds++;
         }
         
-        State result = new State(map, new HashSet<>(sortedUnits), nextRounds);
+        State result = new State(map, new HashSet<>(sortedUnits), nextRounds, attackPower);
         LOGGER.debug("Next state:\n{}", result);
         return result;
+    }
+    
+    /**
+     * Resolves combat.
+     * 
+     * @return end state, after combat is done
+     */
+    State performCombat() {
+        State state = this;
+        
+        while(!state.isCombatDone()) {
+            state = state.performCombatRound();
+        }
+        
+        return state;
     }
     
     /**
@@ -364,7 +398,7 @@ class State {
             }
         }
         
-        State result = new State(map, units, 0);
+        State result = new State(map, units, 0, Map.of(Race.GOBLIN, Integer.valueOf(DEFAULT_ATTACK_POWER), Race.ELF, Integer.valueOf(DEFAULT_ATTACK_POWER)));
         LOGGER.debug("Parsed state:\n{}", result);
         return result;
     }

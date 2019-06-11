@@ -20,15 +20,11 @@ public class BeverageBanditsPart2 implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        State initialState = State.parse(inputFilePath);
+        
         // TODO revise
         
-        State state = State.parse(inputFilePath);
-        
-        while(!state.isCombatDone()) {
-            state = state.performCombatRound();
-        }
-        
-        return "" + state.getOutcome();
+        return "" + initialState.performCombat().getOutcome();
     }
     
     /**
