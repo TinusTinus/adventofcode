@@ -71,7 +71,7 @@ class State {
     }
     
     /** @return number of elf deaths */
-    public int getElfDeaths() {
+    int getElfDeaths() {
         return elfDeaths;
     }
     
@@ -296,7 +296,7 @@ class State {
     State performCombat(boolean stopAtElfDeath) {
         State state = this;
         
-        while(!state.isCombatDone()) {
+        while(!state.isCombatDone() && (!stopAtElfDeath || 0 == state.getElfDeaths())) {
             state = state.performCombatRound(stopAtElfDeath);
         }
         
