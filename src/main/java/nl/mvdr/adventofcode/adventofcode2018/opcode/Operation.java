@@ -13,7 +13,7 @@ interface Operation {
      * @param a input parameter A; may contain an immediate value or a register number, depending on the OpCode
      * @param b input parameter A; may contain an immediate value or a register number, depending on the OpCode
      * @param registers register values before the operation
-     * @return register values after the operation
+     * @return output value (to be placed into register C)
      */
     int computeOutput(int a, int b, int[] registers);
 }
