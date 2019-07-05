@@ -77,6 +77,17 @@ class Instruction {
         this.c = c;
     }
 
+    /**
+     * Executes this instruction.
+     * 
+     * Note: this method does not modify the register array; instead it returns a new array containing the output values.
+     * 
+     * @param registers register values before the operation
+     * @return a new array, containing the register values after the operation
+     */
+    int[] execute(int[] registers) {
+        return opcode.perform(a, b, c, registers);
+    }
     
     @Override
     public String toString() {

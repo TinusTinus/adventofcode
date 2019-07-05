@@ -34,4 +34,15 @@ public class InstructionTest {
         
         Assertions.assertEquals(input, string);
     }
+    
+    /** Test case for {@link Instruction#execute(int[])}. */
+    @Test
+    public void testExecute() {
+        Instruction instruction = Instruction.parse("mulr 2 1 2");
+        int[] registers = { 3, 2, 1, 1};
+        
+        int[] result = instruction.execute(registers);
+        
+        Assertions.assertArrayEquals(new int[] { 3, 2, 2, 1}, result);
+    }
 }
