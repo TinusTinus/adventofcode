@@ -71,8 +71,8 @@ enum Opcode {
      * 
      * Note: this method does not modify the register array; instead it returns a new array containing the output values.
      * 
-     * @param a input; either an immediate value or a register number
-     * @param b input; either an immediate value or a register number
+     * @param a input A; either an immediate value or a register number
+     * @param b input B; either an immediate value or a register number
      * @param c number of the register to which to write the output
      * @param registers register values before the operation
      * @return a new array, containing the register values after the operation
@@ -88,5 +88,10 @@ enum Opcode {
         }
         
         return result;
+    }
+    
+    @Override
+    public String toString() {
+        return this.name().toLowerCase();
     }
 }
