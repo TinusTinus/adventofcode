@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
+// TODO this solution is correct but doesn't perform.
+// computed up until: [315, 2295660, 0, 10551330, 6, 117]
 public class GoWithTheFlowPart2 extends GoWithTheFlow {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlowPart2.class);

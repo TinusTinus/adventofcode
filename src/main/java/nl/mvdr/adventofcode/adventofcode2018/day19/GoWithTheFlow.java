@@ -3,9 +3,13 @@ package nl.mvdr.adventofcode.adventofcode2018.day19;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
 
@@ -16,6 +20,8 @@ import nl.mvdr.adventofcode.PathSolver;
  * @author Martijn van de Rijdt
  */
 abstract class GoWithTheFlow implements PathSolver {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlow.class);
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
@@ -34,11 +40,16 @@ abstract class GoWithTheFlow implements PathSolver {
             .collect(Collectors.toList());
         
         int[] registers = getInitialRegisters();
-        
+        long executed = 0L;
         while (0 <= registers[instructionPointerRegister] && registers[instructionPointerRegister] < instructions.size()) {
             Instruction instruction = instructions.get(registers[instructionPointerRegister]);
             registers = instruction.execute(registers);
             registers[instructionPointerRegister]++;
+            
+            executed++;
+            if (executed % 10_000_000L == 0) {
+                LOGGER.info(Arrays.toString(registers));
+            }
         }
         
         return "" + registers[0];
