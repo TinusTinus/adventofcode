@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class GoWithTheFlowPart1 extends GoWithTheFlow {
+public class GoWithTheFlowPart2 extends GoWithTheFlow {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlowPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlowPart2.class);
     
     /** @return initial value for the registers */
     protected int[] getInitialRegisters() {
-        return new int[] { 0, 0, 0, 0, 0, 0 };
+        return new int[] { 1, 0, 0, 0, 0, 0 };
     }
     
     /**
@@ -24,7 +24,7 @@ public class GoWithTheFlowPart1 extends GoWithTheFlow {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        GoWithTheFlowPart1 solver = new GoWithTheFlowPart1();
+        GoWithTheFlowPart2 solver = new GoWithTheFlowPart2();
         String solution = solver.solve("input-day19-2018.txt");
         LOGGER.info(solution);
     }
