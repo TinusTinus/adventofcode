@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day16;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -34,14 +37,16 @@ class Sample {
     /**
      * Parses a line containing register values.
      * 
+     * Use {@link #parse(String, String, String)} to obtain an instance of this class.
+     * 
      * @param line line containing registers, for example: "Before: [3, 2, 1, 1]" or "After:  [3, 2, 1, 1]"
      * @return register values
      */
     private static int[] parseRegisters(String line) {
         // Strip off the prefix "Before:  [" or "After:  [" and the suffix "]"
-        String registerString = line.substring(9, 1);
+        String registerString = line.substring(9, line.length() - 1);
         
-        String[] parts = registerString.split(",");
+        String[] parts = registerString.split(", ");
         
         return Stream.of(parts)
                 .mapToInt(Integer::parseInt)
@@ -60,5 +65,27 @@ class Sample {
         this.registersBefore = registersBefore;
         this.instruction = instruction;
         this.registersAfter = registersAfter;
+    }
+    
+    /**
+     * Determines the opcodes, like which this sample behaves, ignoring the instruction's opcode number.
+     * 
+     * @return matching opcodes
+     */
+    Set<Opcode> getMatchingOpcodes() {
+        return Stream.of(Opcode.values())
+                .filter(this::matches)
+                .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Determines whether this sample behaves like the given opcode, ignoring the instruction's opcode number.
+     * 
+     * @param opcode opcode
+     * @return whether this sample behaves like the opcode
+     */
+    private boolean matches(Opcode opcode) {
+        int[] opcodeResult = opcode.perform(instruction.getA(), instruction.getB(), instruction.getC(), registersBefore);
+        return Arrays.equals(registersAfter, opcodeResult);
     }
 }

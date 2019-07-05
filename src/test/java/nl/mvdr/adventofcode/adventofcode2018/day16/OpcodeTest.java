@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
  */
 public class OpcodeTest {
     /**
-     * Test case for {@link Opcode#MULR} based on an example from the specification:
+     * Test case for {@link Opcode#MULR} based on an example from the puzzle:
      * 
      * Before: [3, 2, 1, 1]
      * 9 2 1 2
@@ -35,7 +35,7 @@ public class OpcodeTest {
     }
     
     /**
-     * Test case for {@link Opcode#ADDI} based on an example from the specification:
+     * Test case for {@link Opcode#ADDI} based on an example from the puzzle:
      * 
      * Before: [3, 2, 1, 1]
      * 9 2 1 2
@@ -58,7 +58,7 @@ public class OpcodeTest {
     }
     
     /**
-     * Test case for {@link Opcode#SETI} based on an example from the specification:
+     * Test case for {@link Opcode#SETI} based on an example from the puzzle:
      * 
      * Before: [3, 2, 1, 1]
      * 9 2 1 2
@@ -80,7 +80,7 @@ public class OpcodeTest {
     }
     
     /**
-     * Test case for {@link Opcode#SETI} based on an example from the specification:
+     * Test case for {@link Opcode#SETI} based on an example from the puzzle:
      * 
      * Before: [3, 2, 1, 1]
      * 9 2 1 2
