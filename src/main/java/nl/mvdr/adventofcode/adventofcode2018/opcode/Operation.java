@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2018.day16;
+package nl.mvdr.adventofcode.adventofcode2018.opcode;
 
 /**
  * Function to compute the output of an {@link Opcode}.

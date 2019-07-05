@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
+
 /**
  * A sample captured by monitoring the CPU.
  *

@@ -1,6 +1,7 @@
-package nl.mvdr.adventofcode.adventofcode2018.day16;
+package nl.mvdr.adventofcode.adventofcode2018.opcode;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -103,5 +104,23 @@ public class OpcodeTest {
                 Assertions.assertFalse(Arrays.equals(new int[] { 3, 2, 2, 1}, result));
             }
         }
+    }
+    
+    /** Test case for {@link Opcode#parse(String)}. */
+    @Test
+    public void testParse() {
+        String input = "addr";
+        
+        Opcode result = Opcode.parse(input);
+        
+        Assertions.assertEquals(Opcode.ADDR, result);
+    }
+    
+    /** Test case for {@link Opcode#parse(String)}. */
+    @Test
+    public void testParseInvalidInput() {
+        String input = "herpderp";
+        
+        Assertions.assertThrows(NoSuchElementException.class, () -> Opcode.parse(input));
     }
 }

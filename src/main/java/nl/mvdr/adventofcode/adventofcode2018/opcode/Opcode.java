@@ -1,6 +1,7 @@
-package nl.mvdr.adventofcode.adventofcode2018.day16;
+package nl.mvdr.adventofcode.adventofcode2018.opcode;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-enum Opcode {
+public enum Opcode {
     // Addition
     /** Opcode addr (add register) stores into register C the result of adding register A and register B. */
     ADDR((a, b, registers) -> registers[a] + registers[b]),
@@ -77,7 +78,7 @@ enum Opcode {
      * @param registers register values before the operation
      * @return a new array, containing the register values after the operation
      */
-    int[] perform(int a, int b, int c, int[] registers) {
+    public int[] perform(int a, int b, int c, int[] registers) {
         int outputValue = operation.computeOutput(a, b, registers);
         
         int[] result = Arrays.copyOf(registers, registers.length);
@@ -93,5 +94,18 @@ enum Opcode {
     @Override
     public String toString() {
         return this.name().toLowerCase();
+    }
+    
+    /**
+     * Parses the given string into an Opcode.
+     * 
+     * @param text text; should contain the lowercase name of an opcode (for example: "addr").
+     * @return corresponding opcode
+     */
+    public static Opcode parse(String text) {
+        return Stream.of(Opcode.values())
+                .filter(opcode -> opcode.toString().equals(text))
+                .findFirst()
+                .get();
     }
 }
