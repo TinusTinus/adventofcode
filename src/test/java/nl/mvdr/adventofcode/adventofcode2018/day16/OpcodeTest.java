@@ -103,9 +103,5 @@ public class OpcodeTest {
                 Assertions.assertFalse(Arrays.equals(new int[] { 3, 2, 2, 1}, result));
             }
         }
-        
-        
-        
-        
     }
 }
