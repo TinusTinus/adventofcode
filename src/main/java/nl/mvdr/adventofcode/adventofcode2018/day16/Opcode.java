@@ -2,6 +2,9 @@ package nl.mvdr.adventofcode.adventofcode2018.day16;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Definition of an opcode.
  *
@@ -48,6 +51,9 @@ enum Opcode {
     /** Opcode eqrr (equal register/register) sets register C to 1 if register A is equal to register B. Otherwise, register C is set to 0. */
     EQRR((a, b, registers) -> registers[a] == registers[b] ? 1 : 0);
     
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Opcode.class);
+    
     /** Function to compute the output for this opcode. */
     private final Operation operation;
     
@@ -76,6 +82,11 @@ enum Opcode {
         
         int[] result = Arrays.copyOf(registers, registers.length);
         result[c] = outputValue;
+        
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("{} {} {} {} {} -> {}", Arrays.toString(registers), this, a, b, c, Arrays.toString(result));
+        }
+        
         return result;
     }
 }
