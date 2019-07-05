@@ -67,11 +67,12 @@ class Sample {
         this.registersAfter = registersAfter;
     }
     
-    /**
-     * Determines the opcodes, like which this sample behaves, ignoring the instruction's opcode number.
-     * 
-     * @return matching opcodes
-     */
+    /** @return whether this sample behaves like three or more opcodes */
+    boolean behavesLikeAtLeastThreeOpcodes() {
+        return 3 <= getMatchingOpcodes().size();
+    }
+    
+    /** @return the opcodes, like which this sample behaves, ignoring the instruction's opcode number */
     Set<Opcode> getMatchingOpcodes() {
         return Stream.of(Opcode.values())
                 .filter(this::matches)
