@@ -40,9 +40,15 @@ public class ChronalClassificationPart2 implements PathSolver {
             }
         }
         
-        LOGGER.info("Opcode mapping: " + opcodeMapping);
+        // The registers start with the value 0.
+        int[] registers = {0, 0, 0, 0};
+        // Execute the instructions.
+        for (Instruction instruction : input.getInstructions()) {
+            Opcode opcode = opcodeMapping.get(Integer.valueOf(instruction.getOpcodeNumber()));
+            registers = opcode.perform(instruction.getA(), instruction.getB(), instruction.getC(), registers);
+        }
         
-        return null; // TODO
+        return "" + registers[0];
     }
     
     /**
