@@ -18,6 +18,9 @@ class Sample {
     /** Register values after the instruction was executed. */
     private final int[] registersAfter;
     
+    /** The opcodes, like which this sample behaves, ignoring the instruction's opcode number. */
+    private final Set<Opcode> matchingOpcodes;
+    
     /**
      * Parses three consecutive input lines into a sample.
      * 
@@ -62,9 +65,14 @@ class Sample {
      */
     private Sample(int[] registersBefore, Instruction instruction, int[] registersAfter) {
         super();
+        
         this.registersBefore = registersBefore;
         this.instruction = instruction;
         this.registersAfter = registersAfter;
+        
+        this.matchingOpcodes = Stream.of(Opcode.values())
+                .filter(this::matches)
+                .collect(Collectors.toSet());
     }
     
     /** @return whether this sample behaves like three or more opcodes */
@@ -74,9 +82,7 @@ class Sample {
     
     /** @return the opcodes, like which this sample behaves, ignoring the instruction's opcode number */
     Set<Opcode> getMatchingOpcodes() {
-        return Stream.of(Opcode.values())
-                .filter(this::matches)
-                .collect(Collectors.toSet());
+        return matchingOpcodes;
     }
     
     /**
@@ -88,6 +94,10 @@ class Sample {
     private boolean matches(Opcode opcode) {
         int[] opcodeResult = opcode.perform(instruction.getA(), instruction.getB(), instruction.getC(), registersBefore);
         return Arrays.equals(registersAfter, opcodeResult);
+    }
+    
+    Instruction getInstruction() {
+        return instruction;
     }
     
     @Override
