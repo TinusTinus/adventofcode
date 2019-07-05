@@ -89,4 +89,9 @@ class Sample {
         int[] opcodeResult = opcode.perform(instruction.getA(), instruction.getB(), instruction.getC(), registersBefore);
         return Arrays.equals(registersAfter, opcodeResult);
     }
+    
+    @Override
+    public String toString() {
+        return Arrays.toString(registersBefore) + " " + instruction + " " + Arrays.toString(registersAfter);
+    }
 }
