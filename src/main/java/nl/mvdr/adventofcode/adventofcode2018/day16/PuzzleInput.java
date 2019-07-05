@@ -57,18 +57,10 @@ class PuzzleInput {
         return new PuzzleInput(Collections.unmodifiableList(samples), Collections.unmodifiableList(instructions));
     }
     
-    /** @return samples, from the first half of the puzzle input */
-    List<Sample> getSamples() {
-        return samples;
-    }
-
-    /** @return instructions, from the second half of the puzzle input */
-    List<Instruction> getInstructions() {
-        return instructions;
-    }
-    
     /**
      * Constructor.
+     * 
+     * Use {@link PuzzleInput#parse(Path)} to obtain an instance of this class.
      * 
      * @param samples samples
      * @param instructions instructions
@@ -77,6 +69,16 @@ class PuzzleInput {
         super();
         this.samples = samples;
         this.instructions = instructions;
+    }
+    
+    /** @return samples, from the first half of the puzzle input */
+    List<Sample> getSamples() {
+        return samples;
+    }
+
+    /** @return instructions, from the second half of the puzzle input */
+    List<Instruction> getInstructions() {
+        return instructions;
     }
 
     @Override
