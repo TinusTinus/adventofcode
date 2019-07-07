@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Definition of an opcode.
+ * Definition of an opcode, for the programmable time travel device featured in multiple puzzles.
  *
  * @author Martijn van de Rijdt
  */
