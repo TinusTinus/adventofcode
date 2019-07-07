@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to the day 16 puzzle of 2018's Advent of Code:
+ * Solution to the day 17 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/17">Reservoir Research</a>.
  *
  * @author Martijn van de Rijdt
