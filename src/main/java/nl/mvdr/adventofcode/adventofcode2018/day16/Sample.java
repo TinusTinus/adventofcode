@@ -16,7 +16,7 @@ class Sample {
     /** Register values before the instruction was executed. */
     private final int[] registersBefore;
     /** The instruction. */
-    private final Instruction instruction;
+    private final OpcodeNumberInstruction instruction;
     /** Register values after the instruction was executed. */
     private final int[] registersAfter;
     
@@ -33,7 +33,7 @@ class Sample {
      */
     static Sample parse(String registersBeforeLine, String instructionLine, String registersAfterLine) {
         int[] registersBefore = parseRegisters(registersBeforeLine);
-        Instruction instruction = Instruction.parse(instructionLine);
+        OpcodeNumberInstruction instruction = OpcodeNumberInstruction.parse(instructionLine);
         int[] registersAfter = parseRegisters(registersAfterLine);
         
         return new Sample(registersBefore, instruction, registersAfter);
@@ -65,7 +65,7 @@ class Sample {
      * @param instruction the instruction
      * @param registersAfter register values after the instruction was executed
      */
-    private Sample(int[] registersBefore, Instruction instruction, int[] registersAfter) {
+    private Sample(int[] registersBefore, OpcodeNumberInstruction instruction, int[] registersAfter) {
         super();
         
         this.registersBefore = registersBefore;
@@ -98,7 +98,7 @@ class Sample {
         return Arrays.equals(registersAfter, opcodeResult);
     }
     
-    Instruction getInstruction() {
+    OpcodeNumberInstruction getInstruction() {
         return instruction;
     }
     

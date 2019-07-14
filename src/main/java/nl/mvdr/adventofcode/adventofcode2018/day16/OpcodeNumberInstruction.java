@@ -1,11 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day16;
 
 /**
- * Representation of an instruction.
+ * Representation of an instruction, where the opcode is represented by a numeric value.
  *
  * @author Martijn van de Rijdt
  */
-class Instruction {
+class OpcodeNumberInstruction {
     
     /** Number of the opcode. */
     private final int opcodeNumber;
@@ -23,7 +23,7 @@ class Instruction {
      * @param line textual representation of the instruction, for example: 9 2 1 2
      * @return instruction
      */
-    static Instruction parse(String line) {
+    static OpcodeNumberInstruction parse(String line) {
         String[] parts = line.split(" ");
         
         if (parts.length != 4) {
@@ -35,7 +35,7 @@ class Instruction {
         int b = Integer.parseInt(parts[2]);
         int c = Integer.parseInt(parts[3]);
         
-        return new Instruction(opcodeNumber, a, b, c);
+        return new OpcodeNumberInstruction(opcodeNumber, a, b, c);
     }
     
     /** @return number of the opcode */
@@ -68,7 +68,7 @@ class Instruction {
      * @param b input B; either an immediate value or a register number
      * @param c number of the register to which to write the output
      */
-    private Instruction(int opcodeNumber, int a, int b, int c) {
+    private OpcodeNumberInstruction(int opcodeNumber, int a, int b, int c) {
         this.opcodeNumber = opcodeNumber;
         this.a = a;
         this.b = b;

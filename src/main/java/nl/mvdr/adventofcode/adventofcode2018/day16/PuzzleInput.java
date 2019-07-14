@@ -21,7 +21,7 @@ class PuzzleInput {
     private final List<Sample> samples;
     
     /** Instructions, from the second half of the puzzle input. Not relevant for part 1. */
-    private final List<Instruction> instructions;
+    private final List<OpcodeNumberInstruction> instructions;
 
     /**
      * Parses the puzzle input file.
@@ -40,7 +40,7 @@ class PuzzleInput {
         Iterator<String> lineIterator = lines.iterator();
         
         List<Sample> samples = new ArrayList<>();
-        List<Instruction> instructions = new ArrayList<>();
+        List<OpcodeNumberInstruction> instructions = new ArrayList<>();
         
         while (lineIterator.hasNext()) {
             String line = lineIterator.next();
@@ -49,7 +49,7 @@ class PuzzleInput {
                 Sample sample = Sample.parse(line, lineIterator.next(), lineIterator.next());
                 samples.add(sample);
             } else {
-                Instruction instruction = Instruction.parse(line);
+                OpcodeNumberInstruction instruction = OpcodeNumberInstruction.parse(line);
                 instructions.add(instruction);
             }
         }
@@ -65,7 +65,7 @@ class PuzzleInput {
      * @param samples samples
      * @param instructions instructions
      */
-    private PuzzleInput(List<Sample> samples, List<Instruction> instructions) {
+    private PuzzleInput(List<Sample> samples, List<OpcodeNumberInstruction> instructions) {
         super();
         this.samples = samples;
         this.instructions = instructions;
@@ -77,7 +77,7 @@ class PuzzleInput {
     }
 
     /** @return instructions, from the second half of the puzzle input */
-    List<Instruction> getInstructions() {
+    List<OpcodeNumberInstruction> getInstructions() {
         return instructions;
     }
 

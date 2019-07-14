@@ -1,8 +1,9 @@
-package nl.mvdr.adventofcode.adventofcode2018.day19;
+package nl.mvdr.adventofcode.adventofcode2018.opcode;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import nl.mvdr.adventofcode.adventofcode2018.opcode.Instruction;
 import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
 
 /**

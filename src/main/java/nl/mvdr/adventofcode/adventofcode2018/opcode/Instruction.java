@@ -1,16 +1,14 @@
-package nl.mvdr.adventofcode.adventofcode2018.day19;
+package nl.mvdr.adventofcode.adventofcode2018.opcode;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
 
 /**
  * Representation of an instruction.
  *
  * @author Martijn van de Rijdt
  */
-class Instruction {
+public class Instruction {
     
     /** The opcode. */
     private final Opcode opcode;
@@ -27,7 +25,7 @@ class Instruction {
      * @param lines textual representations of instructions, for example: addr 2 1 2
      * @return instructions
      */
-    static List<Instruction> parse(List<String> lines) { 
+    public static List<Instruction> parse(List<String> lines) { 
         return lines.stream()
                 .map(Instruction::parse)
                 .collect(Collectors.toList());
@@ -99,7 +97,7 @@ class Instruction {
      * @param registers register values before the operation
      * @return a new array, containing the register values after the operation
      */
-    int[] execute(int[] registers) {
+    public int[] execute(int[] registers) {
         return opcode.perform(a, b, c, registers);
     }
     

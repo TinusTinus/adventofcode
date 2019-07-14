@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.adventofcode2018.opcode.Instruction;
 
 /**
  * Solution to the day 16 puzzle of 2018's Advent of Code:
