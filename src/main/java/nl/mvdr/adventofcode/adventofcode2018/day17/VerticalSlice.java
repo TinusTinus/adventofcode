@@ -6,6 +6,9 @@ import java.util.Set;
 
 import javax.annotation.processing.Generated;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 
 /**
@@ -14,15 +17,15 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  * @author Martijn van de Rijdt
  */
 class VerticalSlice {
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerticalSlice.class);
+    
     /** The square meter where water originates. */
     private final Point spring;
-    
     /** The square meters where the ground is clay. */
     private final Set<Point> clay;
-    
     /** The square meters where water has settled. */
     private final Set<Point> water;
-    
     /** The square meters where water has passed through. */
     private final Set<Point> wetSand;
 
@@ -108,13 +111,23 @@ class VerticalSlice {
         while (!previous.equals(current)) {
             previous = current;
             current = current.tick();
+            LOGGER.debug("Current {}", current);
         }
         return current;
     }
     
     /** @return number of tiles reached by water, that is: the number of tiles where water is at rest + the number of tiles where water has passed through */
     int reachedByWater() {
-        return water.size() + wetSand.size();
+        // Eliminate any duplicate tiles
+        Set<Point> reached = new HashSet<>();
+        reached.addAll(water);
+        reached.addAll(wetSand);
+        
+        // To prevent counting forever, ignore tiles with a y coordinate smaller than the smallest y coordinate in your scan data or larger than the largest one.
+        reached.removeIf(point -> point.getY() < minimumY());
+        reached.removeIf(point -> maximumY() < point.getY());
+        
+        return reached.size();
     }
     
     @Override
@@ -124,7 +137,7 @@ class VerticalSlice {
         int minY = minimumY();
         int maxY = maximumY();
         
-        StringBuilder builder = new StringBuilder("Vertical slice:\n");
+        StringBuilder builder = new StringBuilder("vertical slice:\n");
         for (int y = minY; y != maxY + 1; y++) {
             for (int x = minX; x != maxX + 1; x++) {
                 Point point = new Point(x, y);
