@@ -39,10 +39,10 @@ public class InstructionTest {
     @Test
     public void testExecute() {
         Instruction instruction = Instruction.parse("mulr 2 1 2");
-        int[] registers = { 3, 2, 1, 1};
+        int[] registers = { 3, 2, 1, 1 };
         
         int[] result = instruction.execute(registers);
         
-        Assertions.assertArrayEquals(new int[] { 3, 2, 2, 1}, result);
+        Assertions.assertArrayEquals(new int[] { 3, 2, 2, 1 }, result);
     }
 }

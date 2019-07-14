@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day19;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
 
 /**
@@ -18,6 +21,17 @@ class Instruction {
     /** Number of the register to which to write the output. */
     private final int c;
     
+    /**
+     * Parses the given lines into a list of instructions.
+     * 
+     * @param lines textual representations of instructions, for example: addr 2 1 2
+     * @return instructions
+     */
+    static List<Instruction> parse(List<String> lines) { 
+        return lines.stream()
+                .map(Instruction::parse)
+                .collect(Collectors.toList());
+    }
 
     /**
      * Parses the given line into an instruction.
@@ -63,7 +77,7 @@ class Instruction {
     /**
      * Constructor.
      * 
-     * Use {@link #parse(String)} to obtain an instance of this class.
+     * Use {@link #parse(String)} or {@link #parse(List)} to obtain an instance of this class.
      * 
      * @param opcode the opcode
      * @param a input A; either an immediate value or a register number

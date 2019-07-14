@@ -34,10 +34,8 @@ abstract class GoWithTheFlow implements PathSolver {
         // The first line indicates the initial value for the instruction pointer binding.
         // For example: "#ip 0".
         int instructionPointerRegister = Integer.parseInt(lines.get(0).substring(4, 5));
-
-        List<Instruction> instructions = lines.subList(1, lines.size()).stream()
-            .map(Instruction::parse)
-            .collect(Collectors.toList());
+        // The rest are instructions.
+        List<Instruction> instructions = Instruction.parse(lines.subList(1, lines.size()));
         
         int[] registers = getInitialRegisters();
         long executed = 0L;
