@@ -1,7 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2018.day17;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+
+import javax.annotation.processing.Generated;
 
 import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 
@@ -92,6 +95,27 @@ class VerticalSlice {
                 .max()
                 .getAsInt();
     }
+
+    /** @return an updated vertical slice, equal to this slice with an additional layer of water settled, if possible */
+    private VerticalSlice tick() {
+        return this; // TODO implement
+    }
+    
+    /** @return this slice after water has settled wherever possible */
+    VerticalSlice tickUntilDone() {
+        VerticalSlice previous = this;
+        VerticalSlice current = this.tick();
+        while (!previous.equals(current)) {
+            previous = current;
+            current = current.tick();
+        }
+        return current;
+    }
+    
+    /** @return number of tiles reached by water, that is: the number of tiles where water is at rest + the number of tiles where water has passed through */
+    int reachedByWater() {
+        return water.size() + wetSand.size();
+    }
     
     @Override
     public String toString() {
@@ -122,5 +146,25 @@ class VerticalSlice {
             builder.append("\n");
         }
         return builder.toString();
+    }
+
+    @Generated("Eclipse")
+    @Override
+    public int hashCode() {
+        return Objects.hash(clay, spring, water, wetSand);
+    }
+
+    @Generated("Eclipse")
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        VerticalSlice other = (VerticalSlice) obj;
+        return Objects.equals(clay, other.clay) && Objects.equals(spring, other.spring)
+                && Objects.equals(water, other.water) && Objects.equals(wetSand, other.wetSand);
     }
 }

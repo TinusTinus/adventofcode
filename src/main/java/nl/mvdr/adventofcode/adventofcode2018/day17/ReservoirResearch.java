@@ -27,9 +27,9 @@ public class ReservoirResearch implements PathSolver {
         
         VerticalSlice slice = new VerticalSlice(spring, claySquareMeters);
         
-        LOGGER.debug("{}", slice);
+        slice = slice.tickUntilDone();
         
-        return null; // TODO
+        return "" + slice.reachedByWater();
     }
     
     /**
