@@ -115,7 +115,35 @@ class VerticalSlice {
             Point below = tricklingWaterPoint.neighbourBelow();
             if (clay.contains(below) || newWater.contains(below)) {
                 // The tile below is clay or water. Unable to settle there.
-                // TODO
+                
+                // Search to the left.
+                Point left = tricklingWaterPoint.neighbourLeft();
+                while(!clay.contains(left) && (clay.contains(left.neighbourBelow()) || newWater.contains(left.neighbourBelow()))) {
+                    newWetSand.add(left);
+                    left = left.neighbourLeft();
+                }
+                
+                // Search to the right.
+                Point right = tricklingWaterPoint.neighbourRight();
+                while(!clay.contains(right) && (clay.contains(right.neighbourBelow()) || newWater.contains(right.neighbourBelow()))) {
+                    newWetSand.add(right);
+                    right = left.neighbourRight();
+                }
+                
+                boolean settle = true;
+                if (!(clay.contains(left.neighbourBelow()) || newWater.contains(left.neighbourBelow()))) {
+                    settle = false;
+                    tricklingWater.add(left);
+                }
+                if (!(clay.contains(right.neighbourBelow()) || newWater.contains(right.neighbourBelow()))) {
+                    settle = false;
+                    tricklingWater.add(right);
+                }
+                
+                if (settle) {
+                    // TODO add water
+                }
+                
             } else {
                 // The tile below is sand.
                 newWetSand.add(below);
