@@ -70,11 +70,31 @@ public class Point implements Comparable<Point> {
     /** @return the four neighbouring points to this one */
     public Set<Point> neighbours() {
         return Set.of(
-            new Point(x - 1, y),
-            new Point(x + 1, y),
-            new Point(x, y - 1),
-            new Point(x, y + 1)
+            neighbourLeft(),
+            neighbourRight(),
+            neighbourAbove(),
+            neighbourBelow()
         );
+    }
+
+    /** @return neighbour to the left */
+    public Point neighbourLeft() {
+        return new Point(x - 1, y);
+    }
+
+    /** @return neighbour to the right */
+    public Point neighbourRight() {
+        return new Point(x + 1, y);
+    }
+
+    /** @return above neighbour */
+    public Point neighbourAbove() {
+        return new Point(x, y - 1);
+    }
+
+    /** @return below neighbour */
+    public Point neighbourBelow() {
+        return new Point(x, y + 1);
     }
     
     /**

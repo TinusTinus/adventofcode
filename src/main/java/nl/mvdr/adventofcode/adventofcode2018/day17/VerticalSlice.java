@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2018.day17;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.Set;
 
 import javax.annotation.processing.Generated;
@@ -101,7 +103,27 @@ class VerticalSlice {
 
     /** @return an updated vertical slice, equal to this slice with an additional layer of water settled, if possible */
     private VerticalSlice tick() {
-        return this; // TODO implement
+        Set<Point> newWater = new HashSet<>(water);
+        Set<Point> newWetSand = new HashSet<>(wetSand);
+        
+        Queue<Point> tricklingWater = new LinkedList<Point>();
+        tricklingWater.add(spring);
+        
+        while (!tricklingWater.isEmpty()) {
+            Point tricklingWaterPoint = tricklingWater.poll();
+            
+            Point below = tricklingWaterPoint.neighbourBelow();
+            if (clay.contains(below) || newWater.contains(below)) {
+                // The tile below is clay or water. Unable to settle there.
+                // TODO
+            } else {
+                // The tile below is sand.
+                newWetSand.add(below);
+                tricklingWater.add(below);
+            }
+        }
+        
+        return new VerticalSlice(spring, clay, newWater, newWetSand);
     }
     
     /** @return this slice after water has settled wherever possible */
