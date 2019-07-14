@@ -109,25 +109,33 @@ class VerticalSlice {
         Queue<Point> tricklingWater = new LinkedList<Point>();
         tricklingWater.add(spring);
         
+        int maxY = maximumY();
+        
         while (!tricklingWater.isEmpty()) {
+            LOGGER.debug("Trickling water: {}", tricklingWater);
             Point tricklingWaterPoint = tricklingWater.poll();
             
             Point below = tricklingWaterPoint.neighbourBelow();
-            if (clay.contains(below) || newWater.contains(below)) {
+            if (maxY < below.getY()) {
+                // Ignore.
+            } else if (clay.contains(below) || newWater.contains(below)) {
                 // The tile below is clay or water. Unable to settle there.
+                
+                Set<Point> visited = new HashSet<>();
+                visited.add(tricklingWaterPoint);
                 
                 // Search to the left.
                 Point left = tricklingWaterPoint.neighbourLeft();
                 while(!clay.contains(left) && (clay.contains(left.neighbourBelow()) || newWater.contains(left.neighbourBelow()))) {
-                    newWetSand.add(left);
+                    visited.add(left);
                     left = left.neighbourLeft();
                 }
                 
                 // Search to the right.
                 Point right = tricklingWaterPoint.neighbourRight();
                 while(!clay.contains(right) && (clay.contains(right.neighbourBelow()) || newWater.contains(right.neighbourBelow()))) {
-                    newWetSand.add(right);
-                    right = left.neighbourRight();
+                    visited.add(right);
+                    right = right.neighbourRight();
                 }
                 
                 boolean settle = true;
@@ -141,7 +149,9 @@ class VerticalSlice {
                 }
                 
                 if (settle) {
-                    // TODO add water
+                    newWater.addAll(visited);
+                } else {
+                    newWetSand.addAll(visited);
                 }
                 
             } else {
