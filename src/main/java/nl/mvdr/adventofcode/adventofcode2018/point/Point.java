@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.annotation.processing.Generated;
 
@@ -122,9 +123,9 @@ public class Point implements Comparable<Point> {
     }
     
     /**
-     * Parses the input.
+     * Parses a text file containing string representations of points, for example: "98, 231".
      * 
-     * @param path path to the text file containing string representations of points, for example: "98, 231"
+     * @param path path to the text file 
      * @return set of points
      * @throws IOException if the input file cannot be read
      */
@@ -137,6 +138,85 @@ public class Point implements Comparable<Point> {
                 .map(line -> line.split(", "))
                 .map(array -> new Point(Integer.valueOf(array[0]), Integer.valueOf(array[1])))
                 .collect(Collectors.toSet());
-                        
+    }
+    
+    /**
+     * Parses a text file containing string representations of ranges of points, for example: "x=438, y=595..605" or "y=1230, x=524..528".
+     * 
+     * @param path path to the text file 
+     * @return set of points
+     * @throws IOException if the input file cannot be read
+     */
+    public static Set<Point> parseRanges(Path path) throws IOException {
+        return Files.lines(path)
+                // ignore empty lines (the last line in the file)
+                .filter(Objects::nonNull)
+                .filter(line -> !line.isBlank())
+                // parse each line
+                .map(Point::parseRange)
+                // collect the result
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Parses a line of text containing a string representation of a range of points, for example: "x=438, y=595..605" or "y=1230, x=524..528".
+     * 
+     * @param line text to be parsed
+     * @return set of points
+     * @throws IOException if the input file cannot be read
+     */
+    static Set<Point> parseRange(String line) {
+        String[] parts = line.split(", ");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Unable to parse: " + line);
+        }
+        
+        String xString;
+        String yString;
+        if (parts[0].startsWith("x=") && parts[1].startsWith("y=")) {
+            xString = parts[0];
+            yString = parts[1];
+        } else if (parts[0].startsWith("y=") && parts[1].startsWith("x=")) {
+            xString = parts[1];
+            yString = parts[0];
+        } else {
+            throw new IllegalArgumentException("Unable to parse: " + line);
+        }
+        
+        Set<Integer> xValues = parseCoordinateRange(xString.substring(2));
+        Set<Integer> yValues = parseCoordinateRange(yString.substring(2));
+        
+        return xValues.stream()
+                .flatMap(x -> yValues.stream().map(y -> new Point(x, y)))
+                .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Parses a range for a single coordinate, for example: "48" (meaning just the value 48) or "23..27" (meaning the values 23, 24, 25, 26, 27).
+     * 
+     * @param line text to be parsed
+     * @return set of points
+     * @throws IOException if the input file cannot be read
+     */
+    private static Set<Integer> parseCoordinateRange(String input) {
+        String[] parts = input.split("\\.\\.");
+        if (parts.length == 0) {
+            throw new IllegalArgumentException("Unable to parse: " + input);
+        }
+        
+        int minimum = Integer.parseInt(parts[0]);
+        int maximum;
+        if (parts.length == 1) {
+            maximum = minimum;
+        } else if (parts.length == 2){
+            maximum = Integer.parseInt(parts[1]);
+        } else {
+            throw new IllegalArgumentException("Unable to parse: " + input);
+        }
+        
+        return IntStream.rangeClosed(minimum, maximum)
+                .boxed()
+                .collect(Collectors.toSet());
     }
 }

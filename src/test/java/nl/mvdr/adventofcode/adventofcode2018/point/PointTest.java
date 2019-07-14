@@ -108,4 +108,24 @@ public class PointTest {
         Assertions.assertTrue(neighbours.contains(new Point(2, 2)));
         Assertions.assertTrue(neighbours.contains(new Point(2, 4)));
     }
+    
+    /** Test case for {@link Point#parseRange(String)} */
+    @Test
+    public void testParseRangeVerticalLine() {
+        String input = "x=438, y=595..597";
+        
+        Set<Point> result = Point.parseRange(input);
+        
+        Assertions.assertEquals(Set.of(new Point(438, 595), new Point(438, 596), new Point(438, 597)), result);
+    }
+    
+    /** Test case for {@link Point#parseRange(String)} */
+    @Test
+    public void testParseRangeHorizontalLine() {
+        String input = "y=1230, x=524..528";
+        
+        Set<Point> result = Point.parseRange(input);
+        
+        Assertions.assertEquals(Set.of(new Point(524, 1230), new Point(525, 1230), new Point(526, 1230), new Point(527, 1230), new Point(528, 1230)), result);
+    }
 }

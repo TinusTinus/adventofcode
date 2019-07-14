@@ -2,11 +2,13 @@ package nl.mvdr.adventofcode.adventofcode2018.day17;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 
 /**
  * Solution to the day 17 puzzle of 2018's Advent of Code:
@@ -20,6 +22,10 @@ public class ReservoirResearch implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        Set<Point> claySquareMeters = Point.parseRanges(inputFilePath);
+        
+        LOGGER.debug("Clay: {}", claySquareMeters);
+        
         return null; // TODO
     }
     
