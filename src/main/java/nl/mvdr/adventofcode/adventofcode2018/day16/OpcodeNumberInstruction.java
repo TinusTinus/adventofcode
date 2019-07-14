@@ -1,5 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2018.day16;
 
+import java.util.function.IntFunction;
+
+import nl.mvdr.adventofcode.adventofcode2018.opcode.Instruction;
+import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
+
 /**
  * Representation of an instruction, where the opcode is represented by a numeric value.
  *
@@ -16,7 +21,6 @@ class OpcodeNumberInstruction {
     /** Number of the register to which to write the output. */
     private final int c;
     
-
     /**
      * Parses the given line into an instruction.
      * 
@@ -36,6 +40,23 @@ class OpcodeNumberInstruction {
         int c = Integer.parseInt(parts[3]);
         
         return new OpcodeNumberInstruction(opcodeNumber, a, b, c);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * Use {@link #parse(String)} to obtain an instance of this class.
+     * 
+     * @param opcodeNumber number of the opcode
+     * @param a input A; either an immediate value or a register number
+     * @param b input B; either an immediate value or a register number
+     * @param c number of the register to which to write the output
+     */
+    private OpcodeNumberInstruction(int opcodeNumber, int a, int b, int c) {
+        this.opcodeNumber = opcodeNumber;
+        this.a = a;
+        this.b = b;
+        this.c = c;
     }
     
     /** @return number of the opcode */
@@ -59,22 +80,14 @@ class OpcodeNumberInstruction {
     }
     
     /**
-     * Constructor.
+     * Converts this instruction to an {@link Instruction}.
      * 
-     * Use {@link #parse(String)} to obtain an instance of this class.
-     * 
-     * @param opcodeNumber number of the opcode
-     * @param a input A; either an immediate value or a register number
-     * @param b input B; either an immediate value or a register number
-     * @param c number of the register to which to write the output
+     * @param opcodeMapping mapping of opcode numbers to actual {@link Opcode} values
+     * @return instruction
      */
-    private OpcodeNumberInstruction(int opcodeNumber, int a, int b, int c) {
-        this.opcodeNumber = opcodeNumber;
-        this.a = a;
-        this.b = b;
-        this.c = c;
+    Instruction toInstruction(IntFunction<Opcode> opcodeMapping) {
+        return new Instruction(opcodeMapping.apply(opcodeNumber), a, b, c);
     }
-
     
     @Override
     public String toString() {

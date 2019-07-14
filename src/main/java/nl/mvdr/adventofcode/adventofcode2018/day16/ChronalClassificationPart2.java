@@ -42,9 +42,9 @@ public class ChronalClassificationPart2 implements PathSolver {
                 }
             }
         }
-        
+
         List<Instruction> instructions = input.getInstructions().stream()
-                .map(instruction -> new Instruction(opcodeMapping.get(Integer.valueOf(instruction.getOpcodeNumber())), instruction.getA(), instruction.getB(), instruction.getC()))
+                .map(instruction -> instruction.toInstruction(opcodeMapping::get))
                 .collect(Collectors.toList());
         
         // The registers start with the value 0.

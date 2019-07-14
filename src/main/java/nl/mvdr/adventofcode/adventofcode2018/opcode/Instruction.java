@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Representation of an instruction.
+ * Representation of an instruction, for the programmable time travel device featured in multiple puzzles.
  *
  * @author Martijn van de Rijdt
  */
@@ -52,6 +52,21 @@ public class Instruction {
         return new Instruction(opcode, a, b, c);
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param opcode the opcode
+     * @param a input A; either an immediate value or a register number
+     * @param b input B; either an immediate value or a register number
+     * @param c number of the register to which to write the output
+     */
+    public Instruction(Opcode opcode, int a, int b, int c) {
+        this.opcode = opcode;
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    
     /** @return the opcode */
     Opcode getOpcode() {
         return opcode;
@@ -72,21 +87,6 @@ public class Instruction {
         return c;
     }
     
-    /**
-     * Constructor.
-     * 
-     * @param opcode the opcode
-     * @param a input A; either an immediate value or a register number
-     * @param b input B; either an immediate value or a register number
-     * @param c number of the register to which to write the output
-     */
-    public Instruction(Opcode opcode, int a, int b, int c) {
-        this.opcode = opcode;
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    }
-
     /**
      * Executes this instruction.
      * 
