@@ -9,9 +9,9 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalClassificationPart1Test extends SolverTest<GoWithTheFlowPart1> {
+public class GoWithTheFlowPart1Test extends SolverTest<GoWithTheFlowPart1> {
     /** Constructor. */
-    public ChronalClassificationPart1Test() {
+    public GoWithTheFlowPart1Test() {
         super(GoWithTheFlowPart1.class);
     }
 
