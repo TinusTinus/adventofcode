@@ -24,6 +24,6 @@ public class ReservoirResearchTest extends SolverTest<ReservoirResearch> {
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day17-2018.txt");
+        assertSolution("30737", "input-day17-2018.txt");
     }
 }
