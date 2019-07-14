@@ -22,54 +22,12 @@ public class ReservoirResearch implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        Set<Point> claySquareMeters = Point.parseRanges(inputFilePath);
-        LOGGER.debug("Clay: {}", claySquareMeters);
-        
         Point spring = new Point(500, 0);
+        Set<Point> claySquareMeters = Point.parseRanges(inputFilePath);
         
-        // TODO move this to a toString method instead of sysouting
-        int minX = claySquareMeters.stream()
-                .mapToInt(Point::getX)
-                .min()
-                .getAsInt();
-        minX = Math.min(minX, spring.getX());
+        VerticalSlice slice = new VerticalSlice(spring, claySquareMeters);
         
-        int maxX = claySquareMeters.stream()
-                .mapToInt(Point::getX)
-                .max()
-                .getAsInt();
-        maxX = Math.max(maxX, spring.getX());
-        
-        int minY = claySquareMeters.stream()
-                .mapToInt(Point::getY)
-                .min()
-                .getAsInt();
-        minY = Math.min(minY, spring.getY());
-        
-        int maxY = claySquareMeters.stream()
-                .mapToInt(Point::getY)
-                .max()
-                .getAsInt();
-        maxY = Math.max(maxY, spring.getY());
-        
-        for (int y = minY - 1; y != maxY + 2; y++) {
-            for (int x = minX - 1; x != maxX + 2; x++) {
-                Point point = new Point(x, y);
-                
-                char c;
-                if (spring.equals(point)) {
-                    c = '+';
-                } else if (claySquareMeters.contains(point)) {
-                    c = '#';
-                } else {
-                    c = '.';
-                }
-                System.out.print(c);
-            }
-            System.out.println();
-        }
-        
-        
+        LOGGER.debug("{}", slice);
         
         return null; // TODO
     }
