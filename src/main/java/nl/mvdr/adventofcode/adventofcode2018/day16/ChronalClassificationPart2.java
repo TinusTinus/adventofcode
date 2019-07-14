@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day16;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.adventofcode2018.opcode.Instruction;
 import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
 
 /**
@@ -41,12 +43,15 @@ public class ChronalClassificationPart2 implements PathSolver {
             }
         }
         
+        List<Instruction> instructions = input.getInstructions().stream()
+                .map(instruction -> new Instruction(opcodeMapping.get(Integer.valueOf(instruction.getOpcodeNumber())), instruction.getA(), instruction.getB(), instruction.getC()))
+                .collect(Collectors.toList());
+        
         // The registers start with the value 0.
         int[] registers = {0, 0, 0, 0};
         // Execute the instructions.
-        for (OpcodeNumberInstruction instruction : input.getInstructions()) {
-            Opcode opcode = opcodeMapping.get(Integer.valueOf(instruction.getOpcodeNumber()));
-            registers = opcode.perform(instruction.getA(), instruction.getB(), instruction.getC(), registers);
+        for (Instruction instruction : instructions) {
+            registers = instruction.execute(registers);
         }
         
         return "" + registers[0];

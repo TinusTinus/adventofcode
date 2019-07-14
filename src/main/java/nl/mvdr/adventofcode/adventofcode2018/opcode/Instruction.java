@@ -75,14 +75,12 @@ public class Instruction {
     /**
      * Constructor.
      * 
-     * Use {@link #parse(String)} or {@link #parse(List)} to obtain an instance of this class.
-     * 
      * @param opcode the opcode
      * @param a input A; either an immediate value or a register number
      * @param b input B; either an immediate value or a register number
      * @param c number of the register to which to write the output
      */
-    private Instruction(Opcode opcode, int a, int b, int c) {
+    public Instruction(Opcode opcode, int a, int b, int c) {
         this.opcode = opcode;
         this.a = a;
         this.b = b;
