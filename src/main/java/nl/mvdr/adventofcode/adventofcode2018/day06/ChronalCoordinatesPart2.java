@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 
 /**
  * Solution to the day 6 puzzle of 2018's Advent of Code:

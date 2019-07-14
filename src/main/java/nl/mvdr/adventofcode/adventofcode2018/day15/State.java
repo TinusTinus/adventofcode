@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * State of the game.
  *
@@ -141,7 +143,7 @@ class State {
                 Set<Point> adjacentPointsToTarget = targets.stream()
                         .map(Unit::getLocation)
                         // These are the squares which are adjacent to any target...
-                        .flatMap(location -> location.adjacent().stream())
+                        .flatMap(location -> location.neighbours().stream())
                         // ... and which aren't already occupied by a wall...
                         .filter(point -> map[point.getX()][point.getY()] == Square.OPEN_AREA)
                         // ... or another unit.
@@ -185,7 +187,7 @@ class State {
                         unvisited.remove(u);
                         
                         int altPathLength = pathLengths.get(u).getAsInt() + 1;
-                        for (Point neighbour : u.adjacent()) {
+                        for (Point neighbour : u.neighbours()) {
                             if (unvisited.contains(neighbour)) {
                                 if (pathLengths.get(neighbour).isPresent() && altPathLength < pathLengths.get(neighbour).getAsInt()) {
                                     // Shorter path found.
@@ -245,7 +247,7 @@ class State {
                 // After moving (or if the unit began its turn in range of a target), the unit attacks.
                 Optional<Unit> selectedTarget = targets.stream()
                         // To attack, the unit first determines all of the targets that are in range of it by being immediately adjacent to it.
-                        .filter(target -> movedUnit.getLocation().adjacent().contains(target.getLocation()))
+                        .filter(target -> movedUnit.getLocation().neighbours().contains(target.getLocation()))
                         // Otherwise, the adjacent target with the fewest hit points is selected;
                         // in a tie, the adjacent target with the fewest hit points which is first in reading order is selected.
                         .min(Comparator.comparing(Unit::getHitPoints).thenComparing(Unit::getLocation));

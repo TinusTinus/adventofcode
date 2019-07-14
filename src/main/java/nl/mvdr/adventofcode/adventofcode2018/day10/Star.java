@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day10;
 
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * Representation of a single star.
  *

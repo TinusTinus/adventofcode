@@ -1,8 +1,9 @@
-package nl.mvdr.adventofcode.adventofcode2018.day06;
+package nl.mvdr.adventofcode.adventofcode2018.point;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import javax.annotation.processing.Generated;
  * @author Martijn van de Rijdt
  * 
  */
-class Point {
+public class Point implements Comparable<Point> {
 
     private final int x;
 
@@ -27,19 +28,19 @@ class Point {
      * @param x x coordinate (horizontal)
      * @param y y coordinate (vertical)
      */
-    Point(int x, int y) {
+    public Point(int x, int y) {
         super();
         this.x = x;
         this.y = y;
     }
 
     /** @return x coordinate (horizontal) */
-    int getX() {
+    public int getX() {
         return x;
     }
     
     /** @return y coordinate (vertical) */
-    int getY() {
+    public int getY() {
         return y;
     }
     
@@ -49,7 +50,7 @@ class Point {
      * @param other other point
      * @return Manhattan distance
      */
-    int manhattanDistance(Point other) {
+    public int manhattanDistance(Point other) {
         return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
     }
     
@@ -59,20 +60,30 @@ class Point {
      * @param points set of points points
      * @return total distance
      */
-    int totalManhattanDistance(Set<Point> points) {
+    public int totalManhattanDistance(Set<Point> points) {
         return points.stream()
                 .mapToInt(this::manhattanDistance)
                 .sum();
     }
     
     /** @return the four neighbouring points to this one */
-    Set<Point> neighbours() {
+    public Set<Point> neighbours() {
         return Set.of(
             new Point(x - 1, y),
             new Point(x + 1, y),
             new Point(x, y - 1),
             new Point(x, y + 1)
         );
+    }
+    
+    /**
+     * Translates this point with the given coordinates.
+     * 
+     * @param other x and y coordinates to be added
+     * @return translated point
+     */
+    public Point translate(Point other) {
+        return new Point(this.x + other.x, this.y + other.y);
     }
     
     @Override
@@ -100,13 +111,24 @@ class Point {
     }
     
     /**
+     * {@inheritDoc}
+     * <p>
+     * Compares the two points based on the <em>reading order</em>: top-to-bottom, then left-to-right.
+     */
+    @Override
+    public int compareTo(Point other) {
+        Comparator<Point> readingOrder = Comparator.comparing(Point::getY).thenComparing(Point::getX);
+        return readingOrder.compare(this, other);
+    }
+    
+    /**
      * Parses the input.
      * 
-     * @param path path to the text file containing string representations of points
+     * @param path path to the text file containing string representations of points, for example: "98, 231"
      * @return set of points
      * @throws IOException if the input file cannot be read
      */
-    static Set<Point> parse(Path path) throws IOException {
+    public static Set<Point> parse(Path path) throws IOException {
         return Files.lines(path)
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)

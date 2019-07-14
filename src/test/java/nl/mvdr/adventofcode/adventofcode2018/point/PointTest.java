@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2018.day06;
+package nl.mvdr.adventofcode.adventofcode2018.point;
 
 import java.util.Set;
 

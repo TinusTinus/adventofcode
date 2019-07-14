@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2018.day15;
 
 import java.util.Comparator;
 
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * A unit in our little strategy game.
  *
