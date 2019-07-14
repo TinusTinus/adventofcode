@@ -30,6 +30,15 @@ class VerticalSlice {
     private final Set<Point> water;
     /** The square meters where water has passed through. */
     private final Set<Point> wetSand;
+    
+    /** Minimum x coordinate containing anything other than sand. */
+    private final int minimumX;
+    /** Maximum x coordinate containing anything other than sand. */
+    private final int maximumX;
+    /** Minimum y coordinate from the scan input (that is, the clay). */
+    private final int minimumY;
+    /** Maximum y coordinate from the scan input (that is, the clay). */
+    private final int maximumY;
 
     /**
      * Constructor.
@@ -45,6 +54,31 @@ class VerticalSlice {
         this.clay = clay;
         this.water = water;
         this.wetSand = wetSand;
+        
+        // Compute and cache minimum and maximum coordinates
+        this.minimumY = clay.stream()
+                .mapToInt(Point::getY)
+                .min()
+                .getAsInt();
+        
+        this.maximumY = clay.stream()
+                .mapToInt(Point::getY)
+                .max()
+                .getAsInt();
+        
+        Set<Point> points = new HashSet<>();
+        points.add(spring);
+        points.addAll(clay);
+        points.addAll(water);
+        points.addAll(wetSand);
+        this.minimumX = points.stream()
+                .mapToInt(Point::getX)
+                .min()
+                .getAsInt();
+        this.maximumX = points.stream()
+                .mapToInt(Point::getX)
+                .max()
+                .getAsInt();
     }
 
     /**
@@ -57,50 +91,6 @@ class VerticalSlice {
         this(spring, clay, Set.of(), Set.of());
     }
     
-    /** @return minimum y coordinate from the scan input (that is, the clay) */
-    private int minimumY() {
-        return clay.stream()
-                .mapToInt(Point::getY)
-                .min()
-                .getAsInt();
-    }
-    
-    /** @return maximum y coordinate from the scan input (that is, the clay) */
-    private int maximumY() {
-        return clay.stream()
-                .mapToInt(Point::getY)
-                .max()
-                .getAsInt();
-    }
-    
-    /** @return minimum x coordinate containing anything other than sand */
-    private int minimumX() {
-        Set<Point> points = new HashSet<>();
-        points.add(spring);
-        points.addAll(clay);
-        points.addAll(water);
-        points.addAll(wetSand);
-        
-        return points.stream()
-                .mapToInt(Point::getX)
-                .min()
-                .getAsInt();
-    }
-    
-    /** @return maximum x coordinate containing anything other than sand */
-    private int maximumX() {
-        Set<Point> points = new HashSet<>();
-        points.add(spring);
-        points.addAll(clay);
-        points.addAll(water);
-        points.addAll(wetSand);
-        
-        return points.stream()
-                .mapToInt(Point::getX)
-                .max()
-                .getAsInt();
-    }
-
     /** @return an updated vertical slice, equal to this slice with an additional layer of water settled, if possible */
     private VerticalSlice tick() {
         Set<Point> newWater = new HashSet<>(water);
@@ -109,13 +99,11 @@ class VerticalSlice {
         Queue<Point> tricklingWater = new LinkedList<Point>();
         tricklingWater.add(spring);
         
-        int maxY = maximumY();
-        
         while (!tricklingWater.isEmpty()) {
             Point tricklingWaterPoint = tricklingWater.poll();
             
             Point below = tricklingWaterPoint.neighbourBelow();
-            if (maxY < below.getY()) {
+            if (maximumY < below.getY()) {
                 // Ignore.
             } else if (clay.contains(below) || newWater.contains(below)) {
                 // The tile below is clay or water. Unable to settle there.
@@ -181,6 +169,11 @@ class VerticalSlice {
         return current;
     }
     
+    /** @return number of tiles where water has settled */
+    int settledWater() {
+        return water.size();
+    }
+    
     /** @return number of tiles reached by water, that is: the number of tiles where water is at rest + the number of tiles where water has passed through */
     int reachedByWater() {
         // Eliminate any duplicate tiles
@@ -189,22 +182,17 @@ class VerticalSlice {
         reached.addAll(wetSand);
         
         // To prevent counting forever, ignore tiles with a y coordinate smaller than the smallest y coordinate in your scan data or larger than the largest one.
-        reached.removeIf(point -> point.getY() < minimumY());
-        reached.removeIf(point -> maximumY() < point.getY());
+        reached.removeIf(point -> point.getY() < minimumY);
+        reached.removeIf(point -> maximumY < point.getY());
         
         return reached.size();
     }
     
     @Override
     public String toString() {
-        int minX = minimumX();
-        int maxX = maximumX();
-        int minY = minimumY();
-        int maxY = maximumY();
-        
         StringBuilder builder = new StringBuilder("vertical slice:\n");
-        for (int y = minY; y != maxY + 1; y++) {
-            for (int x = minX; x != maxX + 1; x++) {
+        for (int y = minimumY; y != maximumY + 1; y++) {
+            for (int x = minimumX; x != maximumX + 1; x++) {
                 Point point = new Point(x, y);
                 
                 char c;

@@ -18,12 +18,12 @@ public class ReservoirResearchTest extends SolverTest<ReservoirResearch> {
     /** Test case based on the example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("57", "example-day17-2018.txt");
+        assertSolution("Reached by water: 57, settled water: 29", "example-day17-2018.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("30737", "input-day17-2018.txt");
+        assertSolution("Reached by water: 30737, settled water: 24699", "input-day17-2018.txt");
     }
 }
