@@ -29,6 +29,8 @@ public class ReservoirResearch implements PathSolver {
         
         slice = slice.tickUntilDone();
         
+        LOGGER.info("Done: {}", slice);
+        
         return "Reached by water: " + slice.reachedByWater() + ", settled water: " + slice.settledWater();
     }
     
