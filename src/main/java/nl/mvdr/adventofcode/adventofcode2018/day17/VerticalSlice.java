@@ -112,7 +112,6 @@ class VerticalSlice {
         int maxY = maximumY();
         
         while (!tricklingWater.isEmpty()) {
-            LOGGER.debug("Trickling water: {}", tricklingWater);
             Point tricklingWaterPoint = tricklingWater.poll();
             
             Point below = tricklingWaterPoint.neighbourBelow();
@@ -130,7 +129,9 @@ class VerticalSlice {
                     visited.add(left);
                     left = left.neighbourLeft();
                 }
-                visited.add(left);
+                if (!clay.contains(left)) {
+                    visited.add(left);
+                }
                 
                 // Search to the right.
                 Point right = tricklingWaterPoint.neighbourRight();
@@ -138,7 +139,9 @@ class VerticalSlice {
                     visited.add(right);
                     right = right.neighbourRight();
                 }
-                visited.add(right);
+                if (!clay.contains(right)) {
+                    visited.add(right);
+                }
                 
                 boolean settle = true;
                 if (!(clay.contains(left.neighbourBelow()) || newWater.contains(left.neighbourBelow()))) {
