@@ -88,4 +88,14 @@ public class RoomMapExpressionTest {
         
         Assertions.assertEquals(input, expression.toString());
     }
+    
+    /** Test case for {@link RoomMapExpression#parse(String)}. */
+    @Test
+    public void testParseBranchWithMultiplePipes() {
+        String input = "^(N|S|E)$";
+        
+        RoomMapExpression expression = RoomMapExpression.parse(input);
+        
+        Assertions.assertEquals(input, expression.toString());
+    }
 }
