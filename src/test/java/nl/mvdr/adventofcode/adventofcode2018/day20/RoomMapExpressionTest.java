@@ -39,9 +39,49 @@ public class RoomMapExpressionTest {
         Assertions.assertEquals(input, expression.toString());
     }
     
-    /** Test case for {@link RoomMapExpression#parse(String)}. */
+    /** Test case for {@link RoomMapExpression#parse(String)}, based on an example from the puzzle. */
     @Test
-    public void testParseComplexExpression() {
+    public void testParseExample0() {
+        String input = "^WNE$";
+        
+        RoomMapExpression expression = RoomMapExpression.parse(input);
+        
+        Assertions.assertEquals(input, expression.toString());
+    }
+    
+    /** Test case for {@link RoomMapExpression#parse(String)}, based on an example from the puzzle. */
+    @Test
+    public void testParseExample1() {
+        String input = "^ENWWW(NEEE|SSE(EE|N))$";
+        
+        RoomMapExpression expression = RoomMapExpression.parse(input);
+        
+        Assertions.assertEquals(input, expression.toString());
+    }
+    
+    /** Test case for {@link RoomMapExpression#parse(String)}, based on an example from the puzzle. */
+    @Test
+    public void testParseExample2() {
+        String input = "^ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN$";
+        
+        RoomMapExpression expression = RoomMapExpression.parse(input);
+        
+        Assertions.assertEquals(input, expression.toString());
+    }
+
+    /** Test case for {@link RoomMapExpression#parse(String)}, based on an example from the puzzle. */
+    @Test
+    public void testParseExample3() {
+        String input = "^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$";
+        
+        RoomMapExpression expression = RoomMapExpression.parse(input);
+        
+        Assertions.assertEquals(input, expression.toString());
+    }
+
+    /** Test case for {@link RoomMapExpression#parse(String)}, based on an example from the puzzle. */
+    @Test
+    public void testParseExample4() {
         String input = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$";
         
         RoomMapExpression expression = RoomMapExpression.parse(input);
