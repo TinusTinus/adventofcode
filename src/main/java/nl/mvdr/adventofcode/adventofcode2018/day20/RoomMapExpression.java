@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import nl.mvdr.adventofcode.adventofcode2018.point.Point;
@@ -42,42 +44,30 @@ interface RoomMapExpression {
                 result = EmptyExpression.getInstance();
             } else if (firstCharacter == '(') {
                 // Start of a branch.
-                // Search for the pipe |.
+                List<RoomMapExpression> options = new ArrayList<>();
+                
                 char nextCharacter = expression.charAt(1);
-                int pipeIndex = 1;
+                int i = 1;
                 int nest = 1;
-                while (nextCharacter != '|' || 1 < nest) {
-                    if (nextCharacter == '(') {
-                        nest++;
-                    } else if (nextCharacter == ')') {
-                        nest--;
-                    }
-
-                    nextCharacter = expression.charAt(pipeIndex + 1);
-                    pipeIndex++;
-                }
-                // Found the pipe '|'.
-                // Search for the closing bracket ')'.
-                nextCharacter = expression.charAt(pipeIndex + 1);
-                int closingBracketIndex = pipeIndex + 1;
-
+                int startOfCurrentOption = 1;
                 while (nextCharacter != ')' || 1 < nest) {
                     if (nextCharacter == '(') {
                         nest++;
                     } else if (nextCharacter == ')') {
                         nest--;
+                    } else if (nextCharacter == '|' && nest == 1) {
+                        // Found a pipe '|', indicating the end of one of the options.
+                        options.add(parse(expression.substring(startOfCurrentOption, i)));
+                        startOfCurrentOption = i + 1;
                     }
-
-                    nextCharacter = expression.charAt(closingBracketIndex + 1);
-                    closingBracketIndex++;
+                    nextCharacter = expression.charAt(i + 1);
+                    i++;
                 }
-
-                // Found the pipe '|' and the closing bracket ')'.
-                RoomMapExpression lhs = parse(expression.substring(1, pipeIndex));
-                RoomMapExpression rhs = parse(expression.substring(pipeIndex + 1, closingBracketIndex));
-                RoomMapExpression branch = new Branch(lhs, rhs);
-                RoomMapExpression remaining = parse(expression.substring(closingBracketIndex + 1));
-                result = new Concatenation(branch, remaining);
+                // Found the closing bracket ')'.
+                // Parse the last option.
+                options.add(parse(expression.substring(startOfCurrentOption, i)));
+                RoomMapExpression remaining = parse(expression.substring(i + 1));
+                result = new Concatenation(new Branch(options), remaining);
             } else {
                 // Direction.
                 Direction direction = Direction.parse(firstCharacter);

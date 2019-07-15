@@ -18,19 +18,6 @@ public class Branch implements RoomMapExpression {
     /**
      * Constructor.
      * 
-     * @param lhs left-hand side
-     * @param rhs right-hand side
-     * @deprecated use {@link #Branch(List)} instead
-     */
-    @Deprecated // TODO remove
-    Branch(RoomMapExpression lhs, RoomMapExpression rhs) {
-        this(List.of(lhs, rhs));
-        
-    }
-    
-    /**
-     * Constructor.
-     * 
      * @param options options
      */
     Branch(List<RoomMapExpression> options) {
