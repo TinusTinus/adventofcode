@@ -1,23 +1,29 @@
 package nl.mvdr.adventofcode.adventofcode2018.day19;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.PathSolver;
+
 /**
- * Solution to the day 16 puzzle of 2018's Advent of Code:
+ * Solution to the day 19 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/19">Go With The Flow</a>.
  *
  * @author Martijn van de Rijdt
  */
-// TODO this solution is correct but doesn't perform.
-// computed up until: [315, 2295660, 0, 10551330, 6, 117]
-public class GoWithTheFlowPart2 extends GoWithTheFlow {
+public class GoWithTheFlowPart2 implements PathSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlowPart2.class);
     
-    /** @return initial value for the registers */
-    protected int[] getInitialRegisters() {
-        return new int[] { 1, 0, 0, 0, 0, 0 };
+    @Override
+    public String solve(Path inputFilePath) throws IOException {
+        // We could simply run the instructions with initial register values { 1, 0, 0, 0, 0, 0 }.
+        // This would result in a correct answer, but would take a very long time to terminate.
+        // As it turns out, the program calculates the sum of the divisors of 10551330 (?).
+        return null; // TODO sum of divisors
     }
     
     /**

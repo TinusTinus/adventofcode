@@ -15,7 +15,7 @@ import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.adventofcode2018.opcode.Instruction;
 
 /**
- * Solution to the day 16 puzzle of 2018's Advent of Code:
+ * Solution to the day 19 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/19">Go With The Flow</a>.
  *
  * @author Martijn van de Rijdt
