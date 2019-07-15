@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -59,6 +60,19 @@ public enum Direction implements RoomMapExpression {
                 .filter(value -> value.getCharacterRepresentation() == c)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected character: " + c));
+    }
+    
+    /**
+     * Parses the given characters into a concatenation of directions.
+     * 
+     * @param string string containing only N, E, S and W
+     * @return concatenation containing the directions
+     */
+    static Concatenation parse(String string) {
+        List<Direction> directions = string.chars()
+                .mapToObj(c -> parse((char)c))
+                .collect(Collectors.toList());
+        return new Concatenation(directions);
     }
     
     @Override

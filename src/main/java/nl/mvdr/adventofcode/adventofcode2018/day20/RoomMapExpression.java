@@ -69,9 +69,13 @@ interface RoomMapExpression {
                 RoomMapExpression remaining = parse(expression.substring(i + 1));
                 result = new Concatenation(new Branch(options), remaining);
             } else {
-                // Direction.
-                Direction direction = Direction.parse(firstCharacter);
-                result = new Concatenation(direction, parse(expression.substring(1)));
+                // Direction(s).
+                int i = 1;
+                while (i < expression.length() && Character.isUpperCase(expression.charAt(i))) {
+                    i++;
+                }
+                RoomMapExpression directions = Direction.parse(expression.substring(0, i));
+                result = new Concatenation(directions, parse(expression.substring(i)));
             }
         }
         

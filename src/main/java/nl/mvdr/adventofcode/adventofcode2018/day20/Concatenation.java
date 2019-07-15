@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 class Concatenation implements RoomMapExpression {
     
     /** The elements of this concatenation. */
-    private final List<RoomMapExpression> elements;
+    private final List<? extends RoomMapExpression> elements;
     
     /**
      * Constructor.
@@ -31,7 +31,7 @@ class Concatenation implements RoomMapExpression {
      * 
      * @param elements list of elements of the concatenation
      */
-    public Concatenation(List<RoomMapExpression> elements) {
+    public Concatenation(List<? extends RoomMapExpression> elements) {
         super();
         this.elements = elements;
     }
