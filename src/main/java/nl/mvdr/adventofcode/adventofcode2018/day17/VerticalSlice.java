@@ -104,9 +104,11 @@ class VerticalSlice {
             
             Point below = tricklingWaterPoint.neighbourBelow();
             if (maximumY < below.getY()) {
-                // Ignore.
+                // Ignore. No need to trickle down further.
             } else if (clay.contains(below) || newWater.contains(below)) {
-                // The tile below is clay or water. Unable to settle there.
+                // The tile below is clay or water. Unable to trickle down.
+                
+                // Find out whether water can continue to trickle down on the left and/or right.
                 
                 Set<Point> visited = new HashSet<>();
                 visited.add(tricklingWaterPoint);
@@ -142,8 +144,10 @@ class VerticalSlice {
                 }
                 
                 if (settle) {
+                    // The water settles here.
                     newWater.addAll(visited);
                 } else {
+                    // The water continues trickling on the left and/or right.
                     newWetSand.addAll(visited);
                 }
                 

@@ -184,7 +184,6 @@ public class Point implements Comparable<Point> {
      * 
      * @param line text to be parsed
      * @return set of points
-     * @throws IOException if the input file cannot be read
      */
     static Set<Point> parseRange(String line) {
         String[] parts = line.split(", ");
@@ -216,8 +215,7 @@ public class Point implements Comparable<Point> {
      * Parses a range for a single coordinate, for example: "48" (meaning just the value 48) or "23..27" (meaning the values 23, 24, 25, 26, 27).
      * 
      * @param line text to be parsed
-     * @return set of points
-     * @throws IOException if the input file cannot be read
+     * @return coordinates within the range
      */
     private static Set<Integer> parseCoordinateRange(String input) {
         String[] parts = input.split("\\.\\.");
