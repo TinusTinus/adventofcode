@@ -75,7 +75,9 @@ interface RoomMapExpression {
                 // Found the pipe '|' and the closing bracket ')'.
                 RoomMapExpression lhs = parse(expression.substring(1, pipeIndex));
                 RoomMapExpression rhs = parse(expression.substring(pipeIndex + 1, closingBracketIndex));
-                result = new Branch(lhs, rhs);
+                RoomMapExpression branch = new Branch(lhs, rhs);
+                RoomMapExpression remaining = parse(expression.substring(closingBracketIndex + 1));
+                result = new Concatenation(branch, remaining);
             } else {
                 // Direction.
                 Direction direction = Direction.parse(firstCharacter);

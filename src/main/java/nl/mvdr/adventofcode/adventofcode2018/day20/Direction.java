@@ -58,7 +58,7 @@ public enum Direction implements RoomMapExpression {
         return Stream.of(Direction.values())
                 .filter(value -> value.getCharacterRepresentation() == c)
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("Unexpected character: " + c));
     }
     
     @Override
