@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.slf4j.Logger;
@@ -20,6 +21,12 @@ public class RegularMap implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        String expression = Files.lines(inputFilePath)
+                .findFirst()
+                .get();
+        
+        RoomMap map = RoomMap.parse(expression);
+        
         return null; // TODO
     }
     

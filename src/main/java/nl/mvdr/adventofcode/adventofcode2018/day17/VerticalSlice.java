@@ -102,7 +102,7 @@ class VerticalSlice {
         while (!tricklingWater.isEmpty()) {
             Point tricklingWaterPoint = tricklingWater.poll();
             
-            Point below = tricklingWaterPoint.neighbourBelow();
+            Point below = tricklingWaterPoint.belowNeighbour();
             if (maximumY < below.getY()) {
                 // Ignore. No need to trickle down further.
             } else if (clay.contains(below) || newWater.contains(below)) {
@@ -114,31 +114,31 @@ class VerticalSlice {
                 visited.add(tricklingWaterPoint);
                 
                 // Search to the left.
-                Point left = tricklingWaterPoint.neighbourLeft();
-                while(!clay.contains(left) && (clay.contains(left.neighbourBelow()) || newWater.contains(left.neighbourBelow()))) {
+                Point left = tricklingWaterPoint.leftNeighbour();
+                while(!clay.contains(left) && (clay.contains(left.belowNeighbour()) || newWater.contains(left.belowNeighbour()))) {
                     visited.add(left);
-                    left = left.neighbourLeft();
+                    left = left.leftNeighbour();
                 }
                 if (!clay.contains(left)) {
                     visited.add(left);
                 }
                 
                 // Search to the right.
-                Point right = tricklingWaterPoint.neighbourRight();
-                while(!clay.contains(right) && (clay.contains(right.neighbourBelow()) || newWater.contains(right.neighbourBelow()))) {
+                Point right = tricklingWaterPoint.rightNeighbour();
+                while(!clay.contains(right) && (clay.contains(right.belowNeighbour()) || newWater.contains(right.belowNeighbour()))) {
                     visited.add(right);
-                    right = right.neighbourRight();
+                    right = right.rightNeighbour();
                 }
                 if (!clay.contains(right)) {
                     visited.add(right);
                 }
                 
                 boolean settle = true;
-                if (!(clay.contains(left.neighbourBelow()) || newWater.contains(left.neighbourBelow()))) {
+                if (!(clay.contains(left.belowNeighbour()) || newWater.contains(left.belowNeighbour()))) {
                     settle = false;
                     tricklingWater.add(left);
                 }
-                if (!(clay.contains(right.neighbourBelow()) || newWater.contains(right.neighbourBelow()))) {
+                if (!(clay.contains(right.belowNeighbour()) || newWater.contains(right.belowNeighbour()))) {
                     settle = false;
                     tricklingWater.add(right);
                 }

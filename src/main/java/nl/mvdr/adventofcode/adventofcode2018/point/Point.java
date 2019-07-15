@@ -70,31 +70,52 @@ public class Point implements Comparable<Point> {
     /** @return the four neighbouring points to this one */
     public Set<Point> neighbours() {
         return Set.of(
-            neighbourLeft(),
-            neighbourRight(),
-            neighbourAbove(),
-            neighbourBelow()
+            leftNeighbour(),
+            rightNeighbour(),
+            aboveNeighbour(),
+            belowNeighbour()
         );
     }
 
     /** @return neighbour to the left */
-    public Point neighbourLeft() {
+    public Point leftNeighbour() {
         return new Point(x - 1, y);
     }
 
     /** @return neighbour to the right */
-    public Point neighbourRight() {
+    public Point rightNeighbour() {
         return new Point(x + 1, y);
     }
 
     /** @return above neighbour */
-    public Point neighbourAbove() {
+    public Point aboveNeighbour() {
         return new Point(x, y - 1);
     }
 
     /** @return below neighbour */
-    public Point neighbourBelow() {
+    public Point belowNeighbour() {
         return new Point(x, y + 1);
+    }
+    
+    // Convenience methods for use in maps
+    /** @return neighbour to the West */
+    public Point westNeighbour() {
+        return leftNeighbour();
+    }
+
+    /** @return neighbour to the East */
+    public Point eastNeighbour() {
+        return rightNeighbour();
+    }
+
+    /** @return neighbour to the North */
+    public Point northNeighbour() {
+        return aboveNeighbour();
+    }
+
+    /** @return neighbour to the South */
+    public Point southNeighbour() {
+        return belowNeighbour();
     }
     
     /**
