@@ -22,8 +22,23 @@ public class GoWithTheFlowPart2 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         // We could simply run the instructions with initial register values { 1, 0, 0, 0, 0, 0 }.
         // This would result in a correct answer, but would take a very long time to terminate.
-        // As it turns out, the program calculates the sum of the divisors of 10551330 (?).
-        return null; // TODO sum of divisors
+        // As it turns out, the program calculates the sum of the divisors of 10551330.
+        
+        int inputNumber = 10551330;
+        
+        int result = 0; 
+        for (int i = 1; i <= Math.sqrt(inputNumber); i++) { 
+            if (inputNumber % i == 0) {
+                // Divisor found.
+                if (i == (inputNumber / i)) { 
+                    result = result + i;
+                } else {
+                    result = result + (i + inputNumber / i);
+                }
+            } 
+        } 
+       
+        return "" + result;
     }
     
     /**
