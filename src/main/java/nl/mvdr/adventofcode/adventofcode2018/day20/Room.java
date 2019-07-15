@@ -49,4 +49,9 @@ class Room {
     void addSouthDoor() {
         this.southDoor = true;
     }
+
+    @Override
+    public String toString() {
+        return "Room [eastDoor=" + eastDoor + ", southDoor=" + southDoor + "]";
+    }
 }

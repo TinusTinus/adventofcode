@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
 import java.util.Set;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.adventofcode2018.point.Point;
@@ -14,36 +14,38 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 public enum Direction implements RoomMapExpression {
     
     /** North. */
-    NORTH(Point::northNeighbour),
+    NORTH((points, map) -> points.stream()
+            .map(Point::northNeighbour)
+            .peek(point -> map.getRooms().putIfAbsent(point, new Room()).addSouthDoor())
+            .collect(Collectors.toSet())),
     
     /** East. */
-    EAST(Point::eastNeighbour),
+    EAST((points, map) -> points.stream()
+                .peek(point -> map.getRooms().putIfAbsent(point, new Room()).addEastDoor())
+                .map(Point::eastNeighbour)
+                .collect(Collectors.toSet())),
     
     /** South. */
-    SOUTH(Point::southNeighbour),
+    SOUTH((points, map) -> points.stream()
+            .peek(point -> map.getRooms().putIfAbsent(point, new Room()).addSouthDoor())
+            .map(Point::southNeighbour)
+            .collect(Collectors.toSet())),
     
     /** West. */
-    WEST(Point::westNeighbour);
+    WEST((points, map) -> points.stream()
+            .map(Point::westNeighbour)
+            .peek(point -> map.getRooms().putIfAbsent(point, new Room()).addEastDoor())
+            .collect(Collectors.toSet()));
     
-    private final Function<Point, Point> neighbourGetter;
+    private final RoomMapExpression applyFunction;
     
-    Direction(Function<Point, Point> neighbourGetter) {
-        this.neighbourGetter = neighbourGetter;
+    Direction(RoomMapExpression applyFunction) {
+        this.applyFunction = applyFunction;
     }
     
     /** @return single-character representation of this direction */
     char getCharacterRepresentation() {
         return name().charAt(0);
-    }
-    
-    /**
-     * Returns the neighbouring point in the given direction.
-     * 
-     * @param point base point
-     * @return the point one off in the given direction
-     */
-    Point getNeighbour(Point point) {
-        return neighbourGetter.apply(point);
     }
     
     /**
@@ -61,8 +63,7 @@ public enum Direction implements RoomMapExpression {
     
     @Override
     public Set<Point> apply(Set<Point> points, RoomMap map) {
-        // TODO implement
-        return Set.of();
+        return applyFunction.apply(points, map);
     }
     
     @Override
