@@ -16,25 +16,25 @@ public enum Direction implements RoomMapExpression {
     /** North. */
     NORTH((points, map) -> points.stream()
             .map(Point::northNeighbour)
-            .peek(point -> map.getRooms().putIfAbsent(point, new Room()).addSouthDoor())
+            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()).addSouthDoor())
             .collect(Collectors.toSet())),
     
     /** East. */
     EAST((points, map) -> points.stream()
-                .peek(point -> map.getRooms().putIfAbsent(point, new Room()).addEastDoor())
+                .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()).addEastDoor())
                 .map(Point::eastNeighbour)
                 .collect(Collectors.toSet())),
     
     /** South. */
     SOUTH((points, map) -> points.stream()
-            .peek(point -> map.getRooms().putIfAbsent(point, new Room()).addSouthDoor())
+            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()).addSouthDoor())
             .map(Point::southNeighbour)
             .collect(Collectors.toSet())),
     
     /** West. */
     WEST((points, map) -> points.stream()
             .map(Point::westNeighbour)
-            .peek(point -> map.getRooms().putIfAbsent(point, new Room()).addEastDoor())
+            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()).addEastDoor())
             .collect(Collectors.toSet()));
     
     private final RoomMapExpression applyFunction;

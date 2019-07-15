@@ -17,7 +17,7 @@ class RoomMap {
     /** Character representation of a door on the East of a room, for use in {@link #toString()}. */
     private static final char EAST_DOOR = '|';
     /** Character representation of a door on the Sast of a room, for use in {@link #toString()}. */
-    private static final char SOUTH_DOOR = '_';
+    private static final char SOUTH_DOOR = '-';
     /** Character representation of the starting room, for use in {@link #toString()}. */
     private static final char STARTING_ROOM = 'X';
     /** Character representation for a room, for use in {@link #toString()}. */
@@ -121,9 +121,7 @@ class RoomMap {
                 Room room = rooms.get(point);
 
                 // Room itself
-                if (room == null) {
-                    builder.append(WALL);
-                } else if (STARTING_POINT.equals(point)) {
+                if (STARTING_POINT.equals(point)) {
                     builder.append(STARTING_ROOM);
                 } else {
                     builder.append(ROOM);
