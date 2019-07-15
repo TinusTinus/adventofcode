@@ -7,12 +7,17 @@ import java.util.stream.Collectors;
 import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 
 /**
- * A branch, consisting of two options.
- *
+ * A branch, consisting of options.
+ * 
  * @author Martijn van de Rijdt
  */
 public class Branch implements RoomMapExpression {
     
+    /**
+     * The options.
+     * 
+     * The order of these options does not really matter, other than for {@link #toString()}.
+     */
     private final List<RoomMapExpression> options;
     
     /**
