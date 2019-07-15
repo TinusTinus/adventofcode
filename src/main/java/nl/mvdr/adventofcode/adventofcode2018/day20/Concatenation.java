@@ -17,7 +17,7 @@ class Concatenation implements RoomMapExpression {
     private final List<? extends RoomMapExpression> elements;
     
     /**
-     * Constructor.
+     * Convenience constructor.
      * 
      * @param lhs left-hand side
      * @param rhs right-hand side

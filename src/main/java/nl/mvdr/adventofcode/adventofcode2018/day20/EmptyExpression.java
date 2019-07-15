@@ -1,15 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
-import java.util.Set;
-
-import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+import java.util.List;
 
 /**
  * Empty expression.
  *
  * @author Martijn van de Rijdt
  */
-class EmptyExpression implements RoomMapExpression {
+class EmptyExpression extends Concatenation {
+    
     private static final EmptyExpression INSTANCE = new EmptyExpression();
 
     /** @return singleton instance */
@@ -17,17 +16,9 @@ class EmptyExpression implements RoomMapExpression {
         return INSTANCE;
     }
 
+    /** Private constructor to prevent singleton instantiation. */
     private EmptyExpression() {
-        // Private constructor to prevent singleton instantiation.
-    }
-    
-    @Override
-    public Set<Point> apply(Set<Point> points, RoomMap map) {
-        return points;
-    }
-    
-    @Override
-    public String toString() {
-        return "";
+        // Implemented as a concatenation of 0 elements.
+        super(List.of());
     }
 }

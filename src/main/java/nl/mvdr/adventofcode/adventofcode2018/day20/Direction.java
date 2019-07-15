@@ -55,7 +55,7 @@ public enum Direction implements RoomMapExpression {
      * @param c character representation of a direction: N, E, S or W
      * @return direction
      */
-    static Direction parse(char c) {
+    private static Direction parse(char c) {
         return Stream.of(Direction.values())
                 .filter(value -> value.getCharacterRepresentation() == c)
                 .findFirst()

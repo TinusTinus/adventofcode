@@ -75,7 +75,8 @@ interface RoomMapExpression {
                     i++;
                 }
                 RoomMapExpression directions = Direction.parse(expression.substring(0, i));
-                result = new Concatenation(directions, parse(expression.substring(i)));
+                RoomMapExpression remaining = parse(expression.substring(i));
+                result = new Concatenation(directions, remaining);
             }
         }
         
