@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day20;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 
@@ -46,7 +47,7 @@ class RoomMap {
         
         result.rooms.put(STARTING_POINT, new Room());
         
-        // TODO
+        expression.apply(Set.of(STARTING_POINT), result);
         
         return result;
     }
@@ -56,6 +57,15 @@ class RoomMap {
         super();
         this.rooms = new HashMap<>();
         this.complete = false;
+    }
+    
+    /** Marks this map as complete. */
+    void complete() {
+        this.complete = true;
+    }
+
+    Map<Point, Room> getRooms() {
+        return rooms;
     }
     
     /** @return shortest distance, in number of doors, to the room furthest from the starting point */
@@ -157,4 +167,8 @@ class RoomMap {
         
         return builder.toString();
     }
+
+
+    
+    
 }

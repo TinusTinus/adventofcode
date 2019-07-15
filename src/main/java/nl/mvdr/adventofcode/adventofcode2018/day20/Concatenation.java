@@ -1,5 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
+import java.util.Set;
+
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * Concatentation of two expressions.
  *
@@ -21,6 +25,13 @@ class Concatenation implements RoomMapExpression {
         super();
         this.lhs = lhs;
         this.rhs = rhs;
+    }
+    
+    @Override
+    public Set<Point> apply(Set<Point> points, RoomMap map) {
+        Set<Point> result = lhs.apply(points, map);
+        result = rhs.apply(result, map);
+        return result;
     }
     
     @Override

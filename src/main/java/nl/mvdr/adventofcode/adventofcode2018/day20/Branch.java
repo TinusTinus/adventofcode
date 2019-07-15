@@ -1,5 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * A branch, consisting of two options.
  *
@@ -21,6 +26,14 @@ public class Branch implements RoomMapExpression {
         super();
         this.lhs = lhs;
         this.rhs = rhs;
+    }
+    
+    @Override
+    public Set<Point> apply(Set<Point> points, RoomMap map) {
+        HashSet<Point> result = new HashSet<>();
+        result.addAll(lhs.apply(points, map));
+        result.addAll(rhs.apply(points, map));
+        return result;
     }
     
     @Override

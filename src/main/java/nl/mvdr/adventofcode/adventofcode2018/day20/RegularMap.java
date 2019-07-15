@@ -27,7 +27,11 @@ public class RegularMap implements PathSolver {
         
         RoomMapExpression expression = RoomMapExpression.parse(expressionString);
         
+        LOGGER.info("Expression: {}", expression);
+        
         RoomMap map = RoomMap.createMap(expression);
+        
+        LOGGER.info("Map: {}", map);
         
         return "" + map.calculateShortestDistanceToFurthestRoom();
     }

@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -56,6 +57,12 @@ public enum Direction implements RoomMapExpression {
                 .filter(value -> value.getCharacterRepresentation() == c)
                 .findFirst()
                 .get();
+    }
+    
+    @Override
+    public Set<Point> apply(Set<Point> points, RoomMap map) {
+        // TODO implement
+        return Set.of();
     }
     
     @Override

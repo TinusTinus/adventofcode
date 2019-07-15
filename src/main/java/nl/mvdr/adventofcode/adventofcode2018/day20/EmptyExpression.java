@@ -1,5 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
+import java.util.Set;
+
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * Empty expression.
  *
@@ -15,6 +19,11 @@ class EmptyExpression implements RoomMapExpression {
 
     private EmptyExpression() {
         // Private constructor to prevent singleton instantiation.
+    }
+    
+    @Override
+    public Set<Point> apply(Set<Point> points, RoomMap map) {
+        return points;
     }
     
     @Override

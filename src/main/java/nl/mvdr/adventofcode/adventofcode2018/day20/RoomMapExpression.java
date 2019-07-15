@@ -1,13 +1,24 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
+import java.util.Set;
+
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * "Regular" expression representing (part of) a map of rooms.
  *
  * @author Martijn van de Rijdt
  */
 interface RoomMapExpression {
-    // Marker interface
     
+    /**
+     * Generates (part of) the map based on this expression.
+     * 
+     * @param points current possible locations, which can be reached up until this subexpression
+     * @param map partially complete map; this method may add more rooms and/or doors 
+     * @return possible locations, which can be reached by the part of the expression processed up until and including this subexpression
+     */
+    Set<Point> apply(Set<Point> points, RoomMap map);
     
     /**
      * Parses the given string into a {@link RoomMapExpression}.
