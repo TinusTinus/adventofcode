@@ -11,7 +11,7 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  * 
  * @author Martijn van de Rijdt
  */
-public class Branch implements RoomMapExpression {
+class Branch implements RoomMapExpression {
     
     /**
      * The options.

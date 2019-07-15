@@ -79,7 +79,7 @@ class RoomMap {
     
     /** Marks this map as complete. */
     void complete() {
-        // Calculate the shortest path, using Dijkstra's algorithm.
+        // Calculate the shortest paths, using Dijkstra's algorithm.
         pathLengths = new HashMap<>();
         
         Set<Point> unvisited = new HashSet<>(rooms.keySet());

@@ -12,7 +12,7 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public enum Direction implements RoomMapExpression {
+enum Direction implements RoomMapExpression {
     
     /** North. */
     NORTH((points, map) -> points.stream()
