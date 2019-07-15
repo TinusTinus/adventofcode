@@ -11,11 +11,21 @@ import org.junit.jupiter.api.Test;
 public class RoomMapExpressionTest {
     /** Test case for {@link RoomMapExpression#parse(String)}. */
     @Test
+    public void testParseEmptyExpression() {
+        String input = "^$";
+        
+        RoomMapExpression expression = CompleteExpression.parse(input);
+        
+        Assertions.assertEquals(input, expression.toString());
+    }
+    
+    /** Test case for {@link RoomMapExpression#parse(String)}. */
+    @Test
     public void testParse() {
         String input = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$";
         
-        RoomMapExpression expression = RoomMapExpression.parse(input);
+        RoomMapExpression expression = CompleteExpression.parse(input);
         
-        Assertions.assertEquals("WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))", expression.toString());
+        Assertions.assertEquals(input, expression.toString());
     }
 }
