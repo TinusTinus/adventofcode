@@ -25,7 +25,7 @@ public class RegularMap implements PathSolver {
                 .findFirst()
                 .get();
         
-        CompleteExpression expression = CompleteExpression.parse(expressionString);
+        RoomMapExpression expression = RoomMapExpression.parse(expressionString);
         
         RoomMap map = RoomMap.createMap(expression);
         

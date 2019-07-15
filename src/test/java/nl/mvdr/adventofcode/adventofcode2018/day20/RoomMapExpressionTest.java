@@ -9,12 +9,22 @@ import org.junit.jupiter.api.Test;
  * @author Martijn van de Rijdt
  */
 public class RoomMapExpressionTest {
-    /** Test case for {@link RoomMapExpression#parse(String)}. */
+    /** Test case for {@link RoomMapExpression#parse(String)}, with an empty expression. */
     @Test
     public void testParseEmptyExpression() {
         String input = "^$";
         
-        RoomMapExpression expression = CompleteExpression.parse(input);
+        RoomMapExpression expression = RoomMapExpression.parse(input);
+        
+        Assertions.assertEquals(input, expression.toString());
+    }
+    
+    /** Test case for {@link RoomMapExpression#parse(String)}, with an expression containing only concatenation, no branches. */
+    @Test
+    public void testParseConcatenation() {
+        String input = "^WSSEESWWWNW$";
+        
+        RoomMapExpression expression = RoomMapExpression.parse(input);
         
         Assertions.assertEquals(input, expression.toString());
     }
@@ -24,7 +34,7 @@ public class RoomMapExpressionTest {
     public void testParse() {
         String input = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$";
         
-        RoomMapExpression expression = CompleteExpression.parse(input);
+        RoomMapExpression expression = RoomMapExpression.parse(input);
         
         Assertions.assertEquals(input, expression.toString());
     }

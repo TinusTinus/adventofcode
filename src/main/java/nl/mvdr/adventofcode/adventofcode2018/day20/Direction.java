@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -52,10 +51,11 @@ public enum Direction implements RoomMapExpression {
      * @param c character representation of a direction: N, E, S or W
      * @return direction
      */
-    static Optional<Direction> parse(char c) {
+    static Direction parse(char c) {
         return Stream.of(Direction.values())
                 .filter(value -> value.getCharacterRepresentation() == c)
-                .findFirst();
+                .findFirst()
+                .get();
     }
     
     @Override
