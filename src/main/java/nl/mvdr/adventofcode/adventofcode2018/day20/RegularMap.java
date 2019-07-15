@@ -21,13 +21,15 @@ public class RegularMap implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        String expression = Files.lines(inputFilePath)
+        String expressionString = Files.lines(inputFilePath)
                 .findFirst()
                 .get();
         
-        RoomMap map = RoomMap.parse(expression);
+        RoomMapExpression expression = RoomMapExpression.parse(expressionString);
         
-        return null; // TODO
+        RoomMap map = RoomMap.createMap(expression);
+        
+        return "" + map.calculateShortestDistanceToFurthestRoom();
     }
     
     /**

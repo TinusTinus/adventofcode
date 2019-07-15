@@ -26,6 +26,9 @@ class RoomMap {
     /** Newline for use in {@link #toString()}. */
     private static final char NEWLINE = '\n';
     
+    /** The starting point. */
+    private static final Point STARTING_POINT = new Point(0, 0); // Arbitrary coordinates
+    
     /** Rooms. */
     private final Map<Point, Room> rooms;
     
@@ -33,16 +36,17 @@ class RoomMap {
     private boolean complete;
     
     /**
-     * Parses the input expression into a map of rooms.
+     * Creates a map of rooms based on the given expression.
      * 
      * @param expression expression to be parsed
      * @return map of the rooms
      */
-    static RoomMap parse(String expression) {
+    static RoomMap createMap(RoomMapExpression expression) {
         RoomMap result = new RoomMap();
         
-        // Starting point at (0, 0)
-        result.rooms.put(new Point(0, 0), new Room());
+        result.rooms.put(STARTING_POINT, new Room());
+        
+        // TODO
         
         return result;
     }
@@ -52,6 +56,12 @@ class RoomMap {
         super();
         this.rooms = new HashMap<>();
         this.complete = false;
+    }
+    
+    /** @return shortest distance, in number of doors, to the room furthest from the starting point */
+    int calculateShortestDistanceToFurthestRoom() {
+        // TODO implement
+        return 0;
     }
     
     @Override
@@ -97,12 +107,13 @@ class RoomMap {
             }
             
             for (int x = minX; x != maxX + 1; x++) {
-                Room room = rooms.get(new Point(x, y));
+                Point point = new Point(x, y);
+                Room room = rooms.get(point);
 
                 // Room itself
                 if (room == null) {
                     builder.append(WALL);
-                } else if (x == 0 && y == 0) {
+                } else if (STARTING_POINT.equals(point)) {
                     builder.append(STARTING_ROOM);
                 } else {
                     builder.append(ROOM);
