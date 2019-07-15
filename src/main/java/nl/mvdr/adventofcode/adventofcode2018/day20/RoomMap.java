@@ -42,8 +42,12 @@ class RoomMap {
     /** Rooms. */
     private final Map<Point, Room> rooms;
     
-    /** Whether the map has been completely constructed from the regular expression from the input. */
-    private boolean complete;
+    /**
+     * Map containing, for each room, the length of the shortest path from {@link #STARTING_POINT} to this room.
+     * 
+     * Computed once this map is marked as complete (using {@link #complete()}).
+     */
+    private Map<Point, Integer> pathLengths;
     
     /**
      * Creates a map of rooms based on the given expression.
@@ -67,22 +71,16 @@ class RoomMap {
     private RoomMap() {
         super();
         this.rooms = new HashMap<>();
-        this.complete = false;
+    }
+    
+    private boolean isComplete() {
+        return pathLengths != null;
     }
     
     /** Marks this map as complete. */
     void complete() {
-        this.complete = true;
-    }
-
-    Map<Point, Room> getRooms() {
-        return rooms;
-    }
-    
-    /** @return shortest distance, in number of doors, to the room furthest from the starting point */
-    int calculateShortestDistanceToFurthestRoom() {
-        // Use Dijkstra's shortest path algorithm.
-        Map<Point, Integer> pathLengths = new HashMap<>();
+        // Calculate the shortest path, using Dijkstra's algorithm.
+        pathLengths = new HashMap<>();
         
         Set<Point> unvisited = new HashSet<>(rooms.keySet());
         pathLengths.put(STARTING_POINT, Integer.valueOf(0));
@@ -116,16 +114,29 @@ class RoomMap {
                 }
             }
             
-            LOGGER.trace("Remaining unvisited: {}", unvisited);
             nextU = unvisited.stream()
                     .filter(pathLengths::containsKey)
                     .min(Comparator.comparing(p -> pathLengths.get(p)));
         }
-        
+    }
+
+    Map<Point, Room> getRooms() {
+        return rooms;
+    }
+    
+    /** @return shortest distance, in number of doors, to the room furthest from the starting point */
+    int calculateShortestDistanceToFurthestRoom() {
         return pathLengths.values().stream()
                 .mapToInt(Integer::valueOf)
                 .max()
                 .getAsInt();
+    }
+
+    /** @return how many rooms have a shortest path from the starting position that pass through at least 1000 doors */
+    long calculateNumberOfRoomsOver1000DoorsAway() {
+        return pathLengths.values().stream()
+                .filter(value -> 1000 <= value.intValue())
+                .count();
     }
     
     @Override
@@ -152,7 +163,7 @@ class RoomMap {
         // Top wall
         builder.append(WALL);
         for (int x = minX; x != maxX + 1; x++) {
-            if (complete) {
+            if (isComplete()) {
                 builder.append(WALL);
             } else {
                 builder.append(UNKNOWN);
@@ -164,7 +175,7 @@ class RoomMap {
         // Rooms
         for (int y = minY; y != maxY + 1; y++) {
             // West wall
-            if (complete) {
+            if (isComplete()) {
                 builder.append(WALL);
             } else {
                 builder.append(UNKNOWN);
@@ -186,7 +197,7 @@ class RoomMap {
                     builder.append(WALL);
                 } else if (room.hasEastDoor()) {
                     builder.append(EAST_DOOR);
-                } else if (complete) {
+                } else if (isComplete()) {
                     builder.append(WALL);
                 } else {
                     builder.append(UNKNOWN);
@@ -205,7 +216,7 @@ class RoomMap {
                     builder.append(WALL);
                 } else if (room.hasSouthDoor()) {
                     builder.append(SOUTH_DOOR);
-                } else if (complete) {
+                } else if (isComplete()) {
                     builder.append(WALL);
                 } else {
                     builder.append(UNKNOWN);
@@ -219,8 +230,4 @@ class RoomMap {
         
         return builder.toString();
     }
-
-
-    
-    
 }

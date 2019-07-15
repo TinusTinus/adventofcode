@@ -31,7 +31,7 @@ public class RegularMap implements PathSolver {
         
         RoomMap map = RoomMap.createMap(expression);
         
-        return "" + map.calculateShortestDistanceToFurthestRoom();
+        return "Part 1: " + map.calculateShortestDistanceToFurthestRoom() + ", part 2: " + map.calculateNumberOfRoomsOver1000DoorsAway();
     }
     
     /**
