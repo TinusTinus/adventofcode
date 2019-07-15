@@ -28,10 +28,20 @@ public class RoomMapExpressionTest {
         
         Assertions.assertEquals(input, expression.toString());
     }
+
+    /** Test case for {@link RoomMapExpression#parse(String)}. */
+    @Test
+    public void testParseSimpleBranch() {
+        String input = "^(N|S)$";
+        
+        RoomMapExpression expression = RoomMapExpression.parse(input);
+        
+        Assertions.assertEquals(input, expression.toString());
+    }
     
     /** Test case for {@link RoomMapExpression#parse(String)}. */
     @Test
-    public void testParse() {
+    public void testParseComplexExpression() {
         String input = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$";
         
         RoomMapExpression expression = RoomMapExpression.parse(input);
