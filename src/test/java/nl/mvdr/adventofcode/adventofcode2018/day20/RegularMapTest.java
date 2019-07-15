@@ -73,6 +73,6 @@ public class RegularMapTest extends SolverTest<RegularMap> {
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day20-2018.txt");
+        assertSolution("3502", "input-day20-2018.txt");
     }
 }

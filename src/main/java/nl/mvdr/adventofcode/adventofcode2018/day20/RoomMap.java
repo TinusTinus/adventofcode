@@ -1,8 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 
@@ -30,6 +36,9 @@ class RoomMap {
     /** The starting point. */
     private static final Point STARTING_POINT = new Point(0, 0); // Arbitrary coordinates
     
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoomMap.class);
+    
     /** Rooms. */
     private final Map<Point, Room> rooms;
     
@@ -48,6 +57,8 @@ class RoomMap {
         result.rooms.put(STARTING_POINT, new Room());
         
         expression.apply(Set.of(STARTING_POINT), result);
+        
+        LOGGER.debug("Generated {}", result);
         
         return result;
     }
@@ -70,8 +81,51 @@ class RoomMap {
     
     /** @return shortest distance, in number of doors, to the room furthest from the starting point */
     int calculateShortestDistanceToFurthestRoom() {
-        // TODO implement
-        return 0;
+        // Use Dijkstra's shortest path algorithm.
+        Map<Point, Integer> pathLengths = new HashMap<>();
+        
+        Set<Point> unvisited = new HashSet<>(rooms.keySet());
+        pathLengths.put(STARTING_POINT, Integer.valueOf(0));
+        
+        Optional<Point> nextU = unvisited.stream()
+                .filter(pathLengths::containsKey)
+                .min(Comparator.comparing(p -> pathLengths.get(p)));
+        while (nextU.isPresent()) {
+            Point u = nextU.get();
+            unvisited.remove(u);
+            
+            int altPathLength = pathLengths.get(u).intValue() + 1;
+            
+            Set<Point> reachableNeighbours = new HashSet<>();
+            if (rooms.get(u).hasEastDoor()) {
+                reachableNeighbours.add(u.eastNeighbour());
+            }
+            if (rooms.get(u).hasSouthDoor()) {
+                reachableNeighbours.add(u.southNeighbour());
+            }
+            if (rooms.computeIfAbsent(u.westNeighbour(), p -> new Room()).hasEastDoor()) {
+                reachableNeighbours.add(u.westNeighbour());
+            }
+            if (rooms.computeIfAbsent(u.northNeighbour(), p -> new Room()).hasSouthDoor()) {
+                reachableNeighbours.add(u.northNeighbour());
+            }
+            
+            for (Point neighbour : reachableNeighbours) {
+                if (unvisited.contains(neighbour) && (!pathLengths.containsKey(neighbour) || altPathLength < pathLengths.get(neighbour).intValue())) {
+                    pathLengths.put(neighbour, Integer.valueOf(altPathLength));
+                }
+            }
+            
+            LOGGER.trace("Remaining unvisited: {}", unvisited);
+            nextU = unvisited.stream()
+                    .filter(pathLengths::containsKey)
+                    .min(Comparator.comparing(p -> pathLengths.get(p)));
+        }
+        
+        return pathLengths.values().stream()
+                .mapToInt(Integer::valueOf)
+                .max()
+                .getAsInt();
     }
     
     @Override
