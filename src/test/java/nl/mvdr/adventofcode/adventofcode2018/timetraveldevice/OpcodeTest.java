@@ -1,12 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Opcode;
 
 /**
  * Test cases for {@link Opcode}.
@@ -30,11 +28,11 @@ public class OpcodeTest {
         int a = 2;
         int b = 1;
         int c = 2;
-        int[] registers = { 3, 2, 1, 1};
+        List<Integer> registers = List.of(3, 2, 1, 1);
         
-        int[] result = Opcode.MULR.perform(a, b, c, registers);
+        List<Integer> result = Opcode.MULR.perform(a, b, c, registers);
         
-        Assertions.assertArrayEquals(new int[] { 3, 2, 2, 1}, result);
+        Assertions.assertEquals(List.of(3, 2, 2, 1), result);
     }
     
     /**
@@ -53,11 +51,11 @@ public class OpcodeTest {
         int a = 2;
         int b = 1;
         int c = 2;
-        int[] registers = { 3, 2, 1, 1};
+        List<Integer> registers = List.of(3, 2, 1, 1);
         
-        int[] result = Opcode.ADDI.perform(a, b, c, registers);
+        List<Integer> result = Opcode.ADDI.perform(a, b, c, registers);
         
-        Assertions.assertArrayEquals(new int[] { 3, 2, 2, 1}, result);
+        Assertions.assertEquals(List.of(3, 2, 2, 1), result);
     }
     
     /**
@@ -75,11 +73,11 @@ public class OpcodeTest {
         int a = 2;
         int b = 1;
         int c = 2;
-        int[] registers = { 3, 2, 1, 1};
+        List<Integer> registers = List.of(3, 2, 1, 1);
         
-        int[] result = Opcode.SETI.perform(a, b, c, registers);
+        List<Integer> result = Opcode.SETI.perform(a, b, c, registers);
         
-        Assertions.assertArrayEquals(new int[] { 3, 2, 2, 1}, result);
+        Assertions.assertEquals(List.of(3, 2, 2, 1), result);
     }
     
     /**
@@ -98,12 +96,12 @@ public class OpcodeTest {
         int a = 2;
         int b = 1;
         int c = 2;
-        int[] registers = { 3, 2, 1, 1};
+        List<Integer> registers = List.of(3, 2, 1, 1);
         
         for (Opcode opcode: Opcode.values()) {
             if (opcode != Opcode.MULR && opcode != Opcode.ADDI && opcode != Opcode.SETI) {
-                int[] result = opcode.perform(a, b, c, registers);
-                Assertions.assertFalse(Arrays.equals(new int[] { 3, 2, 2, 1}, result));
+                List<Integer> result = opcode.perform(a, b, c, registers);
+                Assertions.assertNotEquals(List.of(3, 2, 2, 1), result);
             }
         }
     }

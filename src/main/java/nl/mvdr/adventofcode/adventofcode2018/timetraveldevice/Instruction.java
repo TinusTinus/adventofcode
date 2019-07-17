@@ -95,7 +95,7 @@ public class Instruction {
      * @param registers register values before the operation
      * @return a new array, containing the register values after the operation
      */
-    public int[] execute(int[] registers) {
+    public List<Integer> execute(List<Integer> registers) {
         return opcode.perform(a, b, c, registers);
     }
     

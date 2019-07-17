@@ -1,10 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Instruction;
-import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Opcode;
 
 /**
  * Test class for {@link Instruction}.
@@ -36,14 +35,14 @@ public class InstructionTest {
         Assertions.assertEquals(input, string);
     }
     
-    /** Test case for {@link Instruction#execute(int[])}. */
+    /** Test case for {@link Instruction#execute(List)}. */
     @Test
     public void testExecute() {
         Instruction instruction = Instruction.parse("mulr 2 1 2");
-        int[] registers = { 3, 2, 1, 1 };
+        List<Integer> registers = List.of(3, 2, 1, 1);
         
-        int[] result = instruction.execute(registers);
+        List<Integer> result = instruction.execute(registers);
         
-        Assertions.assertArrayEquals(new int[] { 3, 2, 2, 1 }, result);
+        Assertions.assertEquals(List.of(3, 2, 2, 1), result);
     }
 }

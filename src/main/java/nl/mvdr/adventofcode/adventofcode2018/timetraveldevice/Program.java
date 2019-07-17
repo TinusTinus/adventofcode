@@ -3,6 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -95,15 +97,17 @@ public class Program {
      */
     public int execute(int register0Value, int maximumNumberOfInstructions) {
         // Initialise the registers
-        int[] registers = new int[numberOfRegisters];
-        registers[0] = register0Value;
+        List<Integer> registers = new ArrayList<>(Collections.nCopies(numberOfRegisters, 0));
+        registers.set(0, register0Value);
         
         int instructionsPerformed = 0;
         
-        while (0 <= registers[instructionPointerRegister] && registers[instructionPointerRegister] < instructions.size() && instructionsPerformed <= maximumNumberOfInstructions) {
-            Instruction instruction = instructions.get(registers[instructionPointerRegister]);
+        while (0 <= registers.get(instructionPointerRegister).intValue()
+                && registers.get(instructionPointerRegister).intValue() < instructions.size()
+                && instructionsPerformed <= maximumNumberOfInstructions) {
+            Instruction instruction = instructions.get(registers.get(instructionPointerRegister).intValue());
             registers = instruction.execute(registers);
-            registers[instructionPointerRegister]++;
+            registers.set(instructionPointerRegister, Integer.valueOf(registers.get(instructionPointerRegister).intValue() + 1));
             instructionsPerformed++;
         }
         
@@ -111,6 +115,6 @@ public class Program {
             throw new LiveLockException("Program has not halted after " + maximumNumberOfInstructions + " instructions");
         }
         
-        return registers[0];
+        return registers.get(0);
     }
 }

@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day16;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,11 +14,11 @@ import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Opcode;
  */
 class Sample {
     /** Register values before the instruction was executed. */
-    private final int[] registersBefore;
+    private final List<Integer> registersBefore;
     /** The instruction. */
     private final OpcodeNumberInstruction instruction;
     /** Register values after the instruction was executed. */
-    private final int[] registersAfter;
+    private final List<Integer> registersAfter;
     
     /** The opcodes, like which this sample behaves, ignoring the instruction's opcode number. */
     private final Set<Opcode> matchingOpcodes;
@@ -32,9 +32,9 @@ class Sample {
      * @return sample
      */
     static Sample parse(String registersBeforeLine, String instructionLine, String registersAfterLine) {
-        int[] registersBefore = parseRegisters(registersBeforeLine);
+        List<Integer> registersBefore = parseRegisters(registersBeforeLine);
         OpcodeNumberInstruction instruction = OpcodeNumberInstruction.parse(instructionLine);
-        int[] registersAfter = parseRegisters(registersAfterLine);
+        List<Integer> registersAfter = parseRegisters(registersAfterLine);
         
         return new Sample(registersBefore, instruction, registersAfter);
     }
@@ -47,15 +47,15 @@ class Sample {
      * @param line line containing registers, for example: "Before: [3, 2, 1, 1]" or "After:  [3, 2, 1, 1]"
      * @return register values
      */
-    private static int[] parseRegisters(String line) {
+    private static List<Integer> parseRegisters(String line) {
         // Strip off the prefix "Before:  [" or "After:  [" and the suffix "]"
         String registerString = line.substring(9, line.length() - 1);
         
         String[] parts = registerString.split(", ");
         
         return Stream.of(parts)
-                .mapToInt(Integer::parseInt)
-                .toArray();
+                .map(Integer::valueOf)
+                .collect(Collectors.toList());
     }
     
     /**
@@ -65,7 +65,7 @@ class Sample {
      * @param instruction the instruction
      * @param registersAfter register values after the instruction was executed
      */
-    private Sample(int[] registersBefore, OpcodeNumberInstruction instruction, int[] registersAfter) {
+    private Sample(List<Integer> registersBefore, OpcodeNumberInstruction instruction, List<Integer> registersAfter) {
         super();
         
         this.registersBefore = registersBefore;
@@ -94,8 +94,8 @@ class Sample {
      * @return whether this sample behaves like the opcode
      */
     private boolean matches(Opcode opcode) {
-        int[] opcodeResult = opcode.perform(instruction.getA(), instruction.getB(), instruction.getC(), registersBefore);
-        return Arrays.equals(registersAfter, opcodeResult);
+        List<Integer> opcodeResult = opcode.perform(instruction.getA(), instruction.getB(), instruction.getC(), registersBefore);
+        return registersAfter.equals(opcodeResult);
     }
     
     OpcodeNumberInstruction getInstruction() {
@@ -104,6 +104,6 @@ class Sample {
     
     @Override
     public String toString() {
-        return Arrays.toString(registersBefore) + " " + instruction + " " + Arrays.toString(registersAfter);
+        return registersBefore + " " + instruction + " " + registersAfter;
     }
 }

@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -78,14 +80,14 @@ public enum Opcode {
      * @param registers register values before the operation
      * @return a new array, containing the register values after the operation
      */
-    public int[] perform(int a, int b, int c, int[] registers) {
+    public List<Integer> perform(int a, int b, int c, List<Integer> registers) {
         int outputValue = operation.computeOutput(a, b, registers);
         
-        int[] result = Arrays.copyOf(registers, registers.length);
-        result[c] = outputValue;
+        List<Integer> result = new ArrayList<>(registers);
+        result.set(c, Integer.valueOf(outputValue));
         
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("{} {} {} {} {} -> {}", Arrays.toString(registers), this, a, b, c, Arrays.toString(result));
+            LOGGER.debug("{} {} {} {} {} -> {}", registers, this, a, b, c, result);
         }
         
         return result;
