@@ -101,10 +101,10 @@ class RoomMap {
             if (rooms.get(u).hasSouthDoor()) {
                 reachableNeighbours.add(u.southNeighbour());
             }
-            if (rooms.computeIfAbsent(u.westNeighbour(), p -> new Room()).hasEastDoor()) {
+            if (rooms.getOrDefault(u.westNeighbour(), new Room()).hasEastDoor()) {
                 reachableNeighbours.add(u.westNeighbour());
             }
-            if (rooms.computeIfAbsent(u.northNeighbour(), p -> new Room()).hasSouthDoor()) {
+            if (rooms.getOrDefault(u.northNeighbour(), new Room()).hasSouthDoor()) {
                 reachableNeighbours.add(u.northNeighbour());
             }
             
