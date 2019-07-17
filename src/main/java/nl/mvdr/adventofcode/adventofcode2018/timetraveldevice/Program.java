@@ -14,7 +14,10 @@ import java.util.stream.Collectors;
  * @author Martijn van de Rijdt
  */
 public class Program {
-    /** The register bound to the instruction pointer. If empty, no instruction pointer is used and all instructions are just executed in order. */
+    /** The number of registers. */
+    private final int numberOfRegisters;
+    
+    /** The register bound to the instruction pointer. If empty, no instruction pointer is used and all instructions are simply executed in order. */
     private final OptionalInt instructionPointerRegister;
     
     /** The list of instructions forming this program. */
@@ -52,6 +55,7 @@ public class Program {
         super();
         this.instructionPointerRegister = OptionalInt.empty();
         this.instructions = instructions;
+        this.numberOfRegisters = 4;
     }
     
     /**
@@ -64,16 +68,16 @@ public class Program {
         super();
         this.instructionPointerRegister = OptionalInt.of(instructionPointerRegister);
         this.instructions = instructions;
+        this.numberOfRegisters = 6;
     }
 
     /**
      * Executes this program.
      * 
-     * @param numberOfRegisters the number of registers
      * @param register0Value the initial value of register 0; all other registers are initialized as 0
      * @return value of register 0
      */
-    public int execute(int numberOfRegisters, int register0Value) {
+    public int execute(int register0Value) {
         // Initialise the registers
         int[] registers = new int[numberOfRegisters];
         registers[0] = register0Value;

@@ -23,7 +23,7 @@ public class GoWithTheFlowPart1 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Program program = Program.parse(inputFilePath);
         
-        return "" + program.execute(6, 0);
+        return "" + program.execute(0);
     }
     
     /**

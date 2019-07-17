@@ -50,7 +50,7 @@ public class ChronalClassificationPart2 implements PathSolver {
         
         Program program = new Program(instructions);
         
-        return "" + program.execute(4, 0);
+        return "" + program.execute(0);
     }
     
     /**
