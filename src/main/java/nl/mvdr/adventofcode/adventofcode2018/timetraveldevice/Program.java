@@ -82,15 +82,33 @@ public class Program {
      * @return value of register 0
      */
     public int execute(int register0Value) {
+        // Use Integer.MAX_VALUE as a reasonable approximation of infinity
+        return execute(register0Value, Integer.MAX_VALUE);
+    }
+    
+    /**
+     * Executes this program.
+     * 
+     * @param register0Value the initial value of register 0; all other registers are initialized as 0
+     * @param maximumNumberOfInstructions the maximum number of instructions to perform
+     * @return value of register 0
+     */
+    public int execute(int register0Value, int maximumNumberOfInstructions) {
         // Initialise the registers
         int[] registers = new int[numberOfRegisters];
         registers[0] = register0Value;
         
-        // TODO day 21: infinite loop / livelock detection?
-        while (0 <= registers[instructionPointerRegister] && registers[instructionPointerRegister] < instructions.size()) {
+        int instructionsPerformed = 0;
+        
+        while (0 <= registers[instructionPointerRegister] && registers[instructionPointerRegister] < instructions.size() && instructionsPerformed <= maximumNumberOfInstructions) {
             Instruction instruction = instructions.get(registers[instructionPointerRegister]);
             registers = instruction.execute(registers);
             registers[instructionPointerRegister]++;
+            instructionsPerformed++;
+        }
+        
+        if (maximumNumberOfInstructions < instructionsPerformed) {
+            throw new LiveLockException("Program has not halted after " + maximumNumberOfInstructions + " instructions");
         }
         
         return registers[0];

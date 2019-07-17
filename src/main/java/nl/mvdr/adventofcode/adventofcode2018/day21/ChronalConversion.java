@@ -23,9 +23,17 @@ public class ChronalConversion implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Program program = Program.parse(inputFilePath);
         
-        // TODO program.execute(6, 0) does not terminate
+//        program.execute(0);
         
-        return null;
+        for (int i = 0; i != 100; i++) {
+            try {
+                System.out.println(program.execute(i, 1_000));
+            } catch (RuntimeException e) {
+                // ignore
+            }
+        }
+        
+        return null; // TODO
     }
     
     /**
