@@ -46,21 +46,24 @@ public class Program {
     }
     
     /**
-     * Constructor.
+     * Constructor for a basic program, with a simple list of instructions to be executed sequentially.
      * 
      * @param instructions instructions to be executed
      */
     public Program(List<Instruction> instructions) {
         super();
-        // Add a dummy fifth register to hold the instruction pointer.
+        
+        // Four actual registers.
+        // Add a dummy fifth register, to hold the instruction pointer.
         this.numberOfRegisters = 5;
         this.instructionPointerRegister = 4;
+        
         this.instructions = instructions;
         
     }
     
     /**
-     * Constructor.
+     * Constructor for a program, where one of its registers is bound to the instruction pointer.
      * 
      * @param the register bound to the instruction pointer
      * @param instructions instructions to be executed
