@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link ChronalConversion}.
+ * Unit test for {@link ChronalConversionPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalConverstionTest extends SolverTest<ChronalConversion> {
+public class ChronalConverstionPart1Test extends SolverTest<ChronalConversionPart1> {
     /** Constructor. */
-    public ChronalConverstionTest() {
-        super(ChronalConversion.class);
+    public ChronalConverstionPart1Test() {
+        super(ChronalConversionPart1.class);
     }
 
     /** Test case based on the accepted solution to the puzzle. */

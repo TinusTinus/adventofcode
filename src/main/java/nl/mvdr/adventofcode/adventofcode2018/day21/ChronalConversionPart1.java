@@ -17,9 +17,9 @@ import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.ProgramExecutionCa
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalConversion implements PathSolver {
+public class ChronalConversionPart1 implements PathSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChronalConversion.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChronalConversionPart1.class);
 
     private String result;
     
@@ -35,9 +35,9 @@ public class ChronalConversion implements PathSolver {
      * 
      * @param registers current register values
      * @param instructionPointer current instruction pointer
-     * @return
+     * @return whether to continue execution
      */
-    public boolean continueExecution(List<Integer> registers, int instructionPointer) {
+    private boolean continueExecution(List<Integer> registers, int instructionPointer) {
         boolean continueProgram;
         
         // By analyzing the program text:
@@ -60,7 +60,7 @@ public class ChronalConversion implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        ChronalConversion solver = new ChronalConversion();
+        ChronalConversionPart1 solver = new ChronalConversionPart1();
         String solution = solver.solve("input-day21-2018.txt");
         LOGGER.info(solution);
     }
