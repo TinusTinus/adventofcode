@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 /**
@@ -17,8 +16,8 @@ public class Program {
     /** The number of registers. */
     private final int numberOfRegisters;
     
-    /** The register bound to the instruction pointer. If empty, no instruction pointer is used and all instructions are simply executed in order. */
-    private final OptionalInt instructionPointerRegister;
+    /** The index of the register bound to the instruction pointer. */
+    private final int instructionPointerRegister;
     
     /** The list of instructions forming this program. */
     private final List<Instruction> instructions;
@@ -53,9 +52,11 @@ public class Program {
      */
     public Program(List<Instruction> instructions) {
         super();
-        this.instructionPointerRegister = OptionalInt.empty();
+        // Add a dummy fifth register to hold the instruction pointer.
+        this.numberOfRegisters = 5;
+        this.instructionPointerRegister = 4;
         this.instructions = instructions;
-        this.numberOfRegisters = 4;
+        
     }
     
     /**
@@ -66,9 +67,9 @@ public class Program {
      */
     private Program(int instructionPointerRegister, List<Instruction> instructions) {
         super();
-        this.instructionPointerRegister = OptionalInt.of(instructionPointerRegister);
-        this.instructions = instructions;
         this.numberOfRegisters = 6;
+        this.instructionPointerRegister = instructionPointerRegister;
+        this.instructions = instructions;
     }
 
     /**
@@ -82,24 +83,11 @@ public class Program {
         int[] registers = new int[numberOfRegisters];
         registers[0] = register0Value;
         
-        // Execute the program.
-        int instructionPointerValue;
-        if (instructionPointerRegister.isEmpty()) {
-            instructionPointerValue = 0;
-        } else {
-            instructionPointerValue = registers[instructionPointerRegister.getAsInt()];
-        }
-        
-        while (0 <= instructionPointerValue && instructionPointerValue < instructions.size()) {
-            // TODO day 21: infinite loop / livelock detection?
-            Instruction instruction = instructions.get(instructionPointerValue);
+        // TODO day 21: infinite loop / livelock detection?
+        while (0 <= registers[instructionPointerRegister] && registers[instructionPointerRegister] < instructions.size()) {
+            Instruction instruction = instructions.get(registers[instructionPointerRegister]);
             registers = instruction.execute(registers);
-            
-            if (instructionPointerRegister.isEmpty()) {
-                instructionPointerValue++;
-            } else {
-                instructionPointerValue = ++registers[instructionPointerRegister.getAsInt()];
-            }
+            registers[instructionPointerRegister]++;
         }
         
         return registers[0];
