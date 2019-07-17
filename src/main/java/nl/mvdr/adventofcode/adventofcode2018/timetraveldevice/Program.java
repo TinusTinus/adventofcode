@@ -83,16 +83,22 @@ public class Program {
         registers[0] = register0Value;
         
         // Execute the program.
+        int instructionPointerValue;
         if (instructionPointerRegister.isEmpty()) {
-            for (Instruction instruction : instructions) {
-                registers = instruction.execute(registers);
-            }
+            instructionPointerValue = 0;
         } else {
+            instructionPointerValue = registers[instructionPointerRegister.getAsInt()];
+        }
+        
+        while (0 <= instructionPointerValue && instructionPointerValue < instructions.size()) {
             // TODO day 21: infinite loop / livelock detection?
-            while (0 <= registers[instructionPointerRegister.getAsInt()] && registers[instructionPointerRegister.getAsInt()] < instructions.size()) {
-                Instruction instruction = instructions.get(registers[instructionPointerRegister.getAsInt()]);
-                registers = instruction.execute(registers);
-                registers[instructionPointerRegister.getAsInt()]++;
+            Instruction instruction = instructions.get(instructionPointerValue);
+            registers = instruction.execute(registers);
+            
+            if (instructionPointerRegister.isEmpty()) {
+                instructionPointerValue++;
+            } else {
+                instructionPointerValue = ++registers[instructionPointerRegister.getAsInt()];
             }
         }
         
