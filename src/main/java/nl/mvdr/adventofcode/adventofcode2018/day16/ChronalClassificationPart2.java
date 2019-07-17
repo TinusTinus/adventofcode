@@ -12,8 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
-import nl.mvdr.adventofcode.adventofcode2018.opcode.Instruction;
-import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
+import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Instruction;
+import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Opcode;
+import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Program;
 
 /**
  * Solution to the day 16 puzzle of 2018's Advent of Code:
@@ -47,14 +48,9 @@ public class ChronalClassificationPart2 implements PathSolver {
                 .map(instruction -> instruction.toInstruction(opcodeMapping::get))
                 .collect(Collectors.toList());
         
-        // The registers start with the value 0.
-        int[] registers = {0, 0, 0, 0};
-        // Execute the instructions.
-        for (Instruction instruction : instructions) {
-            registers = instruction.execute(registers);
-        }
+        Program program = new Program(instructions);
         
-        return "" + registers[0];
+        return "" + program.execute(4, 0);
     }
     
     /**

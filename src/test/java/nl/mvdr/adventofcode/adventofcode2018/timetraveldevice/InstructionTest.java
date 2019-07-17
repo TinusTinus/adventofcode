@@ -1,10 +1,10 @@
-package nl.mvdr.adventofcode.adventofcode2018.opcode;
+package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import nl.mvdr.adventofcode.adventofcode2018.opcode.Instruction;
-import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
+import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Instruction;
+import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Opcode;
 
 /**
  * Test class for {@link Instruction}.

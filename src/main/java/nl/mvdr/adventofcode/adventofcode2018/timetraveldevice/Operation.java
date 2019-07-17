@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2018.opcode;
+package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 
 /**
  * Function to compute the output of an {@link Opcode}.

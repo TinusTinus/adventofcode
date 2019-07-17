@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2018.opcode;
+package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 
 import java.util.List;
 import java.util.stream.Collectors;

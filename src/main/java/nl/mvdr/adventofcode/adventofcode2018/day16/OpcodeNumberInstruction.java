@@ -2,8 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2018.day16;
 
 import java.util.function.IntFunction;
 
-import nl.mvdr.adventofcode.adventofcode2018.opcode.Instruction;
-import nl.mvdr.adventofcode.adventofcode2018.opcode.Opcode;
+import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Instruction;
+import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Opcode;
 
 /**
  * Representation of an instruction, where the opcode is represented by a numeric value.

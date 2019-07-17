@@ -1,10 +1,12 @@
-package nl.mvdr.adventofcode.adventofcode2018.opcode;
+package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Opcode;
 
 /**
  * Test cases for {@link Opcode}.
