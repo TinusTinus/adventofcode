@@ -9,17 +9,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A program for the time travel device, used in multiple puzzles.
  *
  * @author Martijn van de Rijdt
  */
 public class Program {
-    
-    private final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     
     /** The number of registers. */
     private final int numberOfRegisters;
@@ -86,23 +81,34 @@ public class Program {
      * Executes this program.
      * 
      * @param register0Value the initial value of register 0; all other registers are initialized as 0
+     * @param callback callback function
      * @return value of register 0
      */
     public int execute(int register0Value) {
+        return this.execute(register0Value, (registers, pointer) -> true);
+    }
+    
+    /**
+     * Executes this program.
+     * 
+     * @param register0Value the initial value of register 0; all other registers are initialized as 0
+     * @param callback callback function
+     * @return value of register 0
+     */
+    public int execute(int register0Value, ProgramExecutionCallback callback) {
         // Initialise the registers
         List<Integer> registers = new ArrayList<>(Collections.nCopies(numberOfRegisters, 0));
         registers.set(0, register0Value);
         
-        while (0 <= registers.get(instructionPointerRegister).intValue()
+        while (callback.continueExecution(registers, registers.get(instructionPointerRegister).intValue())
+                && 0 <= registers.get(instructionPointerRegister).intValue()
                 && registers.get(instructionPointerRegister).intValue() < instructions.size()) {
+            
+            // Execute the next instruction
             Instruction instruction = instructions.get(registers.get(instructionPointerRegister).intValue());
-            
-            // TODO clean this up somehow
-            if (registers.get(instructionPointerRegister).intValue() == 30) {
-                LOGGER.info("Registers: {}", registers);
-            }
-            
             registers = instruction.execute(registers);
+            
+            // Increase the instruction pointer
             registers.set(instructionPointerRegister, Integer.valueOf(registers.get(instructionPointerRegister).intValue() + 1));
         }
         
