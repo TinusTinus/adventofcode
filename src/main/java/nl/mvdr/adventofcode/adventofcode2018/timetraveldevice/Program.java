@@ -5,9 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A program for the time travel device, used in multiple puzzles.
@@ -15,6 +20,9 @@ import java.util.stream.Collectors;
  * @author Martijn van de Rijdt
  */
 public class Program {
+    
+    private final Logger LOGGER = LoggerFactory.getLogger(Program.class);
+    
     /** The number of registers. */
     private final int numberOfRegisters;
     
@@ -23,6 +31,8 @@ public class Program {
     
     /** The list of instructions forming this program. */
     private final List<Instruction> instructions;
+    
+    private final Set<List<Integer>> states;
 
     /**
      * Parses the given input file into a program.
@@ -62,6 +72,8 @@ public class Program {
         
         this.instructions = instructions;
         
+        this.states = new HashSet<>();
+        
     }
     
     /**
@@ -75,6 +87,8 @@ public class Program {
         this.numberOfRegisters = 6;
         this.instructionPointerRegister = instructionPointerRegister;
         this.instructions = instructions;
+        
+        this.states = new HashSet<>();
     }
 
     /**
@@ -109,6 +123,11 @@ public class Program {
             registers = instruction.execute(registers);
             registers.set(instructionPointerRegister, Integer.valueOf(registers.get(instructionPointerRegister).intValue() + 1));
             instructionsPerformed++;
+            
+            boolean added = states.add(registers);
+            if (!added) {
+                LOGGER.info("Register state encountered previously: {}", registers);
+            }
         }
         
         if (maximumNumberOfInstructions < instructionsPerformed) {
