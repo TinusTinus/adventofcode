@@ -81,7 +81,6 @@ public class Program {
      * Executes this program.
      * 
      * @param register0Value the initial value of register 0; all other registers are initialized as 0
-     * @param callback callback function
      * @return value of register 0
      */
     public int execute(int register0Value) {
