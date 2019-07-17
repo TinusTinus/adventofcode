@@ -98,40 +98,20 @@ public class Program {
      * @return value of register 0
      */
     public int execute(int register0Value) {
-        // Use Integer.MAX_VALUE as a reasonable approximation of infinity
-        return execute(register0Value, Integer.MAX_VALUE);
-    }
-    
-    /**
-     * Executes this program.
-     * 
-     * @param register0Value the initial value of register 0; all other registers are initialized as 0
-     * @param maximumNumberOfInstructions the maximum number of instructions to perform
-     * @return value of register 0
-     */
-    public int execute(int register0Value, int maximumNumberOfInstructions) {
         // Initialise the registers
         List<Integer> registers = new ArrayList<>(Collections.nCopies(numberOfRegisters, 0));
         registers.set(0, register0Value);
         
-        int instructionsPerformed = 0;
-        
         while (0 <= registers.get(instructionPointerRegister).intValue()
-                && registers.get(instructionPointerRegister).intValue() < instructions.size()
-                && instructionsPerformed <= maximumNumberOfInstructions) {
+                && registers.get(instructionPointerRegister).intValue() < instructions.size()) {
             Instruction instruction = instructions.get(registers.get(instructionPointerRegister).intValue());
             registers = instruction.execute(registers);
             registers.set(instructionPointerRegister, Integer.valueOf(registers.get(instructionPointerRegister).intValue() + 1));
-            instructionsPerformed++;
             
             boolean added = states.add(registers);
             if (!added) {
                 LOGGER.info("Register state encountered previously: {}", registers);
             }
-        }
-        
-        if (maximumNumberOfInstructions < instructionsPerformed) {
-            throw new LiveLockException("Program has not halted after " + maximumNumberOfInstructions + " instructions");
         }
         
         return registers.get(0);

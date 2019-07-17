@@ -2,13 +2,11 @@ package nl.mvdr.adventofcode.adventofcode2018.day21;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
-import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.LiveLockException;
 import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Program;
 
 /**
@@ -25,17 +23,7 @@ public class ChronalConversion implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Program program = Program.parse(inputFilePath);
         
-//        program.execute(0);
-        
-        IntStream.range(0, 10_000).forEach(i -> {
-            try {
-                int result = program.execute(i, 1_000);
-                
-                LOGGER.info("{}: {}", Integer.valueOf(i), Integer.valueOf(result));
-            } catch (LiveLockException e) {
-                // ignore
-            }
-        });
+        program.execute(0);
         
         return null; // TODO
     }
