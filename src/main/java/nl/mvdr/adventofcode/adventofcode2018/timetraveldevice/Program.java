@@ -5,10 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -32,8 +30,6 @@ public class Program {
     /** The list of instructions forming this program. */
     private final List<Instruction> instructions;
     
-    private final Set<List<Integer>> states;
-
     /**
      * Parses the given input file into a program.
      * 
@@ -71,9 +67,6 @@ public class Program {
         this.instructionPointerRegister = 4;
         
         this.instructions = instructions;
-        
-        this.states = new HashSet<>();
-        
     }
     
     /**
@@ -87,8 +80,6 @@ public class Program {
         this.numberOfRegisters = 6;
         this.instructionPointerRegister = instructionPointerRegister;
         this.instructions = instructions;
-        
-        this.states = new HashSet<>();
     }
 
     /**
@@ -105,13 +96,14 @@ public class Program {
         while (0 <= registers.get(instructionPointerRegister).intValue()
                 && registers.get(instructionPointerRegister).intValue() < instructions.size()) {
             Instruction instruction = instructions.get(registers.get(instructionPointerRegister).intValue());
+            
+            // TODO clean this up somehow
+            if (registers.get(instructionPointerRegister).intValue() == 30) {
+                LOGGER.info("Registers: {}", registers);
+            }
+            
             registers = instruction.execute(registers);
             registers.set(instructionPointerRegister, Integer.valueOf(registers.get(instructionPointerRegister).intValue() + 1));
-            
-            boolean added = states.add(registers);
-            if (!added) {
-                LOGGER.info("Register state encountered previously: {}", registers);
-            }
         }
         
         return registers.get(0);

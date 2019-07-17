@@ -22,10 +22,16 @@ public class ChronalConversion implements PathSolver {
     @Override
     public String solve(Path inputFilePath) throws IOException {
         Program program = Program.parse(inputFilePath);
+        program.execute(11840402);
         
-        program.execute(0);
+        // The answer to part 1 is 11840402.
         
-        return null; // TODO
+        // The program will halt if, when executing the instruction on line 30, register 0 equals register 4.
+        // The first time the instruction on line 30 is executed, the register values are:
+        // [<input>, 0, 1, 30, 11840402, 1]
+        // So the answer is 11840402.
+        
+        return "11840402";
     }
     
     /**
