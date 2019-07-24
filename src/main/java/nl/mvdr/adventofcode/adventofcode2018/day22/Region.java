@@ -7,8 +7,9 @@ package nl.mvdr.adventofcode.adventofcode2018.day22;
  */
 class Region {
     
+    // TODO computations lead to overflows; either use BigIntegers instead of longs, or see if we can use smaller numbers by using properties of modulo
     /** The geologic index of this region. */
-    private final int geologicIndex;
+    private final long geologicIndex;
     /** The type of this region. */
     private final Type type;
     
@@ -18,16 +19,16 @@ class Region {
      * @param geologicIndex geologic index of this region
      * @param depth depth of the cave
      */
-    Region(int geologicIndex, int depth) {
+    Region(long geologicIndex, int depth) {
         super();
         
         this.geologicIndex = geologicIndex;
         
-        int erosionLevel = (geologicIndex + depth) % 20183;
+        long erosionLevel = (geologicIndex + depth) % 20183L;
         this.type = Type.getType(erosionLevel);
     }
     
-    int getGeologicIndex() {
+    long getGeologicIndex() {
         return geologicIndex;
     }
     

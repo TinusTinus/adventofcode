@@ -30,14 +30,14 @@ enum Type {
      * @param erosionLevel erosion level
      * @return region type
      */
-    static Type getType(int erosionLevel) {
-        int erosionLevelModulo3 = erosionLevel % 3;
+    static Type getType(long erosionLevel) {
+        long erosionLevelModulo3 = erosionLevel % 3L;
         Type result;
-        if (erosionLevelModulo3 == 0) {
+        if (erosionLevelModulo3 == 0L) {
             result = ROCKY;
-        } else if (erosionLevelModulo3 == 1) {
+        } else if (erosionLevelModulo3 == 1L) {
             result = WET;
-        } else if (erosionLevelModulo3 == 2) {
+        } else if (erosionLevelModulo3 == 2L) {
             result = NARROW;
         } else {
             throw new IllegalArgumentException("Unexpected erosion level: " + erosionLevel);

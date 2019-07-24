@@ -34,14 +34,14 @@ public class ModeMaze implements PathSolver {
         Map<Point, Region> regions = new HashMap<>();
         
         for (int y = 0; y != target.getY(); y++) {
-            regions.put(new Point(0, y), new Region(y * 48271, depth));
+            regions.put(new Point(0, y), new Region(y * 48271L, depth));
         }
         
         for (int x = 1; x != target.getX(); x++) {
-            regions.put(new Point(x, 0), new Region(x * 16807, depth));
+            regions.put(new Point(x, 0), new Region(x * 16807L, depth));
             for (int y = 1; y != target.getY(); y++) {
                 Point point = new Point(x, y);
-                int geologicalIndex;
+                long geologicalIndex;
                 if (target.equals(point)) {
                     geologicalIndex = 0;
                 } else {
