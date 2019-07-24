@@ -3,7 +3,9 @@ package nl.mvdr.adventofcode.adventofcode2018.day22;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -29,9 +31,30 @@ public class ModeMaze implements PathSolver {
         int depth = Integer.parseInt(lines.get(0).substring("depth: ".length()));
         Point target = Point.parse(lines.get(1).substring("target: ".length()));
         
-        LOGGER.info("depth: {}, target: {}", depth, target);
+        Map<Point, Region> regions = new HashMap<>();
         
-        return null; // TODO
+        for (int y = 0; y != target.getY(); y++) {
+            regions.put(new Point(0, y), new Region(y * 48271, depth));
+        }
+        
+        for (int x = 1; x != target.getX(); x++) {
+            regions.put(new Point(x, 0), new Region(x * 16807, depth));
+            for (int y = 1; y != target.getY(); y++) {
+                Point point = new Point(x, y);
+                int geologicalIndex;
+                if (target.equals(point)) {
+                    geologicalIndex = 0;
+                } else {
+                    geologicalIndex = regions.get(point.aboveNeighbour()).getGeologicIndex() * regions.get(point.leftNeighbour()).getGeologicIndex();
+                }
+                regions.put(point, new Region(geologicalIndex, depth));
+            }
+        }
+        
+        return "" + regions.values().stream()
+                .map(Region::getType)
+                .mapToInt(Type::getRiskLevel)
+                .sum();
     }
 
     /**
