@@ -15,7 +15,7 @@ import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.ProgramExecutionCa
 
 /**
  * Solution to the day 21 puzzle of 2018's Advent of Code:
- * <a href="https://adventofcode.com/2018/day/19">Go With The Flow</a>.
+ * <a href="https://adventofcode.com/2018/day/21">Chronal Conversion</a>.
  *
  * @author Martijn van de Rijdt
  */
