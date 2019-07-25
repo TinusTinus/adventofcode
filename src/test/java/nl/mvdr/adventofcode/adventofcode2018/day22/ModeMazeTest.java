@@ -24,6 +24,7 @@ public class ModeMazeTest extends SolverTest<ModeMaze> {
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
+        // 10048 too high
         assertSolution("?", "input-day22-2018.txt");
     }
 }

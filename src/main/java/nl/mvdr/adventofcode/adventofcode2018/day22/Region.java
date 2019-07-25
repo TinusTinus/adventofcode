@@ -9,10 +9,10 @@ import java.math.BigInteger;
  */
 class Region {
     
-    /** The geologic index of this region. */
-    private final BigInteger geologicIndex;
     /** The type of this region. */
     private final Type type;
+    /** Erosion level. */
+    private final BigInteger erosionLevel;
     
     /**
      * Constructor.
@@ -23,17 +23,20 @@ class Region {
     Region(BigInteger geologicIndex, int depth) {
         super();
         
-        this.geologicIndex = geologicIndex;
-        
-        BigInteger erosionLevel = geologicIndex.add(BigInteger.valueOf(depth)).mod(BigInteger.valueOf(20_183L));
+        this.erosionLevel = geologicIndex.add(BigInteger.valueOf(depth)).mod(BigInteger.valueOf(20_183L));
         this.type = Type.getType(erosionLevel);
-    }
-    
-    BigInteger getGeologicIndex() {
-        return geologicIndex;
     }
     
     Type getType() {
         return type;
+    }
+    
+    BigInteger getErosionLevel() {
+        return erosionLevel;
+    }
+
+    @Override
+    public String toString() {
+        return "Region [type=" + type + ", erosionLevel=" + erosionLevel + "]";
     }
 }

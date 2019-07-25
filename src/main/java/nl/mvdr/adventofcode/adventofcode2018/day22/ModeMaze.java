@@ -49,13 +49,24 @@ public class ModeMaze implements PathSolver {
                 if (target.equals(point)) {
                     geologicalIndex = BigInteger.ZERO;
                 } else {
-                    geologicalIndex = regions.get(point.aboveNeighbour()).getGeologicIndex()
-                            .multiply(regions.get(point.leftNeighbour()).getGeologicIndex());
+                    geologicalIndex = regions.get(point.aboveNeighbour()).getErosionLevel()
+                            .multiply(regions.get(point.leftNeighbour()).getErosionLevel());
                 }
                 Region region = new Region(geologicalIndex, depth);
                 regions.put(point, region);
-                LOGGER.debug("new Region {}: {}", point, region.getType());
+                LOGGER.info("new Region {}: {}", point, region);
             }
+        }
+        
+        for (int y = 0; y <= target.getY(); y++) {
+            for (int x = 0; x <= target.getX(); x++) {
+            
+                Point point = new Point(x, y);
+                Region region = regions.get(point);
+                Type type = region.getType();
+                System.out.print(type.getRepresentation());
+            }
+            System.out.println();
         }
         
         return "" + regions.values().stream()

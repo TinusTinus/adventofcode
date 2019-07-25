@@ -20,7 +20,7 @@ public class RegionTest {
         
         Region region = new Region(geologicIndex, depth);
         
-        Assertions.assertEquals(geologicIndex, region.getGeologicIndex());
+        Assertions.assertEquals(510L, region.getErosionLevel().longValue());
         Assertions.assertEquals(Type.ROCKY, region.getType());
     }
     
@@ -32,7 +32,7 @@ public class RegionTest {
         
         Region region = new Region(geologicIndex, depth);
         
-        Assertions.assertEquals(geologicIndex, region.getGeologicIndex());
+        Assertions.assertEquals(17_317L, region.getErosionLevel().longValue());
         Assertions.assertEquals(Type.WET, region.getType());
     }
     
@@ -44,7 +44,7 @@ public class RegionTest {
         
         Region region = new Region(geologicIndex, depth);
         
-        Assertions.assertEquals(geologicIndex, region.getGeologicIndex());
+        Assertions.assertEquals(8_415L, region.getErosionLevel().longValue());
         Assertions.assertEquals(Type.ROCKY, region.getType());
     }
     
@@ -56,7 +56,7 @@ public class RegionTest {
         
         Region region = new Region(geologicIndex, depth);
         
-        Assertions.assertEquals(geologicIndex, region.getGeologicIndex());
+        Assertions.assertEquals(1_805L, region.getErosionLevel().longValue());
         Assertions.assertEquals(Type.NARROW, region.getType());
     }
 }

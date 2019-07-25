@@ -10,20 +10,27 @@ import java.math.BigInteger;
 enum Type {
     
     /** The region of the cave is rocky. */
-    ROCKY(0),
+    ROCKY(0, '.'),
     /** The region of the cave is narrow. */
-    NARROW(1),
+    NARROW(1, '|'),
     /** The region of the cave is wet. */
-    WET(2);
+    WET(2, '=');
     
     private final int riskLevel;
     
-    Type(int riskLevel) {
+    private final char representation;
+    
+    Type(int riskLevel, char representation) {
         this.riskLevel = riskLevel;
+        this.representation = representation;
     }
     
     int getRiskLevel() {
         return riskLevel;
+    }
+    
+    char getRepresentation() {
+        return representation;
     }
     
     /**
