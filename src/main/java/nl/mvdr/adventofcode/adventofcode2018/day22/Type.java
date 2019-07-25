@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
-import java.math.BigInteger;
-
 /**
  * Type of a region.
  * 
@@ -39,8 +37,8 @@ enum Type {
      * @param erosionLevel erosion level
      * @return region type
      */
-    static Type getType(BigInteger erosionLevel) {
-        int erosionLevelModulo3 = erosionLevel.mod(BigInteger.valueOf(3L)).intValue();
+    static Type getType(int erosionLevel) {
+        int erosionLevelModulo3 = erosionLevel % 3;
         Type result;
         if (erosionLevelModulo3 == 0) {
             result = ROCKY;

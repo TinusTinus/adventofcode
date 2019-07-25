@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
-import java.math.BigInteger;
-
 /**
  * A region in the cave.
  * 
@@ -12,7 +10,7 @@ class Region {
     /** The type of this region. */
     private final Type type;
     /** Erosion level. */
-    private final BigInteger erosionLevel;
+    private final int erosionLevel;
     
     /**
      * Constructor.
@@ -20,10 +18,10 @@ class Region {
      * @param geologicIndex geologic index of this region
      * @param depth depth of the cave
      */
-    Region(BigInteger geologicIndex, int depth) {
+    Region(int geologicIndex, int depth) {
         super();
         
-        this.erosionLevel = geologicIndex.add(BigInteger.valueOf(depth)).mod(BigInteger.valueOf(20_183L));
+        this.erosionLevel = (geologicIndex + depth) % 20_183;
         this.type = Type.getType(erosionLevel);
     }
     
@@ -31,7 +29,7 @@ class Region {
         return type;
     }
     
-    BigInteger getErosionLevel() {
+    int getErosionLevel() {
         return erosionLevel;
     }
 

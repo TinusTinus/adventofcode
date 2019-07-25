@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
-import java.math.BigInteger;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,48 +13,48 @@ public class RegionTest {
     /** Test case for {@link Region#Region(int, int)} based on an example from the puzzle. */
     @Test
     public void testExample0() {
-        BigInteger geologicIndex = BigInteger.ZERO;
+        int geologicIndex = 0;
         int depth = 510;
         
         Region region = new Region(geologicIndex, depth);
         
-        Assertions.assertEquals(510L, region.getErosionLevel().longValue());
+        Assertions.assertEquals(510, region.getErosionLevel());
         Assertions.assertEquals(Type.ROCKY, region.getType());
     }
     
     /** Test case for {@link Region#Region(int, int)} based on an example from the puzzle. */
     @Test
     public void testExample1() {
-        BigInteger geologicIndex = BigInteger.valueOf(16_807L);
+        int geologicIndex = 16_807;
         int depth = 510;
         
         Region region = new Region(geologicIndex, depth);
         
-        Assertions.assertEquals(17_317L, region.getErosionLevel().longValue());
+        Assertions.assertEquals(17_317, region.getErosionLevel());
         Assertions.assertEquals(Type.WET, region.getType());
     }
     
     /** Test case for {@link Region#Region(int, int)} based on an example from the puzzle. */
     @Test
     public void testExample2() {
-        BigInteger geologicIndex = BigInteger.valueOf(48_271L);
+        int geologicIndex = 48_271;
         int depth = 510;
         
         Region region = new Region(geologicIndex, depth);
         
-        Assertions.assertEquals(8_415L, region.getErosionLevel().longValue());
+        Assertions.assertEquals(8_415, region.getErosionLevel());
         Assertions.assertEquals(Type.ROCKY, region.getType());
     }
     
     /** Test case for {@link Region#Region(int, int)} based on an example from the puzzle. */
     @Test
     public void testExample3() {
-        BigInteger geologicIndex = BigInteger.valueOf(145_722_555L);
+        int geologicIndex = 145_722_555;
         int depth = 510;
         
         Region region = new Region(geologicIndex, depth);
         
-        Assertions.assertEquals(1_805L, region.getErosionLevel().longValue());
+        Assertions.assertEquals(1_805, region.getErosionLevel());
         Assertions.assertEquals(Type.NARROW, region.getType());
     }
 }

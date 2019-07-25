@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -35,19 +34,19 @@ public class ModeMaze implements PathSolver {
         Map<Point, Region> regions = new HashMap<>();
         
         for (int y = 0; y <= target.getY(); y++) {
-            regions.put(new Point(0, y), new Region(BigInteger.valueOf(y * 48_271L), depth));
+            regions.put(new Point(0, y), new Region(y * 48_271, depth));
         }
         
         for (int x = 1; x <= target.getX(); x++) {
-            regions.put(new Point(x, 0), new Region(BigInteger.valueOf(x * 16_807L), depth));
+            regions.put(new Point(x, 0), new Region(x * 16_807, depth));
             for (int y = 1; y <= target.getY(); y++) {
                 Point point = new Point(x, y);
-                BigInteger geologicalIndex;
+                int geologicalIndex;
                 if (target.equals(point)) {
-                    geologicalIndex = BigInteger.ZERO;
+                    geologicalIndex = 0;
                 } else {
                     geologicalIndex = regions.get(point.aboveNeighbour()).getErosionLevel()
-                            .multiply(regions.get(point.leftNeighbour()).getErosionLevel());
+                            * regions.get(point.leftNeighbour()).getErosionLevel();
                 }
                 Region region = new Region(geologicalIndex, depth);
                 regions.put(point, region);
