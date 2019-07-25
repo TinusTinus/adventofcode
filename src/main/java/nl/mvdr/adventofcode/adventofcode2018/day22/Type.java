@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
