@@ -63,6 +63,10 @@ class Cave {
         this.regions = new HashMap<>();
     }
     
+    Point getTarget() {
+        return target;
+    }
+    
     /**
      * Gets the region at the given coordinates.
      * 
