@@ -21,7 +21,7 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  */
 class Cave {
     /** Mouth of the cave. */
-    private static final Point MOUTH = new Point(0, 0);
+    static final Point MOUTH = new Point(0, 0);
     
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(Cave.class);
