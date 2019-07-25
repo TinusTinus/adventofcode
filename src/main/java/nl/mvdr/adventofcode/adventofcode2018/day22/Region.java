@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
+import java.math.BigInteger;
+
 /**
  * A region in the cave.
  * 
@@ -7,9 +9,8 @@ package nl.mvdr.adventofcode.adventofcode2018.day22;
  */
 class Region {
     
-    // TODO computations lead to overflows; either use BigIntegers instead of longs, or see if we can use smaller numbers by using properties of modulo
     /** The geologic index of this region. */
-    private final long geologicIndex;
+    private final BigInteger geologicIndex;
     /** The type of this region. */
     private final Type type;
     
@@ -19,16 +20,16 @@ class Region {
      * @param geologicIndex geologic index of this region
      * @param depth depth of the cave
      */
-    Region(long geologicIndex, int depth) {
+    Region(BigInteger geologicIndex, int depth) {
         super();
         
         this.geologicIndex = geologicIndex;
         
-        long erosionLevel = (geologicIndex + depth) % 20183L;
+        BigInteger erosionLevel = geologicIndex.add(BigInteger.valueOf(depth)).mod(BigInteger.valueOf(20_183L));
         this.type = Type.getType(erosionLevel);
     }
     
-    long getGeologicIndex() {
+    BigInteger getGeologicIndex() {
         return geologicIndex;
     }
     

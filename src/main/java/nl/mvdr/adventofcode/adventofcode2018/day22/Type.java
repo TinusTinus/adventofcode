@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 /**
  * Type of a region.
  * 
@@ -30,17 +33,18 @@ enum Type {
      * @param erosionLevel erosion level
      * @return region type
      */
-    static Type getType(long erosionLevel) {
-        long erosionLevelModulo3 = erosionLevel % 3L;
+    static Type getType(BigInteger erosionLevel) {
+        int erosionLevelModulo3 = erosionLevel.mod(BigInteger.valueOf(3L)).intValue();
         Type result;
-        if (erosionLevelModulo3 == 0L) {
+        if (erosionLevelModulo3 == 0) {
             result = ROCKY;
-        } else if (erosionLevelModulo3 == 1L) {
+        } else if (erosionLevelModulo3 == 1) {
             result = WET;
-        } else if (erosionLevelModulo3 == 2L) {
+        } else if (erosionLevelModulo3 == 2) {
             result = NARROW;
         } else {
-            throw new IllegalArgumentException("Unexpected erosion level: " + erosionLevel);
+            // Should not occur: BigInteger.mod returns a nonnegative value.
+            throw new IllegalStateException("Unexpected modulo value: " + erosionLevelModulo3);
         }
         return result;
     }
