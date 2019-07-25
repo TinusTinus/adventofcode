@@ -51,26 +51,16 @@ public class ModeMaze implements PathSolver {
                 }
                 Region region = new Region(geologicalIndex, depth);
                 regions.put(point, region);
-                LOGGER.info("new Region {}: {}", point, region);
+                LOGGER.debug("new Region {}: {}", point, region);
             }
         }
         
-        // TODO remove sysouts
-        for (int y = 0; y <= target.getY(); y++) {
-            for (int x = 0; x <= target.getX(); x++) {
-            
-                Point point = new Point(x, y);
-                Region region = regions.get(point);
-                Type type = region.getType();
-                System.out.print(type.getRepresentation());
-            }
-            System.out.println();
-        }
-        
-        return "" + regions.values().stream()
+        int totalRiskLevel = regions.values().stream()
                 .map(Region::getType)
                 .mapToInt(Type::getRiskLevel)
                 .sum();
+        
+        return "" + totalRiskLevel;
     }
     
     /**

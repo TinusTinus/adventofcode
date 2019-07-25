@@ -12,9 +12,9 @@ enum Type {
     /** The region of the cave is rocky. */
     ROCKY(0, '.'),
     /** The region of the cave is narrow. */
-    NARROW(1, '|'),
+    NARROW(2, '|'),
     /** The region of the cave is wet. */
-    WET(2, '=');
+    WET(1, '=');
     
     private final int riskLevel;
     
