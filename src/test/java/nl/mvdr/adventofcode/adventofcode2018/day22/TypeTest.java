@@ -49,4 +49,12 @@ public class TypeTest {
         
         Assertions.assertEquals(Type.NARROW, type);
     }
+    
+    /** Test case for {@link Type#getType(int)} with a negative input value. */
+    @Test
+    public void testGetTypeNegative() {
+        int erosionLevel = -4;
+        
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Type.getType(erosionLevel));
+    }
 }
