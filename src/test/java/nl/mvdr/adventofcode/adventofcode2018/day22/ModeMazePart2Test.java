@@ -5,25 +5,25 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link ModeMaze}.
+ * Unit test for {@link ModeMazePart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class ModeMazeTest extends SolverTest<ModeMaze> {
+public class ModeMazePart2Test extends SolverTest<ModeMazePart1> {
     /** Constructor. */
-    public ModeMazeTest() {
-        super(ModeMaze.class);
+    public ModeMazePart2Test() {
+        super(ModeMazePart1.class);
     }
 
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("114", "example-day22-2018.txt");
+        assertSolution("45", "example-day22-2018.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("9899", "input-day22-2018.txt");
+        assertSolution("?", "input-day22-2018.txt");
     }
 }

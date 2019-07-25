@@ -3,9 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2018.day22;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
@@ -14,24 +11,20 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ModeMaze implements PathSolver {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModeMaze.class);
-
+abstract class ModeMaze implements PathSolver {
+    
     @Override
     public String solve(Path inputFilePath) throws IOException {
         Cave cave = Cave.parse(inputFilePath);
-        return "" + cave.getTotalRiskLevel();
+        int result = solve(cave);
+        return "" + result;
     }
-    
+
     /**
-     * Main method.
+     * Solver method.
      * 
-     * @param args commandline arguments; these are ignored
+     * @param cave the cave
+     * @return integer representing the puzzle's result
      */
-    public static void main(String[] args) {
-        ModeMaze solver = new ModeMaze();
-        String solution = solver.solve("input-day22-2018.txt");
-        LOGGER.info(solution);
-    }
+    protected abstract int solve(Cave cave);
 }
