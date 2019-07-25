@@ -32,6 +32,9 @@ public class ModeMaze implements PathSolver {
         int depth = Integer.parseInt(lines.get(0).substring("depth: ".length()));
         Point target = Point.parse(lines.get(1).substring("target: ".length()));
         
+        // TODO this implementation is technically correct, but does not perform.
+        // See if we can refactor given the definitions of % and *
+        
         Map<Point, Region> regions = new HashMap<>();
         
         for (int y = 0; y <= target.getY(); y++) {
@@ -49,7 +52,9 @@ public class ModeMaze implements PathSolver {
                     geologicalIndex = regions.get(point.aboveNeighbour()).getGeologicIndex()
                             .multiply(regions.get(point.leftNeighbour()).getGeologicIndex());
                 }
-                regions.put(point, new Region(geologicalIndex, depth));
+                Region region = new Region(geologicalIndex, depth);
+                regions.put(point, region);
+                LOGGER.debug("new Region {}: {}", point, region.getType());
             }
         }
         
@@ -58,7 +63,7 @@ public class ModeMaze implements PathSolver {
                 .mapToInt(Type::getRiskLevel)
                 .sum();
     }
-
+    
     /**
      * Main method.
      * 
