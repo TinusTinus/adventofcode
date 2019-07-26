@@ -43,14 +43,22 @@ class Nanobot {
      * @return nanobot
      */
     private static Nanobot parse(String line) {
-        Pattern pattern = Pattern.compile("pos=(<\\d+,\\d+,\\d+>), r=(\\d+)");
-        
+        Pattern pattern = Pattern.compile("pos=(<-?\\d+,-?\\d+,-?\\d+>), r=(\\d+)");
+
         Matcher matcher = pattern.matcher(line);
-        
-        Point position = Point.parse(matcher.group(1));
-        int radius = Integer.parseInt(matcher.group(2));
-        
-        return new Nanobot(position, radius);
+        matcher.matches();
+
+        Nanobot result;
+
+        if (matcher.matches()) {
+            Point position = Point.parse(matcher.group(1));
+            int radius = Integer.parseInt(matcher.group(2));
+            result = new Nanobot(position, radius);
+        } else {
+            throw new IllegalArgumentException("Unable to parse line: " + line);
+        }
+
+        return result;
     }
     
     /**
