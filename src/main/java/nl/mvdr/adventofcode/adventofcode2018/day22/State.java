@@ -51,21 +51,21 @@ class State {
     }
     
     /** @return valid state transitions from this state */
-    Set<StateTransition> getTransitions(Cave cave) {
-        Set<StateTransition> result = new HashSet<>();
+    Set<Transition> getTransitions(Cave cave) {
+        Set<Transition> result = new HashSet<>();
         
         this.location.neighbours().stream()
                 .filter(point -> 0 <= point.getX())
                 .filter(point -> 0 <= point.getY())
                 .filter(point -> cave.getRegionAt(point).getType().getUsableEquipment().contains(equipment))
                 .map(point -> new State(point, equipment))
-                .map(nextState -> new StateTransition(nextState, 1))
+                .map(nextState -> new Transition(nextState, 1))
                 .forEach(result::add);
         
         Stream.of(Equipment.values())
                 .filter(value -> value != equipment)
                 .map(value -> new State(location, value))
-                .map(nextState -> new StateTransition(nextState, 7))
+                .map(nextState -> new Transition(nextState, 7))
                 .forEach(result::add);
         
         return result;
