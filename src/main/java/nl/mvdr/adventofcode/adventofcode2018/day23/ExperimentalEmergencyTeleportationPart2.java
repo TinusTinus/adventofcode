@@ -24,30 +24,9 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
-        Set<Point> candidates = getCandidates(nanobots);
+        long maxNanobotsInRange = 0L;
+        Set<Point> candidates = new HashSet<>();
         
-        long maxNanobotsInRange = candidates.stream()
-                .mapToLong(point -> nanobotsInRange(point, nanobots))
-                .max()
-                .getAsLong();
-        
-        Point startingPosition = new Point(0, 0, 0);
-        int result = candidates.stream()
-                .filter(candidate -> nanobotsInRange(candidate, nanobots) == maxNanobotsInRange)
-                .mapToInt(startingPosition::manhattanDistance)
-                .min()
-                .getAsInt();
-        
-        return "" + result;
-    }
-
-    /**
-     * Generates a set of points, which are candidate optimal teleportation locations.
-     * 
-     * @param nanobots all nanobots
-     * @return set of points
-     */
-    private Set<Point> getCandidates(Set<Nanobot> nanobots) {
         int minX = nanobots.stream()
                 .map(Nanobot::getPosition)
                 .mapToInt(Point::getX)
@@ -79,17 +58,31 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
                 .max()
                 .getAsInt();
         
-        Set<Point> candidates = new HashSet<>();
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
-                    candidates.add(new Point(x, y, z));
+                    Point point = new Point(x, y, z);
+                    long nanobotsInRange = countNanobotsInRange(point, nanobots);
+                    if (maxNanobotsInRange < nanobotsInRange) {
+                        maxNanobotsInRange = nanobotsInRange;
+                        candidates.clear();
+                    }
+                    if (maxNanobotsInRange == nanobotsInRange) {
+                        candidates.add(point);
+                    }
                 }
             }
         }
-        return candidates;
+        
+        Point startingPosition = new Point(0, 0, 0);
+        int result = candidates.stream()
+                .mapToInt(startingPosition::manhattanDistance)
+                .min()
+                .getAsInt();
+        
+        return "" + result;
     }
-    
+
     /**
      * Determines, given a location, which nanobots are in range of this location.
      * 
@@ -97,7 +90,7 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
      * @param nanobots nanobots
      * @return number of nanobots in range
      */
-    private long nanobotsInRange(Point point, Set<Nanobot> nanobots) {
+    private long countNanobotsInRange(Point point, Set<Nanobot> nanobots) {
         return nanobots.stream()
                 .filter(nanobot -> nanobot.inRange(point))
                 .count();
