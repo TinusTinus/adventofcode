@@ -1,12 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
+import org.jgrapht.Graph;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm.SingleSourcePaths;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleWeightedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,45 +82,30 @@ class RoomMap {
     
     /** Marks this map as complete. */
     void complete() {
-        // Calculate the shortest paths, using Dijkstra's algorithm.
+        // Calculate the shortest paths.
+        
+        // Create a graph, with rooms as vertices, and edges where there are doors.
+        Graph<Room, DefaultEdge> graph = new SimpleWeightedGraph<>(DefaultEdge.class);
+        rooms.values().forEach(graph::addVertex);
+        // Add edges for West - East doors
+        rooms.entrySet().stream()
+            .filter(entry -> entry.getValue().hasEastDoor())
+            .forEach(entry -> graph.addEdge(entry.getValue(), rooms.get(entry.getKey().eastNeighbour())));
+        // Add edges for North - South doors
+        rooms.entrySet().stream()
+            .filter(entry -> entry.getValue().hasSouthDoor())
+            .forEach(entry -> graph.addEdge(entry.getValue(), rooms.get(entry.getKey().southNeighbour())));
+        
+        ShortestPathAlgorithm<Room, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        SingleSourcePaths<Room, DefaultEdge> paths = algorithm.getPaths(rooms.get(STARTING_POINT));
+        
         pathLengths = new HashMap<>();
-        
-        Set<Point> unvisited = new HashSet<>(rooms.keySet());
-        pathLengths.put(STARTING_POINT, Integer.valueOf(0));
-        
-        Optional<Point> nextU = unvisited.stream()
-                .filter(pathLengths::containsKey)
-                .min(Comparator.comparing(p -> pathLengths.get(p)));
-        while (nextU.isPresent()) {
-            Point u = nextU.get();
-            unvisited.remove(u);
-            
-            int altPathLength = pathLengths.get(u).intValue() + 1;
-            
-            Set<Point> reachableNeighbours = new HashSet<>();
-            if (rooms.get(u).hasEastDoor()) {
-                reachableNeighbours.add(u.eastNeighbour());
-            }
-            if (rooms.get(u).hasSouthDoor()) {
-                reachableNeighbours.add(u.southNeighbour());
-            }
-            if (rooms.getOrDefault(u.westNeighbour(), new Room()).hasEastDoor()) {
-                reachableNeighbours.add(u.westNeighbour());
-            }
-            if (rooms.getOrDefault(u.northNeighbour(), new Room()).hasSouthDoor()) {
-                reachableNeighbours.add(u.northNeighbour());
-            }
-            
-            for (Point neighbour : reachableNeighbours) {
-                if (unvisited.contains(neighbour) && (!pathLengths.containsKey(neighbour) || altPathLength < pathLengths.get(neighbour).intValue())) {
-                    pathLengths.put(neighbour, Integer.valueOf(altPathLength));
-                }
-            }
-            
-            nextU = unvisited.stream()
-                    .filter(pathLengths::containsKey)
-                    .min(Comparator.comparing(p -> pathLengths.get(p)));
-        }
+        rooms.keySet().forEach(point -> {
+            Room room = rooms.get(point);
+            double weight = paths.getWeight(room);
+            int pahtLength = (int) Math.round(weight);
+            pathLengths.put(point, Integer.valueOf(pahtLength));
+        });
     }
 
     Map<Point, Room> getRooms() {
