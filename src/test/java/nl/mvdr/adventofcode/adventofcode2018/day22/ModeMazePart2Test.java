@@ -24,6 +24,6 @@ public class ModeMazePart2Test extends SolverTest<ModeMazePart2> {
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day22-2018.txt");
+        assertSolution("1051", "input-day22-2018.txt");
     }
 }
