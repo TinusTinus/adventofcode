@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -22,10 +21,14 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        // TODO This solution is technically correct, but does not perform.
+        
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
         long maxNanobotsInRange = 0L;
-        Set<Point> candidates = new HashSet<>();
+        int minimumManhattanDistance = Integer.MAX_VALUE;
+        
+        Point startingPosition = new Point(0, 0, 0);
         
         int minX = nanobots.stream()
                 .map(Nanobot::getPosition)
@@ -65,22 +68,21 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
                     long nanobotsInRange = countNanobotsInRange(point, nanobots);
                     if (maxNanobotsInRange < nanobotsInRange) {
                         maxNanobotsInRange = nanobotsInRange;
-                        candidates.clear();
-                    }
-                    if (maxNanobotsInRange == nanobotsInRange) {
-                        candidates.add(point);
+                        minimumManhattanDistance = startingPosition.manhattanDistance(point);
+                        LOGGER.debug("New maximum nanobots in range found: {}, at {}, Manhattan distance from starting point: {}",
+                                Long.valueOf(maxNanobotsInRange), point, Integer.valueOf(minimumManhattanDistance));
+                    } else if (maxNanobotsInRange == nanobotsInRange) {
+                        int manhattanDistance = startingPosition.manhattanDistance(point);
+                        if (manhattanDistance < minimumManhattanDistance) {
+                            minimumManhattanDistance = manhattanDistance;
+                            LOGGER.debug("New shortest Manhattan distance found at {}: {}", point, Integer.valueOf(manhattanDistance));
+                        }
                     }
                 }
             }
         }
         
-        Point startingPosition = new Point(0, 0, 0);
-        int result = candidates.stream()
-                .mapToInt(startingPosition::manhattanDistance)
-                .min()
-                .getAsInt();
-        
-        return "" + result;
+        return "" + minimumManhattanDistance;
     }
 
     /**
