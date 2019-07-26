@@ -74,7 +74,14 @@ class Cave {
      * @return region
      */
     Region getRegionAt(Point point) {
-        return regions.computeIfAbsent(point, this::computeRegion);
+        Region result = regions.get(point);
+        
+        if (result == null) {
+            result = computeRegion(point);
+            regions.put(point, result);
+        }
+        
+        return result;
     }
     
     /**
