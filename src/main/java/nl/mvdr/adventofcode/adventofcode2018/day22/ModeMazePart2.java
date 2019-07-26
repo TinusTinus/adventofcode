@@ -1,11 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,17 +28,40 @@ public class ModeMazePart2 extends ModeMaze {
      */
     @Override
     protected int solve(Cave cave) {
-        Graph<State, DefaultEdge> graph = new SimpleWeightedGraph<>(DefaultEdge.class);
+        // Build a weighted graph, with states as vertices, transitions as edges and costs in minutes as weights.
+        // Then use a shortest path algorithm.
+        
+        // Note: JGrapht does not seem to support graphs of infinite size
+        // (even though Dijkstra's shortest path algorithm supports those just fine in theory).
+        // Build a finite graph which is large enough that it is likely to contain the actual shortest path.
+        
+        Graph<State, Transition> graph = new SimpleWeightedGraph<>(Transition.class);
         
         State initialState = State.initialState();
         graph.addVertex(initialState);
         Set<State> lastAdded = Set.of(initialState);
         
         while (!lastAdded.isEmpty()) {
-            // TODO
+            Set<State> addedThisIteration = new HashSet<>();
+            
+            lastAdded.stream()
+                .flatMap(state -> state.getTransitions(cave).stream())
+                .filter(transition -> transition.getNextState().getLocation().getX() < 2 * cave.getTarget().getX())
+                .filter(transition -> transition.getNextState().getLocation().getY() < 2 * cave.getTarget().getY())
+                .forEach(transition -> {
+                    if (!graph.containsVertex(transition.getNextState())) {
+                        graph.addVertex(transition.getNextState());
+                        addedThisIteration.add(transition.getNextState());
+                    }
+                    if (!graph.containsEdge(transition.getSource(), transition.getNextState())) {
+                        graph.addEdge(transition.getSource(), transition.getNextState(), transition);
+                        graph.setEdgeWeight(transition, transition.getCost());
+                    }
+                });
+            lastAdded = addedThisIteration;
         }
         
-        ShortestPathAlgorithm<State, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        ShortestPathAlgorithm<State, Transition> algorithm = new DijkstraShortestPath<>(graph);
         double weight = algorithm.getPathWeight(initialState, State.targetState(cave));
         
         return (int)Math.round(weight);

@@ -59,16 +59,20 @@ class State {
                 .filter(point -> 0 <= point.getY())
                 .filter(point -> cave.getRegionAt(point).getType().getUsableEquipment().contains(equipment))
                 .map(point -> new State(point, equipment))
-                .map(nextState -> new Transition(nextState, 1))
+                .map(nextState -> new Transition(this, nextState, 1))
                 .forEach(result::add);
         
         Stream.of(Equipment.values())
                 .filter(value -> value != equipment)
                 .map(value -> new State(location, value))
-                .map(nextState -> new Transition(nextState, 7))
+                .map(nextState -> new Transition(this, nextState, 7))
                 .forEach(result::add);
         
         return result;
+    }
+    
+    Point getLocation() {
+        return location;
     }
 
     @Override
