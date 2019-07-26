@@ -64,6 +64,7 @@ class State {
         
         Stream.of(Equipment.values())
                 .filter(value -> value != equipment)
+                .filter(value -> cave.getRegionAt(location).getType().getUsableEquipment().contains(value))
                 .map(value -> new State(location, value))
                 .map(nextState -> new Transition(this, nextState, 7))
                 .forEach(result::add);
