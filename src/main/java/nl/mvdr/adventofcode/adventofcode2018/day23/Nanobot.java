@@ -72,6 +72,14 @@ class Nanobot {
         this.position = position;
         this.radius = radius;
     }
+    
+    int getRadius() {
+        return radius;
+    }
+    
+    Point getPosition() {
+        return position;
+    }
 
     @Override
     public String toString() {

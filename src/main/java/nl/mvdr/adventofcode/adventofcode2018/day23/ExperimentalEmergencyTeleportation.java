@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -23,9 +24,19 @@ public class ExperimentalEmergencyTeleportation implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
-        LOGGER.info("Nanobots: {}", nanobots); // TODO debug
+        LOGGER.debug("Nanobots: {}", nanobots);
         
-        return null; // TODO
+        Nanobot strongestNanobot = nanobots.stream()
+                .max(Comparator.comparing(Nanobot::getRadius))
+                .get();
+        
+        long nanobotsInRange = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(position -> position.manhattanDistance(strongestNanobot.getPosition()))
+                .filter(distance -> distance <= strongestNanobot.getRadius())
+                .count();
+        
+        return "" + nanobotsInRange;
     }
     
     /**

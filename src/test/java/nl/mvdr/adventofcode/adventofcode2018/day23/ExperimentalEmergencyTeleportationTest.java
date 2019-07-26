@@ -24,6 +24,6 @@ public class ExperimentalEmergencyTeleportationTest extends SolverTest<Experimen
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day23-2018.txt");
+        assertSolution("248", "input-day23-2018.txt");
     }
 }
