@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link ModeMazePart1}.
+ * Unit test for {@link ModeMazePart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class ModeMazePart2Test extends SolverTest<ModeMazePart1> {
+public class ModeMazePart2Test extends SolverTest<ModeMazePart2> {
     /** Constructor. */
     public ModeMazePart2Test() {
-        super(ModeMazePart1.class);
+        super(ModeMazePart2.class);
     }
 
     /** Test case based on an example from the puzzle. */
