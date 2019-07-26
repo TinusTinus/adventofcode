@@ -1,8 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
+import java.util.Set;
+
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,17 +28,20 @@ public class ModeMazePart2 extends ModeMaze {
      */
     @Override
     protected int solve(Cave cave) {
-        Graph<State, Object> graph = new SimpleWeightedGraph<>(Object.class);
+        Graph<State, DefaultEdge> graph = new SimpleWeightedGraph<>(DefaultEdge.class);
         
-        graph.addVertex(State.initialState());
+        State initialState = State.initialState();
+        graph.addVertex(initialState);
+        Set<State> lastAdded = Set.of(initialState);
         
-        // TODO add vertices and edges
+        while (!lastAdded.isEmpty()) {
+            // TODO
+        }
         
-        ShortestPathAlgorithm<State, Object> algorithm = new DijkstraShortestPath<>(graph);
-        double weight = algorithm.getPathWeight(State.initialState(), State.targetState(cave));
+        ShortestPathAlgorithm<State, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        double weight = algorithm.getPathWeight(initialState, State.targetState(cave));
         
-        // TODO convert to an integer properly
-        return (int)weight; // TODO
+        return (int)Math.round(weight);
     }
     
     /**

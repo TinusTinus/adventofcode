@@ -1,8 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.processing.Generated;
@@ -49,6 +49,27 @@ class State {
         this.location = location;
         this.equipment = equipment;
     }
+    
+    /** @return valid state transitions from this state */
+    Set<StateTransition> getTransitions(Cave cave) {
+        Set<StateTransition> result = new HashSet<>();
+        
+        this.location.neighbours().stream()
+                .filter(point -> 0 <= point.getX())
+                .filter(point -> 0 <= point.getY())
+                .filter(point -> cave.getRegionAt(point).getType().getUsableEquipment().contains(equipment))
+                .map(point -> new State(point, equipment))
+                .map(nextState -> new StateTransition(nextState, 1))
+                .forEach(result::add);
+        
+        Stream.of(Equipment.values())
+                .filter(value -> value != equipment)
+                .map(value -> new State(location, value))
+                .map(nextState -> new StateTransition(nextState, 7))
+                .forEach(result::add);
+        
+        return result;
+    }
 
     @Override
     public String toString() {
@@ -72,32 +93,5 @@ class State {
             return false;
         State other = (State) obj;
         return equipment == other.equipment && Objects.equals(location, other.location);
-    }
-    
-    /**
-     * Possible moves from this state. Each of these takes one minute to complete.
-     * 
-     * @param cave the cave
-     * @return new states
-     */
-    Set<State> getMoves(Cave cave) {
-        return this.location.neighbours().stream()
-                .filter(point -> 0 <= point.getX())
-                .filter(point -> 0 <= point.getY())
-                .filter(point -> cave.getRegionAt(point).getType().getUsableEquipment().contains(equipment))
-                .map(point -> new State(point, equipment))
-                .collect(Collectors.toSet());
-    }
-    
-    /**
-     * Possible equipment changes from this state. Each of these takes seven minutes to complete.
-     * 
-     * @return new states
-     */
-    Set<State> getEquipmentChanges() {
-        return Stream.of(Equipment.values())
-                .filter(value -> value != equipment)
-                .map(value -> new State(location, value))
-                .collect(Collectors.toSet());
     }
 }
