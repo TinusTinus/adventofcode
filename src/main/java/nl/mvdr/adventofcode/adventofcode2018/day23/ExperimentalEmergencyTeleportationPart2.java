@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,56 +29,26 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
         long maxNanobotsInRange = 0L;
         int minimumManhattanDistance = Integer.MAX_VALUE;
         
+        Set<Point> candidates = nanobots.parallelStream()
+                .flatMap(nanobot -> nanobot.range().stream())
+                .collect(Collectors.toSet());
+        
         Point startingPosition = new Point(0, 0, 0);
         
-        int minX = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getX)
-                .min()
-                .getAsInt();
-        int maxX = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getX)
-                .max()
-                .getAsInt();
-        int minY = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getY)
-                .min()
-                .getAsInt();
-        int maxY = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getY)
-                .max()
-                .getAsInt();
-        int minZ = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getZ)
-                .min()
-                .getAsInt();
-        int maxZ = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getZ)
-                .max()
-                .getAsInt();
-        
-        for (int x = minX; x <= maxX; x++) {
-            for (int y = minY; y <= maxY; y++) {
-                for (int z = minZ; z <= maxZ; z++) {
-                    Point point = new Point(x, y, z);
-                    long nanobotsInRange = countNanobotsInRange(point, nanobots);
-                    if (maxNanobotsInRange < nanobotsInRange) {
-                        maxNanobotsInRange = nanobotsInRange;
-                        minimumManhattanDistance = startingPosition.manhattanDistance(point);
-                        LOGGER.debug("New maximum nanobots in range found: {}, at {}, Manhattan distance from starting point: {}",
-                                Long.valueOf(maxNanobotsInRange), point, Integer.valueOf(minimumManhattanDistance));
-                    } else if (maxNanobotsInRange == nanobotsInRange) {
-                        int manhattanDistance = startingPosition.manhattanDistance(point);
-                        if (manhattanDistance < minimumManhattanDistance) {
-                            minimumManhattanDistance = manhattanDistance;
-                            LOGGER.debug("New shortest Manhattan distance found at {}: {}", point, Integer.valueOf(manhattanDistance));
-                        }
-                    }
+        for (Point point : candidates) {
+            long nanobotsInRange = countNanobotsInRange(point, nanobots);
+            if (maxNanobotsInRange < nanobotsInRange) {
+                maxNanobotsInRange = nanobotsInRange;
+                minimumManhattanDistance = startingPosition.manhattanDistance(point);
+                LOGGER.debug(
+                        "New maximum nanobots in range found: {}, at {}, Manhattan distance from starting point: {}",
+                        Long.valueOf(maxNanobotsInRange), point, Integer.valueOf(minimumManhattanDistance));
+            } else if (maxNanobotsInRange == nanobotsInRange) {
+                int manhattanDistance = startingPosition.manhattanDistance(point);
+                if (manhattanDistance < minimumManhattanDistance) {
+                    minimumManhattanDistance = manhattanDistance;
+                    LOGGER.debug("New shortest Manhattan distance found at {}: {}", point,
+                            Integer.valueOf(manhattanDistance));
                 }
             }
         }

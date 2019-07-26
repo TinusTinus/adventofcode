@@ -10,12 +10,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A tiny robot.
  * 
  * @author Martijn van de Rijdt
  */
 class Nanobot {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Nanobot.class);
+    
     private final Point position;
     private final int radius;
 
@@ -86,6 +92,8 @@ class Nanobot {
     
     /** @return the range of this nanobot */
     Set<Point> range() {
+        LOGGER.debug("Calculating range for {}", this);
+        
         Set<Point> result = new HashSet<>();
         
         result.add(this.position);
@@ -98,6 +106,7 @@ class Nanobot {
             lastAdded = nextLastAdded;
         }
         
+        LOGGER.debug("The range of nanobot {} contains {} points", this, Integer.valueOf(result.size()));
         
         return result;
     }
