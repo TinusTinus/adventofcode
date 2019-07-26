@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.util.Objects;
+import java.util.Set;
 
 import javax.annotation.processing.Generated;
 
@@ -76,6 +77,18 @@ class Point {
                 Integer.parseInt(coordinateStrings[0]),
                 Integer.parseInt(coordinateStrings[1]),
                 Integer.parseInt(coordinateStrings[2]));
+    }
+    
+    /** @return the neighbouring points to this one */
+    public Set<Point> neighbours() {
+        return Set.of(
+            new Point(x - 1, y, z),
+            new Point(x + 1, y, z),
+            new Point(x, y - 1, z),
+            new Point(x, y + 1, z),
+            new Point(x, y, z - 1),
+            new Point(x, y, z + 1)
+        );
     }
 
     @Override

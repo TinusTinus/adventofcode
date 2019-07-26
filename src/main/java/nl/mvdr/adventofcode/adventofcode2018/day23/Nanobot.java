@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -81,6 +82,24 @@ class Nanobot {
      */
     boolean inRange(Point point) {
         return position.manhattanDistance(point) <= radius;
+    }
+    
+    /** @return the range of this nanobot */
+    Set<Point> range() {
+        Set<Point> result = new HashSet<>();
+        
+        result.add(this.position);
+        Set<Point> lastAdded = Set.of(this.position);
+        for (int distance = 0; distance <= radius; distance++) {
+            Set<Point> nextLastAdded = lastAdded.stream()
+                    .flatMap(point -> point.neighbours().stream())
+                    .filter(result::add)
+                    .collect(Collectors.toSet());
+            lastAdded = nextLastAdded;
+        }
+        
+        
+        return result;
     }
     
     int getRadius() {
