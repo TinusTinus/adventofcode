@@ -16,9 +16,9 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ExperimentalEmergencyTeleportation implements PathSolver {
+public class ExperimentalEmergencyTeleportationPart1 implements PathSolver {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExperimentalEmergencyTeleportation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExperimentalEmergencyTeleportationPart1.class);
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
@@ -45,7 +45,7 @@ public class ExperimentalEmergencyTeleportation implements PathSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        ExperimentalEmergencyTeleportation solver = new ExperimentalEmergencyTeleportation();
+        ExperimentalEmergencyTeleportationPart1 solver = new ExperimentalEmergencyTeleportationPart1();
         String solution = solver.solve("input-day23-2018.txt");
         LOGGER.info(solution);
     }
