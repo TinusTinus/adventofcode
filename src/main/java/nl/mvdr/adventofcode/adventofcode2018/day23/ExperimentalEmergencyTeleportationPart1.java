@@ -32,8 +32,7 @@ public class ExperimentalEmergencyTeleportationPart1 implements PathSolver {
         
         long nanobotsInRange = nanobots.stream()
                 .map(Nanobot::getPosition)
-                .mapToInt(position -> position.manhattanDistance(strongestNanobot.getPosition()))
-                .filter(distance -> distance <= strongestNanobot.getRadius())
+                .filter(strongestNanobot::inRange)
                 .count();
         
         return "" + nanobotsInRange;

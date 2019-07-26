@@ -28,6 +28,19 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
     }
     
     /**
+     * Determines, given a location, which nanobots are in range of this location.
+     * 
+     * @param point location
+     * @param nanobots nanobots
+     * @return number of nanobots in range
+     */
+    private long nanobotsInRange(Point point, Set<Nanobot> nanobots) {
+        return nanobots.stream()
+                .filter(nanobot -> nanobot.inRange(point))
+                .count();
+    }
+    
+    /**
      * Main method.
      * 
      * @param args commandline arguments; these are ignored

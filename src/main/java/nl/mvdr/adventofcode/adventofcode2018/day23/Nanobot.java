@@ -73,6 +73,16 @@ class Nanobot {
         this.radius = radius;
     }
     
+    /**
+     * Determines whether the given location is in range of this nanobot.
+     * 
+     * @param point location
+     * @return whether the location is in range of this nanobot
+     */
+    boolean inRange(Point point) {
+        return position.manhattanDistance(point) <= radius;
+    }
+    
     int getRadius() {
         return radius;
     }
