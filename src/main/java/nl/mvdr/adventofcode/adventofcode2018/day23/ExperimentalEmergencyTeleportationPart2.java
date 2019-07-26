@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -24,7 +24,59 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
-        return null; // TODO
+        int minX = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point::getX)
+                .min()
+                .getAsInt();
+        int maxX = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point::getX)
+                .max()
+                .getAsInt();
+        int minY = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point::getY)
+                .min()
+                .getAsInt();
+        int maxY = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point::getY)
+                .max()
+                .getAsInt();
+        int minZ = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point::getZ)
+                .min()
+                .getAsInt();
+        int maxZ = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point::getZ)
+                .max()
+                .getAsInt();
+        
+        Set<Point> candidates = new HashSet<>();
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    candidates.add(new Point(x, y, z));
+                }
+            }
+        }
+        
+        long maxNanobotsInRange = candidates.stream()
+                .mapToLong(point -> nanobotsInRange(point, nanobots))
+                .max()
+                .getAsLong();
+        
+        Point startingPosition = new Point(0, 0, 0);
+        int result = candidates.stream()
+                .filter(candidate -> nanobotsInRange(candidate, nanobots) == maxNanobotsInRange)
+                .mapToInt(startingPosition::manhattanDistance)
+                .min()
+                .getAsInt();
+        
+        return "" + result;
     }
     
     /**
