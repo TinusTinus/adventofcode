@@ -24,6 +24,30 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
     public String solve(Path inputFilePath) throws IOException {
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
+        Set<Point> candidates = getCandidates(nanobots);
+        
+        long maxNanobotsInRange = candidates.stream()
+                .mapToLong(point -> nanobotsInRange(point, nanobots))
+                .max()
+                .getAsLong();
+        
+        Point startingPosition = new Point(0, 0, 0);
+        int result = candidates.stream()
+                .filter(candidate -> nanobotsInRange(candidate, nanobots) == maxNanobotsInRange)
+                .mapToInt(startingPosition::manhattanDistance)
+                .min()
+                .getAsInt();
+        
+        return "" + result;
+    }
+
+    /**
+     * Generates a set of points, which are candidate optimal teleportation locations.
+     * 
+     * @param nanobots all nanobots
+     * @return set of points
+     */
+    private Set<Point> getCandidates(Set<Nanobot> nanobots) {
         int minX = nanobots.stream()
                 .map(Nanobot::getPosition)
                 .mapToInt(Point::getX)
@@ -63,20 +87,7 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
                 }
             }
         }
-        
-        long maxNanobotsInRange = candidates.stream()
-                .mapToLong(point -> nanobotsInRange(point, nanobots))
-                .max()
-                .getAsLong();
-        
-        Point startingPosition = new Point(0, 0, 0);
-        int result = candidates.stream()
-                .filter(candidate -> nanobotsInRange(candidate, nanobots) == maxNanobotsInRange)
-                .mapToInt(startingPosition::manhattanDistance)
-                .min()
-                .getAsInt();
-        
-        return "" + result;
+        return candidates;
     }
     
     /**
