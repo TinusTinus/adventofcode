@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,10 @@ public class ExperimentalEmergencyTeleportation implements PathSolver {
     
     @Override
     public String solve(Path inputFilePath) throws IOException {
+        Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
+        
+        LOGGER.info("Nanobots: {}", nanobots); // TODO debug
+        
         return null; // TODO
     }
     
