@@ -91,6 +91,19 @@ class Nanobot {
     Point getPosition() {
         return position;
     }
+    
+    /**
+     * Determines how many of the given nanobots are within this nanobot's range.
+     * 
+     * @param nanobots nanobots (may include this bot itself)
+     * @return number of bots in range
+     */
+    long botsInRange(Set<Nanobot> nanobots) {
+        return nanobots.stream()
+                .map(Nanobot::getPosition)
+                .filter(this::inRange)
+                .count();
+    }
 
     @Override
     public String toString() {

@@ -30,12 +30,7 @@ public class ExperimentalEmergencyTeleportationPart1 implements PathSolver<Long>
                 .max(Comparator.comparing(Nanobot::getRadius))
                 .get();
         
-        long nanobotsInRange = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .filter(strongestNanobot::inRange)
-                .count();
-        
-        return Long.valueOf(nanobotsInRange);
+        return Long.valueOf(strongestNanobot.botsInRange(nanobots));
     }
     
     /**
