@@ -90,10 +90,10 @@ public class Instruction {
     /**
      * Executes this instruction.
      * 
-     * Note: this method does not modify the register array; instead it returns a new array containing the output values.
+     * Note: this method does not modify the registers; instead it returns a new list containing the output values.
      * 
      * @param registers register values before the operation
-     * @return a new array, containing the register values after the operation
+     * @return a new list, containing the register values after the operation
      */
     public List<Integer> execute(List<Integer> registers) {
         return opcode.perform(a, b, c, registers);
