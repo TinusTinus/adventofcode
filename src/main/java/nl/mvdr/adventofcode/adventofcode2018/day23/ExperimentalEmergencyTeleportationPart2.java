@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -57,19 +58,19 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
         
         Point startingPosition = new Point(0, 0, 0);
         
-        Set<Point> candidates;
+        Set<Point> candidates = new HashSet<>();
         int stepSize = maxX - minX;
         long maxNanobotsInRange = 0L;
         
         // Note: the following is an approximation, it is not guaranteed to find the correct result
         
         do {
+            stepSize = Math.max(stepSize / 100, 1);
+
+            LOGGER.debug("----- Starting step size {} -----", Integer.valueOf(stepSize));
             LOGGER.debug("x: {} - {}", Integer.valueOf(minX), Integer.valueOf(maxX));
             LOGGER.debug("y: {} - {}", Integer.valueOf(minY), Integer.valueOf(maxY));
             LOGGER.debug("z: {} - {}", Integer.valueOf(minZ), Integer.valueOf(maxZ));
-            
-            candidates = new HashSet<>();
-            stepSize = Math.max(stepSize / 10, 1);
             
             int percentageDone = 0;
             for (int x = minX; x <= maxX; x = x + stepSize) {
@@ -97,30 +98,16 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
             LOGGER.debug("Step size {}: {} points found with {} nanobots in range.", Integer.valueOf(stepSize),
                     Integer.valueOf(candidates.size()), Long.valueOf(maxNanobotsInRange));
             
-            minX = candidates.stream()
-                    .mapToInt(Point::getX)
-                    .min()
-                    .getAsInt() - stepSize;
-            maxX = candidates.stream()
-                    .mapToInt(Point::getX)
-                    .max()
-                    .getAsInt() + stepSize;
-            minY = candidates.stream()
-                    .mapToInt(Point::getY)
-                    .min()
-                    .getAsInt() - stepSize;
-            maxY = candidates.stream()
-                    .mapToInt(Point::getY)
-                    .max()
-                    .getAsInt() + stepSize;
-            minZ = candidates.stream()
-                    .mapToInt(Point::getZ)
-                    .min()
-                    .getAsInt() - stepSize;
-            maxZ = candidates.stream()
-                    .mapToInt(Point::getZ)
-                    .max()
-                    .getAsInt() + stepSize;
+            Point bestCandidate = candidates.stream()
+                    .min(Comparator.comparing(startingPosition::manhattanDistance))
+                    .get();
+            
+            minX = bestCandidate.getX() - stepSize;
+            maxX = bestCandidate.getX() + stepSize;
+            minY = bestCandidate.getY() - stepSize;
+            maxY = bestCandidate.getY() + stepSize;
+            minZ = bestCandidate.getZ() - stepSize;
+            maxZ = bestCandidate.getZ() + stepSize;
             
         } while (1 < stepSize);
         

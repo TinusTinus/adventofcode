@@ -24,7 +24,9 @@ public class ExperimentalEmergencyTeleportationPart2Test extends SolverTest<Expe
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        // Note: a local maximum seemed to be 790 nanobots in range, at <30714324,35570402,47303309>
+        // Note: there are points with 890 nanobots in range.
+        // 122591143 is not the correct answer: too low!
+        // That may mean that there are points elsewhere with more than 890 nanobots in range...?
         assertSolution("?", "input-day23-2018.txt");
     }
 }
