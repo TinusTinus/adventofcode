@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -26,18 +27,21 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
     public Integer solve(Path inputFilePath) throws IOException {
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
-        // Figure out, for each bot, how many other bots are in its range.
-        Map<Nanobot, Long> intersections = nanobots.stream()
+        Map<Nanobot, Long> botsInRange = nanobots.stream()
                 .collect(Collectors.toMap(Function.identity(), bot -> bot.botsInRange(nanobots)));
-        LOGGER.info("Maximum number of bots in range: {}", intersections.values().stream()
+        long maxBotsInRange = botsInRange.values().stream()
                 .mapToLong(Long::longValue)
                 .max()
-                .getAsLong());
+                .getAsLong();
+        Set<Nanobot> botsWithMaxBotsInRange = botsInRange.entrySet().stream()
+                .filter(entry -> entry.getValue().longValue() == maxBotsInRange)
+                .map(Entry::getKey)
+                .collect(Collectors.toSet());
         
-        // Result of this is 962.
-        // So 962 is an upper bound of the maximum number of bots.
-        // It may be a lower bound as well...?
+        LOGGER.info("Maximum number of bots in range: {}; bots: {}", maxBotsInRange, botsWithMaxBotsInRange);
         
+        // Result: there is 1 bot with 962 other bots in its range: pos=<29463738,37565122,55842905>, r=97249189.
+
         // TODO
         int minimumManhattanDistance = 0;
         
