@@ -39,8 +39,24 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
                 .collect(Collectors.toSet());
         
         LOGGER.info("Maximum number of bots in range: {}; bots: {}", maxBotsInRange, botsWithMaxBotsInRange);
-        
         // Result: there is 1 bot with 962 other bots in its range: pos=<29463738,37565122,55842905>, r=97249189.
+        
+        Map<Nanobot, Long> botsInRangeOf = nanobots.stream()
+                .collect(Collectors.toMap(Function.identity(), bot -> bot.inRangeOf(nanobots)));
+        long maxBotsInRangeOf = botsInRangeOf.values().stream()
+                .mapToLong(Long::longValue)
+                .max()
+                .getAsLong();
+        Set<Nanobot> botsWithMaxBotsInRangeOf = botsInRangeOf.entrySet().stream()
+                .filter(entry -> entry.getValue().longValue() == maxBotsInRangeOf)
+                .map(Entry::getKey)
+                .collect(Collectors.toSet());
+        
+        LOGGER.info("Maximum number of bots in range of: {}; bots: {}", maxBotsInRangeOf, botsWithMaxBotsInRangeOf);
+        
+        // Result: there is 1 bot in range of 859 others: pos=<29463738,37565122,55842905>, r=97249189 (the same one as above)
+        
+        // Note from earlier experimentation: there are points in range of 890 bots.
 
         // TODO
         int minimumManhattanDistance = 0;

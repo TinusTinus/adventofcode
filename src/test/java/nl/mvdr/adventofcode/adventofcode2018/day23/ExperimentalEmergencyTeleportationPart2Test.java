@@ -24,7 +24,7 @@ public class ExperimentalEmergencyTeleportationPart2Test extends SolverTest<Expe
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        // Note: there are points with 890 nanobots in range.
+        // Note: there are points in range of 890 nanobots.
         // 122591143 is not the correct answer: too low!
         // That may mean that there are points elsewhere with more than 890 nanobots in range...?
         assertSolution("?", "input-day23-2018.txt");

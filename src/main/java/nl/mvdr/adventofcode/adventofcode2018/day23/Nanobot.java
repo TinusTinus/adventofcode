@@ -104,6 +104,18 @@ class Nanobot {
                 .filter(this::inRange)
                 .count();
     }
+    
+    /**
+     * Determines in how many of the given nanobots' ranges this nanobot is.
+     * 
+     * @param nanobots nanobots (may include this bot itself)
+     * @return number of bots in whose ranges this nanobot is
+     */
+    long inRangeOf(Set<Nanobot> nanobots) {
+        return nanobots.stream()
+                .filter(nanobot -> nanobot.inRange(this.position))
+                .count();
+    }
 
     @Override
     public String toString() {
