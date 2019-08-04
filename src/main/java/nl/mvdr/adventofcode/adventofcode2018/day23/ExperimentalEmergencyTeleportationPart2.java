@@ -2,9 +2,10 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,113 +26,24 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
     public Integer solve(Path inputFilePath) throws IOException {
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
-        int minX = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getX)
-                .min()
-                .getAsInt();
-        int maxX = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getX)
+        // Figure out, for each bot, how many other bots are in its range.
+        Map<Nanobot, Long> intersections = nanobots.stream()
+                .collect(Collectors.toMap(Function.identity(), bot -> bot.botsInRange(nanobots)));
+        LOGGER.info("Maximum number of bots in range: {}", intersections.values().stream()
+                .mapToLong(Long::longValue)
                 .max()
-                .getAsInt();
-        int minY = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getY)
-                .min()
-                .getAsInt();
-        int maxY = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getY)
-                .max()
-                .getAsInt();
-        int minZ = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getZ)
-                .min()
-                .getAsInt();
-        int maxZ = nanobots.stream()
-                .map(Nanobot::getPosition)
-                .mapToInt(Point::getZ)
-                .max()
-                .getAsInt();
+                .getAsLong());
         
-        Point startingPosition = new Point(0, 0, 0);
+        // Result of this is 962.
+        // So 962 is an upper bound of the maximum number of bots.
+        // It may be a lower bound as well...?
         
-        Set<Point> candidates = new HashSet<>();
-        int stepSize = maxX - minX;
-        long maxNanobotsInRange = 0L;
-        
-        // Note: the following is an approximation, it is not guaranteed to find the correct result
-        
-        do {
-            stepSize = Math.max(stepSize / 2, 1);
-
-            LOGGER.debug("----- Starting step size {} -----", Integer.valueOf(stepSize));
-            LOGGER.debug("x: {} - {}", Integer.valueOf(minX), Integer.valueOf(maxX));
-            LOGGER.debug("y: {} - {}", Integer.valueOf(minY), Integer.valueOf(maxY));
-            LOGGER.debug("z: {} - {}", Integer.valueOf(minZ), Integer.valueOf(maxZ));
-            
-            int percentageDone = 0;
-            for (int x = minX; x <= maxX; x = x + stepSize) {
-                for (int y = minY; y <= maxY; y = y + stepSize) {
-                    for (int z = minZ; z <= maxZ; z = z + stepSize) {
-                        Point point = new Point(x, y, z);
-                        long nanobotsInRange = countNanobotsInRange(point, nanobots);
-                        if (maxNanobotsInRange < nanobotsInRange) {
-                            maxNanobotsInRange = nanobotsInRange;
-                            LOGGER.debug("New maximum nanobots in range found: {}, at {}.", Long.valueOf(maxNanobotsInRange), point);
-                            candidates = new HashSet<>();
-                            candidates.add(point);
-                        } else if (maxNanobotsInRange == nanobotsInRange) {
-                            candidates.add(point);
-                        }
-                    }
-                }
-                int newPercentage = 100 * (x - minX) / (maxX - minX);
-                if (percentageDone != newPercentage) {
-                    LOGGER.debug("{}% done, {} candidates found so far.", Integer.valueOf(newPercentage), Integer.valueOf(candidates.size()));
-                }
-                percentageDone = newPercentage;
-            }
-            
-            LOGGER.debug("Step size {}: {} points found with {} nanobots in range.", Integer.valueOf(stepSize),
-                    Integer.valueOf(candidates.size()), Long.valueOf(maxNanobotsInRange));
-            
-            Point bestCandidate = candidates.stream()
-                    .min(Comparator.comparing(startingPosition::manhattanDistance))
-                    .get();
-            
-            minX = bestCandidate.getX() - stepSize;
-            maxX = bestCandidate.getX() + stepSize;
-            minY = bestCandidate.getY() - stepSize;
-            maxY = bestCandidate.getY() + stepSize;
-            minZ = bestCandidate.getZ() - stepSize;
-            maxZ = bestCandidate.getZ() + stepSize;
-            
-        } while (1 < stepSize);
-        
-        int minimumManhattanDistance = candidates.stream()
-                .mapToInt(startingPosition::manhattanDistance)
-                .min()
-                .getAsInt();
+        // TODO
+        int minimumManhattanDistance = 0;
         
         return Integer.valueOf(minimumManhattanDistance);
     }
 
-    /**
-     * Determines, given a location, which nanobots are in range of this location.
-     * 
-     * @param point location
-     * @param nanobots nanobots
-     * @return number of nanobots in range
-     */
-    private long countNanobotsInRange(Point point, Set<Nanobot> nanobots) {
-        return nanobots.stream()
-                .filter(nanobot -> nanobot.inRange(point))
-                .count();
-    }
-    
     /**
      * Main method.
      * 
