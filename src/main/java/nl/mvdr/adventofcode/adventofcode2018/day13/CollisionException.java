@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day13;
 
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * Exception indicating that a collision occurred when attempting to perform a tick.
  *
@@ -8,27 +10,20 @@ package nl.mvdr.adventofcode.adventofcode2018.day13;
 @SuppressWarnings("serial") // this non-public class is not intended for serialization
 class CollisionException extends RuntimeException {
     
-    private final int x;
-    private final int y;
+    private final Point location;
     
     /**
      * Constructor.
      * 
-     * @param x x coordinate of the collision
-     * @param y y coordinate of the collision
+     * @param location the location of the collision
      */
-    CollisionException(int x, int y) {
-        super("Collision occurred at " + x + ", " + y);
+    CollisionException(Point location) {
+        super("Collision occurred at " + location);
         
-        this.x = x;
-        this.y = y;
+        this.location = location;
     }
     
-    int getX() {
-        return x;
-    }
-    
-    int getY() {
-        return y;
+    Point getLocation() {
+        return location;
     }
 }

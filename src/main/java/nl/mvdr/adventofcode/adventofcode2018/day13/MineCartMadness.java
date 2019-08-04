@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
 
 /**
  * Solution to the day 13 puzzle of 2018's Advent of Code:
@@ -16,10 +17,10 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class MineCartMadness implements PathSolver<String> {
+abstract class MineCartMadness implements PathSolver<Point> {
 
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Point solve(Path inputFilePath) throws IOException {
         State state = State.parse(inputFilePath);
 
         return solve(state);
@@ -32,5 +33,5 @@ abstract class MineCartMadness implements PathSolver<String> {
      * @return solution to the puzzle for the given input
      * @throws IOException in case the file cannot be read
      */
-    protected abstract String solve(State state);
+    protected abstract Point solve(State state);
 }

@@ -3,6 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2018.day13;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * Solution to part 1 of the puzzle.
  * 
@@ -13,14 +15,14 @@ public class MineCartMadnessPart1 extends MineCartMadness {
     private static final Logger LOGGER = LoggerFactory.getLogger(MineCartMadnessPart1.class);
 
     @Override
-    protected String solve(State state) {
-        String result;
+    protected Point solve(State state) {
+        Point result;
         try {
             while (true) {
                 state = state.tick(true);
             }
         } catch (CollisionException e) {
-            result = e.getX() + "," + e.getY();
+            result = e.getLocation();
         }
 
         return result;

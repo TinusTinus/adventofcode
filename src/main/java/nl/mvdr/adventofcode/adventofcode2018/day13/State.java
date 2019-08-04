@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+
 /**
  * Current state of the map and the carts on it.
  *
@@ -54,7 +56,7 @@ class State {
      */
     State tick(boolean throwOnCollision) throws CollisionException {
         List<MineCart> cartList = carts.stream()
-                .sorted(Comparator.comparing(MineCart::getY).thenComparing(MineCart::getX))
+                .sorted(Comparator.comparing(MineCart::getLocation))
                 .collect(Collectors.toList());
         
         int i = 0;
@@ -63,15 +65,15 @@ class State {
             
             MineCart movedCart = move(cart);
             
-            Set<MineCart> collidingCarts = cartsAt(cartList, movedCart.getX(), movedCart.getY());
+            Set<MineCart> collidingCarts = cartsAt(cartList, movedCart.getLocation());
             if (collidingCarts.isEmpty()) {
                 // no collision
                 cartList.set(i, movedCart);
                 i++;
             } else if (throwOnCollision) {
-                throw new CollisionException(movedCart.getX(), movedCart.getY());
+                throw new CollisionException(movedCart.getLocation());
             } else {
-                LOGGER.debug("Collision detected at {},{}", Integer.valueOf(movedCart.getX()), Integer.valueOf(movedCart.getY()));
+                LOGGER.debug("Collision detected at {}", movedCart.getLocation());
                 // remove the colliding carts from play
                 cartList.remove(i);
                 
@@ -98,16 +100,15 @@ class State {
      */
     private MineCart move(MineCart cart) {
         // Determine the cart's next position, based on the direction it is currently facing.
-        int nextX = cart.getX();
-        int nextY = cart.getY();
+        Point nextLocation;
         if (cart.getDirection() == Direction.UP) {
-            nextY--;
+            nextLocation = cart.getLocation().aboveNeighbour();
         } else if (cart.getDirection() == Direction.DOWN) {
-            nextY++;
+            nextLocation = cart.getLocation().belowNeighbour();
         } else if (cart.getDirection() == Direction.LEFT) {
-            nextX--;
+            nextLocation = cart.getLocation().leftNeighbour();
         } else if (cart.getDirection() == Direction.RIGHT) {
-            nextX++;
+            nextLocation = cart.getLocation().rightNeighbour();
         } else {
             throw new IllegalStateException("Unexpected direction: " + cart.getDirection());
         }
@@ -116,7 +117,7 @@ class State {
         Direction nextDirection;
         Deque<Action> nextActions;
         
-        TrackSection nextSection = map[nextX][nextY];
+        TrackSection nextSection = map[nextLocation.getX()][nextLocation.getY()];
         
         if (nextSection == TrackSection.INTERSECTION) {
             nextActions = new LinkedList<>(cart.getActions());
@@ -129,7 +130,7 @@ class State {
             nextActions = cart.getActions();
         }
         
-        return new MineCart(nextX, nextY, nextDirection, nextActions);
+        return new MineCart(nextLocation, nextDirection, nextActions);
     }
     
     Set<MineCart> getCarts() {
@@ -186,7 +187,7 @@ class State {
      */
     private static Optional<MineCart> parseMineCart(int x, int y, char c) {
         return Direction.of(c)
-                .map(direction -> new MineCart(x, y, direction));
+                .map(direction -> new MineCart(new Point(x, y), direction));
     }
     
     @Override
@@ -198,7 +199,7 @@ class State {
         
         for (int y = 0; y != height; y++) {
             for (int x = 0; x != width; x++) {
-                Set<MineCart> cartsHere = cartsAt(carts, x, y);
+                Set<MineCart> cartsHere = cartsAt(carts, new Point(x, y));
                 if (cartsHere.isEmpty()) {
                     builder.append(map[x][y]);
                 } else if (1 < cartsHere.size()) {
@@ -218,13 +219,12 @@ class State {
      * Returns all mine carts from the given collection at the given coordinates.
      * 
      * @param carts carts
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return
+     * @param location location
+     * @return mine carts at the given location
      */
-    private static Set<MineCart> cartsAt(Collection<MineCart> carts, int x, int y) {
+    private static Set<MineCart> cartsAt(Collection<MineCart> carts, Point location) {
         return carts.stream()
-                .filter(cart -> cart.getX() == x && cart.getY() == y)
+                .filter(cart -> cart.getLocation().equals(location))
                 .collect(Collectors.toSet());
     }
 }
