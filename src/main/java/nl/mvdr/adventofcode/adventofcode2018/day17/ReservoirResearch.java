@@ -16,7 +16,7 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class ReservoirResearch implements PathSolver {
+public class ReservoirResearch implements PathSolver<String> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservoirResearch.class);
     

@@ -19,12 +19,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCalibrationPart2 implements PathSolver {
+public class ChronalCalibrationPart2 implements PathSolver<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCalibrationPart2.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         List<Integer> frequencyChanges = Files.lines(inputFilePath)
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
@@ -48,7 +48,7 @@ public class ChronalCalibrationPart2 implements PathSolver {
             index = (index + 1) % frequencyChanges.size();
         }
         
-        return "" + frequency;
+        return Integer.valueOf(frequency);
     }
 
     /**

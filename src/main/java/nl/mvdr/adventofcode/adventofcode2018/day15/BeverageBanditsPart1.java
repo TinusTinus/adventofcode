@@ -14,17 +14,17 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class BeverageBanditsPart1 implements PathSolver {
+public class BeverageBanditsPart1 implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(BeverageBanditsPart1.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         State initialState = State.parse(inputFilePath);
         
         State endState = initialState.performCombat(false);
         
-        return "" + endState.getOutcome();
+        return Integer.valueOf(endState.getOutcome());
     }
     
     /**

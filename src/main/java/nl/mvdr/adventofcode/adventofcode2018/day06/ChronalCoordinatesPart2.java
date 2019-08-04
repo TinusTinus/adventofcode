@@ -17,7 +17,7 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCoordinatesPart2 implements PathSolver {
+public class ChronalCoordinatesPart2 implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCoordinatesPart2.class);
     
@@ -39,7 +39,7 @@ public class ChronalCoordinatesPart2 implements PathSolver {
     }
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         Set<Point> points = Point.parse(inputFilePath);
 
         // Find a point within range. (Technically not guaranteed to exist!)
@@ -63,7 +63,7 @@ public class ChronalCoordinatesPart2 implements PathSolver {
             }
         }
         
-        return area.size() + "";
+        return Integer.valueOf(area.size());
     }
     
     /**

@@ -19,12 +19,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MarbleMania implements PathSolver {
+public class MarbleMania implements PathSolver<BigDecimal> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MarbleMania.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public BigDecimal solve(Path inputFilePath) throws IOException {
         PuzzleInput puzzleInput = PuzzleInput.parse(inputFilePath);
         
         BigDecimal[] scores = new BigDecimal[puzzleInput.getPlayers()];
@@ -50,7 +50,7 @@ public class MarbleMania implements PathSolver {
             logGameState(marble, puzzleInput, marbles, playerIndex);
         }
         
-        return "" + Stream.of(scores)
+        return Stream.of(scores)
                 .max(BigDecimal::compareTo)
                 .get();
     }

@@ -21,7 +21,7 @@ import nl.mvdr.adventofcode.PathSolver;
  * @author Martijn van de Rijdt
  * 
  */
-abstract class ReposeRecord implements PathSolver {
+abstract class ReposeRecord implements PathSolver<Integer> {
     /** Regular expression for a record indicating the start of a shift. Group 1 is the guard id. */
     private static final Pattern PATTERN_BEGIN_SHIFT = Pattern.compile("\\[\\d\\d\\d\\d-\\d\\d-\\d\\d \\d\\d:\\d\\d\\] Guard #(\\d+) begins shift");
     /** Regular expression for a record indicating that a guard falls asleep. Group 1 is the minute of the midnight hour. */
@@ -44,7 +44,7 @@ abstract class ReposeRecord implements PathSolver {
     }
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         List<String> records = Files.lines(inputFilePath)
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
@@ -59,7 +59,7 @@ abstract class ReposeRecord implements PathSolver {
                 .max(comparator)
                 .get();
         
-        return "" + guard.getId() * guard.computeMostAsleepMinute();
+        return Integer.valueOf(guard.getId() * guard.computeMostAsleepMinute());
     }
 
     private Map<Integer, Guard> process(List<String> records) {

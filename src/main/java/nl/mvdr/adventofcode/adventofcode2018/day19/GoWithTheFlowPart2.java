@@ -14,12 +14,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class GoWithTheFlowPart2 implements PathSolver {
+public class GoWithTheFlowPart2 implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlowPart2.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         // We could simply run the instructions with initial register values { 1, 0, 0, 0, 0, 0 }.
         // This would result in a correct answer, but would take a very long time to terminate.
         // As it turns out, the program calculates the sum of the divisors of 10551330.
@@ -38,7 +38,7 @@ public class GoWithTheFlowPart2 implements PathSolver {
             } 
         } 
        
-        return "" + result;
+        return Integer.valueOf(result);
     }
     
     /**

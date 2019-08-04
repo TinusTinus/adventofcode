@@ -21,14 +21,14 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class StarsAlign implements PathSolver {
+public class StarsAlign implements PathSolver<Void> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(StarsAlign.class);
     
     private static final Pattern PATTERN = Pattern.compile("position=<\\s*(-?\\d+),\\s*(-?\\d+)> velocity=<\\s*(-?\\d+),\\s*(-?\\d+)>");
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Void solve(Path inputFilePath) throws IOException {
         // Parse the input.
         Set<Star> stars = Files.lines(inputFilePath)
                 // ignore empty lines (the last line in the file)

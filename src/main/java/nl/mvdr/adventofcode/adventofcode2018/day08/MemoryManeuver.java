@@ -14,17 +14,17 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public abstract class MemoryManeuver implements PathSolver {
+public abstract class MemoryManeuver implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoryManeuver.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         Tree tree = Tree.parse(inputFilePath);
         
         LOGGER.debug("Tree: {}", tree);
         
-        return solve(tree);
+        return Integer.valueOf(solve(tree));
     }
     
     /**
@@ -33,5 +33,5 @@ public abstract class MemoryManeuver implements PathSolver {
      * @param tree input tree
      * @return solution to the puzzle for the given tree
      */
-    protected abstract String solve(Tree tree);
+    protected abstract int solve(Tree tree);
 }

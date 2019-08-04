@@ -17,14 +17,14 @@ import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.ProgramExecutionCa
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalConversionPart1 implements PathSolver {
+public class ChronalConversionPart1 implements PathSolver<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalConversionPart1.class);
 
-    private String result;
+    private Integer result;
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         Program program = Program.parse(inputFilePath);
         program.execute(0, this::continueExecution);
         return result;
@@ -44,7 +44,7 @@ public class ChronalConversionPart1 implements PathSolver {
         // the program will halt if, when executing the instruction on line 30, register 0 equals register 4.
         
         if (instructionPointer == 30) {
-            result = "" + registers.get(4);
+            result = registers.get(4);
             // Answer found, no need to continue execution.
             // (In fact, the program may never halt.)
             continueProgram = false;

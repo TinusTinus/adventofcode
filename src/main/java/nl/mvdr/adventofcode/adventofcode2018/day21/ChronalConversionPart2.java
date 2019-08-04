@@ -19,13 +19,13 @@ import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.ProgramExecutionCa
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalConversionPart2 implements PathSolver {
+public class ChronalConversionPart2 implements PathSolver<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalConversionPart2.class);
 
     private Set<Integer> candidates;
     
-    private String result;
+    private Integer result;
     
     /** Constructor. */
     public ChronalConversionPart2() {
@@ -34,7 +34,7 @@ public class ChronalConversionPart2 implements PathSolver {
     }
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         Program program = Program.parse(inputFilePath);
         program.execute(0, this::continueExecution);
         return result;
@@ -57,7 +57,7 @@ public class ChronalConversionPart2 implements PathSolver {
             boolean added = candidates.add(registers.get(4));
             
             if (added) {
-                result = "" + registers.get(4);
+                result = registers.get(4);
             }
             // If a duplicate was found, there is no need to continue searching; the program will cycle.
             // Return the previously found value.

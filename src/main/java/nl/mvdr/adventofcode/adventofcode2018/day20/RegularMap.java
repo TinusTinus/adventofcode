@@ -15,7 +15,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RegularMap implements PathSolver {
+public class RegularMap implements PathSolver<String> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(RegularMap.class);
     

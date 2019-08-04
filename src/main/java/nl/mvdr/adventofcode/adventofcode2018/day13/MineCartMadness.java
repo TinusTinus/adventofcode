@@ -16,7 +16,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class MineCartMadness implements PathSolver {
+abstract class MineCartMadness implements PathSolver<String> {
 
     @Override
     public String solve(Path inputFilePath) throws IOException {

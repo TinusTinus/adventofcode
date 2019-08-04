@@ -10,14 +10,17 @@ import java.nio.file.Paths;
 
 /**
  * Convenience interface.
+ * 
+ * @param <R> result type
  *
  * @author Martijn van de Rijdt
  */
-public interface PathSolver extends Solver {
+@FunctionalInterface
+public interface PathSolver<R> extends Solver {
 
     @Override
     default String solve(String inputfile) {
-        String result;
+        R result;
         try {
             Path inputFilePath = toPath(getClass(), inputfile);
             result = solve(inputFilePath);
@@ -25,7 +28,7 @@ public interface PathSolver extends Solver {
             throw new UncheckedIOException(e);
         }
 
-        return result;
+        return "" + result;
     }
 
     /**
@@ -62,5 +65,5 @@ public interface PathSolver extends Solver {
      * @return solution to the puzzle for the given input
      * @throws IOException in case the file cannot be read
      */
-    String solve(Path inputFilePath) throws IOException;
+    R solve(Path inputFilePath) throws IOException;
 }

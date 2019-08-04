@@ -13,15 +13,16 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class SlicePart1 extends Slice {
+public class SlicePart1 extends Slice<Long> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SlicePart1.class);
     
     @Override
-    protected String solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric) {
-        return "" + claimedFabric.values().stream()
+    protected Long solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric) {
+        long result = claimedFabric.values().stream()
                 .filter(cs -> 2 <= cs.size())
                 .count();
+        return Long.valueOf(result);
     }
 
     /**

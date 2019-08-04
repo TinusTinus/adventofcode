@@ -17,14 +17,14 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class ChronalCharge implements PathSolver {
+abstract class ChronalCharge implements PathSolver<Square> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCharge.class);
     
     protected static final int GRID_SIZE = 300;
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Square solve(Path inputFilePath) throws IOException {
         int serialNumber = Integer.parseInt(Files.lines(inputFilePath).findFirst().get());
         LOGGER.debug("Serial number: {}", serialNumber);
         
@@ -44,8 +44,7 @@ abstract class ChronalCharge implements PathSolver {
         
         return squares.parallelStream()
                 .max(Comparator.comparing(Square::getTotalPowerLevel))
-                .get()
-                .toString();
+                .get();
     }
     
     /**

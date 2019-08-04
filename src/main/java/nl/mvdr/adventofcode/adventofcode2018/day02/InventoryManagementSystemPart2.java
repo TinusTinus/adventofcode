@@ -19,7 +19,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class InventoryManagementSystemPart2 implements PathSolver {
+public class InventoryManagementSystemPart2 implements PathSolver<String> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryManagementSystemPart2.class);
     

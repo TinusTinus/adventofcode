@@ -18,7 +18,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChocolateChartsPart1 implements PathSolver {
+public class ChocolateChartsPart1 implements PathSolver<String> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChocolateChartsPart1.class);
     

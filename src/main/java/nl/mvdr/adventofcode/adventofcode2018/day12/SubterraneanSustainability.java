@@ -20,7 +20,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SubterraneanSustainability implements PathSolver {
+public class SubterraneanSustainability implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(SubterraneanSustainability.class);
     
@@ -43,7 +43,7 @@ public class SubterraneanSustainability implements PathSolver {
     }
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         List<String> lines = Files.lines(inputFilePath)
                 // ignore empty lines
                 .filter(Objects::nonNull)
@@ -64,7 +64,7 @@ public class SubterraneanSustainability implements PathSolver {
             LOGGER.debug("State: {}", state);
         }
         
-        return state.getValue() + "";
+        return Integer.valueOf(state.getValue());
     }
 
     /**

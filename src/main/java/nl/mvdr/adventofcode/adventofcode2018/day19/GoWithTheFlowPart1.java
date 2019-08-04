@@ -15,15 +15,15 @@ import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class GoWithTheFlowPart1 implements PathSolver {
+public class GoWithTheFlowPart1 implements PathSolver<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlowPart1.class);
 
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         Program program = Program.parse(inputFilePath);
         
-        return "" + program.execute(0);
+        return Integer.valueOf(program.execute(0));
     }
     
     /**

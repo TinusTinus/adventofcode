@@ -14,17 +14,18 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalClassificationPart1 implements PathSolver {
+public class ChronalClassificationPart1 implements PathSolver<Long> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalClassificationPart1.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Long solve(Path inputFilePath) throws IOException {
         PuzzleInput input = PuzzleInput.parse(inputFilePath);
         
-        return input.getSamples().stream()
+        long result = input.getSamples().stream()
                 .filter(Sample::behavesLikeAtLeastThreeOpcodes)
-                .count() + "";
+                .count();
+        return Long.valueOf(result);
     }
     
     /**

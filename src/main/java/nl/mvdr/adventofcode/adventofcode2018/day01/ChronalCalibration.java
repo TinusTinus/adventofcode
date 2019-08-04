@@ -16,12 +16,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCalibration implements PathSolver {
+public class ChronalCalibration implements PathSolver<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCalibration.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         int sum = Files.lines(inputFilePath)
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
@@ -30,7 +30,7 @@ public class ChronalCalibration implements PathSolver {
                 .mapToInt(Integer::parseInt)
                 .sum();
 
-        return "" + sum;
+        return Integer.valueOf(sum);
     }
 
     /**

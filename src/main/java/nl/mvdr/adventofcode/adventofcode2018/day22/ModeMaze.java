@@ -11,13 +11,13 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class ModeMaze implements PathSolver {
+abstract class ModeMaze implements PathSolver<Integer> {
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         Cave cave = Cave.parse(inputFilePath);
         int result = solve(cave);
-        return "" + result;
+        return Integer.valueOf(result);
     }
 
     /**

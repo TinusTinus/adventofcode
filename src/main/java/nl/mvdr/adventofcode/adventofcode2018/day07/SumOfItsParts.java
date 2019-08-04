@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class SumOfItsParts implements PathSolver {
+abstract class SumOfItsParts implements PathSolver<String> {
     
     private final SumOfItsPartsSolution solution;
     private final int baseTime;

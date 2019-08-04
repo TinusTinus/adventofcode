@@ -13,17 +13,18 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class SlicePart2 extends Slice {
+public class SlicePart2 extends Slice<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SlicePart2.class);
     
     @Override
-    protected String solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric) {
-        return "" + claims.stream()
+    protected Integer solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric) {
+        return claims.stream()
                 .filter(claim -> isUncontested(claim, claimedFabric))
                 .mapToInt(Claim::getId)
+                .boxed()
                 .findAny()
-                .getAsInt();
+                .get();
     }
     
     private boolean isUncontested(Claim claim, Map<SquareInch, Set<Claim>> claimedFabric) {

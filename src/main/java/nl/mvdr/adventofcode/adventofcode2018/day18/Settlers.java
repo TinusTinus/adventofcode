@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class Settlers implements PathSolver {
+abstract class Settlers implements PathSolver<Long> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Settlers.class);
     
@@ -27,7 +27,7 @@ abstract class Settlers implements PathSolver {
     }
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Long solve(Path inputFilePath) throws IOException {
         
         LumberCollectionArea area = LumberCollectionArea.parse(inputFilePath);
         
@@ -37,6 +37,6 @@ abstract class Settlers implements PathSolver {
 
         long resourceValue = area.computeResourceValue();
         
-        return "" + resourceValue;
+        return Long.valueOf(resourceValue);
     }
 }

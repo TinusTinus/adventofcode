@@ -21,12 +21,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class InventoryManagementSystem implements PathSolver {
+public class InventoryManagementSystem implements PathSolver<Long> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryManagementSystem.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Long solve(Path inputFilePath) throws IOException {
 
         List<String> boxIds = Files.lines(inputFilePath)
                 // ignore empty lines (the last line in the file)
@@ -44,7 +44,7 @@ public class InventoryManagementSystem implements PathSolver {
 
         long checksum = boxIdsWith2OfAnyLetter * boxIdsWith3OfAnyLetter;
 
-        return "" + checksum;
+        return Long.valueOf(checksum);
     }
 
     /**

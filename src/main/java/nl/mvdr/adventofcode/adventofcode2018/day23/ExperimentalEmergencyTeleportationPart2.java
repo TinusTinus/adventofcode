@@ -17,12 +17,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
+public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ExperimentalEmergencyTeleportationPart2.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
         int minX = nanobots.stream()
@@ -65,7 +65,7 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
         // Note: the following is an approximation, it is not guaranteed to find the correct result
         
         do {
-            stepSize = Math.max(stepSize / 100, 1);
+            stepSize = Math.max(stepSize / 2, 1);
 
             LOGGER.debug("----- Starting step size {} -----", Integer.valueOf(stepSize));
             LOGGER.debug("x: {} - {}", Integer.valueOf(minX), Integer.valueOf(maxX));
@@ -116,7 +116,7 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver {
                 .min()
                 .getAsInt();
         
-        return "" + minimumManhattanDistance;
+        return Integer.valueOf(minimumManhattanDistance);
     }
 
     /**

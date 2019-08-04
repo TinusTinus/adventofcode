@@ -18,12 +18,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChocolateChartsPart2 implements PathSolver {
+public class ChocolateChartsPart2 implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChocolateChartsPart2.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         String inputString = Files.lines(inputFilePath)
                 .findFirst()
                 .get();
@@ -33,7 +33,7 @@ public class ChocolateChartsPart2 implements PathSolver {
         int firstElfIndex = 0;
         int secondElfIndex = 1;
         
-        String result = null;
+        Integer result = null;
         
         log(recipes, firstElfIndex, secondElfIndex);
         while (result == null) {
@@ -61,7 +61,7 @@ public class ChocolateChartsPart2 implements PathSolver {
                     .collect(Collectors.joining())
                     .indexOf(inputString);
             if (0 <= index) {
-                result = "" + (index + skipped);
+                result = Integer.valueOf(index + skipped);
             }
             
             if (recipes.size() % 100_000 < 2) {

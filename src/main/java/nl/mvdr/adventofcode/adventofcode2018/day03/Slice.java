@@ -16,11 +16,13 @@ import nl.mvdr.adventofcode.PathSolver;
 /**
  * Common ancestor for {@link SlicePart1} and {@link SlicePart2}.
  *
+ * @param <R> result type
+ * 
  * @author Martijn van de Rijdt
  */
-abstract class Slice implements PathSolver{
+abstract class Slice<R> implements PathSolver<R>{
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public R solve(Path inputFilePath) throws IOException {
         List<Claim> claims = Files.lines(inputFilePath)
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
@@ -47,5 +49,5 @@ abstract class Slice implements PathSolver{
      * @param claimedFabric map containing, for every square inch of fabric, the set of claims to that particular square inch of fabric
      * @return puzzle solution
      */
-    protected abstract String solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric); 
+    protected abstract R solve(List<Claim> claims, Map<SquareInch, Set<Claim>> claimedFabric); 
 }

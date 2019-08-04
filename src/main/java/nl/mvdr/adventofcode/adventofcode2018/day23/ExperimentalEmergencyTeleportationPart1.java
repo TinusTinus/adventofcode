@@ -16,12 +16,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ExperimentalEmergencyTeleportationPart1 implements PathSolver {
+public class ExperimentalEmergencyTeleportationPart1 implements PathSolver<Long> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ExperimentalEmergencyTeleportationPart1.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Long solve(Path inputFilePath) throws IOException {
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
         LOGGER.debug("Nanobots: {}", nanobots);
@@ -35,7 +35,7 @@ public class ExperimentalEmergencyTeleportationPart1 implements PathSolver {
                 .filter(strongestNanobot::inRange)
                 .count();
         
-        return "" + nanobotsInRange;
+        return Long.valueOf(nanobotsInRange);
     }
     
     /**

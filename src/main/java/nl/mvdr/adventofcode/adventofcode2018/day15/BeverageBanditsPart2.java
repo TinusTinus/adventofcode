@@ -14,12 +14,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class BeverageBanditsPart2 implements PathSolver {
+public class BeverageBanditsPart2 implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(BeverageBanditsPart2.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         State initialState = State.parse(inputFilePath);
         
         LOGGER.debug("Initial state:\n{}", initialState);
@@ -34,7 +34,7 @@ public class BeverageBanditsPart2 implements PathSolver {
         
         LOGGER.debug("End state, with elf attack power {}:\n{}", i, state);
         
-        return "" + state.getOutcome();
+        return Integer.valueOf(state.getOutcome());
     }
     
     /**

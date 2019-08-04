@@ -15,17 +15,17 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class AlchemicalReductionPart2 implements PathSolver {
+public class AlchemicalReductionPart2 implements PathSolver<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlchemicalReductionPart2.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         String polymer = Files.lines(inputFilePath)
                 .findFirst()
                 .get();
                 
-        return "" + polymer.chars()
+        int result = polymer.chars()
                 .map(character -> Character.toLowerCase((char)character))
                 .distinct()
                 .mapToObj(character -> polymer.replaceAll("" + (char)character, "").replaceAll("" + Character.toUpperCase((char)character), ""))
@@ -33,6 +33,8 @@ public class AlchemicalReductionPart2 implements PathSolver {
                 .mapToInt(String::length)
                 .min()
                 .getAsInt();
+        
+        return Integer.valueOf(result);
     }
 
     /**

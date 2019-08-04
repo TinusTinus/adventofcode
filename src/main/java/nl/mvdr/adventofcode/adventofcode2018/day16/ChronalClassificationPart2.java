@@ -22,12 +22,12 @@ import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalClassificationPart2 implements PathSolver {
+public class ChronalClassificationPart2 implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalClassificationPart2.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         PuzzleInput input = PuzzleInput.parse(inputFilePath);
         
         // Build up a map of opcode number to opcode.
@@ -50,7 +50,7 @@ public class ChronalClassificationPart2 implements PathSolver {
         
         Program program = new Program(instructions);
         
-        return "" + program.execute(0);
+        return Integer.valueOf(program.execute(0));
     }
     
     /**

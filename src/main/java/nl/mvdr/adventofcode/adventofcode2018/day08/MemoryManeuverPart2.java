@@ -14,8 +14,8 @@ public class MemoryManeuverPart2 extends MemoryManeuver {
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoryManeuverPart2.class);
     
     @Override
-    public String solve(Tree tree) {
-        return "" + tree.value();
+    public int solve(Tree tree) {
+        return tree.value();
     }
     
     /**

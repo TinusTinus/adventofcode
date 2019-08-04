@@ -22,12 +22,12 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCoordinates implements PathSolver {
+public class ChronalCoordinates implements PathSolver<Integer> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCoordinates.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) throws IOException {
         Set<Point> points = Point.parse(inputFilePath);
 
         // Construct a rectangle surrounding all of the points
@@ -54,7 +54,7 @@ public class ChronalCoordinates implements PathSolver {
                 .max()
                 .getAsInt();
         
-        return "" + result;
+        return Integer.valueOf(result);
     }
     
     /**
