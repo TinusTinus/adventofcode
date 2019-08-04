@@ -177,7 +177,7 @@ public class Point implements Comparable<Point> {
                 .filter(line -> !line.isBlank())
                 // split the integer coordinates
                 .map(line -> line.split(", "))
-                .map(array -> new Point(Integer.valueOf(array[0]), Integer.valueOf(array[1])))
+                .map(array -> new Point(Integer.parseInt(array[0]), Integer.parseInt(array[1])))
                 .collect(Collectors.toSet());
     }
     
@@ -257,5 +257,16 @@ public class Point implements Comparable<Point> {
         return IntStream.rangeClosed(minimum, maximum)
                 .boxed()
                 .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Parses a string containing a comma-separated pair of coordinates, for example: "32,43".
+     * 
+     * @param text text to be parsed
+     * @return point
+     */
+    public static Point parse(String text) {
+        String[] coordinateStrings = text.split(",");
+        return new Point(Integer.parseInt(coordinateStrings[0]), Integer.parseInt(coordinateStrings[1]));
     }
 }
