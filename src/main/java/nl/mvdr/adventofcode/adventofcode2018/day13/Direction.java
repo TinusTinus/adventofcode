@@ -13,13 +13,13 @@ import nl.mvdr.adventofcode.adventofcode2018.point.Point;
  */
 enum Direction {
     /** Up / north. */
-    UP('^', true),
+    UP('^', true, Point::aboveNeighbour),
     /** Down / south. */
-    DOWN('v', true),
+    DOWN('v', true, Point::belowNeighbour),
     /** Left / west. */
-    LEFT('<', false),
+    LEFT('<', false, Point::leftNeighbour),
     /** Right / east. */
-    RIGHT('>', false);
+    RIGHT('>', false, Point::rightNeighbour);
     
     /** Character representation of a minecart facing this direction. */
     private final char representation;
@@ -27,15 +27,19 @@ enum Direction {
     /** Whether this direction is vertical. */
     private final boolean vertical;
     
+    /** Function that, given a cart's location, determines the cart's next location, if it is moving in this direction. */
+    private final Function<Point, Point> next;
+    
     /**
      * Constructor.
      * 
      * @param representation character representation of a minecart facing this direction
      * @param vertical whether this direction is vertical
      */
-    Direction(char representation, boolean vertical) {
+    Direction(char representation, boolean vertical, Function<Point, Point> next) {
         this.representation = representation;
         this.vertical = vertical;
+        this.next = next;
     }
     
     /**
@@ -59,6 +63,17 @@ enum Direction {
             result = TrackSection.HORIZONTAL_STRAIGHT_PATH;
         }
         return result;
+    }
+    
+    
+    /**
+     * Given a cart's location, determines the cart's next location, if it is moving in this direction.
+     * 
+     * @param location current location
+     * @return next location
+     */
+    Point nextLocation(Point location) {
+        return next.apply(location);
     }
     
     @Override

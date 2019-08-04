@@ -100,18 +100,7 @@ class State {
      */
     private MineCart move(MineCart cart) {
         // Determine the cart's next position, based on the direction it is currently facing.
-        Point nextLocation;
-        if (cart.getDirection() == Direction.UP) {
-            nextLocation = cart.getLocation().aboveNeighbour();
-        } else if (cart.getDirection() == Direction.DOWN) {
-            nextLocation = cart.getLocation().belowNeighbour();
-        } else if (cart.getDirection() == Direction.LEFT) {
-            nextLocation = cart.getLocation().leftNeighbour();
-        } else if (cart.getDirection() == Direction.RIGHT) {
-            nextLocation = cart.getLocation().rightNeighbour();
-        } else {
-            throw new IllegalStateException("Unexpected direction: " + cart.getDirection());
-        }
+        Point nextLocation = cart.getDirection().nextLocation(cart.getLocation());
         
         // Determine whether and how the cart should turn, based on the next section it travels onto.
         Direction nextDirection;
