@@ -100,7 +100,7 @@ class State {
      */
     private MineCart move(MineCart cart) {
         // Determine the cart's next position, based on the direction it is currently facing.
-        Point nextLocation = cart.getDirection().nextLocation(cart.getLocation());
+        Point nextLocation = cart.nextLocation();
         
         // Determine whether and how the cart should turn, based on the next section it travels onto.
         Direction nextDirection;

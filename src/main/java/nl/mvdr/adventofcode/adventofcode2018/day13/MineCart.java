@@ -34,20 +34,6 @@ class MineCart {
     /**
      * Constructor.
      * 
-     * @param x coordinate on the horizontal axis
-     * @param y coordinate on the vertical axis
-     * @param direction direction of this cart
-     * @param actions cyclical collection of the actions this cart will take whenever it reaches intersections
-     * @deprecated use {@link #MineCart(Point, Direction, Deque)} instead
-     */
-    @Deprecated
-    MineCart(int x, int y, Direction direction, Deque<Action> actions) {
-        this(new Point(x, y), direction, actions);
-    }
-    
-    /**
-     * Constructor.
-     * 
      * @param location the cart's location
      * @param direction direction of this cart
      * @param actions cyclical collection of the actions this cart will take whenever it reaches intersections
@@ -64,19 +50,6 @@ class MineCart {
         return location;
     }
     
-    
-    /** @return coordinate on the horizontal axis */
-    @Deprecated
-    int getX() {
-        return location.getX();
-    }
-    
-    /** @return coordinate on the vertical axis */
-    @Deprecated
-    int getY() {
-        return location.getY();
-    }
-    
     /** @return direction of this cart */
     Direction getDirection() {
         return direction;
@@ -85,6 +58,11 @@ class MineCart {
     /** @return cyclical collection of the actions this cart will take whenever it reaches intersections */
     Deque<Action> getActions() {
         return actions;
+    }
+    
+    /** @return next location of this cart, if it continues moving in its current direction */
+    Point nextLocation() {
+        return direction.nextLocation(location);
     }
     
     @Override

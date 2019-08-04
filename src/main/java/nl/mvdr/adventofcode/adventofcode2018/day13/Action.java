@@ -9,11 +9,21 @@ import java.util.Map;
  */
 enum Action {
     /** Keep travelling in the same direction. */
-    GO_STRAIGHT(Map.of(Direction.UP, Direction.UP, Direction.DOWN, Direction.DOWN, Direction.LEFT, Direction.LEFT, Direction.RIGHT, Direction.RIGHT)),
+    GO_STRAIGHT(Map.of(
+            Direction.UP, Direction.UP,
+            Direction.DOWN, Direction.DOWN,
+            Direction.LEFT, Direction.LEFT,
+            Direction.RIGHT, Direction.RIGHT)),
     /** Turn left. */
-    TURN_LEFT(Map.of(Direction.UP, Direction.LEFT, Direction.DOWN, Direction.RIGHT, Direction.LEFT, Direction.DOWN, Direction.RIGHT, Direction.UP)),
+    TURN_LEFT(Map.of(Direction.UP, Direction.LEFT,
+            Direction.DOWN, Direction.RIGHT,
+            Direction.LEFT, Direction.DOWN, 
+            Direction.RIGHT, Direction.UP)),
     /** Turn right. */
-    TURN_RIGHT(Map.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.LEFT, Direction.UP, Direction.RIGHT, Direction.DOWN));
+    TURN_RIGHT(Map.of(Direction.UP, Direction.RIGHT, 
+            Direction.DOWN, Direction.LEFT, 
+            Direction.LEFT, Direction.UP, 
+            Direction.RIGHT, Direction.DOWN));
     
     /** Map indicating, given a cart facing a direction, what its next direction should be. */
     private final Map<Direction, Direction> nextDirections;
