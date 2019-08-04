@@ -15,7 +15,6 @@ import javax.annotation.processing.Generated;
  * A point in two dimensions.
  *
  * @author Martijn van de Rijdt
- * 
  */
 public class Point implements Comparable<Point> {
 
@@ -77,22 +76,22 @@ public class Point implements Comparable<Point> {
         );
     }
 
-    /** @return neighbour to the left */
+    /** @return neighbour to the left (assuming x coordinates are numbererd left-to-right) */
     public Point leftNeighbour() {
         return new Point(x - 1, y);
     }
 
-    /** @return neighbour to the right */
+    /** @return neighbour to the right (assuming x coordinates are numbered left-to-right) */
     public Point rightNeighbour() {
         return new Point(x + 1, y);
     }
 
-    /** @return above neighbour */
+    /** @return above neighbour (assuming y coordinates are numbered top-down) */
     public Point aboveNeighbour() {
         return new Point(x, y - 1);
     }
 
-    /** @return below neighbour */
+    /** @return below neighbour (assuming y coordinates are numbered top-down) */
     public Point belowNeighbour() {
         return new Point(x, y + 1);
     }
@@ -155,7 +154,8 @@ public class Point implements Comparable<Point> {
     /**
      * {@inheritDoc}
      * <p>
-     * Compares the two points based on the <em>reading order</em>: top-to-bottom, then left-to-right.
+     * Compares the two points based on the <em>reading order</em>: top-to-bottom, then left-to-right 
+     * (assuming x coordinates are numbered left-to-right and y coordinates are numbered top-down).
      */
     @Override
     public int compareTo(Point other) {
