@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -60,6 +61,18 @@ class Nanobot {
         }
 
         return result;
+    }
+    
+    /**
+     * Given a nonempty set of nanobots, returns the nanobot with the largest radius.
+     * 
+     * @param nanobots nanobots
+     * @return strongest nanobot in the set
+     */
+    static Nanobot strongest(Set<Nanobot> nanobots) {
+        return nanobots.stream()
+                .max(Comparator.comparing(Nanobot::getRadius))
+                .get();
     }
     
     /**

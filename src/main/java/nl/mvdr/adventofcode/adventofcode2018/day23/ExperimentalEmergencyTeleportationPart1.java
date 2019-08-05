@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Comparator;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -26,9 +25,7 @@ public class ExperimentalEmergencyTeleportationPart1 implements PathSolver<Long>
         
         LOGGER.debug("Nanobots: {}", nanobots);
         
-        Nanobot strongestNanobot = nanobots.stream()
-                .max(Comparator.comparing(Nanobot::getRadius))
-                .get();
+        Nanobot strongestNanobot = Nanobot.strongest(nanobots);
         
         return Long.valueOf(strongestNanobot.botsInRange(nanobots));
     }
