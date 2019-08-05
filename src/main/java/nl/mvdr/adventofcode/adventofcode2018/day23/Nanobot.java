@@ -125,6 +125,18 @@ class Nanobot {
     }
     
     /**
+     * Determines in how many of the given nanobots' ranges this nanobot is.
+     * 
+     * @param nanobots nanobots (may include this bot itself)
+     * @return number of bots in whose ranges this nanobot is
+     */
+    long inRangeOf(Set<Nanobot> nanobots) {
+        return nanobots.stream()
+                .filter(nanobot -> nanobot.inRange(this.position))
+                .count();
+    }
+    
+    /**
      * Calculates the range of this nanobot, as a set of points.
      * 
      * Note: this method is slow and consumes a lot of memory.
@@ -151,19 +163,6 @@ class Nanobot {
         return result;
     }
     
-    
-    /**
-     * Determines in how many of the given nanobots' ranges this nanobot is.
-     * 
-     * @param nanobots nanobots (may include this bot itself)
-     * @return number of bots in whose ranges this nanobot is
-     */
-    long inRangeOf(Set<Nanobot> nanobots) {
-        return nanobots.stream()
-                .filter(nanobot -> nanobot.inRange(this.position))
-                .count();
-    }
-
     @Override
     public String toString() {
         return "pos=" + position + ", r=" + radius;
