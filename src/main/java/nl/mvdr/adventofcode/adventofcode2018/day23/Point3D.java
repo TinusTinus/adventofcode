@@ -13,7 +13,7 @@ import javax.annotation.processing.Generated;
  *
  * @author Martijn van de Rijdt
  */
-class Point {
+class Point3D {
 
     private final int x;
 
@@ -28,7 +28,7 @@ class Point {
      * @param y y coordinate
      * @param z z coordinate
      */
-    Point(int x, int y, int z) {
+    Point3D(int x, int y, int z) {
         super();
         this.x = x;
         this.y = y;
@@ -56,7 +56,7 @@ class Point {
      * @param other other point
      * @return Manhattan distance
      */
-    int manhattanDistance(Point other) {
+    int manhattanDistance(Point3D other) {
         return Math.abs(this.x - other.x) + Math.abs(this.y - other.y) + Math.abs(this.z - other.z);
     }
     
@@ -71,23 +71,23 @@ class Point {
      * @param text text to be parsed
      * @return point
      */
-    public static Point parse(String text) {
+    public static Point3D parse(String text) {
         String[] coordinateStrings = text.substring(1, text.length() - 1).split(",");
-        return new Point(
+        return new Point3D(
                 Integer.parseInt(coordinateStrings[0]),
                 Integer.parseInt(coordinateStrings[1]),
                 Integer.parseInt(coordinateStrings[2]));
     }
     
     /** @return the neighbouring points to this one */
-    public Set<Point> neighbours() {
+    public Set<Point3D> neighbours() {
         return Set.of(
-            new Point(x - 1, y, z),
-            new Point(x + 1, y, z),
-            new Point(x, y - 1, z),
-            new Point(x, y + 1, z),
-            new Point(x, y, z - 1),
-            new Point(x, y, z + 1)
+            new Point3D(x - 1, y, z),
+            new Point3D(x + 1, y, z),
+            new Point3D(x, y - 1, z),
+            new Point3D(x, y + 1, z),
+            new Point3D(x, y, z - 1),
+            new Point3D(x, y, z + 1)
         );
     }
 
@@ -106,7 +106,7 @@ class Point {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Point other = (Point) obj;
+        Point3D other = (Point3D) obj;
         return x == other.x && y == other.y && z == other.z;
     }
     

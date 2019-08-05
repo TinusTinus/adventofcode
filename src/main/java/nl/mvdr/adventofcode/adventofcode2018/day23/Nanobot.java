@@ -23,7 +23,7 @@ class Nanobot {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Nanobot.class);
     
-    private final Point position;
+    private final Point3D position;
     private final int radius;
 
     /**
@@ -59,7 +59,7 @@ class Nanobot {
         Nanobot result;
 
         if (matcher.matches()) {
-            Point position = Point.parse(matcher.group(1));
+            Point3D position = Point3D.parse(matcher.group(1));
             int radius = Integer.parseInt(matcher.group(2));
             result = new Nanobot(position, radius);
         } else {
@@ -87,7 +87,7 @@ class Nanobot {
      * @param position location of the nanobot
      * @param radius radius of the nanobot
      */
-    private Nanobot(Point position, int radius) {
+    private Nanobot(Point3D position, int radius) {
         super();
         this.position = position;
         this.radius = radius;
@@ -99,7 +99,7 @@ class Nanobot {
      * @param point location
      * @return whether the location is in range of this nanobot
      */
-    boolean inRange(Point point) {
+    boolean inRange(Point3D point) {
         return position.manhattanDistance(point) <= radius;
     }
     
@@ -107,7 +107,7 @@ class Nanobot {
         return radius;
     }
     
-    Point getPosition() {
+    Point3D getPosition() {
         return position;
     }
     
@@ -143,15 +143,15 @@ class Nanobot {
      * 
      * @return the range of this nanobot
      */
-    Set<Point> range() {
+    Set<Point3D> range() {
         LOGGER.debug("Calculating range for {}", this);
         
-        Set<Point> result = new HashSet<>();
+        Set<Point3D> result = new HashSet<>();
         
         result.add(this.position);
-        Set<Point> lastAdded = Set.of(this.position);
+        Set<Point3D> lastAdded = Set.of(this.position);
         for (int distance = 0; distance <= radius; distance++) {
-            Set<Point> nextLastAdded = lastAdded.stream()
+            Set<Point3D> nextLastAdded = lastAdded.stream()
                     .flatMap(point -> point.neighbours().stream())
                     .filter(result::add)
                     .collect(Collectors.toSet());
