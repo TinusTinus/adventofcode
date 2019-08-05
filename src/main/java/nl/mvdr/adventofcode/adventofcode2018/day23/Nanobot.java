@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A tiny robot.
@@ -16,6 +20,8 @@ import java.util.stream.Collectors;
  * @author Martijn van de Rijdt
  */
 class Nanobot {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Nanobot.class);
     
     private final Point position;
     private final int radius;
@@ -117,6 +123,34 @@ class Nanobot {
                 .filter(this::inRange)
                 .count();
     }
+    
+    /**
+     * Calculates the range of this nanobot, as a set of points.
+     * 
+     * Note: this method is slow and consumes a lot of memory.
+     * 
+     * @return the range of this nanobot
+     */
+    Set<Point> range() {
+        LOGGER.debug("Calculating range for {}", this);
+        
+        Set<Point> result = new HashSet<>();
+        
+        result.add(this.position);
+        Set<Point> lastAdded = Set.of(this.position);
+        for (int distance = 0; distance <= radius; distance++) {
+            Set<Point> nextLastAdded = lastAdded.stream()
+                    .flatMap(point -> point.neighbours().stream())
+                    .filter(result::add)
+                    .collect(Collectors.toSet());
+            lastAdded = nextLastAdded;
+        }
+        
+        LOGGER.debug("The range of nanobot {} contains {} points", this, Integer.valueOf(result.size()));
+        
+        return result;
+    }
+    
     
     /**
      * Determines in how many of the given nanobots' ranges this nanobot is.

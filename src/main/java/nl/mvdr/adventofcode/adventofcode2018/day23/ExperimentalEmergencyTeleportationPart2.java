@@ -38,7 +38,7 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
                 .map(Entry::getKey)
                 .collect(Collectors.toSet());
         
-        LOGGER.info("Maximum number of bots in range: {}; bots: {}", maxBotsInRange, botsWithMaxBotsInRange);
+        LOGGER.debug("Maximum number of bots in range: {}; bots: {}", maxBotsInRange, botsWithMaxBotsInRange);
         // Result: there is 1 bot with 962 other bots in its range: pos=<29463738,37565122,55842905>, r=97249189.
         
         Map<Nanobot, Long> botsInRangeOf = nanobots.stream()
@@ -52,11 +52,11 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
                 .map(Entry::getKey)
                 .collect(Collectors.toSet());
         
-        LOGGER.info("Maximum number of bots in range of: {}; bots: {}", maxBotsInRangeOf, botsWithMaxBotsInRangeOf);
+        LOGGER.debug("Maximum number of bots in range of: {}; bots: {}", maxBotsInRangeOf, botsWithMaxBotsInRangeOf);
         
         // Result: there is 1 bot in range of 859 others: pos=<29463738,37565122,55842905>, r=97249189 (the same one as above)
         
-        LOGGER.info("Strongest nanobot: {}", Nanobot.strongest(nanobots));
+        LOGGER.debug("Strongest nanobot: {}", Nanobot.strongest(nanobots));
         
         // The strongest nanobot is a different one: pos=<16550473,27374441,-19147897>, r=99846219
         
