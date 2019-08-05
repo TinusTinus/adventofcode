@@ -54,9 +54,11 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
         
         LOGGER.info("Maximum number of bots in range of: {}; bots: {}", maxBotsInRangeOf, botsWithMaxBotsInRangeOf);
         
+        // Result: there is 1 bot in range of 859 others: pos=<29463738,37565122,55842905>, r=97249189 (the same one as above)
+        
         LOGGER.info("Strongest nanobot: {}", Nanobot.strongest(nanobots));
         
-        // Result: there is 1 bot in range of 859 others: pos=<29463738,37565122,55842905>, r=97249189 (the same one as above)
+        // The strongest nanobot is a different one: pos=<16550473,27374441,-19147897>, r=99846219
         
         // Note from earlier experimentation: there are points in range of 890 bots.
 
