@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -92,7 +91,8 @@ class State {
     /** @return whether fighting is done, that is, whether one of the armies has been defeated */
     private boolean fightingDone() {
         return groups.stream()
-                .map(Group::getArmy)
+                .map(Group::getGroupIdentification)
+                .map(GroupIdentification::getArmy)
                 .distinct()
                 .count() < 2L;
     }
@@ -103,7 +103,7 @@ class State {
      * @return state after the fight is complete
      */
     private State fight() {
-        Map<Group, Optional<Group>> targets = performTargetSelection();
+        Map<GroupIdentification, Optional<Group>> targets = performTargetSelection();
         
         return performAttacks(targets);
     }
@@ -113,12 +113,12 @@ class State {
      * 
      * @return map of attackers to their targets
      */
-    private Map<Group, Optional<Group>> performTargetSelection() {
+    private Map<GroupIdentification, Optional<Group>> performTargetSelection() {
         Set<Group> remainingTargets = new HashSet<>(groups);
         
         return groups.stream()
                 .sorted(Comparator.comparing(Group::effectivePower).reversed().thenComparing(Group::getInitiative))
-                .collect(Collectors.toMap(Function.identity(), group -> {
+                .collect(Collectors.toMap(Group::getGroupIdentification, group -> {
                     Optional<Group> target = group.selectTarget(remainingTargets);
                     target.ifPresent(remainingTargets::remove);
                     return target;
@@ -131,24 +131,31 @@ class State {
      * @param targets map of attackers to their targets
      * @return new state after attacks have been resolved
      */
-    private State performAttacks(Map<Group, Optional<Group>> targets) {
+    private State performAttacks(Map<GroupIdentification, Optional<Group>> targets) {
         Set<Group> nextGroups = new HashSet<>(this.groups);
         
         targets.keySet().stream()
                 // Attack in initiative order
-                .sorted(Comparator.comparing(Group::getInitiative))
+                .sorted(Comparator.comparing(id -> getGroup(id).getInitiative()))
                 // Look up current attacker. Units, or the entire group, may have already been defeated this round
-                .map(attacker -> nextGroups.stream().filter(g -> g.getArmy() == attacker.getArmy() && g.getId() == attacker.getId()).findAny())
+                .map(id -> nextGroups.stream().filter(g -> g.getGroupIdentification().equals(id)).findAny())
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(attacker -> {
-                    targets.get(attacker)
+                    targets.get(attacker.getGroupIdentification())
                             .map(target -> removeAndReturn(nextGroups, target))
                             .flatMap(attacker::attack)
                             .ifPresent(nextGroups::add);
                 });
         
         return new State(nextGroups);
+    }
+    
+    private Group getGroup(GroupIdentification id) {
+        return this.groups.stream()
+                .filter(group -> group.getGroupIdentification().equals(id))
+                .findAny()
+                .get();
     }
 
     /**
@@ -175,7 +182,7 @@ class State {
     @Override
     public String toString() {
         return "State:\n    " + groups.stream()
-                .sorted(Comparator.comparing(Group::getArmy).thenComparing(Group::getId))
+                .sorted(Comparator.comparing(Group::getGroupIdentification))
                 .map(Group::toString)
                 .collect(Collectors.joining("\n    "));
     }

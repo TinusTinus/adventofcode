@@ -19,8 +19,8 @@ public class GroupTest {
         
         Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
-        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
-        Assertions.assertEquals(1, group.getId());
+        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getGroupIdentification().getArmy());
+        Assertions.assertEquals(1, group.getGroupIdentification().getId());
         Assertions.assertEquals(303, group.getUnits());
         Assertions.assertEquals(10428, group.getHitPoints());
         Assertions.assertEquals(328, group.getAttackDamage());
@@ -37,8 +37,8 @@ public class GroupTest {
         
         Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
-        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
-        Assertions.assertEquals(1, group.getId());
+        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getGroupIdentification().getArmy());
+        Assertions.assertEquals(1, group.getGroupIdentification().getId());
         Assertions.assertEquals(18, group.getUnits());
         Assertions.assertEquals(729, group.getHitPoints());
         Assertions.assertEquals(Set.of("fire"), group.getWeaknesses());
@@ -55,8 +55,8 @@ public class GroupTest {
         
         Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
-        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
-        Assertions.assertEquals(1, group.getId());
+        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getGroupIdentification().getArmy());
+        Assertions.assertEquals(1, group.getGroupIdentification().getId());
         Assertions.assertEquals(18, group.getUnits());
         Assertions.assertEquals(729, group.getHitPoints());
         Assertions.assertEquals(Set.of("cold", "slashing"), group.getImmunities());
@@ -73,8 +73,8 @@ public class GroupTest {
         
         Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
-        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
-        Assertions.assertEquals(1, group.getId());
+        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getGroupIdentification().getArmy());
+        Assertions.assertEquals(1, group.getGroupIdentification().getId());
         Assertions.assertEquals(18, group.getUnits());
         Assertions.assertEquals(729, group.getHitPoints());
         Assertions.assertEquals(Set.of("cold", "slashing"), group.getImmunities());
@@ -91,8 +91,8 @@ public class GroupTest {
         
         Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
-        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
-        Assertions.assertEquals(1, group.getId());
+        Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getGroupIdentification().getArmy());
+        Assertions.assertEquals(1, group.getGroupIdentification().getId());
         Assertions.assertEquals(18, group.getUnits());
         Assertions.assertEquals(729, group.getHitPoints());
         Assertions.assertEquals(Set.of("fire", "tickling"), group.getWeaknesses());
@@ -146,8 +146,8 @@ public class GroupTest {
         
         Group resultGroup = result.get();
         Assertions.assertEquals(3, resultGroup.getUnits());
-        Assertions.assertEquals(group.getArmy(), resultGroup.getArmy());
-        Assertions.assertEquals(group.getId(), resultGroup.getId());
+        Assertions.assertEquals(group.getGroupIdentification().getArmy(), resultGroup.getGroupIdentification().getArmy());
+        Assertions.assertEquals(group.getGroupIdentification().getId(), resultGroup.getGroupIdentification().getId());
         Assertions.assertEquals(group.getHitPoints(), resultGroup.getHitPoints());
         Assertions.assertEquals(group.getImmunities(), resultGroup.getImmunities());
         Assertions.assertEquals(group.getWeaknesses(), resultGroup.getWeaknesses());

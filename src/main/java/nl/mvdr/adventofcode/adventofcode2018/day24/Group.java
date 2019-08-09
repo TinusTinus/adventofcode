@@ -21,10 +21,8 @@ class Group {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Group.class);
     
-    /** The army to which this group belongs. */
-    private final Army army;
-    /** Unique identification of this group within its army. */
-    private final int id;
+    /** Unique identification of this group. */
+    private final GroupIdentification groupIdentification;
     /** The number of units within this group. */
     private final int units;
     /** The amount of damage a unit can take before it is destroyed. */
@@ -83,14 +81,15 @@ class Group {
         weaknesses = Set.copyOf(weaknesses);
         immunities = Set.copyOf(immunities);
         
-        return new Group(army, id, units, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities);
+        GroupIdentification groupIdentification = new GroupIdentification(army, id);
+        
+        return new Group(groupIdentification, units, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities);
     }
     
     /**
      * Constructor.
      * 
-     * @param army the army to which this group belongs
-     * @param id unique identification of this group within its army
+     * @param identification unique identification of this group
      * @param units number of units
      * @param hitPoints amount of damage a unit can take before it is destroyed
      * @param attackDamage the amount of damage each unit deals
@@ -99,11 +98,10 @@ class Group {
      * @param weaknesses damage type weaknesses
      * @param immunities damage type immunities
      */
-    private Group(Army army, int id, int units, int hitPoints, int attackDamage, String attackType, int initiative,
+    private Group(GroupIdentification identification, int units, int hitPoints, int attackDamage, String attackType, int initiative,
             Set<String> weaknesses, Set<String> immunities) {
         super();
-        this.army = army;
-        this.id = id;
+        this.groupIdentification = identification;
         this.units = units;
         this.hitPoints = hitPoints;
         this.attackDamage = attackDamage;
@@ -113,12 +111,8 @@ class Group {
         this.immunities = immunities;
     }
     
-    Army getArmy() {
-        return army;
-    }
-
-    int getId() {
-        return id;
+    GroupIdentification getGroupIdentification() {
+        return groupIdentification;
     }
     
     int getUnits() {
@@ -162,7 +156,7 @@ class Group {
      */
     Optional<Group> selectTarget(Set<Group> potentialTargets) {
         return potentialTargets.stream()
-                .filter(target -> target.army != this.army)
+                .filter(target -> target.getGroupIdentification().getArmy() != this.getGroupIdentification().getArmy())
                 .max(Comparator.comparing(this::calculateDamage)
                         .thenComparing(Group::effectivePower)
                         .thenComparing(Group::getInitiative))
@@ -195,7 +189,7 @@ class Group {
      */
     Optional<Group> attack(Group target) {
         int damage = calculateDamage(target);
-        LOGGER.debug("{} attacks {} for {} damage", this.name(), target.name(), damage);
+        LOGGER.debug("{} attacks {} for {} damage", this.getGroupIdentification(), target.getGroupIdentification(), damage);
         return target.takeDamage(damage);
     }
     
@@ -211,26 +205,19 @@ class Group {
         
         Optional<Group> result;
         if (remainingUnits <= 0) {
-            LOGGER.debug("{} has been defeated", name());
+            LOGGER.debug("{} has been defeated", getGroupIdentification());
             result = Optional.empty();
         } else {
-            LOGGER.debug("{} has lost {} units", name(), defeatedUnits);
-            result = Optional.of(new Group(army, id, remainingUnits, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities));
+            LOGGER.debug("{} has lost {} units", getGroupIdentification(), defeatedUnits);
+            result = Optional.of(new Group(groupIdentification, remainingUnits, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities));
         }
         return result;
-    }
-    
-    /** @return shorter String representation than {@link #toString()} */
-    private String name() {
-        return army + " group " + id;
     }
     
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(army);
-        builder.append(" group ");
-        builder.append(id);
+        builder.append(groupIdentification);
         builder.append(": ");
         builder.append(units);
         builder.append(" units each with ");
