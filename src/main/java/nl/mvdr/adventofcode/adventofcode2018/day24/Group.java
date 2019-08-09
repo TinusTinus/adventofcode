@@ -1,6 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +18,8 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 class Group {
+    /** The army to which this group belongs. */
+    private final Army army;
     
     /** Unique identification of this group within its army. */
     private final int id;
@@ -39,6 +46,39 @@ class Group {
     private final Set<String> immunities;
 
     /**
+     * Parses the given input file into a set of groups.
+     * 
+     * @param inputFilePath path to the input text file
+     * @return set of groups
+     * @throws IOException in case the input file could not be read
+     */
+    static Set<Group> parse(Path inputFilePath) throws IOException {
+        List<String> lines = Files.lines(inputFilePath)
+            // ignore empty lines (the last line in the file)
+            .filter(Objects::nonNull)
+            .filter(line -> !line.isBlank())
+            .collect(Collectors.toList());
+        
+        Set<Group> result = new HashSet<>();
+        Army currentArmy = null;
+        int id = 1;
+        for (String line : lines) {
+            if (line.startsWith(Army.IMMUNE_SYSTEM.toString())) {
+                currentArmy = Army.IMMUNE_SYSTEM;
+                id = 1;
+            } else if (line.startsWith(Army.INFECTION.toString())) {
+                currentArmy = Army.INFECTION;
+                id = 1;
+            } else {
+                result.add(parseGroup(currentArmy, id, line));
+                id++;
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
      * Parses a textual representation of a group.
      * 
      * @param id unique identification of this group within its army
@@ -46,7 +86,7 @@ class Group {
      *     "18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10"
      * @return group
      */
-    static Group parse(int id, String text) {
+    static Group parseGroup(Army army, int id, String text) {
         Pattern pattern = Pattern.compile("(?<units>\\d*) units each with (?<hitPoints>\\d*) hit points"
                 + "( \\((?<weaknessesAndImmunities>[^\\)]*)\\))?"
                 + " with an attack that does (?<attackDamage>\\d*) (?<attackType>[a-z]*) damage"
@@ -81,12 +121,13 @@ class Group {
         weaknesses = Set.copyOf(weaknesses);
         immunities = Set.copyOf(immunities);
         
-        return new Group(id, units, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities);
+        return new Group(army, id, units, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities);
     }
     
     /**
      * Constructor.
      * 
+     * @param army the army to which this group belongs
      * @param id unique identification of this group within its army
      * @param units number of units
      * @param hitPoints amount of damage a unit can take before it is destroyed
@@ -96,9 +137,10 @@ class Group {
      * @param weaknesses damage type weaknesses
      * @param immunities damage type immunities
      */
-    private Group(int id, int units, int hitPoints, int attackDamage, String attackType, int initiative,
+    private Group(Army army, int id, int units, int hitPoints, int attackDamage, String attackType, int initiative,
             Set<String> weaknesses, Set<String> immunities) {
         super();
+        this.army = army;
         this.id = id;
         this.units = units;
         this.hitPoints = hitPoints;
@@ -107,6 +149,10 @@ class Group {
         this.initiative = initiative;
         this.weaknesses = weaknesses;
         this.immunities = immunities;
+    }
+    
+    Army getArmy() {
+        return army;
     }
 
     int getId() {
@@ -149,6 +195,10 @@ class Group {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append(army);
+        builder.append(" group ");
+        builder.append(id);
+        builder.append(": ");
         builder.append(units);
         builder.append(" units each with ");
         builder.append(hitPoints);

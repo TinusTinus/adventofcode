@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2018.day24;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,13 @@ public class ImmuneSystemSimulatorPart1 implements PathSolver<Integer> {
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
+        Set<Group> groups = Group.parse(inputFilePath);
+        
+        groups.stream()
+                .sorted(Comparator.comparing(Group::getArmy).thenComparing(Group::getId))
+                .map(Group::toString)
+                .forEach(LOGGER::debug);
+        
         return null; // TODO
     }
     
