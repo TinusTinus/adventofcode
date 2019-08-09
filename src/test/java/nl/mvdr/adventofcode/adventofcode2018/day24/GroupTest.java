@@ -112,4 +112,15 @@ public class GroupTest {
         
         Assertions.assertEquals(input, result);
     }
+    
+    /** Test case for {@link Group#effectivePower()}. */
+    @Test
+    public void testEffectivePower() {
+        String input = "18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
+        Group group = Group.parse(input);
+        
+        int result = group.effectivePower();
+        
+        Assertions.assertEquals(144, result);
+    }
 }
