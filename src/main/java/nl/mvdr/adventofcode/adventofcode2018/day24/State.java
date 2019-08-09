@@ -121,7 +121,31 @@ class State {
      * @return new state after attacks have been resolved
      */
     private State performAttacks(Map<Group, Optional<Group>> targets) {
-        return null; // TODO implement!
+        Set<Group> nextGroups = new HashSet<>(this.groups);
+        
+        targets.forEach((attacker, defender) -> {
+            defender.map(Group::getId)
+                    .flatMap(id -> nextGroups.stream().filter(g -> g.getId() == id.intValue()).findAny())
+                    .map(actualTarget -> removeAndReturn(nextGroups, actualTarget))
+                    .flatMap(attacker::attack)
+                    .ifPresent(nextGroups::add);
+        });
+        
+        return new State(nextGroups);
+    }
+
+    /**
+     * Removes the given element from the given set, and returns it.
+     * 
+     * Convenience method for method chaining.
+     * 
+     * @param set set from which the element should be removed
+     * @param element element to be removed
+     * @return input element
+     */
+    private <E> E removeAndReturn(Set<E> set, E element) {
+        set.remove(element);
+        return element;
     }
 
     /** @return total number of units of all groups */

@@ -190,6 +190,17 @@ class Group {
     }
     
     /**
+     * Performs an attack on the given target.
+     * 
+     * @param target target group
+     * @return target with updated number of remaining units, or empty if the target was defeated
+     */
+    Optional<Group> attack(Group target) {
+        int damage = calculateDamage(target);
+        return target.takeDamage(damage);
+    }
+    
+    /**
      * Takes the given damage.
      * 
      * @param damage total damage; immunities and weaknesses must have already been accounted for in this number
