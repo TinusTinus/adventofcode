@@ -134,12 +134,13 @@ class State {
     private State performAttacks(Map<Group, Optional<Group>> targets) {
         Set<Group> nextGroups = new HashSet<>(this.groups);
         
+        // TODO act in the correct order!
         targets.forEach((attacker, defender) -> {
-            defender.map(Group::getId)
-                    .flatMap(id -> nextGroups.stream().filter(g -> g.getId() == id.intValue()).findAny())
-                    .map(actualTarget -> removeAndReturn(nextGroups, actualTarget))
-                    .flatMap(attacker::attack)
-                    .ifPresent(nextGroups::add);
+            nextGroups.stream().filter(g -> g.getId() == attacker.getId()).findAny().ifPresent(actualAttacker -> {
+                defender.map(target -> removeAndReturn(nextGroups, target))
+                        .flatMap(actualAttacker::attack)
+                        .ifPresent(nextGroups::add);
+            });
         });
         
         return new State(nextGroups);
