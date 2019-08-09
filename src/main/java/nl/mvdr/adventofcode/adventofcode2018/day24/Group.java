@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A group of units.
@@ -43,7 +44,7 @@ class Group {
      */
     static Group parse(String text) {
         Pattern pattern = Pattern.compile("(?<units>\\d*) units each with (?<hitPoints>\\d*) hit points"
-                + "( \\([^\\)]*\\))?"
+                + "( \\((?<weaknessesAndImmunities>[^\\)]*)\\))?"
                 + " with an attack that does (?<attackDamage>\\d*) (?<attackType>[a-z]*) damage"
                 + " at initiative (?<initiative>\\d*)");
         
@@ -58,6 +59,23 @@ class Group {
         
         Set<String> weaknesses = new HashSet<>();
         Set<String> immunities = new HashSet<>();
+        String weaknessesAndImmunities = matcher.group("weaknessesAndImmunities");
+        if (weaknessesAndImmunities != null) {
+            String[] parts = weaknessesAndImmunities.split("; ");
+            for (String part : parts) {
+                if (part.startsWith("weak to ")) {
+                    Stream.of(part.substring("weak to ".length()).split(", "))
+                            .forEach(weaknesses::add);
+                } else if (part.startsWith("immune to ")) {
+                    Stream.of(part.substring("immune to ".length()).split(", "))
+                            .forEach(immunities::add);
+                } else {
+                    throw new IllegalStateException("Unexpected input part: " + part);
+                }
+            }
+        }
+        weaknesses = Set.copyOf(weaknesses);
+        immunities = Set.copyOf(immunities);
         
         return new Group(units, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities);
     }
