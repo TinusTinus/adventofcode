@@ -134,14 +134,19 @@ class State {
     private State performAttacks(Map<Group, Optional<Group>> targets) {
         Set<Group> nextGroups = new HashSet<>(this.groups);
         
-        // TODO act in the correct order!
-        targets.forEach((attacker, defender) -> {
-            nextGroups.stream().filter(g -> g.getId() == attacker.getId()).findAny().ifPresent(actualAttacker -> {
-                defender.map(target -> removeAndReturn(nextGroups, target))
-                        .flatMap(actualAttacker::attack)
-                        .ifPresent(nextGroups::add);
-            });
-        });
+        targets.keySet().stream()
+                // Attack in initiative order
+                .sorted(Comparator.comparing(Group::getInitiative))
+                // Look up current attacker. Units, or the entire group, may have already been defeated this round
+                .map(attacker -> nextGroups.stream().filter(g -> g.getArmy() == attacker.getArmy() && g.getId() == attacker.getId()).findAny())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(attacker -> {
+                    targets.get(attacker)
+                            .map(target -> removeAndReturn(nextGroups, target))
+                            .flatMap(attacker::attack)
+                            .ifPresent(nextGroups::add);
+                });
         
         return new State(nextGroups);
     }
