@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -162,8 +163,30 @@ class Group {
      * @return target, or empty if no valid target could be found
      */
     Optional<Group> selectTarget(Set<Group> potentialTargets) {
-        // TODO implement
-        return Optional.empty();
+        return potentialTargets.stream()
+                .filter(target -> target.army != this.army)
+                .max(Comparator.comparing(this::calculateDamage)
+                        .thenComparing(Group::effectivePower)
+                        .thenComparing(Group::getInitiative))
+                .filter(target -> 0 < this.calculateDamage(target));
+    }
+    
+    /**
+     * Determines how much damage this group would do to the given other group, based on damage types, weaknesses and immunities.
+     * 
+     * @param target target group
+     * @return damage
+     */
+    private int calculateDamage(Group target) {
+        int result;
+        if (target.getImmunities().contains(this.attackType)) {
+            result = 0;
+        } else if (target.getWeaknesses().contains(this.attackType)) {
+            result = 2 * this.effectivePower();
+        } else {
+            result = effectivePower();
+        }
+        return result;
     }
     
     @Override
