@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -152,6 +153,17 @@ class Group {
     /** @return the number of units in that group multiplied by their attack damage */
     int effectivePower() {
         return units * attackDamage;
+    }
+    
+    /**
+     * Selects a target from the given potential targets.
+     * 
+     * @param potentialTargets potential targets
+     * @return target, or empty if no valid target could be found
+     */
+    Optional<Group> selectTarget(Set<Group> potentialTargets) {
+        // TODO implement
+        return Optional.empty();
     }
     
     @Override

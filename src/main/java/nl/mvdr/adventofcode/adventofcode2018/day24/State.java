@@ -6,8 +6,11 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -89,9 +92,38 @@ class State {
      * @return state after the fight is complete
      */
     private State fight() {
-        return null; // TODO implement!
+        Map<Group, Optional<Group>> targets = performTargetSelection();
+        
+        return performAttacks(targets);
     }
     
+    /**
+     * Performs the target selection phase for this state.
+     * 
+     * @return map of attackers to their targets
+     */
+    private Map<Group, Optional<Group>> performTargetSelection() {
+        Set<Group> remainingTargets = new HashSet<>(groups);
+        
+        return groups.stream()
+                .sorted(Comparator.comparing(Group::effectivePower).reversed().thenComparing(Group::getInitiative))
+                .collect(Collectors.toMap(Function.identity(), group -> {
+                    Optional<Group> target = group.selectTarget(remainingTargets);
+                    target.ifPresent(remainingTargets::remove);
+                    return target;
+                }));
+    }
+    
+    /**
+     * Performs the attacking phase for this state.
+     * 
+     * @param targets map of attackers to their targets
+     * @return new state after attacks have been resolved
+     */
+    private State performAttacks(Map<Group, Optional<Group>> targets) {
+        return null; // TODO implement!
+    }
+
     /** @return total number of units of all groups */
     int totalUnits() {
         return groups.stream()
