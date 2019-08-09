@@ -117,7 +117,7 @@ class State {
         Set<Group> remainingTargets = new HashSet<>(groups);
         
         return groups.stream()
-                .sorted(Comparator.comparing(Group::effectivePower).reversed().thenComparing(Group::getInitiative))
+                .sorted(Comparator.comparing(Group::effectivePower).reversed().thenComparing(group -> -group.getInitiative()))
                 .collect(Collectors.toMap(Group::getGroupIdentification, group -> {
                     Optional<Group> target = group.selectTarget(remainingTargets);
                     target.ifPresent(remainingTargets::remove);
