@@ -35,6 +35,7 @@ enum Direction {
      * 
      * @param representation character representation of a minecart facing this direction
      * @param vertical whether this direction is vertical
+     * @param next function that, given a cart's location, determines the cart's next location
      */
     Direction(char representation, boolean vertical, Function<Point, Point> next) {
         this.representation = representation;
