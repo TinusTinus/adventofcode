@@ -135,16 +135,19 @@ class State {
         Set<Group> nextGroups = new HashSet<>(this.groups);
         
         targets.keySet().stream()
-                // Attack in initiative order
-                .sorted(Comparator.comparing(id -> getGroup(id).getInitiative()))
-                // Look up current attacker. Units, or the entire group, may have already been defeated this round
+                // Attack in decreasing initiative order
+                .sorted(Comparator.comparing(id -> -getGroup(id).getInitiative()))
+                // Look up the attacker (may no longer exist, or have lost units, because of earlier attacks this round)
                 .map(id -> nextGroups.stream().filter(g -> g.getGroupIdentification().equals(id)).findAny())
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(attacker -> {
+                    // Lookup the target (could not have been attacked yet this round)
                     targets.get(attacker.getGroupIdentification())
                             .map(target -> removeAndReturn(nextGroups, target))
+                            // Perform the attack
                             .flatMap(attacker::attack)
+                            // Add updated target, if any units survived
                             .ifPresent(nextGroups::add);
                 });
         

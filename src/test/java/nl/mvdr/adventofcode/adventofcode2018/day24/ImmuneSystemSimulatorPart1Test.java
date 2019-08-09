@@ -24,6 +24,7 @@ public class ImmuneSystemSimulatorPart1Test extends SolverTest<ImmuneSystemSimul
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
+        // 26283 is incorrect: too high
         assertSolution("?", "input-day24-2018.txt");
     }
 }
