@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day24;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,18 +28,18 @@ public class ImmuneSystemSimulatorPart2 implements PathSolver<Integer> {
     public Integer solve(Path inputFilePath) throws IOException {
         State inputState = State.parse(inputFilePath);
         
-        int boost = 1;
-        State state = inputState.boostImmuneSystem(boost);
-        State endState = state.fightUntilDone();
+        // Start at 35:
+        // * the computation takes a very long time for boost = 34;
+        // * the immune system does not win for 0 <= boost <= 34.
+        int minimumBoost = IntStream.range(35, 1570)
+                .parallel()
+                .peek(boost -> LOGGER.debug("Inspecting boost {}", boost))
+                .filter(boost -> inputState.boostImmuneSystem(boost).fightUntilDone().winner().get() == Army.IMMUNE_SYSTEM)
+                .peek(boost -> LOGGER.debug("Winner found: {}", boost))
+                .min()
+                .getAsInt();
         
-        while(endState.winner().get().equals(Army.INFECTION)) {
-            LOGGER.debug("Boost: {}", boost);
-            state = inputState.boostImmuneSystem(boost);
-            endState = state.fightUntilDone();
-            boost++;
-        }
-        
-        return endState.totalUnits();
+        return inputState.boostImmuneSystem(minimumBoost).fightUntilDone().totalUnits();
     }
     
     /**
