@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
@@ -132,5 +133,50 @@ public class GroupTest {
         int result = group.effectivePower();
         
         Assertions.assertEquals(144, result);
+    }
+    
+    /** Test case for {@link Group#takeDamage(int)}. */
+    @Test
+    public void testTakeDamage() {
+        String input = "10 units each with 10 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
+        int damage = 75;
+        
+        Optional<Group> result = group.takeDamage(damage);
+        
+        Group resultGroup = result.get();
+        Assertions.assertEquals(3, resultGroup.getUnits());
+        Assertions.assertEquals(group.getArmy(), resultGroup.getArmy());
+        Assertions.assertEquals(group.getId(), resultGroup.getId());
+        Assertions.assertEquals(group.getHitPoints(), resultGroup.getHitPoints());
+        Assertions.assertEquals(group.getImmunities(), resultGroup.getImmunities());
+        Assertions.assertEquals(group.getWeaknesses(), resultGroup.getWeaknesses());
+        Assertions.assertEquals(group.getAttackDamage(), resultGroup.getAttackDamage());
+        Assertions.assertEquals(group.getAttackType(), resultGroup.getAttackType());
+        Assertions.assertEquals(group.getInitiative(), resultGroup.getInitiative());
+    }
+    
+    /** Test case for {@link Group#takeDamage(int)}. */
+    @Test
+    public void testTakeDamageTotalHP() {
+        String input = "10 units each with 10 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
+        int damage = 100;
+        
+        Optional<Group> result = group.takeDamage(damage);
+        
+        Assertions.assertFalse(result.isPresent());
+    }
+    
+    /** Test case for {@link Group#takeDamage(int)}. */
+    @Test
+    public void testTakeDamageOverkill() {
+        String input = "10 units each with 10 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
+        int damage = 125;
+        
+        Optional<Group> result = group.takeDamage(damage);
+        
+        Assertions.assertFalse(result.isPresent());
     }
 }

@@ -189,6 +189,26 @@ class Group {
         return result;
     }
     
+    /**
+     * Takes the given damage.
+     * 
+     * @param damage total damage; immunities and weaknesses must have already been accounted for in this number
+     * @return group with updated number of remaining units, or empty if this group was defeated
+     */
+    Optional<Group> takeDamage(int damage) {
+        int remainingHitPoints = this.units * this.hitPoints - damage;
+        
+        Optional<Group> result;
+        if (remainingHitPoints <= 0) {
+            // Defeated.
+            result = Optional.empty();
+        } else {
+            int remainingUnits = remainingHitPoints / this.hitPoints;
+            result = Optional.of(new Group(army, id, remainingUnits, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities));
+        }
+        return result;
+    }
+    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
