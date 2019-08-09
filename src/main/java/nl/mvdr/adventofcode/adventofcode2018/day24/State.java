@@ -13,12 +13,17 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * State of the two armies.
  *
  * @author Martijn van de Rijdt
  */
 class State {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(State.class);
     
     /** All groups (of both armies). */
     private final Set<Group> groups;
@@ -73,8 +78,13 @@ class State {
      */
     State fightUntilDone() {
         State state = this;
+        
+        LOGGER.debug("Start {}", state);
+        
         while (!state.fightingDone()) {
             state = state.fight();
+            
+            LOGGER.debug("Round of fighting complete, {}", state);
         }
         return state;
     }
@@ -83,6 +93,7 @@ class State {
     private boolean fightingDone() {
         return groups.stream()
                 .map(Group::getArmy)
+                .distinct()
                 .count() < 2L;
     }
     

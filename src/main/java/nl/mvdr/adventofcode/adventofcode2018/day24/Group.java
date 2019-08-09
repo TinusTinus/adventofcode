@@ -9,36 +9,34 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A group of units.
  *
  * @author Martijn van de Rijdt
  */
 class Group {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Group.class);
+    
     /** The army to which this group belongs. */
     private final Army army;
-    
     /** Unique identification of this group within its army. */
     private final int id;
-    
     /** The number of units within this group. */
     private final int units;
-    
     /** The amount of damage a unit can take before it is destroyed. */
     private final int hitPoints;
-    
     /** The amount of damage each unit deals. */
     private final int attackDamage;
-    
     /** Type of damage this unit deals. */
     private final String attackType;
-    
     /** Higher initiative units attack first and win ties. */
     private final int initiative;
-    
     /** Damage type weaknesses. */
     private final Set<String> weaknesses;
-    
     /** Damage type immunities. */
     private final Set<String> immunities;
 
@@ -197,6 +195,7 @@ class Group {
      */
     Optional<Group> attack(Group target) {
         int damage = calculateDamage(target);
+        LOGGER.debug("{} attacks {} for {} damage", this.name(), target.name(), damage);
         return target.takeDamage(damage);
     }
     
@@ -212,12 +211,18 @@ class Group {
         
         Optional<Group> result;
         if (remainingUnits <= 0) {
-            // Defeated.
+            LOGGER.debug("{} has been defeated", name());
             result = Optional.empty();
         } else {
+            LOGGER.debug("{} has lost {} units", name(), defeatedUnits);
             result = Optional.of(new Group(army, id, remainingUnits, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities));
         }
         return result;
+    }
+    
+    /** @return shorter String representation than {@link #toString()} */
+    private String name() {
+        return army + " group " + id;
     }
     
     @Override

@@ -26,13 +26,7 @@ public class ImmuneSystemSimulatorPart1 implements PathSolver<Integer> {
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
         State state = State.parse(inputFilePath);
-        
-        LOGGER.debug("Starting state: {}", state);
-        
         state = state.fightUntilDone();
-        
-        LOGGER.debug("End state: {}", state);
-        
         return state.totalUnits();
     }
     
