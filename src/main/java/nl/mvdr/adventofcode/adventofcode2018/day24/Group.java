@@ -214,6 +214,24 @@ class Group {
         return result;
     }
     
+    /**
+     * Boosts this group's attack power, if it is a part of the Immune System's army.
+     * 
+     * @param boost integer increase in immune system units' attack damage
+     * @return updated group
+     */
+    Group boostImmuneSystem(int boost) {
+        Group result;
+        
+        if (getGroupIdentification().getArmy() == Army.IMMUNE_SYSTEM) {
+            result = new Group(groupIdentification, units, hitPoints, attackDamage + boost, attackType, initiative, weaknesses, immunities);
+        } else {
+            result = this;
+        }
+        
+        return result;
+    }
+    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

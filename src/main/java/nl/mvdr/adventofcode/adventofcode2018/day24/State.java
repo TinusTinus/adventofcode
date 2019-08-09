@@ -90,11 +90,23 @@ class State {
     
     /** @return whether fighting is done, that is, whether one of the armies has been defeated */
     private boolean fightingDone() {
-        return groups.stream()
+        return winner().isPresent();
+    }
+    
+    /** @return the winner of this battle, if it has concluded; empty otherwise */
+    Optional<Army> winner() {
+        Set<Army> remainingArmies = groups.stream()
                 .map(Group::getGroupIdentification)
                 .map(GroupIdentification::getArmy)
-                .distinct()
-                .count() < 2L;
+                .collect(Collectors.toSet());
+        
+        Optional<Army> result;
+        if (remainingArmies.size() == 1) {
+            result = Optional.of(remainingArmies.iterator().next());
+        } else {
+            result = Optional.empty();
+        }
+        return result;
     }
     
     /**
@@ -180,6 +192,19 @@ class State {
         return groups.stream()
                 .mapToInt(Group::getUnits)
                 .sum();
+    }
+    
+    /**
+     * Boosts the Immune System's army.
+     * 
+     * @param boost integer increase in immune system units' attack damage
+     * @return updated state
+     */
+    State boostImmuneSystem(int boost) {
+        Set<Group> nextGroups = groups.stream()
+                .map(group -> group.boostImmuneSystem(boost))
+                .collect(Collectors.toSet());
+        return new State(nextGroups);
     }
     
     @Override
