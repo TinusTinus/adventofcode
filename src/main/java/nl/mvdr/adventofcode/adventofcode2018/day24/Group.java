@@ -14,6 +14,9 @@ import java.util.stream.Stream;
  */
 class Group {
     
+    /** Unique identification of this group within its army. */
+    private final int id;
+    
     /** The number of units within this group. */
     private final int units;
     
@@ -38,11 +41,12 @@ class Group {
     /**
      * Parses a textual representation of a group.
      * 
+     * @param id unique identification of this group within its army
      * @param text line from the puzzle input representing a group, for example:
      *     "18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10"
      * @return group
      */
-    static Group parse(String text) {
+    static Group parse(int id, String text) {
         Pattern pattern = Pattern.compile("(?<units>\\d*) units each with (?<hitPoints>\\d*) hit points"
                 + "( \\((?<weaknessesAndImmunities>[^\\)]*)\\))?"
                 + " with an attack that does (?<attackDamage>\\d*) (?<attackType>[a-z]*) damage"
@@ -77,12 +81,13 @@ class Group {
         weaknesses = Set.copyOf(weaknesses);
         immunities = Set.copyOf(immunities);
         
-        return new Group(units, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities);
+        return new Group(id, units, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities);
     }
     
     /**
      * Constructor.
      * 
+     * @param id unique identification of this group within its army
      * @param units number of units
      * @param hitPoints amount of damage a unit can take before it is destroyed
      * @param attackDamage the amount of damage each unit deals
@@ -91,9 +96,10 @@ class Group {
      * @param weaknesses damage type weaknesses
      * @param immunities damage type immunities
      */
-    private Group(int units, int hitPoints, int attackDamage, String attackType, int initiative, Set<String> weaknesses,
-            Set<String> immunities) {
+    private Group(int id, int units, int hitPoints, int attackDamage, String attackType, int initiative,
+            Set<String> weaknesses, Set<String> immunities) {
         super();
+        this.id = id;
         this.units = units;
         this.hitPoints = hitPoints;
         this.attackDamage = attackDamage;
@@ -103,6 +109,10 @@ class Group {
         this.immunities = immunities;
     }
 
+    int getId() {
+        return id;
+    }
+    
     int getUnits() {
         return units;
     }
