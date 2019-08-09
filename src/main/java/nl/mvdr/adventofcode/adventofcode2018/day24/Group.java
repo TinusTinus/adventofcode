@@ -1,11 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,39 +41,6 @@ class Group {
     private final Set<String> immunities;
 
     /**
-     * Parses the given input file into a set of groups.
-     * 
-     * @param inputFilePath path to the input text file
-     * @return set of groups
-     * @throws IOException in case the input file could not be read
-     */
-    static Set<Group> parse(Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath)
-            // ignore empty lines (the last line in the file)
-            .filter(Objects::nonNull)
-            .filter(line -> !line.isBlank())
-            .collect(Collectors.toList());
-        
-        Set<Group> result = new HashSet<>();
-        Army currentArmy = null;
-        int id = 1;
-        for (String line : lines) {
-            if (line.startsWith(Army.IMMUNE_SYSTEM.toString())) {
-                currentArmy = Army.IMMUNE_SYSTEM;
-                id = 1;
-            } else if (line.startsWith(Army.INFECTION.toString())) {
-                currentArmy = Army.INFECTION;
-                id = 1;
-            } else {
-                result.add(parseGroup(currentArmy, id, line));
-                id++;
-            }
-        }
-        
-        return result;
-    }
-    
-    /**
      * Parses a textual representation of a group.
      * 
      * @param id unique identification of this group within its army
@@ -86,7 +48,7 @@ class Group {
      *     "18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10"
      * @return group
      */
-    static Group parseGroup(Army army, int id, String text) {
+    static Group parse(Army army, int id, String text) {
         Pattern pattern = Pattern.compile("(?<units>\\d*) units each with (?<hitPoints>\\d*) hit points"
                 + "( \\((?<weaknessesAndImmunities>[^\\)]*)\\))?"
                 + " with an attack that does (?<attackDamage>\\d*) (?<attackType>[a-z]*) damage"

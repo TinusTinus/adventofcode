@@ -16,7 +16,7 @@ public class GroupTest {
     public void testParseNoWeaknessesNoImmunities() {
         String input = "303 units each with 10428 hit points with an attack that does 328 radiation damage at initiative 13";
         
-        Group group = Group.parseGroup(Army.IMMUNE_SYSTEM, 1, input);
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
         Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
         Assertions.assertEquals(1, group.getId());
@@ -34,7 +34,7 @@ public class GroupTest {
     public void testParse() {
         String input = "18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
         
-        Group group = Group.parseGroup(Army.IMMUNE_SYSTEM, 1, input);
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
         Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
         Assertions.assertEquals(1, group.getId());
@@ -52,7 +52,7 @@ public class GroupTest {
     public void testParseImmunitiesFirst() {
         String input = "18 units each with 729 hit points (immune to cold, slashing; weak to fire) with an attack that does 8 radiation damage at initiative 10";
         
-        Group group = Group.parseGroup(Army.IMMUNE_SYSTEM, 1, input);
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
         Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
         Assertions.assertEquals(1, group.getId());
@@ -70,7 +70,7 @@ public class GroupTest {
     public void testParseImmunitiesOnly() {
         String input = "18 units each with 729 hit points (immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
         
-        Group group = Group.parseGroup(Army.IMMUNE_SYSTEM, 1, input);
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
         Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
         Assertions.assertEquals(1, group.getId());
@@ -88,7 +88,7 @@ public class GroupTest {
     public void testParseWeaknessesOnly() {
         String input = "18 units each with 729 hit points (weak to fire, tickling) with an attack that does 8 radiation damage at initiative 10";
         
-        Group group = Group.parseGroup(Army.IMMUNE_SYSTEM, 1, input);
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
         Assertions.assertEquals(Army.IMMUNE_SYSTEM, group.getArmy());
         Assertions.assertEquals(1, group.getId());
@@ -105,7 +105,7 @@ public class GroupTest {
     @Test
     public void testToStringNoWeaknessesNoImmunities() {
         String input = "303 units each with 10428 hit points with an attack that does 328 radiation damage at initiative 13";
-        Group group = Group.parseGroup(Army.IMMUNE_SYSTEM, 1, input);
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
         String result = group.toString();
         
@@ -116,7 +116,7 @@ public class GroupTest {
     @Test
     public void testToString() {
         String input = "18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
-        Group group = Group.parseGroup(Army.INFECTION, 3, input);
+        Group group = Group.parse(Army.INFECTION, 3, input);
         
         String result = group.toString();
         
@@ -127,7 +127,7 @@ public class GroupTest {
     @Test
     public void testEffectivePower() {
         String input = "18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
-        Group group = Group.parseGroup(Army.IMMUNE_SYSTEM, 1, input);
+        Group group = Group.parse(Army.IMMUNE_SYSTEM, 1, input);
         
         int result = group.effectivePower();
         
