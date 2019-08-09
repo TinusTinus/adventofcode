@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +43,7 @@ class Group {
      */
     static Group parse(String text) {
         Pattern pattern = Pattern.compile("(?<units>\\d*) units each with (?<hitPoints>\\d*) hit points"
+                + "( \\([^\\)]*\\))?"
                 + " with an attack that does (?<attackDamage>\\d*) (?<attackType>[a-z]*) damage"
                 + " at initiative (?<initiative>\\d*)");
         
@@ -54,8 +56,8 @@ class Group {
         String attackType = matcher.group("attackType");
         int initiative = Integer.parseInt(matcher.group("initiative"));
         
-        Set<String> weaknesses = Set.of(); // TODO
-        Set<String> immunities = Set.of(); // TODO
+        Set<String> weaknesses = new HashSet<>();
+        Set<String> immunities = new HashSet<>();
         
         return new Group(units, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities);
     }
