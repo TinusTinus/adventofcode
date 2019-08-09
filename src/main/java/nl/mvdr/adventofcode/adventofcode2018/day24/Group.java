@@ -196,14 +196,14 @@ class Group {
      * @return group with updated number of remaining units, or empty if this group was defeated
      */
     Optional<Group> takeDamage(int damage) {
-        int remainingHitPoints = this.units * this.hitPoints - damage;
+        int defeatedUnits = damage / this.hitPoints;
+        int remainingUnits = units - defeatedUnits;
         
         Optional<Group> result;
-        if (remainingHitPoints <= 0) {
+        if (remainingUnits <= 0) {
             // Defeated.
             result = Optional.empty();
         } else {
-            int remainingUnits = remainingHitPoints / this.hitPoints;
             result = Optional.of(new Group(army, id, remainingUnits, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities));
         }
         return result;
