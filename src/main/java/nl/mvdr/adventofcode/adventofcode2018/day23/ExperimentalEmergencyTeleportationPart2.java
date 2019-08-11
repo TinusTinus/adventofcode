@@ -125,13 +125,6 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
                 .map(position -> new Nanobot(position, newR))
                 .forEach(result::add);
         
-//        result.add(new Nanobot(new Point3D(src.getPosition().getX() - offset, src.getPosition().getY(), src.getPosition().getZ()), newR));
-//        result.add(new Nanobot(new Point3D(src.getPosition().getX() + offset, src.getPosition().getY(), src.getPosition().getZ()), newR));
-//        result.add(new Nanobot(new Point3D(src.getPosition().getX(), src.getPosition().getY() + offset, src.getPosition().getZ()), newR));
-//        result.add(new Nanobot(new Point3D(src.getPosition().getX(), src.getPosition().getY() - offset, src.getPosition().getZ()), newR));
-//        result.add(new Nanobot(new Point3D(src.getPosition().getX(), src.getPosition().getY(), src.getPosition().getZ() + offset), newR));
-//        result.add(new Nanobot(new Point3D(src.getPosition().getX(), src.getPosition().getY(), src.getPosition().getZ() - offset), newR));
-        
         return result;
     }
 
