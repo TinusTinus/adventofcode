@@ -42,7 +42,7 @@ class Point3D {
      * @param y y coordinate
      * @param z z coordinate
      */
-    private Point3D(int x, int y, int z) {
+    Point3D(int x, int y, int z) {
         super();
         this.x = x;
         this.y = y;
@@ -76,14 +76,30 @@ class Point3D {
     
     /** @return the neighbouring points to this one */
     Set<Point3D> neighbours() {
-        return Set.of(
-            new Point3D(x - 1, y, z),
-            new Point3D(x + 1, y, z),
-            new Point3D(x, y - 1, z),
-            new Point3D(x, y + 1, z),
-            new Point3D(x, y, z - 1),
-            new Point3D(x, y, z + 1)
-        );
+        return offsetOnAxes(1);
+    }
+    
+    /**
+     * Calculates the (normally 6) points that are offset removed from this one, on each axis.
+     * 
+     * @param offset offset
+     * @return points
+     */
+    Set<Point3D> offsetOnAxes(int offset) {
+        Set<Point3D> result;
+        if (offset == 0) {
+            result = Set.of(this);
+        } else {
+            result = Set.of(
+                    new Point3D(x - offset, y, z),
+                    new Point3D(x + offset, y, z),
+                    new Point3D(x, y - offset, z),
+                    new Point3D(x, y + offset, z),
+                    new Point3D(x, y, z - offset),
+                    new Point3D(x, y, z + offset)
+                );
+        }
+        return result;
     }
     
     @Override

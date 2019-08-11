@@ -87,7 +87,7 @@ class Nanobot {
      * @param position location of the nanobot
      * @param radius radius of the nanobot
      */
-    private Nanobot(Point3D position, int radius) {
+    Nanobot(Point3D position, int radius) {
         super();
         this.position = position;
         this.radius = radius;
@@ -161,6 +161,35 @@ class Nanobot {
         LOGGER.debug("The range of nanobot {} contains {} points", this, Integer.valueOf(result.size()));
         
         return result;
+    }
+    
+    private Set<Point3D> vertices() {
+        return getPosition().offsetOnAxes(getRadius());
+    }
+    
+    /**
+     * Calculates whether this nanobot's range overlaps with the given nanobot's.
+     * 
+     * That is, whether a point exists that is within both of these nanobots' ranges.
+     *  
+     * @param other other nanobot
+     * @return whether ranges overlap
+     */
+    private boolean rangeOverlaps(Nanobot other) {
+        return this.vertices().stream().anyMatch(other::inRange)
+                || other.vertices().stream().anyMatch(this::inRange);
+    }
+    
+    /**
+     * Calculates the number of nanobots whose ranges overlap with this one.
+     * 
+     * @param nanobots nanobots
+     * @return the number of nanobots whose ranges overlap with this one's
+     */
+    long overlap(Set<Nanobot> nanobots) {
+        return nanobots.parallelStream()
+                .filter(this::rangeOverlaps)
+                .count();
     }
     
     @Override

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to the day 20 puzzle of 2018's Advent of Code:
+ * Solution to the day 23 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/23">Experimental Emergency Teleportation</a>.
  *
  * @author Martijn van de Rijdt

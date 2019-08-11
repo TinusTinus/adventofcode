@@ -2,6 +2,13 @@ package nl.mvdr.adventofcode.adventofcode2018.day23;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -10,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to the day 20 puzzle of 2018's Advent of Code:
+ * Solution to the day 23 puzzle of 2018's Advent of Code:
  * <a href="https://adventofcode.com/2018/day/23">Experimental Emergency Teleportation</a>.
  *
  * @author Martijn van de Rijdt
@@ -21,18 +28,111 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
     
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
+        
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
-        // Some notes:
-        // * there is 1 bot with 962 other bots in its range: pos=<29463738,37565122,55842905>, r=97249189.
-        // * there is 1 bot in range of 859 others: pos=<29463738,37565122,55842905>, r=97249189 (the same one as above)
-        // * the strongest nanobot is a different one: pos=<16550473,27374441,-19147897>, r=99846219
-        // * there are points in range of 890 bots
-
-        // TODO compute the result
-        int minimumManhattanDistance = 0;
+        Point3D origin = new Point3D(0, 0, 0);
         
-        return Integer.valueOf(minimumManhattanDistance);
+        Nanobot startOctohedron = generateStartOctahedron(nanobots);
+
+        Map<Nanobot, Long> overlapCache = new HashMap<>();
+        Comparator<Nanobot> comparator = Comparator.<Nanobot, Long>comparing(nanobot -> overlapCache.computeIfAbsent(nanobot, n -> -n.overlap(nanobots)))
+                .thenComparing(nanobot -> nanobot.getPosition().manhattanDistance(origin));
+        
+        Queue<Nanobot> pQ = new PriorityQueue<>(10, comparator);
+        pQ.add(startOctohedron);
+        while (0 < pQ.peek().getRadius()) {
+            Nanobot n = pQ.poll();
+            pQ.addAll(splitNanobot(n));
+        }
+        
+        Nanobot n = pQ.poll();
+        return n.getPosition().manhattanDistance(origin);
+    }
+    
+    /**
+     * Generates an octahedron containing all of the given nanobots within its radius.
+     * 
+     * @param nanobots nanobots
+     * @return octahedron, represented as another nanobot
+     */
+    private static Nanobot generateStartOctahedron(Set<Nanobot> nanobots) {
+        int minX = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point3D::getX)
+                .min()
+                .getAsInt();
+        int maxX = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point3D::getX)
+                .max()
+                .getAsInt();
+        int minY = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point3D::getY)
+                .min()
+                .getAsInt();
+        int maxY = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point3D::getY)
+                .max()
+                .getAsInt();
+        int minZ = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point3D::getZ)
+                .min()
+                .getAsInt();
+        int maxZ = nanobots.stream()
+                .map(Nanobot::getPosition)
+                .mapToInt(Point3D::getZ)
+                .max()
+                .getAsInt();
+        
+        Point3D location = new Point3D(minX + (maxX - minX) / 2, minY + (maxY - minY) / 2, minZ + (maxZ - minZ) / 2);
+        int radius = 1;
+        boolean containsAll = false;
+        while (!containsAll) {
+            radius *= 2;
+            Nanobot newNanobot = new Nanobot(location, radius);
+            containsAll = nanobots.stream()
+                    .map(Nanobot::getPosition)
+                    .allMatch(newNanobot::inRange);
+        }
+        return new Nanobot(location, radius);
+    }
+    
+    /**
+     * Splits the given octahedron into multiple smaller octahedrons.
+     * 
+     * @param src source
+     * @return ocathedrons
+     */
+    private static List<Nanobot> splitNanobot(Nanobot src) {
+        List<Nanobot> result = new ArrayList<>();
+        int newR;
+        int offset = 1;
+        if (src.getRadius() == 1) {
+            newR = 0;
+            result.add(new Nanobot(src.getPosition(), newR));
+        } else if (src.getRadius() == 2) {
+            newR = 1;
+        } else {
+            newR = (int) Math.ceil((double)(src.getRadius() * 2) / 3);
+            offset = src.getRadius() - newR;
+        }
+        
+        src.getPosition().offsetOnAxes(offset).stream()
+                .map(position -> new Nanobot(position, newR))
+                .forEach(result::add);
+        
+//        result.add(new Nanobot(new Point3D(src.getPosition().getX() - offset, src.getPosition().getY(), src.getPosition().getZ()), newR));
+//        result.add(new Nanobot(new Point3D(src.getPosition().getX() + offset, src.getPosition().getY(), src.getPosition().getZ()), newR));
+//        result.add(new Nanobot(new Point3D(src.getPosition().getX(), src.getPosition().getY() + offset, src.getPosition().getZ()), newR));
+//        result.add(new Nanobot(new Point3D(src.getPosition().getX(), src.getPosition().getY() - offset, src.getPosition().getZ()), newR));
+//        result.add(new Nanobot(new Point3D(src.getPosition().getX(), src.getPosition().getY(), src.getPosition().getZ() + offset), newR));
+//        result.add(new Nanobot(new Point3D(src.getPosition().getX(), src.getPosition().getY(), src.getPosition().getZ() - offset), newR));
+        
+        return result;
     }
 
     /**
