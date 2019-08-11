@@ -2,7 +2,9 @@ package nl.mvdr.adventofcode.adventofcode2018.day25;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +30,27 @@ public class FourDimensionalAdventurePart1 implements PathSolver<Integer> {
     public Integer solve(Path inputFilePath) throws IOException {
         Set<Point4D> points = Point4D.parse(inputFilePath);
         
-        LOGGER.info("Points: {}", points);
+        Set<Set<Point4D>> constellations = new HashSet<>();
         
-        return null; // TODO
+        points.forEach(point -> {
+            Set<Set<Point4D>> matchingConstellations = constellations.stream()
+                    .filter(point::inRange)
+                    .collect(Collectors.toSet());
+            
+            // Remove any and all matching constellations.
+            constellations.removeAll(matchingConstellations);
+            
+            // Insert the new constellation (replacing any that were just removed).
+            Set<Point4D> newConstellation;
+            newConstellation = new HashSet<>();
+            matchingConstellations.stream()
+                    .flatMap(Set::stream)
+                    .forEach(newConstellation::add);
+            newConstellation.add(point);
+            constellations.add(newConstellation);
+        });
+        
+        return constellations.size();
     }
     
     /**

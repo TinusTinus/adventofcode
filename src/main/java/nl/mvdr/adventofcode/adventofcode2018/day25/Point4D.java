@@ -84,6 +84,24 @@ class Point4D {
                 + Math.abs(this.coordinate3 - other.coordinate3);
     }
     
+    /**
+     * Determines whether this point is close enough to the given constellation to
+     * be a part of it.
+     * 
+     * Two points are in the same constellation if their manhattan distance apart is
+     * no more than 3 or if they can form a chain of points, each a manhattan
+     * distance no more than 3 from the last, between the two of them. (That is, if
+     * a point is close enough to a constellation, it "joins" that constellation.)
+     * 
+     * @param constellation constellation, represented as a (nonempty) set of points
+     * @return whether this point is in range
+     */
+    boolean inRange(Set<Point4D> constellation) {
+        return constellation.stream()
+                .mapToInt(this::manhattanDistance)
+                .anyMatch(i -> i <= 3);
+    }
+    
     @Override
     public String toString() {
         return coordinate0 + "," + coordinate1 + "," + coordinate2 + "," + coordinate3;

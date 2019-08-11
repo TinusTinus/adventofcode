@@ -48,6 +48,6 @@ public class FourDimensionalAdventurePart1Test extends SolverTest<FourDimensiona
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day25-2018.txt");
+        assertSolution("396", "input-day25-2018.txt");
     }
 }
