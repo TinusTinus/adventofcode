@@ -4,15 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A tiny robot.
@@ -20,8 +16,6 @@ import org.slf4j.LoggerFactory;
  * @author Martijn van de Rijdt
  */
 class Nanobot {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(Nanobot.class);
     
     private final Point3D position;
     private final int radius;
@@ -124,45 +118,7 @@ class Nanobot {
                 .count();
     }
     
-    /**
-     * Determines in how many of the given nanobots' ranges this nanobot is.
-     * 
-     * @param nanobots nanobots (may include this bot itself)
-     * @return number of bots in whose ranges this nanobot is
-     */
-    long inRangeOf(Set<Nanobot> nanobots) {
-        return nanobots.stream()
-                .filter(nanobot -> nanobot.inRange(this.position))
-                .count();
-    }
-    
-    /**
-     * Calculates the range of this nanobot, as a set of points.
-     * 
-     * Note: this method is slow and consumes a lot of memory.
-     * 
-     * @return the range of this nanobot
-     */
-    Set<Point3D> range() {
-        LOGGER.debug("Calculating range for {}", this);
-        
-        Set<Point3D> result = new HashSet<>();
-        
-        result.add(this.position);
-        Set<Point3D> lastAdded = Set.of(this.position);
-        for (int distance = 0; distance <= radius; distance++) {
-            Set<Point3D> nextLastAdded = lastAdded.stream()
-                    .flatMap(point -> point.neighbours().stream())
-                    .filter(result::add)
-                    .collect(Collectors.toSet());
-            lastAdded = nextLastAdded;
-        }
-        
-        LOGGER.debug("The range of nanobot {} contains {} points", this, Integer.valueOf(result.size()));
-        
-        return result;
-    }
-    
+    /** @return vertices of the octahedron represented by this nanobot */
     private Set<Point3D> vertices() {
         return getPosition().offsetOnAxes(getRadius());
     }
@@ -176,6 +132,10 @@ class Nanobot {
      * @return whether ranges overlap
      */
     private boolean rangeOverlaps(Nanobot other) {
+        // Check whether any of this octahedron's vertices are inside the other's radius,
+        // or the other way around.
+        // I'm pretty sure this is not correct for octahedrons in general,
+        // but it should be for the ones occurring in this puzzle.
         return this.vertices().stream().anyMatch(other::inRange)
                 || other.vertices().stream().anyMatch(this::inRange);
     }
