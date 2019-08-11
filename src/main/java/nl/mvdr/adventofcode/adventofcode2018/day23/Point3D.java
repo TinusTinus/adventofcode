@@ -22,13 +22,27 @@ class Point3D {
     private final int z;
 
     /**
+     * Parses a string containing a set of coordinates, for example: "<1,3,1>".
+     * 
+     * @param text text to be parsed
+     * @return point
+     */
+    static Point3D parse(String text) {
+        String[] coordinateStrings = text.substring(1, text.length() - 1).split(",");
+        return new Point3D(
+                Integer.parseInt(coordinateStrings[0]),
+                Integer.parseInt(coordinateStrings[1]),
+                Integer.parseInt(coordinateStrings[2]));
+    }
+    
+    /**
      * Constructor.
      * 
      * @param x x coordinate
      * @param y y coordinate
      * @param z z coordinate
      */
-    Point3D(int x, int y, int z) {
+    private Point3D(int x, int y, int z) {
         super();
         this.x = x;
         this.y = y;
@@ -60,27 +74,8 @@ class Point3D {
         return Math.abs(this.x - other.x) + Math.abs(this.y - other.y) + Math.abs(this.z - other.z);
     }
     
-    @Override
-    public String toString() {
-        return "<" + x + "," + y + "," + z + ">";
-    }
-    
-    /**
-     * Parses a string containing a set of coordinates, for example: "<1,3,1>".
-     * 
-     * @param text text to be parsed
-     * @return point
-     */
-    public static Point3D parse(String text) {
-        String[] coordinateStrings = text.substring(1, text.length() - 1).split(",");
-        return new Point3D(
-                Integer.parseInt(coordinateStrings[0]),
-                Integer.parseInt(coordinateStrings[1]),
-                Integer.parseInt(coordinateStrings[2]));
-    }
-    
     /** @return the neighbouring points to this one */
-    public Set<Point3D> neighbours() {
+    Set<Point3D> neighbours() {
         return Set.of(
             new Point3D(x - 1, y, z),
             new Point3D(x + 1, y, z),
@@ -89,6 +84,11 @@ class Point3D {
             new Point3D(x, y, z - 1),
             new Point3D(x, y, z + 1)
         );
+    }
+    
+    @Override
+    public String toString() {
+        return "<" + x + "," + y + "," + z + ">";
     }
 
     @Override
@@ -109,6 +109,4 @@ class Point3D {
         Point3D other = (Point3D) obj;
         return x == other.x && y == other.y && z == other.z;
     }
-    
-    
 }
