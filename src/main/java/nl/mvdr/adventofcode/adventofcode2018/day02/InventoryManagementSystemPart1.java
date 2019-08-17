@@ -21,9 +21,9 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class InventoryManagementSystem implements PathSolver<Long> {
+public class InventoryManagementSystemPart1 implements PathSolver<Long> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryManagementSystem.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryManagementSystemPart1.class);
     
     @Override
     public Long solve(Path inputFilePath) throws IOException {
@@ -72,7 +72,7 @@ public class InventoryManagementSystem implements PathSolver<Long> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        InventoryManagementSystem instance = new InventoryManagementSystem();
+        InventoryManagementSystemPart1 instance = new InventoryManagementSystemPart1();
 
         String result = instance.solve("input-day02-2018.txt");
 

@@ -16,9 +16,9 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCalibration implements PathSolver<Integer> {
+public class ChronalCalibrationPart1 implements PathSolver<Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCalibration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCalibrationPart1.class);
     
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
@@ -39,7 +39,7 @@ public class ChronalCalibration implements PathSolver<Integer> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        ChronalCalibration instance = new ChronalCalibration();
+        ChronalCalibrationPart1 instance = new ChronalCalibrationPart1();
 
         String result = instance.solve("input-day01-2018.txt");
 

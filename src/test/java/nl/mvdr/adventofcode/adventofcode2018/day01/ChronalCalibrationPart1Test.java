@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link ChronalCalibration}.
+ * Unit test cases for {@link ChronalCalibrationPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCalibrationTest extends SolverTest<ChronalCalibration> {
+public class ChronalCalibrationPart1Test extends SolverTest<ChronalCalibrationPart1> {
 
     /** Constructor. */
-    public ChronalCalibrationTest() {
-        super(ChronalCalibration.class);
+    public ChronalCalibrationPart1Test() {
+        super(ChronalCalibrationPart1.class);
     }
 
     /** Test case based on the first example from the puzzle text. */
