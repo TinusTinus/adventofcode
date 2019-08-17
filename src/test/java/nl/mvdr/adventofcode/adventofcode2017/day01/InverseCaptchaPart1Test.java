@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link InverseCaptcha}.
+ * Unit test cases for {@link InverseCaptchaPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class InverseCaptchaTest extends SolverTest<InverseCaptcha> {
+public class InverseCaptchaPart1Test extends SolverTest<InverseCaptchaPart1> {
 
     /** Constructor. */
-    public InverseCaptchaTest() {
-        super(InverseCaptcha.class);
+    public InverseCaptchaPart1Test() {
+        super(InverseCaptchaPart1.class);
     }
 
     /** Test case based on the first example from the puzzle text. */

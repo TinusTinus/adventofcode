@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
@@ -18,10 +15,8 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class InverseCaptcha implements PathSolver<Integer> {
+abstract class InverseCaptcha implements PathSolver<Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InverseCaptcha.class);
-    
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
         List<Integer> digits = Files.lines(inputFilePath)
@@ -33,7 +28,7 @@ public class InverseCaptcha implements PathSolver<Integer> {
                 .collect(Collectors.toList());
         
         int result = IntStream.range(0, digits.size())
-                .filter(i -> digits.get(i).equals(digits.get((i + 1) % digits.size())))
+                .filter(i -> digits.get(i).equals(digits.get(compareToIndex(i, digits.size()))))
                 .map(digits::get)
                 .sum();
         
@@ -41,15 +36,11 @@ public class InverseCaptcha implements PathSolver<Integer> {
     }
 
     /**
-     * Main method.
+     * Determines which index to compare the digit at the current index to.
      * 
-     * @param args commandline arguments; these are ignored
+     * @param index current index
+     * @param numberOfDigits total number of digits
+     * @return index to compare to
      */
-    public static void main(String[] args) {
-        InverseCaptcha instance = new InverseCaptcha();
-
-        String result = instance.solve("input-day01-2017.txt");
-
-        LOGGER.info(result);
-    }
+    abstract int compareToIndex(int index, int numberOfDigits);
 }
