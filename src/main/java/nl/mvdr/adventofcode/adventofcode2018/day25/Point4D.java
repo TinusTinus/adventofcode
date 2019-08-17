@@ -12,7 +12,7 @@ import javax.annotation.processing.Generated;
 /**
  * A point in four dimensions (spacetime).
  * 
- * Not to be confused with {@link nl.mvdr.adventofcode.adventofcode2018.point.Point},
+ * Not to be confused with {@link nl.mvdr.adventofcode.point.Point},
  * which represents a point in two dimensions.
  *
  * @author Martijn van de Rijdt

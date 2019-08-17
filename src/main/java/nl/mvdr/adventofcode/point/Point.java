@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2018.point;
+package nl.mvdr.adventofcode.point;
 
 import java.io.IOException;
 import java.nio.file.Files;

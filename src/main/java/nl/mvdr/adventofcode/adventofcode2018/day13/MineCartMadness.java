@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import nl.mvdr.adventofcode.PathSolver;
-import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Solution to the day 13 puzzle of 2018's Advent of Code:

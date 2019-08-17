@@ -4,7 +4,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Representation of a mine cart.

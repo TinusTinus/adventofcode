@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.processing.Generated;
 
-import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Current state, consisting of a location in the cave and current equipment.

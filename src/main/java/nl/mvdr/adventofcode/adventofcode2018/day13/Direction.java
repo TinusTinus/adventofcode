@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * A direction that a minecart can be facing.

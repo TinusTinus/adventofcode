@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
-import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Solution to the day 10 puzzle of 2018's Advent of Code:

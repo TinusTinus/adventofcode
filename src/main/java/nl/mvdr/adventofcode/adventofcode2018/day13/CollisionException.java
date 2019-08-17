@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day13;
 
-import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Exception indicating that a collision occurred when attempting to perform a tick.

@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day20;
 
 import java.util.Set;
 
-import nl.mvdr.adventofcode.adventofcode2018.point.Point;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * A complete {@link RoomMapExpression}.
