@@ -75,6 +75,20 @@ public class Point implements Comparable<Point> {
             belowNeighbour()
         );
     }
+    
+    /** @return the eight neighbouring points to this one, including diagonals */
+    public Set<Point> neighboursIncludingDiagonals() {
+        return Set.of(
+            leftNeighbour(),
+            rightNeighbour(),
+            aboveNeighbour(),
+            belowNeighbour(),
+            new Point(x - 1, y - 1),
+            new Point(x - 1, y + 1),
+            new Point(x + 1, y - 1),
+            new Point(x + 1, y + 1)
+        );
+    }
 
     /** @return neighbour to the left (assuming x coordinates are numbererd left-to-right) */
     public Point leftNeighbour() {
