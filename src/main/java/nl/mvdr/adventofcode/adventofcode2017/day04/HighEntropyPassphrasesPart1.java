@@ -34,7 +34,7 @@ public class HighEntropyPassphrasesPart1 implements PathSolver<Long> {
                 .filter(line -> !line.isBlank())
                 .map(line -> line.split("\\s"))
                 .map(Arrays::asList)
-                .filter(passphrase -> passphrase.size() == new HashSet<String>(passphrase).size())
+                .filter(passphrase -> passphrase.size() == new HashSet<>(passphrase).size())
                 .count();
         
         return Long.valueOf(result);
