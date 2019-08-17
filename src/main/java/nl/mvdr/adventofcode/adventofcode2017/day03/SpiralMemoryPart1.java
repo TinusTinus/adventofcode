@@ -3,11 +3,14 @@ package nl.mvdr.adventofcode.adventofcode2017.day03;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Deque;
+import java.util.LinkedList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Solution to the day 3 puzzle of 2018's Advent of Code:
@@ -31,9 +34,22 @@ public class SpiralMemoryPart1 implements PathSolver<Integer> {
                 .get();
         int square = Integer.parseInt(input);
         
-        LOGGER.debug("Input square: {}", Integer.valueOf(square));
+        Deque<Point> points = new LinkedList<>();
+        points.add(new Point(0, 0));
         
-        return null; // TODO
+        Direction direction = Direction.DOWN;
+        
+        for (int i = 1; i != square; i++) {
+            Point point = direction.turnCouterClockwise().move(points.getLast());
+            if (points.contains(point)) {
+                point = direction.move(points.getLast());
+            } else {
+                direction = direction.turnCouterClockwise();
+            }
+            points.add(point);
+        }
+        
+        return Integer.valueOf(points.getFirst().manhattanDistance(points.getLast()));
     }
     
     /**
