@@ -4,6 +4,11 @@ import java.util.function.Function;
 
 import nl.mvdr.adventofcode.point.Point;
 
+/**
+ * A direction in two dimensions.
+ *
+ * @author Martijn van de Rijdt
+ */
 enum Direction {
     /** Right. */
     RIGHT(Point::rightNeighbour),

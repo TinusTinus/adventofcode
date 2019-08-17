@@ -22,11 +22,6 @@ public class SpiralMemoryPart2 implements PathSolver<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpiralMemoryPart2.class);
     
-    /**
-     * {@inheritDoc}
-     * 
-     * @return number of steps
-     */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
         String input = Files.lines(inputFilePath)

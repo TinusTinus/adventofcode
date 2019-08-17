@@ -13,8 +13,8 @@ import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
- * Solution to the day 3 puzzle of 2018's Advent of Code:
- * <a href="https://adventofcode.com/2018/day/3">Spiral Memory</a>.
+ * Solution to the day 3 puzzle of 2017's Advent of Code:
+ * <a href="https://adventofcode.com/2017/day/3">Spiral Memory</a>.
  *
  * @author Martijn van de Rijdt
  */
