@@ -1,16 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day04;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.mvdr.adventofcode.PathSolver;
 
 /**
  * Solution to the day 4 puzzle of 2017's Advent of Code:
@@ -18,26 +13,14 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class HighEntropyPassphrasesPart1 implements PathSolver<Long> {
+public class HighEntropyPassphrasesPart1 extends HighEntropyPassphrases {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HighEntropyPassphrasesPart1.class);
     
-    /**
-     * {@inheritDoc}
-     * 
-     * @return number of valid passphrases
-     */
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        long result = Files.lines(inputFilePath)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
-                .map(line -> line.split("\\s"))
-                .map(Arrays::asList)
-                .filter(passphrase -> passphrase.size() == new HashSet<>(passphrase).size())
-                .count();
-        
-        return Long.valueOf(result);
+    protected boolean isValid(List<String> passphrase) {
+        Set<String> distinctWords = new HashSet<>(passphrase);
+        return passphrase.size() == distinctWords.size();
     }
     
     /**
