@@ -50,9 +50,9 @@ abstract class Trampolines implements PathSolver<Integer> {
             
             int newOffset;
             if (increase(offset)) {
-                newOffset = instructions.get(previousInstructionPointer).intValue() + 1;
+                newOffset = offset + 1;
             } else {
-                newOffset = instructions.get(previousInstructionPointer).intValue() - 1;
+                newOffset = offset - 1;
             }
             instructions.set(previousInstructionPointer, Integer.valueOf(newOffset));
             
