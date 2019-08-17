@@ -3,8 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2017.day03;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,22 +34,27 @@ public class SpiralMemoryPart1 implements PathSolver<Integer> {
                 .get();
         int square = Integer.parseInt(input);
         
-        Deque<Point> points = new LinkedList<>();
-        points.add(new Point(0, 0));
+        Point startingPoint = new Point(0, 0);
+        
+        Point point = startingPoint;
+        
+        Set<Point> points = new HashSet<>();
+        points.add(point);
         
         Direction direction = Direction.DOWN;
         
         for (int i = 1; i != square; i++) {
-            Point point = direction.turnCouterClockwise().move(points.getLast());
-            if (points.contains(point)) {
-                point = direction.move(points.getLast());
+            Point nextPoint = direction.turnCouterClockwise().move(point);
+            if (points.contains(nextPoint)) {
+                nextPoint = direction.move(point);
             } else {
                 direction = direction.turnCouterClockwise();
             }
-            points.add(point);
+            points.add(nextPoint);
+            point = nextPoint;
         }
         
-        return Integer.valueOf(points.getFirst().manhattanDistance(points.getLast()));
+        return Integer.valueOf(point.manhattanDistance(startingPoint));
     }
     
     /**

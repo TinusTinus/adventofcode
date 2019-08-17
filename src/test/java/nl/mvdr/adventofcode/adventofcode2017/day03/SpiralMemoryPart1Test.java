@@ -28,13 +28,11 @@ public class SpiralMemoryPart1Test extends SolverTest<SpiralMemoryPart1> {
         assertSolution("3", "example-day03-2017-1.txt");
     }
 
-    
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
         assertSolution("2", "example-day03-2017-2.txt");
     }
-
     
     /** Test case based on an example from the puzzle text. */
     @Test
