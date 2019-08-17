@@ -5,26 +5,26 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link CorruptionChecksumPart1}.
+ * Unit test cases for {@link CorruptionChecksumPart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class CorruptionChecksumPart1Test extends SolverTest<CorruptionChecksumPart1> {
+public class CorruptionChecksumPart2Test extends SolverTest<CorruptionChecksumPart2> {
 
     /** Constructor. */
-    public CorruptionChecksumPart1Test() {
-        super(CorruptionChecksumPart1.class);
+    public CorruptionChecksumPart2Test() {
+        super(CorruptionChecksumPart2.class);
     }
 
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("18", "example-day02-2017-0.txt");
+        assertSolution("9", "example-day02-2017-1.txt");
     }
     
     /** Test case based on the accepted slution. */
     @Test
     public void testSolution() {
-        assertSolution("46402", "input-day02-2017.txt");
+        assertSolution("265", "input-day02-2017.txt");
     }
 }
