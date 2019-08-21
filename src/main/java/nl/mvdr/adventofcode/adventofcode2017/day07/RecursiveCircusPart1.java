@@ -1,0 +1,52 @@
+package nl.mvdr.adventofcode.adventofcode2017.day07;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nl.mvdr.adventofcode.PathSolver;
+
+/**
+ * Solution to the day 7 puzzle of 2017's Advent of Code:
+ * <a href="https://adventofcode.com/2017/day/7">Recursive Circus</a>.
+ *
+ * @author Martijn van de Rijdt
+ */
+public class RecursiveCircusPart1 implements PathSolver<String> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecursiveCircusPart1.class);
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return name of the bottom program
+     */
+    @Override
+    public String solve(Path inputFilePath) throws IOException {
+        List<Program> programs = Program.parse(inputFilePath);
+        
+        LOGGER.debug("Programs: {}", programs);
+        
+        return programs.stream()
+                .map(Program::getName)
+                .filter(name -> programs.stream().noneMatch(otherProgram -> otherProgram.isHoldingUp(name)))
+                .findAny()
+                .get();
+    }
+    
+    /**
+     * Main method.
+     * 
+     * @param args commandline arguments; these are ignored
+     */
+    public static void main(String[] args) {
+        RecursiveCircusPart1 instance = new RecursiveCircusPart1();
+
+        String result = instance.solve("input-day07-2017.txt");
+
+        LOGGER.info(result);
+    }
+}
