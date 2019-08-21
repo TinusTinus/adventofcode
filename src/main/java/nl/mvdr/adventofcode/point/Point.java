@@ -45,7 +45,7 @@ public class Point implements Comparable<Point> {
     }
     
     /**
-     * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry"> Manhattan distance</a> between this point and another.
+     * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and another.
      * 
      * @param other other point
      * @return Manhattan distance
