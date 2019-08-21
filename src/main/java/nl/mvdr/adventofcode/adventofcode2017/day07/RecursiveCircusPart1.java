@@ -30,11 +30,7 @@ public class RecursiveCircusPart1 implements PathSolver<String> {
         
         LOGGER.debug("Programs: {}", programs);
         
-        return programs.stream()
-                .map(Program::getName)
-                .filter(name -> programs.stream().noneMatch(otherProgram -> otherProgram.isHoldingUp(name)))
-                .findAny()
-                .get();
+        return Tower.determineBase(programs).getName();
     }
     
     /**

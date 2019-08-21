@@ -79,6 +79,14 @@ class Program {
         return name;
     }
     
+    List<String> getNamesHeldUp() {
+        return namesHeldUp;
+    }
+    
+    int getWeight() {
+        return weight;
+    }
+    
     /**
      * Checks whether this program is (directly) holding up the program with the given name.
      * 
