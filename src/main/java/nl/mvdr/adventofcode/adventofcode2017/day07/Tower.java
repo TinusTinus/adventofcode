@@ -4,12 +4,17 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Representation of a tower of programs.
  *
  * @author Martijn van de Rijdt
  */
 public class Tower {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Tower.class);
+    
     /** The program holding up this tower. */
     private final Program program;
     
@@ -101,6 +106,8 @@ public class Tower {
      * @return the smallest subtower of this tower which is unbalanced
      */
     Tower findSmallestUnbalancedSubtower() {
+        LOGGER.debug("Finding the smallest unbalanced subtower for {}", this);
+        
         if (isBalanced()) {
             throw new IllegalStateException("This tower is perfectly balanced.");
         }
@@ -108,6 +115,7 @@ public class Tower {
         return subtowers.stream()
                 .filter(tower -> !tower.isBalanced())
                 .findAny()
+                .map(Tower::findSmallestUnbalancedSubtower)
                 .orElse(this);
     }
     

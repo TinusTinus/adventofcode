@@ -25,7 +25,6 @@ public class RecrusiveCircusPart2Test extends SolverTest<RecursiveCircusPart2> {
     /** Test case based on the accepted slution. */
     @Test
     public void testSolution() {
-        // 7859 is too high!
-        assertSolution("?", "input-day07-2017.txt");
+        assertSolution("362", "input-day07-2017.txt");
     }
 }
