@@ -45,16 +45,18 @@ public class RecursiveCircusPart2 implements PathSolver<Integer> {
         int correctWeight = weights.entrySet().stream()
                 .filter(entry -> 1L < entry.getValue())
                 .map(Entry::getKey)
-                .mapToInt(Integer::intValue)
                 .findAny()
-                .getAsInt();
+                .get()
+                .intValue();
         int incorrectWeight = weights.entrySet().stream()
                 .filter(entry -> entry.getValue() == 1L)
                 .map(Entry::getKey)
-                .mapToInt(Integer::intValue)
                 .findAny()
-                .getAsInt();
-        LOGGER.debug("Correct subtower weight: {}, incorrect subtower weight: {}", Integer.valueOf(correctWeight), Integer.valueOf(incorrectWeight));
+                .get()
+                .intValue();
+        int weightCorrection = correctWeight - incorrectWeight;
+        LOGGER.debug("Correct subtower weight: {}, incorrect subtower weight: {}, correction: {}",
+                Integer.valueOf(correctWeight), Integer.valueOf(incorrectWeight), Integer.valueOf(weightCorrection));
         
         Program programWithIncorrectWeight = unbalancedTower.getSubtowers().stream()
                 .filter(subtower -> subtower.totalWeight() == incorrectWeight)
@@ -62,9 +64,6 @@ public class RecursiveCircusPart2 implements PathSolver<Integer> {
                 .findAny()
                 .get();
         LOGGER.debug("Program with incorrect weight: {}", programWithIncorrectWeight);
-        
-        int weightCorrection = correctWeight - incorrectWeight;
-        LOGGER.debug("Weight correction: {}", Integer.valueOf(weightCorrection));
         
         int neededWeight = programWithIncorrectWeight.getWeight() + weightCorrection;
         
