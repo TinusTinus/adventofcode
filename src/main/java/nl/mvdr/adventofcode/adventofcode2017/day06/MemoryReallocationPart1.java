@@ -38,7 +38,6 @@ public class MemoryReallocationPart1 implements PathSolver<Integer> {
         
         LOGGER.debug("Starting banks: {}", banks);
         
-        int redistributionCycles = 0;
         Set<List<Integer>> history = new HashSet<>();
         
         while (history.add(banks)) {
@@ -57,10 +56,9 @@ public class MemoryReallocationPart1 implements PathSolver<Integer> {
                 banks.set(index, Integer.valueOf(banks.get(index).intValue() + 1));
                 remainingBanks--;
             }
-            redistributionCycles++;
         }
         
-        return Integer.valueOf(redistributionCycles);
+        return Integer.valueOf(history.size());
     }
 
     private List<Integer> parseInput(Path inputFilePath) throws IOException {
