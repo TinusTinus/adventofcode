@@ -12,18 +12,20 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class MemoryReallocationPart1 extends MemoryReallocation {
+public class MemoryReallocationPart2 extends MemoryReallocation {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryReallocationPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryReallocationPart2.class);
 
     /**
      * {@inheritDoc}
      * 
-     * @return how many redistribution cycles must be completed before a configuration is produced that has been seen before
+     * @return length of the cycle
      */
     @Override
     protected Integer solve(List<Integer> banks, Map<List<Integer>, Integer> history) {
-        return Integer.valueOf(history.size());
+        int cyclesBeforeFirstOccurrence = history.get(banks).intValue();
+        int cyclesBeforeSecondOccurrence = history.size();
+        return cyclesBeforeSecondOccurrence - cyclesBeforeFirstOccurrence;
     }
     
     /**
@@ -32,7 +34,7 @@ public class MemoryReallocationPart1 extends MemoryReallocation {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        MemoryReallocationPart1 instance = new MemoryReallocationPart1();
+        MemoryReallocationPart2 instance = new MemoryReallocationPart2();
 
         String result = instance.solve("input-day06-2017.txt");
 
