@@ -110,4 +110,9 @@ public class Tower {
                 .findAny()
                 .orElse(this);
     }
+    
+    @Override
+    public String toString() {
+        return program.getName();
+    }
 }

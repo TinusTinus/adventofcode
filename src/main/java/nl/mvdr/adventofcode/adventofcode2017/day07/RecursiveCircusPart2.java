@@ -34,6 +34,7 @@ public class RecursiveCircusPart2 implements PathSolver<Integer> {
         Tower tower = Tower.getTower(programs);
         
         Tower unbalancedTower = tower.findSmallestUnbalancedSubtower();
+        LOGGER.debug("Unbalanced subtower: {}", unbalancedTower);
         
         // Build a map of subtower weight to the number of occurrences of each weight.
         Map<Integer, Long> weights = unbalancedTower.getSubtowers().stream()
@@ -47,21 +48,24 @@ public class RecursiveCircusPart2 implements PathSolver<Integer> {
                 .mapToInt(Integer::intValue)
                 .findAny()
                 .getAsInt();
-        
         int incorrectWeight = weights.entrySet().stream()
                 .filter(entry -> entry.getValue() == 1L)
                 .map(Entry::getKey)
                 .mapToInt(Integer::intValue)
                 .findAny()
                 .getAsInt();
+        LOGGER.debug("Correct subtower weight: {}, incorrect subtower weight: {}", Integer.valueOf(correctWeight), Integer.valueOf(incorrectWeight));
         
         Program programWithIncorrectWeight = unbalancedTower.getSubtowers().stream()
                 .filter(subtower -> subtower.totalWeight() == incorrectWeight)
                 .map(Tower::getProgram)
                 .findAny()
                 .get();
+        LOGGER.debug("Program with incorrect weight: {}", programWithIncorrectWeight);
         
         int weightCorrection = correctWeight - incorrectWeight;
+        LOGGER.debug("Weight correction: {}", Integer.valueOf(weightCorrection));
+        
         int neededWeight = programWithIncorrectWeight.getWeight() + weightCorrection;
         
         return Integer.valueOf(neededWeight);
