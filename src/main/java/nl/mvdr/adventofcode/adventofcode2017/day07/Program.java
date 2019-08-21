@@ -55,7 +55,7 @@ class Program {
         
         List<String> namesHeldUp = Stream.of(parts)
                 .skip(3) // name, weight, arrow
-                .map(part -> part.endsWith(",") ? part.substring(0, part.length() - 1) : part) // drop the comma
+                .map(part -> part.replace(",", "")) // drop the commas
                 .collect(Collectors.toList());
         
         return new Program(name, weight, namesHeldUp);

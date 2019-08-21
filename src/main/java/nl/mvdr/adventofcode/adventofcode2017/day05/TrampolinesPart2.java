@@ -13,12 +13,6 @@ public class TrampolinesPart2 extends Trampolines {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrampolinesPart2.class);
 
-    /**
-     * Whether the offset value should be increased by one. If false it should be decreased by one.
-     * 
-     * @param offset offset value
-     * @return whether to increase
-     */
     @Override
     boolean increase(int offset) {
         return offset < 3;
