@@ -39,7 +39,7 @@ public class Tower {
      * @param programs collection of programs
      * @return tower containing these programs
      */
-    static Tower getTower(Program base, Collection<Program> programs) {
+    private static Tower getTower(Program base, Collection<Program> programs) {
         Set<Tower> subtowers = base.getNamesHeldUp().stream()
                 .map(name -> programs.stream().filter(program -> program.getName().equals(name)).findAny().get())
                 .map(program -> Tower.getTower(program, programs))
