@@ -35,10 +35,11 @@ public class RegistersPart2 implements PathSolver<Integer> {
         for (Instruction instruction : instructions) {
             instruction.accept(registers);
             
-            result = Math.max(result, registers.values().stream()
+            int currentMaximum = registers.values().stream()
                 .mapToInt(Integer::intValue)
                 .max()
-                .orElse(0));
+                .orElse(0);
+            result = Math.max(result, currentMaximum);
         }
         
         return Integer.valueOf(result);

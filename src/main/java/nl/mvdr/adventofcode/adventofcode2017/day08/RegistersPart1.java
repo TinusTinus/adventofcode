@@ -36,7 +36,7 @@ public class RegistersPart1 implements PathSolver<Integer> {
         int result = registers.values().stream()
                 .mapToInt(Integer::intValue)
                 .max()
-                .getAsInt();
+                .orElse(0);
         
         return Integer.valueOf(result);
     }
