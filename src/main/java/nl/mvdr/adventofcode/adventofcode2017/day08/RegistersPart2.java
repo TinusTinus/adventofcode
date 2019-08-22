@@ -17,26 +17,29 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RegistersPart1 implements PathSolver<Integer> {
+public class RegistersPart2 implements PathSolver<Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegistersPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegistersPart2.class);
     
     /**
      * {@inheritDoc}
      * 
-     * @return the largest value in any register after completing the instructions in the puzzle input
+     * @return the largest value in any register during execution of the instructions in the puzzle input
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
         List<Instruction> instructions = Instruction.parse(inputFilePath);
         
         Map<String, Integer> registers = new HashMap<>();
-        instructions.forEach(instruction -> instruction.accept(registers));
-        
-        int result = registers.values().stream()
+        int result = Integer.valueOf(0);
+        for (Instruction instruction : instructions) {
+            instruction.accept(registers);
+            
+            result = Math.max(result, registers.values().stream()
                 .mapToInt(Integer::intValue)
                 .max()
-                .getAsInt();
+                .orElse(0));
+        }
         
         return Integer.valueOf(result);
     }
@@ -47,7 +50,7 @@ public class RegistersPart1 implements PathSolver<Integer> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        RegistersPart1 instance = new RegistersPart1();
+        RegistersPart2 instance = new RegistersPart2();
 
         String result = instance.solve("input-day08-2017.txt");
 
