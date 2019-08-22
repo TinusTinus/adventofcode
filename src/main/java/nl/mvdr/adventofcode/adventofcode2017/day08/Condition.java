@@ -31,7 +31,7 @@ class Condition implements Predicate<Map<String, Integer>> {
     @Override
     public boolean test(Map<String, Integer> registers) {
         int registerValue = registers.getOrDefault(registerName, Integer.valueOf(0)).intValue();
-        return operator.test(registerValue, value);
+        return operator.test(Integer.valueOf(registerValue), Integer.valueOf(value));
     }
     
     @Override
