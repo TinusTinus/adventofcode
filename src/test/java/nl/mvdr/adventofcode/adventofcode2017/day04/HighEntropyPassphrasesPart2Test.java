@@ -22,7 +22,7 @@ public class HighEntropyPassphrasesPart2Test extends SolverTest<HighEntropyPassp
         assertSolution("3", "example-day04-2017-4.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("208", "input-day04-2017.txt");

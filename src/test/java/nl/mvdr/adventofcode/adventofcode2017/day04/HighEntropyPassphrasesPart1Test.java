@@ -40,7 +40,7 @@ public class HighEntropyPassphrasesPart1Test extends SolverTest<HighEntropyPassp
         assertSolution("2", "example-day04-2017-3.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("386", "input-day04-2017.txt");

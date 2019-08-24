@@ -40,7 +40,7 @@ public class ChronalCalibrationPart1Test extends SolverTest<ChronalCalibrationPa
         assertSolution("-6", "example-day01-2018-3.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("425", "input-day01-2018.txt");

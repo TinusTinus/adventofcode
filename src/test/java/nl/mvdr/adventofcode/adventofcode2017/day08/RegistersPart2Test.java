@@ -22,7 +22,7 @@ public class RegistersPart2Test extends SolverTest<RegistersPart2> {
         assertSolution("10", "example-day08-2017.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("5590", "input-day08-2017.txt");

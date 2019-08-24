@@ -22,7 +22,7 @@ public class TrampolinesPart2Test extends SolverTest<TrampolinesPart2> {
         assertSolution("10", "example-day05-2017.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("25558839", "input-day05-2017.txt");

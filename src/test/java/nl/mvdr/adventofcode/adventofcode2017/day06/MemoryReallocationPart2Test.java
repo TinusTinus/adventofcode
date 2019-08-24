@@ -22,7 +22,7 @@ public class MemoryReallocationPart2Test extends SolverTest<MemoryReallocationPa
         assertSolution("4", "example-day06-2017.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("2793", "input-day06-2017.txt");

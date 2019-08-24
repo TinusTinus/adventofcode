@@ -46,7 +46,7 @@ public class InverseCaptchaPart2Test extends SolverTest<InverseCaptchaPart2> {
         assertSolution("4", "example-day01-2017-8.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("1244", "input-day01-2017.txt");

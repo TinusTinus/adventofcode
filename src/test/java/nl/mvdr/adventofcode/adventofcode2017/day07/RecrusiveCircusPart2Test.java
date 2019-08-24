@@ -22,7 +22,7 @@ public class RecrusiveCircusPart2Test extends SolverTest<RecursiveCircusPart2> {
         assertSolution("60", "example-day07-2017.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("362", "input-day07-2017.txt");

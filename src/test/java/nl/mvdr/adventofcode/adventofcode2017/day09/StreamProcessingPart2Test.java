@@ -16,7 +16,7 @@ public class StreamProcessingPart2Test extends SolverTest<StreamProcessingPart2>
         super(StreamProcessingPart2.class);
     }
 
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("5601", "input-day09-2017.txt");

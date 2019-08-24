@@ -40,7 +40,7 @@ public class SpiralMemoryPart2Test extends SolverTest<SpiralMemoryPart2> {
         assertSolution("5", "example-day03-2017-7.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("369601", "input-day03-2017.txt");

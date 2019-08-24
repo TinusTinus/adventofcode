@@ -22,7 +22,7 @@ public class CorruptionChecksumPart1Test extends SolverTest<CorruptionChecksumPa
         assertSolution("18", "example-day02-2017-0.txt");
     }
     
-    /** Test case based on the accepted slution. */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
         assertSolution("46402", "input-day02-2017.txt");
