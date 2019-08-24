@@ -19,7 +19,7 @@ public class KnotHashPart1Test extends SolverTest<KnotHashPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution(new KnotHashPart1(5), "12", "example-day10-2017.txt");
+        assertSolution(new KnotHashPart1(5), "12", "example-day10-2017-0.txt");
     }
     
     /** Test case based on the accepted solution. */
