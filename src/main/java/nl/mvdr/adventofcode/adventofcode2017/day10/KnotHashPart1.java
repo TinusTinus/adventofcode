@@ -30,7 +30,7 @@ public class KnotHashPart1 implements PathSolver<Integer> {
     /** Constructor. */
     public KnotHashPart1() {
         super();
-        this.listSize = 255;
+        this.listSize = 256;
     }
     
     /**

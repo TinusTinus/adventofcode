@@ -22,17 +22,9 @@ public class KnotHashPart1Test extends SolverTest<KnotHashPart1> {
         assertSolution(new KnotHashPart1(5), "12", "example-day10-2017.txt");
     }
     
-    /**
-     * Test case based on the correct solution.
-     * 
-     * NOTE: the Advent of Code site rejected this answer, saying:
-     * "That's not the right answer; your answer is too high."
-     * 
-     * However, other people's solutions using this input also get the same result.
-     * I'm reasonably confident that this is actually the correct answer.
-     */
+    /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("14074", "input-day10-2017.txt");
+        assertSolution("1980", "input-day10-2017.txt");
     }
 }
