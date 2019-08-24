@@ -15,7 +15,8 @@ public class MineCartMadnessPart2 extends MineCartMadness {
     private static final Logger LOGGER = LoggerFactory.getLogger(MineCartMadnessPart2.class);
 
     @Override
-    public Point solve(State state) {
+    public Point solve(State initialState) {
+        State state = initialState;
         while (1 < state.getCarts().size()) {
             state = state.tick(false);
         }

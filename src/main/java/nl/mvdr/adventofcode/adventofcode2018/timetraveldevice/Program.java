@@ -96,8 +96,8 @@ public class Program {
      */
     public int execute(int register0Value, ProgramExecutionCallback callback) {
         // Initialise the registers
-        List<Integer> registers = new ArrayList<>(Collections.nCopies(numberOfRegisters, 0));
-        registers.set(0, register0Value);
+        List<Integer> registers = new ArrayList<>(Collections.nCopies(numberOfRegisters, Integer.valueOf(0)));
+        registers.set(0, Integer.valueOf(register0Value));
         
         while (callback.continueExecution(registers, registers.get(instructionPointerRegister).intValue())
                 && 0 <= registers.get(instructionPointerRegister).intValue()
@@ -111,6 +111,6 @@ public class Program {
             registers.set(instructionPointerRegister, Integer.valueOf(registers.get(instructionPointerRegister).intValue() + 1));
         }
         
-        return registers.get(0);
+        return registers.get(0).intValue();
     }
 }

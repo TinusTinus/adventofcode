@@ -53,6 +53,6 @@ class PuzzleInput {
     
     @Override
     public String toString() {
-        return String.format("%s players; last marble is worth %s points", players, points);
+        return String.format("%s players; last marble is worth %s points", Integer.valueOf(players), Integer.valueOf(points));
     }
 }

@@ -31,7 +31,7 @@ public class RegistersPart2 implements PathSolver<Integer> {
         List<Instruction> instructions = Instruction.parse(inputFilePath);
         
         Map<String, Integer> registers = new HashMap<>();
-        int result = Integer.valueOf(0);
+        int result = 0;
         for (Instruction instruction : instructions) {
             instruction.accept(registers);
             

@@ -39,8 +39,8 @@ public class ChronalCoordinates implements PathSolver<Integer> {
         // For each point in this rectangle, find the unique point from the input closest to it, according to its Manhattan distance.
         Map<Point, Optional<Point>> minimalDistances = 
                 IntStream.range(minX, maxX + 1)
-                        .mapToObj(Integer::valueOf)
-                        .flatMap(x -> IntStream.range(minY, maxY + 1).mapToObj(y -> new Point(Integer.valueOf(x), y)))
+                        .boxed()
+                        .flatMap(x -> IntStream.range(minY, maxY + 1).mapToObj(y -> new Point(x.intValue(), y)))
                         .collect(Collectors.toMap(Function.identity(), point -> closest(point, points)));
         
         int result = points.stream()

@@ -38,7 +38,7 @@ public class SpiralMemoryPart2 implements PathSolver<Integer> {
         
         Direction direction = Direction.DOWN;
         
-        while(memory.get(point) <= targetValue) {
+        while(memory.get(point).intValue() <= targetValue) {
             // Determine the next location for a memory bank
             Point nextPoint = direction.turnCouterClockwise().move(point);
             if (memory.containsKey(nextPoint)) {

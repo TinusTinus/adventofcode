@@ -25,7 +25,7 @@ public class MemoryReallocationPart2 extends MemoryReallocation {
     protected Integer solve(List<Integer> banks, Map<List<Integer>, Integer> history) {
         int cyclesBeforeFirstOccurrence = history.get(banks).intValue();
         int cyclesBeforeSecondOccurrence = history.size();
-        return cyclesBeforeSecondOccurrence - cyclesBeforeFirstOccurrence;
+        return Integer.valueOf(cyclesBeforeSecondOccurrence - cyclesBeforeFirstOccurrence);
     }
     
     /**

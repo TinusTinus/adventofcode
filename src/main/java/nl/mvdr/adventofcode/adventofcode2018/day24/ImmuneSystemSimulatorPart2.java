@@ -33,13 +33,14 @@ public class ImmuneSystemSimulatorPart2 implements PathSolver<Integer> {
         // * the immune system does not win for 0 <= boost <= 34.
         int minimumBoost = IntStream.range(35, 1570)
                 .parallel()
-                .peek(boost -> LOGGER.debug("Inspecting boost {}", boost))
+                .peek(boost -> LOGGER.debug("Inspecting boost {}", Integer.valueOf(boost)))
                 .filter(boost -> inputState.boostImmuneSystem(boost).fightUntilDone().winner().get() == Army.IMMUNE_SYSTEM)
-                .peek(boost -> LOGGER.debug("Winner found: {}", boost))
+                .peek(boost -> LOGGER.debug("Winner found: {}", Integer.valueOf(boost)))
                 .min()
                 .getAsInt();
         
-        return inputState.boostImmuneSystem(minimumBoost).fightUntilDone().totalUnits();
+        int result = inputState.boostImmuneSystem(minimumBoost).fightUntilDone().totalUnits();
+        return Integer.valueOf(result);
     }
     
     /**

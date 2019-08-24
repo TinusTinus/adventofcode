@@ -91,19 +91,19 @@ class Note {
     /**
      * Checks whether this note has the given precondition.
      * 
-     * @param farLeft whether the pot two spaces left of the current pot contains a plant
-     * @param left whether the pot directly left of the current pot contains a plant
-     * @param current whether the current pot contains a plant
-     * @param right whether the pot directly right of the current pot contains a plant
-     * @param farRight whether the pot two spaces right of the current pot contains a plant
+     * @param fl whether the pot two spaces left of the current pot contains a plant
+     * @param l whether the pot directly left of the current pot contains a plant
+     * @param c whether the current pot contains a plant
+     * @param r whether the pot directly right of the current pot contains a plant
+     * @param fr whether the pot two spaces right of the current pot contains a plant
      * @return whether this note matches the given precondition
      */
-    boolean hasPrecondition(boolean farLeft, boolean left, boolean current, boolean right, boolean farRight) {
-        return this.farLeft == farLeft
-                && this.left == left
-                && this.current == current
-                && this.right == right
-                && this.farRight == farRight;
+    boolean hasPrecondition(boolean fl, boolean l, boolean c, boolean r, boolean fr) {
+        return this.farLeft == fl
+                && this.left == l
+                && this.current == c
+                && this.right == r
+                && this.farRight == fr;
     }
     
     /** @return whether the current pot will contain a plant in the next generation, if the precondition applies */

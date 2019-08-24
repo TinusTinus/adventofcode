@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day19;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import org.slf4j.Logger;
@@ -19,7 +18,7 @@ public class GoWithTheFlowPart2 implements PathSolver<Integer> {
     private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlowPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
+    public Integer solve(Path inputFilePath) {
         // We could simply run the instructions with initial register values { 1, 0, 0, 0, 0, 0 }.
         // This would result in a correct answer, but would take a very long time to terminate.
         // As it turns out, the program calculates the sum of the divisors of 10551330.

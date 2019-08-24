@@ -50,7 +50,7 @@ public class FourDimensionalAdventurePart1 implements PathSolver<Integer> {
             constellations.add(newConstellation);
         });
         
-        return constellations.size();
+        return Integer.valueOf(constellations.size());
     }
     
     /**

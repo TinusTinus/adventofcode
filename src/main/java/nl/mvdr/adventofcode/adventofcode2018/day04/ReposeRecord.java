@@ -72,7 +72,7 @@ abstract class ReposeRecord implements PathSolver<Integer> {
             Matcher matcher = PATTERN_BEGIN_SHIFT.matcher(record);
             if (matcher.matches()) {
                 // Start of a new shift.
-                int guardId = Integer.valueOf(matcher.group(1));
+                int guardId = Integer.parseInt(matcher.group(1));
                 guards.putIfAbsent(Integer.valueOf(guardId), new Guard(guardId));
                 currentGuard = guards.get(Integer.valueOf(guardId));
             } else {
@@ -81,7 +81,7 @@ abstract class ReposeRecord implements PathSolver<Integer> {
                     throw new IllegalStateException("Unexpected record: " + record);
                 }
                 // The current guard fell asleep.
-                int napStart = Integer.valueOf(matcher.group(1));
+                int napStart = Integer.parseInt(matcher.group(1));
                 
                 // The next record must be of the current guard waking up.
                 record = iterator.next();
@@ -89,7 +89,7 @@ abstract class ReposeRecord implements PathSolver<Integer> {
                 if (!matcher.matches()) {
                     throw new IllegalStateException("Unexpected record: " + record);
                 }
-                int napEnd = Integer.valueOf(matcher.group(1));
+                int napEnd = Integer.parseInt(matcher.group(1));
                 currentGuard.sleep(napStart, napEnd);
             }
         }

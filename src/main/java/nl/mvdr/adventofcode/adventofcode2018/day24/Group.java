@@ -189,7 +189,7 @@ class Group {
      */
     Optional<Group> attack(Group target) {
         int damage = calculateDamage(target);
-        LOGGER.debug("{} attacks {} for {} damage", this.getGroupIdentification(), target.getGroupIdentification(), damage);
+        LOGGER.debug("{} attacks {} for {} damage", this.getGroupIdentification(), target.getGroupIdentification(), Integer.valueOf(damage));
         return target.takeDamage(damage);
     }
     
@@ -208,7 +208,7 @@ class Group {
             LOGGER.debug("{} has been defeated", getGroupIdentification());
             result = Optional.empty();
         } else {
-            LOGGER.debug("{} has lost {} units", getGroupIdentification(), defeatedUnits);
+            LOGGER.debug("{} has lost {} units", getGroupIdentification(), Integer.valueOf(defeatedUnits));
             result = Optional.of(new Group(groupIdentification, remainingUnits, hitPoints, attackDamage, attackType, initiative, weaknesses, immunities));
         }
         return result;

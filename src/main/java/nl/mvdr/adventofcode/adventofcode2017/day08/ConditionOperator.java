@@ -9,16 +9,17 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 enum ConditionOperator implements BiPredicate<Integer, Integer> {
+    /** Less than (&lt;). */
     LESS_THAN("<", (i, j) -> i.intValue() < j.intValue()),
-    
+    /** At most, also know as "less than or equal to" (&le;).*/
     AT_MOST("<=", (i, j) -> i.intValue() <= j.intValue()),
-    
+    /** Equals (=). */
     EQUAL("==", (i, j) -> i.equals(j)),
-    
+    /** At least, also known as greater than or equal to (&ge;). */
     AT_LEAST(">=", (i, j) -> i.intValue() >= j.intValue()),
-    
+    /** Greater than (&gt;). */
     GREATER_THAN(">", (i, j) -> i.intValue() > j.intValue()),
-    
+    /** Does not equal (&ne;). */
     NOT_EQUAL("!=", (i, j) -> !i.equals(j));
     
     private final String stringRepresentation;

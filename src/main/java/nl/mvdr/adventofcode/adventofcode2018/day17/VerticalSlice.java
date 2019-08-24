@@ -96,7 +96,7 @@ class VerticalSlice {
         Set<Point> newWater = new HashSet<>(water);
         Set<Point> newWetSand = new HashSet<>(wetSand);
         
-        Queue<Point> tricklingWater = new LinkedList<Point>();
+        Queue<Point> tricklingWater = new LinkedList<>();
         tricklingWater.add(spring);
         
         while (!tricklingWater.isEmpty()) {

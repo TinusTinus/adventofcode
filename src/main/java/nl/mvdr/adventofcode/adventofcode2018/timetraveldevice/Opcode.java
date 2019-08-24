@@ -86,7 +86,7 @@ public enum Opcode {
         result.set(c, Integer.valueOf(outputValue));
         
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("{} {} {} {} {} -> {}", registers, this, a, b, c, result);
+            LOGGER.debug("{} {} {} {} {} -> {}", registers, this, Integer.valueOf(a), Integer.valueOf(b), Integer.valueOf(c), result);
         }
         
         return result;

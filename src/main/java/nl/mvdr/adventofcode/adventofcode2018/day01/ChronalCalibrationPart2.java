@@ -42,7 +42,7 @@ public class ChronalCalibrationPart2 implements PathSolver<Integer> {
         while (!pastFrequencies.contains(Integer.valueOf(frequency))) {
             pastFrequencies.add(Integer.valueOf(frequency));
             
-            int frequencyChange = frequencyChanges.get(index);
+            int frequencyChange = frequencyChanges.get(index).intValue();
             frequency = frequency + frequencyChange;
             
             index = (index + 1) % frequencyChanges.size();

@@ -41,11 +41,11 @@ class Claim {
             throw new IllegalArgumentException("Invalid claim: " + claimString);
         }
         
-        int id = Integer.valueOf(matcher.group(1));
-        int x = Integer.valueOf(matcher.group(2));
-        int y = Integer.valueOf(matcher.group(3));
-        int width = Integer.valueOf(matcher.group(4));
-        int height = Integer.valueOf(matcher.group(5));
+        int id = Integer.parseInt(matcher.group(1));
+        int x = Integer.parseInt(matcher.group(2));
+        int y = Integer.parseInt(matcher.group(3));
+        int width = Integer.parseInt(matcher.group(4));
+        int height = Integer.parseInt(matcher.group(5));
         
         return new Claim(id, x, y, width, height);
     }

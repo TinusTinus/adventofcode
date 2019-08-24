@@ -129,7 +129,7 @@ class State {
         Set<Group> remainingTargets = new HashSet<>(groups);
         
         return groups.stream()
-                .sorted(Comparator.comparing(Group::effectivePower).reversed().thenComparing(group -> -group.getInitiative()))
+                .sorted(Comparator.comparing(Group::effectivePower).reversed().thenComparingInt(group -> -group.getInitiative()))
                 .collect(Collectors.toMap(Group::getGroupIdentification, group -> {
                     Optional<Group> target = group.selectTarget(remainingTargets);
                     target.ifPresent(remainingTargets::remove);
@@ -148,7 +148,7 @@ class State {
         
         targets.keySet().stream()
                 // Attack in decreasing initiative order
-                .sorted(Comparator.comparing(id -> -getGroup(id).getInitiative()))
+                .sorted(Comparator.comparingInt(id -> -getGroup(id).getInitiative()))
                 // Look up the attacker (may no longer exist, or have lost units, because of earlier attacks this round)
                 .map(id -> nextGroups.stream().filter(g -> g.getGroupIdentification().equals(id)).findAny())
                 .filter(Optional::isPresent)

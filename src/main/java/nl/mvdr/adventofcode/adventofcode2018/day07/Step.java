@@ -90,7 +90,7 @@ class Step {
      * @throws IOException exception when reading the text  file
      */
     static List<Step> parse(Path inputFilePath, int baseTime) throws IOException {
-        List<Step> result = new ArrayList<Step>();
+        List<Step> result = new ArrayList<>();
         
         Files.lines(inputFilePath)
             // ignore empty lines (the last line in the file)

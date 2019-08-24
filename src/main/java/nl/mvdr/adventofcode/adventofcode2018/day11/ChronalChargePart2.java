@@ -25,7 +25,9 @@ public class ChronalChargePart2 extends ChronalCharge {
                 .flatMap(x -> IntStream.range(0, GRID_SIZE)
                         .mapToObj(Integer::valueOf)
                         .parallel()
-                        .flatMap(y -> IntStream.range(1, GRID_SIZE - Math.max(x, y)).mapToObj(squareSize -> new Square(grid, x, y, squareSize, true))))
+                        .flatMap(y -> 
+                                IntStream.range(1, GRID_SIZE - Math.max(x.intValue(), y.intValue()))
+                                .mapToObj(squareSize -> new Square(grid, x.intValue(), y.intValue(), squareSize, true))))
                 .collect(Collectors.toSet());
     }
 

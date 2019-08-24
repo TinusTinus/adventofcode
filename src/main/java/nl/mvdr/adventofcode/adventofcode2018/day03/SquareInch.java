@@ -32,9 +32,8 @@ class SquareInch {
     }
 
     @Override
-    @Generated("Eclipse")
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(Integer.valueOf(x), Integer.valueOf(y));
     }
 
     @Override

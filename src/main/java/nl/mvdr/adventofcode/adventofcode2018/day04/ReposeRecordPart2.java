@@ -17,7 +17,7 @@ public class ReposeRecordPart2 extends ReposeRecord {
     
     /** Constructor. */
     public ReposeRecordPart2() {
-        super(Comparator.comparing(guard -> guard.getNumberOfTimesAsleep(guard.computeMostAsleepMinute())));
+        super(Comparator.comparingInt(guard -> guard.getNumberOfTimesAsleep(guard.computeMostAsleepMinute())));
     }
     
     /**

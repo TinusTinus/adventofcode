@@ -36,8 +36,8 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
         Nanobot startOctohedron = generateStartOctahedron(nanobots);
 
         Map<Nanobot, Long> overlapCache = new HashMap<>();
-        Comparator<Nanobot> comparator = Comparator.<Nanobot, Long>comparing(nanobot -> overlapCache.computeIfAbsent(nanobot, n -> -n.overlap(nanobots)))
-                .thenComparing(nanobot -> nanobot.getPosition().manhattanDistance(origin));
+        Comparator<Nanobot> comparator = Comparator.<Nanobot, Long>comparing(nanobot -> overlapCache.computeIfAbsent(nanobot, n -> Long.valueOf(-n.overlap(nanobots))))
+                .thenComparingInt(nanobot -> nanobot.getPosition().manhattanDistance(origin));
         
         Queue<Nanobot> pQ = new PriorityQueue<>(10, comparator);
         pQ.add(startOctohedron);
@@ -47,7 +47,8 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
         }
         
         Nanobot n = pQ.poll();
-        return n.getPosition().manhattanDistance(origin);
+        int result = n.getPosition().manhattanDistance(origin);
+        return Integer.valueOf(result);
     }
     
     /**

@@ -45,7 +45,7 @@ abstract class MemoryReallocation implements PathSolver<Integer> {
                     .get()
                     .intValue();
             
-            int remainingBanks = banks.get(index);
+            int remainingBanks = banks.get(index).intValue();
             banks.set(index, Integer.valueOf(0));
             
             while (0 < remainingBanks) {

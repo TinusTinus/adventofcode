@@ -32,7 +32,7 @@ public class BeverageBanditsPart2 implements PathSolver<Integer> {
             state = initialState.withElfAttackPower(i).performCombat(true);
         }
         
-        LOGGER.debug("End state, with elf attack power {}:\n{}", i, state);
+        LOGGER.debug("End state, with elf attack power {}:\n{}", Integer.valueOf(i), state);
         
         return Integer.valueOf(state.getOutcome());
     }

@@ -15,8 +15,9 @@ public class MineCartMadnessPart1 extends MineCartMadness {
     private static final Logger LOGGER = LoggerFactory.getLogger(MineCartMadnessPart1.class);
 
     @Override
-    protected Point solve(State state) {
+    protected Point solve(State initialState) {
         Point result;
+        State state = initialState;
         try {
             while (true) {
                 state = state.tick(true);

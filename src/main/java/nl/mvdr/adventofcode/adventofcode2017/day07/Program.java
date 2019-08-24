@@ -90,11 +90,11 @@ class Program {
     /**
      * Checks whether this program is (directly) holding up the program with the given name.
      * 
-     * @param name program name
+     * @param otherProgramName program name
      * @return whether this program is (directly) holding up the program with the given name
      */
-    boolean isHoldingUp(String name) {
-        return namesHeldUp.contains(name);
+    boolean isHoldingUp(String otherProgramName) {
+        return namesHeldUp.contains(otherProgramName);
     }
     
     @Override

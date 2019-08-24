@@ -55,7 +55,7 @@ class Guard {
     int computeMostAsleepMinute() {
         return IntStream.range(0, numberOfTimesAsleep.length)
             .mapToObj(Integer::valueOf)
-            .max(Comparator.comparing(i -> numberOfTimesAsleep[i]))
+            .max(Comparator.comparingInt(i -> numberOfTimesAsleep[i.intValue()]))
             .get()
             .intValue();
     }

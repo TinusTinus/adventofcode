@@ -43,13 +43,13 @@ public class RecursiveCircusPart2 implements PathSolver<Integer> {
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         
         int correctWeight = weights.entrySet().stream()
-                .filter(entry -> 1L < entry.getValue())
+                .filter(entry -> 1L < entry.getValue().longValue())
                 .map(Entry::getKey)
                 .findAny()
                 .get()
                 .intValue();
         int incorrectWeight = weights.entrySet().stream()
-                .filter(entry -> entry.getValue() == 1L)
+                .filter(entry -> entry.getValue().longValue() == 1L)
                 .map(Entry::getKey)
                 .findAny()
                 .get()

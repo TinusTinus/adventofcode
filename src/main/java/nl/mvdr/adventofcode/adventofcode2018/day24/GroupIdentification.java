@@ -44,7 +44,7 @@ public class GroupIdentification implements Comparable<GroupIdentification> {
     @Override
     @Generated("Eclipse")
     public int hashCode() {
-        return Objects.hash(army, id);
+        return Objects.hash(army, Integer.valueOf(id));
     }
 
     @Override

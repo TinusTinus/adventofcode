@@ -36,6 +36,7 @@ public class InstructionTest {
     }
     
     /** Test case for {@link Instruction#execute(List)}. */
+    @SuppressWarnings("boxing")
     @Test
     public void testExecute() {
         Instruction instruction = Instruction.parse("mulr 2 1 2");

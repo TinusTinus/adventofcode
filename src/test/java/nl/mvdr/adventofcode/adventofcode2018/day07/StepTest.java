@@ -23,6 +23,7 @@ public class StepTest {
      *
      * @throws IOException unexpected
      */
+    @SuppressWarnings("boxing")
     @Test
     public void testParseExampleInput() throws IOException {
         Path path = PathSolver.toPath(getClass(), "example-day07-2018.txt");

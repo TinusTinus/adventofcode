@@ -108,9 +108,8 @@ class Point4D {
     }
 
     @Override
-    @Generated("Eclipse")
     public int hashCode() {
-        return Objects.hash(coordinate0, coordinate1, coordinate2, coordinate3);
+        return Objects.hash(Integer.valueOf(coordinate0), Integer.valueOf(coordinate1), Integer.valueOf(coordinate2), Integer.valueOf(coordinate3));
     }
 
     @Override

@@ -17,9 +17,9 @@ class Condition implements Predicate<Map<String, Integer>> {
     /**
      * Constructor.
      * 
-     * @param registerName the register to modify 
-     * @param operator whether to increase or decrease that register's value
-     * @param value the amount by which to increase or decrease it
+     * @param registerName the register whose value to inspect 
+     * @param operator the comparison operator
+     * @param value the value to compare to
      */
     Condition(String registerName, ConditionOperator operator, int value) {
         super();

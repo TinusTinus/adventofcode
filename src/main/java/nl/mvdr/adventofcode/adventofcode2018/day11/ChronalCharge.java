@@ -26,7 +26,7 @@ abstract class ChronalCharge implements PathSolver<Square> {
     @Override
     public Square solve(Path inputFilePath) throws IOException {
         int serialNumber = Integer.parseInt(Files.lines(inputFilePath).findFirst().get());
-        LOGGER.debug("Serial number: {}", serialNumber);
+        LOGGER.debug("Serial number: {}", Integer.valueOf(serialNumber));
         
         int[][] grid = new int[GRID_SIZE][GRID_SIZE];
         
@@ -40,7 +40,7 @@ abstract class ChronalCharge implements PathSolver<Square> {
         
         Set<Square> squares = getSquares(grid);
         
-        LOGGER.debug("Set of {} squares constructed.", squares.size());
+        LOGGER.debug("Set of {} squares constructed.", Integer.valueOf(squares.size()));
         
         return squares.parallelStream()
                 .max(Comparator.comparing(Square::getTotalPowerLevel))

@@ -27,7 +27,7 @@ public class ImmuneSystemSimulatorPart1 implements PathSolver<Integer> {
     public Integer solve(Path inputFilePath) throws IOException {
         State state = State.parse(inputFilePath);
         state = state.fightUntilDone();
-        return state.totalUnits();
+        return Integer.valueOf(state.totalUnits());
     }
     
     /**

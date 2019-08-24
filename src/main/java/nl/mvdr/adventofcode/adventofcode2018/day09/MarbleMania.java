@@ -38,7 +38,7 @@ public class MarbleMania implements PathSolver<BigDecimal> {
                 for (int i = 0; i != 6; i++) {
                     marbles.push(marbles.removeLast());
                 }
-                int removedMarble = marbles.removeLast();
+                int removedMarble = marbles.removeLast().intValue();
                 int points = marble + removedMarble;
                 scores[playerIndex] = scores[playerIndex].add(BigDecimal.valueOf(points));
             } else {
@@ -59,7 +59,7 @@ public class MarbleMania implements PathSolver<BigDecimal> {
         if (LOGGER.isDebugEnabled()) {
             StringBuilder builder = new StringBuilder("[");
             // player number (1-based rather than the 0-based index)
-            builder.append(String.format("%" + ("" + puzzleInput.getPlayers()).length() + "d", playerIndex + 1));
+            builder.append(String.format("%" + ("" + puzzleInput.getPlayers()).length() + "d", Integer.valueOf(playerIndex + 1)));
             builder.append("] (");
             // marbles
             builder.append(marbles.get(0));

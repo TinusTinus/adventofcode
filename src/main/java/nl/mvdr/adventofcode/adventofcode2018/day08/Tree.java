@@ -108,8 +108,8 @@ class Tree {
      * @return tree
      */
     private static Tree build(List<Integer> numbers, int startIndex) {
-        int numberOfChildren = numbers.get(startIndex);
-        int numberOfMetadataEntries = numbers.get(startIndex + 1);
+        int numberOfChildren = numbers.get(startIndex).intValue();
+        int numberOfMetadataEntries = numbers.get(startIndex + 1).intValue();
         
         int nextStartIndex = startIndex + 2;
         

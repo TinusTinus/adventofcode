@@ -23,6 +23,7 @@ public class OpcodeTest {
      * (which has a value of 2) produces 2, which matches the value stored in the
      * output register, register 2.
      */
+    @SuppressWarnings("boxing")
     @Test
     public void testExampleMulr() {
         int a = 2;
@@ -46,6 +47,7 @@ public class OpcodeTest {
      * produces 2, which matches the value stored in the output register, register
      * 2.
      */
+    @SuppressWarnings("boxing")
     @Test
     public void testExampleAddi() {
         int a = 2;
@@ -68,6 +70,7 @@ public class OpcodeTest {
      * Opcode 9 could be seti: value 2 matches the value stored in the output
      * register, register 2; the number given for B is irrelevant.
      */
+    @SuppressWarnings("boxing")
     @Test
     public void testExampleSeti() {
         int a = 2;
@@ -91,6 +94,7 @@ public class OpcodeTest {
      * behave in a way that would cause the result shown in the sample: mulr, addi
      * and seti.
      */
+    @SuppressWarnings("boxing")
     @Test
     public void testExample() {
         int a = 2;

@@ -102,7 +102,7 @@ class State {
      * @return state
      */
     State withElfAttackPower(int elfAttackPower) {
-        Map<Race, Integer> newAttackPower = Map.of(Race.GOBLIN, attackPower.get(Race.GOBLIN), Race.ELF, elfAttackPower);
+        Map<Race, Integer> newAttackPower = Map.of(Race.GOBLIN, attackPower.get(Race.GOBLIN), Race.ELF, Integer.valueOf(elfAttackPower));
         
         return new State(map, units, rounds, newAttackPower, elfDeaths);
     }
@@ -181,7 +181,7 @@ class State {
                     
                     Optional<Point> nextU = unvisited.stream()
                             .filter(p -> pathLengths.get(p).isPresent())
-                            .min(Comparator.comparing(p -> pathLengths.get(p).getAsInt()));
+                            .min(Comparator.comparingInt(p -> pathLengths.get(p).getAsInt()));
                     while (nextU.isPresent()) {
                         Point u = nextU.get();
                         unvisited.remove(u);
@@ -209,17 +209,17 @@ class State {
                             }
                         }
                         
-                        LOGGER.trace("Remaining unvisited: {}", unvisited.size());
+                        LOGGER.trace("Remaining unvisited: {}", Integer.valueOf(unvisited.size()));
                         nextU = unvisited.stream()
                                 .filter(p -> pathLengths.get(p).isPresent())
-                                .min(Comparator.comparing(p -> pathLengths.get(p).getAsInt()));
+                                .min(Comparator.comparingInt(p -> pathLengths.get(p).getAsInt()));
                     }
                     
                     LOGGER.trace("First steps: {}", firstSteps);
                     
                     // If multiple squares are in range and tied for being reachable in the fewest
                     // steps, the square which is first in reading order is chosen.
-                    Comparator<Point> comparator = Comparator.comparing(p -> pathLengths.get(p).getAsInt());
+                    Comparator<Point> comparator = Comparator.comparingInt(p -> pathLengths.get(p).getAsInt());
                     comparator = comparator.thenComparing(Comparator.naturalOrder());
                     Optional<Point> newLocation = adjacentPointsToTarget.stream()
                             .filter(p -> pathLengths.get(p).isPresent())
@@ -257,7 +257,7 @@ class State {
                     LOGGER.debug("Unit {} at {} is attacking {} at {}.", movedUnit, movedUnit.getLocation(), target, target.getLocation());
                     
                     // The unit deals damage equal to its attack power to the selected target, reducing its hit points by that amount.
-                    int remainingHitPoints = target.getHitPoints() - attackPower.get(unit.getRace());
+                    int remainingHitPoints = target.getHitPoints() - attackPower.get(unit.getRace()).intValue();
                     if (0 < remainingHitPoints) {
                         sortedUnits.set(targetIndex, new Unit(target.getRace(), target.getLocation(), remainingHitPoints));
                     } else {

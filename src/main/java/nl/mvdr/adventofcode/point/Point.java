@@ -147,9 +147,8 @@ public class Point implements Comparable<Point> {
     }
     
     @Override
-    @Generated("Eclipse")
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(Integer.valueOf(x), Integer.valueOf(y));
     }
 
     @Override
@@ -242,7 +241,7 @@ public class Point implements Comparable<Point> {
         Set<Integer> yValues = parseCoordinateRange(yString.substring(2));
         
         return xValues.stream()
-                .flatMap(x -> yValues.stream().map(y -> new Point(x, y)))
+                .flatMap(x -> yValues.stream().map(y -> new Point(x.intValue(), y.intValue())))
                 .collect(Collectors.toSet());
     }
     
