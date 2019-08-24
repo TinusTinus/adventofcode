@@ -25,6 +25,7 @@ public class KnotHashPart1Test extends SolverTest<KnotHashPart1> {
     /** Test case based on the accepted slution. */
     @Test
     public void testSolution() {
+        // 14074 is too high
         assertSolution("?", "input-day10-2017.txt");
     }
 }

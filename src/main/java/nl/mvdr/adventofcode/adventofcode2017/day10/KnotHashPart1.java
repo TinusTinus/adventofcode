@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2017.day10;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,19 +60,33 @@ public class KnotHashPart1 implements PathSolver<Integer> {
 
         // Invariant: the head of the deque is the current position.
         int skipSize = 0;
+        int skipped = 0;
         for (Integer inputLength : inputLengths) {
+            LOGGER.debug("Processing input length {}", inputLength);
             // Reverse the first inputLength elements of the numbers.
-            List<Integer> temp = new LinkedList<>();
-            for (int i = 0; i != inputLength; i++) {
-                temp.add(numbers.pollFirst());
+            Deque<Integer> temp = new LinkedList<>();
+            for (int i = 0; i != inputLength.intValue(); i++) {
+                temp.offerFirst(numbers.pollFirst());
             }
-            Collections.reverse(temp);
-            temp.forEach(numbers::offerFirst);
-            
-            // TODO more stuff
+            while (!temp.isEmpty()) {
+                numbers.offerLast(temp.pollFirst());
+                skipped++;
+            }
+            for (int i = 0; i != skipSize; i++) {
+                numbers.offerLast(numbers.pollFirst());
+                skipped++;
+            }
+            skipSize++;
+            LOGGER.debug("Numbers: {}", numbers);
         }
         
-        return null; // TODO
+        // Move current position back to the original spot
+        for (int i = skipped % listSize; i != listSize; i++) {
+            numbers.offerLast(numbers.pollFirst());
+        }
+        LOGGER.debug("Final numbers: {}", numbers);
+        
+        return Integer.valueOf(numbers.pollFirst().intValue() * numbers.pollFirst().intValue());
     }
     
     /**
