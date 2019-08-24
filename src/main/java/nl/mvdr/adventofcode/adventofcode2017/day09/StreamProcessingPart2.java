@@ -52,14 +52,8 @@ public class StreamProcessingPart2 implements PathSolver<Integer> {
             } else if (c == '<') {
                 LOGGER.debug("<: start of garbage.");
                 garbage = true;
-            } else if (c == '{') {
-                LOGGER.debug("{: start of new group.");
-            } else if (c == '}') {
-                LOGGER.debug("}: end of group.");
-            } else if (c == ',') {
-                LOGGER.debug(",: comma between groups.");
             } else {
-                throw new IllegalStateException("Unexpected character " + c + " in position " + i);
+                LOGGER.debug(c + ": ignoring group-related character.");
             }
         }
         
