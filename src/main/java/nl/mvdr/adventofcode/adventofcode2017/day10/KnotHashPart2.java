@@ -22,15 +22,6 @@ public class KnotHashPart2 extends KnotHash<String> {
         super();
     }
     
-    /**
-     * Constructor.
-     * 
-     * @param listSize list size
-     */
-    KnotHashPart2(int listSize) {
-        super(listSize);
-    }
-
     @Override
     List<Integer> inputLengths(String inputText) {
         List<Integer> result = inputText.chars()
