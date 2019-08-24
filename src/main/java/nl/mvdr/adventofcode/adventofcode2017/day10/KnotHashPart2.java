@@ -58,6 +58,12 @@ public class KnotHashPart2 extends KnotHash<String> {
                 .collect(Collectors.joining());
     }
     
+    /**
+     * Processes a single block.
+     * 
+     * @param block a single block of 16 numbers from the sparse hash
+     * @return a two-character hexadecimal representation of the xor'd values of this block
+     */
     private String processBlock(List<Integer> block) {
         int xord = block.stream()
                 .mapToInt(Integer::intValue)
