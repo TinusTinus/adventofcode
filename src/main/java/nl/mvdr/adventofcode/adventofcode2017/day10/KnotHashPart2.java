@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day10;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
@@ -32,8 +33,17 @@ public class KnotHashPart2 extends KnotHash<String> {
 
     @Override
     List<Integer> inputLengths(String inputText) {
-        // TODO implement
-        return List.of();
+        List<Integer> result = inputText.chars()
+                .boxed()
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        
+        result.add(Integer.valueOf(17));
+        result.add(Integer.valueOf(31));
+        result.add(Integer.valueOf(73));
+        result.add(Integer.valueOf(47));
+        result.add(Integer.valueOf(23));
+        
+        return result;
     }
 
     @Override

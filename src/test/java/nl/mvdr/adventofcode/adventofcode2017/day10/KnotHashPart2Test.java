@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day10;
 
+import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -16,6 +19,18 @@ public class KnotHashPart2Test extends SolverTest<KnotHashPart2> {
         super(KnotHashPart2.class);
     }
 
+    /** Test case for {@link KnotHashPart2#inputLengths(String)}. */
+    @SuppressWarnings("boxing")
+    @Test
+    public void testInputLengths() {
+        String input = "1,2,3";
+        KnotHashPart2 solver = new KnotHashPart2();
+        
+        List<Integer> lengths = solver.inputLengths(input);
+        
+        Assertions.assertEquals(List.of(49, 44, 50, 44, 51, 17, 31, 73, 47, 23), lengths);
+    }
+    
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
