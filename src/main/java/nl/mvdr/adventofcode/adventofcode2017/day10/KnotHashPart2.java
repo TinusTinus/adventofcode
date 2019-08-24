@@ -3,6 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2017.day10;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,8 +51,24 @@ public class KnotHashPart2 extends KnotHash<String> {
      */
     @Override
     String solve(Deque<Integer> sparseHash) {
-        // TODO implement
-        return "todo";
+        List<Integer> sparseHashAsList = new ArrayList<>(sparseHash);
+        return IntStream.range(0, 16)
+                .mapToObj(i -> sparseHashAsList.subList(i * 16, (i + 1) * 16))
+                .map(this::processBlock)
+                .collect(Collectors.joining());
+    }
+    
+    private String processBlock(List<Integer> block) {
+        int xord = block.stream()
+                .mapToInt(Integer::intValue)
+                .reduce((i, j) -> i ^ j)
+                .getAsInt();
+        
+        String result = Integer.toHexString(xord);
+        if (result.length() == 1) {
+            result = "0" + result;
+        }
+        return result;
     }
     
     /**

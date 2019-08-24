@@ -58,6 +58,6 @@ public class KnotHashPart2Test extends SolverTest<KnotHashPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day10-2017.txt");
+        assertSolution("899124dac21012ebc32e2f4d11eaec55", "input-day10-2017.txt");
     }
 }
