@@ -55,6 +55,18 @@ public abstract class SolverTest<S extends Solver> {
     public void assertSolution(String expectedSolution, String inputfile) {
         S solver = instantiateSolver();
 
+        assertSolution(solver, expectedSolution, inputfile);
+    }
+
+    /**
+     * Invokes the solver and checks that the given solution matches the expected
+     * result.
+     * 
+     * @param solver           solver under test
+     * @param expectedSolution expected solution
+     * @param inputfile        input file on the (test) classpath
+     */
+    public void assertSolution(S solver, String expectedSolution, String inputfile) {
         String result = solver.solve(inputfile);
 
         Assertions.assertEquals(expectedSolution, result);
