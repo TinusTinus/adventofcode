@@ -2,8 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2017.day12;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -28,29 +26,7 @@ public class DigitalPlumberPart1 implements PathSolver<Integer> {
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
-        List<Line> lines = Line.parse(inputFilePath);
-        
-        LOGGER.debug("Lines: {}", lines);
-        
-        Set<Set<Integer>> groups = new HashSet<>();
-        
-        for (Line line : lines) {
-            Set<Integer> programIds = line.programIds();
-            
-            Set<Integer> newGroup = new HashSet<>(programIds);
-            
-            for (Integer programId : programIds) {
-                groups.stream()
-                        .filter(group -> group.contains(programId))
-                        .findFirst()
-                        .ifPresent(oldGroup -> {
-                            groups.remove(oldGroup);
-                            newGroup.addAll(oldGroup);
-                        });
-            }
-            
-            groups.add(newGroup);
-        }
+        Set<Set<Integer>> groups = Line.parse(inputFilePath);
         
         int result = groups.stream()
                 .filter(group -> group.contains(Integer.valueOf(0)))

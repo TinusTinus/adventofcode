@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test for {@link FourDimensionalAdventurePart1}.
+ * Unit test for {@link FourDimensionalAdventure}.
  *
  * @author Martijn van de Rijdt
  */
-public class FourDimensionalAdventurePart1Test extends SolverTest<FourDimensionalAdventurePart1> {
+public class FourDimensionalAdventureTest extends SolverTest<FourDimensionalAdventure> {
     /** Constructor. */
-    public FourDimensionalAdventurePart1Test() {
-        super(FourDimensionalAdventurePart1.class);
+    public FourDimensionalAdventureTest() {
+        super(FourDimensionalAdventure.class);
     }
 
     /** Test case based on an example from the puzzle. */

@@ -17,9 +17,9 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class FourDimensionalAdventurePart1 implements PathSolver<Integer> {
+public class FourDimensionalAdventure implements PathSolver<Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FourDimensionalAdventurePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FourDimensionalAdventure.class);
 
     /**
      * {@inheritDoc}
@@ -59,7 +59,7 @@ public class FourDimensionalAdventurePart1 implements PathSolver<Integer> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        FourDimensionalAdventurePart1 solver = new FourDimensionalAdventurePart1();
+        FourDimensionalAdventure solver = new FourDimensionalAdventure();
         String solution = solver.solve("input-day25-2018.txt");
         LOGGER.info(solution);
     }

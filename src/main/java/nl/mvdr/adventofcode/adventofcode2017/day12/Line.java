@@ -26,10 +26,22 @@ class Line {
      * Parses the puzzle input.
      * 
      * @param inputFilePath path to the input text file
+     * @return groups
+     * @throws IOException in case the file could not be read
+     */
+    static Set<Set<Integer>> parse(Path inputFilePath) throws IOException {
+        List<Line> lines = parseLines(inputFilePath);
+        return group(lines);
+    }
+
+    /**
+     * Parses the puzzle input.
+     * 
+     * @param inputFilePath path to the input text file
      * @return lines
      * @throws IOException in case the file could not be read
      */
-    static List<Line> parse(Path inputFilePath) throws IOException {
+    private static List<Line> parseLines(Path inputFilePath) throws IOException {
         return Files.lines(inputFilePath)
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
@@ -57,6 +69,35 @@ class Line {
         return new Line(leftHandSide, rightHandSide);
     }
     
+    /**
+     * Groups the program ids in the given lines.
+     * 
+     * @param lines puzzle input lines
+     * @return groups
+     */
+    private static Set<Set<Integer>> group(List<Line> lines) {
+        Set<Set<Integer>> groups = new HashSet<>();
+        
+        for (Line line : lines) {
+            Set<Integer> programIds = line.programIds();
+            
+            Set<Integer> newGroup = new HashSet<>(programIds);
+            
+            for (Integer programId : programIds) {
+                groups.stream()
+                        .filter(group -> group.contains(programId))
+                        .findFirst()
+                        .ifPresent(oldGroup -> {
+                            groups.remove(oldGroup);
+                            newGroup.addAll(oldGroup);
+                        });
+            }
+            
+            groups.add(newGroup);
+        }
+        return groups;
+    }
+
     /**
      * Constructor.
      * 
