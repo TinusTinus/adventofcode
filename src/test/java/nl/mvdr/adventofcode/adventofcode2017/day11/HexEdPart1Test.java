@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class HexEdTest extends SolverTest<HexEdPart1> {
+public class HexEdPart1Test extends SolverTest<HexEdPart1> {
 
     /** Constructor. */
-    public HexEdTest() {
+    public HexEdPart1Test() {
         super(HexEdPart1.class);
     }
     
