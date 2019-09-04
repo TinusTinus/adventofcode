@@ -21,6 +21,7 @@ public class PacketScannersPart2Test extends SolverTest<PacketScannersPart2> {
     public void testExample() {
         // Because all smaller delays would get you caught,
         // the fewest number of picoseconds you would need to delay to get through safely is 10.
+        // Note: day 4 has severity = 0, but the packet does get caught, at layer 0.
         assertSolution("10", "example-day13-2017.txt");
     }
     
