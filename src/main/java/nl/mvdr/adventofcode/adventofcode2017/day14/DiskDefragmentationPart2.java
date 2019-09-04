@@ -27,21 +27,21 @@ public class DiskDefragmentationPart2 extends DiskDefragmentation {
     protected Integer solve(Set<Point> squares) {
         Set<Set<Point>> regions = new HashSet<>();
         
-        for (Point point : squares) {
+        squares.forEach(square -> {
             Set<Point> newRegion = new HashSet<>();
-            newRegion.add(point);
+            newRegion.add(square);
             
             Set<Set<Point>> matchingRegions = new HashSet<>();
-            for (Point neighbour : point.neighbours()) {
+            square.neighbours().forEach(neighbour -> {
                 regions.stream()
                     .filter(region -> region.contains(neighbour))
                     .forEach(matchingRegions::add);
-            }
+            });
             regions.removeAll(matchingRegions);
             matchingRegions.forEach(newRegion::addAll);
             
             regions.add(newRegion);
-        }
+        });
         
         return Integer.valueOf(regions.size());
     }
