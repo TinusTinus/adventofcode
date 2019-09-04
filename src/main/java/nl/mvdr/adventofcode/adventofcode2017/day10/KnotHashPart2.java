@@ -9,13 +9,15 @@ import java.util.stream.IntStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.adventofcode2017.knothash.KnotHasher;
+
 /**
  * Solution to the day 10 puzzle of 2017's Advent of Code:
  * <a href="https://adventofcode.com/2017/day/10">Knot Hash</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class KnotHashPart2 extends KnotHash<String> {
+public class KnotHashPart2 extends KnotHash<String> implements KnotHasher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KnotHashPart2.class);
     
@@ -75,6 +77,11 @@ public class KnotHashPart2 extends KnotHash<String> {
             result = "0" + result;
         }
         return result;
+    }
+    
+    @Override
+    public String knotHash(String input) {
+        return solveKnotHash(input);
     }
     
     /**

@@ -46,6 +46,16 @@ abstract class KnotHash<R> implements PathSolver<R> {
     @Override
     public R solve(Path inputFilePath) throws IOException {
         String inputText = Files.lines(inputFilePath).findFirst().get();
+        return solveKnotHash(inputText);
+    }
+
+    /**
+     * Solver method.
+     * 
+     * @param inputText input
+     * @return solution to the puzzle for the given input
+     */
+    protected R solveKnotHash(String inputText) {
         List<Integer> inputLengths = inputLengths(inputText);
         return solve(sparseHash(inputLengths));
     }
