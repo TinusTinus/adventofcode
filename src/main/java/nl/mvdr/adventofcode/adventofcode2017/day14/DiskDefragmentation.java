@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2017.day14;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,12 +35,14 @@ abstract class DiskDefragmentation implements PathSolver<Integer> {
         KnotHasher hasher = new KnotHashPart2();
         
         List<String> binaryStrings = IntStream.range(0, 128)
+                .parallel()
                 .mapToObj(i -> input + "-" + i)
                 .map(hasher::knotHash)
                 .map(this::toBinary)
                 .collect(Collectors.toList());
         
         Set<Point> squares = IntStream.range(0, binaryStrings.size())
+                .parallel()
                 .boxed()
                 .flatMap(i -> {
                     String binaryString = binaryStrings.get(i.intValue());
