@@ -27,6 +27,6 @@ public class PacketScannersPart2Test extends SolverTest<PacketScannersPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day13-2017.txt");
+        assertSolution("3897604", "input-day13-2017.txt");
     }
 }

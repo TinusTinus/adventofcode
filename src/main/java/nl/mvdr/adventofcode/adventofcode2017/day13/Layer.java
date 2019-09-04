@@ -58,36 +58,6 @@ class Layer {
     }
     
     /**
-     * Computes the severity if the packet were to depart right now.
-     * 
-     * @param initialLayers layers (including their current scanner positions and directions)
-     * @return severity
-     */
-    static int computeSeverity(Set<Layer> initialLayers) {
-        Set<Layer> layers = initialLayers;
-        int maxLayer = layers.stream()
-                .mapToInt(Layer::getDepth)
-                .max()
-                .getAsInt();
-        
-        int severity = 0;
-        for (int packetLayer = 0; packetLayer <= maxLayer; packetLayer++) {
-            int currentPacketLayer = packetLayer;
-            severity = severity + layers.stream()
-                    .filter(layer -> layer.getDepth() == currentPacketLayer)
-                    .filter(layer -> layer.getScannerPosition() == 0)
-                    .mapToInt(Layer::severity)
-                    .sum();
-            
-            layers = layers.stream()
-                    .map(Layer::tick)
-                    .collect(Collectors.toSet());
-        }
-        
-        return severity;
-    }
-    
-    /**
      * Constructor.
      * 
      * @param depth depth of this layer within the firewall
