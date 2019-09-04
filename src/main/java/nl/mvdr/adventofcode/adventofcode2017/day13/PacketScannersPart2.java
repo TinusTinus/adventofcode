@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2017.day13;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,20 +16,28 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class PacketScannersPart1 implements PathSolver<Integer> {
+public class PacketScannersPart2 implements PathSolver<Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PacketScannersPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PacketScannersPart2.class);
     
     /**
      * {@inheritDoc}
      * 
-     * @return severity of the whole trip
+     * @return fewest number of picoseconds that we need to delay the packet to pass through the firewall without being caught
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
         Set<Layer> layers = Layer.parse(inputFilePath);
-        int severity = Layer.computeSeverity(layers);
-        return Integer.valueOf(severity);
+        
+        int delay = 0;
+        while (Layer.computeSeverity(layers) != 0) {
+            layers = layers.stream()
+                    .map(Layer::tick)
+                    .collect(Collectors.toSet());
+            delay++;
+        }
+        
+        return Integer.valueOf(delay);
     }
 
     /**
@@ -37,7 +46,7 @@ public class PacketScannersPart1 implements PathSolver<Integer> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        PacketScannersPart1 instance = new PacketScannersPart1();
+        PacketScannersPart2 instance = new PacketScannersPart2();
 
         String result = instance.solve("input-day13-2017.txt");
 
