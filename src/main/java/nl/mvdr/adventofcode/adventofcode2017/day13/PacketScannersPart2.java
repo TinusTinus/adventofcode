@@ -31,15 +31,13 @@ public class PacketScannersPart2 implements PathSolver<Integer> {
         
         int delay = 0;
         while (isCaught(layers)) {
-            layers = layers.stream()
-                    .map(Layer::tick)
-                    .collect(Collectors.toSet());
+            layers = tick(layers);
             delay++;
         }
         
         return Integer.valueOf(delay);
     }
-    
+
     /**
      * Determines whether we would be caught, if the packet were to depart right now.
      * 
@@ -66,9 +64,7 @@ public class PacketScannersPart2 implements PathSolver<Integer> {
                     .findAny()
                     .isPresent();
             
-            layers = layers.stream()
-                    .map(Layer::tick)
-                    .collect(Collectors.toSet());
+            layers = tick(layers);
             
             packetLayer++;
         }
@@ -76,6 +72,11 @@ public class PacketScannersPart2 implements PathSolver<Integer> {
         return caught;
     }
 
+    private static Set<Layer> tick(Set<Layer> layers) {
+        return layers.stream()
+                .map(Layer::tick)
+                .collect(Collectors.toSet());
+    }
 
     /**
      * Main method.
