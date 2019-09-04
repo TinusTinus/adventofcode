@@ -1,18 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day14;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
-import nl.mvdr.adventofcode.adventofcode2017.day10.KnotHashPart2;
-import nl.mvdr.adventofcode.adventofcode2017.knothash.KnotHasher;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Solution to the day 12 puzzle of 2017's Advent of Code:
@@ -20,58 +13,18 @@ import nl.mvdr.adventofcode.adventofcode2017.knothash.KnotHasher;
  *
  * @author Martijn van de Rijdt
  */
-public class DiskDefragmentationPart1 implements PathSolver<Long> {
+public class DiskDefragmentationPart1 extends DiskDefragmentation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiskDefragmentationPart1.class);
     
     /**
      * {@inheritDoc}
      * 
-     * @return squares
+     * @return number of squares
      */
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        String input = Files.lines(inputFilePath).findFirst().get();
-        LOGGER.debug("Puzzle input: {}", input);
-        
-        KnotHasher hasher = new KnotHashPart2();
-        
-        long result = IntStream.range(0, 128)
-                .mapToObj(i -> input + "-" + i)
-                .map(hasher::knotHash)
-                .map(this::toBinary)
-                .mapToLong(this::countOnes)
-                .sum();
-                
-        return Long.valueOf(result);
-    }
-    
-    /**
-     * Converts the given hexadecimal string to binary.
-     *  
-     * @param hexString string containing characters representing hexadecimal numbers,
-     *          for example: "a0c2017"
-     * @return string where every hexadecimal number has been replaced by a 4-digit binary number,
-     *          for example: "10100000110000100000000101110000"
-     */
-    private String toBinary(String hexString) {
-        return hexString.chars()
-            .map(c -> Integer.parseInt("" + (char)c, 16))
-            .mapToObj(Integer::toBinaryString)
-            .map(binaryString -> StringUtils.leftPad(binaryString, 4, '0'))
-            .collect(Collectors.joining());
-    }
-    
-    /**
-     * Counts the number of occurrences of '1' in the given string.
-     * 
-     * @param string string
-     * @return number of ones
-     */
-    private long countOnes(String string) {
-        return string.chars()
-                .filter(i -> ((char) i) == '1')
-                .count();
+    protected Integer solve(Set<Point> squares) {
+        return Integer.valueOf(squares.size());
     }
     
     /**
