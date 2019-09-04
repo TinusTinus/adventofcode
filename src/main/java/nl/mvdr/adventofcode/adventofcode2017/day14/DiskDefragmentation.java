@@ -42,15 +42,13 @@ abstract class DiskDefragmentation implements PathSolver<Integer> {
                 .collect(Collectors.toList());
         
         Set<Point> squares = new HashSet<>();
-        for (int i = 0; i != binaryStrings.size(); i++) {
+        IntStream.range(0, binaryStrings.size()).forEach(i -> {
             String binaryString = binaryStrings.get(i);
-            
-            for (int j = 0; j != binaryString.length(); j++) {
-                if (binaryString.charAt(j) == '1') {
-                    squares.add(new Point(i, j));
-                }
-            }
-        }
+            IntStream.range(0, binaryString.length())
+                .filter(j -> binaryString.charAt(j) == '1')
+                .mapToObj(j -> new Point(i, j))
+                .forEach(squares::add);
+        });
         
         return solve(squares);
     }
