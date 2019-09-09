@@ -25,6 +25,6 @@ public class DuelingGeneratorsPart1Test extends SolverTest<DuelingGeneratorsPart
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day15-2017.txt");
+        assertSolution("597", "input-day15-2017.txt");
     }
 }

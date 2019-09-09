@@ -21,8 +21,8 @@ import nl.mvdr.adventofcode.PathSolver;
  */
 public class DuelingGeneratorsPart1 implements PathSolver<Long> {
 
-    private static final int FACTOR_A = 16_807;
-    private static final int FACTOR_B = 48_271;
+    private static final long FACTOR_A = 16_807L;
+    private static final long FACTOR_B = 48_271L;
     
     private static final int SAMPLE_SIZE = 40_000_000;
     
@@ -35,27 +35,22 @@ public class DuelingGeneratorsPart1 implements PathSolver<Long> {
      */
     @Override
     public Long solve(Path inputFilePath) throws IOException {
-        List<Integer> startValues = Files.lines(inputFilePath)
+        List<Long> startValues = Files.lines(inputFilePath)
             .filter(Objects::nonNull)
             .filter(line -> !line.isBlank())
             // Drop the prefix
             .map(line -> line.substring("Generator X starts with ".length()))
-            .map(Integer::valueOf)
+            .map(Long::valueOf)
             .collect(Collectors.toList());
-        int startValueA = startValues.get(0).intValue();
-        int startValueB = startValues.get(1).intValue();
+        long startValueA = startValues.get(0).longValue();
+        long startValueB = startValues.get(1).longValue();
         
         Generator generatorA = new Generator(FACTOR_A, startValueA);
         Generator generatorB = new Generator(FACTOR_B, startValueB);
         
         long result = IntStream.range(0, SAMPLE_SIZE).filter(i -> {
-            int a = generatorA.nextValue();
-            int b = generatorB.nextValue();
-            
-            // TODO clean up logging
-            if (i < 6) {
-                LOGGER.info("a: {}, b: {}", a, b);
-            }
+            long a = generatorA.nextValue();
+            long b = generatorB.nextValue();
             
             short lowest16BitsA = (short)a;
             short lowest16BitsB = (short)b;

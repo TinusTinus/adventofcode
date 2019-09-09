@@ -7,12 +7,12 @@ package nl.mvdr.adventofcode.adventofcode2017.day15;
  */
 class Generator {
     
-    private static final int DIVISOR = 2_147_483_647;
+    private static final long DIVISOR = 2_147_483_647L;
     
     /** This generator's factor. */
-    private final int factor;
+    private final long factor;
     /** Previously generated value (initially: the start value). */
-    private int previousValue;
+    private long previousValue;
     
     /**
      * Constructor.
@@ -20,7 +20,7 @@ class Generator {
      * @param factor this generator's factor
      * @param startValue starting value for this generator (from the puzzle input)
      */
-    Generator(int factor, int startValue) {
+    Generator(long factor, long startValue) {
         super();
         this.factor = factor;
         this.previousValue = startValue;
@@ -33,8 +33,8 @@ class Generator {
      * 
      * @return next value
      */
-    int nextValue() {
-        int result = previousValue * factor % DIVISOR;
+    long nextValue() {
+        long result = previousValue * factor % DIVISOR;
         
         previousValue = result;
         
