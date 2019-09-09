@@ -7,6 +7,12 @@ package nl.mvdr.adventofcode.adventofcode2017.day15;
  */
 class Generator {
     
+    private static final long FACTOR_A = 16_807L;
+    private static final long FACTOR_B = 48_271L;
+    
+    private static final long CRITERIUM_A = 4L;
+    private static final long CRITERIUM_B = 8L;
+    
     private static final long DIVISOR = 2_147_483_647L;
     
     /** This generator's factor. */
@@ -17,12 +23,46 @@ class Generator {
     private long previousValue;
 
     /**
+     * Creates Generator A.
+     * 
+     * @param startValue start value
+     * @param picky whether the generator is picky
+     * @return Generator A
+     */
+    static Generator createGeneratorA(long startValue, boolean picky) {
+        Generator result;
+        if (picky) {
+            result = new Generator(FACTOR_A, CRITERIUM_A, startValue);
+        } else {
+            result = new Generator(FACTOR_A, startValue);
+        }
+        return result;
+    }
+    
+    /**
+     * Creates Generator B.
+     * 
+     * @param startValue start value
+     * @param picky whether the generator is picky
+     * @return Generator B
+     */
+    static Generator createGeneratorB(long startValue, boolean picky) {
+        Generator result;
+        if (picky) {
+            result = new Generator(FACTOR_B, CRITERIUM_B, startValue);
+        } else {
+            result = new Generator(FACTOR_B, startValue);
+        }
+        return result;
+    }
+    
+    /**
      * Constructor for a generator without additional criteria.
      * 
      * @param factor this generator's factor
      * @param startValue starting value for this generator (from the puzzle input)
      */
-    Generator(long factor, long startValue) {
+    private Generator(long factor, long startValue) {
         this(factor, 1L, startValue);
     }
     
@@ -33,7 +73,7 @@ class Generator {
      * @param criterium this generator will only return values that are divisible by this number
      * @param startValue starting value for this generator (from the puzzle input)
      */
-    Generator(long factor, long criterium, long startValue) {
+    private Generator(long factor, long criterium, long startValue) {
         super();
         this.factor = factor;
         this.criterium = criterium;

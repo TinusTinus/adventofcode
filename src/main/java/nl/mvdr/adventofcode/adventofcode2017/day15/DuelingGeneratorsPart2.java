@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class DuelingGeneratorsPart1 extends DuelingGenerators {
+public class DuelingGeneratorsPart2 extends DuelingGenerators {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DuelingGeneratorsPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DuelingGeneratorsPart2.class);
 
     /** Constructor. */
-    public DuelingGeneratorsPart1() {
-        super(false);
+    public DuelingGeneratorsPart2() {
+        super(true);
     }
     
     /**
@@ -24,7 +24,7 @@ public class DuelingGeneratorsPart1 extends DuelingGenerators {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        DuelingGeneratorsPart1 instance = new DuelingGeneratorsPart1();
+        DuelingGeneratorsPart2 instance = new DuelingGeneratorsPart2();
 
         String result = instance.solve("input-day15-2017.txt");
 
