@@ -90,7 +90,7 @@ class Generator {
     long nextValue() {
         long result = previousValue * factor % DIVISOR;
         while (result % criterium != 0) {
-            result = previousValue * factor % DIVISOR;
+            result = result * factor % DIVISOR;
         }
         
         previousValue = result;

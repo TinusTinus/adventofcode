@@ -8,9 +8,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
