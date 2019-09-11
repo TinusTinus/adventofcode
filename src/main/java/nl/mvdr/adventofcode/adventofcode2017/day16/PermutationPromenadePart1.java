@@ -15,7 +15,7 @@ public class PermutationPromenadePart1 extends PermutationPromenade {
     
     /** Constructor. */
     public PermutationPromenadePart1() {
-        this(16);
+        super(1);
     }
     
     /**

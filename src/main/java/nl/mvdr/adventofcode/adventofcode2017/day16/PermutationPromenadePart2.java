@@ -17,7 +17,7 @@ public class PermutationPromenadePart2 extends PermutationPromenade {
     public PermutationPromenadePart2() {
         // The resulting dances loop.
         // The result at 1_000_000_000 is the same as the one at 10, 40, 70, 100 etc. (at least for my input).
-        super(10, 16);
+        super(10);
     }
 
     /**
