@@ -15,9 +15,9 @@ public class PermutationPromenadePart2 extends PermutationPromenade {
 
     /** Constructor. */
     public PermutationPromenadePart2() {
-        // The result loops every 3_000 (or possibly fewer) iterations.
-        // The result at 1_000_000_000 is the same as the one at 1_000 (at least for my input).
-        super(1_000, 16);
+        // The resulting dances loop.
+        // The result at 1_000_000_000 is the same as the one at 10, 40, 70, 100 etc. (at least for my input).
+        super(10, 16);
     }
 
     /**

@@ -61,8 +61,8 @@ abstract class PermutationPromenade implements PathSolver<String> {
                 .mapToObj(c -> new Program((char) c)).collect(Collectors.toList());
 
         for (int i = 0; i != iterations; i++) { 
-            if (LOGGER.isDebugEnabled() && i % 100 == 0) {
-                LOGGER.debug("{} dances completed: {}", toString(dancers));
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("{} dances completed: {}", Integer.valueOf(i), toString(dancers));
             }
             
             for (DanceMove move : moves) {
