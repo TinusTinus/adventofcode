@@ -11,18 +11,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class SpinlockPart1 extends Spinlock {
+public class SpinlockPart2 extends Spinlock {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpinlockPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpinlockPart2.class);
     
     /** Constructor. */
-    public SpinlockPart1() {
-        super(2017);
+    public SpinlockPart2() {
+        super(50_000_000);
     }
     
     @Override
     Integer solve(List<Integer> buffer, int finalPosition) {
-        return buffer.get(finalPosition + 1);
+        int index = buffer.indexOf(Integer.valueOf(0));
+        return buffer.get(index + 1);
     }
     
     /**
@@ -31,7 +32,7 @@ public class SpinlockPart1 extends Spinlock {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SpinlockPart1 instance = new SpinlockPart1();
+        SpinlockPart2 instance = new SpinlockPart2();
 
         String result = instance.solve("input-day17-2017.txt");
 
