@@ -22,8 +22,9 @@ public class SpinlockPart2 extends Spinlock {
     
     @Override
     Integer solve(List<Integer> buffer, int finalPosition) {
-        int index = buffer.indexOf(Integer.valueOf(0));
-        return buffer.get(index + 1);
+        int index0 = buffer.indexOf(Integer.valueOf(0));
+        int index = (index0 + 1) % buffer.size();
+        return buffer.get(index); // 317872 is too low
     }
     
     /**
