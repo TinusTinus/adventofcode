@@ -71,8 +71,8 @@ abstract class Spinlock implements PathSolver<Integer> {
                     .collect(Collectors.joining(" ")));
         }
         
-        if (buffer.size() % 10_000 == 0) {
-            LOGGER.debug("Buffer size: " + Integer.valueOf(buffer.size())); // TODO debug
+        if (LOGGER.isDebugEnabled() && buffer.size() % 10_000 == 0) {
+            LOGGER.debug("Buffer size: " + Integer.valueOf(buffer.size()));
         }
     }
     
