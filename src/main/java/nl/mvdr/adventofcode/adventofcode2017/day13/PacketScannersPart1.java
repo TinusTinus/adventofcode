@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to the day 12 puzzle of 2017's Advent of Code:
+ * Solution to the day 13 puzzle of 2017's Advent of Code:
  * <a href="https://adventofcode.com/2017/day/13">Packet Scanners</a>.
  *
  * @author Martijn van de Rijdt
