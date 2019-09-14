@@ -42,26 +42,29 @@ abstract class Spinlock implements PathSolver<Integer> {
                 .findFirst()
                 .getAsInt();
         
-        List<Integer> buffer = new LinkedList<>();
+        LinkedList<Integer> buffer = new LinkedList<>();
         buffer.add(Integer.valueOf(0));
-        int currentPosition = 0;
+
+        // Current position is always at index 0.
         
         for (int i = 1; i != insertions + 1; i++) {
-            currentPosition = (currentPosition + stepSize + 1) % buffer.size();
-            buffer.add(currentPosition, Integer.valueOf(i));
+            IntStream.range(0, stepSize + 1)
+                    .forEach(j -> buffer.offerLast(buffer.pollFirst()));
             
-            log(buffer, currentPosition);
+            buffer.offerFirst(Integer.valueOf(i));
+            
+            log(buffer);
         }
         
-        return solve(buffer, currentPosition);
+        return solve(buffer);
     }
     
-    private void log(List<Integer> buffer, int currentPosition) {
+    private void log(List<Integer> buffer) {
         if (LOGGER.isTraceEnabled()) {
             LOGGER.trace(IntStream.range(0, buffer.size())
                     .mapToObj(j -> {
                         String result;
-                        if (j == currentPosition) {
+                        if (j == 0) {
                             result = "(" + buffer.get(j) + ")";
                         } else {
                             result = buffer.get(j).toString();
@@ -73,16 +76,15 @@ abstract class Spinlock implements PathSolver<Integer> {
         
         if (LOGGER.isDebugEnabled() && buffer.size() % 10_000 == 0) {
             LOGGER.debug("Buffer size: " + Integer.valueOf(buffer.size()));
-            LOGGER.debug("If this had been the final insertion, the solution would be: " + solve(buffer, currentPosition));
+            LOGGER.debug("If this had been the final insertion, the solution would be: " + solve(buffer));
         }
     }
     
     /**
      * Solver method.
      * 
-     * @param buffer buffer after performing every insertion
-     * @param finalPosition position of the finally inserted number
+     * @param buffer buffer after performing every insertion; 0 is the current position
      * @return solution to the puzzle
      */
-    abstract Integer solve(List<Integer> buffer, int finalPosition);
+    abstract Integer solve(List<Integer> buffer);
 }

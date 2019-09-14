@@ -21,8 +21,8 @@ public class SpinlockPart1 extends Spinlock {
     }
     
     @Override
-    Integer solve(List<Integer> buffer, int finalPosition) {
-        return buffer.get(finalPosition + 1);
+    Integer solve(List<Integer> buffer) {
+        return buffer.get(1);
     }
     
     /**
