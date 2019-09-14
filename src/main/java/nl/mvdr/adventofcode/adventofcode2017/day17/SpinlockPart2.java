@@ -1,9 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2017.day17;
 
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import nl.mvdr.adventofcode.PathSolver;
 
 /**
  * Solution to the day 17 puzzle of 2017's Advent of Code:
@@ -11,20 +15,29 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class SpinlockPart2 extends Spinlock {
+public class SpinlockPart2 implements PathSolver<Integer> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpinlockPart2.class);
     
-    /** Constructor. */
-    public SpinlockPart2() {
-        super(50_000_000);
-    }
-    
     @Override
-    Integer solve(List<Integer> buffer) {
-        int index0 = buffer.indexOf(Integer.valueOf(0));
-        int index = (index0 + 1) % buffer.size();
-        return buffer.get(index); // 2518590 is too low
+    public Integer solve(Path inputFilePath) throws IOException {
+        int stepSize = Files.lines(inputFilePath)
+                .mapToInt(Integer::parseInt)
+                .findFirst()
+                .getAsInt();
+
+        int result = -1;
+        
+        int currentPosition = 0;
+        
+        for (int i = 1; i <= 50_000_000; i++) {
+            currentPosition = (currentPosition + stepSize) % i + 1;
+            if (currentPosition == 1) {
+                result = i;
+            }
+        }
+        
+        return Integer.valueOf(result);
     }
     
     /**
