@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2017.day17;
 
-import java.util.List;
+import java.util.LinkedList;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +16,20 @@ public class SpinlockPart1 extends Spinlock {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpinlockPart1.class);
     
-    /** Constructor. */
-    public SpinlockPart1() {
-        super(2017);
-    }
-    
     @Override
-    Integer solve(List<Integer> buffer) {
+    Integer solve(int stepSize) {
+        LinkedList<Integer> buffer = new LinkedList<>();
+        buffer.add(Integer.valueOf(0));
+
+        // Current position is always at index 0.
+        
+        for (int i = 1; i <= 2017; i++) {
+            IntStream.range(0, stepSize + 1)
+                    .forEach(j -> buffer.offerLast(buffer.pollFirst()));
+            
+            buffer.offerFirst(Integer.valueOf(i));
+        }
+        
         return buffer.get(1);
     }
     

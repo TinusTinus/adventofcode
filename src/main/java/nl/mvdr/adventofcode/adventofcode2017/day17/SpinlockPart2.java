@@ -1,13 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2017.day17;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.mvdr.adventofcode.PathSolver;
 
 /**
  * Solution to the day 17 puzzle of 2017's Advent of Code:
@@ -15,21 +9,16 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SpinlockPart2 implements PathSolver<Integer> {
+public class SpinlockPart2 extends Spinlock {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpinlockPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        int stepSize = Files.lines(inputFilePath)
-                .mapToInt(Integer::parseInt)
-                .findFirst()
-                .getAsInt();
-
+    Integer solve(int stepSize) {
+        // Value 0 is always at position 0.
+        // There is no need to compute the entire buffer; all we need to keep track of is the value at position 1.
         int result = -1;
-        
         int currentPosition = 0;
-        
         for (int i = 1; i <= 50_000_000; i++) {
             currentPosition = (currentPosition + stepSize) % i + 1;
             if (currentPosition == 1) {
