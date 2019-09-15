@@ -16,13 +16,13 @@ class SetInstruction extends UpdateRegisterInstruction {
      * @param register name of the register
      * @param value value
      */
-    SetInstruction(String register, int value) {
+    SetInstruction(String register, String value) {
         super(register, value);
     }
     
     @Override
-    int computeNewValue(int oldValue) {
-        return getValue();
+    int computeNewValue(int oldValue, State state) {
+        return getValue(state);
     }
     
     @Override

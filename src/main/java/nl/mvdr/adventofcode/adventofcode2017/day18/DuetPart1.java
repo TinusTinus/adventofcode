@@ -31,8 +31,10 @@ public class DuetPart1 implements PathSolver<Integer> {
         
         while (state.getRecoveredFrequency().isEmpty()) {
             Instruction instruction = instructions.get(state.getInstructionPointer());
+            LOGGER.debug("{} - {}", state, instruction);
             state = instruction.execute(state);
         }
+        LOGGER.debug("End state: {}", state);
         
         return Integer.valueOf(state.getRecoveredFrequency().getAsInt());
     }

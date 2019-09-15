@@ -17,13 +17,13 @@ class MultiplyInstruction extends UpdateRegisterInstruction {
      * @param register name of the register
      * @param value value
      */
-    MultiplyInstruction(String register, int value) {
+    MultiplyInstruction(String register, String value) {
         super(register, value);
     }
     
     @Override
-    int computeNewValue(int oldValue) {
-        return oldValue * getValue();
+    int computeNewValue(int oldValue, State state) {
+        return oldValue * getValue(state);
     }
     
     @Override

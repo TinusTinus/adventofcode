@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 /**
@@ -41,38 +40,23 @@ interface Instruction {
     private static Instruction parseInstruction(String text) {
         String[] parts = text.split(" ");
         
-        String keyword = parts[0];
-        
-        String register = parts[1];
-        
-        OptionalInt value;
-        if (1 < parts.length) {
-            value = OptionalInt.of(Integer.parseInt(parts[2]));
-        } else {
-            value = OptionalInt.empty();
-        }
-        
-        return createInstruction(keyword, register, value);
-    }
-
-    private static Instruction createInstruction(String keyword, String register, OptionalInt value) {
         Instruction result;
-        if (SoundInstruction.NAME.equals(keyword)) {
-            result = new SoundInstruction(register);
-        } else if (SetInstruction.NAME.equals(keyword)) {
-            result = new SetInstruction(register, value.getAsInt());
-        } else if (AddInstruction.NAME.equals(keyword)) {
-            result = new AddInstruction(register, value.getAsInt());
-        } else if (MultiplyInstruction.NAME.equals(keyword)) {
-            result = new MultiplyInstruction(register, value.getAsInt());
-        } else if (ModuloInstruction.NAME.equals(keyword)) {
-            result = new ModuloInstruction(register, value.getAsInt());
-        } else if (RecoverInstruction.NAME.equals(keyword)) {
-            result = new RecoverInstruction(register);
-        } else if (JumpInstruction.NAME.equals(keyword)) {
-            result = new JumpInstruction(register, value.getAsInt());
+        if (SoundInstruction.NAME.equals(parts[0])) {
+            result = new SoundInstruction(parts[1]);
+        } else if (SetInstruction.NAME.equals(parts[0])) {
+            result = new SetInstruction(parts[1], parts[2]);
+        } else if (AddInstruction.NAME.equals(parts[0])) {
+            result = new AddInstruction(parts[1], parts[2]);
+        } else if (MultiplyInstruction.NAME.equals(parts[0])) {
+            result = new MultiplyInstruction(parts[1], parts[2]);
+        } else if (ModuloInstruction.NAME.equals(parts[0])) {
+            result = new ModuloInstruction(parts[1], parts[2]);
+        } else if (RecoverInstruction.NAME.equals(parts[0])) {
+            result = new RecoverInstruction(parts[1]);
+        } else if (JumpInstruction.NAME.equals(parts[0])) {
+            result = new JumpInstruction(parts[1], parts[2]);
         } else {
-            throw new IllegalArgumentException("Unknown keyword: " + keyword);
+            throw new IllegalArgumentException("Unknown parts[0]: " + parts[0]);
         }
         return result;
     }

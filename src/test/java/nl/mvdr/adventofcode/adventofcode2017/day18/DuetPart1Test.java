@@ -25,6 +25,6 @@ public class DuetPart1Test extends SolverTest<DuetPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day18-2017.txt");
+        assertSolution("?", "input-day18-2017.txt"); // -3989 is incorrect
     }
 }

@@ -5,28 +5,22 @@ package nl.mvdr.adventofcode.adventofcode2017.day18;
  *
  * @author Martijn van de Rijdt
  */
-abstract class UpdateRegisterInstruction implements Instruction {
-
-    private final String register;
-    private final int value;
-    
+abstract class UpdateRegisterInstruction extends ValueParameterInstruction {
     /**
      * Constructor.
      * 
      * @param register name of the register
      * @param value value
      */
-    UpdateRegisterInstruction(String register, int value) {
-        super();
-        this.register = register;
-        this.value = value;
+    UpdateRegisterInstruction(String register, String value) {
+        super(register, value);
     }
     
     @Override
     public State execute(State startState) {
-        int oldValue = startState.getRegisterValue(register);
+        int oldValue = startState.getRegisterValue(getRegister());
         
-        State result = startState.updateRegister(register, computeNewValue(oldValue));
+        State result = startState.updateRegister(getRegister(), computeNewValue(oldValue, startState));
         result = result.updateInstructionPointer(result.getInstructionPointer() + 1);
         return result;
     }
@@ -35,19 +29,8 @@ abstract class UpdateRegisterInstruction implements Instruction {
      * Computes the new value for the register.
      * 
      * @param oldValue old value of the register
+     * @param state start state
      * @return new value
      */
-    abstract int computeNewValue(int oldValue);
-
-    int getValue() {
-        return value;
-    }
-    
-    /** @return keyword for the specific instruction */
-    abstract String getName();
-    
-    @Override
-    public String toString() {
-        return getName() + " " + register + " " + value;
-    }
+    abstract int computeNewValue(int oldValue, State state);
 }
