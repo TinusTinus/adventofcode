@@ -49,6 +49,10 @@ class State {
      * @return register value
      */
     int getRegisterValue(String register) {
+        if (register.length() != 1 || !Character.isLetter(register.charAt(0))) {
+            throw new IllegalArgumentException(register);
+        }
+        
         return registers.getOrDefault(register, Integer.valueOf(0)).intValue();
     }
     
