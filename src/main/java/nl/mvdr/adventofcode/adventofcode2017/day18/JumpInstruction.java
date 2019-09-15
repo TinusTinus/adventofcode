@@ -7,35 +7,50 @@ package nl.mvdr.adventofcode.adventofcode2017.day18;
  *
  * @author Martijn van de Rijdt
  */
-class JumpInstruction extends ValueParameterInstruction {
+class JumpInstruction implements Instruction {
 
     /** Keyword for this instruction. */
     static final String NAME = "jgz";
     
+    private final String firstValue;
+    private final String secondValue;
+    
     /**
      * Constructor.
      * 
-     * @param register name of the register
-     * @param value value
+     * @param firstValue first value, which determines whether or not to jump; can be a register name or numeric
+     * @param secondValue second value, which determines the jump offset; can be a register name or numeric
      */
-    JumpInstruction(String register, String value) {
-        super(register, value);
+    JumpInstruction(String firstValue, String secondValue) {
+        super();
+        this.firstValue = firstValue;
+        this.secondValue = secondValue;
     }
     
     @Override
     public State execute(State startState) {
         int offset;
-        if (startState.getRegisterValue(getRegister()) <= 0) {
+        if (getValue(firstValue, startState) <= 0) {
             offset = 1;
         } else {
-            offset = getValue(startState);
+            offset = getValue(secondValue, startState);
         }
         int newInstructionPointer = startState.getInstructionPointer() + offset;
         return startState.updateInstructionPointer(newInstructionPointer);
     }
+
+    private int getValue(String value, State state) {
+        int result;
+        try {
+            result = Integer.parseInt(value);
+        } catch (@SuppressWarnings("unused") NumberFormatException e) {
+            result = state.getRegisterValue(value);
+        }
+        return result;
+    }
     
     @Override
-    String getName() {
-        return NAME;
+    public String toString() {
+        return NAME + " " + firstValue + " " + secondValue;
     }
 }

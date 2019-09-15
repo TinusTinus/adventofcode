@@ -32,7 +32,7 @@ abstract class ValueParameterInstruction implements Instruction {
         int result;
         try {
             result = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
+        } catch (@SuppressWarnings("unused") NumberFormatException e) {
             result = state.getRegisterValue(value);
         }
         return result;
