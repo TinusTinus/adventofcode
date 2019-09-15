@@ -24,7 +24,7 @@ class SoundInstruction implements Instruction {
     
     @Override
     public State execute(State startState) {
-        int frequency = startState.getRegisterValue(register);
+        long frequency = startState.getRegisterValue(register);
         
         State result = startState.play(frequency);
         result = result.updateInstructionPointer(result.getInstructionPointer() + 1);

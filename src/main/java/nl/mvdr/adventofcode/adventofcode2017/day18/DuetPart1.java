@@ -15,7 +15,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class DuetPart1 implements PathSolver<Integer> {
+public class DuetPart1 implements PathSolver<Long> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DuetPart1.class);
     
@@ -25,7 +25,7 @@ public class DuetPart1 implements PathSolver<Integer> {
      * @return recovered frequency
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
+    public Long solve(Path inputFilePath) throws IOException {
         List<Instruction> instructions = Instruction.parseInstructions(inputFilePath);
         State state = new State();
         
@@ -36,7 +36,7 @@ public class DuetPart1 implements PathSolver<Integer> {
         }
         LOGGER.debug("End state: {}", state);
         
-        return Integer.valueOf(state.getRecoveredFrequency().getAsInt());
+        return Long.valueOf(state.getRecoveredFrequency().getAsLong());
     }
     
     /**

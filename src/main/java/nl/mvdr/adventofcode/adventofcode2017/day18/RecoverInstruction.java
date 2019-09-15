@@ -26,7 +26,7 @@ class RecoverInstruction implements Instruction {
     
     @Override
     public State execute(State startState) {
-        int value = startState.getRegisterValue(register);
+        long value = startState.getRegisterValue(register);
         
         State result = startState;
         if (value != 0) {

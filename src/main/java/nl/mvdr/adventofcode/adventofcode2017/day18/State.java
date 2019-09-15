@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2017.day18;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 /**
  * State during a program's execution.
@@ -11,10 +11,10 @@ import java.util.OptionalInt;
  */
 class State {
     
-    private final Map<String, Integer> registers;
+    private final Map<String, Long> registers;
     
-    private final OptionalInt lastPlayedFrequency;
-    private final OptionalInt recoveredFrequency;
+    private final OptionalLong lastPlayedFrequency;
+    private final OptionalLong recoveredFrequency;
     
     private final int instructionPointer;
     
@@ -22,8 +22,8 @@ class State {
     State() {
         super();
         this.registers = Map.of();
-        this.lastPlayedFrequency = OptionalInt.empty();
-        this.recoveredFrequency = OptionalInt.empty();
+        this.lastPlayedFrequency = OptionalLong.empty();
+        this.recoveredFrequency = OptionalLong.empty();
         this.instructionPointer = 0;
     }
 
@@ -34,7 +34,7 @@ class State {
      * @param lastPlayedFrequency frequency of the last sound played on the sound card
      * @param instructionPointer inscruction pointer
      */
-    private State(Map<String, Integer> registers, OptionalInt lastPlayedFrequency, OptionalInt recoveredFrequency, int instructionPointer) {
+    private State(Map<String, Long> registers, OptionalLong lastPlayedFrequency, OptionalLong recoveredFrequency, int instructionPointer) {
         super();
         this.registers = registers;
         this.lastPlayedFrequency = lastPlayedFrequency;
@@ -48,15 +48,15 @@ class State {
      * @param register name of the register to inspect
      * @return register value
      */
-    int getRegisterValue(String register) {
+    long getRegisterValue(String register) {
         if (register.length() != 1 || !Character.isLetter(register.charAt(0))) {
             throw new IllegalArgumentException(register);
         }
         
-        return registers.getOrDefault(register, Integer.valueOf(0)).intValue();
+        return registers.getOrDefault(register, Long.valueOf(0L)).intValue();
     }
     
-    OptionalInt getRecoveredFrequency() {
+    OptionalLong getRecoveredFrequency() {
         return recoveredFrequency;
     }
     
@@ -64,15 +64,15 @@ class State {
         return instructionPointer;
     }
     
-    State updateRegister(String registerName, int value) {
-        Map<String, Integer> newRegisters = new HashMap<>(registers);
-        newRegisters.put(registerName, Integer.valueOf(value));
+    State updateRegister(String registerName, long value) {
+        Map<String, Long> newRegisters = new HashMap<>(registers);
+        newRegisters.put(registerName, Long.valueOf(value));
         
         return new State(newRegisters, lastPlayedFrequency, recoveredFrequency, instructionPointer);
     }
     
-    State play(int frequency) {
-        return new State(registers, OptionalInt.of(frequency), recoveredFrequency, instructionPointer);
+    State play(long frequency) {
+        return new State(registers, OptionalLong.of(frequency), recoveredFrequency, instructionPointer);
     }
     
     State updateInstructionPointer(int value) {

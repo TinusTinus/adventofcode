@@ -23,7 +23,7 @@ abstract class UpdateRegisterInstruction implements Instruction {
     
     @Override
     public State execute(State startState) {
-        int oldValue = startState.getRegisterValue(register);
+        long oldValue = startState.getRegisterValue(register);
         
         State result = startState.updateRegister(register, computeNewValue(oldValue, startState));
         result = result.updateInstructionPointer(result.getInstructionPointer() + 1);
@@ -36,8 +36,8 @@ abstract class UpdateRegisterInstruction implements Instruction {
      * @param state current state
      * @return value
      */
-    int getValue(State state) {
-        int result;
+    long getValue(State state) {
+        long result;
         try {
             result = Integer.parseInt(value);
         } catch (@SuppressWarnings("unused") NumberFormatException e) {
@@ -53,7 +53,7 @@ abstract class UpdateRegisterInstruction implements Instruction {
      * @param state start state
      * @return new value
      */
-    abstract int computeNewValue(int oldValue, State state);
+    abstract long computeNewValue(long oldValue, State state);
     
     /** @return keyword for the specific instruction */
     abstract String getName();

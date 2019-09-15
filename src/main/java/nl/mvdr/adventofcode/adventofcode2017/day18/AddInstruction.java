@@ -21,7 +21,7 @@ class AddInstruction extends UpdateRegisterInstruction {
     }
     
     @Override
-    int computeNewValue(int oldValue, State state) {
+    long computeNewValue(long oldValue, State state) {
         return oldValue + getValue(state);
     }
     
