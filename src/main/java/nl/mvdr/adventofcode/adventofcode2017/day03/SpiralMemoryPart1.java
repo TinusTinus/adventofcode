@@ -44,11 +44,11 @@ public class SpiralMemoryPart1 implements PathSolver<Integer> {
         Direction direction = Direction.DOWN;
         
         for (int i = 1; i != square; i++) {
-            Point nextPoint = direction.turnCouterClockwise().move(point);
+            Point nextPoint = direction.turnCounterClockwise().move(point);
             if (points.contains(nextPoint)) {
                 nextPoint = direction.move(point);
             } else {
-                direction = direction.turnCouterClockwise();
+                direction = direction.turnCounterClockwise();
             }
             points.add(nextPoint);
             point = nextPoint;

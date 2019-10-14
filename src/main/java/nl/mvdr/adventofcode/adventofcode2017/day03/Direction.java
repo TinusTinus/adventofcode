@@ -40,7 +40,7 @@ enum Direction {
      * 
      * @return direction
      */
-    Direction turnCouterClockwise() {
+    Direction turnCounterClockwise() {
         Direction result;
         if (this == RIGHT) {
             result = UP;
