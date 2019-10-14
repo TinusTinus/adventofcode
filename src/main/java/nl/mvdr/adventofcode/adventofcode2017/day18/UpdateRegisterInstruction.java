@@ -37,13 +37,7 @@ abstract class UpdateRegisterInstruction implements Instruction {
      * @return value
      */
     long getValue(State state) {
-        long result;
-        try {
-            result = Integer.parseInt(value);
-        } catch (@SuppressWarnings("unused") NumberFormatException e) {
-            result = state.getRegisterValue(value);
-        }
-        return result;
+        return Instruction.getValue(value, state);
     }
     
     /**

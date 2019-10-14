@@ -25,24 +25,8 @@ class SendInstruction implements Instruction {
     
     @Override
     public State execute(State startState) {
-        State result = startState.send(getValue(startState));
+        State result = startState.send(Instruction.getValue(value, startState));
         result = result.updateInstructionPointer(result.getInstructionPointer() + 1);
-        return result;
-    }
-    
-    /**
-     * Gets the value to send.
-     * 
-     * @param state current state
-     * @return value
-     */
-    long getValue(State state) {
-        long result;
-        try {
-            result = Integer.parseInt(value);
-        } catch (@SuppressWarnings("unused") NumberFormatException e) {
-            result = state.getRegisterValue(value);
-        }
         return result;
     }
     

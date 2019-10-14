@@ -86,4 +86,21 @@ interface Instruction {
     default boolean canProceed(State state) {
         return true;
     }
+    
+    /**
+     * Helper method, which gets the value represented by the given string.
+     * 
+     * @param value string representation of the value; can be a numeric value or a register name
+     * @param state program state
+     * @return numeric value
+     */
+    static long getValue(String value, State state) {
+        long result;
+        try {
+            result = Integer.parseInt(value);
+        } catch (@SuppressWarnings("unused") NumberFormatException e) {
+            result = state.getRegisterValue(value);
+        }
+        return result;
+    }
 }

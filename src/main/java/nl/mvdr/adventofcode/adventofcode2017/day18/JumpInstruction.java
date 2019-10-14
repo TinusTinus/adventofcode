@@ -30,25 +30,15 @@ class JumpInstruction implements Instruction {
     @Override
     public State execute(State startState) {
         long offset;
-        if (getValue(firstValue, startState) <= 0) {
+        if (Instruction.getValue(firstValue, startState) <= 0) {
             offset = 1;
         } else {
-            offset = getValue(secondValue, startState);
+            offset = Instruction.getValue(secondValue, startState);
         }
         long newInstructionPointer = startState.getInstructionPointer() + offset;
         return startState.updateInstructionPointer((int)newInstructionPointer);
     }
 
-    private long getValue(String value, State state) {
-        long result;
-        try {
-            result = Integer.parseInt(value);
-        } catch (@SuppressWarnings("unused") NumberFormatException e) {
-            result = state.getRegisterValue(value);
-        }
-        return result;
-    }
-    
     @Override
     public String toString() {
         return NAME + " " + firstValue + " " + secondValue;
