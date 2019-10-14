@@ -2,6 +2,9 @@ package nl.mvdr.adventofcode.adventofcode2018.day13;
 
 import java.util.Map;
 
+import nl.mvdr.adventofcode.point.Direction;
+
+
 /**
  * Possible actions a mine cart can take when at an intersection.
  *

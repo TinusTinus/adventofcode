@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import nl.mvdr.adventofcode.point.Direction;
+
 /**
  * A single square section of a mine cart track.
  *
@@ -60,6 +62,22 @@ enum TrackSection {
                 .filter(section -> section.representation == representation)
                 .findFirst()
                 .get();
+    }
+    
+    /**
+     * Gives a track section for the given direction.
+     * 
+     * @param direction direction
+     * @return vertical or horizontal straight path, depending of the given direction
+     */
+    static TrackSection of(Direction direction) {
+        TrackSection result;
+        if (direction.isVertical()) {
+            result = TrackSection.VERTICAL_STRAIGHT_PATH;
+        } else {
+            result = TrackSection.HORIZONTAL_STRAIGHT_PATH;
+        }
+        return result;
     }
     
     @Override

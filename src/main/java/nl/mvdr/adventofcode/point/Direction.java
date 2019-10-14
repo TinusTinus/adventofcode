@@ -1,17 +1,15 @@
-package nl.mvdr.adventofcode.adventofcode2018.day13;
+package nl.mvdr.adventofcode.point;
 
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.point.Point;
-
 /**
- * A direction that a minecart can be facing.
+ * A direction in two dimension.
  *
  * @author Martijn van de Rijdt
  */
-enum Direction {
+public enum Direction {
     /** Up / north. */
     UP('^', true, Point::aboveNeighbour),
     /** Down / south. */
@@ -21,7 +19,7 @@ enum Direction {
     /** Right / east. */
     RIGHT('>', false, Point::rightNeighbour);
     
-    /** Character representation of a minecart facing this direction. */
+    /** Character representation of this direction. */
     private final char representation;
     
     /** Whether this direction is vertical. */
@@ -35,7 +33,7 @@ enum Direction {
      * 
      * @param representation character representation of a minecart facing this direction
      * @param vertical whether this direction is vertical
-     * @param next function that, given a cart's location, determines the cart's next location
+     * @param next function that, given a location, determines the next location
      */
     Direction(char representation, boolean vertical, Function<Point, Point> next) {
         this.representation = representation;
@@ -49,32 +47,45 @@ enum Direction {
      * @param representation character representation
      * @return optional direction
      */
-    static Optional<Direction> of(char representation) {
+    public static Optional<Direction> of(char representation) {
         return Stream.of(Direction.values())
                 .filter(direction -> direction.representation == representation)
                 .findFirst();
     }
     
-    /** @return the straight path matching the direction of this cart */
-    TrackSection getStraightPath() {
-        TrackSection result;
-        if (vertical) {
-            result = TrackSection.VERTICAL_STRAIGHT_PATH;
-        } else {
-            result = TrackSection.HORIZONTAL_STRAIGHT_PATH;
-        }
-        return result;
+    public boolean isVertical() {
+        return vertical;
     }
     
-    
     /**
-     * Given a cart's location, determines the cart's next location, if it is moving in this direction.
+     * Moves a single step in this direction.
      * 
      * @param location current location
      * @return next location
      */
-    Point nextLocation(Point location) {
+    public Point move(Point location) {
         return next.apply(location);
+    }
+    
+    /**
+     * Gets the direction counter-clockwise from this one.
+     * 
+     * @return direction
+     */
+    public Direction turnCounterClockwise() {
+        Direction result;
+        if (this == RIGHT) {
+            result = UP;
+        } else if (this == UP) {
+            result = LEFT;
+        } else if (this == LEFT) {
+            result = DOWN;
+        } else if (this == DOWN) {
+            result = RIGHT;
+        } else {
+            throw new IllegalStateException("Unexpected direction: " + this);
+        }
+        return result;
     }
     
     @Override

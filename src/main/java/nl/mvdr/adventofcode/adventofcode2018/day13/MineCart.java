@@ -4,6 +4,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -62,7 +63,7 @@ class MineCart {
     
     /** @return next location of this cart, if it continues moving in its current direction */
     Point nextLocation() {
-        return direction.nextLocation(location);
+        return direction.move(location);
     }
     
     @Override

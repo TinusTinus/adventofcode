@@ -34,20 +34,20 @@ public class Hexagon {
      * @param direction direction
      * @return new hexagon
      */
-    Hexagon move(Direction direction) {
+    Hexagon move(HexagonalDirection direction) {
         Point newLocation;
-        if (direction == Direction.NORTHEAST) {
+        if (direction == HexagonalDirection.NORTHEAST) {
             newLocation = point.northNeighbour().eastNeighbour();
-        } else if (direction == Direction.SOUTHEAST) {
+        } else if (direction == HexagonalDirection.SOUTHEAST) {
             newLocation = point.southNeighbour().eastNeighbour();
-        } else if (direction == Direction.SOUTHWEST) {
+        } else if (direction == HexagonalDirection.SOUTHWEST) {
             newLocation = point.southNeighbour().westNeighbour();
-        } else if (direction == Direction.NORTHWEST) {
+        } else if (direction == HexagonalDirection.NORTHWEST) {
             newLocation = point.northNeighbour().westNeighbour();
-        } else if (direction == Direction.NORTH) {
+        } else if (direction == HexagonalDirection.NORTH) {
             // North twice, to maintain manhattanDistance = 2 for each step
             newLocation = point.northNeighbour().northNeighbour();
-        } else if (direction == Direction.SOUTH) {
+        } else if (direction == HexagonalDirection.SOUTH) {
             // South twice, to maintain manhattanDistance = 2 for each step
             newLocation = point.southNeighbour().southNeighbour();
         } else {

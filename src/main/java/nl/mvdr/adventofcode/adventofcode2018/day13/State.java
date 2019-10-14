@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -156,7 +157,7 @@ class State {
                 cart.ifPresent(carts::add);
                 
                 map[x][y] = cart.map(MineCart::getDirection)
-                        .map(Direction::getStraightPath)
+                        .map(TrackSection::of)
                         .orElseGet(() -> TrackSection.of(c));
             }
         }

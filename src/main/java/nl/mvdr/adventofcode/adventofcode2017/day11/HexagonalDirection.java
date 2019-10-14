@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-enum Direction {
+enum HexagonalDirection {
     NORTH("n"),
     NORTHEAST("ne"),
     SOUTHEAST("se"),
@@ -29,10 +29,10 @@ enum Direction {
      * @return list of directions
      * @throws IOException in case the input file could not be read
      */
-    static List<Direction> parse(Path inputFilePath) throws IOException {
+    static List<HexagonalDirection> parse(Path inputFilePath) throws IOException {
         String inputText = Files.lines(inputFilePath).findFirst().get();
         return Stream.of(inputText.split(","))
-                .map(Direction::parseDirection)
+                .map(HexagonalDirection::parseDirection)
                 .collect(Collectors.toList());
     }
     
@@ -42,7 +42,7 @@ enum Direction {
      * @param string string to be parsed
      * @return direction
      */
-    private static Direction parseDirection(String string) {
+    private static HexagonalDirection parseDirection(String string) {
         return Stream.of(values())
                 .filter(direction -> direction.representation.equals(string))
                 .findFirst()
@@ -54,7 +54,7 @@ enum Direction {
      * 
      * @param representation string representation of this input
      */
-    Direction(String representation) {
+    HexagonalDirection(String representation) {
         this.representation = representation;
     }
     

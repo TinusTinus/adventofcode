@@ -26,13 +26,13 @@ public class HexEdPart2 implements PathSolver<Integer> {
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
-        List<Direction> directions = Direction.parse(inputFilePath);
+        List<HexagonalDirection> directions = HexagonalDirection.parse(inputFilePath);
         
         LOGGER.debug("Directions: {}", directions);
         
         Hexagon hexagon = Hexagon.ORIGIN;
         int maxDistance = 0;
-        for (Direction direction : directions) {
+        for (HexagonalDirection direction : directions) {
             hexagon = hexagon.move(direction);
             maxDistance = Math.max(maxDistance, hexagon.distanceToOrigin());
         }

@@ -26,12 +26,12 @@ public class HexEdPart1 implements PathSolver<Integer> {
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
-        List<Direction> directions = Direction.parse(inputFilePath);
+        List<HexagonalDirection> directions = HexagonalDirection.parse(inputFilePath);
         
         LOGGER.debug("Directions: {}", directions);
         
         Hexagon hexagon = Hexagon.ORIGIN;
-        for (Direction direction : directions) {
+        for (HexagonalDirection direction : directions) {
             hexagon = hexagon.move(direction);
         }
         
