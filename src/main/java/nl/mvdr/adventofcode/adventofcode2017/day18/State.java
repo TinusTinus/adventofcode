@@ -53,7 +53,7 @@ class State {
             throw new IllegalArgumentException(register);
         }
         
-        return registers.getOrDefault(register, Long.valueOf(0L)).intValue();
+        return registers.getOrDefault(register, Long.valueOf(0L)).longValue();
     }
     
     OptionalLong getRecoveredFrequency() {
