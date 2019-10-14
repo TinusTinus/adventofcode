@@ -26,7 +26,7 @@ public class DuetPart1 implements PathSolver<Long> {
      */
     @Override
     public Long solve(Path inputFilePath) throws IOException {
-        List<Instruction> instructions = Instruction.parseInstructions(inputFilePath);
+        List<Instruction> instructions = Instruction.parseInstructions(inputFilePath, true);
         State state = new State();
         
         while (state.getRecoveredFrequency().isEmpty()) {
