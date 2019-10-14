@@ -25,13 +25,13 @@ public enum Direction {
     /** Whether this direction is vertical. */
     private final boolean vertical;
     
-    /** Function that, given a cart's location, determines the cart's next location, if it is moving in this direction. */
+    /** Function that, given a location, determines the next location. */
     private final Function<Point, Point> next;
     
     /**
      * Constructor.
      * 
-     * @param representation character representation of a minecart facing this direction
+     * @param representation character representation of this direction
      * @param vertical whether this direction is vertical
      * @param next function that, given a location, determines the next location
      */
