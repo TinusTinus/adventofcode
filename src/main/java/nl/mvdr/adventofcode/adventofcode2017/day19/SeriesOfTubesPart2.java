@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class SeriesOfTubesPart1 extends SeriesOfTubes<String> {
+public class SeriesOfTubesPart2 extends SeriesOfTubes<Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SeriesOfTubesPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SeriesOfTubesPart2.class);
     
     @Override
-    String solve(String letters, int steps) {
-        return letters;
+    Integer solve(String letters, int steps) {
+        return Integer.valueOf(steps);
     }
     
     /**
@@ -24,7 +24,7 @@ public class SeriesOfTubesPart1 extends SeriesOfTubes<String> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SeriesOfTubesPart1 instance = new SeriesOfTubesPart1();
+        SeriesOfTubesPart2 instance = new SeriesOfTubesPart2();
 
         String result = instance.solve("input-day19-2017.txt");
 
