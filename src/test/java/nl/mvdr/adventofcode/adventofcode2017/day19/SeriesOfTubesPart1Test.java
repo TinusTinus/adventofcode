@@ -25,6 +25,6 @@ public class SeriesOfTubesPart1Test extends SolverTest<SeriesOfTubesPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day19-2017.txt");
+        assertSolution("SXWAIBUZY", "input-day19-2017.txt");
     }
 }

@@ -88,6 +88,17 @@ public enum Direction {
         return result;
     }
     
+    /**
+     * Gets the direction clockwise from this one.
+     * 
+     * @return direction
+     */
+    public Direction turnClockwise() {
+        return turnCounterClockwise()
+                .turnCounterClockwise()
+                .turnCounterClockwise();
+    }
+    
     @Override
     public String toString() {
         return "" + representation;
