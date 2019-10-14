@@ -1,7 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day19;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +26,22 @@ public class SeriesOfTubesPart1 implements PathSolver<String> {
     /**
      * {@inheritDoc}
      * 
-     * @return the letters the package sees on its path
+     * @return the letters the packet sees on its path
      */
     @Override
     public String solve(Path inputFilePath) throws IOException {
-        return null; // TODO
+        List<String> map = Files.lines(inputFilePath)
+                .collect(Collectors.toList());
+        
+        String topLine = map.get(0);
+        int startX = IntStream.range(0, topLine.length())
+                .filter(i -> topLine.charAt(i) == '|')
+                .findFirst()
+                .getAsInt();
+        
+        // TODO
+        
+        return null;
     }
     
     /**
