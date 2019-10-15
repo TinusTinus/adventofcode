@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.point.Point3D;
 
 /**
  * Solution to the day 23 puzzle of 2018's Advent of Code:
@@ -31,13 +32,11 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
         
         Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
         
-        Point3D origin = new Point3D(0, 0, 0);
-        
         Nanobot startOctohedron = generateStartOctahedron(nanobots);
 
         Map<Nanobot, Long> overlapCache = new HashMap<>();
         Comparator<Nanobot> comparator = Comparator.<Nanobot, Long>comparing(nanobot -> overlapCache.computeIfAbsent(nanobot, n -> Long.valueOf(-n.overlap(nanobots))))
-                .thenComparingInt(nanobot -> nanobot.getPosition().manhattanDistance(origin));
+                .thenComparingInt(nanobot -> nanobot.getPosition().manhattanDistanceToOrigin());
         
         Queue<Nanobot> pQ = new PriorityQueue<>(10, comparator);
         pQ.add(startOctohedron);
@@ -47,7 +46,7 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
         }
         
         Nanobot n = pQ.poll();
-        int result = n.getPosition().manhattanDistance(origin);
+        int result = n.getPosition().manhattanDistanceToOrigin();
         return Integer.valueOf(result);
     }
     

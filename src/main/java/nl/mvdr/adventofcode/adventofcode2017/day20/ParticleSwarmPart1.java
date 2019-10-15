@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2017.day20;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,8 @@ public class ParticleSwarmPart1 implements PathSolver<Integer> {
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
+        List<Particle> particles = Particle.parse(inputFilePath);
+        
         return null;
     }
     

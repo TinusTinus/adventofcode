@@ -10,6 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import nl.mvdr.adventofcode.point.Point3D;
+
 /**
  * A tiny robot.
  * 

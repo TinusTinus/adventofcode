@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2018.day23;
+package nl.mvdr.adventofcode.point;
 
 import java.util.Objects;
 import java.util.Set;
@@ -6,14 +6,15 @@ import java.util.Set;
 import javax.annotation.processing.Generated;
 
 /**
- * A point in three dimensions.
+ * A point (/vector) in three dimensions.
  * 
- * Not to be confused with {@link nl.mvdr.adventofcode.point.Point},
- * which represents a point in two dimensions.
+ * Not to be confused with {@link Point}, which represents a point in two dimensions.
+ * 
+ * Can be used to represent a three-dimensional location, but also a velocity or acceleration.
  *
  * @author Martijn van de Rijdt
  */
-class Point3D {
+public class Point3D {
 
     private final int x;
 
@@ -27,7 +28,7 @@ class Point3D {
      * @param text text to be parsed
      * @return point
      */
-    static Point3D parse(String text) {
+    public static Point3D parse(String text) {
         String[] coordinateStrings = text.substring(1, text.length() - 1).split(",");
         return new Point3D(
                 Integer.parseInt(coordinateStrings[0]),
@@ -42,7 +43,7 @@ class Point3D {
      * @param y y coordinate
      * @param z z coordinate
      */
-    Point3D(int x, int y, int z) {
+    public Point3D(int x, int y, int z) {
         super();
         this.x = x;
         this.y = y;
@@ -50,32 +51,41 @@ class Point3D {
     }
 
     /** @return x coordinate */
-    int getX() {
+    public int getX() {
         return x;
     }
     
     /** @return y coordinate */
-    int getY() {
+    public int getY() {
         return y;
     }
     
     /** @return z coordinate */
-    int getZ() {
+    public int getZ() {
         return z;
     }
     
     /**
-     * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry"> Manhattan distance</a> between this point and another.
+     * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and another.
      * 
      * @param other other point
      * @return Manhattan distance
      */
-    int manhattanDistance(Point3D other) {
+    public int manhattanDistance(Point3D other) {
         return Math.abs(this.x - other.x) + Math.abs(this.y - other.y) + Math.abs(this.z - other.z);
     }
     
+    /**
+     * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and <0,0,0>.
+     * 
+     * @return Manhattan distance
+     */
+    public int manhattanDistanceToOrigin() {
+        return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
+    }
+    
     /** @return the neighbouring points to this one */
-    Set<Point3D> neighbours() {
+    public Set<Point3D> neighbours() {
         return offsetOnAxes(1);
     }
     
@@ -85,7 +95,7 @@ class Point3D {
      * @param offset offset
      * @return points
      */
-    Set<Point3D> offsetOnAxes(int offset) {
+    public Set<Point3D> offsetOnAxes(int offset) {
         Set<Point3D> result;
         if (offset == 0) {
             result = Set.of(this);
@@ -100,6 +110,16 @@ class Point3D {
                 );
         }
         return result;
+    }
+    
+    /**
+     * Adds the given vector to this vector.
+     * 
+     * @param other other vector
+     * @return new vector, which is equal to the sum of the given vectors
+     */
+    public Point3D add(Point3D other) {
+        return new Point3D(this.getX() + other.getX(), this.getY() + other.getY(), this.getZ() + other.getZ());
     }
     
     @Override
