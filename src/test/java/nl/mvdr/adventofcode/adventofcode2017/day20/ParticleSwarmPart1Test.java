@@ -25,6 +25,6 @@ public class ParticleSwarmPart1Test extends SolverTest<ParticleSwarmPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day20-2017.txt");
+        assertSolution("119", "input-day20-2017.txt");
     }
 }

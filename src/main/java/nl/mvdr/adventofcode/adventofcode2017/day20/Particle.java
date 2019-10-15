@@ -75,6 +75,10 @@ class Particle {
         Point3D newPosition = this.position.add(newVelocity);
         return new Particle(newPosition, newVelocity, acceleration);
     }
+    
+    Point3D getPosition() {
+        return position;
+    }
 
     @Override
     public String toString() {
