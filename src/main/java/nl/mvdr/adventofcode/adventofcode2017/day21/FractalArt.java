@@ -34,7 +34,7 @@ public class FractalArt implements PathSolver<Long> {
     /**
      * {@inheritDoc}
      * 
-     * @return the particle which will stay closest to position <0,0,0> in the long term
+     * @return the number of pixels which are on
      */
     @Override
     public Long solve(Path inputFilePath) throws IOException {
