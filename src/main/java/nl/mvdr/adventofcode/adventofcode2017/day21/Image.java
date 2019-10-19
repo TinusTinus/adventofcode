@@ -217,9 +217,13 @@ class Image {
         Image[][] squares = new Image[size / squareSize][size / squareSize];
         for (int x = 0; x != size / squareSize; x++) {
             for (int y = 0; y != size / squareSize; y++) {
-                Image square = subImage(x * squareSize, y * squareSize, squareSize);
-                squares[x][y] = square.applyRule(rules);
+                squares[x][y] = subImage(x * squareSize, y * squareSize, squareSize);
             }
+            
+            squares[x] = Stream.of(squares[x])
+                    .parallel()
+                    .map(square -> square.applyRule(rules))
+                    .toArray(Image[]::new);
         }
 
         return merge(squares);
