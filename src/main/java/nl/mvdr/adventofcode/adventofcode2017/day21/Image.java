@@ -31,6 +31,27 @@ class Image {
     private final boolean[][] pixels;
     
     /**
+     * Parses the given string into an image.
+     * 
+     * @param text textual representation of an image, where newlines have been represented by a forward slash;
+     *     for example: "../.#" or ".#./..#/###"
+     * @return image
+     */
+    static Image parse(String text) {
+        String[] rows = text.split("/");
+        int size = rows.length;
+        
+        boolean[][] result = new boolean[size][size];
+        for (int x = 0; x != size; x++) {
+            for (int y = 0; y != size; y++) {
+                result[x][y] = rows[x].charAt(y) == '#';
+            }
+        }
+
+        return new Image(result);
+    }
+    
+    /**
      * Constructor.
      * 
      * @param pixels square two-dimensional array of pixels, each of which can be on ({@code true}) or off ({@code false})
@@ -50,7 +71,7 @@ class Image {
      * @param other other image to compare to
      * @return whether there is a match
      */
-    private boolean matches(Image other) {
+    boolean matches(Image other) {
         return this.size() == other.size()
                 && (this.matchesModuloRotation(other) || this.flip().matchesModuloRotation(other));
     }

@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2017.day21;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,8 @@ public class FractalArtPart1 implements PathSolver<Long> {
      */
     @Override
     public Long solve(Path inputFilePath) throws IOException {
+        Set<EnhancementRule> rules = EnhancementRule.parse(inputFilePath);
+        
         Image image = Image.INITIAL_IMAGE;
         LOGGER.debug("Start {}", image);
         
