@@ -198,7 +198,7 @@ class Image {
     }
 
     /**
-     * Enhances this image, by dividing it up into 2x2 or 3x3 subimages and enhancing each of them.
+     * Enhances this image, by dividing it up into 2x2 or 3x3 sub-images and enhancing each of them.
      * 
      * @param rules rules to apply
      * @return enhanced image
@@ -213,19 +213,21 @@ class Image {
         } else {
             throw new IllegalStateException("Unable to divide a " + size + " x " + size + " image up into squares.");
         }
+        
+        Image[][] squares = IntStream.range(0, size / squareSize)
+                .mapToObj(x ->
+                    IntStream.range(0, size / squareSize)
+                            // Use parallellism to speed up computation (assuming there are multiple cores)
+                            .parallel()
+                            // Take a square sub-image of size 2 or 3
+                            .mapToObj(y -> subImage(x * squareSize, y * squareSize, squareSize))
+                            // Enhance the sub-image
+                            .map(square -> square.applyRule(rules))
+                            // Store the enhanced image in the two-dimensional result array
+                            .toArray(Image[]::new))
+                .toArray(Image[][]::new);
 
-        Image[][] squares = new Image[size / squareSize][size / squareSize];
-        for (int x = 0; x != size / squareSize; x++) {
-            for (int y = 0; y != size / squareSize; y++) {
-                squares[x][y] = subImage(x * squareSize, y * squareSize, squareSize);
-            }
-            
-            squares[x] = Stream.of(squares[x])
-                    .parallel()
-                    .map(square -> square.applyRule(rules))
-                    .toArray(Image[]::new);
-        }
-
+        // Merge the enhanced sub-images into a single image
         return merge(squares);
     }
     
