@@ -156,7 +156,66 @@ class Image {
      * @return enhanced image
      */
     private Image enhance(Set<EnhancementRule> rules) {
-        return this; // TODO implement
+        int size = size();
+        int squareSize;
+        if (size % 2 == 0) {
+            squareSize = 2;
+        } else if (size % 3 == 0) {
+            squareSize = 3;
+        } else {
+            throw new IllegalStateException("Unable to divide a " + size + " x " + size + " image up into squares.");
+        }
+        
+        Image[][] squares = new Image[size / squareSize][size / squareSize];
+        for (int x = 0; x != size / squareSize; x++) {
+            for (int y = 0; y != size / squareSize; y++) {
+                Image square = subImage(x * squareSize, y * squareSize, squareSize);
+                squares[x][y] = square.applyRule(rules);
+            }
+        }
+        
+        int newSize = (size / squareSize) * (squareSize + 1);
+        boolean[][] result = new boolean[newSize][newSize];
+        
+        // TODO populate result
+        
+        return new Image(result);
+    }
+    
+    /**
+     * Applies one of the given rules to enhance this image.
+     * 
+     * Note that this image must be either 2x2 or 3x3, and match one of the given rules.
+     * 
+     * @param rules enhancement rules
+     * @return enhanced image
+     */
+    private Image applyRule(Set<EnhancementRule> rules) {
+        return rules.stream()
+                .filter(this::applies)
+                .map(EnhancementRule::getOutput)
+                .findFirst()
+                .orElseThrow();
+    }
+    
+    /**
+     * Determines whether the given rule can be applied to this image.
+     * 
+     * @param rule rule to check
+     * @return whether the rule's input matches this image
+     */
+    private boolean applies(EnhancementRule rule) {
+        return rule.getInput().matches(this);
+    }
+    
+    private Image subImage(int x, int y, int size) {
+        boolean[][] result = new boolean[size][size];
+        for (int xOffset = 0; xOffset != size; xOffset++) {
+            for (int yOffset = 0; yOffset != size; yOffset++) {
+                result[xOffset][yOffset] = pixels[x + xOffset][y + yOffset];
+            }
+        }
+        return new Image(result);
     }
 
     @Override

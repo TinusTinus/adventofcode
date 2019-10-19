@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
  * @author Martijn van de Rijdt
  */
 class EnhancementRule {
+    
     private final Image input;
     private final Image output;
     
@@ -56,14 +57,8 @@ class EnhancementRule {
         this.output = output;
     }
     
-    /**
-     * Determines whether this rule can be applied to the given image.
-     * 
-     * @param image image to check
-     * @return whether this rule's input matches the given image
-     */
-    boolean applies(Image image) {
-        return input.matches(image);
+    Image getInput() {
+        return input;
     }
     
     Image getOutput() {
