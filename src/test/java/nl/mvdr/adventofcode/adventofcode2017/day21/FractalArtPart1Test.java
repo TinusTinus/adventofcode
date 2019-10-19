@@ -56,6 +56,6 @@ public class FractalArtPart1Test extends SolverTest<FractalArtPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day21-2017.txt");
+        assertSolution("155", "input-day21-2017.txt");
     }
 }

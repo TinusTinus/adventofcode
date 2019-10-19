@@ -222,15 +222,8 @@ class Image {
             }
         }
 
-        int newSize = (size / squareSize) * (squareSize + 1);
-        boolean[][] result = new boolean[newSize][newSize];
-
-        // TODO populate result
-        
-        return new Image(result);
+        return merge(squares);
     }
-    
-
     
     private Image subImage(int x, int y, int size) {
         boolean[][] result = new boolean[size][size];
@@ -239,6 +232,27 @@ class Image {
                 result[xOffset][yOffset] = pixels[x + xOffset][y + yOffset];
             }
         }
+        return new Image(result);
+    }
+    
+    /**
+     * Merges the given images.
+     * 
+     * @param squares images to be merged; must all be squares of the same size
+     * @return merged image
+     */
+    private static Image merge(Image[][] squares) {
+        int squareSize = squares[0][0].size();
+        int size = squares.length * squareSize;
+        boolean[][] result = new boolean[size][size];
+        
+        for (int x = 0; x != size; x++) {
+            for (int y = 0; y != size; y++) {
+                Image square = squares[x / squareSize][y / squareSize];
+                result[x][y] = square.pixels[x % squareSize][y % squareSize];
+            }
+        }
+        
         return new Image(result);
     }
 
