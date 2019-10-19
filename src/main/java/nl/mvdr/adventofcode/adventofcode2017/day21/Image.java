@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import javax.annotation.processing.Generated;
 
 /**
- * Representation of a two-dimensional image.
+ * Representation of a square two-dimensional image.
  *
  * @author Martijn van de Rijdt
  */
@@ -33,11 +33,68 @@ class Image {
     /**
      * Constructor.
      * 
-     * @param pixels two-dimensional array of pixels, each of which can be on ({@code true}) or off ({@code false})
+     * @param pixels square two-dimensional array of pixels, each of which can be on ({@code true}) or off ({@code false})
      */
     private Image(boolean[][] pixels) {
         super();
         this.pixels = pixels;
+    }
+    
+    private int size() {
+        return pixels.length;
+    }
+    
+    /**
+     * Whether this image can be flipped and/or rotated to match the given other image.
+     * 
+     * @param other other image to compare to
+     * @return whether there is a match
+     */
+    private boolean matches(Image other) {
+        return this.size() == other.size()
+                && (this.matchesModuloRotation(other) || this.flip().matchesModuloRotation(other));
+    }
+    
+    /**
+     * Determines whether this image can be rotated to match the given other image.
+     * 
+     * @param other other image to compare to
+     * @return whether there is a match
+     */
+    private boolean matchesModuloRotation(Image other) {
+        boolean result = false;
+        Image image = this;
+        for (int i = 0; !result && i != 4; i++) {
+            result = image.equals(other);
+            image = image.rotate();
+        }
+        return result;
+    }
+
+    /** @return a flipped version of this image */
+    private Image flip() {
+        int size = size();
+        
+        boolean[][] result = new boolean[size][size];
+        for (int x = 0; x != size; x++) {
+            for (int y = 0; y != size; y++) {
+                result[x][y] = pixels[size - 1 - x][y];
+            }
+        }
+        return new Image(result);
+    }
+    
+    /** @return a 90 degrees rotated version of this image */
+    private Image rotate() {
+        int size = size();
+        
+        boolean[][] result = new boolean[size][size];
+        for (int x = 0; x != size; x++) {
+            for (int y = 0; y != size; y++) {
+                result[x][y] = pixels[size - 1 - y][x];
+            }
+        }
+        return new Image(result);
     }
     
     /** @return the number of pixels which are on */
@@ -68,5 +125,21 @@ class Image {
             return false;
         Image other = (Image) obj;
         return Arrays.deepEquals(pixels, other.pixels);
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Image:");
+        for (int x = 0; x != size(); x++) {
+            builder.append('\n');
+            for (int y = 0; y != size(); y++) {
+                if (pixels[x][y]) {
+                    builder.append('#');
+                } else {
+                    builder.append('.');
+                }
+            }
+        }
+        return builder.toString();
     }
 }

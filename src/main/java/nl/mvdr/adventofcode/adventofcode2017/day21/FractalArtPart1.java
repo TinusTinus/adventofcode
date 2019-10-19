@@ -43,9 +43,12 @@ public class FractalArtPart1 implements PathSolver<Long> {
     @Override
     public Long solve(Path inputFilePath) throws IOException {
         Image image = Image.INITIAL_IMAGE;
+        LOGGER.debug("Start {}", image);
         
         for (int iteration = 0; iteration != iterations; iteration++) {
-            // TODO iterate
+            // TODO apply rules
+            
+            LOGGER.debug("{}", image);
         }
         
         return Long.valueOf(image.countOnPixels());
