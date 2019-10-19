@@ -27,7 +27,7 @@ public class ParticleSwarmPart2 implements PathSolver<Integer> {
     /**
      * {@inheritDoc}
      * 
-     * @return the particle which will stay closest to position <0,0,0> in the long term
+     * @return number of particles
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
