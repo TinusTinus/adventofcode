@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class FractalArtPart1 implements PathSolver<Integer> {
+public class FractalArtPart1 implements PathSolver<Long> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FractalArtPart1.class);
     
@@ -41,8 +41,14 @@ public class FractalArtPart1 implements PathSolver<Integer> {
      * @return the particle which will stay closest to position <0,0,0> in the long term
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        return null; // TODO
+    public Long solve(Path inputFilePath) throws IOException {
+        Image image = Image.INITIAL_IMAGE;
+        
+        for (int iteration = 0; iteration != iterations; iteration++) {
+            // TODO iterate
+        }
+        
+        return Long.valueOf(image.countOnPixels());
     }
     
     /**

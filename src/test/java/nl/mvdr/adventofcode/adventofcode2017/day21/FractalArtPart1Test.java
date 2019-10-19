@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class ParticleSwarmPart1Test extends SolverTest<FractalArtPart1> {
+public class FractalArtPart1Test extends SolverTest<FractalArtPart1> {
 
     /** Constructor. */
-    public ParticleSwarmPart1Test() {
+    public FractalArtPart1Test() {
         super(FractalArtPart1.class);
     }
 
