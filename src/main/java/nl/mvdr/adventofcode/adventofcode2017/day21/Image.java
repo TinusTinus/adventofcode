@@ -1,10 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2017.day21;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import javax.annotation.processing.Generated;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Representation of a square two-dimensional image.
@@ -27,6 +31,8 @@ class Image {
         { false, false,  true },
         {  true,  true,  true }
     });
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Image.class);
     
     private final boolean[][] pixels;
     
@@ -125,6 +131,33 @@ class Image {
                 .filter(Boolean::booleanValue)
                 .count();
     }
+    
+    /**
+     * Enhances this image, according to the given enhancement rules.
+     * 
+     * @param iterations the number of times to enhance
+     * @param rules rules to apply
+     * @return enhanced image
+     */
+    Image enhance(int iterations, Set<EnhancementRule> rules) {
+        Image result = this;
+        for (int i = 0; i != iterations; i++) {
+            LOGGER.debug("After {} enhancements: {}", Integer.valueOf(i), result);
+            result = result.enhance(rules);
+        }
+        LOGGER.debug("Enhanced {}", result);
+        return result;
+    }
+    
+    /**
+     * Performs a single enhancement of this image, according to the given enhancement rules.
+     * 
+     * @param rules rules to apply
+     * @return enhanced image
+     */
+    private Image enhance(Set<EnhancementRule> rules) {
+        return this; // TODO implement
+    }
 
     @Override
     @Generated("Elipse")
@@ -152,7 +185,7 @@ class Image {
     public String toString() {
         StringBuilder builder = new StringBuilder("Image:");
         for (int x = 0; x != size(); x++) {
-            builder.append('\n');
+            builder.append("\n    ");
             for (int y = 0; y != size(); y++) {
                 if (pixels[x][y]) {
                     builder.append('#');

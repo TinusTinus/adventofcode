@@ -45,14 +45,7 @@ public class FractalArtPart1 implements PathSolver<Long> {
     public Long solve(Path inputFilePath) throws IOException {
         Set<EnhancementRule> rules = EnhancementRule.parse(inputFilePath);
         
-        Image image = Image.INITIAL_IMAGE;
-        LOGGER.debug("Start {}", image);
-        
-        for (int iteration = 0; iteration != iterations; iteration++) {
-            // TODO apply rules
-            
-            LOGGER.debug("{}", image);
-        }
+        Image image = Image.INITIAL_IMAGE.enhance(iterations, rules);
         
         return Long.valueOf(image.countOnPixels());
     }
