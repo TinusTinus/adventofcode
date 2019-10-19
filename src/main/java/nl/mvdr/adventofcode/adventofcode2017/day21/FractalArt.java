@@ -15,23 +15,18 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class FractalArtPart1 implements PathSolver<Long> {
+public class FractalArt implements PathSolver<Long> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FractalArtPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FractalArt.class);
     
     private final int iterations;
-
-    /** Constructor. */
-    public FractalArtPart1() {
-        this(5);
-    }
     
     /**
      * Constructor.
      * 
      * @param iterations number of iterations to perform
      */
-    FractalArtPart1(int iterations) {
+    FractalArt(int iterations) {
         super();
         this.iterations = iterations;
     }
@@ -56,10 +51,12 @@ public class FractalArtPart1 implements PathSolver<Long> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        FractalArtPart1 instance = new FractalArtPart1();
-
-        String result = instance.solve("input-day21-2017.txt");
-
-        LOGGER.info(result);
+        FractalArt part1 = new FractalArt(5);
+        String part1Result = part1.solve("input-day21-2017.txt");
+        LOGGER.info("Part 1 result: {}", part1Result);
+        
+        FractalArt part2 = new FractalArt(18);
+        String part2Result = part2.solve("input-day21-2017.txt");
+        LOGGER.info("Part 2 result: {}", part2Result);
     }
 }
