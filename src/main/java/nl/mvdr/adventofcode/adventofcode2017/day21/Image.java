@@ -150,36 +150,25 @@ class Image {
     }
     
     /**
-     * Performs a single enhancement of this image, according to the given enhancement rules.
+     * Performs a single enhancement of this image, according to the given
+     * enhancement rules.
      * 
      * @param rules rules to apply
      * @return enhanced image
      */
     private Image enhance(Set<EnhancementRule> rules) {
         int size = size();
-        int squareSize;
-        if (size % 2 == 0) {
-            squareSize = 2;
-        } else if (size % 3 == 0) {
-            squareSize = 3;
+
+        Image result;
+        if (size < 2) {
+            throw new IllegalStateException("Too small to enhance: " + size + " x " + size + " image.");
+        } else if (size == 2 || size == 3) {
+            return applyRule(rules);
         } else {
-            throw new IllegalStateException("Unable to divide a " + size + " x " + size + " image up into squares.");
+            result = enhanceSubImages(rules);
         }
-        
-        Image[][] squares = new Image[size / squareSize][size / squareSize];
-        for (int x = 0; x != size / squareSize; x++) {
-            for (int y = 0; y != size / squareSize; y++) {
-                Image square = subImage(x * squareSize, y * squareSize, squareSize);
-                squares[x][y] = square.applyRule(rules);
-            }
-        }
-        
-        int newSize = (size / squareSize) * (squareSize + 1);
-        boolean[][] result = new boolean[newSize][newSize];
-        
-        // TODO populate result
-        
-        return new Image(result);
+
+        return result;
     }
     
     /**
@@ -207,6 +196,41 @@ class Image {
     private boolean applies(EnhancementRule rule) {
         return rule.getInput().matches(this);
     }
+
+    /**
+     * Enhances this image, by dividing it up into 2x2 or 3x3 subimages and enhancing each of them.
+     * 
+     * @param rules rules to apply
+     * @return enhanced image
+     */
+    private Image enhanceSubImages(Set<EnhancementRule> rules) {
+        int size = size();
+        int squareSize;
+        if (size % 2 == 0) {
+            squareSize = 2;
+        } else if (size % 3 == 0) {
+            squareSize = 3;
+        } else {
+            throw new IllegalStateException("Unable to divide a " + size + " x " + size + " image up into squares.");
+        }
+
+        Image[][] squares = new Image[size / squareSize][size / squareSize];
+        for (int x = 0; x != size / squareSize; x++) {
+            for (int y = 0; y != size / squareSize; y++) {
+                Image square = subImage(x * squareSize, y * squareSize, squareSize);
+                squares[x][y] = square.applyRule(rules);
+            }
+        }
+
+        int newSize = (size / squareSize) * (squareSize + 1);
+        boolean[][] result = new boolean[newSize][newSize];
+
+        // TODO populate result
+        
+        return new Image(result);
+    }
+    
+
     
     private Image subImage(int x, int y, int size) {
         boolean[][] result = new boolean[size][size];
