@@ -23,11 +23,9 @@ public class State {
     private final Queue<Long> source;
     private final Queue<Long> target;
     
-    private final int timesSent;
-    
     /** Constructor, for use when no communication between processes is needed. Creates the initial state. */
     public State() {
-        this(Map.of(), OptionalLong.empty(), OptionalLong.empty(), 0, new LinkedList<>(), new LinkedList<>(), 0);
+        this(Map.of(), OptionalLong.empty(), OptionalLong.empty(), 0, new LinkedList<>(), new LinkedList<>());
     }
     
     /**
@@ -38,7 +36,7 @@ public class State {
      * @param target target queue, to which send instructions should send data
      */
     public State(int programId, Queue<Long> source, Queue<Long> target) {
-        this(Map.of("p", Long.valueOf(programId)), OptionalLong.empty(), OptionalLong.empty(), 0, source, target, 0);
+        this(Map.of("p", Long.valueOf(programId)), OptionalLong.empty(), OptionalLong.empty(), 0, source, target);
     }
 
     /**
@@ -52,7 +50,7 @@ public class State {
      * @param target target queue, to which send instructions should send data
      */
     private State(Map<String, Long> registers, OptionalLong lastPlayedFrequency, OptionalLong recoveredFrequency,
-            int instructionPointer, Queue<Long> source, Queue<Long> target, int timesSent) {
+            int instructionPointer, Queue<Long> source, Queue<Long> target) {
         super();
         this.registers = registers;
         this.lastPlayedFrequency = lastPlayedFrequency;
@@ -60,7 +58,6 @@ public class State {
         this.instructionPointer = instructionPointer;
         this.source = source;
         this.target = target;
-        this.timesSent = timesSent;
     }
 
     /**
@@ -85,10 +82,6 @@ public class State {
         return instructionPointer;
     }
     
-    public int getTimesSent() {
-        return timesSent;
-    }
-    
     /**
      * Returns a new state, with an updated register value.
      * 
@@ -100,7 +93,7 @@ public class State {
         Map<String, Long> newRegisters = new HashMap<>(registers);
         newRegisters.put(registerName, Long.valueOf(value));
         
-        return new State(newRegisters, lastPlayedFrequency, recoveredFrequency, instructionPointer, source, target, timesSent);
+        return new State(newRegisters, lastPlayedFrequency, recoveredFrequency, instructionPointer, source, target);
     }
     
     /**
@@ -110,7 +103,7 @@ public class State {
      * @return updated state
      */
     State play(long frequency) {
-        return new State(registers, OptionalLong.of(frequency), recoveredFrequency, instructionPointer, source, target, timesSent);
+        return new State(registers, OptionalLong.of(frequency), recoveredFrequency, instructionPointer, source, target);
     }
     
     /**
@@ -120,7 +113,7 @@ public class State {
      * @return updated state
      */
     State updateInstructionPointer(int value) {
-        return new State(registers, lastPlayedFrequency, recoveredFrequency, value, source, target, timesSent);
+        return new State(registers, lastPlayedFrequency, recoveredFrequency, value, source, target);
     }
     
     /**
@@ -129,7 +122,7 @@ public class State {
      * @return updated state
      */
     State recover() {
-        return new State(registers, lastPlayedFrequency, lastPlayedFrequency, instructionPointer, source, target, timesSent);
+        return new State(registers, lastPlayedFrequency, lastPlayedFrequency, instructionPointer, source, target);
     }
     
     /** @return whether the program can currently receive a value; if not its execution should block */
@@ -156,7 +149,7 @@ public class State {
      */
     State send(long value) {
         target.offer(Long.valueOf(value));
-        return new State(registers, lastPlayedFrequency, recoveredFrequency, instructionPointer, source, target, timesSent + 1);
+        return new State(registers, lastPlayedFrequency, recoveredFrequency, instructionPointer, source, target);
     }
 
     @Override
@@ -166,7 +159,6 @@ public class State {
                 + ", recoveredFrequency=" + recoveredFrequency
                 + ", instructionPointer=" + instructionPointer
                 + ", source=" + source
-                + ", timesSent=" + timesSent
                 + "]";
     }
 }
