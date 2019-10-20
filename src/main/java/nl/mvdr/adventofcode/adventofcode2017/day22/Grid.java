@@ -82,50 +82,33 @@ class Grid {
      * Performs the given number of bursts.
      * 
      * @param bursts number of times to burst
-     * @return new state of the grid, after executing the given number of bursts
+     * @param evolved whether the virus has evolved
      */
     void burst(int bursts, boolean evolved) {
         LOGGER.debug("Bursting {} times. Initial grid: {}", Integer.valueOf(bursts), this);
         for (int i = 0; i != bursts; i++) {
-            if (evolved) {
-                evolvedBurst();
-            } else {
-                burst();
-            }
+            burst(evolved);
             LOGGER.debug("Updated grid: {}", this);
         }
     }
     
-    /** @return new state of the grid, after executing a single burst for the original virus */
-    private void burst() {
-        if (infectedNodes.contains(carrierLocation)) {
-            LOGGER.debug("Node at {} is infected. Carrier turns to its right and cleans the node.", carrierLocation);
-            // Carrier turns to its right.
-            carrierDirection = carrierDirection.turnClockwise();
-            // Curent node becomes cleaned.
-            infectedNodes.remove(carrierLocation);
-        } else {
-            LOGGER.debug("Node at {} is clean. Carrier turns to its left and infects the node.", carrierLocation);
-            // Carrier turns to its left.
-            carrierDirection = carrierDirection.turnCounterClockwise();
-            // Current node becomes infected.
-            infectedNodes.add(carrierLocation);
-            infectionCount++;
-        }
-        
-        // Carrier moves forward one node in the direction it is now facing.
-        carrierLocation = carrierDirection.move(carrierLocation);
-    }
-    
-    /** @return new state of the grid, after executing a single burst for the evolved virus */
-    private void evolvedBurst() {
+    /**
+     * Performs a single burst.
+     * 
+     * @param evolved whether the virus has evolved
+     */
+    private void burst(boolean evolved) {
         if (infectedNodes.contains(carrierLocation)) {
             LOGGER.debug("Node at {} is infected.", carrierLocation);
             // Carrier turns to its right.
             carrierDirection = carrierDirection.turnClockwise();
-            // Curent node becomes flagged.
+            
+            // Current node is no longer infected.
             infectedNodes.remove(carrierLocation);
-            flaggedNodes.add(carrierLocation);
+            if (evolved) {
+                // Curent node becomes flagged.
+                flaggedNodes.add(carrierLocation);
+            } // If not evolved: current node becomes clean.
         } else if (weakenedNodes.contains(carrierLocation)) {
             LOGGER.debug("Node at {} is weakened.", carrierLocation);
             // Carrier does not turn.
@@ -142,14 +125,19 @@ class Grid {
             LOGGER.debug("Node at {} is clean.", carrierLocation);
             // Carrier turns to its left.
             carrierDirection = carrierDirection.turnCounterClockwise();
-            // Current node becomes weakened.
-            weakenedNodes.add(carrierLocation);
+            if (evolved) {
+                // Current node becomes weakened.
+                weakenedNodes.add(carrierLocation);
+            } else {
+                // Current node becomes infected.
+                infectedNodes.add(carrierLocation);
+                infectionCount++;
+            }
         }
         
         // Carrier moves forward one node in the direction it is now facing.
         carrierLocation = carrierDirection.move(carrierLocation);
     }
-
     
     /**
      * @return number of times the carrier has infected a node
