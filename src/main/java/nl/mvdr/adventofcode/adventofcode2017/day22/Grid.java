@@ -26,6 +26,8 @@ class Grid {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Grid.class);
     
+    // Each node can occur in at most one of the following sets.
+    // If a node occurs in none of these sets, it is considered clean.
     private final Set<Point> infectedNodes;
     private final Set<Point> weakenedNodes;
     private final Set<Point> flaggedNodes;
@@ -58,15 +60,14 @@ class Grid {
                         .mapToObj(x -> new Point(x, y.intValue())))
                 .collect(Collectors.toSet());
         
-        return new Grid(Set.copyOf(infectedNodes), startingLocation);
+        return new Grid(infectedNodes, startingLocation);
     }
     
     /**
-     * Constructor.
+     * Constructor, to create the initial grid.
      * 
-     * @param infectedNodes nodes which are currently infected
-     * @param infectionCount number of times the carrier has infected a node
-     *      (regardless of whether the node in question has since been cleaned)
+     * @param infectedNodes nodes which are initially infected; all other nodes are considered clean
+     * @param carrierLocation starting location of the carrier
      */
     private Grid(Set<Point> infectedNodes, Point carrierLocation) {
         super();
