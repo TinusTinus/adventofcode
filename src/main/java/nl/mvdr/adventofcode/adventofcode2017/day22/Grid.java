@@ -135,11 +135,11 @@ class Grid {
             infectionCount++;
         } else if (flaggedNodes.contains(carrierLocation)) {
             // Carrier reverses direction.
-            carrierDirection = carrierDirection.turnCounterClockwise().turnCounterClockwise(); // TODO add a helper method to direction
+            carrierDirection = carrierDirection.reverse();
             // Current node becomes clean.
             flaggedNodes.remove(carrierLocation);
         } else {
-            LOGGER.debug("Node at {} is clean..", carrierLocation);
+            LOGGER.debug("Node at {} is clean.", carrierLocation);
             // Carrier turns to its left.
             carrierDirection = carrierDirection.turnCounterClockwise();
             // Current node becomes weakened.

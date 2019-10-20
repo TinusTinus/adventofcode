@@ -67,11 +67,7 @@ public enum Direction {
         return next.apply(location);
     }
     
-    /**
-     * Gets the direction counter-clockwise from this one.
-     * 
-     * @return direction
-     */
+    /** @return the direction counter-clockwise from this one */
     public Direction turnCounterClockwise() {
         Direction result;
         if (this == RIGHT) {
@@ -88,15 +84,14 @@ public enum Direction {
         return result;
     }
     
-    /**
-     * Gets the direction clockwise from this one.
-     * 
-     * @return direction
-     */
+    /** @return the direction opposite this one */
+    public Direction reverse() {
+        return turnCounterClockwise().turnCounterClockwise();
+    }
+    
+    /** @return the direction clockwise from this one */
     public Direction turnClockwise() {
-        return turnCounterClockwise()
-                .turnCounterClockwise()
-                .turnCounterClockwise();
+        return reverse().turnCounterClockwise();
     }
     
     @Override
