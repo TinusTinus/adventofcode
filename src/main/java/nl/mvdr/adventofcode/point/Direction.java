@@ -86,12 +86,36 @@ public enum Direction {
     
     /** @return the direction opposite this one */
     public Direction reverse() {
-        return turnCounterClockwise().turnCounterClockwise();
+        Direction result;
+        if (this == RIGHT) {
+            result = LEFT;
+        } else if (this == UP) {
+            result = DOWN;
+        } else if (this == LEFT) {
+            result = RIGHT;
+        } else if (this == DOWN) {
+            result = UP;
+        } else {
+            throw new IllegalStateException("Unexpected direction: " + this);
+        }
+        return result;
     }
     
     /** @return the direction clockwise from this one */
     public Direction turnClockwise() {
-        return reverse().turnCounterClockwise();
+        Direction result;
+        if (this == RIGHT) {
+            result = DOWN;
+        } else if (this == UP) {
+            result = RIGHT;
+        } else if (this == LEFT) {
+            result = UP;
+        } else if (this == DOWN) {
+            result = LEFT;
+        } else {
+            throw new IllegalStateException("Unexpected direction: " + this);
+        }
+        return result;
     }
     
     @Override
