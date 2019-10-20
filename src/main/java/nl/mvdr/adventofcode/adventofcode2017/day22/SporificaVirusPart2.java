@@ -42,11 +42,11 @@ public class SporificaVirusPart2 implements PathSolver<Integer> {
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
-        Grid startingGrid = Grid.parse(inputFilePath);
+        Grid grid = Grid.parse(inputFilePath);
         
-        Grid finalGrid = startingGrid.burst(bursts, true);
+        grid.burst(bursts, true);
         
-        return Integer.valueOf(finalGrid.getInfectionCount());
+        return Integer.valueOf(grid.getInfectionCount());
     }
     
     /**

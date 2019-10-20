@@ -17,6 +17,8 @@ import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Representation of the grid.
+ * 
+ * This class is NOT immutable (for performance reasons: copying the sets of nodes is an expensive operation).
  *
  * @author Martijn van de Rijdt
  */
@@ -28,10 +30,10 @@ class Grid {
     private final Set<Point> weakenedNodes;
     private final Set<Point> flaggedNodes;
     
-    private final Point carrierLocation;
-    private final Direction carrierDirection;
+    private Point carrierLocation;
+    private Direction carrierDirection;
     
-    private final int infectionCount;
+    private int infectionCount;
 
     /**
      * Creates a new grid, based on the contents of the text file at the given path.
@@ -56,27 +58,24 @@ class Grid {
                         .mapToObj(x -> new Point(x, y.intValue())))
                 .collect(Collectors.toSet());
         
-        return new Grid(Set.copyOf(infectedNodes), Set.of(), Set.of(), startingLocation, Direction.UP, 0);
+        return new Grid(Set.copyOf(infectedNodes), startingLocation);
     }
     
     /**
      * Constructor.
      * 
      * @param infectedNodes nodes which are currently infected
-     * @param carrierLocation current location of the carrier
-     * @param carrierDirection current direction of the carrier
      * @param infectionCount number of times the carrier has infected a node
      *      (regardless of whether the node in question has since been cleaned)
      */
-    private Grid(Set<Point> infectedNodes, Set<Point> weakenedNodes, Set<Point> flaggedNodes,
-            Point carrierLocation, Direction carrierDirection, int infectionCount) {
+    private Grid(Set<Point> infectedNodes, Point carrierLocation) {
         super();
-        this.infectedNodes = infectedNodes;
-        this.weakenedNodes = weakenedNodes;
-        this.flaggedNodes = flaggedNodes;
+        this.infectedNodes = new HashSet<>(infectedNodes);
+        this.weakenedNodes = new HashSet<>();
+        this.flaggedNodes = new HashSet<>();
         this.carrierLocation = carrierLocation;
-        this.carrierDirection = carrierDirection;
-        this.infectionCount = infectionCount;
+        this.carrierDirection = Direction.UP;
+        this.infectionCount = 0;
     }
     
     /**
@@ -85,49 +84,42 @@ class Grid {
      * @param bursts number of times to burst
      * @return new state of the grid, after executing the given number of bursts
      */
-    Grid burst(int bursts, boolean evolved) {
+    void burst(int bursts, boolean evolved) {
         LOGGER.debug("Bursting {} times. Initial grid: {}", Integer.valueOf(bursts), this);
-        Grid result = this;
         for (int i = 0; i != bursts; i++) {
             if (evolved) {
-                result = result.evolvedBurst();
+                evolvedBurst();
             } else {
-                result = result.burst();
+                burst();
             }
-            LOGGER.debug("Updated grid: {}", result);
+            LOGGER.debug("Updated grid: {}", this);
         }
-        return result;
     }
     
     /** @return new state of the grid, after executing a single burst for the original virus */
-    private Grid burst() {
-        Direction newDirection;
-        Set<Point> newInfectedNodes = new HashSet<>(infectedNodes);
-        int newInfectionCount = infectionCount;
+    private void burst() {
         if (infectedNodes.contains(carrierLocation)) {
             LOGGER.debug("Node at {} is infected. Carrier turns to its right and cleans the node.", carrierLocation);
             // Carrier turns to its right.
-            newDirection = carrierDirection.turnClockwise();
+            carrierDirection = carrierDirection.turnClockwise();
             // Curent node becomes cleaned.
-            newInfectedNodes.remove(carrierLocation);
+            infectedNodes.remove(carrierLocation);
         } else {
             LOGGER.debug("Node at {} is clean. Carrier turns to its left and infects the node.", carrierLocation);
             // Carrier turns to its left.
-            newDirection = carrierDirection.turnCounterClockwise();
+            carrierDirection = carrierDirection.turnCounterClockwise();
             // Current node becomes infected.
-            newInfectedNodes.add(carrierLocation);
-            newInfectionCount++;
+            infectedNodes.add(carrierLocation);
+            infectionCount++;
         }
         
         // Carrier moves forward one node in the direction it is now facing.
-        Point newLocation = newDirection.move(carrierLocation);
-        
-        return new Grid(Set.copyOf(newInfectedNodes), weakenedNodes, flaggedNodes, newLocation, newDirection, newInfectionCount);
+        carrierLocation = carrierDirection.move(carrierLocation);
     }
     
     /** @return new state of the grid, after executing a single burst for the evolved virus */
-    private Grid evolvedBurst() {
-        return this; // TODO implement
+    private void evolvedBurst() {
+        // TODO implement
     }
 
     
