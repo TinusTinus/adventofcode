@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2017.day18;
+package nl.mvdr.adventofcode.adventofcode2017.duet;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,7 +11,7 @@ import java.util.Queue;
  *
  * @author Martijn van de Rijdt
  */
-class State {
+public class State {
     
     private final Map<String, Long> registers;
     
@@ -25,8 +25,8 @@ class State {
     
     private final int timesSent;
     
-    /** Constructor. Creates the initial state. */
-    State() {
+    /** Constructor, for use when no communication between processes is needed. Creates the initial state. */
+    public State() {
         this(Map.of(), OptionalLong.empty(), OptionalLong.empty(), 0, new LinkedList<>(), new LinkedList<>(), 0);
     }
     
@@ -34,8 +34,10 @@ class State {
      * Constructor. Creates the initial state.
      * 
      * @param programId program ID (0 or 1), to be stored in register "p"
+     * @param source source queue, from which receive instructions should read data
+     * @param target target queue, to which send instructions should send data
      */
-    State(int programId, Queue<Long> source, Queue<Long> target) {
+    public State(int programId, Queue<Long> source, Queue<Long> target) {
         this(Map.of("p", Long.valueOf(programId)), OptionalLong.empty(), OptionalLong.empty(), 0, source, target, 0);
     }
 
@@ -67,7 +69,7 @@ class State {
      * @param register name of the register to inspect
      * @return register value
      */
-    long getRegisterValue(String register) {
+    public long getRegisterValue(String register) {
         if (register.length() != 1 || !Character.isLetter(register.charAt(0))) {
             throw new IllegalArgumentException(register);
         }
@@ -75,15 +77,15 @@ class State {
         return registers.getOrDefault(register, Long.valueOf(0L)).longValue();
     }
     
-    OptionalLong getRecoveredFrequency() {
+    public OptionalLong getRecoveredFrequency() {
         return recoveredFrequency;
     }
     
-    int getInstructionPointer() {
+    public int getInstructionPointer() {
         return instructionPointer;
     }
     
-    int getTimesSent() {
+    public int getTimesSent() {
         return timesSent;
     }
     

@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
+import nl.mvdr.adventofcode.adventofcode2017.duet.State;
 
 /**
  * Solution to the day 18 puzzle of 2017's Advent of Code:

@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2017.day18;
+package nl.mvdr.adventofcode.adventofcode2017.duet;
 
 /**
  * The instruction snd X sends the value of X to a target program.

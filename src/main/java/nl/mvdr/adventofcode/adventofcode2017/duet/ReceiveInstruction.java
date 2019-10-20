@@ -1,32 +1,35 @@
-package nl.mvdr.adventofcode.adventofcode2017.day18;
+package nl.mvdr.adventofcode.adventofcode2017.duet;
 
 /**
- * The instruction snd X plays a sound with a frequency equal to the value of X.
+ * The instruction rcv X receives the next value and stores it in register X.
  *
  * @author Martijn van de Rijdt
  */
-class SoundInstruction implements Instruction {
+class ReceiveInstruction implements Instruction {
 
     /** Keyword for this instruction. */
-    static final String NAME = "snd";
+    static final String NAME = "rcv";
     
     private final String register;
     
     /**
      * Constructor.
      * 
-     * @param register name of the register containing the frequency
+     * @param register name of the register in which to store the received value
      */
-    SoundInstruction(String register) {
+    ReceiveInstruction(String register) {
         super();
         this.register = register;
+    }
+
+    @Override
+    public boolean canProceed(State state) {
+        return state.canReceive();
     }
     
     @Override
     public State execute(State startState) {
-        long frequency = startState.getRegisterValue(register);
-        
-        State result = startState.play(frequency);
+        State result = startState.receive(register);
         result = result.updateInstructionPointer(result.getInstructionPointer() + 1);
         return result;
     }

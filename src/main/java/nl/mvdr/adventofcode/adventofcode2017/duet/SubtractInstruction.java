@@ -1,14 +1,14 @@
-package nl.mvdr.adventofcode.adventofcode2017.day18;
+package nl.mvdr.adventofcode.adventofcode2017.duet;
 
 /**
- * The instruction set X Y sets register X to the value of Y.
+ * The instruction sub X Y decreases register X by the value of Y.
  *
  * @author Martijn van de Rijdt
  */
-class SetInstruction extends UpdateRegisterInstruction {
+class SubtractInstruction extends UpdateRegisterInstruction {
 
     /** Keyword for this instruction. */
-    static final String NAME = "set";
+    static final String NAME = "sub";
     
     /**
      * Constructor.
@@ -16,13 +16,13 @@ class SetInstruction extends UpdateRegisterInstruction {
      * @param register name of the register
      * @param value value
      */
-    SetInstruction(String register, String value) {
+    SubtractInstruction(String register, String value) {
         super(register, value);
     }
     
     @Override
     long computeNewValue(long oldValue, State state) {
-        return getValue(state);
+        return oldValue - getValue(state);
     }
     
     @Override

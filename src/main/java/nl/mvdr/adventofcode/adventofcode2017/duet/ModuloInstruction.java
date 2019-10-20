@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2017.day18;
+package nl.mvdr.adventofcode.adventofcode2017.duet;
 
 /**
  * The instruction mod X Y sets register X to 

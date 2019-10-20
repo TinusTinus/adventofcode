@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2017.day18;
+package nl.mvdr.adventofcode.adventofcode2017.duet;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,11 +8,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * An instruction.
+ * An instruction in (some version of) the Duet assembly language.
  *
  * @author Martijn van de Rijdt
  */
-interface Instruction {
+public interface Instruction {
     
     /**
      * Parses the instructions in the input file.
@@ -23,7 +23,7 @@ interface Instruction {
      * @return instructions
      * @throws IOException if the input could not be read
      */
-    static List<Instruction> parseInstructions(Path inputFilePath, boolean sound) throws IOException {
+    public static List<Instruction> parseInstructions(Path inputFilePath, boolean sound) throws IOException {
         return Files.lines(inputFilePath)
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
@@ -57,12 +57,16 @@ interface Instruction {
             result = new ModuloInstruction(parts[1], parts[2]);
         } else if (sound && RecoverInstruction.NAME.equals(parts[0])) {
             result = new RecoverInstruction(parts[1]);
-        } else if (JumpInstruction.NAME.equals(parts[0])) {
-            result = new JumpInstruction(parts[1], parts[2]);
+        } else if (JumpGreaterThanZeroInstruction.NAME.equals(parts[0])) {
+            result = new JumpGreaterThanZeroInstruction(parts[1], parts[2]);
         } else if (SendInstruction.NAME.equals(parts[0])) {
             result = new SendInstruction(parts[1]);
         } else if (ReceiveInstruction.NAME.equals(parts[0])) {
             result = new ReceiveInstruction(parts[1]);
+        } else if (SubtractInstruction.NAME.equals(parts[0])) {
+            result = new SubtractInstruction(parts[1], parts[2]);
+        } else if (JumpNotZeroInstruction.NAME.equals(parts[0])) {
+            result = new JumpNotZeroInstruction(parts[1], parts[2]);
         } else {
             throw new IllegalArgumentException("Unknown instruction: " + parts[0]);
         }
@@ -88,7 +92,7 @@ interface Instruction {
     }
     
     /**
-     * Helper method, which gets the value represented by the given string.
+     * Helper method for implementing classes, which gets the value represented by the given string.
      * 
      * @param value string representation of the value; can be a numeric value or a register name
      * @param state program state

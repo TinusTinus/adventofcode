@@ -1,15 +1,14 @@
-package nl.mvdr.adventofcode.adventofcode2017.day18;
+package nl.mvdr.adventofcode.adventofcode2017.duet;
 
 /**
- * The instruction mul X Y sets register X to the result of
- * multiplying the value contained in register X by the value of Y.
+ * The instruction set X Y sets register X to the value of Y.
  *
  * @author Martijn van de Rijdt
  */
-class MultiplyInstruction extends UpdateRegisterInstruction {
+class SetInstruction extends UpdateRegisterInstruction {
 
     /** Keyword for this instruction. */
-    static final String NAME = "mul";
+    static final String NAME = "set";
     
     /**
      * Constructor.
@@ -17,13 +16,13 @@ class MultiplyInstruction extends UpdateRegisterInstruction {
      * @param register name of the register
      * @param value value
      */
-    MultiplyInstruction(String register, String value) {
+    SetInstruction(String register, String value) {
         super(register, value);
     }
     
     @Override
     long computeNewValue(long oldValue, State state) {
-        return oldValue * getValue(state);
+        return getValue(state);
     }
     
     @Override
