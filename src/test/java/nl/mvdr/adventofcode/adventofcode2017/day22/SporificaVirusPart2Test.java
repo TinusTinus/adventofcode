@@ -85,6 +85,6 @@ public class SporificaVirusPart2Test extends SolverTest<SporificaVirusPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day22-2017.txt");
+        assertSolution("2512103", "input-day22-2017.txt");
     }
 }

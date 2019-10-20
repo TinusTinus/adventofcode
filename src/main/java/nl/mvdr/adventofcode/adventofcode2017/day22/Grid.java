@@ -119,7 +119,35 @@ class Grid {
     
     /** @return new state of the grid, after executing a single burst for the evolved virus */
     private void evolvedBurst() {
-        // TODO implement
+        if (infectedNodes.contains(carrierLocation)) {
+            LOGGER.debug("Node at {} is infected.", carrierLocation);
+            // Carrier turns to its right.
+            carrierDirection = carrierDirection.turnClockwise();
+            // Curent node becomes flagged.
+            infectedNodes.remove(carrierLocation);
+            flaggedNodes.add(carrierLocation);
+        } else if (weakenedNodes.contains(carrierLocation)) {
+            LOGGER.debug("Node at {} is weakened.", carrierLocation);
+            // Carrier does not turn.
+            // Current node becomes infected.
+            weakenedNodes.remove(carrierLocation);
+            infectedNodes.add(carrierLocation);
+            infectionCount++;
+        } else if (flaggedNodes.contains(carrierLocation)) {
+            // Carrier reverses direction.
+            carrierDirection = carrierDirection.turnCounterClockwise().turnCounterClockwise(); // TODO add a helper method to direction
+            // Current node becomes clean.
+            flaggedNodes.remove(carrierLocation);
+        } else {
+            LOGGER.debug("Node at {} is clean..", carrierLocation);
+            // Carrier turns to its left.
+            carrierDirection = carrierDirection.turnCounterClockwise();
+            // Current node becomes weakened.
+            weakenedNodes.add(carrierLocation);
+        }
+        
+        // Carrier moves forward one node in the direction it is now facing.
+        carrierLocation = carrierDirection.move(carrierLocation);
     }
 
     
