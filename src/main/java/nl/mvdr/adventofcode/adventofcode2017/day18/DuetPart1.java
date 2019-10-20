@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
-import nl.mvdr.adventofcode.adventofcode2017.duet.State;
+import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
 
 /**
  * Solution to the day 18 puzzle of 2017's Advent of Code:
@@ -29,16 +29,15 @@ public class DuetPart1 implements PathSolver<Long> {
     @Override
     public Long solve(Path inputFilePath) throws IOException {
         List<Instruction> instructions = Instruction.parseInstructions(inputFilePath, true);
-        State state = new State();
         
-        while (state.getRecoveredFrequency().isEmpty()) {
-            Instruction instruction = instructions.get(state.getInstructionPointer());
-            LOGGER.debug("{} - {}", state, instruction);
-            state = instruction.execute(state);
-        }
-        LOGGER.debug("End state: {}", state);
+        Program program = new Program(instructions);
+        LOGGER.debug("Program: {}", program);
         
-        return Long.valueOf(state.getRecoveredFrequency().getAsLong());
+        program = program.executeInstructionsWhile(p -> p.getState().getRecoveredFrequency().isEmpty());
+        
+        LOGGER.debug("After program execution: {}", program);
+        
+        return Long.valueOf(program.getState().getRecoveredFrequency().getAsLong());
     }
     
     /**

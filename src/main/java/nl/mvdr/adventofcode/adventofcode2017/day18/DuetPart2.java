@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
+import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
 import nl.mvdr.adventofcode.adventofcode2017.duet.State;
 
 /**
@@ -35,33 +36,18 @@ public class DuetPart2 implements PathSolver<Integer> {
         Queue<Long> queue0 = new LinkedList<>();
         Queue<Long> queue1 = new LinkedList<>();
         
-        State state0 = new State(0, queue0, queue1);
-        State state1 = new State(1, queue1, queue0);
+        Program program0 = new Program(instructions, new State(0, queue0, queue1), "0");
+        Program program1 = new Program(instructions, new State(1, queue1, queue0), "1");
         
-        while (canProceed(state0, instructions) || canProceed(state1, instructions)) {
-            while (canProceed(state0, instructions)) {
-                Instruction instruction = instructions.get(state0.getInstructionPointer());
-                LOGGER.debug("0: {} - {}", state0, instruction);
-                state0 = instruction.execute(state0);
-            }
-            
-            while (canProceed(state1, instructions)) {
-                Instruction instruction = instructions.get(state1.getInstructionPointer());
-                LOGGER.debug("1: {} - {}", state1, instruction);
-                state1 = instruction.execute(state1);
-            }
+        while (program0.canProceed() || program1.canProceed()) {
+            program0 = program0.executeInstructions();
+            program1 = program1.executeInstructions();
         }
-        LOGGER.debug("End state 0: {}", state0);
-        LOGGER.debug("End state 1: {}", state1);
         
-        return Integer.valueOf(state1.getTimesSent());
-    }
-    
-    private boolean canProceed(State state, List<Instruction> instructions) {
-        boolean result = 0 <= state.getInstructionPointer();
-        result = result && state.getInstructionPointer() < instructions.size();
-        result = result && instructions.get(state.getInstructionPointer()).canProceed(state);
-        return result;
+        LOGGER.debug("End program 0: {}", program0);
+        LOGGER.debug("End program 1: {}", program1);
+        
+        return Integer.valueOf(program1.getState().getTimesSent());
     }
     
     /**

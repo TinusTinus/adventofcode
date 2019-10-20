@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
-import nl.mvdr.adventofcode.adventofcode2017.duet.State;
+import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
 
 /**
  * Solution to the day 23 puzzle of 2017's Advent of Code:
@@ -29,11 +29,10 @@ public class CoprocessorConflagrationPart1 implements PathSolver<Integer> {
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
         List<Instruction> instructions = Instruction.parseInstructions(inputFilePath, false);
-        State state = new State();
+        Program program = new Program(instructions);
+        program = program.executeInstructions();
         
-        // TODO execute the instructions until the program can no longer proceed, and retrieve the number of multiplications
-        
-        return null; // TODO
+        return null; // TODO number of multiplications
     }
     
     /**

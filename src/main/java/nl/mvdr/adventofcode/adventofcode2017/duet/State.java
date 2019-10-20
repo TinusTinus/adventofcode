@@ -7,7 +7,7 @@ import java.util.OptionalLong;
 import java.util.Queue;
 
 /**
- * State during a program's execution.
+ * State during a Duet program's execution.
  *
  * @author Martijn van de Rijdt
  */

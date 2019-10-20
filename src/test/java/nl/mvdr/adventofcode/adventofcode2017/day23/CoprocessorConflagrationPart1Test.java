@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class SporificaVirusPart1Test extends SolverTest<CoprocessorConflagrationPart1> {
+public class CoprocessorConflagrationPart1Test extends SolverTest<CoprocessorConflagrationPart1> {
 
     /** Constructor. */
-    public SporificaVirusPart1Test() {
+    public CoprocessorConflagrationPart1Test() {
         super(CoprocessorConflagrationPart1.class);
     }
     
