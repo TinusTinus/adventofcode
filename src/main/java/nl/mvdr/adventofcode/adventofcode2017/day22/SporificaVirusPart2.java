@@ -14,15 +14,15 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SporificaVirusPart1 implements PathSolver<Integer> {
+public class SporificaVirusPart2 implements PathSolver<Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SporificaVirusPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SporificaVirusPart2.class);
 
     private final int bursts;
     
     /** Constructor. */
-    public SporificaVirusPart1() {
-        this(10_000);
+    public SporificaVirusPart2() {
+        this(10_000_000);
     }
     
     /**
@@ -30,7 +30,7 @@ public class SporificaVirusPart1 implements PathSolver<Integer> {
      * 
      * @param bursts number of bursts to perform
      */
-    SporificaVirusPart1(int bursts) {
+    SporificaVirusPart2(int bursts) {
         super();
         this.bursts = bursts;
     }
@@ -44,7 +44,7 @@ public class SporificaVirusPart1 implements PathSolver<Integer> {
     public Integer solve(Path inputFilePath) throws IOException {
         Grid startingGrid = Grid.parse(inputFilePath);
         
-        Grid finalGrid = startingGrid.burst(bursts, false);
+        Grid finalGrid = startingGrid.burst(bursts, true);
         
         return Integer.valueOf(finalGrid.getInfectionCount());
     }
@@ -55,7 +55,7 @@ public class SporificaVirusPart1 implements PathSolver<Integer> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SporificaVirusPart1 instance = new SporificaVirusPart1();
+        SporificaVirusPart2 instance = new SporificaVirusPart2();
 
         String result = instance.solve("input-day22-2017.txt");
 

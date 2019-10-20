@@ -54,8 +54,6 @@ class Grid {
                         .mapToObj(x -> new Point(x, y.intValue())))
                 .collect(Collectors.toSet());
         
-        LOGGER.debug("Initial infected nodes: {}", infectedNodes);
-        
         return new Grid(Set.copyOf(infectedNodes), startingLocation, Direction.UP, 0);
     }
     
@@ -82,18 +80,22 @@ class Grid {
      * @param bursts number of times to burst
      * @return new state of the grid, after executing the given number of bursts
      */
-    Grid burst(int bursts) {
-        LOGGER.debug("Bursting {} times.", Integer.valueOf(bursts));
+    Grid burst(int bursts, boolean evolved) {
+        LOGGER.debug("Bursting {} times. Initial grid: {}", Integer.valueOf(bursts), this);
         Grid result = this;
         for (int i = 0; i != bursts; i++) {
-            result = result.burst();
+            if (evolved) {
+                result = result.evolvedBurst();
+            } else {
+                result = result.burst();
+            }
             LOGGER.debug("Updated grid: {}", result);
         }
         return result;
     }
     
-    /** @return new state of the grid, after executing a single burst */
-    Grid burst() {
+    /** @return new state of the grid, after executing a single burst for the original virus */
+    private Grid burst() {
         Direction newDirection;
         Set<Point> newInfectedNodes = new HashSet<>(infectedNodes);
         int newInfectionCount = infectionCount;
@@ -117,6 +119,12 @@ class Grid {
         
         return new Grid(Set.copyOf(newInfectedNodes), newLocation, newDirection, newInfectionCount);
     }
+    
+    /** @return new state of the grid, after executing a single burst for the evolved virus */
+    private Grid evolvedBurst() {
+        return this; // TODO implement
+    }
+
     
     /**
      * @return number of times the carrier has infected a node
