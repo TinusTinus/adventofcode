@@ -1,9 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2017.day22;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -14,6 +21,9 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 class Grid {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Grid.class);
+    
     private final Set<Point> infectedNodes;
     
     private final Point carrierLocation;
@@ -29,7 +39,24 @@ class Grid {
      * @throws IOException in case the text file could not be read
      */
     static Grid parse(Path inputFilePath) throws IOException {
-        return new Grid(Set.of(), new Point(0, 0), Direction.UP, 0); // TODO implement for realsies
+        List<String> lines = Files.lines(inputFilePath)
+                .filter(line -> !"".equals(line))
+                .collect(Collectors.toList());
+
+        int startingX = lines.size() / 2;
+        int startingY = lines.get(startingX).length() / 2;
+        Point startingLocation = new Point(startingX, startingY);
+        
+        Set<Point> infectedNodes = IntStream.range(0, lines.size())
+                .boxed()
+                .flatMap(y -> IntStream.range(0, lines.get(y.intValue()).length())
+                        .filter(x -> lines.get(y.intValue()).charAt(x) == '#')
+                        .mapToObj(x -> new Point(x, y.intValue())))
+                .collect(Collectors.toSet());
+        
+        LOGGER.debug("Initial infected nodes: {}", infectedNodes);
+        
+        return new Grid(Set.copyOf(infectedNodes), startingLocation, Direction.UP, 0);
     }
     
     /**
@@ -56,9 +83,11 @@ class Grid {
      * @return new state of the grid, after executing the given number of bursts
      */
     Grid burst(int bursts) {
+        LOGGER.debug("Bursting {} times.", Integer.valueOf(bursts));
         Grid result = this;
         for (int i = 0; i != bursts; i++) {
             result = result.burst();
+            LOGGER.debug("Updated grid: {}", result);
         }
         return result;
     }
@@ -69,15 +98,17 @@ class Grid {
         Set<Point> newInfectedNodes = new HashSet<>(infectedNodes);
         int newInfectionCount = infectionCount;
         if (infectedNodes.contains(carrierLocation)) {
+            LOGGER.debug("Node at {} is infected. Carrier turns to its right and cleans the node.", carrierLocation);
             // Carrier turns to its right.
             newDirection = carrierDirection.turnClockwise();
             // Curent node becomes cleaned.
             newInfectedNodes.remove(carrierLocation);
         } else {
+            LOGGER.debug("Node at {} is clean. Carrier turns to its left and infects the node.", carrierLocation);
             // Carrier turns to its left.
             newDirection = carrierDirection.turnCounterClockwise();
             // Current node becomes infected.
-            newInfectedNodes.remove(carrierLocation);
+            newInfectedNodes.add(carrierLocation);
             newInfectionCount++;
         }
         
@@ -93,5 +124,11 @@ class Grid {
      */
     int getInfectionCount() {
         return infectionCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Grid [infectedNodes=" + infectedNodes + ", carrierLocation=" + carrierLocation + ", carrierDirection="
+                + carrierDirection + ", infectionCount=" + infectionCount + "]";
     }
 }
