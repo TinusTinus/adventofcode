@@ -25,6 +25,8 @@ class Grid {
     private static final Logger LOGGER = LoggerFactory.getLogger(Grid.class);
     
     private final Set<Point> infectedNodes;
+    private final Set<Point> weakenedNodes;
+    private final Set<Point> flaggedNodes;
     
     private final Point carrierLocation;
     private final Direction carrierDirection;
@@ -54,7 +56,7 @@ class Grid {
                         .mapToObj(x -> new Point(x, y.intValue())))
                 .collect(Collectors.toSet());
         
-        return new Grid(Set.copyOf(infectedNodes), startingLocation, Direction.UP, 0);
+        return new Grid(Set.copyOf(infectedNodes), Set.of(), Set.of(), startingLocation, Direction.UP, 0);
     }
     
     /**
@@ -66,9 +68,12 @@ class Grid {
      * @param infectionCount number of times the carrier has infected a node
      *      (regardless of whether the node in question has since been cleaned)
      */
-    private Grid(Set<Point> infectedNodes, Point carrierLocation, Direction carrierDirection, int infectionCount) {
+    private Grid(Set<Point> infectedNodes, Set<Point> weakenedNodes, Set<Point> flaggedNodes,
+            Point carrierLocation, Direction carrierDirection, int infectionCount) {
         super();
         this.infectedNodes = infectedNodes;
+        this.weakenedNodes = weakenedNodes;
+        this.flaggedNodes = flaggedNodes;
         this.carrierLocation = carrierLocation;
         this.carrierDirection = carrierDirection;
         this.infectionCount = infectionCount;
@@ -117,7 +122,7 @@ class Grid {
         // Carrier moves forward one node in the direction it is now facing.
         Point newLocation = newDirection.move(carrierLocation);
         
-        return new Grid(Set.copyOf(newInfectedNodes), newLocation, newDirection, newInfectionCount);
+        return new Grid(Set.copyOf(newInfectedNodes), weakenedNodes, flaggedNodes, newLocation, newDirection, newInfectionCount);
     }
     
     /** @return new state of the grid, after executing a single burst for the evolved virus */
