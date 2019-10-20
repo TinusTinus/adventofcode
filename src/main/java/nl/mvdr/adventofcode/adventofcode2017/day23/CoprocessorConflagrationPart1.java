@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
+import nl.mvdr.adventofcode.adventofcode2017.duet.MultiplyInstruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
 
 /**
@@ -32,7 +33,7 @@ public class CoprocessorConflagrationPart1 implements PathSolver<Integer> {
         Program program = new Program(instructions);
         program = program.executeInstructions();
         
-        return null; // TODO number of multiplications
+        return Integer.valueOf(program.timesExecuted(MultiplyInstruction.class));
     }
     
     /**

@@ -6,7 +6,7 @@ package nl.mvdr.adventofcode.adventofcode2017.duet;
  *
  * @author Martijn van de Rijdt
  */
-class MultiplyInstruction extends UpdateRegisterInstruction {
+public class MultiplyInstruction extends UpdateRegisterInstruction {
 
     /** Keyword for this instruction. */
     static final String NAME = "mul";

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
+import nl.mvdr.adventofcode.adventofcode2017.duet.SendInstruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.State;
 
 /**
@@ -47,7 +48,7 @@ public class DuetPart2 implements PathSolver<Integer> {
         LOGGER.debug("End program 0: {}", program0);
         LOGGER.debug("End program 1: {}", program1);
         
-        return Integer.valueOf(program1.getState().getTimesSent());
+        return Integer.valueOf(program1.timesExecuted(SendInstruction.class));
     }
     
     /**

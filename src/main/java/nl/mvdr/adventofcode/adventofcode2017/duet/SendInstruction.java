@@ -5,7 +5,7 @@ package nl.mvdr.adventofcode.adventofcode2017.duet;
  *
  * @author Martijn van de Rijdt
  */
-class SendInstruction implements Instruction {
+public class SendInstruction implements Instruction {
 
     /** Keyword for this instruction. */
     static final String NAME = "snd";
