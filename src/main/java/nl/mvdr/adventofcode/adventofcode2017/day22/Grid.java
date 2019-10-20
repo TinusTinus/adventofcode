@@ -141,7 +141,8 @@ class Grid {
 
     @Override
     public String toString() {
-        return "Grid [infectedNodes=" + infectedNodes + ", carrierLocation=" + carrierLocation + ", carrierDirection="
-                + carrierDirection + ", infectionCount=" + infectionCount + "]";
+        return "Grid [infectedNodes=" + infectedNodes + ", weakenedNodes=" + weakenedNodes + ", flaggedNodes="
+                + flaggedNodes + ", carrierLocation=" + carrierLocation + ", carrierDirection=" + carrierDirection
+                + ", infectionCount=" + infectionCount + "]";
     }
 }
