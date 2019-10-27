@@ -26,6 +26,8 @@ public class HaltingProblem implements PathSolver<Integer> {
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
+        TuringMachine machine = TuringMachine.parse(inputFilePath);
+        
         return null;
     }
     
