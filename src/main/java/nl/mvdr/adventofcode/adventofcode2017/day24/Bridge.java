@@ -58,7 +58,7 @@ class Bridge {
      * @param component component to attach
      * @return a valid new bridge with the component attached, or empty in case this component cannot be attached 
      */
-    Optional<Bridge> attach(Component component) {
+    private Optional<Bridge> attach(Component component) {
         Optional<Bridge> result;
         if (components.contains(component)) {
             // Unable to use the same component twice
