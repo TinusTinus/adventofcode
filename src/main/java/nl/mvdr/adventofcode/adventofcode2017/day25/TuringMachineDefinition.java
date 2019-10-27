@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day25;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Static definition of a Turing machine.
@@ -29,7 +28,7 @@ class TuringMachineDefinition {
     
     /** @return new Turing machine in its initial state */
     TuringMachine createTuringMachine() {
-        return new TuringMachine(this, Set.of(), 0, initialState);
+        return new TuringMachine(this, initialState);
     }
     
     /**

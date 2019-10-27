@@ -58,16 +58,15 @@ class State {
     /**
      * Executes this state.
      * 
-     * @param machine initial Turing machine
-     * @return new Turing machine, updated after executing this state
+     * @param machine Turing machine
      */
-    TuringMachine execute(TuringMachine machine) {
+    void execute(TuringMachine machine) {
         Step step;
         if (machine.getTape().contains(Integer.valueOf(machine.getCursor()))) {
             step = step1;
         } else {
             step = step0;
         }
-        return step.execute(machine);
+        step.execute(machine);
     }
 }

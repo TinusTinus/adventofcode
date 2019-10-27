@@ -53,19 +53,15 @@ class Step {
     /**
      * Executes this step.
      * 
-     * @param machine initial Turing machine
-     * @return new Turing machine, updated after executing this step
+     * @param machine Turing machine
      */
-    TuringMachine execute(TuringMachine machine) {
-        Set<Integer> tape = new HashSet<>(machine.getTape());
+    void execute(TuringMachine machine) {
         if (value) {
-            tape.add(Integer.valueOf(machine.getCursor()));
+            machine.getTape().add(Integer.valueOf(machine.getCursor()));
         } else {
-            tape.remove(Integer.valueOf(machine.getCursor()));
+            machine.getTape().remove(Integer.valueOf(machine.getCursor()));
         }
-        
-        int cursor = machine.getCursor() + direction;
-        
-        return new TuringMachine(machine.getDefinition(), tape, cursor, nextState);
+        machine.setCursor(machine.getCursor() + direction);
+        machine.setNextState(nextState);
     }
 }

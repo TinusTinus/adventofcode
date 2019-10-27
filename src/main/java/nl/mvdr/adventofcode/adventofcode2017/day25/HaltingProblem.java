@@ -29,12 +29,7 @@ public class HaltingProblem implements PathSolver<Integer> {
         TuringMachine machine = blueprint.getTuringMachineDefinition().createTuringMachine();
         
         for (int i = 0; i != blueprint.getSteps(); i++) {
-            machine = machine.executeStep();
-            
-            // TODO clean up logging
-            if (i % 100_000 == 99_999) {
-                LOGGER.info("{} steps taken, current checksum value: {}", i, machine.checksum());
-            }
+            machine.executeStep();
         }
         
         return Integer.valueOf(machine.checksum());

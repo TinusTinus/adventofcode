@@ -25,6 +25,6 @@ public class HaltingProblemTest extends SolverTest<HaltingProblem> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day25-2017.txt");
+        assertSolution("3145", "input-day25-2017.txt");
     }
 }

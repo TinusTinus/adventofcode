@@ -1,9 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day25;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * A Turing machine.
+ * 
+ * Note: this class is mutable.
  *
  * @author Martijn van de Rijdt
  */
@@ -15,10 +18,10 @@ class TuringMachine {
     private final Set<Integer> tape;
     
     /** Cursor in the tape, which can move left (negative values) or right (positive values). */
-    private final int cursor;
+    private int cursor;
     
     /** Name of the next state to be exectuted. */
-    private final String nextState;
+    private String nextState;
 
     /**
      * Constructor.
@@ -28,18 +31,18 @@ class TuringMachine {
      * @param cursor cursor
      * @param nextState name of the next state
      */
-    TuringMachine(TuringMachineDefinition definition, Set<Integer> tape, int cursor, String nextState) {
+    TuringMachine(TuringMachineDefinition definition, String initialState) {
         super();
         this.definition = definition;
-        this.tape = tape;
-        this.cursor = cursor;
-        this.nextState = nextState;
+        this.tape = new HashSet<>();
+        this.cursor = 0;
+        this.nextState = initialState;
     }
     
-    /** @return new Turing machine, updated after taking a single step */
-    TuringMachine executeStep() {
+    /** Executes a single step. */
+    void executeStep() {
         State state = definition.getState(nextState);
-        return state.execute(this);
+        state.execute(this);
     }
     
     /** @return diagnostic checksum */
@@ -61,5 +64,13 @@ class TuringMachine {
     
     String getNextState() {
         return nextState;
+    }
+    
+    void setCursor(int cursor) {
+        this.cursor = cursor;
+    }
+    
+    void setNextState(String nextState) {
+        this.nextState = nextState;
     }
 }
