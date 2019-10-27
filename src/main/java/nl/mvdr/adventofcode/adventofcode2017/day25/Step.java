@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2017.day25;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Specification of a single step in a Turing machine.
  *
