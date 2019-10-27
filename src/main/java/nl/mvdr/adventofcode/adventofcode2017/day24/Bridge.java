@@ -93,6 +93,11 @@ class Bridge {
                 .sum();
     }
     
+    /** @return length of this bridge */
+    int length() {
+        return components.size();
+    }
+    
     @Override
     public String toString() {
         return components.stream()
