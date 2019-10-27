@@ -54,4 +54,20 @@ class State {
         this.step0 = step0;
         this.step1 = step1;
     }
+    
+    /**
+     * Executes this state.
+     * 
+     * @param machine initial Turing machine
+     * @return new Turing machine, updated after executing this state
+     */
+    TuringMachine execute(TuringMachine machine) {
+        Step step;
+        if (machine.getTape().contains(Integer.valueOf(machine.getCursor()))) {
+            step = step1;
+        } else {
+            step = step0;
+        }
+        return step.execute(machine);
+    }
 }

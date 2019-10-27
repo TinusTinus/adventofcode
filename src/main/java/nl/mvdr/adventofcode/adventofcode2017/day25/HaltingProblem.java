@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2017.day25;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +25,19 @@ public class HaltingProblem implements PathSolver<Integer> {
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
-        TuringMachine machine = TuringMachine.parse(inputFilePath);
+        Blueprint blueprint = Blueprint.parse(inputFilePath);
+        TuringMachine machine = blueprint.getTuringMachineDefinition().createTuringMachine();
         
-        return null;
+        for (int i = 0; i != blueprint.getSteps(); i++) {
+            machine = machine.executeStep();
+            
+            // TODO clean up logging
+            if (i % 100_000 == 99_999) {
+                LOGGER.info("{} steps taken, current checksum value: {}", i, machine.checksum());
+            }
+        }
+        
+        return Integer.valueOf(machine.checksum());
     }
     
     /**

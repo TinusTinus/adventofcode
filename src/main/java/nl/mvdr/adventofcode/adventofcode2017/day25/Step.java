@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day25;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Specification of a single step in a Turing machine.
  *
@@ -45,5 +48,24 @@ class Step {
         this.value = value;
         this.direction = direction;
         this.nextState = nextState;
+    }
+    
+    /**
+     * Executes this step.
+     * 
+     * @param machine initial Turing machine
+     * @return new Turing machine, updated after executing this step
+     */
+    TuringMachine execute(TuringMachine machine) {
+        Set<Integer> tape = new HashSet<>(machine.getTape());
+        if (value) {
+            tape.add(Integer.valueOf(machine.getCursor()));
+        } else {
+            tape.remove(Integer.valueOf(machine.getCursor()));
+        }
+        
+        int cursor = machine.getCursor() + direction;
+        
+        return new TuringMachine(machine.getDefinition(), tape, cursor, nextState);
     }
 }
