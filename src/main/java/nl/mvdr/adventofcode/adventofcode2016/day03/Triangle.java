@@ -13,6 +13,12 @@ class Triangle {
     /** Length of the third side. */
     private final int c;
     
+    /**
+     * Parses a line into a triangle.
+     * 
+     * @param string string representation of the three sides of a triangle; for example: "5 10 25"
+     * @return triangle
+     */
     static Triangle parse(String string) {
         String[] parts = string.trim().split(" +");
         int a = Integer.parseInt(parts[0]);
@@ -21,7 +27,14 @@ class Triangle {
         return new Triangle(a, b, c);
     }
     
-    private Triangle(int a, int b, int c) {
+    /**
+     * Constructor.
+     * 
+     * @param a length of the first side
+     * @param b length of the second side
+     * @param c length of the third side
+     */
+    Triangle(int a, int b, int c) {
         super();
         this.a = a;
         this.b = b;
