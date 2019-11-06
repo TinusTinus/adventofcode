@@ -16,8 +16,8 @@
         <!-- dependency versions -->
         <commons-lang.version>3.9</commons-lang.version>
         <jgrapht.version>1.3.1</jgrapht.version>
-        <junit.version>5.5.1</junit.version>
-        <slf4j.version>1.7.26</slf4j.version>
+        <junit.version>5.5.2</junit.version>
+        <slf4j.version>1.7.29</slf4j.version>
     </properties>
 
     <dependencies>
