@@ -11,16 +11,19 @@ import java.util.stream.Stream;
  */
 public enum Direction {
     /** Up / north. */
-    UP('^', true, Point::aboveNeighbour),
+    UP('^', 'U', true, Point::aboveNeighbour),
     /** Down / south. */
-    DOWN('v', true, Point::belowNeighbour),
+    DOWN('v', 'D', true, Point::belowNeighbour),
     /** Left / west. */
-    LEFT('<', false, Point::leftNeighbour),
+    LEFT('<', 'L', false, Point::leftNeighbour),
     /** Right / east. */
-    RIGHT('>', false, Point::rightNeighbour);
+    RIGHT('>', 'R', false, Point::rightNeighbour);
     
     /** Character representation of this direction. */
     private final char representation;
+    
+    /** Alternate character representation of this direction. */
+    private final char alternateRepresentation;
     
     /** Whether this direction is vertical. */
     private final boolean vertical;
@@ -35,8 +38,9 @@ public enum Direction {
      * @param vertical whether this direction is vertical
      * @param next function that, given a location, determines the next location
      */
-    Direction(char representation, boolean vertical, Function<Point, Point> next) {
+    Direction(char representation, char alternateRepresentation, boolean vertical, Function<Point, Point> next) {
         this.representation = representation;
+        this.alternateRepresentation = alternateRepresentation;
         this.vertical = vertical;
         this.next = next;
     }
@@ -49,7 +53,7 @@ public enum Direction {
      */
     public static Optional<Direction> of(char representation) {
         return Stream.of(Direction.values())
-                .filter(direction -> direction.representation == representation)
+                .filter(direction -> direction.representation == representation || direction.alternateRepresentation == representation)
                 .findFirst();
     }
     
