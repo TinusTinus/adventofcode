@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Solution to the day 5 puzzle of 2017's Advent of Code:
- * <a href="https://adventofcode.com/2018/day/5">A Maze of Twisty Trampolines, All Alike</a>.
+ * <a href="https://adventofcode.com/2017/day/5">A Maze of Twisty Trampolines, All Alike</a>.
  *
  * @author Martijn van de Rijdt
  */

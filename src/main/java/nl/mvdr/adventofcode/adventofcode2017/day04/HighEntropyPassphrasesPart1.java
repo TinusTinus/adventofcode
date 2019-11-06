@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Solution to the day 4 puzzle of 2017's Advent of Code:
- * <a href="https://adventofcode.com/2018/day/3">Spiral Memory</a>.
+ * <a href="https://adventofcode.com/2017/day/3">Spiral Memory</a>.
  *
  * @author Martijn van de Rijdt
  */

@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to the day 2 puzzle of 2018's Advent of Code:
- * <a href="https://adventofcode.com/2018/day/2">Corruption Checksum</a>.
+ * Solution to the day 2 puzzle of 2017's Advent of Code:
+ * <a href="https://adventofcode.com/2017/day/2">Corruption Checksum</a>.
  *
  * @author Martijn van de Rijdt
  */
