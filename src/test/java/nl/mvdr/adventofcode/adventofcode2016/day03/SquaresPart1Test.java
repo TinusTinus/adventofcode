@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class BathroomSecurityPart1Test extends SolverTest<SquaresPart1> {
+public class SquaresPart1Test extends SolverTest<SquaresPart1> {
 
     /** Constructor. */
-    public BathroomSecurityPart1Test() {
+    public SquaresPart1Test() {
         super(SquaresPart1.class);
     }
 
