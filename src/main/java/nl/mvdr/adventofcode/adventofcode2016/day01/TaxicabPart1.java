@@ -36,13 +36,11 @@ public class TaxicabPart1 implements PathSolver<Integer> {
         Point location = startingLocation;
         
         for (String part : input.split(", ")) {
-            if (part.charAt(0) == 'L') {
-                direction = direction.turnCounterClockwise();
-            } else if (part.charAt(0) == 'R') {
-                direction = direction.turnClockwise();
-            } else {
-                throw new IllegalStateException("Unexpected input: " + part);
-            }
+            direction = switch (part.charAt(0)) {
+                case 'L' -> direction.turnCounterClockwise();
+                case 'R' -> direction.turnClockwise();
+                default -> throw new IllegalStateException("Unexpected input: " + part);
+            };
             
             int numberOfSteps = Integer.parseInt(part.substring(1));
             for (int i = 0; i != numberOfSteps; i++) {
