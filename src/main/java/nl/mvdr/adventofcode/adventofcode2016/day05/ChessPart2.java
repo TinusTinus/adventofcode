@@ -50,13 +50,12 @@ public class ChessPart2 implements PathSolver<String> {
             .filter(hash -> hash.charAt(5) < '8')
             // only consider the first result for each position
             .filter(hash -> !result.containsKey(Integer.valueOf("" + hash.charAt(5))))
+            // limit the password to the first 8 resulting characters
+            .limit(8)
             // insert into the result map
             .peek(hash -> result.put(Integer.valueOf("" + hash.charAt(5)), Character.valueOf(hash.charAt(6))))
             // log intermediate results for extra pride
-            .peek(hash -> LOGGER.info(toString(result)))
-            // limit the password to the first 8 resulting characters
-            .limit(8)
-            .collect(Collectors.joining());
+            .forEach(hash -> LOGGER.info("{}: {}", hash, toString(result)));
         
         return toString(result);
     }
