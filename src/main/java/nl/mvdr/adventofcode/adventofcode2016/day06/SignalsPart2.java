@@ -15,7 +15,7 @@ public class SignalsPart2 extends Signals {
     
     /** Constructor. */
     public SignalsPart2() {
-        super(false);
+        super(true);
     }
     
     /**

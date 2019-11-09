@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -23,16 +22,16 @@ import nl.mvdr.adventofcode.PathSolver;
  */
 abstract class Signals implements PathSolver<String> {
 
-    private final boolean max;
+    private final boolean min;
     
     /**
      * Constructor.
      * 
-     * @param max whether the maximum number of occurrences determines the character; if false the minimum is used instead
+     * @param min whether the minimum number of occurrences determines the character; if false, the maximum is used instead
      */
-    Signals(boolean max) {
+    Signals(boolean min) {
         super();
-        this.max = max;
+        this.min = min;
     }
     
     /**
@@ -65,16 +64,13 @@ abstract class Signals implements PathSolver<String> {
                 // count occurrences of each letter
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        // TODO simplify this
-        Function<Comparator<Entry<Character, Long>>, BinaryOperator<Entry<Character, Long>>> accumulatorFunction;
-        if (max) {
-            accumulatorFunction = BinaryOperator::maxBy;
-        } else {
-            accumulatorFunction = BinaryOperator::minBy;
+        Comparator<Entry<Character, Long>> comparator = Comparator.comparing(Entry::getValue);
+        if (min) {
+            comparator = comparator.reversed();
         }
         
         return counters.entrySet().stream()
-                .reduce(accumulatorFunction.apply(Comparator.comparing(Entry::getValue)))
+                .max(comparator)
                 .map(Entry::getKey)
                 .get();
     }
