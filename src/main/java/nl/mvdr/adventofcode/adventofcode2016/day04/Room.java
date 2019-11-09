@@ -42,7 +42,7 @@ class Room {
      * @param text text representation of a room, for example: aaaaa-bbb-z-y-x-123[abxyz]
      * @return room
      */
-    private static Room parseRoom(String text) {
+    static Room parseRoom(String text) {
         int lastDashIndex = text.lastIndexOf('-');
         int openingBracketIndex = text.indexOf('[');
         
@@ -97,6 +97,24 @@ class Room {
     
     int getSectorId() {
         return sectorId;
+    }
+    
+    /** @return decrypted name */
+    String decryptName() {
+        return encryptedName.chars()
+                .map(this::decrypt)
+                .mapToObj(c -> "" + (char)c)
+                .collect(Collectors.joining());
+    }
+    
+    private int decrypt(int c) {
+        int result;
+        if (c == '-') {
+            result = ' ';
+        } else {
+            result = (c - 'a' + sectorId) % 26 + 'a';
+        }
+        return result;
     }
     
     @Override
