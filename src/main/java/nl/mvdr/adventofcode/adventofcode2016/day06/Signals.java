@@ -56,7 +56,7 @@ abstract class Signals implements PathSolver<String> {
      * 
      * @param index index in the message string
      * @param corruptedMessages messages as received (all of the same length)
-     * @return the character which occurs most frequently at the given index
+     * @return the character at the given index
      */
     private Character findCharacterAt(int index, List<String> corruptedMessages) {
         Map<Character, Long> counters = corruptedMessages.stream()
