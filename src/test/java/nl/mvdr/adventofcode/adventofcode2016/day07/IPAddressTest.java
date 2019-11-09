@@ -31,4 +31,44 @@ public class IPAddressTest {
         
         Assertions.assertEquals(input, result);
     }
+    
+    /** Test case for {@link IPAddress#supportsTransportLayerSnooping()}. */
+    @Test
+    public void testSupportsTLS0() {
+        IPAddress address = IPAddress.parseIPAddress("abba[mnop]qrst");
+        
+        boolean result = address.supportsTransportLayerSnooping();
+        
+        Assertions.assertTrue(result);
+    }
+    
+    /** Test case for {@link IPAddress#supportsTransportLayerSnooping()}. */
+    @Test
+    public void testSupportsTLS1() {
+        IPAddress address = IPAddress.parseIPAddress("abcd[bddb]xyyx");
+        
+        boolean result = address.supportsTransportLayerSnooping();
+        
+        Assertions.assertFalse(result);
+    }
+    
+    /** Test case for {@link IPAddress#supportsTransportLayerSnooping()}. */
+    @Test
+    public void testSupportsTLS2() {
+        IPAddress address = IPAddress.parseIPAddress("aaaa[qwer]tyui");
+        
+        boolean result = address.supportsTransportLayerSnooping();
+        
+        Assertions.assertFalse(result);
+    }
+    
+    /** Test case for {@link IPAddress#supportsTransportLayerSnooping()}. */
+    @Test
+    public void testSupportsTLS3() {
+        IPAddress address = IPAddress.parseIPAddress("ioxxoj[asdfgh]zxcvbn");
+        
+        boolean result = address.supportsTransportLayerSnooping();
+        
+        Assertions.assertTrue(result);
+    }
 }

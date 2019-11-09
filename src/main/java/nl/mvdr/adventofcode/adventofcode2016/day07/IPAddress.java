@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Representation of an Internet Protocol address in Internet Protocol Version 7.
@@ -71,6 +72,32 @@ class IPAddress {
         super();
         this.nonHypernetSequences = nonHypernetSequences;
         this.hypernetSequences = hypernetSequences;
+    }
+    
+    /** @return whether this IP address supports TLS (transport-layer snooping) */
+    boolean supportsTransportLayerSnooping() {
+        return hypernetSequences.stream().noneMatch(IPAddress::containsAbba)
+                && nonHypernetSequences.stream().anyMatch(IPAddress::containsAbba);
+    }
+    
+    /**
+     * Determines whether the given string contains an ABBA.
+     * 
+     * An ABBA is any four-character sequence which consists of a pair of two
+     * different characters followed by the reverse of that pair, such as xyyx or
+     * abba.
+     * 
+     * @param string string
+     * @return whether the given string contains an ABBA.
+     */
+    private static boolean containsAbba(String string) {
+        return IntStream.range(0, string.length() - 3)
+            // a = a
+            .filter(i -> string.charAt(i) == string.charAt(i + 3))
+            // b = b
+            .filter(i -> string.charAt(i + 1) == string.charAt(i + 2))
+            // a != b
+            .anyMatch(i -> string.charAt(i) != string.charAt(i + 1));
     }
     
     @Override
