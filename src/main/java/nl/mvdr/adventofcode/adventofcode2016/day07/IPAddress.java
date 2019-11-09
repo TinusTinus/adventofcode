@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Representation of an Internet Protocol address in Internet Protocol Version 7.
@@ -91,14 +92,13 @@ class IPAddress {
      * @param string string
      * @return ABAs
      */
-    private static Set<String> getAbas(String string) {
+    private static Stream<String> getAbas(String string) {
         return IntStream.range(0, string.length() - 2)
                 // a = a
                 .filter(i -> string.charAt(i) == string.charAt(i + 2))
                 // a != b
                 .filter(i -> string.charAt(i) != string.charAt(i + 1))
-                .mapToObj(i -> string.substring(i, i + 3))
-                .collect(Collectors.toSet());
+                .mapToObj(i -> string.substring(i, i + 3));
     }
     
     /**
@@ -122,8 +122,7 @@ class IPAddress {
     /** @return whether this IP address supports SSL (super-secret listening) */
     boolean supportsSuperSecretListening() {
         return supernetSequences.stream()
-                .map(IPAddress::getAbas)
-                .flatMap(Set::stream)
+                .flatMap(IPAddress::getAbas)
                 .map(aba -> "" + aba.charAt(1) + aba.charAt(0) + aba.charAt(1))
                 .anyMatch(bab -> hypernetSequences.stream().anyMatch(hypernetSequence -> hypernetSequence.contains(bab)));
     }
