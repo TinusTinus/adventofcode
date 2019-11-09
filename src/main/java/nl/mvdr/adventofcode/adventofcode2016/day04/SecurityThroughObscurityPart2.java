@@ -15,14 +15,14 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SecurityThroughObscurityPart1 implements PathSolver<Integer> {
+public class SecurityThroughObscurityPart2 implements PathSolver<Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityThroughObscurityPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityThroughObscurityPart2.class);
     
     /**
      * {@inheritDoc}
      * 
-     * @return sum of the sector IDs of the real rooms
+     * @return the sector ID of the room where North Pole objects are stored
      */
     @Override
     public Integer solve(Path inputFilePath) throws IOException {
@@ -30,8 +30,10 @@ public class SecurityThroughObscurityPart1 implements PathSolver<Integer> {
         
         int result = rooms.stream()
                 .filter(Room::isReal)
+                .filter(room -> "northpole object storage".equals(room.decryptName()))
                 .mapToInt(Room::getSectorId)
-                .sum();
+                .findFirst()
+                .getAsInt();
         
         return Integer.valueOf(result);
     }
@@ -42,7 +44,7 @@ public class SecurityThroughObscurityPart1 implements PathSolver<Integer> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SecurityThroughObscurityPart1 instance = new SecurityThroughObscurityPart1();
+        SecurityThroughObscurityPart2 instance = new SecurityThroughObscurityPart2();
 
         String result = instance.solve("input-day04-2016.txt");
 
