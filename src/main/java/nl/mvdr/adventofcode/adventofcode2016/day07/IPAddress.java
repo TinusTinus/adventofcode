@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
  */
 class IPAddress {
     
-    private final List<String> nonHypernetSequences;
+    private final List<String> supernetSequences;
     private final List<String> hypernetSequences;
 
     /**
@@ -63,25 +63,7 @@ class IPAddress {
     }
     
     /**
-     * Constructor.
-     * 
-     * @param nonHypernetSequences non-hypernet sequences
-     * @param hypernetSequences hypernet sequences
-     */
-    private IPAddress(List<String> nonHypernetSequences, List<String> hypernetSequences) {
-        super();
-        this.nonHypernetSequences = nonHypernetSequences;
-        this.hypernetSequences = hypernetSequences;
-    }
-    
-    /** @return whether this IP address supports TLS (transport-layer snooping) */
-    boolean supportsTransportLayerSnooping() {
-        return hypernetSequences.stream().noneMatch(IPAddress::containsAbba)
-                && nonHypernetSequences.stream().anyMatch(IPAddress::containsAbba);
-    }
-    
-    /**
-     * Determines whether the given string contains an ABBA.
+     * Determines whether the given string contains an Autonomous Bridge Bypass Annotation.
      * 
      * An ABBA is any four-character sequence which consists of a pair of two
      * different characters followed by the reverse of that pair, such as xyyx or
@@ -100,14 +82,60 @@ class IPAddress {
             .anyMatch(i -> string.charAt(i) != string.charAt(i + 1));
     }
     
+    /**
+     * Returns all Area-Broadcast Accessors, or ABAs, contained in the given string.
+     * 
+     * An ABA is any three-character sequence which consists of the same character
+     * twice with a different character between them, such as xyx or aba.
+     * 
+     * @param string string
+     * @return ABAs
+     */
+    private static Set<String> getAbas(String string) {
+        return IntStream.range(0, string.length() - 2)
+                // a = a
+                .filter(i -> string.charAt(i) == string.charAt(i + 2))
+                // a != b
+                .filter(i -> string.charAt(i) != string.charAt(i + 1))
+                .mapToObj(i -> string.substring(i, i + 3))
+                .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param nonHypernetSequences non-hypernet sequences
+     * @param hypernetSequences hypernet sequences
+     */
+    private IPAddress(List<String> nonHypernetSequences, List<String> hypernetSequences) {
+        super();
+        this.supernetSequences = nonHypernetSequences;
+        this.hypernetSequences = hypernetSequences;
+    }
+    
+    /** @return whether this IP address supports TLS (transport-layer snooping) */
+    boolean supportsTransportLayerSnooping() {
+        return hypernetSequences.stream().noneMatch(IPAddress::containsAbba)
+                && supernetSequences.stream().anyMatch(IPAddress::containsAbba);
+    }
+    
+    /** @return whether this IP address supports SSL (super-secret listening) */
+    boolean supportsSuperSecretListening() {
+        return supernetSequences.stream()
+                .map(IPAddress::getAbas)
+                .flatMap(Set::stream)
+                .map(aba -> "" + aba.charAt(1) + aba.charAt(0) + aba.charAt(1))
+                .anyMatch(bab -> hypernetSequences.stream().anyMatch(hypernetSequence -> hypernetSequence.contains(bab)));
+    }
+    
     @Override
     public String toString() {
-        String result = nonHypernetSequences.get(0);
+        String result = supernetSequences.get(0);
         for (int i = 0; i != hypernetSequences.size(); i++) {
             result = result + "[";
             result = result + hypernetSequences.get(i);
             result = result + "]";
-            result = result + nonHypernetSequences.get(i + 1);
+            result = result + supernetSequences.get(i + 1);
         }
         return result;
     }

@@ -71,4 +71,44 @@ public class IPAddressTest {
         
         Assertions.assertTrue(result);
     }
+    
+    /** Test case for {@link IPAddress#supportsSuperSecretListening()}. */
+    @Test
+    public void testSupportsSSL0() {
+        IPAddress address = IPAddress.parseIPAddress("aba[bab]xyz");
+        
+        boolean result = address.supportsSuperSecretListening();
+        
+        Assertions.assertTrue(result);
+    }
+    
+    /** Test case for {@link IPAddress#supportsSuperSecretListening()}. */
+    @Test
+    public void testSupportsSSL1() {
+        IPAddress address = IPAddress.parseIPAddress("xyx[xyx]xyx");
+        
+        boolean result = address.supportsSuperSecretListening();
+        
+        Assertions.assertFalse(result);
+    }
+    
+    /** Test case for {@link IPAddress#supportsSuperSecretListening()}. */
+    @Test
+    public void testSupportsSSL2() {
+        IPAddress address = IPAddress.parseIPAddress("aaa[kek]eke");
+        
+        boolean result = address.supportsSuperSecretListening();
+        
+        Assertions.assertTrue(result);
+    }
+    
+    /** Test case for {@link IPAddress#supportsSuperSecretListening()}. */
+    @Test
+    public void testSupportsSSL3() {
+        IPAddress address = IPAddress.parseIPAddress("zazbz[bzb]cdb");
+        
+        boolean result = address.supportsSuperSecretListening();
+        
+        Assertions.assertTrue(result);
+    }
 }
