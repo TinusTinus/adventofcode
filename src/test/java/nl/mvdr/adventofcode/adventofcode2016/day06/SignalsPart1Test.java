@@ -25,6 +25,6 @@ public class SignalsPart1Test extends SolverTest<SignalsPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day06-2016.txt");
+        assertSolution("zcreqgiv", "input-day06-2016.txt");
     }
 }
