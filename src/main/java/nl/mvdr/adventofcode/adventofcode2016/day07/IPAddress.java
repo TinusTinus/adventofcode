@@ -42,13 +42,13 @@ class IPAddress {
      * @return IP address
      */
     static IPAddress parseIPAddress(String address) {
-        List<String> nonHypernetSequences = new ArrayList<>();
+        List<String> supernetSequences = new ArrayList<>();
         List<String> hypernetSequences = new ArrayList<>();
         
         String remaining = address;
         int index = remaining.indexOf("[");
         while (index != -1) {
-            nonHypernetSequences.add(remaining.substring(0, index));
+            supernetSequences.add(remaining.substring(0, index));
             remaining = remaining.substring(index + 1);
             
             index = remaining.indexOf("]");
@@ -58,9 +58,9 @@ class IPAddress {
             index = remaining.indexOf("[");
         }
         
-        nonHypernetSequences.add(remaining);
+        supernetSequences.add(remaining);
         
-        return new IPAddress(List.copyOf(nonHypernetSequences), List.copyOf(hypernetSequences));
+        return new IPAddress(List.copyOf(supernetSequences), List.copyOf(hypernetSequences));
     }
     
     /**
@@ -104,12 +104,12 @@ class IPAddress {
     /**
      * Constructor.
      * 
-     * @param nonHypernetSequences non-hypernet sequences
+     * @param supernetSequences supernet sequences
      * @param hypernetSequences hypernet sequences
      */
-    private IPAddress(List<String> nonHypernetSequences, List<String> hypernetSequences) {
+    private IPAddress(List<String> supernetSequences, List<String> hypernetSequences) {
         super();
-        this.supernetSequences = nonHypernetSequences;
+        this.supernetSequences = supernetSequences;
         this.hypernetSequences = hypernetSequences;
     }
     
