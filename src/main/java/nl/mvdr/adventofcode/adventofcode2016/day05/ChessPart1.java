@@ -3,12 +3,10 @@ package nl.mvdr.adventofcode.adventofcode2016.day05;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,22 +31,12 @@ public class ChessPart1 implements PathSolver<String> {
     public String solve(Path inputFilePath) throws IOException {
         String doorId = Files.lines(inputFilePath).findFirst().get();
         
-        MessageDigest md5;
-        try {
-            md5 = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
-        }
-        
         // consider all integers, starting from 0
         return IntStream.range(0, Integer.MAX_VALUE)
             // append the number to the door id
             .mapToObj(i -> doorId + i)
             // compute md5 hash
-            .map(String::getBytes)
-            .map(md5::digest)
-            // encode as a hexadecimal string
-            .map(Hex::encodeHexString)
+            .map(DigestUtils::md5Hex)
             .peek(LOGGER::debug)
             // only consider values where the hash starts with five zeroes
             .filter(hash -> hash.startsWith("00000"))
