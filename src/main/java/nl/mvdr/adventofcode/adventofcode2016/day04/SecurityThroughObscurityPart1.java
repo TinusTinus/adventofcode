@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.PathSolver;
 
 /**
- * Solution to the day 3 puzzle of 2016's Advent of Code:
- * <a href="https://adventofcode.com/2016/day/3">Squares With Three Sides</a>.
+ * Solution to the day 4 puzzle of 2016's Advent of Code:
+ * <a href="https://adventofcode.com/2016/day/4">Security Through Obscurity</a>.
  *
  * @author Martijn van de Rijdt
  */
