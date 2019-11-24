@@ -1,15 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2016.day01;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -19,7 +17,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class TaxicabPart2 implements PathSolver<Integer> {
+public class TaxicabPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaxicabPart2.class);
     
@@ -29,8 +27,8 @@ public class TaxicabPart2 implements PathSolver<Integer> {
      * @return Manhattan distance to Easter Bunny Headquarters
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        String input = Files.lines(inputFilePath).findFirst().get();
+    public int solve(Stream<String> lines) {
+        String input = lines.findFirst().orElseThrow();
         
         Point startingLocation = new Point(0, 0);
         
@@ -52,7 +50,7 @@ public class TaxicabPart2 implements PathSolver<Integer> {
                 location = direction.move(location);
                 
                 if (!visited.add(location)) {
-                    return Integer.valueOf(location.manhattanDistance(startingLocation));
+                    return location.manhattanDistance(startingLocation);
                 }
             }
         }

@@ -10,23 +10,23 @@ import org.junit.jupiter.api.Test;
  */
 public class IPAddressTest {
     
-    /** Test case for {@link IPAddress#parseIPAddress(String)} and {@link IPAddress#toString()}. */
+    /** Test case for {@link IPAddress#parse(String)} and {@link IPAddress#toString()}. */
     @Test
     public void testParseToString() {
         String input = "abba[mnop]qrst";
         
-        IPAddress address = IPAddress.parseIPAddress(input);
+        IPAddress address = IPAddress.parse(input);
         String result = address.toString();
         
         Assertions.assertEquals(input, result);
     }
     
-    /** Test case for {@link IPAddress#parseIPAddress(String)} and {@link IPAddress#toString()}. */
+    /** Test case for {@link IPAddress#parse(String)} and {@link IPAddress#toString()}. */
     @Test
     public void testParseToStringLongAddress() {
         String input = "zeebynirxqrjbdqzjav[cawghcfvfeefkmx]xqcdkvawumyayfnq[qhhwzlwjvjpvyavtm]sbnvwssglfpyacfbua[wpbknuubmsjjbekkfy]icimffaoqghdpvsbx";
         
-        IPAddress address = IPAddress.parseIPAddress(input);
+        IPAddress address = IPAddress.parse(input);
         String result = address.toString();
         
         Assertions.assertEquals(input, result);
@@ -35,7 +35,7 @@ public class IPAddressTest {
     /** Test case for {@link IPAddress#supportsTransportLayerSnooping()}. */
     @Test
     public void testSupportsTLS0() {
-        IPAddress address = IPAddress.parseIPAddress("abba[mnop]qrst");
+        IPAddress address = IPAddress.parse("abba[mnop]qrst");
         
         boolean result = address.supportsTransportLayerSnooping();
         
@@ -45,7 +45,7 @@ public class IPAddressTest {
     /** Test case for {@link IPAddress#supportsTransportLayerSnooping()}. */
     @Test
     public void testSupportsTLS1() {
-        IPAddress address = IPAddress.parseIPAddress("abcd[bddb]xyyx");
+        IPAddress address = IPAddress.parse("abcd[bddb]xyyx");
         
         boolean result = address.supportsTransportLayerSnooping();
         
@@ -55,7 +55,7 @@ public class IPAddressTest {
     /** Test case for {@link IPAddress#supportsTransportLayerSnooping()}. */
     @Test
     public void testSupportsTLS2() {
-        IPAddress address = IPAddress.parseIPAddress("aaaa[qwer]tyui");
+        IPAddress address = IPAddress.parse("aaaa[qwer]tyui");
         
         boolean result = address.supportsTransportLayerSnooping();
         
@@ -65,7 +65,7 @@ public class IPAddressTest {
     /** Test case for {@link IPAddress#supportsTransportLayerSnooping()}. */
     @Test
     public void testSupportsTLS3() {
-        IPAddress address = IPAddress.parseIPAddress("ioxxoj[asdfgh]zxcvbn");
+        IPAddress address = IPAddress.parse("ioxxoj[asdfgh]zxcvbn");
         
         boolean result = address.supportsTransportLayerSnooping();
         
@@ -75,7 +75,7 @@ public class IPAddressTest {
     /** Test case for {@link IPAddress#supportsSuperSecretListening()}. */
     @Test
     public void testSupportsSSL0() {
-        IPAddress address = IPAddress.parseIPAddress("aba[bab]xyz");
+        IPAddress address = IPAddress.parse("aba[bab]xyz");
         
         boolean result = address.supportsSuperSecretListening();
         
@@ -85,7 +85,7 @@ public class IPAddressTest {
     /** Test case for {@link IPAddress#supportsSuperSecretListening()}. */
     @Test
     public void testSupportsSSL1() {
-        IPAddress address = IPAddress.parseIPAddress("xyx[xyx]xyx");
+        IPAddress address = IPAddress.parse("xyx[xyx]xyx");
         
         boolean result = address.supportsSuperSecretListening();
         
@@ -95,7 +95,7 @@ public class IPAddressTest {
     /** Test case for {@link IPAddress#supportsSuperSecretListening()}. */
     @Test
     public void testSupportsSSL2() {
-        IPAddress address = IPAddress.parseIPAddress("aaa[kek]eke");
+        IPAddress address = IPAddress.parse("aaa[kek]eke");
         
         boolean result = address.supportsSuperSecretListening();
         
@@ -105,7 +105,7 @@ public class IPAddressTest {
     /** Test case for {@link IPAddress#supportsSuperSecretListening()}. */
     @Test
     public void testSupportsSSL3() {
-        IPAddress address = IPAddress.parseIPAddress("zazbz[bzb]cdb");
+        IPAddress address = IPAddress.parse("zazbz[bzb]cdb");
         
         boolean result = address.supportsSuperSecretListening();
         

@@ -1,16 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2016.day05;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 5 puzzle of 2016's Advent of Code:
@@ -18,7 +16,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChessPart1 implements PathSolver<String> {
+public class ChessPart1 implements LinesSolver<String> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessPart1.class);
     
@@ -28,8 +26,8 @@ public class ChessPart1 implements PathSolver<String> {
      * @return eight-character password
      */
     @Override
-    public String solve(Path inputFilePath) throws IOException {
-        String doorId = Files.lines(inputFilePath).findFirst().get();
+    public String solve(Stream<String> lines) {
+        String doorId = lines.findFirst().orElseThrow();
         
         // consider all integers, starting from 0
         return IntStream.range(0, Integer.MAX_VALUE)

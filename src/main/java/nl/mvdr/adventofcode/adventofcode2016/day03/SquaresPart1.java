@@ -1,14 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2016.day03;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 3 puzzle of 2016's Advent of Code:
@@ -16,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SquaresPart1 implements PathSolver<Long> {
+public class SquaresPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SquaresPart1.class);
     
@@ -26,14 +24,11 @@ public class SquaresPart1 implements PathSolver<Long> {
      * @return number of possible triangles
      */
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        long count = Files.lines(inputFilePath)
-                .filter(Predicate.not(String::isEmpty))
+    public long solve(Stream<String> lines) {
+        return lines.filter(Predicate.not(String::isEmpty))
                 .map(Triangle::parse)
                 .filter(Triangle::isPossible)
                 .count();
-        
-        return Long.valueOf(count);
     }
     
     /**

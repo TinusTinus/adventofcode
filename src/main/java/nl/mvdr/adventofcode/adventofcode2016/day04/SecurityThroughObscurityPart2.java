@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2016.day04;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 4 puzzle of 2016's Advent of Code:
@@ -15,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SecurityThroughObscurityPart2 implements PathSolver<Integer> {
+public class SecurityThroughObscurityPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityThroughObscurityPart2.class);
     
@@ -25,17 +24,14 @@ public class SecurityThroughObscurityPart2 implements PathSolver<Integer> {
      * @return the sector ID of the room where North Pole objects are stored
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Room> rooms = Room.parse(inputFilePath);
-        
-        int result = rooms.stream()
+    public int solve(Stream<String> lines) {
+        return lines.filter(Predicate.not(String::isEmpty))
+                .map(Room::parseRoom)
                 .filter(Room::isReal)
                 .filter(room -> "northpole object storage".equals(room.decryptName()))
                 .mapToInt(Room::getSectorId)
                 .findFirst()
                 .getAsInt();
-        
-        return Integer.valueOf(result);
     }
     
     /**

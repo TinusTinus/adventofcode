@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2016.day06;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +8,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 6 puzzle of 2016's Advent of Code:
@@ -20,7 +18,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class Signals implements PathSolver<String> {
+abstract class Signals implements LinesSolver<String> {
 
     private final boolean min;
     
@@ -40,9 +38,8 @@ abstract class Signals implements PathSolver<String> {
      * @return error-corrected message
      */
     @Override
-    public String solve(Path inputFilePath) throws IOException {
-        List<String> corruptedMessages = Files.lines(inputFilePath)
-                .filter(Predicate.not(String::isEmpty))
+    public String solve(Stream<String> lines) {
+        List<String> corruptedMessages = lines.filter(Predicate.not(String::isEmpty))
                 .collect(Collectors.toList());
         
         return IntStream.range(0, corruptedMessages.get(0).length())

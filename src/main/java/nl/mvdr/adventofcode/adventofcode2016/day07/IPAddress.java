@@ -1,13 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2016.day07;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -22,26 +16,12 @@ class IPAddress {
     private final List<String> hypernetSequences;
 
     /**
-     * Parses a text file containing IPv7 IP addresses.
-     * 
-     * @param inputFilePath path to the text file
-     * @return collection of addresses
-     * @throws IOException in case the file could not be read
-     */
-    static Set<IPAddress> parse(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
-                .filter(Predicate.not(String::isEmpty))
-                .map(IPAddress::parseIPAddress)
-                .collect(Collectors.toSet());
-    }
-    
-    /**
      * Parses a string representation of an IPv7 IP address.
      * 
      * @param address string representation of an address, for example: abba[mnop]qrst
      * @return IP address
      */
-    static IPAddress parseIPAddress(String address) {
+    static IPAddress parse(String address) {
         List<String> supernetSequences = new ArrayList<>();
         List<String> hypernetSequences = new ArrayList<>();
         

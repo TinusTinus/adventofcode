@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day13;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;

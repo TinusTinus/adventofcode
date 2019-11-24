@@ -1,12 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2016.day07;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 7 puzzle of 2016's Advent of Code:
@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class IPv7Part1 implements PathSolver<Long> {
+public class IPv7Part1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IPv7Part1.class);
     
@@ -24,12 +24,11 @@ public class IPv7Part1 implements PathSolver<Long> {
      * @return the number of IP addresses which support TLS
      */
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        long result = IPAddress.parse(inputFilePath).stream()
+    public long solve(Stream<String> lines) {
+        return lines.filter(Predicate.not(String::isEmpty))
+                .map(IPAddress::parse)
                 .filter(IPAddress::supportsTransportLayerSnooping)
                 .count();
-        
-        return Long.valueOf(result);
     }
     
     /**

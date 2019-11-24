@@ -1,19 +1,17 @@
 package nl.mvdr.adventofcode.adventofcode2016.day02;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -23,7 +21,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-abstract class BathroomSecurity implements PathSolver<String> {
+abstract class BathroomSecurity implements LinesSolver<String> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BathroomSecurity.class);
     
@@ -46,9 +44,8 @@ abstract class BathroomSecurity implements PathSolver<String> {
      * @return keypad's security code
      */
     @Override
-    public String solve(Path inputFilePath) throws IOException {
-        List<List<Direction>> instructions = Files.lines(inputFilePath)
-                .filter(Predicate.not(String::isEmpty))
+    public String solve(Stream<String> lines) {
+        List<List<Direction>> instructions = lines.filter(Predicate.not(String::isEmpty))
                 .map(this::parse)
                 .collect(Collectors.toList());
         
