@@ -1,13 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day05;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 5 puzzle of 2018's Advent of Code:
@@ -15,18 +13,16 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class AlchemicalReduction implements PathSolver<Integer> {
+public class AlchemicalReductionPart1 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AlchemicalReduction.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlchemicalReductionPart1.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        int result = Files.lines(inputFilePath)
-                .findFirst()
+    public int solve(Stream<String> lines) {
+        return lines.findFirst()
                 .map(Polymers::react)
                 .get()
                 .length();
-        return Integer.valueOf(result);
     }
 
     /**
@@ -35,7 +31,7 @@ public class AlchemicalReduction implements PathSolver<Integer> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        AlchemicalReduction instance = new AlchemicalReduction();
+        AlchemicalReductionPart1 instance = new AlchemicalReductionPart1();
 
         String result = instance.solve("input-day05-2018.txt");
 

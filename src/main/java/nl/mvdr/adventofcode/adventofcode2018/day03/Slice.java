@@ -1,17 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2018.day03;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Common ancestor for {@link SlicePart1} and {@link SlicePart2}.
@@ -20,13 +18,12 @@ import nl.mvdr.adventofcode.PathSolver;
  * 
  * @author Martijn van de Rijdt
  */
-abstract class Slice<R> implements PathSolver<R>{
+abstract class Slice<R> implements LinesSolver<R>{
     @Override
-    public R solve(Path inputFilePath) throws IOException {
-        List<Claim> claims = Files.lines(inputFilePath)
+    public R solve(Stream<String> lines) {
+        List<Claim> claims = lines
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 .map(Claim::parse)
                 .collect(Collectors.toList());
         

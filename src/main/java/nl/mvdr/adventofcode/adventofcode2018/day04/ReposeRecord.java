@@ -1,19 +1,17 @@
 package nl.mvdr.adventofcode.adventofcode2018.day04;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Common superclass for {@link ReposeRecordPart1} and {@link ReposeRecordPart2}.
@@ -21,7 +19,7 @@ import nl.mvdr.adventofcode.PathSolver;
  * @author Martijn van de Rijdt
  * 
  */
-abstract class ReposeRecord implements PathSolver<Integer> {
+abstract class ReposeRecord implements IntSolver {
     /** Regular expression for a record indicating the start of a shift. Group 1 is the guard id. */
     private static final Pattern PATTERN_BEGIN_SHIFT = Pattern.compile("\\[\\d\\d\\d\\d-\\d\\d-\\d\\d \\d\\d:\\d\\d\\] Guard #(\\d+) begins shift");
     /** Regular expression for a record indicating that a guard falls asleep. Group 1 is the minute of the midnight hour. */
@@ -44,11 +42,10 @@ abstract class ReposeRecord implements PathSolver<Integer> {
     }
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<String> records = Files.lines(inputFilePath)
+    public int solve(Stream<String> lines) {
+        List<String> records = lines
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 // sort input in chronological order (which is equal to lexicographical order)
                 .sorted()
                 .collect(Collectors.toList());
@@ -59,7 +56,7 @@ abstract class ReposeRecord implements PathSolver<Integer> {
                 .max(comparator)
                 .get();
         
-        return Integer.valueOf(guard.getId() * guard.computeMostAsleepMinute());
+        return guard.getId() * guard.computeMostAsleepMinute();
     }
 
     private Map<Integer, Guard> process(List<String> records) {
