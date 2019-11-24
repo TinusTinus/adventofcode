@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day09;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +9,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 9 puzzle of 2018's Advent of Code:
@@ -19,13 +17,14 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MarbleMania implements PathSolver<BigDecimal> {
+public class MarbleMania implements LinesSolver<BigDecimal> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MarbleMania.class);
     
     @Override
-    public BigDecimal solve(Path inputFilePath) throws IOException {
-        PuzzleInput puzzleInput = PuzzleInput.parse(inputFilePath);
+    public BigDecimal solve(Stream<String> lines) {
+        String line = lines.findFirst().orElseThrow();
+        PuzzleInput puzzleInput = PuzzleInput.parse(line);
         
         BigDecimal[] scores = new BigDecimal[puzzleInput.getPlayers()];
         Arrays.fill(scores, BigDecimal.valueOf(0L));

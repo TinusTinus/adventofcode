@@ -1,16 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2018.day14;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 14 puzzle of 2018's Advent of Code:
@@ -18,15 +16,13 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChocolateChartsPart2 implements PathSolver<Integer> {
+public class ChocolateChartsPart2 implements IntSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChocolateChartsPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        String inputString = Files.lines(inputFilePath)
-                .findFirst()
-                .get();
+    public int solve(Stream<String> lines) {
+        String inputString = lines.findFirst().orElseThrow();
         LOGGER.debug("Input: {}", inputString);
         
         List<Integer> recipes = new ArrayList<>(List.of(Integer.valueOf(3), Integer.valueOf(7)));
@@ -69,7 +65,7 @@ public class ChocolateChartsPart2 implements PathSolver<Integer> {
             }
         }
         
-        return result;
+        return result.intValue();
     }
     
     private static void log(List<Integer> recipes, int firstElfIndex, int secondElfIndex) {

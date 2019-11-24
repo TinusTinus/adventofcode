@@ -1,15 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2018.day11;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 11 puzzle of 2018's Advent of Code:
@@ -17,15 +15,15 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class ChronalCharge implements PathSolver<Square> {
+abstract class ChronalCharge implements LinesSolver<Square> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCharge.class);
     
     protected static final int GRID_SIZE = 300;
     
     @Override
-    public Square solve(Path inputFilePath) throws IOException {
-        int serialNumber = Integer.parseInt(Files.lines(inputFilePath).findFirst().get());
+    public Square solve(Stream<String> lines) {
+        int serialNumber = Integer.parseInt(lines.findFirst().orElseThrow());
         LOGGER.debug("Serial number: {}", Integer.valueOf(serialNumber));
         
         int[][] grid = new int[GRID_SIZE][GRID_SIZE];

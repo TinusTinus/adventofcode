@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day07;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 7 puzzle of 2018's Advent of Code:
@@ -14,7 +13,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class SumOfItsParts implements PathSolver<String> {
+abstract class SumOfItsParts implements LinesSolver<String> {
     
     private final SumOfItsPartsSolution solution;
     private final int baseTime;
@@ -35,9 +34,9 @@ abstract class SumOfItsParts implements PathSolver<String> {
     }
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public String solve(Stream<String> lines) {
         
-        List<Step> steps = Step.parse(inputFilePath, baseTime);
+        List<Step> steps = Step.parse(lines, baseTime);
 
         StringBuilder stepsPerformed = new StringBuilder();
         int timeSpent = 0;

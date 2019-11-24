@@ -1,16 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2018.day14;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 14 puzzle of 2018's Advent of Code:
@@ -18,15 +16,13 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChocolateChartsPart1 implements PathSolver<String> {
+public class ChocolateChartsPart1 implements LinesSolver<String> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChocolateChartsPart1.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
-        String inputString = Files.lines(inputFilePath)
-                .findFirst()
-                .get();
+    public String solve(Stream<String> lines) {
+        String inputString = lines.findFirst().get();
         int input = Integer.parseInt(inputString);
         return solve(input);
     }

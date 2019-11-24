@@ -1,18 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2018.day12;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 12 puzzle of 2018's Advent of Code:
@@ -20,7 +18,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SubterraneanSustainability implements PathSolver<Integer> {
+public class SubterraneanSustainability implements IntSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(SubterraneanSustainability.class);
     
@@ -43,11 +41,10 @@ public class SubterraneanSustainability implements PathSolver<Integer> {
     }
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath)
+    public int solve(Stream<String> input) {
+        List<String> lines = input
                 // ignore empty lines
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 .collect(Collectors.toList());
         
         State state = State.parseInitial(lines.get(0));
@@ -64,7 +61,7 @@ public class SubterraneanSustainability implements PathSolver<Integer> {
             LOGGER.debug("State: {}", state);
         }
         
-        return Integer.valueOf(state.getValue());
+        return state.getValue();
     }
 
     /**

@@ -1,16 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2018.day07;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Representation of a step in the process of assembling a sleigh.
@@ -84,18 +82,16 @@ class Step {
     /**
      * Builds a list of steps based on the text in the given text file.
      * 
-     * @param inputFilePath file path of the text file
+     * @param lines contents of the text file
      * @param baseTime basic number of seconds needed to complete any step (0 in the example, 60 in the actual puzzle input)
      * @return list of steps, sorted by ascending identification
-     * @throws IOException exception when reading the text  file
      */
-    static List<Step> parse(Path inputFilePath, int baseTime) throws IOException {
+    static List<Step> parse(Stream<String> lines, int baseTime) {
         List<Step> result = new ArrayList<>();
         
-        Files.lines(inputFilePath)
+        lines
             // ignore empty lines (the last line in the file)
-            .filter(Objects::nonNull)
-            .filter(line -> !line.isBlank())
+            .filter(Predicate.not(String::isBlank))
             .map(line -> PATTERN.matcher(line))
             .peek(Matcher::matches)
             .forEach(matcher -> {

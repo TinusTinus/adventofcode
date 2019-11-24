@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day09;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,13 +33,10 @@ class PuzzleInput {
     /**
      * Parses the given puzzle input.
      * 
-     * @param inputFilePath path of the input text file
+     * @param line input text
      * @return puzzle input
-     * @throws IOException in case the input file could not be read
      */
-    static PuzzleInput parse(Path inputFilePath) throws IOException {
-        String line = Files.lines(inputFilePath).findFirst().get();
-        
+    static PuzzleInput parse(String line) {
         Matcher matcher = PATTERN.matcher(line);
         matcher.matches();
         int players = Integer.parseInt(matcher.group(1));

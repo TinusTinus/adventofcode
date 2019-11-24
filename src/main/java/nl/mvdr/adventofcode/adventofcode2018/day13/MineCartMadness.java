@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2018.day13;
 
 import java.io.IOException;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -17,11 +17,11 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-abstract class MineCartMadness implements PathSolver<Point> {
+abstract class MineCartMadness implements LinesSolver<Point> {
 
     @Override
-    public Point solve(Path inputFilePath) throws IOException {
-        State state = State.parse(inputFilePath);
+    public Point solve(Stream<String> lines) {
+        State state = State.parse(lines);
 
         return solve(state);
     }

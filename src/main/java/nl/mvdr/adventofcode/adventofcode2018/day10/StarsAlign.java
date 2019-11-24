@@ -1,18 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2018.day10;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -21,19 +19,18 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class StarsAlign implements PathSolver<Void> {
+public class StarsAlign implements LinesSolver<Void> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(StarsAlign.class);
     
     private static final Pattern PATTERN = Pattern.compile("position=<\\s*(-?\\d+),\\s*(-?\\d+)> velocity=<\\s*(-?\\d+),\\s*(-?\\d+)>");
     
     @Override
-    public Void solve(Path inputFilePath) throws IOException {
+    public Void solve(Stream<String> lines) {
         // Parse the input.
-        Set<Star> stars = Files.lines(inputFilePath)
+        Set<Star> stars = lines
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 .map(PATTERN::matcher)
                 .peek(Matcher::matches)
                 .map(matcher -> {
@@ -55,6 +52,8 @@ public class StarsAlign implements PathSolver<Void> {
             log(stars, second);
         }
         
+        // The result can be seen in the log output.
+        
         return null;
     }
 
@@ -72,7 +71,7 @@ public class StarsAlign implements PathSolver<Void> {
 
         int height = maxY - minY;
         
-        if (height <= 10) {
+        if (height <= 8) {
             StringBuilder builder = new StringBuilder();
             for (int y = minY; y != maxY + 1; y++) {
                 for (int x = minX; x != maxX + 1; x++) {

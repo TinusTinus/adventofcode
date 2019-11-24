@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day08;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 8 puzzle of 2018's Advent of Code:
@@ -14,17 +13,19 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public abstract class MemoryManeuver implements PathSolver<Integer> {
+public abstract class MemoryManeuver implements IntSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoryManeuver.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Tree tree = Tree.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        // All of the input is on the first line of the text file.
+        String line = lines.findFirst().get();
+        Tree tree = Tree.parse(line);
         
         LOGGER.debug("Tree: {}", tree);
         
-        return Integer.valueOf(solve(tree));
+        return solve(tree);
     }
     
     /**

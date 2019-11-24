@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day08;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,14 +81,10 @@ class Tree {
     /**
      * Parses the input into a tree.
      * 
-     * @param inputFilePath text file containing the textual representation of a tree
+     * @param line puzzle input
      * @return tree
-     * @throws IOException exception when reading the file
      */
-    static Tree parse(Path inputFilePath) throws IOException {
-        // All of the input is on the first line of the text file.
-        String line = Files.lines(inputFilePath).findFirst().get();
-        
+    static Tree parse(String line) {
         // The input consists of a sequence of integers, separated by spaces.
         List<Integer> numbers = Stream.of(line.split(" "))
                 .map(Integer::valueOf)
