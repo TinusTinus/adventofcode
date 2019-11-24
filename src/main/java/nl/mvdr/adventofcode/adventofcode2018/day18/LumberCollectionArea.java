@@ -9,8 +9,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.annotation.processing.Generated;
 
@@ -43,10 +45,19 @@ class LumberCollectionArea {
      * @return lumber collection area
      */
     static LumberCollectionArea parse(Path path) throws IOException {
-        List<List<AcreType>> acres = Files.lines(path)
+        return parse(Files.lines(path));
+    }
+    
+    /**
+     * Parses an input text file to a lumber collection area.
+     * 
+     * @param line line of characters representing acre types
+     * @return lumber collection area
+     */
+    static LumberCollectionArea parse(Stream<String> lines) {
+        List<List<AcreType>> acres = lines
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 .map(LumberCollectionArea::parseLine)
                 .collect(Collectors.toList());
         

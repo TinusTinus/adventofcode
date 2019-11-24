@@ -1,13 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day20;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 20 puzzle of 2018's Advent of Code:
@@ -15,15 +13,13 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RegularMap implements PathSolver<String> {
+public class RegularMap implements LinesSolver<String> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(RegularMap.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
-        String expressionString = Files.lines(inputFilePath)
-                .findFirst()
-                .get();
+    public String solve(Stream<String> lines) {
+        String expressionString = lines.findFirst().orElseThrow();
         
         RoomMapExpression expression = RoomMapExpression.parse(expressionString);
         

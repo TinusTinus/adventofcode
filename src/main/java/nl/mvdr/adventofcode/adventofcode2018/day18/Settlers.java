@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day18;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 18 puzzle of 2018's Advent of Code:
@@ -14,7 +13,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class Settlers implements PathSolver<Long> {
+abstract class Settlers implements LongSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Settlers.class);
     
@@ -27,16 +26,13 @@ abstract class Settlers implements PathSolver<Long> {
     }
     
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        
-        LumberCollectionArea area = LumberCollectionArea.parse(inputFilePath);
+    public long solve(Stream<String> lines) {
+        LumberCollectionArea area = LumberCollectionArea.parse(lines);
         
         area = area.tick(minutes);
         
         LOGGER.debug("Area:\n{}", area);
 
-        long resourceValue = area.computeResourceValue();
-        
-        return Long.valueOf(resourceValue);
+        return area.computeResourceValue();
     }
 }
