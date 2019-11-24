@@ -25,36 +25,13 @@ public interface PathSolver<R> extends Solver {
     default String solve(String inputfile) {
         R result;
         try {
-            Path inputFilePath = toPath(getClass(), inputfile);
+            Path inputFilePath = LinesSolver.toPath(getClass(), inputfile);
             result = solve(inputFilePath);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
         return "" + result;
-    }
-
-    /**
-     * Helper method, to create a {@link Path} based on a filename.
-     * 
-     * @param clazz class to use to access the class loader
-     * @param inputfile filename of the input file (on the classpath) 
-     * @return path
-     */
-    public static Path toPath(Class<?> clazz, String inputfile) {
-        URL url = clazz.getClassLoader().getResource(inputfile);
-        if (url == null) {
-            throw new IllegalArgumentException("Unable to open file: " + inputfile);
-        }
-        
-        URI uri;
-        try {
-            uri = url.toURI();
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException("Unable to open file: " + inputfile, e);
-        }
-        
-        return Paths.get(uri);
     }
 
     /**

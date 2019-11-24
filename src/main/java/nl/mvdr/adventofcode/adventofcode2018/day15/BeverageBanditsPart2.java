@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day15;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 15 puzzle of 2018's Advent of Code:
@@ -14,13 +13,13 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class BeverageBanditsPart2 implements PathSolver<Integer> {
+public class BeverageBanditsPart2 implements IntSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(BeverageBanditsPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        State initialState = State.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        State initialState = State.parse(lines);
         
         LOGGER.debug("Initial state:\n{}", initialState);
         
@@ -34,7 +33,7 @@ public class BeverageBanditsPart2 implements PathSolver<Integer> {
         
         LOGGER.debug("End state, with elf attack power {}:\n{}", Integer.valueOf(i), state);
         
-        return Integer.valueOf(state.getOutcome());
+        return state.getOutcome();
     }
     
     /**

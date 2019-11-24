@@ -1,18 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2018.day15;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -371,15 +369,13 @@ class State {
     /**
      * Parses the input file into a state.
      * 
-     * @param inputFilePath path of the input file
+     * @param input contents of the input file
      * @return initial state
-     * @throws IOException if the input could not be read
      */
-    static State parse(Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath)
+    static State parse(Stream<String> input) {
+        List<String> lines = input
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 .collect(Collectors.toList());
         
         int height = lines.size();

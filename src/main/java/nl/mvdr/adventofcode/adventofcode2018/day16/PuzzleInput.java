@@ -1,14 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2018.day16;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Container class for the puzzle input.
@@ -26,15 +25,13 @@ class PuzzleInput {
     /**
      * Parses the puzzle input file.
      * 
-     * @param inputFilePath path to the input text file
+     * @param input contents of the input text file
      * @return puzzle input
-     * @throws IOException in case the file could not be read
      */
-    static PuzzleInput parse(Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath)
+    static PuzzleInput parse(Stream<String> input) {
+        List<String> lines = input
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 .collect(Collectors.toList());
         
         Iterator<String> lineIterator = lines.iterator();

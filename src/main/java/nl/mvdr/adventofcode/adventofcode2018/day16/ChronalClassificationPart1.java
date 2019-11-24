@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day16;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 16 puzzle of 2018's Advent of Code:
@@ -14,18 +13,17 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalClassificationPart1 implements PathSolver<Long> {
+public class ChronalClassificationPart1 implements LongSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalClassificationPart1.class);
     
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        PuzzleInput input = PuzzleInput.parse(inputFilePath);
+    public long solve(Stream<String> lines) {
+        PuzzleInput input = PuzzleInput.parse(lines);
         
-        long result = input.getSamples().stream()
+        return input.getSamples().stream()
                 .filter(Sample::behavesLikeAtLeastThreeOpcodes)
                 .count();
-        return Long.valueOf(result);
     }
     
     /**
