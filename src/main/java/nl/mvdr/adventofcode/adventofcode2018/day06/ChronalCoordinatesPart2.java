@@ -1,14 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2018.day06;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -17,7 +16,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCoordinatesPart2 implements PathSolver<Integer> {
+public class ChronalCoordinatesPart2 implements IntSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCoordinatesPart2.class);
     
@@ -39,8 +38,8 @@ public class ChronalCoordinatesPart2 implements PathSolver<Integer> {
     }
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Set<Point> points = Point.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        Set<Point> points = Point.parse(lines);
 
         // Find a point within range. (Technically not guaranteed to exist!)
         Point startingPoint = points.stream()
@@ -63,7 +62,7 @@ public class ChronalCoordinatesPart2 implements PathSolver<Integer> {
             }
         }
         
-        return Integer.valueOf(area.size());
+        return area.size();
     }
     
     /**

@@ -6,8 +6,10 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.annotation.processing.Generated;
 
@@ -179,15 +181,13 @@ public class Point implements Comparable<Point> {
     /**
      * Parses a text file containing string representations of points, for example: "98, 231".
      * 
-     * @param path path to the text file 
+     * @param lines lines from the text file
      * @return set of points
-     * @throws IOException if the input file cannot be read
      */
-    public static Set<Point> parse(Path path) throws IOException {
-        return Files.lines(path)
-                // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+    public static Set<Point> parse(Stream<String> lines) {
+        return lines
+                // filter out empty lines
+                .filter(Predicate.not(String::isBlank))
                 // split the integer coordinates
                 .map(line -> line.split(", "))
                 .map(array -> new Point(Integer.parseInt(array[0]), Integer.parseInt(array[1])))

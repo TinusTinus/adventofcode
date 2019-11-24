@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day06;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -9,11 +7,12 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -22,13 +21,13 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCoordinates implements PathSolver<Integer> {
+public class ChronalCoordinates implements IntSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCoordinates.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Set<Point> points = Point.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        Set<Point> points = Point.parse(lines);
 
         // Construct a rectangle surrounding all of the points
         int minX = points.stream().mapToInt(Point::getX).min().getAsInt() - 1;
@@ -43,7 +42,7 @@ public class ChronalCoordinates implements PathSolver<Integer> {
                         .flatMap(x -> IntStream.range(minY, maxY + 1).mapToObj(y -> new Point(x.intValue(), y)))
                         .collect(Collectors.toMap(Function.identity(), point -> closest(point, points)));
         
-        int result = points.stream()
+        return points.stream()
                 .map(Optional::of)
                 .map(point -> minimalDistances.entrySet().stream()
                         .filter(entry -> point.equals(entry.getValue()))
@@ -53,8 +52,6 @@ public class ChronalCoordinates implements PathSolver<Integer> {
                 .mapToInt(Set::size)
                 .max()
                 .getAsInt();
-        
-        return Integer.valueOf(result);
     }
     
     /**
