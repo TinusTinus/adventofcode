@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.point;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
@@ -112,7 +109,7 @@ public class Point implements Comparable<Point> {
         return new Point(x, y + 1);
     }
     
-    // Convenience methods for use in maps
+    // Convenience methods for use in geographical maps
     /** @return neighbour to the West */
     public Point westNeighbour() {
         return leftNeighbour();
@@ -197,15 +194,13 @@ public class Point implements Comparable<Point> {
     /**
      * Parses a text file containing string representations of ranges of points, for example: "x=438, y=595..605" or "y=1230, x=524..528".
      * 
-     * @param path path to the text file 
+     * @param lines contents of the input file 
      * @return set of points
-     * @throws IOException if the input file cannot be read
      */
-    public static Set<Point> parseRanges(Path path) throws IOException {
-        return Files.lines(path)
+    public static Set<Point> parseRanges(Stream<String> lines) {
+        return lines
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 // parse each line
                 .map(Point::parseRange)
                 // collect the result

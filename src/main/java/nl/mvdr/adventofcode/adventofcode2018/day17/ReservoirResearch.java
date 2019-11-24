@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2018.day17;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -16,14 +15,14 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class ReservoirResearch implements PathSolver<String> {
+public class ReservoirResearch implements LinesSolver<String> {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservoirResearch.class);
     
     @Override
-    public String solve(Path inputFilePath) throws IOException {
+    public String solve(Stream<String> lines) {
         Point spring = new Point(500, 0);
-        Set<Point> claySquareMeters = Point.parseRanges(inputFilePath);
+        Set<Point> claySquareMeters = Point.parseRanges(lines);
         
         VerticalSlice slice = new VerticalSlice(spring, claySquareMeters);
         
