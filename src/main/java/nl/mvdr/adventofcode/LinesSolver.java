@@ -5,28 +5,27 @@ import java.io.UncheckedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 /**
- * Convenience interface.
+ * Convenience interface, where puzzle input is presented as a stream of strings.
  * 
  * @param <R> result type
  *
  * @author Martijn van de Rijdt
- * 
- * @deprecated use {@link LinesSolver}, {@link IntSolver} or {@link LongSolver} instead
  */
 @FunctionalInterface
-@Deprecated // TODO remove
-public interface PathSolver<R> extends Solver {
+public interface LinesSolver<R> extends Solver {
 
     @Override
     default String solve(String inputfile) {
         R result;
-        try {
-            Path inputFilePath = toPath(getClass(), inputfile);
-            result = solve(inputFilePath);
+        Path inputFilePath = toPath(getClass(), inputfile);
+        try (Stream<String> lines = Files.lines(inputFilePath)) {
+            result = solve(lines);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -58,15 +57,12 @@ public interface PathSolver<R> extends Solver {
     }
 
     /**
-     * Solver method, which provides a {@link Path} to the input file.
+     * Solver method.
      * 
-     * Can be (for example) used in combination with
-     * {@link java.nio.file.Files#lines(Path)} to iterate over a stream of the text
-     * file's lines.
+     * Note that the last line from the input is usually empty (input files typically end with a newline).
      * 
-     * @param inputFilePath path of the input file
+     * @param lines stream of strings, each of which corresponds to a line from the input
      * @return solution to the puzzle for the given input
-     * @throws IOException in case the file cannot be read
      */
-    R solve(Path inputFilePath) throws IOException;
+    R solve(Stream<String> lines);
 }

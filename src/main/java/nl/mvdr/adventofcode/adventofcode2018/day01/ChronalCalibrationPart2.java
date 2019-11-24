@@ -1,17 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2018.day01;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 1 puzzle of 2018's Advent of Code:
@@ -19,16 +17,15 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCalibrationPart2 implements PathSolver<Integer> {
+public class ChronalCalibrationPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCalibrationPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Integer> frequencyChanges = Files.lines(inputFilePath)
+    public int solve(Stream<String> lines) {
+        List<Integer> frequencyChanges = lines
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 // parse each line to an integer
                 .mapToInt(Integer::parseInt)
                 .mapToObj(Integer::valueOf)
@@ -48,7 +45,7 @@ public class ChronalCalibrationPart2 implements PathSolver<Integer> {
             index = (index + 1) % frequencyChanges.size();
         }
         
-        return Integer.valueOf(frequency);
+        return frequency;
     }
 
     /**

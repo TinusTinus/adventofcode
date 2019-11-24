@@ -1,18 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2018.day02;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 2 puzzle of 2018's Advent of Code:
@@ -21,17 +19,16 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class InventoryManagementSystemPart1 implements PathSolver<Long> {
+public class InventoryManagementSystemPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryManagementSystemPart1.class);
     
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
+    public long solve(Stream<String> lines) {
 
-        List<String> boxIds = Files.lines(inputFilePath)
+        List<String> boxIds = lines
                 // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+                .filter(Predicate.not(String::isBlank))
                 .collect(Collectors.toList());
 
         long boxIdsWith2OfAnyLetter = boxIds.stream()
@@ -42,9 +39,7 @@ public class InventoryManagementSystemPart1 implements PathSolver<Long> {
                 .filter(id -> containsExactlyNOfAnyLetter(id, 3L))
                 .count();
 
-        long checksum = boxIdsWith2OfAnyLetter * boxIdsWith3OfAnyLetter;
-
-        return Long.valueOf(checksum);
+        return boxIdsWith2OfAnyLetter * boxIdsWith3OfAnyLetter;
     }
 
     /**
