@@ -102,7 +102,7 @@ class Screen {
                     Point result;
                     if (point.getX() == a) {
                         // Rotate down
-                        result = new Point(a, (point.getY() + b) % width);
+                        result = new Point(a, (point.getY() + b) % height);
                     } else {
                         // Different column, leave unchanged
                         result = point;

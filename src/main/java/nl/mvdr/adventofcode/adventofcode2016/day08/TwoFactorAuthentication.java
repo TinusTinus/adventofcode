@@ -57,6 +57,10 @@ public class TwoFactorAuthentication implements IntSolver {
             screen = instruction.execute(screen);
         }
         
+        // Log the answer to part 2
+        LOGGER.info("After executing {} instruction(s): {}", Integer.valueOf(instructions.size()), screen);
+        
+        // Return the answer to part 1
         return screen.litPixels();
     }
 
