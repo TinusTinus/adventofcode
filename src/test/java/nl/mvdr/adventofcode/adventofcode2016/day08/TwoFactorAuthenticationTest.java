@@ -49,6 +49,6 @@ public class TwoFactorAuthenticationTest extends SolverTest<TwoFactorAuthenticat
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day08-2016.txt");
+        assertSolution("116", "input-day08-2016.txt");
     }
 }

@@ -1,5 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2016.day08;
 
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Representation of an instruction.
  *
@@ -12,10 +16,19 @@ class Instruction {
     private final int b;
 
     static Instruction parse(String string) {
-        
-        // TODO
-        
-        return null;
+        Instruction result = null;
+        for (OperationImpl operation : OperationImpl.values()) {
+            Pattern pattern = Pattern.compile(operation.getRegex());
+            Matcher matcher = pattern.matcher(string);
+            
+            if (matcher.matches()) {
+                int a = Integer.parseInt(matcher.group(1));
+                int b = Integer.parseInt(matcher.group(2));
+                result = new Instruction(operation, a, b);
+            }
+        }
+        Objects.requireNonNull(result, "Unable to parse: " + string);
+        return result;
     }
     
     /**
