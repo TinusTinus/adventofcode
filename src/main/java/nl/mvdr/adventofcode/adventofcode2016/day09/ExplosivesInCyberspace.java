@@ -2,7 +2,12 @@ package nl.mvdr.adventofcode.adventofcode2016.day09;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
 
@@ -14,6 +19,8 @@ import nl.mvdr.adventofcode.IntSolver;
  */
 abstract class ExplosivesInCyberspace implements IntSolver {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExplosivesInCyberspace.class);
+    
     private final boolean recursiveExpansion;
     
     /**
@@ -37,6 +44,8 @@ abstract class ExplosivesInCyberspace implements IntSolver {
         int result = 0;
         
         while (0 < remainingText.length()) {
+            LOGGER.debug("Remaining text: {} characters", Integer.valueOf(remainingText.length()));
+            
             int index = remainingText.indexOf("(");
             if (index == -1) {
                 // No more opening brackets.
@@ -53,12 +62,12 @@ abstract class ExplosivesInCyberspace implements IntSolver {
                     if (recursiveExpansion) {
                         // Expand the sequence.
                         String sequence = matcher.group(3).substring(0, characters);
-                        remainingText = "";
-                        for (int i = 0; i != repeats; i++) {
-                            remainingText += sequence;
-                        }
-                        remainingText += matcher.group(3).substring(characters);
+                        String expandedSequence = IntStream.range(0, repeats)
+                                .mapToObj(i -> sequence)
+                                .collect(Collectors.joining());
+                        remainingText = expandedSequence + matcher.group(3).substring(characters);
                     } else {
+                        // No need to actually expand the sequence: just count its length.
                         result += characters * repeats;
                         remainingText = matcher.group(3).substring(characters);
                     }
