@@ -8,9 +8,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.mvdr.adventofcode.LongSolver;
 
 /**
@@ -21,8 +18,6 @@ import nl.mvdr.adventofcode.LongSolver;
  */
 abstract class ExplosivesInCyberspace implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExplosivesInCyberspace.class);
-    
     private final boolean recursiveExpansion;
     
     /**
@@ -42,14 +37,29 @@ abstract class ExplosivesInCyberspace implements LongSolver {
      */
     @Override
     public long solve(Stream<String> lines) {
-        String remainingText = lines.findFirst().orElseThrow();
+        String text = lines.findFirst().orElseThrow();
+        
+        Map<String, Long> cache = new HashMap<>();
+        
+        return getExpandedLength(text, cache);
+    }
+
+    private long getExpandedLength(String text, Map<String, Long> cache) {
+        Long result = cache.get(text);
+        
+        if (result == null) {
+            result = Long.valueOf(computeExpandedLength(text, cache));
+            cache.put(text, result);
+        }
+        
+        return result.longValue();
+    }
+
+    private long computeExpandedLength(String text, Map<String, Long> cache) {
+        String remainingText = text;
         long result = 0;
         
-        Map<String, String> expansionCache = new HashMap<>();
-        
         while (0 < remainingText.length()) {
-            LOGGER.debug("Remaining text: {} characters", Integer.valueOf(remainingText.length()));
-            
             int index = remainingText.indexOf("(");
             if (index == -1) {
                 // No more opening brackets.
@@ -66,8 +76,8 @@ abstract class ExplosivesInCyberspace implements LongSolver {
                     if (recursiveExpansion) {
                         // Expand the sequence.
                         String sequence = matcher.group(3).substring(0, characters);
-                        String expandedSequence = expansionCache.computeIfAbsent(sequence, s -> expand(s, repeats));
-                        remainingText = expandedSequence + matcher.group(3).substring(characters);
+                        result += getExpandedLength(expand(sequence, repeats), cache);
+                        remainingText = matcher.group(3).substring(characters);
                     } else {
                         // No need to actually expand the sequence: just count its length.
                         result += characters * repeats;
@@ -84,7 +94,6 @@ abstract class ExplosivesInCyberspace implements LongSolver {
                 remainingText = remainingText.substring(index);
             }
         }
-        
         return result;
     }
     

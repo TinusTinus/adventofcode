@@ -61,6 +61,6 @@ public class ExplosivesInCyberspacePart2Test extends SolverTest<ExplosivesInCybe
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day09-2016.txt");
+        assertSolution("11317278863", "input-day09-2016.txt");
     }
 }
