@@ -43,27 +43,7 @@ abstract class ExplosivesInCyberspace implements LongSolver {
     @Override
     public long solve(Stream<String> lines) {
         String text = lines.findFirst().orElseThrow();
-        return getExpandedLength(text);
-    }
-
-    /**
-     * Returns the length of the expanded version of the given compressed text.
-     * 
-     * @param text compressed text
-     * @return length of the given text after expansion
-     */
-    private long getExpandedLength(String text) {
-        // Note: this method can be called recursively, so using Map.computeIfAbsent
-        // would result in ConcurrentModificationExceptions.
-        
-        Long result = cache.get(text);
-        
-        if (result == null) {
-            result = Long.valueOf(computeExpandedLength(text));
-            cache.put(text, result);
-        }
-        
-        return result.longValue();
+        return computeExpandedLength(text);
     }
 
     /**
@@ -112,6 +92,28 @@ abstract class ExplosivesInCyberspace implements LongSolver {
             }
         }
         return result;
+    }
+    
+    /**
+     * Returns the length of the expanded version of the given compressed text.
+     * 
+     * This method inspects the {@link #cache} first, and only performs any computation if necessary.
+     * 
+     * @param text compressed text
+     * @return length of the given text after expansion
+     */
+    private long getExpandedLength(String text) {
+        // Note: this method can be called recursively, so cache.computeIfAbsent(...)
+        // would result in a ConcurrentModificationException.
+        
+        Long result = cache.get(text);
+        
+        if (result == null) {
+            result = Long.valueOf(computeExpandedLength(text));
+            cache.put(text, result);
+        }
+        
+        return result.longValue();
     }
     
     /**
