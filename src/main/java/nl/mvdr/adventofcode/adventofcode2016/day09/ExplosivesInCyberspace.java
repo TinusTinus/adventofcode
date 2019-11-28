@@ -18,16 +18,21 @@ import nl.mvdr.adventofcode.LongSolver;
  */
 abstract class ExplosivesInCyberspace implements LongSolver {
 
-    /** Whether to recursive perform expansion of compressed data. */
+    /** Whether to recursively perform expansion of compressed data. */
     private final boolean recursiveExpansion;
     
-    /** Cache containing previously computed lengths of compressed texts. */
+    /**
+     * Cache containing previously computed partial results.
+     * 
+     * Keys: compressed sequences.
+     * Values: for each sequence, the length of its expanded version.
+     */
     private Map<String, Long> cache;
     
     /**
      * Constructor.
      * 
-     * @param recursiveExpansion whether to recursive perform expansion of compressed data
+     * @param recursiveExpansion whether to recursively perform expansion of compressed data
      */
     ExplosivesInCyberspace(boolean recursiveExpansion) {
         super();
@@ -94,6 +99,22 @@ abstract class ExplosivesInCyberspace implements LongSolver {
         return result;
     }
     
+    
+    /**
+     * Expands the given sequence.
+     * 
+     * This method performs one expansion; it does not expand recursively.
+     * 
+     * @param sequence compressed sequence
+     * @param repeats number of repeats
+     * @return expanded sequence
+     */
+    private String expand(String sequence, int repeats) {
+        return IntStream.range(0, repeats)
+                .mapToObj(i -> sequence)
+                .collect(Collectors.joining());
+    }
+    
     /**
      * Returns the length of the expanded version of the given compressed text.
      * 
@@ -114,18 +135,5 @@ abstract class ExplosivesInCyberspace implements LongSolver {
         }
         
         return result.longValue();
-    }
-    
-    /**
-     * Expands the given sequence.
-     * 
-     * @param sequence compressed sequence
-     * @param repeats number of repeats
-     * @return expanded sequence
-     */
-    private String expand(String sequence, int repeats) {
-        return IntStream.range(0, repeats)
-                .mapToObj(i -> sequence)
-                .collect(Collectors.joining());
     }
 }
