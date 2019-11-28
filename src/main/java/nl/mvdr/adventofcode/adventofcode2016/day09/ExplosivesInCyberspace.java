@@ -25,7 +25,7 @@ abstract class ExplosivesInCyberspace implements LongSolver {
      * 
      * @param recursiveExpansion whether to recursive perform expansion of compressed data
      */
-    public ExplosivesInCyberspace(boolean recursiveExpansion) {
+    ExplosivesInCyberspace(boolean recursiveExpansion) {
         super();
         this.recursiveExpansion = recursiveExpansion;
     }
