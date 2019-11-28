@@ -44,6 +44,13 @@ abstract class ExplosivesInCyberspace implements LongSolver {
         return getExpandedLength(text, cache);
     }
 
+    /**
+     * Returns the length of the expanded version of the given compressed text.
+     * 
+     * @param text compressed text
+     * @param cache cache containing lengths of previously encountered sequences
+     * @return length of the given text after expansion
+     */
     private long getExpandedLength(String text, Map<String, Long> cache) {
         Long result = cache.get(text);
         
@@ -55,6 +62,13 @@ abstract class ExplosivesInCyberspace implements LongSolver {
         return result.longValue();
     }
 
+    /**
+     * Computes the length of the expanded version of the given compressed text.
+     * 
+     * @param text compressed text
+     * @param cache cache containing lengths of previously encountered sequences
+     * @return length of the given text after expansion
+     */
     private long computeExpandedLength(String text, Map<String, Long> cache) {
         String remainingText = text;
         long result = 0;
@@ -74,15 +88,15 @@ abstract class ExplosivesInCyberspace implements LongSolver {
                     int characters = Integer.parseInt(matcher.group(1));
                     int repeats = Integer.parseInt(matcher.group(2));
                     if (recursiveExpansion) {
-                        // Expand the sequence.
+                        // Expand the sequence and (recursively) lookup / compute its length.
                         String sequence = matcher.group(3).substring(0, characters);
-                        result += getExpandedLength(expand(sequence, repeats), cache);
-                        remainingText = matcher.group(3).substring(characters);
+                        String expandedSequence = expand(sequence, repeats);
+                        result += getExpandedLength(expandedSequence, cache);
                     } else {
-                        // No need to actually expand the sequence: just count its length.
+                        // No need to actually expand the sequence: just count the expanded sequence's length.
                         result += characters * repeats;
-                        remainingText = matcher.group(3).substring(characters);
                     }
+                    remainingText = matcher.group(3).substring(characters);
                 } else {
                     // Just an opening bracket, not the start of a compressed sequence.
                     result++;
@@ -97,6 +111,13 @@ abstract class ExplosivesInCyberspace implements LongSolver {
         return result;
     }
     
+    /**
+     * Expands the given sequence.
+     * 
+     * @param sequence compressed sequence
+     * @param repeats number of repeats
+     * @return expanded sequence
+     */
     private String expand(String sequence, int repeats) {
         return IntStream.range(0, repeats)
                 .mapToObj(i -> sequence)
