@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2016.day09;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -9,7 +11,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 9 puzzle of 2016's Advent of Code:
@@ -17,7 +19,7 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class ExplosivesInCyberspace implements IntSolver {
+abstract class ExplosivesInCyberspace implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExplosivesInCyberspace.class);
     
@@ -39,9 +41,11 @@ abstract class ExplosivesInCyberspace implements IntSolver {
      * @return length of the decompressed text
      */
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         String remainingText = lines.findFirst().orElseThrow();
-        int result = 0;
+        long result = 0;
+        
+        Map<String, String> expansionCache = new HashMap<>();
         
         while (0 < remainingText.length()) {
             LOGGER.debug("Remaining text: {} characters", Integer.valueOf(remainingText.length()));
@@ -62,9 +66,7 @@ abstract class ExplosivesInCyberspace implements IntSolver {
                     if (recursiveExpansion) {
                         // Expand the sequence.
                         String sequence = matcher.group(3).substring(0, characters);
-                        String expandedSequence = IntStream.range(0, repeats)
-                                .mapToObj(i -> sequence)
-                                .collect(Collectors.joining());
+                        String expandedSequence = expansionCache.computeIfAbsent(sequence, s -> expand(s, repeats));
                         remainingText = expandedSequence + matcher.group(3).substring(characters);
                     } else {
                         // No need to actually expand the sequence: just count its length.
@@ -77,11 +79,18 @@ abstract class ExplosivesInCyberspace implements IntSolver {
                     remainingText = remainingText.substring(1);
                 }
             } else {
+                // remainingText contain a "(", but not at its start.
                 result += index;
                 remainingText = remainingText.substring(index);
             }
         }
         
         return result;
+    }
+    
+    private String expand(String sequence, int repeats) {
+        return IntStream.range(0, repeats)
+                .mapToObj(i -> sequence)
+                .collect(Collectors.joining());
     }
 }
