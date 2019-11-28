@@ -15,9 +15,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ExplosivesInCyberspacePart1 implements IntSolver {
+public class ExplosivesInCyberspacePart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExplosivesInCyberspacePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExplosivesInCyberspacePart2.class);
     
     /**
      * {@inheritDoc}
@@ -26,6 +26,8 @@ public class ExplosivesInCyberspacePart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
+        // TODO implement part 2
+        
         String remainingText = lines.findFirst().orElseThrow();
         int result = 0;
         
@@ -65,7 +67,7 @@ public class ExplosivesInCyberspacePart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        ExplosivesInCyberspacePart1 instance = new ExplosivesInCyberspacePart1();
+        ExplosivesInCyberspacePart2 instance = new ExplosivesInCyberspacePart2();
 
         String result = instance.solve("input-day09-2016.txt");
 

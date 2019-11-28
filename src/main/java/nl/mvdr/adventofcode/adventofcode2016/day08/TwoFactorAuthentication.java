@@ -65,7 +65,9 @@ public class TwoFactorAuthentication implements IntSolver {
     }
 
     /**
-     * @param args
+     * Main method.
+     * 
+     * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
         TwoFactorAuthentication instance = new TwoFactorAuthentication();
