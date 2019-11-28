@@ -18,7 +18,11 @@ import nl.mvdr.adventofcode.LongSolver;
  */
 abstract class ExplosivesInCyberspace implements LongSolver {
 
+    /** Whether to recursive perform expansion of compressed data. */
     private final boolean recursiveExpansion;
+    
+    /** Cache containing previously computed lengths of compressed texts. */
+    private Map<String, Long> cache;
     
     /**
      * Constructor.
@@ -28,6 +32,7 @@ abstract class ExplosivesInCyberspace implements LongSolver {
     ExplosivesInCyberspace(boolean recursiveExpansion) {
         super();
         this.recursiveExpansion = recursiveExpansion;
+        this.cache = new HashMap<>();
     }
     
     /**
@@ -38,24 +43,23 @@ abstract class ExplosivesInCyberspace implements LongSolver {
     @Override
     public long solve(Stream<String> lines) {
         String text = lines.findFirst().orElseThrow();
-        
-        Map<String, Long> cache = new HashMap<>();
-        
-        return getExpandedLength(text, cache);
+        return getExpandedLength(text);
     }
 
     /**
      * Returns the length of the expanded version of the given compressed text.
      * 
      * @param text compressed text
-     * @param cache cache containing lengths of previously encountered sequences
      * @return length of the given text after expansion
      */
-    private long getExpandedLength(String text, Map<String, Long> cache) {
+    private long getExpandedLength(String text) {
+        // Note: this method can be called recursively, so using Map.computeIfAbsent
+        // would result in ConcurrentModificationExceptions.
+        
         Long result = cache.get(text);
         
         if (result == null) {
-            result = Long.valueOf(computeExpandedLength(text, cache));
+            result = Long.valueOf(computeExpandedLength(text));
             cache.put(text, result);
         }
         
@@ -66,17 +70,16 @@ abstract class ExplosivesInCyberspace implements LongSolver {
      * Computes the length of the expanded version of the given compressed text.
      * 
      * @param text compressed text
-     * @param cache cache containing lengths of previously encountered sequences
      * @return length of the given text after expansion
      */
-    private long computeExpandedLength(String text, Map<String, Long> cache) {
+    private long computeExpandedLength(String text) {
         String remainingText = text;
         long result = 0;
         
         while (0 < remainingText.length()) {
             int index = remainingText.indexOf("(");
             if (index == -1) {
-                // No more opening brackets.
+                // No more compressed sequences.
                 result += remainingText.length();
                 remainingText = "";
             } else if (index == 0) {
@@ -91,7 +94,7 @@ abstract class ExplosivesInCyberspace implements LongSolver {
                         // Expand the sequence and (recursively) lookup / compute its length.
                         String sequence = matcher.group(3).substring(0, characters);
                         String expandedSequence = expand(sequence, repeats);
-                        result += getExpandedLength(expandedSequence, cache);
+                        result += getExpandedLength(expandedSequence);
                     } else {
                         // No need to actually expand the sequence: just count the expanded sequence's length.
                         result += characters * repeats;
