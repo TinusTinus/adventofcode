@@ -27,8 +27,24 @@ public class RocketEquationPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         return lines.filter(Predicate.not(String::isBlank))
                 .mapToInt(Integer::parseInt)
-                .map(mass -> mass / 3 - 2)
+                .map(RocketEquationPart1::computeFuelRequirement)
                 .sum();
+    }
+    
+    /**
+     * Computes the fuel requirement for the given mass.
+     * 
+     * The result of this method does <em>not</em> include the fuel required to transport the fuel itself.
+     * 
+     * @param mass mass
+     * @return fuel requirement
+     */
+    static int computeFuelRequirement(int mass) {
+        int result = mass / 3 - 2;
+        
+        LOGGER.debug("The fuel requirement for a mass of {} is {}", Integer.valueOf(mass), Integer.valueOf(result));
+        
+        return result;
     }
 
     /**
