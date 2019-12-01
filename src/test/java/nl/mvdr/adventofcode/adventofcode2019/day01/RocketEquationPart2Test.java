@@ -34,7 +34,7 @@ public class RocketEquationPart2Test extends SolverTest<RocketEquationPart2> {
         assertSolution("966", "example-day01-2019-2.txt");
     }
 
-    /** Test case based on the second example from the puzzle text. */
+    /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
         assertSolution("50346", "example-day01-2019-3.txt");
