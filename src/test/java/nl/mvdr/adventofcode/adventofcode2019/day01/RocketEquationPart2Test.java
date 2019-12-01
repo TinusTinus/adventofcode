@@ -43,6 +43,6 @@ public class RocketEquationPart2Test extends SolverTest<RocketEquationPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day01-2019.txt"); // 4729333 is too high!
+        assertSolution("4726527", "input-day01-2019.txt");
     }
 }

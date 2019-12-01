@@ -25,25 +25,29 @@ public class RocketEquationPart2 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        int totalMass = 0;
-        
-        int fuelMass = lines.filter(Predicate.not(String::isBlank))
+        return lines.filter(Predicate.not(String::isBlank))
                 .mapToInt(Integer::parseInt)
-                .map(this::computeFuelRequirement)
+                .map(this::computeTotalFuelRequirement)
                 .sum();
+    }
+    
+    int computeTotalFuelRequirement(int moduleMass) {
+        int result = 0;
+        
+        int fuelMass = computeFuelRequirement(moduleMass);
         
         while (0 < fuelMass) {
-            totalMass += fuelMass;
+            result += fuelMass;
             fuelMass = computeFuelRequirement(fuelMass);
         }
         
-        return totalMass;
+        return result;
     }
     
     int computeFuelRequirement(int mass) {
         int result = mass / 3 - 2;
         
-        LOGGER.info("The fuel requirement for a mass of {} is {}", Integer.valueOf(mass), Integer.valueOf(result)); // TODO debug
+        LOGGER.debug("The fuel requirement for a mass of {} is {}", Integer.valueOf(mass), Integer.valueOf(result));
         
         return result;
     }
