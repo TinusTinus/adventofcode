@@ -31,7 +31,7 @@ public class ProgramAlarmPart2 implements IntSolver {
         return IntStream.range(0, 100)
                 .boxed()
                 .flatMap(noun -> IntStream.range(0, 100).mapToObj(verb -> new NounAndVerb(noun.intValue(), verb)))
-                .filter(nounAndVerb -> nounAndVerb.apply(initialProgram).execute().getIntegers().get(0).intValue() == 19690720)
+                .filter(nounAndVerb -> nounAndVerb.apply(initialProgram).execute().getMemory().get(0).intValue() == 19690720)
                 .map(NounAndVerb::computeAnswer)
                 .findAny()
                 .get()

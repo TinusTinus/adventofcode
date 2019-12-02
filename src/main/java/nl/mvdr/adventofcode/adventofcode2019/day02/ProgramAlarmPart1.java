@@ -29,7 +29,7 @@ public class ProgramAlarmPart1 implements IntSolver {
         program = program.set(1, 12);
         program = program.set(2, 2);
         program = program.execute();
-        return program.getIntegers().get(0).intValue();
+        return program.getMemory().get(0).intValue();
     }
     
     /**

@@ -19,7 +19,7 @@ public class ProgramTest {
 
         Program program = Program.parse(input);
 
-        Assertions.assertEquals(List.of(1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50), program.getIntegers());
+        Assertions.assertEquals(List.of(1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50), program.getMemory());
     }
 
     /** Test case for {@link Program#execute()}. */
@@ -30,7 +30,7 @@ public class ProgramTest {
 
         Program result = program.execute();
 
-        Assertions.assertEquals(List.of(3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50), result.getIntegers());
+        Assertions.assertEquals(List.of(3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50), result.getMemory());
     }
 
     /** Test case for {@link Program#execute()}. */
@@ -41,7 +41,7 @@ public class ProgramTest {
 
         Program result = program.execute();
 
-        Assertions.assertEquals(List.of(2, 0, 0, 0, 99), result.getIntegers());
+        Assertions.assertEquals(List.of(2, 0, 0, 0, 99), result.getMemory());
     }
 
     /** Test case for {@link Program#execute()}. */
@@ -52,7 +52,7 @@ public class ProgramTest {
 
         Program result = program.execute();
 
-        Assertions.assertEquals(List.of(2, 3, 0, 6, 99), result.getIntegers());
+        Assertions.assertEquals(List.of(2, 3, 0, 6, 99), result.getMemory());
     }
 
     /** Test case for {@link Program#execute()}. */
@@ -63,7 +63,7 @@ public class ProgramTest {
 
         Program result = program.execute();
 
-        Assertions.assertEquals(List.of(2, 4, 4, 5, 99, 9801), result.getIntegers());
+        Assertions.assertEquals(List.of(2, 4, 4, 5, 99, 9801), result.getMemory());
     }
 
     /** Test case for {@link Program#execute()}. */
@@ -74,6 +74,6 @@ public class ProgramTest {
 
         Program result = program.execute();
 
-        Assertions.assertEquals(List.of(30, 1, 1, 4, 2, 5, 6, 0, 99), result.getIntegers());
+        Assertions.assertEquals(List.of(30, 1, 1, 4, 2, 5, 6, 0, 99), result.getMemory());
     }
 }
