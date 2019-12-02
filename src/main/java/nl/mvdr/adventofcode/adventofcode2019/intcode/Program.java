@@ -90,18 +90,27 @@ public class Program {
      * @return updated program state after performing the given operator
      */
     private Program perform(IntBinaryOperator operator) {
+        LOGGER.debug("Performing {} {} {} {}",
+                integers.get(instructionPointer),
+                integers.get(instructionPointer + 1),
+                integers.get(instructionPointer + 2),
+                integers.get(instructionPointer + 3));
+        
         int index1 = integers.get(instructionPointer + 1).intValue();
         int index2 = integers.get(instructionPointer + 2).intValue();
         int index3 = integers.get(instructionPointer + 3).intValue();
         
         int value1 = integers.get(index1).intValue();
         int value2 = integers.get(index2).intValue();
+        LOGGER.debug("integers[{}] = {}", Integer.valueOf(index1), Integer.valueOf(value1));
+        LOGGER.debug("integers[{}] = {}", Integer.valueOf(index2), Integer.valueOf(value2));
         
         int value3 = operator.applyAsInt(value1, value2);
         
         LOGGER.debug("{} op {} = {}", Integer.valueOf(value1), Integer.valueOf(value2), Integer.valueOf(value3));
         
         List<Integer> newIntegers = new ArrayList<>(integers);
+        LOGGER.debug("Writing {} to {}", Integer.valueOf(value3), Integer.valueOf(index3));
         newIntegers.set(index3, Integer.valueOf(value3));
         
         return new Program(List.copyOf(newIntegers), instructionPointer + 4, false);
