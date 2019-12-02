@@ -23,6 +23,7 @@ public class ProgramAlarmPart2 implements IntSolver {
      * {@inheritDoc}
      * 
      * @return 100 * noun + verb, for the input noun and verb that cause the program to produce the output 19690720
+     *      (a.k.a. the date of the moon landing)
      */
     @Override
     public int solve(Stream<String> lines) {
