@@ -56,14 +56,14 @@ public class Program {
      * @return program state after termination
      */
     public Program execute() {
-        LOGGER.info("Initial program state: {}", this); // TODO debug
+        LOGGER.debug("Initial program state: {}", this);
         Program result = this;
         while (!result.done) {
             int opcode = result.integers.get(result.instructionPointer).intValue();
             Instruction instruction = Instruction.of(opcode);
-            LOGGER.info("Executing instruction {}", instruction); // TODO debug
+            LOGGER.debug("Executing instruction {}", instruction);
             result = instruction.execute(result);
-            LOGGER.info("Updated program state: {}", result); // TODO debug
+            LOGGER.debug("Updated program state: {}", result);
         }
         return result;
     }
@@ -99,7 +99,7 @@ public class Program {
         
         int value3 = operator.applyAsInt(value1, value2);
         
-        LOGGER.info("{} op {} = {}", Integer.valueOf(value1), Integer.valueOf(value2), Integer.valueOf(value3)); // TODO debug
+        LOGGER.debug("{} op {} = {}", Integer.valueOf(value1), Integer.valueOf(value2), Integer.valueOf(value3));
         
         List<Integer> newIntegers = new ArrayList<>(integers);
         newIntegers.set(index3, Integer.valueOf(value3));
@@ -115,5 +115,4 @@ public class Program {
     public String toString() {
         return "Program [integers=" + integers + ", instructionPointer=" + instructionPointer + ", done=" + done + "]";
     }
-    
 }
