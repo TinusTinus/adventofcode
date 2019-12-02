@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Representation of an Intcode program, including its current state.
  *
  * @author Martijn van de Rijdt
  */
 public class Program {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     
     private final List<Integer> integers;
     private final int instructionPointer;
@@ -49,10 +54,29 @@ public class Program {
      * @return program state after termination
      */
     public Program execute() {
-        return this; // TODO
+        LOGGER.info("Initial program state: {}", this); // TODO debug
+        Program result = this;
+        while (!result.done) {
+            int opcode = result.integers.get(result.instructionPointer).intValue();
+            Instruction instruction = Instruction.of(opcode);
+            LOGGER.info("Executing instruction {}", instruction); // TODO debug
+            result = instruction.execute(result);
+            LOGGER.info("Updated program state: {}", result); // TODO debug
+        }
+        return result;
     }
     
     public List<Integer> getIntegers() {
         return integers;
     }
+    
+    int getInstructionPointer() {
+        return instructionPointer;
+    }
+
+    @Override
+    public String toString() {
+        return "Program [integers=" + integers + ", instructionPointer=" + instructionPointer + ", done=" + done + "]";
+    }
+    
 }

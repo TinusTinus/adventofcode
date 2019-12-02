@@ -16,19 +16,19 @@ public class ProgramAlarmPart1Test extends SolverTest<ProgramAlarmPart1> {
         super(ProgramAlarmPart1.class);
     }
 
-    /** Test case based on the first example from the puzzle text. */
+    /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("2", "example-day02-2019-0.txt");
+        assertSolution("3500", "example-day02-2019-0.txt");
     }
-
-    /** Test case based on the second example from the puzzle text. */
+    
+    /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
         assertSolution("2", "example-day02-2019-1.txt");
     }
 
-    /** Test case based on the third example from the puzzle text. */
+    /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
         assertSolution("2", "example-day02-2019-2.txt");
@@ -37,12 +37,18 @@ public class ProgramAlarmPart1Test extends SolverTest<ProgramAlarmPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("30", "example-day02-2019-3.txt");
+        assertSolution("2", "example-day02-2019-3.txt");
+    }
+
+    /** Test case based on an example from the puzzle text. */
+    @Test
+    public void testExample4() {
+        assertSolution("30", "example-day02-2019-4.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day02-2019.txt");
+        assertSolution("?", "input-day02-2019.txt"); // 250715 is too low!
     }
 }
