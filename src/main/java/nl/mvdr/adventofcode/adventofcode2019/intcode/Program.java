@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.intcode;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntBinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,14 +68,49 @@ public class Program {
         return result;
     }
     
+    /** @return updated program state after halting */
+    Program halt() {
+        return new Program(integers, instructionPointer, true);
+    }
+    
+    /** @return updated program state after adding */
+    Program add() {
+        return perform((i, j) -> i + j);
+    }
+    
+    /** @return updated program state after multiplying */
+    Program multiply() {
+        return perform((i, j) -> i * j);
+    }
+    
+    /**
+     * Performs a binary integer operation.
+     * 
+     * @param operator operator to perform
+     * @return updated program state after performing the given operator
+     */
+    private Program perform(IntBinaryOperator operator) {
+        int index1 = integers.get(instructionPointer + 1).intValue();
+        int index2 = integers.get(instructionPointer + 2).intValue();
+        int index3 = integers.get(instructionPointer + 3).intValue();
+        
+        int value1 = integers.get(index1).intValue();
+        int value2 = integers.get(index2).intValue();
+        
+        int value3 = operator.applyAsInt(value1, value2);
+        
+        LOGGER.info("{} op {} = {}", Integer.valueOf(value1), Integer.valueOf(value2), Integer.valueOf(value3)); // TODO debug
+        
+        List<Integer> newIntegers = new ArrayList<>(integers);
+        newIntegers.set(index3, Integer.valueOf(value3));
+        
+        return new Program(List.copyOf(newIntegers), instructionPointer + 4, false);
+    }
+    
     public List<Integer> getIntegers() {
         return integers;
     }
     
-    int getInstructionPointer() {
-        return instructionPointer;
-    }
-
     @Override
     public String toString() {
         return "Program [integers=" + integers + ", instructionPointer=" + instructionPointer + ", done=" + done + "]";

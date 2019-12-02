@@ -49,6 +49,8 @@ public class ProgramAlarmPart1Test extends SolverTest<ProgramAlarmPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day02-2019.txt"); // 250715 is too low!
+        assertSolution("?", "input-day02-2019.txt"); 
+        // 250715 is too low!
+        // (250716 is also too low, 501426 is also wrong)
     }
 }
