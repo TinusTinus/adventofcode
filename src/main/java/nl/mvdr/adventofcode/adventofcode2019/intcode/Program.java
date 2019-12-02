@@ -49,6 +49,19 @@ public class Program {
         this.instructionPointer = instructionPointer;
         this.done = done;
     }
+
+    /**
+     * Updates the value at the given index.
+     * 
+     * @param index index to update
+     * @param value value to write to index
+     * @return copy of this program with the updated value
+     */
+    public Program set(int index, int value) {
+        List<Integer> newIntegers = new ArrayList<>(integers);
+        newIntegers.set(index, Integer.valueOf(value));
+        return new Program(List.copyOf(newIntegers), instructionPointer, done);
+    }
     
     /**
      * Executes this program.

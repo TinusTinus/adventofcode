@@ -26,6 +26,8 @@ public class ProgramAlarmPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         Program program = Program.parse(lines.findFirst().orElseThrow());
+        program = program.set(1, 12);
+        program = program.set(2, 2);
         program = program.execute();
         return program.getIntegers().get(0).intValue();
     }
