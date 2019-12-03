@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2019.day03;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -58,7 +58,7 @@ abstract class CrossedWires implements IntSolver {
      * @return the wire's path, represented as a list of twodimensional points
      */
     private List<Point> parseWire(String line) {
-        List<Point> result = new ArrayList<>();
+        List<Point> result = new LinkedList<>();
         
         Point point = new Point(0, 0);
         result.add(point);
