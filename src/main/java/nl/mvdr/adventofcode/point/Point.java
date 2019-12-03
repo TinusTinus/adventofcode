@@ -54,6 +54,16 @@ public class Point implements Comparable<Point> {
     }
     
     /**
+     * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and <0, 0>.
+     * 
+     * @param other other point
+     * @return Manhattan distance
+     */
+    public int manhattanDistanceToOrigin() {
+        return Math.abs(x) + Math.abs(y);
+    }
+    
+    /**
      * Computes the total distance to the given set of points.
      * 
      * @param points set of points points
