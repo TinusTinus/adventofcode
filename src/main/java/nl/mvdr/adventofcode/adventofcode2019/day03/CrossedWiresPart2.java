@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day03;
 
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +20,11 @@ public class CrossedWiresPart2 extends CrossedWires {
     /**
      * {@inheritDoc}
      * 
-     * @return the fewest combined steps the wires must take to reach an intersection
+     * @return the fewest combined steps to the given point
      */
     @Override
-    int solve(Set<Point> intersections, List<Point> wire0, List<Point> wire1) {
-        return intersections.stream()
-                .mapToInt(point -> wire0.indexOf(point) + wire1.indexOf(point))
-                .min()
-                .getAsInt();
+    int computeDistance(Point point, List<Point> wire0, List<Point> wire1) {
+        return wire0.indexOf(point) + wire1.indexOf(point);
     }
     
     /**

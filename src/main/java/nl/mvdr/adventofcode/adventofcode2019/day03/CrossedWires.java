@@ -44,19 +44,19 @@ abstract class CrossedWires implements IntSolver {
 
         LOGGER.debug("Found {} intersections", Integer.valueOf(intersections.size()));
         
-        return solve(intersections, wire0, wire1);
+        return intersections.stream()
+                .filter(point -> !(new Point(0, 0)).equals(point))
+                .mapToInt(point -> computeDistance(point, wire0, wire1))
+                .min()
+                .getAsInt();
     }
-
-    /**
-     * Solves the puzzle.
-     * 
-     * @param intersections intersections of the wires
-     * @param wire0 first wire
-     * @param wire1 second wire
-     * @return solution
-     */
-    abstract int solve(Set<Point> intersections, List<Point> wire0, List<Point> wire1);
     
+    /**
+     * Parses a line from the input.
+     * 
+     * @param line textual representation of a wire, for example: "R8,U5,L5,D3"
+     * @return the wire's path, represented as a list of twodimensional points
+     */
     private List<Point> parseWire(String line) {
         List<Point> result = new ArrayList<>();
         
@@ -75,4 +75,14 @@ abstract class CrossedWires implements IntSolver {
         
         return result;
     }
+
+    /**
+     * Computes the distance to the given point.
+     * 
+     * @param point point
+     * @param wire0 first wire
+     * @param wire1 second wire
+     * @return distance to {@code point}
+     */
+    abstract int computeDistance(Point point, List<Point> wire0, List<Point> wire1);
 }
