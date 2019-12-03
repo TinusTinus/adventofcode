@@ -39,7 +39,7 @@ public class CrossedWiresPart2 implements IntSolver {
         LOGGER.debug("Parsed {} wires", Integer.valueOf(wires.size())); // Should be 2
         
         Set<Point> intersections = new HashSet<>(wires.get(0));
-        intersections.retainAll(wires.get(1));
+        intersections.retainAll(Set.copyOf(wires.get(1)));
 
         LOGGER.debug("Found {} intersections", Integer.valueOf(intersections.size()));
         
