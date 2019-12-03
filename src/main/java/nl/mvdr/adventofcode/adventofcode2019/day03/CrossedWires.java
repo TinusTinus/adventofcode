@@ -39,8 +39,10 @@ abstract class CrossedWires implements IntSolver {
         List<Point> wire0 = wires.get(0);
         List<Point> wire1 = wires.get(1);        
         
-        Set<Point> intersections = new HashSet<>(wire0);
-        intersections.retainAll(Set.copyOf(wire1));
+        Set<Point> intersections = wire0.stream()
+                .distinct()
+                .filter(Set.copyOf(wire1)::contains)
+                .collect(Collectors.toSet());
 
         LOGGER.debug("Found {} intersections", Integer.valueOf(intersections.size()));
         
