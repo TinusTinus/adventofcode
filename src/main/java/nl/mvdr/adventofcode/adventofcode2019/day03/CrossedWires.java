@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2019.day03;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +40,7 @@ abstract class CrossedWires implements IntSolver {
         
         Set<Point> intersections = wire0.stream()
                 .distinct()
+                .parallel()
                 .filter(Set.copyOf(wire1)::contains)
                 .collect(Collectors.toSet());
 
