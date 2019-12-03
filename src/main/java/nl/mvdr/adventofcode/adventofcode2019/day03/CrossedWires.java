@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day03;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,36 +21,47 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class CrossedWiresPart1 implements IntSolver {
+abstract class CrossedWires implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CrossedWiresPart1.class);
-    
-    // TODO refactor to extend CrossedWires
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrossedWires.class);
     
     /**
      * {@inheritDoc}
      * 
-     * @return the Manhattan distance from the central port to the closest intersection
+     * @return the fewest combined steps the wires must take to reach an intersection
      */
     @Override
     public int solve(Stream<String> lines) {
-        List<Set<Point>> wires = lines.filter(Predicate.not(String::isBlank))
+        List<List<Point>> wires = lines.filter(Predicate.not(String::isBlank))
                 .map(this::parseWire)
                 .collect(Collectors.toList());
+        LOGGER.debug("Parsed {} wires", Integer.valueOf(wires.size())); // Should be 2
+        List<Point> wire0 = wires.get(0);
+        List<Point> wire1 = wires.get(1);        
         
-        Set<Point> intersections = new HashSet<>(wires.get(0));
-        intersections.retainAll(wires.get(1));
+        Set<Point> intersections = new HashSet<>(wire0);
+        intersections.retainAll(Set.copyOf(wire1));
+
+        LOGGER.debug("Found {} intersections", Integer.valueOf(intersections.size()));
         
-        return intersections.stream()
-                .mapToInt(Point::manhattanDistanceToOrigin)
-                .min()
-                .getAsInt();
+        return solve(intersections, wire0, wire1);
     }
+
+    /**
+     * Solves the puzzle.
+     * 
+     * @param intersections intersections of the wires
+     * @param wire0 first wire
+     * @param wire1 second wire
+     * @return solution
+     */
+    abstract int solve(Set<Point> intersections, List<Point> wire0, List<Point> wire1);
     
-    private Set<Point> parseWire(String line) {
-        Set<Point> result = new HashSet<>();
+    private List<Point> parseWire(String line) {
+        List<Point> result = new ArrayList<>();
         
         Point point = new Point(0, 0);
+        result.add(point);
         
         String[] segments = line.split(",");
         for (String segment : segments) {
@@ -62,18 +74,5 @@ public class CrossedWiresPart1 implements IntSolver {
         }
         
         return result;
-    }
-    
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are ignored
-     */
-    public static void main(String[] args) {
-        CrossedWiresPart1 instance = new CrossedWiresPart1();
-
-        String result = instance.solve("input-day03-2019.txt");
-
-        LOGGER.info(result);
     }
 }
