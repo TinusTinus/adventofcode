@@ -1,10 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day17;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 17 puzzle of 2017's Advent of Code:
@@ -12,12 +10,11 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class Spinlock implements PathSolver<Integer> {
+abstract class Spinlock implements IntSolver {
 
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        int stepSize = Files.lines(inputFilePath)
-                .mapToInt(Integer::parseInt)
+    public int solve(Stream<String> lines) {
+        int stepSize = lines.mapToInt(Integer::parseInt)
                 .findFirst()
                 .getAsInt();
         
@@ -30,5 +27,5 @@ abstract class Spinlock implements PathSolver<Integer> {
      * @param stepSize number of steps between insertions of new values into the buffer
      * @return solution to the puzzle
      */
-    abstract Integer solve(int stepSize);
+    abstract int    solve(int stepSize);
 }

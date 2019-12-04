@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day06;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -15,7 +13,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 6 puzzle of 2017's Advent of Code:
@@ -23,13 +21,13 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class MemoryReallocation implements PathSolver<Integer> {
+abstract class MemoryReallocation implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemoryReallocation.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Integer> banks = parseInput(inputFilePath);
+    public int solve(Stream<String> lines) {
+        List<Integer> banks = parseInput(lines.findFirst().orElseThrow());
         
         LOGGER.debug("Starting banks: {}", banks);
         
@@ -61,15 +59,11 @@ abstract class MemoryReallocation implements PathSolver<Integer> {
     /**
      * Parses the input into the initial memory banks.
      * 
-     * @param inputFilePath puzzle input file
+     * @param line puzzle input
      * @return memory banks
      * @throws IOException unexpected I/O exception when reading the input
      */
-    private List<Integer> parseInput(Path inputFilePath) throws IOException {
-        String line = Files.lines(inputFilePath)
-                .findFirst()
-                .get();
-        
+    private List<Integer> parseInput(String line) {
         return Stream.of(line.split("\\s"))
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
@@ -82,5 +76,5 @@ abstract class MemoryReallocation implements PathSolver<Integer> {
      * @param history history
      * @return puzzle solution
      */
-    protected abstract Integer solve(List<Integer> banks, Map<List<Integer>, Integer> history);
+    protected abstract int solve(List<Integer> banks, Map<List<Integer>, Integer> history);
 }

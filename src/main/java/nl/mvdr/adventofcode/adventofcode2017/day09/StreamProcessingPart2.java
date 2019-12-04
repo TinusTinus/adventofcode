@@ -1,13 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day09;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 9 puzzle of 2017's Advent of Code:
@@ -15,7 +13,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class StreamProcessingPart2 implements PathSolver<Integer> {
+public class StreamProcessingPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StreamProcessingPart2.class);
     
@@ -25,8 +23,8 @@ public class StreamProcessingPart2 implements PathSolver<Integer> {
      * @return non-canceled garbage characters
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        String inputText = Files.lines(inputFilePath).findFirst().get();
+    public int solve(Stream<String> lines) {
+        String inputText = lines.findFirst().orElseThrow();
         
         LOGGER.debug("Input: {}", inputText);
         
@@ -57,7 +55,7 @@ public class StreamProcessingPart2 implements PathSolver<Integer> {
             }
         }
         
-        return Integer.valueOf(garbageCount);
+        return garbageCount;
     }
     
     /**

@@ -1,15 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2017.day03;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -19,7 +17,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class SpiralMemoryPart1 implements PathSolver<Integer> {
+public class SpiralMemoryPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpiralMemoryPart1.class);
     
@@ -29,10 +27,8 @@ public class SpiralMemoryPart1 implements PathSolver<Integer> {
      * @return number of steps
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        String input = Files.lines(inputFilePath)
-                .findFirst()
-                .get();
+    public int solve(Stream<String> lines) {
+        String input = lines.findFirst().orElseThrow();
         int square = Integer.parseInt(input);
         
         Point startingPoint = new Point(0, 0);
@@ -55,7 +51,7 @@ public class SpiralMemoryPart1 implements PathSolver<Integer> {
             point = nextPoint;
         }
         
-        return Integer.valueOf(point.manhattanDistance(startingPoint));
+        return point.manhattanDistance(startingPoint);
     }
     
     /**

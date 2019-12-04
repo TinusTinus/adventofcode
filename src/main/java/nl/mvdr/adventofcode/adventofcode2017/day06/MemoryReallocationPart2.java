@@ -22,10 +22,10 @@ public class MemoryReallocationPart2 extends MemoryReallocation {
      * @return length of the cycle
      */
     @Override
-    protected Integer solve(List<Integer> banks, Map<List<Integer>, Integer> history) {
+    protected int solve(List<Integer> banks, Map<List<Integer>, Integer> history) {
         int cyclesBeforeFirstOccurrence = history.get(banks).intValue();
         int cyclesBeforeSecondOccurrence = history.size();
-        return Integer.valueOf(cyclesBeforeSecondOccurrence - cyclesBeforeFirstOccurrence);
+        return cyclesBeforeSecondOccurrence - cyclesBeforeFirstOccurrence;
     }
     
     /**

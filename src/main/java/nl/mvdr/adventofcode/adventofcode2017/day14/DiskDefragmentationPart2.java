@@ -24,7 +24,7 @@ public class DiskDefragmentationPart2 extends DiskDefragmentation {
      * @return number of regions
      */
     @Override
-    protected Integer solve(Set<Point> squares) {
+    protected int solve(Set<Point> squares) {
         Set<Set<Point>> regions = new HashSet<>();
         
         squares.forEach(square -> {
@@ -43,7 +43,7 @@ public class DiskDefragmentationPart2 extends DiskDefragmentation {
             regions.add(newRegion);
         });
         
-        return Integer.valueOf(regions.size());
+        return regions.size();
     }
     
     /**

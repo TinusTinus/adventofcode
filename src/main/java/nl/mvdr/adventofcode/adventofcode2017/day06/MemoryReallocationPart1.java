@@ -22,8 +22,8 @@ public class MemoryReallocationPart1 extends MemoryReallocation {
      * @return how many redistribution cycles must be completed before a configuration is produced that has been seen before
      */
     @Override
-    protected Integer solve(List<Integer> banks, Map<List<Integer>, Integer> history) {
-        return Integer.valueOf(history.size());
+    protected int solve(List<Integer> banks, Map<List<Integer>, Integer> history) {
+        return history.size();
     }
     
     /**

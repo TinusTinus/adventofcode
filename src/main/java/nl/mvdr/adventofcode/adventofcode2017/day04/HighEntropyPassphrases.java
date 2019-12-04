@@ -1,13 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day04;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 4 puzzle of 2017's Advent of Code:
@@ -15,7 +13,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class HighEntropyPassphrases implements PathSolver<Long> {
+abstract class HighEntropyPassphrases implements LongSolver {
 
     /**
      * {@inheritDoc}
@@ -23,16 +21,12 @@ abstract class HighEntropyPassphrases implements PathSolver<Long> {
      * @return number of valid passphrases
      */
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        long result = Files.lines(inputFilePath)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+    public long solve(Stream<String> lines) {
+        return lines.filter(Predicate.not(String::isBlank))
                 .map(line -> line.split("\\s"))
                 .map(Arrays::asList)
                 .filter(this::isValid)
                 .count();
-        
-        return Long.valueOf(result);
     }
 
     /**

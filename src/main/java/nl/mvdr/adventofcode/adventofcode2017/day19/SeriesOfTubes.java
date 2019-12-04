@@ -1,14 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day19;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -20,12 +18,11 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-abstract class SeriesOfTubes<R> implements PathSolver<R> {
+abstract class SeriesOfTubes<R> implements LinesSolver<R> {
 
     @Override
-    public R solve(Path inputFilePath) throws IOException {
-        List<String> map = Files.lines(inputFilePath)
-                .collect(Collectors.toList());
+    public R solve(Stream<String> lines) {
+        List<String> map = lines.collect(Collectors.toList());
         
         String topLine = map.get(0);
         int startX = IntStream.range(0, topLine.length())

@@ -1,16 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2017.day05;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 5 puzzle of 2017's Advent of Code:
@@ -18,7 +16,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class Trampolines implements PathSolver<Integer> {
+abstract class Trampolines implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Trampolines.class);
     
@@ -28,11 +26,8 @@ abstract class Trampolines implements PathSolver<Integer> {
      * @return number of steps
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Integer> instructions = Files.lines(inputFilePath)
-                // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+    public int solve(Stream<String> lines) {
+        List<Integer> instructions = lines.filter(Predicate.not(String::isBlank))
                 // parse each line to an integer
                 .mapToInt(Integer::parseInt)
                 .boxed()
@@ -64,7 +59,7 @@ abstract class Trampolines implements PathSolver<Integer> {
             LOGGER.debug("Instruction pointer: {}, instructions: {}", Integer.valueOf(instructionPointer), instructions);
         }
         
-        return Integer.valueOf(steps);
+        return steps;
     }
 
     /**

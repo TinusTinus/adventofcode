@@ -5,10 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -19,15 +21,13 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class SpiralMemoryPart2 implements PathSolver<Integer> {
+public class SpiralMemoryPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpiralMemoryPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        String input = Files.lines(inputFilePath)
-                .findFirst()
-                .get();
+    public int solve(Stream<String> lines) {
+        String input = lines.findFirst().orElseThrow();
         int targetValue = Integer.parseInt(input);
         
         Point startingPoint = new Point(0, 0);
@@ -61,7 +61,7 @@ public class SpiralMemoryPart2 implements PathSolver<Integer> {
         
         LOGGER.debug("Memory: {}", memory);
         
-        return memory.get(point);
+        return memory.get(point).intValue();
     }
     
     /**

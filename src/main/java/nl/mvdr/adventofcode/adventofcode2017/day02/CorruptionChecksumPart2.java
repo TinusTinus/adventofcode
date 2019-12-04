@@ -1,18 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2017.day02;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
 import java.util.OptionalInt;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 2 puzzle of 2017's Advent of Code:
@@ -20,22 +17,17 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class CorruptionChecksumPart2 implements PathSolver<Integer> {
+public class CorruptionChecksumPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CorruptionChecksumPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        int result = Files.lines(inputFilePath)
-                // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+    public int solve(Stream<String> lines) {
+        return lines.filter(Predicate.not(String::isBlank))
                 // parse each line to a list of numbers
                 .map(this::parseLine)
                 .mapToInt(this::getEvenDivision)
                 .sum();
-        
-        return Integer.valueOf(result);
     }
     
     /**

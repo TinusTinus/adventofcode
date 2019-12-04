@@ -17,7 +17,7 @@ public class SpinlockPart1 extends Spinlock {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpinlockPart1.class);
     
     @Override
-    Integer solve(int stepSize) {
+    int solve(int stepSize) {
         LinkedList<Integer> buffer = new LinkedList<>();
         buffer.add(Integer.valueOf(0));
 
@@ -30,7 +30,7 @@ public class SpinlockPart1 extends Spinlock {
             buffer.offerFirst(Integer.valueOf(i));
         }
         
-        return buffer.get(1);
+        return buffer.get(1).intValue();
     }
     
     /**

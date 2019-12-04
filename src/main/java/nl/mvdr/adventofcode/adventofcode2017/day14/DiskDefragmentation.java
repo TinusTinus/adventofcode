@@ -1,18 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2017.day14;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.adventofcode2017.day10.KnotHashPart2;
 import nl.mvdr.adventofcode.adventofcode2017.knothash.KnotHasher;
 import nl.mvdr.adventofcode.point.Point;
@@ -23,13 +21,13 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-abstract class DiskDefragmentation implements PathSolver<Integer> {
+abstract class DiskDefragmentation implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiskDefragmentation.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        String input = Files.lines(inputFilePath).findFirst().get();
+    public int solve(Stream<String> lines) {
+        String input = lines.findFirst().orElseThrow();
         LOGGER.debug("Puzzle input: {}", input);
         
         KnotHasher hasher = new KnotHashPart2();
@@ -77,5 +75,5 @@ abstract class DiskDefragmentation implements PathSolver<Integer> {
      * @param squares squares in the input
      * @return solution to the puzzle for the given input
      */
-    protected abstract Integer solve(Set<Point> squares);
+    protected abstract int solve(Set<Point> squares);
 }

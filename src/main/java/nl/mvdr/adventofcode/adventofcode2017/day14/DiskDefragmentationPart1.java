@@ -23,8 +23,8 @@ public class DiskDefragmentationPart1 extends DiskDefragmentation {
      * @return number of squares
      */
     @Override
-    protected Integer solve(Set<Point> squares) {
-        return Integer.valueOf(squares.size());
+    protected int solve(Set<Point> squares) {
+        return squares.size();
     }
     
     /**

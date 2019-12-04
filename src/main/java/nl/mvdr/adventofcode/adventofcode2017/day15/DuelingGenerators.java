@@ -1,14 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day15;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 15 puzzle of 2017's Advent of Code:
@@ -16,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class DuelingGenerators implements PathSolver<Long> {
+abstract class DuelingGenerators implements LongSolver {
 
     private static final int LARGE_SAMPLE_SIZE = 40_000_000;
     private static final int SMALL_SAMPLE_SIZE = 5_000_000;
@@ -40,10 +38,8 @@ abstract class DuelingGenerators implements PathSolver<Long> {
      * @return the judge's final count
      */
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        List<Long> startValues = Files.lines(inputFilePath)
-            .filter(Objects::nonNull)
-            .filter(line -> !line.isBlank())
+    public long solve(Stream<String> lines) {
+        List<Long> startValues = lines.filter(Predicate.not(String::isBlank))
             // Drop the prefix
             .map(line -> line.substring("Generator X starts with ".length()))
             .map(Long::valueOf)
@@ -72,6 +68,6 @@ abstract class DuelingGenerators implements PathSolver<Long> {
         })
         .count();
         
-        return Long.valueOf(result);
+        return result;
     }
 }

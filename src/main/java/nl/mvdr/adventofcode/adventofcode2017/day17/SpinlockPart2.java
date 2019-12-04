@@ -14,7 +14,7 @@ public class SpinlockPart2 extends Spinlock {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpinlockPart2.class);
     
     @Override
-    Integer solve(int stepSize) {
+    int solve(int stepSize) {
         // Value 0 is always at position 0.
         // There is no need to compute the entire buffer; all we need to keep track of is the value at position 1.
         int result = -1;
@@ -26,7 +26,7 @@ public class SpinlockPart2 extends Spinlock {
             }
         }
         
-        return Integer.valueOf(result);
+        return result;
     }
     
     /**

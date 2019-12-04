@@ -1,17 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2017.day10;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 10 puzzle of 2017's Advent of Code:
@@ -21,7 +19,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class KnotHash<R> implements PathSolver<R> {
+abstract class KnotHash<R> implements LinesSolver<R> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KnotHash.class);
     
@@ -44,8 +42,8 @@ abstract class KnotHash<R> implements PathSolver<R> {
     }
 
     @Override
-    public R solve(Path inputFilePath) throws IOException {
-        String inputText = Files.lines(inputFilePath).findFirst().get();
+    public R solve(Stream<String> lines) {
+        String inputText = lines.findFirst().orElseThrow();
         return solveKnotHash(inputText);
     }
 
