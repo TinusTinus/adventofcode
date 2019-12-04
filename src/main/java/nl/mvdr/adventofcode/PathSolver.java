@@ -11,7 +11,8 @@ import java.nio.file.Path;
  *
  * @author Martijn van de Rijdt
  * 
- * @deprecated use {@link LinesSolver}, {@link IntSolver} or {@link LongSolver} instead
+ * @deprecated use {@link LinesSolver}, {@link IntSolver} or {@link LongSolver} instead,
+ *     as they require less I/O fiddling
  */
 @FunctionalInterface
 @Deprecated // TODO remove
