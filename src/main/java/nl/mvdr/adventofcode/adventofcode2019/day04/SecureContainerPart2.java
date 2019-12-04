@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day04;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,16 +12,17 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class SecureContainerPart1 extends SecureContainer {
+public class SecureContainerPart2 extends SecureContainer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecureContainerPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecureContainerPart2.class);
     
     @Override
     boolean validatePassword(int password) {
         boolean ascending = true;
-        boolean doubleDigit = false;
+        Map<Integer, Integer> digitCounts = new HashMap<>();
         
         int previousDigit = password % 10;
+        digitCounts.put(Integer.valueOf(previousDigit), Integer.valueOf(1));
         int remainingDigits = password / 10;
         
         // Consider digits right-to-left
@@ -27,12 +31,13 @@ public class SecureContainerPart1 extends SecureContainer {
             remainingDigits = remainingDigits / 10;
             
             ascending = digit <= previousDigit;
-            doubleDigit = doubleDigit || previousDigit == digit;
+            digitCounts.compute(Integer.valueOf(digit), 
+                    (key, count) -> count == null ? Integer.valueOf(1) : Integer.valueOf(count.intValue() + 1));
             
             previousDigit = digit;
         }
         
-        return ascending && doubleDigit;
+        return ascending && digitCounts.values().contains(Integer.valueOf(2));
     }
     
     /**
@@ -41,7 +46,7 @@ public class SecureContainerPart1 extends SecureContainer {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SecureContainerPart1 instance = new SecureContainerPart1();
+        SecureContainerPart2 instance = new SecureContainerPart2();
 
         String result = instance.solve("input-day04-2019.txt");
 

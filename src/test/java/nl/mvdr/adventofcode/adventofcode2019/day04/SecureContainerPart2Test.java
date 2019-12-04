@@ -6,32 +6,32 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link SecureContainerPart1}.
+ * Unit test cases for {@link SecureContainerPart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class SecureContainerPart1Test extends SolverTest<SecureContainerPart1> {
+public class SecureContainerPart2Test extends SolverTest<SecureContainerPart2> {
 
     /** Constructor. */
-    public SecureContainerPart1Test() {
-        super(SecureContainerPart1.class);
+    public SecureContainerPart2Test() {
+        super(SecureContainerPart2.class);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate111111() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 111111;
         
         boolean valid = solver.validatePassword(password);
         
-        Assertions.assertTrue(valid);
+        Assertions.assertFalse(valid);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate122345() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 122345;
         
         boolean valid = solver.validatePassword(password);
@@ -39,21 +39,21 @@ public class SecureContainerPart1Test extends SolverTest<SecureContainerPart1> {
         Assertions.assertTrue(valid);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate111123() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 111123;
         
         boolean valid = solver.validatePassword(password);
         
-        Assertions.assertTrue(valid);
+        Assertions.assertFalse(valid);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate135679() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 135679;
         
         boolean valid = solver.validatePassword(password);
@@ -61,10 +61,10 @@ public class SecureContainerPart1Test extends SolverTest<SecureContainerPart1> {
         Assertions.assertFalse(valid);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate223450() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 223450;
         
         boolean valid = solver.validatePassword(password);
@@ -72,10 +72,10 @@ public class SecureContainerPart1Test extends SolverTest<SecureContainerPart1> {
         Assertions.assertFalse(valid);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate123789() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 123789;
         
         boolean valid = solver.validatePassword(password);
@@ -83,10 +83,10 @@ public class SecureContainerPart1Test extends SolverTest<SecureContainerPart1> {
         Assertions.assertFalse(valid);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate112233() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 112233;
         
         boolean valid = solver.validatePassword(password);
@@ -94,21 +94,21 @@ public class SecureContainerPart1Test extends SolverTest<SecureContainerPart1> {
         Assertions.assertTrue(valid);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate123444() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 123444;
         
         boolean valid = solver.validatePassword(password);
         
-        Assertions.assertTrue(valid);
+        Assertions.assertFalse(valid);
     }
     
-    /** Test case for {@link SecureContainerPart1#validatePassword(int)}.  */
+    /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate111122() {
-        SecureContainerPart1 solver = new SecureContainerPart1();
+        SecureContainerPart2 solver = new SecureContainerPart2();
         int password = 111122;
         
         boolean valid = solver.validatePassword(password);
@@ -119,6 +119,6 @@ public class SecureContainerPart1Test extends SolverTest<SecureContainerPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1640", "input-day04-2019.txt"); 
+        assertSolution("1126", "input-day04-2019.txt"); 
     }
 }
