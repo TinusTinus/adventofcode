@@ -43,21 +43,22 @@ public class SecureContainerPart1 implements LongSolver {
      * @return whether the password is valid, that is, whether the digits are
      *         ascending and there is at least one that occurs twice
      */
-    private boolean validatePassword(int password) {
-        int[] digits = Integer.toString(password).chars()
-                .map(c -> Integer.parseInt("" + (char)c))
-                .toArray();
-        
+    boolean validatePassword(int password) {
         boolean ascending = true;
         boolean doubleDigit = false;
-        int i = 0;
-        while (ascending && i < digits.length - 1) {
-            ascending = digits[i] <= digits[i + 1];
-            doubleDigit = doubleDigit && digits[i] == digits[i + 1];
-        }
         
-        if (ascending && doubleDigit) {
-            LOGGER.info("valid password found: " + password); // TODO remove log statement
+        int previousDigit = password % 10;
+        int remainingDigits = password / 10;
+        
+        // Consider digits right-to-left
+        while (ascending && 0 < remainingDigits) {
+            int digit = remainingDigits % 10;
+            remainingDigits = remainingDigits / 10;
+            
+            ascending = digit <= previousDigit;
+            doubleDigit = doubleDigit || previousDigit == digit;
+            
+            previousDigit = digit;
         }
         
         return ascending && doubleDigit;
