@@ -116,4 +116,15 @@ public class ProgramTest {
             
         Assertions.assertEquals(19690720, result.getMemory().get(0).intValue());
     }
+
+    /** Test case for {@link Program#execute()} including parameter modes. */
+    @Test
+    public void testExecuteParameterModes() {
+        String input = "1002,4,3,4,33";
+        Program program = Program.parse(input);
+            
+        Program result = program.execute();
+            
+        Assertions.assertEquals(List.of(1002, 4, 3, 4, 99), result.getMemory());
+    }
 }

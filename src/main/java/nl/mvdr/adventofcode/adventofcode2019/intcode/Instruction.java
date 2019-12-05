@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.intcode;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -12,33 +15,27 @@ enum Instruction {
 
     /**
      * This instruction adds together numbers read from two positions and stores the
-     * result in a third position. The three integers immediately after the opcode
-     * tell you these three positions - the first two indicate the positions from
-     * which you should read the input values, and the third indicates the position
-     * at which the output should be stored.
-     * 
-     * For example, if your Intcode computer encounters 1,10,20,30, it should read
-     * the values at positions 10 and 20, add those values, and then overwrite the
-     * value at position 30 with their sum.
+     * result in a third position.
      */
-    ADD(1, Program::add),
+    ADD(1, 3, Program::add),
 
     /**
      * This instruction works exactly like {@link #ADD}, except it multiplies the
-     * two inputs instead of adding them. Again, the three integers after the opcode
-     * indicate where the inputs and outputs are, not their values.
+     * two inputs instead of adding them.
      */
-    MULTIPLY(2, Program::multiply),
+    MULTIPLY(2, 3, Program::multiply),
 
     /**
      * This instruction means that the program is finished and should immediately
      * halt.
      */
-    HALT(99, Program::halt);
+    HALT(99, 0, Program::halt);
 
     private final int opcode;
     
-    private final Function<Program, Program> operation;
+    private final int parameterCount;
+    
+    private final BiFunction<Program, List<ParameterMode>, Program> operation;
 
     /**
      * Gets the instruction with the given opcode.
@@ -50,17 +47,19 @@ enum Instruction {
         return Stream.of(values())
                 .filter(instruction -> instruction.opcode == opcode)
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new NoSuchElementException("Unknown opcode: " + opcode));
     }
     
     /**
      * Constructor.
      * 
      * @param opcode opcode of this instruction
+     * @param parameterCount the number of parameters this instruction requires
      * @param operation the actual operation
      */
-    Instruction(int opcode, Function<Program, Program> operation) {
+    Instruction(int opcode, int parameterCount, BiFunction<Program, List<ParameterMode>, Program> operation) {
         this.opcode = opcode;
+        this.parameterCount = parameterCount;
         this.operation = operation;
     }
     
@@ -68,9 +67,15 @@ enum Instruction {
      * Executes this instruction on the given program.
      * 
      * @param program program
+     * @param parameterModes parameter modes
      * @return program state after execution of this instruction
      */
-    Program execute(Program program) {
-        return operation.apply(program);
+    Program execute(Program program, List<ParameterMode> parameterModes) {
+        return operation.apply(program, parameterModes);
+    }
+    
+    /** @return the number of parameters this instruction requires */
+    int getParameterCount() {
+        return parameterCount;
     }
 }

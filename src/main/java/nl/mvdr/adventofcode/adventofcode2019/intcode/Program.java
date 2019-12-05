@@ -72,61 +72,108 @@ public class Program {
         LOGGER.debug("Initial program state: {}", this);
         Program result = this;
         while (!result.done) {
-            int opcode = result.memory.get(result.instructionPointer).intValue();
+            int instructionPointerValue = result.memory.get(result.instructionPointer).intValue();
+            
+            int opcode = instructionPointerValue % 100;
             Instruction instruction = Instruction.of(opcode);
-            LOGGER.debug("Executing instruction {}", instruction);
-            result = instruction.execute(result);
+            
+            instructionPointerValue = instructionPointerValue / 100;
+            List<ParameterMode> parameterModes = new ArrayList<>(instruction.getParameterCount());
+            for (int i = 0; i != instruction.getParameterCount(); i++) {
+                parameterModes.add(ParameterMode.of(instructionPointerValue % 10));
+                instructionPointerValue = instructionPointerValue / 10;
+            }
+            
+            LOGGER.debug("Executing instruction {} {}", instruction, parameterModes);
+            result = instruction.execute(result, parameterModes);
             LOGGER.debug("Updated program state: {}", result);
         }
         return result;
     }
     
     /** @return updated program state after halting */
-    Program halt() {
+    Program halt(List<ParameterMode> parameterModes) {
+        // validate modes
+        if (!parameterModes.isEmpty()) {
+            throw new IllegalArgumentException("No parameters expected, got: " + parameterModes);
+        }
+        
         return new Program(memory, instructionPointer, true);
     }
     
-    /** @return updated program state after adding */
-    Program add() {
-        return perform((i, j) -> i + j);
+    /** 
+     * Performs addition.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state 
+     */
+    Program add(List<ParameterMode> parameterModes) {
+        return perform((i, j) -> i + j, parameterModes);
     }
     
-    /** @return updated program state after multiplying */
-    Program multiply() {
-        return perform((i, j) -> i * j);
+    /** 
+     * Performs multiplication.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state 
+     */
+    Program multiply(List<ParameterMode> parameterModes) {
+        return perform((i, j) -> i * j, parameterModes);
     }
     
     /**
      * Performs a binary integer operation.
      * 
      * @param operator operator to perform
+     * @param parameterModes parameter modes
      * @return updated program state after performing the given operator
      */
-    private Program perform(IntBinaryOperator operator) {
-        LOGGER.debug("Performing {} {} {} {}",
+    private Program perform(IntBinaryOperator operator, List<ParameterMode> parameterModes) {
+        // validate modes
+        if (parameterModes.size() != 3) {
+            throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
+        }
+        if (parameterModes.get(2) != ParameterMode.POSITION) {
+            throw new IllegalArgumentException("Unexpected parameter mode for third parameter: " + parameterModes.get(2));
+        }
+        
+        LOGGER.debug("Performing {} {} ({}) {} ({}) {} ({})",
                 memory.get(instructionPointer),
                 memory.get(instructionPointer + 1),
+                parameterModes.get(0),
                 memory.get(instructionPointer + 2),
-                memory.get(instructionPointer + 3));
+                parameterModes.get(1),
+                memory.get(instructionPointer + 3),
+                parameterModes.get(2));
         
-        int address1 = memory.get(instructionPointer + 1).intValue();
-        int address2 = memory.get(instructionPointer + 2).intValue();
-        int address3 = memory.get(instructionPointer + 3).intValue();
+        int value0 = getValue(instructionPointer + 1, parameterModes.get(0));
+        int value1 = getValue(instructionPointer + 2, parameterModes.get(1));
         
-        int value1 = memory.get(address1).intValue();
-        int value2 = memory.get(address2).intValue();
-        LOGGER.debug("memory[{}] = {}", Integer.valueOf(address1), Integer.valueOf(value1));
-        LOGGER.debug("memory[{}] = {}", Integer.valueOf(address2), Integer.valueOf(value2));
+        int resultValue = operator.applyAsInt(value0, value1);
         
-        int value3 = operator.applyAsInt(value1, value2);
-        
-        LOGGER.debug("{} op {} = {}", Integer.valueOf(value1), Integer.valueOf(value2), Integer.valueOf(value3));
+        int resultAddress = memory.get(instructionPointer + 3).intValue();
         
         List<Integer> newMemory = new ArrayList<>(memory);
-        LOGGER.debug("Writing value {} to address {}", Integer.valueOf(value3), Integer.valueOf(address3));
-        newMemory.set(address3, Integer.valueOf(value3));
+        LOGGER.debug("Writing value {} to address {}", Integer.valueOf(resultValue), Integer.valueOf(resultAddress));
+        newMemory.set(resultAddress, Integer.valueOf(resultValue));
         
         return new Program(List.copyOf(newMemory), instructionPointer + 4, false);
+    }
+    
+    /**
+     * Reads a parameter value from memory.
+     * 
+     * @param address address from which to retrieve a parameter value
+     * @param mode parameter mode
+     * @return value
+     */
+    private int getValue(int address, ParameterMode mode) {
+        int value = memory.get(address).intValue();
+        return switch (mode) {
+            case IMMEDIATE -> value;
+            case POSITION -> memory.get(value).intValue();
+            default -> throw new IllegalArgumentException("Unexpected mode: " + mode);
+        };
     }
     
     public List<Integer> getMemory() {
