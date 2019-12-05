@@ -5,20 +5,20 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link SunnyPart1}.
+ * Unit test cases for {@link SunnyPart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class SecureContainerPart1Test extends SolverTest<SunnyPart1> {
+public class SunnyPart2Test extends SolverTest<SunnyPart2> {
 
     /** Constructor. */
-    public SecureContainerPart1Test() {
-        super(SunnyPart1.class);
+    public SunnyPart2Test() {
+        super(SunnyPart2.class);
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("15508323", "input-day05-2019.txt"); 
+        assertSolution("?", "input-day05-2019.txt"); 
     }
 }
