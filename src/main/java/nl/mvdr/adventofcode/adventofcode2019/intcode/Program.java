@@ -145,6 +145,26 @@ public class Program {
         return perform((i, j) -> i * j, parameterModes);
     }
     
+    /** 
+     * Performs the less-than operator.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state 
+     */
+    Program isLessThan(List<ParameterMode> parameterModes) {
+        return perform((i, j) -> i < j ? 1 : 0, parameterModes);
+    }
+    
+    /** 
+     * Performs the less-than operator.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state 
+     */
+    Program equals(List<ParameterMode> parameterModes) {
+        return perform((i, j) -> i == j ? 1 : 0, parameterModes);
+    }
+    
     /**
      * Performs a binary integer operation.
      * 
