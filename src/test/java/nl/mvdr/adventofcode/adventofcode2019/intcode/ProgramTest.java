@@ -3,7 +3,10 @@ package nl.mvdr.adventofcode.adventofcode2019.intcode;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntConsumer;
+import java.util.function.IntSupplier;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -21,9 +24,9 @@ public class ProgramTest {
     /** Test case for {@link Program#parse(String)}. */
     @Test
     public void testParse() {
-        String input = "1,9,10,3,2,3,11,0,99,30,40,50";
+        String programText = "1,9,10,3,2,3,11,0,99,30,40,50";
 
-        Program program = Program.parse(input);
+        Program program = Program.parse(programText);
 
         Assertions.assertEquals(List.of(1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50), program.getMemory());
     }
@@ -31,8 +34,7 @@ public class ProgramTest {
     /** Test case for {@link Program#execute()}. */
     @Test
     public void testExecute0() {
-        String input = "1,9,10,3,2,3,11,0,99,30,40,50";
-        Program program = Program.parse(input);
+        Program program = Program.parse("1,9,10,3,2,3,11,0,99,30,40,50");
 
         Program result = program.execute();
 
@@ -42,8 +44,7 @@ public class ProgramTest {
     /** Test case for {@link Program#execute()}. */
     @Test
     public void testExecute1() {
-        String input = "1,0,0,0,99";
-        Program program = Program.parse(input);
+        Program program = Program.parse("1,0,0,0,99");
 
         Program result = program.execute();
 
@@ -53,8 +54,7 @@ public class ProgramTest {
     /** Test case for {@link Program#execute()}. */
     @Test
     public void testExecute2() {
-        String input = "2,3,0,3,99";
-        Program program = Program.parse(input);
+        Program program = Program.parse("2,3,0,3,99");
 
         Program result = program.execute();
 
@@ -64,8 +64,7 @@ public class ProgramTest {
     /** Test case for {@link Program#execute()}. */
     @Test
     public void testExecute3() {
-        String input = "2,4,4,5,99,0";
-        Program program = Program.parse(input);
+        Program program = Program.parse("2,4,4,5,99,0");
 
         Program result = program.execute();
 
@@ -75,8 +74,7 @@ public class ProgramTest {
     /** Test case for {@link Program#execute()}. */
     @Test
     public void testExecute4() {
-        String input = "1,1,1,4,99,5,6,0,99";
-        Program program = Program.parse(input);
+        Program program = Program.parse("1,1,1,4,99,5,6,0,99");
 
         Program result = program.execute();
 
@@ -86,12 +84,12 @@ public class ProgramTest {
     /** Test case for {@link Program#execute()} based on day 2, part 1. */
     @Test
     public void testDay2Part1() throws IOException {
-        String input;
+        String programText;
         Path path = LinesSolver.toPath(getClass(), "input-day02-2019.txt");
         try (Stream<String> lines = Files.lines(path)) {
-            input = lines.findFirst().orElseThrow();
+            programText = lines.findFirst().orElseThrow();
         }
-        Program program = Program.parse(input);
+        Program program = Program.parse(programText);
         program = program.set(1, 12);
         program = program.set(2, 2);
             
@@ -103,12 +101,12 @@ public class ProgramTest {
     /** Test case for {@link Program#execute()} based on day 2, part 2. */
     @Test
     public void testDay2Part2() throws IOException {
-        String input;
+        String programText;
         Path path = LinesSolver.toPath(getClass(), "input-day02-2019.txt");
         try (Stream<String> lines = Files.lines(path)) {
-            input = lines.findFirst().orElseThrow();
+            programText = lines.findFirst().orElseThrow();
         }
-        Program program = Program.parse(input);
+        Program program = Program.parse(programText);
         program = program.set(1, 25);
         program = program.set(2, 5);
             
@@ -117,14 +115,33 @@ public class ProgramTest {
         Assertions.assertEquals(19690720, result.getMemory().get(0).intValue());
     }
 
+    /**
+     * Test case for {@link Program#execute()} including input / output handling.
+     * 
+     * The program 3,0,4,0,99 outputs whatever it gets as input, then halts.
+     */
+    @Test
+    public void testExecuteprogramTextOutput() {
+        IntSupplier input = () -> 38;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,0,4,0,99", input, output);
+        
+        Program result = program.execute();
+        
+        Assertions.assertEquals(List.of(38), outputValues);
+        Assertions.assertEquals(List.of(38, 0, 4, 0, 99), result.getMemory());
+    }
+    
     /** Test case for {@link Program#execute()} including parameter modes. */
     @Test
     public void testExecuteParameterModes() {
-        String input = "1002,4,3,4,33";
-        Program program = Program.parse(input);
+        Program program = Program.parse("1002,4,3,4,33");
             
         Program result = program.execute();
             
         Assertions.assertEquals(List.of(1002, 4, 3, 4, 99), result.getMemory());
     }
+    
+    
 }

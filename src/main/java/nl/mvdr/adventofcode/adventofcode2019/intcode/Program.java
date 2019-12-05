@@ -2,7 +2,10 @@ package nl.mvdr.adventofcode.adventofcode2019.intcode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.IntBinaryOperator;
+import java.util.function.IntConsumer;
+import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,19 +24,36 @@ public class Program {
     private final List<Integer> memory;
     private final int instructionPointer;
     private final boolean done;
+    private final IntSupplier input;
+    private final IntConsumer output;
     
     /**
-     * Parses a textual representation of a program.
+     * Creates a new program, without any support for input or output handling.
      * 
      * @param programText program text: a comma-separated list of integers
      * @return program
      */
     public static Program parse(String programText) {
+        IntSupplier dummyInput = () -> { throw new NoSuchElementException("No input available"); };
+        IntConsumer dummyOutput = i -> LOGGER.warn("Unexpected output: {}", Integer.valueOf(i));
+        
+        return parse(programText, dummyInput, dummyOutput);
+    }
+    
+    /**
+     * Creates a new program.
+     * 
+     * @param programText program text: a comma-separated list of integers
+     * @param input source of input
+     * @param output target to send output
+     * @return program
+     */
+    public static Program parse(String programText, IntSupplier input, IntConsumer output) {
         List<Integer> integers = Stream.of(programText.split(","))
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
         
-        return new Program(List.copyOf(integers), 0, false);
+        return new Program(List.copyOf(integers), 0, false, input, output);
     }
     
     /**
@@ -42,12 +62,16 @@ public class Program {
      * @param memory list of values making up this program and its memory
      * @param instructionPointer current value of the instruction pointer
      * @param done whether program execution has halted
+     * @param input source of input
+     * @param output target to send output
      */
-    Program(List<Integer> memory, int instructionPointer, boolean done) {
+    Program(List<Integer> memory, int instructionPointer, boolean done, IntSupplier input, IntConsumer output) {
         super();
         this.memory = memory;
         this.instructionPointer = instructionPointer;
         this.done = done;
+        this.input = input;
+        this.output = output;
     }
 
     /**
@@ -60,7 +84,7 @@ public class Program {
     public Program set(int address, int value) {
         List<Integer> newIntegers = new ArrayList<>(memory);
         newIntegers.set(address, Integer.valueOf(value));
-        return new Program(List.copyOf(newIntegers), instructionPointer, done);
+        return new Program(List.copyOf(newIntegers), instructionPointer, done, input, output);
     }
     
     /**
@@ -98,7 +122,7 @@ public class Program {
             throw new IllegalArgumentException("No parameters expected, got: " + parameterModes);
         }
         
-        return new Program(memory, instructionPointer, true);
+        return new Program(memory, instructionPointer, true, input, output);
     }
     
     /** 
@@ -157,7 +181,50 @@ public class Program {
         LOGGER.debug("Writing value {} to address {}", Integer.valueOf(resultValue), Integer.valueOf(resultAddress));
         newMemory.set(resultAddress, Integer.valueOf(resultValue));
         
-        return new Program(List.copyOf(newMemory), instructionPointer + 4, false);
+        return new Program(List.copyOf(newMemory), instructionPointer + 4, false, input, output);
+    }
+    
+    /**
+     * Reads a single value from the input and stores it.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state
+     */
+    Program storeInput(List<ParameterMode> parameterModes) {
+        // validate modes
+        if (!List.of(ParameterMode.POSITION).equals(parameterModes)) {
+            throw new IllegalArgumentException("Unexpected parameter modes: " + parameterModes);
+        }
+        
+        Integer inputValue = Integer.valueOf(this.input.getAsInt());
+        
+        int resultAddress = memory.get(instructionPointer + 1).intValue();
+        
+        List<Integer> newMemory = new ArrayList<>(memory);
+        LOGGER.debug("Writing value {} to address {}", inputValue, Integer.valueOf(resultAddress));
+        newMemory.set(resultAddress, inputValue);
+        
+        return new Program(List.copyOf(newMemory), instructionPointer + 2, false, input, output);
+    }
+    
+    /**
+     * Outputs a single value from memory.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state
+     */
+    Program output(List<ParameterMode> parameterModes) {
+        // validate modes
+        if (parameterModes.size() != 1) {
+            throw new IllegalArgumentException("Unexpected parameter modes: " + parameterModes);
+        }
+        
+        Integer outputValue = Integer.valueOf(getValue(instructionPointer + 1, parameterModes.get(0)));
+        
+        LOGGER.debug("Output: {}", outputValue);
+        output.accept(outputValue.intValue());
+        
+        return new Program(memory, instructionPointer + 2, false, input, output);
     }
     
     /**

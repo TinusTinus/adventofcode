@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2019.intcode;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
@@ -24,6 +23,17 @@ enum Instruction {
      * two inputs instead of adding them.
      */
     MULTIPLY(2, 3, Program::multiply),
+    
+    /**
+     * Takes a single integer as input and saves it to the position given by its only parameter.
+     * For example, the instruction 3,50 would take an input value and store it at address 50.
+     */
+    INPUT(3, 1, Program::storeInput),
+    
+    /**
+     * Opcode 4 outputs the value of its only parameter.
+     */
+    OUTPUT(4, 1, Program::output),
 
     /**
      * This instruction means that the program is finished and should immediately
