@@ -187,4 +187,184 @@ public class ProgramTest {
         Assertions.assertTrue(allTestsSuccessful);
         Assertions.assertEquals(15508323, outputValues.get(outputValues.size() - 1).intValue());
     }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestEqualTo8PositionMode8() {
+        IntSupplier input = () -> 8;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,9,8,9,10,9,4,9,99,-1,8", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(1), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestEqualTo8PositionMode7() {
+        IntSupplier input = () -> 7;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,9,8,9,10,9,4,9,99,-1,8", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestEqualTo8PositionMode9() {
+        IntSupplier input = () -> 9;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,9,8,9,10,9,4,9,99,-1,8", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestLessThan8PositionMode8() {
+        IntSupplier input = () -> 8;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,9,7,9,10,9,4,9,99,-1,8", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestLessThan8PositionMode7() {
+        IntSupplier input = () -> 7;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,9,7,9,10,9,4,9,99,-1,8", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(1), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestLessThan8PositionMode9() {
+        IntSupplier input = () -> 9;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,9,7,9,10,9,4,9,99,-1,8", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestEqualTo8ImmediateMode8() {
+        IntSupplier input = () -> 8;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,3,1108,-1,8,3,4,3,99", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(1), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestEqualTo8ImmediateMode7() {
+        IntSupplier input = () -> 7;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,3,1108,-1,8,3,4,3,99", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestEqualTo8ImmediateMode9() {
+        IntSupplier input = () -> 9;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,3,1108,-1,8,3,4,3,99", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestLessThan8ImmediateMode8() {
+        IntSupplier input = () -> 8;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,3,1107,-1,8,3,4,3,99", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestLessThan8ImmediateMode7() {
+        IntSupplier input = () -> 7;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,3,1107,-1,8,3,4,3,99", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(1), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     */
+    @Test
+    public void testExecuteTestLessThan8ImmediateMode9() {
+        IntSupplier input = () -> 9;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,3,1107,-1,8,3,4,3,99", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
 }
