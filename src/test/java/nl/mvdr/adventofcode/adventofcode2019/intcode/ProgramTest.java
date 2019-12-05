@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 import java.util.stream.Stream;
@@ -121,7 +122,7 @@ public class ProgramTest {
      * The program 3,0,4,0,99 outputs whatever it gets as input, then halts.
      */
     @Test
-    public void testExecuteprogramTextOutput() {
+    public void testExecuteInputOutput() {
         IntSupplier input = () -> 38;
         List<Integer> outputValues = new ArrayList<>();
         IntConsumer output = outputValues::add;
@@ -131,6 +132,18 @@ public class ProgramTest {
         
         Assertions.assertEquals(List.of(38), outputValues);
         Assertions.assertEquals(List.of(38, 0, 4, 0, 99), result.getMemory());
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}, for a program with input handling, without providing any input.
+     * 
+     * The program 3,0,4,0,99 outputs whatever it gets as input, then halts.
+     */
+    @Test
+    public void testExecuteNoInput() {
+        Program program = Program.parse("3,0,4,0,99");
+        
+        Assertions.assertThrows(NoSuchElementException.class, program::execute);
     }
     
     /** Test case for {@link Program#execute()} including parameter modes. */
@@ -151,5 +164,27 @@ public class ProgramTest {
         Program result = program.execute();
 
         Assertions.assertEquals(List.of(1101, 100, -1, 4, 99), result.getMemory());
+    }
+    
+    /** Test case for {@link Program#execute()}. */
+    @Test
+    public void testDay5Part1() throws IOException {
+        String programText;
+        Path path = LinesSolver.toPath(getClass(), "input-day05-2019.txt");
+        try (Stream<String> lines = Files.lines(path)) {
+            programText = lines.findFirst().orElseThrow();
+        }
+        IntSupplier input = () -> 1;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse(programText, input, output);
+        
+        program.execute();
+        
+        boolean allTestsSuccessful = outputValues.stream()
+                .limit(outputValues.size() - 1)
+                .allMatch(outputValue -> outputValue.intValue() == 0);
+        Assertions.assertTrue(allTestsSuccessful);
+        Assertions.assertEquals(15508323, outputValues.get(outputValues.size() - 1).intValue());
     }
 }
