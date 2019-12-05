@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.IntBinaryOperator;
 import java.util.function.IntConsumer;
+import java.util.function.IntPredicate;
 import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -65,7 +66,7 @@ public class Program {
      * @param input source of input
      * @param output target to send output
      */
-    Program(List<Integer> memory, int instructionPointer, boolean done, IntSupplier input, IntConsumer output) {
+    private Program(List<Integer> memory, int instructionPointer, boolean done, IntSupplier input, IntConsumer output) {
         super();
         this.memory = memory;
         this.instructionPointer = instructionPointer;
@@ -178,7 +179,7 @@ public class Program {
             throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
         }
         if (parameterModes.get(2) != ParameterMode.POSITION) {
-            throw new IllegalArgumentException("Unexpected parameter mode for third parameter: " + parameterModes.get(2));
+            throw new IllegalArgumentException("Unexpected parameter mode for write parameter: " + parameterModes.get(2));
         }
         
         LOGGER.debug("Performing {} {} ({}) {} ({}) {} ({})",
@@ -245,6 +246,54 @@ public class Program {
         output.accept(outputValue.intValue());
         
         return new Program(memory, instructionPointer + 2, false, input, output);
+    }
+    
+    /**
+     * If the first parameter is non-zero, this instruction sets the instruction pointer to the
+     * value from the second parameter. Otherwise, it does nothing.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state
+     */
+    Program jumpIfTrue(List<ParameterMode> parameterModes) {
+        return jumpIf(i -> i != 0, parameterModes);
+    }
+    
+    /**
+     * If the first parameter is equal to zero, this instruction sets the instruction pointer to the
+     * value from the second parameter. Otherwise, it does nothing.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state
+     */
+    Program jumpIfFalse(List<ParameterMode> parameterModes) {
+        return jumpIf(i -> i == 0, parameterModes);
+    }
+    
+    /**
+     * If the given predicate applies to the first parameter, this instruction sets the instruction pointer to the
+     * value from the second parameter. Otherwise, it does nothing.
+     * 
+     * @param guard test for the first parameter
+     * @param parameterModes parameter modes
+     * @return updated program state
+     */
+    private Program jumpIf(IntPredicate guard, List<ParameterMode> parameterModes) {
+        // validate modes
+        if (parameterModes.size() != 2) {
+            throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
+        }
+        
+        int value = getValue(instructionPointer + 1, parameterModes.get(0));
+        
+        int newInstructionPointer;
+        if (guard.test(value)) {
+            newInstructionPointer = getValue(instructionPointer + 2, parameterModes.get(1));
+        } else {
+            newInstructionPointer = instructionPointer + 3;
+        }
+        
+        return new Program(memory, newInstructionPointer, done, input, output);
     }
     
     /**

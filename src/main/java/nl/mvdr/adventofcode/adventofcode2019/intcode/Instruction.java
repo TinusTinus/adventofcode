@@ -37,6 +37,18 @@ enum Instruction {
     OUTPUT(4, 1, Program::output),
 
     /**
+     * If the first parameter is non-zero, this instruction sets the instruction pointer to the
+     * value from the second parameter. Otherwise, it does nothing.
+     */
+    JUMP_IF_TRUE(5, 2, Program::jumpIfTrue),
+    
+    /**
+     * If the first parameter is zero, it sets the instruction pointer to the value
+     * from the second parameter. Otherwise, it does nothing.
+     */
+    JUMP_IF_FALSE(6, 2, Program::jumpIfFalse),
+    
+    /**
      * If the first parameter is less than the second parameter, this instruction
      * stores 1 in the position given by the third parameter. Otherwise, it stores
      * 0.

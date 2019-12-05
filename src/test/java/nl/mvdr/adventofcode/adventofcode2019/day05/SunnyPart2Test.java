@@ -19,6 +19,6 @@ public class SunnyPart2Test extends SolverTest<SunnyPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day05-2019.txt"); 
+        assertSolution("9006327", "input-day05-2019.txt"); 
     }
 }

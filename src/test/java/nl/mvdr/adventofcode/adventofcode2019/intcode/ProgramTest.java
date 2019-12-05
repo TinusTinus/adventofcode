@@ -190,6 +190,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using position mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestEqualTo8PositionMode8() {
@@ -205,6 +207,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using position mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestEqualTo8PositionMode7() {
@@ -220,6 +224,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using position mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestEqualTo8PositionMode9() {
@@ -235,6 +241,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using position mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestLessThan8PositionMode8() {
@@ -250,6 +258,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using position mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestLessThan8PositionMode7() {
@@ -265,6 +275,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using position mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestLessThan8PositionMode9() {
@@ -280,6 +292,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestEqualTo8ImmediateMode8() {
@@ -295,6 +309,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestEqualTo8ImmediateMode7() {
@@ -310,6 +326,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestEqualTo8ImmediateMode9() {
@@ -325,6 +343,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestLessThan8ImmediateMode8() {
@@ -340,6 +360,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestLessThan8ImmediateMode7() {
@@ -355,6 +377,8 @@ public class ProgramTest {
     
     /**
      * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
      */
     @Test
     public void testExecuteTestLessThan8ImmediateMode9() {
@@ -366,5 +390,137 @@ public class ProgramTest {
         program.execute();
         
         Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * Take an input, then output 0 if the input was zero or 1 if the input was non-zero,
+     * using position mode.
+     */
+    @Test
+    public void testExecuteTestJumpPositionMode0() {
+        IntSupplier input = () -> 0;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * Take an input, then output 0 if the input was zero or 1 if the input was non-zero,
+     * using position mode.
+     */
+    @Test
+    public void testExecuteTestJumpPositionMode1() {
+        IntSupplier input = () -> 1;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(1), outputValues);
+    }
+
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * Take an input, then output 0 if the input was zero or 1 if the input was non-zero,
+     * using position mode.
+     */
+    @Test
+    public void testExecuteTestJumpImmediateMode0() {
+        IntSupplier input = () -> 0;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,3,1105,-1,9,1101,0,0,12,4,12,99,1", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(0), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * Take an input, then output 0 if the input was zero or 1 if the input was non-zero,
+     * using immediate mode.
+     */
+    @Test
+    public void testExecuteTestJumpImmediateMode1() {
+        IntSupplier input = () -> 1;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse("3,3,1105,-1,9,1101,0,0,12,4,12,99,1", input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(1), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
+     */
+    @Test
+    public void testExecuteJumpsAndTests7() {
+        IntSupplier input = () -> 7;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse(
+                "3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,"
+                + "1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99",
+                input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(999), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
+     */
+    @Test
+    public void testExecuteJumpsAndTests8() {
+        IntSupplier input = () -> 8;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse(
+                "3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,"
+                + "1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99",
+                input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(1000), outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
+     */
+    @Test
+    public void testExecuteJumpsAndTests9() {
+        IntSupplier input = () -> 9;
+        List<Integer> outputValues = new ArrayList<>();
+        IntConsumer output = outputValues::add;
+        Program program = Program.parse(
+                "3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,"
+                + "1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99",
+                input, output);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(1001), outputValues);
     }
 }
