@@ -288,8 +288,10 @@ public class Program {
         
         int newInstructionPointer;
         if (guard.test(value)) {
+            // Jump!
             newInstructionPointer = getValue(instructionPointer + 2, parameterModes.get(1));
         } else {
+            // Do not jump. Just move on to the next instruction.
             newInstructionPointer = instructionPointer + 3;
         }
         
