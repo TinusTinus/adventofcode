@@ -143,5 +143,13 @@ public class ProgramTest {
         Assertions.assertEquals(List.of(1002, 4, 3, 4, 99), result.getMemory());
     }
     
-    
+    /** Test case for {@link Program#execute()}. */
+    @Test
+    public void testExecuteNegativeValues() {
+        Program program = Program.parse("1101,100,-1,4,0");
+
+        Program result = program.execute();
+
+        Assertions.assertEquals(List.of(1101, 100, -1, 4, 99), result.getMemory());
+    }
 }
