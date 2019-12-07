@@ -5,26 +5,26 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link UniversalOrbitMapPart1}.
+ * Unit test cases for {@link UniversalOrbitMapPart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class UniversalOrbitMapPart1Test extends SolverTest<UniversalOrbitMapPart1> {
+public class UniversalOrbitMapPart2Test extends SolverTest<UniversalOrbitMapPart2> {
 
     /** Constructor. */
-    public UniversalOrbitMapPart1Test() {
-        super(UniversalOrbitMapPart1.class);
+    public UniversalOrbitMapPart2Test() {
+        super(UniversalOrbitMapPart2.class);
     }
     
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("42", "example-day06-2019-0.txt"); 
+        assertSolution("4", "example-day06-2019-1.txt"); 
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("194721", "input-day06-2019.txt"); 
+        assertSolution("316", "input-day06-2019.txt"); 
     }
 }

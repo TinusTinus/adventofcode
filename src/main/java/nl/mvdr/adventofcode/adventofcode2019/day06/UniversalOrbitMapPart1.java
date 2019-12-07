@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2019.day06;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -27,17 +24,9 @@ public class UniversalOrbitMapPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        Map<String, CelestialObject> objects = new HashMap<>();
-        
-        lines.filter(Predicate.not(String::isBlank))
-                .forEach(line -> {
-                    String[] parts = line.split("\\)");
-                    CelestialObject lhs = objects.computeIfAbsent(parts[0], name -> new CelestialObject());
-                    CelestialObject rhs = objects.computeIfAbsent(parts[1], name -> new CelestialObject());
-                    rhs.setOrbitedObject(lhs);
-                });
-        
-        return objects.values().stream()
+        return CelestialObject.parse(lines)
+                .values()
+                .stream()
                 .mapToInt(CelestialObject::computeTotalOrbits)
                 .sum();
     }

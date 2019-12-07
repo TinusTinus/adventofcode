@@ -1,6 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2019.day06;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Representation of a celestial object.
@@ -17,6 +21,26 @@ class CelestialObject {
     private Optional<CelestialObject> orbitedObject;
 
     /**
+     * Parses puzzle input into a celestial map.
+     * 
+     * @param lines lines from the puzzle input, where each line represents a direct orbit
+     * @return map of celestial objects, indexed by their names
+     */
+    static Map<String, CelestialObject> parse(Stream<String> lines) {
+        Map<String, CelestialObject> objects = new HashMap<>();
+        
+        lines.filter(Predicate.not(String::isBlank))
+                .forEach(line -> {
+                    String[] parts = line.split("\\)");
+                    CelestialObject lhs = objects.computeIfAbsent(parts[0], name -> new CelestialObject());
+                    CelestialObject rhs = objects.computeIfAbsent(parts[1], name -> new CelestialObject());
+                    rhs.setOrbitedObject(lhs);
+                });
+        
+        return objects;
+    }
+    
+    /**
      * Constructor for an object, which is either the Universal Center of Mass, or
      * is orbitining an as-of-yet unknown other object.
      * 
@@ -25,6 +49,10 @@ class CelestialObject {
      */
     CelestialObject() {
         this.orbitedObject = Optional.empty();
+    }
+    
+    Optional<CelestialObject> getOrbitedObject() {
+        return orbitedObject;
     }
 
     /**
