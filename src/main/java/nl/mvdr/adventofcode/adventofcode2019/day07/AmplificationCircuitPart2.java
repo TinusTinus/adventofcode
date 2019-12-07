@@ -31,27 +31,16 @@ public class AmplificationCircuitPart2 extends AmplificationCircuit {
     @Override
     int computeThrusterSignal(Program initialProgram, List<Integer> phaseSettingSequence) {
         
-        // Create blocking queues.
-        // Each queue serves as the input for one amplifier and the output for a neighbouring amplifier.
-        // The first element of each queue is the amp's phase setting.
-        List<BlockingQueue<Integer>> queues = phaseSettingSequence.stream()
-                .map(phaseSetting -> {
-                    BlockingQueue<Integer> result = new LinkedBlockingQueue<>();
-                    result.add(phaseSetting);
-                    return result;
-                })
-                .collect(Collectors.toList());
-        // The first amp receives a single 0 input.
-        queues.get(0).add(Integer.valueOf(0));
+        List<BlockingQueue<Integer>> queues = createQueues(phaseSettingSequence);
         
         ExecutorService executorService = Executors.newFixedThreadPool(queues.size());
         for (int i = 0; i != queues.size(); i++) {
             BlockingQueue<Integer> input = queues.get(i);
             BlockingQueue<Integer> output = queues.get((i + 1) % queues.size());
             
-            Program program = initialProgram.withInput(input).withOutput(output);
+            Program amplifier = initialProgram.withInput(input).withOutput(output);
             
-            executorService.submit(program::execute);
+            executorService.submit(amplifier::execute);
         }
         executorService.shutdown();
         
@@ -62,7 +51,36 @@ public class AmplificationCircuitPart2 extends AmplificationCircuit {
             Thread.currentThread().interrupt();
         }
         
+        // The output queue for the last amp is the input queue for the first amp,
+        // that is, the first queue.
+        // After termination this is also the only nonempty queue.
         return queues.get(0).remove().intValue();
+    }
+
+    /**
+     * Creates blocking queues, which can serve as input / output for the
+     * amplifiers.
+     * 
+     * Each queue should serve as the input for one amplifier and the output for a
+     * neighbouring amplifier.
+     * 
+     * @param phaseSettingSequence phase setting sequence
+     * @return input / output queues
+     */
+    private List<BlockingQueue<Integer>> createQueues(List<Integer> phaseSettingSequence) {
+        List<BlockingQueue<Integer>> queues = phaseSettingSequence.stream()
+                .map(phaseSetting -> {
+                    BlockingQueue<Integer> result = new LinkedBlockingQueue<>();
+                    // The first element of each queue is the amp's phase setting.
+                    result.add(phaseSetting);
+                    return result;
+                })
+                .collect(Collectors.toList());
+        
+        // The first amp receives a single 0 input.
+        queues.get(0).add(Integer.valueOf(0));
+        
+        return queues;
     }
 
     /**
