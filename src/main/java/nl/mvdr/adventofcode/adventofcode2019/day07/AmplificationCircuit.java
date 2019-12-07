@@ -52,6 +52,7 @@ abstract class AmplificationCircuit implements IntSolver {
         LOGGER.debug("Phase setting sequences: {}", phaseSettingSequences);
         
         return phaseSettingSequences.stream()
+                .parallel()
                 .mapToInt(phaseSettingSequence -> computeThrusterSignal(program, phaseSettingSequence))
                 .max()
                 .getAsInt();
