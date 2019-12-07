@@ -68,7 +68,7 @@ public class Program {
      * @param values int values
      * @return an {@link IntSupplier} which returns each of the provided input values, in order
      */
-    private static IntSupplier toIntProducer(int... values) {
+    private static IntSupplier asInput(int... values) {
         return Arrays.stream(values).iterator()::next;
     }
     
@@ -120,7 +120,7 @@ public class Program {
      * @return updated copy of the program
      */
     public Program withInput(int... inputValues) {
-        return withInput(toIntProducer(inputValues));
+        return withInput(asInput(inputValues));
     }
 
     /**

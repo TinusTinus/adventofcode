@@ -31,6 +31,6 @@ public class AmplificationCircuitPart2Test extends SolverTest<AmplificationCircu
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day07-2019.txt"); 
+        assertSolution("35993240", "input-day07-2019.txt"); 
     }
 }
