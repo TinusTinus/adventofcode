@@ -54,16 +54,13 @@ public class AmplificationCircuitPart2 extends AmplificationCircuit {
         }
         executorService.shutdown();
         
-        int result;
         try {
             executorService.awaitTermination(10L, TimeUnit.MINUTES);
-            result = queues.get(0).take().intValue();
         } catch (InterruptedException e) {
             handle(e);
-            result = 0;
         }
         
-        return result;
+        return queues.get(0).remove().intValue();
     }
 
     private IntSupplier asInput(BlockingQueue<Integer> queue) {
