@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2019.intcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.IntBinaryOperator;
@@ -27,9 +28,13 @@ public class Program {
     private final boolean done;
     private final IntSupplier input;
     private final IntConsumer output;
-    
+
     /**
      * Creates a new program, without any support for input or output handling.
+     * 
+     * Note: input / output handling can be added later using
+     * {@link #withInput(IntSupplier)}, {@link #withInput(int...)} and/or
+     * {@link #withOutput(IntConsumer)}.
      * 
      * @param programText program text: a comma-separated list of integers
      * @return program
@@ -40,7 +45,7 @@ public class Program {
         
         return parse(programText, dummyInput, dummyOutput);
     }
-    
+
     /**
      * Creates a new program.
      * 
@@ -55,6 +60,16 @@ public class Program {
                 .collect(Collectors.toList());
         
         return new Program(List.copyOf(integers), 0, false, input, output);
+    }
+    
+    /**
+     * Helper method to create an {@code IntSupplier}.
+     * 
+     * @param values int values
+     * @return an {@link IntSupplier} which returns each of the provided input values, in order
+     */
+    private static IntSupplier toIntProducer(int... values) {
+        return Arrays.stream(values).iterator()::next;
     }
     
     /**
@@ -74,7 +89,7 @@ public class Program {
         this.input = input;
         this.output = output;
     }
-
+    
     /**
      * Updates the value at the given index.
      * 
@@ -86,6 +101,36 @@ public class Program {
         List<Integer> newIntegers = new ArrayList<>(memory);
         newIntegers.set(address, Integer.valueOf(value));
         return new Program(List.copyOf(newIntegers), instructionPointer, done, input, output);
+    }
+    
+    /**
+     * Returns a copy of this program, with the given input.
+     * 
+     * @param newInput new input
+     * @return updated copy of the program
+     */
+    public Program withInput(IntSupplier newInput) {
+        return new Program(memory, instructionPointer, done, newInput, output);
+    }
+    
+    /**
+     * Returns a copy of this program, with the given values used as its input.
+     * 
+     * @param inputValues input for the program
+     * @return updated copy of the program
+     */
+    public Program withInput(int... inputValues) {
+        return withInput(toIntProducer(inputValues));
+    }
+
+    /**
+     * Returns a copy of this program, with the given output callback.
+     * 
+     * @param newOutput new output callback
+     * @return updated copy of the program
+     */
+    public Program withOutput(IntConsumer newOutput) {
+        return new Program(memory, instructionPointer, done, input, newOutput);
     }
     
     /**
