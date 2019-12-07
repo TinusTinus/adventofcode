@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.BlockingQueue;
 import java.util.function.IntBinaryOperator;
 import java.util.function.IntConsumer;
 import java.util.function.IntPredicate;
@@ -32,9 +33,8 @@ public class Program {
     /**
      * Creates a new program, without any support for input or output handling.
      * 
-     * Note: input / output handling can be added later using
-     * {@link #withInput(IntSupplier)}, {@link #withInput(int...)} and/or
-     * {@link #withOutput(IntConsumer)}.
+     * Note: input / output handling can be added later using {@code withInput()}
+     * and {@code withOutput()} methods.
      * 
      * @param programText program text: a comma-separated list of integers
      * @return program
@@ -60,16 +60,6 @@ public class Program {
                 .collect(Collectors.toList());
         
         return new Program(List.copyOf(integers), 0, false, input, output);
-    }
-    
-    /**
-     * Helper method to create an {@code IntSupplier}.
-     * 
-     * @param values int values
-     * @return an {@link IntSupplier} which returns each of the provided input values, in order
-     */
-    private static IntSupplier asInput(int... values) {
-        return Arrays.stream(values).iterator()::next;
     }
     
     /**
@@ -120,9 +110,32 @@ public class Program {
      * @return updated copy of the program
      */
     public Program withInput(int... inputValues) {
-        return withInput(asInput(inputValues));
+        return withInput(Arrays.stream(inputValues).iterator()::next);
     }
-
+    
+    /**
+     * Returns a copy of this program, using the given queue to get its input.
+     * 
+     * This may be particularly useful in combination with another {@link Program}
+     * using the same queue as its output.
+     * 
+     * @param queue blocking queue, providing input for the program
+     * @return updated copy of the program
+     * @see #withOutput(BlockingQueue)
+     */
+    public Program withInput(BlockingQueue<Integer> queue) {
+        return withInput(() -> {
+            int result;
+            try {
+                result = queue.take().intValue();
+            } catch (InterruptedException e) {
+                handle(e);
+                result = 0;
+            }
+            return result;
+        });
+    }
+    
     /**
      * Returns a copy of this program, with the given output callback.
      * 
@@ -131,6 +144,36 @@ public class Program {
      */
     public Program withOutput(IntConsumer newOutput) {
         return new Program(memory, instructionPointer, done, input, newOutput);
+    }
+    
+    /**
+     * Returns a copy of this program, using the given queue to write its output to.
+     * 
+     * This may be particularly useful in combination with another {@link Program}
+     * using the same queue as its input.
+     * 
+     * @param queue blocking queue, to which to write the program's output
+     * @return updated copy of the program
+     * @see #withInput(BlockingQueue)
+     */
+    public Program withOutput(BlockingQueue<Integer> queue) {
+        return withOutput(value -> {
+            try {
+                queue.put(Integer.valueOf(value));
+            } catch (InterruptedException e) {
+                handle(e);
+            }
+        });
+    }
+    
+    /**
+     * Handles an {@link InterruptedException} by interrupting the current thread.
+     * 
+     * @param interruptedException exception
+     */
+    private void handle(InterruptedException interruptedException) {
+        LOGGER.error("Unexpected interrupt.", interruptedException);
+        Thread.currentThread().interrupt();
     }
     
     /**

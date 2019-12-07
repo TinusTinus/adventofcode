@@ -6,8 +6,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -48,8 +46,11 @@ public class AmplificationCircuitPart2 extends AmplificationCircuit {
         
         ExecutorService executorService = Executors.newFixedThreadPool(queues.size());
         for (int i = 0; i != queues.size(); i++) {
-            Program program = initialProgram.withInput(asInput(queues.get(i)));
-            program = program.withOutput(asOutput(queues.get((i + 1) % queues.size())));
+            BlockingQueue<Integer> input = queues.get(i);
+            BlockingQueue<Integer> output = queues.get((i + 1) % queues.size());
+            
+            Program program = initialProgram.withInput(input).withOutput(output);
+            
             executorService.submit(program::execute);
         }
         executorService.shutdown();
@@ -57,45 +58,13 @@ public class AmplificationCircuitPart2 extends AmplificationCircuit {
         try {
             executorService.awaitTermination(10L, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
-            handle(e);
+            LOGGER.error("Unexpected interrupt.", e);
+            Thread.currentThread().interrupt();
         }
         
         return queues.get(0).remove().intValue();
     }
 
-    private IntSupplier asInput(BlockingQueue<Integer> queue) {
-        return () -> {
-            int result;
-            try {
-                result = queue.take().intValue();
-            } catch (InterruptedException e) {
-                handle(e);
-                result = 0;
-            }
-            return result;
-        };
-    }
-    
-    private IntConsumer asOutput(BlockingQueue<Integer> queue) {
-        return value -> {
-            try {
-                queue.put(Integer.valueOf(value));
-            } catch (InterruptedException e) {
-                handle(e);
-            }
-        };
-    }
-
-    /**
-     * Handles an {@link InterruptedException}.
-     * 
-     * @param interruptedException exception
-     */
-    private void handle(InterruptedException interruptedException) {
-        LOGGER.error("Unexpected interrupt.", interruptedException);
-        Thread.currentThread().interrupt();
-    }
-    
     /**
      * Main method.
      * 
