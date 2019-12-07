@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day06;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
