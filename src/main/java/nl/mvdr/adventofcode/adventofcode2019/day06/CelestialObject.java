@@ -15,7 +15,7 @@ class CelestialObject {
 
     /**
      * The celestial object which this object orbits. May be empty if this is the
-     * Universal Center of Mass, or if the collection of celestial objects is strill
+     * Universal Center of Mass, or if the collection of celestial objects is still
      * under construction.
      */
     private Optional<CelestialObject> orbitedObject;
