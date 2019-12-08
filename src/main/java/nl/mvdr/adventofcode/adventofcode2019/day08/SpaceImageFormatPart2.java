@@ -59,11 +59,13 @@ public class SpaceImageFormatPart2 implements LinesSolver<Void> {
         List<Integer> image = IntStream.range(0, width * height)
                 .mapToObj(i -> layers.stream()
                     .map(layer -> layer.get(i))
+                    // Find the first color which is not 2 (= transparent)
                     .filter(c -> c.intValue() != 2)
                     .findFirst()
                     .get())
                 .collect(Collectors.toList());
         
+        // Log each row
         ListUtils.partition(image, width)
             .stream()
             .map(this::toString)
@@ -72,10 +74,17 @@ public class SpaceImageFormatPart2 implements LinesSolver<Void> {
         return null;
     }
     
+    /**
+     * Creates a string representation for the given image row.
+     * 
+     * @param row row, containing only 0 (= black) and 1 (= white)
+     * @return string representation of the given row
+     */
     private String toString(List<Integer> row) {
         StringBuilder result = new StringBuilder();
         
         row.stream()
+            // Represent black as " " and white as "#"
             .map(i -> i.intValue() == 0 ? " " : "#")
             .forEach(result::append);
         
