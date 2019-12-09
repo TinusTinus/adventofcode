@@ -300,8 +300,8 @@ public class Program {
      */
     Program storeInput(List<ParameterMode> parameterModes) {
         // validate modes
-        if (!List.of(ParameterMode.POSITION).equals(parameterModes)) {
-            throw new IllegalArgumentException("Unexpected parameter modes: " + parameterModes);
+        if (parameterModes.size() != 1) {
+            throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
         }
         
         Integer inputValue = Integer.valueOf(this.input.getAsInt());
