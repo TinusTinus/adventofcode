@@ -268,7 +268,7 @@ public class Program {
     private Program perform(LongBinaryOperator operator, List<ParameterMode> parameterModes) {
         // validate modes
         if (parameterModes.size() != 3) {
-            throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
+            throw new IllegalArgumentException("Unexpected number of parameters: " + parameterModes);
         }
         
         LOGGER.debug("Performing {} {} ({}) {} ({}) {} ({})",
@@ -301,7 +301,7 @@ public class Program {
     Program storeInput(List<ParameterMode> parameterModes) {
         // validate modes
         if (parameterModes.size() != 1) {
-            throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
+            throw new IllegalArgumentException("Unexpected number of parameters: " + parameterModes);
         }
         
         long inputValue = this.input.getAsLong();
@@ -365,7 +365,7 @@ public class Program {
     private Program jumpIf(LongPredicate guard, List<ParameterMode> parameterModes) {
         // validate modes
         if (parameterModes.size() != 2) {
-            throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
+            throw new IllegalArgumentException("Unexpected number of parameters: " + parameterModes);
         }
         
         long value = getValue(instructionPointer + 1, parameterModes.get(0));
@@ -397,7 +397,7 @@ public class Program {
     Program adjustRelativeBase(List<ParameterMode> parameterModes) {
         // validate modes
         if (parameterModes.size() != 1) {
-            throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
+            throw new IllegalArgumentException("Unexpected number of parameters: " + parameterModes);
         }
         
         long value = getValue(instructionPointer + 1, parameterModes.get(0));
