@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2019.intcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
@@ -58,9 +59,9 @@ public class Program {
     public static Program parse(String programText, IntSupplier input, IntConsumer output) {
         List<Integer> integers = Stream.of(programText.split(","))
                 .map(Integer::valueOf)
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
         
-        return new Program(List.copyOf(integers), 0, 0, false, input, output);
+        return new Program(integers, 0, 0, false, input, output);
     }
     
     /**
@@ -92,9 +93,8 @@ public class Program {
      * @return copy of this program with the updated value
      */
     public Program set(int address, int value) {
-        List<Integer> newIntegers = new ArrayList<>(memory);
-        newIntegers.set(address, Integer.valueOf(value));
-        return new Program(List.copyOf(newIntegers), instructionPointer, relativeBase, done, input, output);
+        List<Integer> newMemory = setValue(address, ParameterMode.POSITION, value);
+        return new Program(newMemory, instructionPointer, relativeBase, done, input, output);
     }
     
     /**
@@ -270,9 +270,6 @@ public class Program {
         if (parameterModes.size() != 3) {
             throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
         }
-        if (parameterModes.get(2) != ParameterMode.POSITION) {
-            throw new IllegalArgumentException("Unexpected parameter mode for write parameter: " + parameterModes.get(2));
-        }
         
         LOGGER.debug("Performing {} {} ({}) {} ({}) {} ({})",
                 memory.get(instructionPointer),
@@ -292,7 +289,7 @@ public class Program {
         
         List<Integer> newMemory = setValue(resultAddress, parameterModes.get(2), resultValue);
         
-        return new Program(List.copyOf(newMemory), instructionPointer + 4, relativeBase, false, input, output);
+        return new Program(newMemory, instructionPointer + 4, relativeBase, false, input, output);
     }
     
     /**
@@ -313,7 +310,7 @@ public class Program {
         
         List<Integer> newMemory = setValue(resultAddress, parameterModes.get(0), inputValue.intValue());
         
-        return new Program(List.copyOf(newMemory), instructionPointer + 2, relativeBase, false, input, output);
+        return new Program(newMemory, instructionPointer + 2, relativeBase, false, input, output);
     }
     
     /**
@@ -464,7 +461,7 @@ public class Program {
         
         LOGGER.debug("Writing value {} to address {}", Integer.valueOf(value), Integer.valueOf(resultAddress));
         result.set(resultAddress, Integer.valueOf(value));
-        return result;
+        return Collections.unmodifiableList(result);
     }
     
     public List<Integer> getMemory() {
