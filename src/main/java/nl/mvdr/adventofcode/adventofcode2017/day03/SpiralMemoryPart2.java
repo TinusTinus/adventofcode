@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2017.day03;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -11,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
-import nl.mvdr.adventofcode.PathSolver;
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 

@@ -2,14 +2,14 @@ package nl.mvdr.adventofcode.adventofcode2019.day05;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
+import java.util.function.LongConsumer;
+import java.util.function.LongSupplier;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 
 /**
@@ -18,7 +18,7 @@ import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class SunnyPart1 implements IntSolver {
+public class SunnyPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SunnyPart1.class);
     
@@ -28,13 +28,13 @@ public class SunnyPart1 implements IntSolver {
      * @return value left at position 0 after the program halts
      */
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         String programText = lines.findFirst().orElseThrow();
         
-        IntSupplier input = () -> 1;
+        LongSupplier input = () -> 1L;
         
-        List<Integer> outputValues = new ArrayList<>();
-        IntConsumer output = outputValue -> outputValues.add(Integer.valueOf(outputValue));
+        List<Long> outputValues = new ArrayList<>();
+        LongConsumer output = outputValue -> outputValues.add(Long.valueOf(outputValue));
         
         Program program = Program.parse(programText, input, output);
         
@@ -42,12 +42,12 @@ public class SunnyPart1 implements IntSolver {
 
         boolean allTestsSuccessful = outputValues.stream()
                 .limit(outputValues.size() - 1)
-                .allMatch(outputValue -> outputValue.intValue() == 0);
+                .allMatch(outputValue -> outputValue.longValue() == 0L);
         if (!allTestsSuccessful) {
             throw new IllegalStateException("Diagnostic test failed, output: " + outputValues);
         }
         
-        return outputValues.get(outputValues.size() - 1).intValue();
+        return outputValues.get(outputValues.size() - 1).longValue();
     }
     
     /**

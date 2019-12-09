@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 
 /**
@@ -24,7 +24,7 @@ import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
  *
  * @author Martijn van de Rijdt
  */
-abstract class AmplificationCircuit implements IntSolver {
+abstract class AmplificationCircuit implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AmplificationCircuit.class);
 
@@ -49,18 +49,18 @@ abstract class AmplificationCircuit implements IntSolver {
      * @return highest signal that can be sent to the thrusters
      */
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         Program program = Program.parse(lines.findFirst().orElseThrow());
         
-        Set<List<Integer>> phaseSettingSequences = generatePhaseSettingSequences(phaseSettingLowerBound, phaseSettingUpperBound); 
+        Set<List<Long>> phaseSettingSequences = generatePhaseSettingSequences(phaseSettingLowerBound, phaseSettingUpperBound); 
         
         LOGGER.debug("Phase setting sequences: {}", phaseSettingSequences);
         
         return phaseSettingSequences.stream()
                 .parallel()
-                .mapToInt(phaseSettingSequence -> computeThrusterSignal(program, phaseSettingSequence))
+                .mapToLong(phaseSettingSequence -> computeThrusterSignal(program, phaseSettingSequence))
                 .max()
-                .getAsInt();
+                .getAsLong();
     }
 
     /**
@@ -70,8 +70,9 @@ abstract class AmplificationCircuit implements IntSolver {
      * @param upperBound the upper bound phase setting, exclusive
      * @return all possible phase setting sequences
      */
-    private Set<List<Integer>> generatePhaseSettingSequences(int lowerBound, int upperBound) {
-        Set<Integer> phaseSettings = IntStream.range(lowerBound, upperBound)
+    private Set<List<Long>> generatePhaseSettingSequences(int lowerBound, int upperBound) {
+        Set<Long> phaseSettings = IntStream.range(lowerBound, upperBound)
+                .asLongStream()
                 .boxed()
                 .collect(Collectors.toSet());
         
@@ -118,14 +119,14 @@ abstract class AmplificationCircuit implements IntSolver {
      * @param phaseSettingSequence phase setting sequence
      * @return thruster signal
      */
-    private int computeThrusterSignal(Program initialProgram, List<Integer> phaseSettingSequence) {
+    private long computeThrusterSignal(Program initialProgram, List<Long> phaseSettingSequence) {
         
-        List<BlockingQueue<Integer>> queues = createQueues(phaseSettingSequence);
+        List<BlockingQueue<Long>> queues = createQueues(phaseSettingSequence);
         
         ExecutorService executorService = Executors.newFixedThreadPool(queues.size());
         for (int i = 0; i != queues.size(); i++) {
-            BlockingQueue<Integer> input = queues.get(i);
-            BlockingQueue<Integer> output = queues.get((i + 1) % queues.size());
+            BlockingQueue<Long> input = queues.get(i);
+            BlockingQueue<Long> output = queues.get((i + 1) % queues.size());
             
             Program amplifier = initialProgram.withInput(input).withOutput(output);
             
@@ -143,7 +144,7 @@ abstract class AmplificationCircuit implements IntSolver {
         // The output queue for the last amp is the input queue for the first amp,
         // that is, the first queue.
         // After termination this is also the only nonempty queue.
-        return queues.get(0).remove().intValue();
+        return queues.get(0).remove().longValue();
     }
 
     /**
@@ -156,10 +157,10 @@ abstract class AmplificationCircuit implements IntSolver {
      * @param phaseSettingSequence phase setting sequence
      * @return input / output queues
      */
-    private List<BlockingQueue<Integer>> createQueues(List<Integer> phaseSettingSequence) {
-        List<BlockingQueue<Integer>> queues = phaseSettingSequence.stream()
+    private List<BlockingQueue<Long>> createQueues(List<Long> phaseSettingSequence) {
+        List<BlockingQueue<Long>> queues = phaseSettingSequence.stream()
                 .map(phaseSetting -> {
-                    BlockingQueue<Integer> result = new LinkedBlockingQueue<>();
+                    BlockingQueue<Long> result = new LinkedBlockingQueue<>();
                     // The first element of each queue is the amp's phase setting.
                     result.add(phaseSetting);
                     return result;
@@ -167,7 +168,7 @@ abstract class AmplificationCircuit implements IntSolver {
                 .collect(Collectors.toList());
         
         // The first amp receives a single 0 input.
-        queues.get(0).add(Integer.valueOf(0));
+        queues.get(0).add(Long.valueOf(0));
         
         return queues;
     }

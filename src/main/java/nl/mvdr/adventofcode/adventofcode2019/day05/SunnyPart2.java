@@ -2,14 +2,14 @@ package nl.mvdr.adventofcode.adventofcode2019.day05;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
+import java.util.function.LongConsumer;
+import java.util.function.LongSupplier;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 
 /**
@@ -18,7 +18,7 @@ import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class SunnyPart2 implements IntSolver {
+public class SunnyPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SunnyPart2.class);
     
@@ -28,13 +28,13 @@ public class SunnyPart2 implements IntSolver {
      * @return value left at position 0 after the program halts
      */
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         String programText = lines.findFirst().orElseThrow();
         
-        IntSupplier input = () -> 5;
+        LongSupplier input = () -> 5L;
         
-        List<Integer> outputValues = new ArrayList<>();
-        IntConsumer output = outputValue -> outputValues.add(Integer.valueOf(outputValue));
+        List<Long> outputValues = new ArrayList<>();
+        LongConsumer output = outputValue -> outputValues.add(Long.valueOf(outputValue));
         
         Program program = Program.parse(programText, input, output);
         
@@ -44,7 +44,7 @@ public class SunnyPart2 implements IntSolver {
             throw new IllegalStateException("Unexpected output: " + outputValues);
         }
         
-        return outputValues.get(0).intValue();
+        return outputValues.get(0).longValue();
     }
     
     /**

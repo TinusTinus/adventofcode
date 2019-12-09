@@ -6,10 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.BlockingQueue;
-import java.util.function.IntBinaryOperator;
-import java.util.function.IntConsumer;
-import java.util.function.IntPredicate;
-import java.util.function.IntSupplier;
+import java.util.function.LongBinaryOperator;
+import java.util.function.LongConsumer;
+import java.util.function.LongPredicate;
+import java.util.function.LongSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,12 +25,12 @@ public class Program {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     
-    private final List<Integer> memory;
+    private final List<Long> memory;
     private final int instructionPointer;
     private final int relativeBase;
     private final boolean done;
-    private final IntSupplier input;
-    private final IntConsumer output;
+    private final LongSupplier input;
+    private final LongConsumer output;
 
     /**
      * Creates a new program, without any support for input or output handling.
@@ -42,8 +42,8 @@ public class Program {
      * @return program
      */
     public static Program parse(String programText) {
-        IntSupplier dummyInput = () -> { throw new NoSuchElementException("No input available"); };
-        IntConsumer dummyOutput = i -> LOGGER.warn("Unexpected output: {}", Integer.valueOf(i));
+        LongSupplier dummyInput = () -> { throw new NoSuchElementException("No input available"); };
+        LongConsumer dummyOutput = i -> LOGGER.warn("Unexpected output: {}", Long.valueOf(i));
         
         return parse(programText, dummyInput, dummyOutput);
     }
@@ -56,9 +56,9 @@ public class Program {
      * @param output target to send output
      * @return program
      */
-    public static Program parse(String programText, IntSupplier input, IntConsumer output) {
-        List<Integer> integers = Stream.of(programText.split(","))
-                .map(Integer::valueOf)
+    public static Program parse(String programText, LongSupplier input, LongConsumer output) {
+        List<Long> integers = Stream.of(programText.split(","))
+                .map(Long::valueOf)
                 .collect(Collectors.toUnmodifiableList());
         
         return new Program(integers, 0, 0, false, input, output);
@@ -74,8 +74,8 @@ public class Program {
      * @param input source of input
      * @param output target to send output
      */
-    private Program(List<Integer> memory, int instructionPointer, int relativeBase, boolean done, IntSupplier input,
-            IntConsumer output) {
+    private Program(List<Long> memory, int instructionPointer, int relativeBase, boolean done, LongSupplier input,
+            LongConsumer output) {
         super();
         this.memory = memory;
         this.instructionPointer = instructionPointer;
@@ -92,8 +92,8 @@ public class Program {
      * @param value value to write to index
      * @return copy of this program with the updated value
      */
-    public Program set(int address, int value) {
-        List<Integer> newMemory = setValue(address, ParameterMode.POSITION, value);
+    public Program set(int address, long value) {
+        List<Long> newMemory = setValue(address, ParameterMode.POSITION, value);
         return new Program(newMemory, instructionPointer, relativeBase, done, input, output);
     }
     
@@ -103,7 +103,7 @@ public class Program {
      * @param newInput new input
      * @return updated copy of the program
      */
-    public Program withInput(IntSupplier newInput) {
+    public Program withInput(LongSupplier newInput) {
         return new Program(memory, instructionPointer, relativeBase, done, newInput, output);
     }
     
@@ -113,7 +113,7 @@ public class Program {
      * @param inputValues input for the program
      * @return updated copy of the program
      */
-    public Program withInput(int... inputValues) {
+    public Program withInput(long... inputValues) {
         return withInput(Arrays.stream(inputValues).iterator()::next);
     }
     
@@ -127,11 +127,11 @@ public class Program {
      * @return updated copy of the program
      * @see #withOutput(BlockingQueue)
      */
-    public Program withInput(BlockingQueue<Integer> queue) {
+    public Program withInput(BlockingQueue<Long> queue) {
         return withInput(() -> {
-            int result;
+            long result;
             try {
-                result = queue.take().intValue();
+                result = queue.take().longValue();
             } catch (InterruptedException e) {
                 handle(e);
                 result = 0;
@@ -146,7 +146,7 @@ public class Program {
      * @param newOutput new output callback
      * @return updated copy of the program
      */
-    public Program withOutput(IntConsumer newOutput) {
+    public Program withOutput(LongConsumer newOutput) {
         return new Program(memory, instructionPointer, relativeBase, done, input, newOutput);
     }
     
@@ -160,10 +160,10 @@ public class Program {
      * @return updated copy of the program
      * @see #withInput(BlockingQueue)
      */
-    public Program withOutput(BlockingQueue<Integer> queue) {
+    public Program withOutput(BlockingQueue<Long> queue) {
         return withOutput(value -> {
             try {
-                queue.put(Integer.valueOf(value));
+                queue.put(Long.valueOf(value));
             } catch (InterruptedException e) {
                 handle(e);
             }
@@ -189,16 +189,16 @@ public class Program {
         LOGGER.debug("Initial program state: {}", this);
         Program result = this;
         while (!result.done) {
-            int instructionPointerValue = result.memory.get(result.instructionPointer).intValue();
+            long instructionPointerValue = result.memory.get(result.instructionPointer).longValue();
             
-            int opcode = instructionPointerValue % 100;
+            int opcode = Math.toIntExact(instructionPointerValue % 100L);
             Instruction instruction = Instruction.of(opcode);
             
-            instructionPointerValue = instructionPointerValue / 100;
+            instructionPointerValue = instructionPointerValue / 100L;
             List<ParameterMode> parameterModes = new ArrayList<>(instruction.getParameterCount());
             for (int i = 0; i != instruction.getParameterCount(); i++) {
-                parameterModes.add(ParameterMode.of(instructionPointerValue % 10));
-                instructionPointerValue = instructionPointerValue / 10;
+                parameterModes.add(ParameterMode.of(Math.toIntExact(instructionPointerValue % 10L)));
+                instructionPointerValue = instructionPointerValue / 10L;
             }
             
             LOGGER.debug("Executing instruction {} {}", instruction, parameterModes);
@@ -265,7 +265,7 @@ public class Program {
      * @param parameterModes parameter modes
      * @return updated program state after performing the given operator
      */
-    private Program perform(IntBinaryOperator operator, List<ParameterMode> parameterModes) {
+    private Program perform(LongBinaryOperator operator, List<ParameterMode> parameterModes) {
         // validate modes
         if (parameterModes.size() != 3) {
             throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
@@ -280,14 +280,14 @@ public class Program {
                 memory.get(instructionPointer + 3),
                 parameterModes.get(2));
         
-        int value0 = getValue(instructionPointer + 1, parameterModes.get(0));
-        int value1 = getValue(instructionPointer + 2, parameterModes.get(1));
+        long value0 = getValue(instructionPointer + 1, parameterModes.get(0));
+        long value1 = getValue(instructionPointer + 2, parameterModes.get(1));
         
-        int resultValue = operator.applyAsInt(value0, value1);
+        long resultValue = operator.applyAsLong(value0, value1);
         
-        int resultAddress = memory.get(instructionPointer + 3).intValue();
+        long resultAddress = memory.get(instructionPointer + 3).longValue();
         
-        List<Integer> newMemory = setValue(resultAddress, parameterModes.get(2), resultValue);
+        List<Long> newMemory = setValue(Math.toIntExact(resultAddress), parameterModes.get(2), resultValue);
         
         return new Program(newMemory, instructionPointer + 4, relativeBase, false, input, output);
     }
@@ -304,11 +304,11 @@ public class Program {
             throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
         }
         
-        Integer inputValue = Integer.valueOf(this.input.getAsInt());
+        long inputValue = this.input.getAsLong();
         
-        int resultAddress = memory.get(instructionPointer + 1).intValue();
+        long resultAddress = memory.get(instructionPointer + 1).longValue();
         
-        List<Integer> newMemory = setValue(resultAddress, parameterModes.get(0), inputValue.intValue());
+        List<Long> newMemory = setValue(Math.toIntExact(resultAddress), parameterModes.get(0), inputValue);
         
         return new Program(newMemory, instructionPointer + 2, relativeBase, false, input, output);
     }
@@ -325,10 +325,9 @@ public class Program {
             throw new IllegalArgumentException("Unexpected parameter modes: " + parameterModes);
         }
         
-        Integer outputValue = Integer.valueOf(getValue(instructionPointer + 1, parameterModes.get(0)));
+        long outputValue = getValue(instructionPointer + 1, parameterModes.get(0));
         
-        LOGGER.debug("Output: {}", outputValue);
-        output.accept(outputValue.intValue());
+        output.accept(outputValue);
         
         return new Program(memory, instructionPointer + 2, relativeBase, false, input, output);
     }
@@ -363,18 +362,18 @@ public class Program {
      * @param parameterModes parameter modes
      * @return updated program state
      */
-    private Program jumpIf(IntPredicate guard, List<ParameterMode> parameterModes) {
+    private Program jumpIf(LongPredicate guard, List<ParameterMode> parameterModes) {
         // validate modes
         if (parameterModes.size() != 2) {
             throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
         }
         
-        int value = getValue(instructionPointer + 1, parameterModes.get(0));
+        long value = getValue(instructionPointer + 1, parameterModes.get(0));
         
         int newInstructionPointer;
         if (guard.test(value)) {
             // Jump!
-            newInstructionPointer = getValue(instructionPointer + 2, parameterModes.get(1));
+            newInstructionPointer = Math.toIntExact(getValue(instructionPointer + 2, parameterModes.get(1)));
         } else {
             // Do not jump. Just move on to the next instruction.
             newInstructionPointer = instructionPointer + 3;
@@ -401,9 +400,9 @@ public class Program {
             throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
         }
         
-        int value = getValue(instructionPointer + 1, parameterModes.get(0));
+        long value = getValue(instructionPointer + 1, parameterModes.get(0));
         
-        return new Program(memory, instructionPointer + 2, relativeBase + value, done, input, output);
+        return new Program(memory, instructionPointer + 2, relativeBase + Math.toIntExact(value), done, input, output);
     }
     
     /**
@@ -413,12 +412,12 @@ public class Program {
      * @param mode parameter mode
      * @return value
      */
-    private int getValue(int address, ParameterMode mode) {
-        int value = getValue(address);
+    private long getValue(int address, ParameterMode mode) {
+        long value = getValue(address);
         return switch (mode) {
             case IMMEDIATE -> value;
-            case POSITION -> getValue(value);
-            case RELATIVE -> getValue(value + relativeBase);
+            case POSITION -> getValue(Math.toIntExact(value));
+            case RELATIVE -> getValue(Math.toIntExact(value) + relativeBase);
             default -> throw new IllegalArgumentException("Unexpected mode: " + mode);
         };
     }
@@ -429,12 +428,12 @@ public class Program {
      * @param address address to read
      * @return value
      */
-    private int getValue(int address) {
-        int result;
+    private long getValue(int address) {
+        long result;
         if (address < memory.size()) {
-            result = memory.get(address).intValue();
+            result = memory.get(address).longValue();
         } else {
-            result = 0;
+            result = 0L;
         }
         return result;
     }
@@ -447,24 +446,23 @@ public class Program {
      * @param value (immediate) value to write
      * @return updated copy of this program's memory
      */
-    private List<Integer> setValue(int address, ParameterMode mode, int value) {
+    private List<Long> setValue(int address, ParameterMode mode, long value) {
         int resultAddress = switch(mode) {
             case POSITION -> address;
             case RELATIVE -> address + relativeBase;
             default -> throw new IllegalArgumentException("Unsupported parameter mode: " + mode);
         };
         
-        List<Integer> result = new ArrayList<>(memory);
+        List<Long> result = new ArrayList<>(memory);
         for (int i = result.size(); i <= resultAddress; i++) {
-            result.add(Integer.valueOf(i));
+            result.add(Long.valueOf(0L));
         }
         
-        LOGGER.debug("Writing value {} to address {}", Integer.valueOf(value), Integer.valueOf(resultAddress));
-        result.set(resultAddress, Integer.valueOf(value));
+        result.set(resultAddress, Long.valueOf(value));
         return Collections.unmodifiableList(result);
     }
     
-    public List<Integer> getMemory() {
+    public List<Long> getMemory() {
         return memory;
     }
     
