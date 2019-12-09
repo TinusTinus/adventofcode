@@ -572,7 +572,7 @@ public class ProgramTest {
     
     /** Test case for {@link Program#execute()}. */
     @Test
-    public void testExecuteBoost() throws IOException {
+    public void testExecuteBoost1() throws IOException {
         String programText;
         Path path = LinesSolver.toPath(getClass(), "input-day09-2019.txt");
         try (Stream<String> lines = Files.lines(path)) {
@@ -584,5 +584,21 @@ public class ProgramTest {
         program.execute();
         
         Assertions.assertEquals(List.of(3638931938L), outputValues, "BOOST output: " + outputValues);
+    }
+    
+    /** Test case for {@link Program#execute()}. */
+    @Test
+    public void testExecuteBoost2() throws IOException {
+        String programText;
+        Path path = LinesSolver.toPath(getClass(), "input-day09-2019.txt");
+        try (Stream<String> lines = Files.lines(path)) {
+            programText = lines.findFirst().orElseThrow();
+        }
+        List<Long> outputValues = new ArrayList<>();
+        Program program = Program.parse(programText, () -> 2L, outputValues::add);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(86025L), outputValues, "BOOST output: " + outputValues);
     }
 }
