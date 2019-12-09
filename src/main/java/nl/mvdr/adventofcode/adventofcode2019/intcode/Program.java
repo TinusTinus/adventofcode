@@ -410,22 +410,6 @@ public class Program {
     }
     
     /**
-     * Converts the given address to an immediate address.
-     * 
-     * @param address address
-     * @param mode parameter mode
-     * @return immediate address
-     */
-    private int getAddress(int address, ParameterMode mode) {
-        return switch(mode) {
-            case IMMEDIATE -> address;
-            case POSITION -> getValue(address);
-            case RELATIVE -> getValue(address) + relativeBase;
-            default -> throw new IllegalArgumentException("Unexpected mode: " + mode);
-        };
-    }
-    
-    /**
      * Reads a parameter value from memory.
      * 
      * @param address address from which to retrieve a parameter value
@@ -433,7 +417,13 @@ public class Program {
      * @return value
      */
     private int getValue(int address, ParameterMode mode) {
-        return getValue(getAddress(address, mode));
+        int value = getValue(address);
+        return switch (mode) {
+            case IMMEDIATE -> value;
+            case POSITION -> getValue(value);
+            case RELATIVE -> getValue(value + relativeBase);
+            default -> throw new IllegalArgumentException("Unexpected mode: " + mode);
+        };
     }
     
     /**
