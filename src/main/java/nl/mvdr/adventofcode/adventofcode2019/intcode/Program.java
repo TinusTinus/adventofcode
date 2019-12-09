@@ -26,6 +26,7 @@ public class Program {
     
     private final List<Integer> memory;
     private final int instructionPointer;
+    private final int relativeBase;
     private final boolean done;
     private final IntSupplier input;
     private final IntConsumer output;
@@ -59,7 +60,7 @@ public class Program {
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
         
-        return new Program(List.copyOf(integers), 0, false, input, output);
+        return new Program(List.copyOf(integers), 0, 0, false, input, output);
     }
     
     /**
@@ -67,14 +68,17 @@ public class Program {
      * 
      * @param memory list of values making up this program and its memory
      * @param instructionPointer current value of the instruction pointer
+     * @param relativeBase relative base
      * @param done whether program execution has halted
      * @param input source of input
      * @param output target to send output
      */
-    private Program(List<Integer> memory, int instructionPointer, boolean done, IntSupplier input, IntConsumer output) {
+    private Program(List<Integer> memory, int instructionPointer, int relativeBase, boolean done, IntSupplier input,
+            IntConsumer output) {
         super();
         this.memory = memory;
         this.instructionPointer = instructionPointer;
+        this.relativeBase = relativeBase;
         this.done = done;
         this.input = input;
         this.output = output;
@@ -90,7 +94,7 @@ public class Program {
     public Program set(int address, int value) {
         List<Integer> newIntegers = new ArrayList<>(memory);
         newIntegers.set(address, Integer.valueOf(value));
-        return new Program(List.copyOf(newIntegers), instructionPointer, done, input, output);
+        return new Program(List.copyOf(newIntegers), instructionPointer, relativeBase, done, input, output);
     }
     
     /**
@@ -100,7 +104,7 @@ public class Program {
      * @return updated copy of the program
      */
     public Program withInput(IntSupplier newInput) {
-        return new Program(memory, instructionPointer, done, newInput, output);
+        return new Program(memory, instructionPointer, relativeBase, done, newInput, output);
     }
     
     /**
@@ -143,7 +147,7 @@ public class Program {
      * @return updated copy of the program
      */
     public Program withOutput(IntConsumer newOutput) {
-        return new Program(memory, instructionPointer, done, input, newOutput);
+        return new Program(memory, instructionPointer, relativeBase, done, input, newOutput);
     }
     
     /**
@@ -211,7 +215,7 @@ public class Program {
             throw new IllegalArgumentException("No parameters expected, got: " + parameterModes);
         }
         
-        return new Program(memory, instructionPointer, true, input, output);
+        return new Program(memory, instructionPointer, relativeBase, true, input, output);
     }
     
     /** 
@@ -286,11 +290,9 @@ public class Program {
         
         int resultAddress = memory.get(instructionPointer + 3).intValue();
         
-        List<Integer> newMemory = new ArrayList<>(memory);
-        LOGGER.debug("Writing value {} to address {}", Integer.valueOf(resultValue), Integer.valueOf(resultAddress));
-        newMemory.set(resultAddress, Integer.valueOf(resultValue));
+        List<Integer> newMemory = setValue(resultAddress, parameterModes.get(2), resultValue);
         
-        return new Program(List.copyOf(newMemory), instructionPointer + 4, false, input, output);
+        return new Program(List.copyOf(newMemory), instructionPointer + 4, relativeBase, false, input, output);
     }
     
     /**
@@ -309,11 +311,9 @@ public class Program {
         
         int resultAddress = memory.get(instructionPointer + 1).intValue();
         
-        List<Integer> newMemory = new ArrayList<>(memory);
-        LOGGER.debug("Writing value {} to address {}", inputValue, Integer.valueOf(resultAddress));
-        newMemory.set(resultAddress, inputValue);
+        List<Integer> newMemory = setValue(resultAddress, parameterModes.get(0), inputValue.intValue());
         
-        return new Program(List.copyOf(newMemory), instructionPointer + 2, false, input, output);
+        return new Program(List.copyOf(newMemory), instructionPointer + 2, relativeBase, false, input, output);
     }
     
     /**
@@ -333,7 +333,7 @@ public class Program {
         LOGGER.debug("Output: {}", outputValue);
         output.accept(outputValue.intValue());
         
-        return new Program(memory, instructionPointer + 2, false, input, output);
+        return new Program(memory, instructionPointer + 2, relativeBase, false, input, output);
     }
     
     /**
@@ -383,7 +383,46 @@ public class Program {
             newInstructionPointer = instructionPointer + 3;
         }
         
-        return new Program(memory, newInstructionPointer, done, input, output);
+        return new Program(memory, newInstructionPointer, relativeBase, done, input, output);
+    }
+    
+    /**
+     * Adjusts the relative base by the value of its only parameter. The relative
+     * base increases (or decreases, if the value is negative) by the value of the
+     * parameter.
+     * 
+     * For example, if the relative base is 2000, then after the instruction 109,19,
+     * the relative base would be 2019. If the next instruction were 204,-34, then
+     * the value at address 1985 would be output.
+     * 
+     * @param parameterModes parameter modes
+     * @return updated program state
+     */
+    Program adjustRelativeBase(List<ParameterMode> parameterModes) {
+        // validate modes
+        if (parameterModes.size() != 1) {
+            throw new IllegalArgumentException("Unexpected number of paramters: " + parameterModes);
+        }
+        
+        int value = getValue(instructionPointer + 1, parameterModes.get(0));
+        
+        return new Program(memory, instructionPointer + 2, relativeBase + value, done, input, output);
+    }
+    
+    /**
+     * Converts the given address to an immediate address.
+     * 
+     * @param address address
+     * @param mode parameter mode
+     * @return immediate address
+     */
+    private int getAddress(int address, ParameterMode mode) {
+        return switch(mode) {
+            case IMMEDIATE -> address;
+            case POSITION -> getValue(address);
+            case RELATIVE -> getValue(address) + relativeBase;
+            default -> throw new IllegalArgumentException("Unexpected mode: " + mode);
+        };
     }
     
     /**
@@ -394,12 +433,48 @@ public class Program {
      * @return value
      */
     private int getValue(int address, ParameterMode mode) {
-        int value = memory.get(address).intValue();
-        return switch (mode) {
-            case IMMEDIATE -> value;
-            case POSITION -> memory.get(value).intValue();
-            default -> throw new IllegalArgumentException("Unexpected mode: " + mode);
+        return getValue(getAddress(address, mode));
+    }
+    
+    /**
+     * Reads a parameter value from memory (immediate mode).
+     * 
+     * @param address address to read
+     * @return value
+     */
+    private int getValue(int address) {
+        int result;
+        if (address < memory.size()) {
+            result = memory.get(address).intValue();
+        } else {
+            result = 0;
+        }
+        return result;
+    }
+    
+    /**
+     * Sets the given value.
+     * 
+     * @param address address to write to
+     * @param mode parameter mode; must not be {@link ParameterMode#IMMEDIATE}
+     * @param value (immediate) value to write
+     * @return updated copy of this program's memory
+     */
+    private List<Integer> setValue(int address, ParameterMode mode, int value) {
+        int resultAddress = switch(mode) {
+            case POSITION -> address;
+            case RELATIVE -> address + relativeBase;
+            default -> throw new IllegalArgumentException("Unsupported parameter mode: " + mode);
         };
+        
+        List<Integer> result = new ArrayList<>(memory);
+        for (int i = result.size(); i <= resultAddress; i++) {
+            result.add(Integer.valueOf(i));
+        }
+        
+        LOGGER.debug("Writing value {} to address {}", Integer.valueOf(value), Integer.valueOf(resultAddress));
+        result.set(resultAddress, Integer.valueOf(value));
+        return result;
     }
     
     public List<Integer> getMemory() {

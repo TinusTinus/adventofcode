@@ -61,6 +61,13 @@ enum Instruction {
      * 0.
      */
     EQUALS(8, 3, Program::equals),
+    
+    /**
+     * Adjusts the relative base by the value of its only parameter. The relative
+     * base increases (or decreases, if the value is negative) by the value of the
+     * parameter.
+     */
+    RELATIVE_BASE_OFFSET(9, 1, Program::adjustRelativeBase),
 
     /**
      * This instruction means that the program is finished and should immediately
