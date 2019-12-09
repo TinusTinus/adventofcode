@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day21;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -17,6 +18,7 @@ public class ChronalConverstionPart2Test extends SolverTest<ChronalConversionPar
 
     /** Test case based on the accepted solution to the puzzle. */
     @Test
+    @Disabled // This test case is very slow
     public void testSolution() {
         assertSolution("6577657", "input-day21-2018.txt");
     }

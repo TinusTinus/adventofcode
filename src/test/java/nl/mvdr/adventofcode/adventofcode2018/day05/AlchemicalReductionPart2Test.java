@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day05;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -23,6 +24,7 @@ public class AlchemicalReductionPart2Test extends SolverTest<AlchemicalReduction
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // This test case is very slow
     public void testSolution() {
         assertSolution("5534", "input-day05-2018.txt");
     }

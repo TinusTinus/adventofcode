@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day15;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -47,6 +48,7 @@ public class BeverageBanditsPart2Test extends SolverTest<BeverageBanditsPart2> {
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
+    @Disabled // This test case is very slow
     public void testSolution() {
         assertSolution("66510", "input-day15-2018.txt");
     }
