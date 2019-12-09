@@ -523,4 +523,67 @@ public class ProgramTest {
         
         Assertions.assertEquals(List.of(1001), outputValues);
     }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * This program takes no input and produces a copy of itself as output.
+     */
+    @Test
+    public void testExecuteQuine() {
+        List<Integer> outputValues = new ArrayList<>();
+        Program program = Program.parse("109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99")
+                .withOutput(outputValues::add);
+        
+        program.execute();
+        
+        Assertions.assertEquals(List.of(109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99),
+                outputValues);
+    }
+    
+    /**
+     * Test case for {@link Program#execute()}.
+     * 
+     * This program outputs a 16-digit number.
+     */
+    @Test
+    public void testExecute16Digits() {
+        List<Integer> outputValues = new ArrayList<>();
+        Program program = Program.parse("1102,34915192,34915192,7,4,7,99,0")
+                .withOutput(outputValues::add);
+        
+        program.execute();
+        
+        Assertions.assertEquals(1, outputValues.size());
+        Assertions.assertEquals(16, outputValues.get(0).toString().length());
+    }
+    
+    /** Test case for {@link Program#execute()}. */
+    @Test
+    public void testExecuteLong() {
+        List<Integer> outputValues = new ArrayList<>();
+        Program program = Program.parse("104,1125899906842624,99")
+                .withOutput(outputValues::add);
+        
+        program.execute();
+        
+        Assertions.assertEquals(1, outputValues.size());
+        Assertions.assertEquals(1125899906842624L, outputValues.get(0).longValue());
+    }
+    
+    /** Test case for {@link Program#execute()}. */
+    @Test
+    public void testExecuteBoost() throws IOException {
+        String programText;
+        Path path = LinesSolver.toPath(getClass(), "input-day09-2019.txt");
+        try (Stream<String> lines = Files.lines(path)) {
+            programText = lines.findFirst().orElseThrow();
+        }
+        List<Integer> outputValues = new ArrayList<>();
+        Program program = Program.parse(programText, () -> 1, outputValues::add);
+        
+        program.execute();
+        
+        Assertions.assertEquals(1, outputValues.size(), "BOOST has reported errors: " + outputValues);
+    }
 }
