@@ -25,7 +25,7 @@ class Ship implements LongSupplier, LongConsumer {
     /**
      * Constructor.
      * 
-     * @param whether to start on a white panel
+     * @param startOnWhitePanel whether to start on a white panel
      */
     Ship(boolean startOnWhitePanel) {
         super();
@@ -55,7 +55,10 @@ class Ship implements LongSupplier, LongConsumer {
     /**
      * Processes an output value from the robot's Intcode program.
      * 
-     * @value program output
+     * The program is expected to alternatingly return a color to paint and a turn
+     * direction to turn and move the robot.
+     * 
+     * @param value representation of either a turn direction or a color
      */
     @Override
     public void accept(long value) {
