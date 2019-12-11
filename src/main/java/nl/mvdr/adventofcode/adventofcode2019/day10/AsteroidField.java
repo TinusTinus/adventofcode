@@ -1,10 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2019.day10;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -15,6 +21,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 class AsteroidField {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(AsteroidField.class);
     
     /** Location of the asteroid containing the monitoring station. */
     private final Point station;
@@ -43,14 +51,44 @@ class AsteroidField {
     int visibleAsteroids() {
         return asteroidsByAngle.size();
     }
-    
-    /** @return location of the asteroid containing the monitoring station */
-    Point getStation() {
-        return station;
-    }
 
-    /** @return the asteroids other than the one containing the monitoring station, indexed by the angle to the station */
-    Map<Double, Set<Point>> getAsteroidsByAngle() {
-        return asteroidsByAngle;
+    /**
+     * Vaporises asteroids using the ship's rotating laser.
+     * 
+     * @param target number of asteroids to be destroyed
+     * @return location of the last vaporised asteroid
+     */
+    Point vaporiseAsteroids(int target) {
+        // Construct a list of angles, in the order we will inspect them.
+        // Start with 90 degrees (up), and place them in decreasing order (clockwise).
+        List<Double> angles = asteroidsByAngle.keySet().stream()
+                .sorted(Comparator.<Double>comparingDouble(a -> a.doubleValue() <= 90D ? a.doubleValue() + 360 : a.doubleValue()).reversed())
+                .collect(Collectors.toList());
+        LOGGER.debug("Angles: {}", angles);
+        
+        Point result = null;
+        int i = 0;
+        for (int asteroidsDestroyed = 0; asteroidsDestroyed != target; asteroidsDestroyed++) {
+            // Search for the next angle still containing asteroids
+            while (asteroidsByAngle.get(angles.get(i)).isEmpty()) {
+                i = (i + 1) % angles.size();
+            }
+            
+            Set<Point> nextAsteroids = asteroidsByAngle.get(angles.get(i));
+            
+            LOGGER.debug("Vaporising one of the asteroids at angle {}: {}", angles.get(i), nextAsteroids);
+            
+            // Find the closest asteroid
+            result = nextAsteroids.stream()
+                    .min(Comparator.comparingInt(station::manhattanDistance))
+                    .orElseThrow();
+            
+            LOGGER.debug("Vaporising {}", result);
+            nextAsteroids.remove(result);
+            
+            i = (i + 1) % angles.size();
+        }
+        
+        return result;
     }
 }
