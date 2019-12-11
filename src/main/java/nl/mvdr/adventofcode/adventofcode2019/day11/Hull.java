@@ -87,7 +87,36 @@ class Hull {
     
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString();
+        StringBuilder builder = new StringBuilder();
+
+        int minX = whitePanels.stream()
+                .mapToInt(Point::getX)
+                .min()
+                .getAsInt();
+        int maxX = whitePanels.stream()
+                .mapToInt(Point::getX)
+                .max()
+                .getAsInt();
+        int minY = whitePanels.stream()
+                .mapToInt(Point::getY)
+                .min()
+                .getAsInt();
+        int maxY = whitePanels.stream()
+                .mapToInt(Point::getY)
+                .max()
+                .getAsInt();
+        
+        for (int y = minY; y != maxY + 1; y++) {
+            for (int x = minX; x != maxX + 1; x++) {
+                if (whitePanels.contains(new Point(x, y))) {
+                    builder.append("#");
+                } else {
+                    builder.append(".");
+                }
+            }
+            builder.append("\n");
+        }
+        
+        return builder.toString();
     }
 }

@@ -7,17 +7,17 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link SpacePolicePart1}.
+ * Unit test cases for {@link SpacePolicePart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class SpacePolicePart2Test extends SolverTest<SpacePolicePart1> {
+public class SpacePolicePart2Test extends SolverTest<SpacePolicePart2> {
 
     private final Logger LOGGER = LoggerFactory.getLogger(SpacePolicePart2Test.class);
     
     /** Constructor. */
     public SpacePolicePart2Test() {
-        super(SpacePolicePart1.class);
+        super(SpacePolicePart2.class);
     }
     
     /** Test case based on the accepted solution. */
@@ -27,7 +27,7 @@ public class SpacePolicePart2Test extends SolverTest<SpacePolicePart1> {
         
         String result = spacePolicePart2.solve("input-day11-2019.txt");
         
-        // Inspect the log for the result; should be eight capital letters represented as ASCII art.
-        LOGGER.info(result);
+        // Inspect the log for the result; should be "AGALRGJE" represented as ASCII art.
+        LOGGER.info("Result:\n{}", result);
     }
 }

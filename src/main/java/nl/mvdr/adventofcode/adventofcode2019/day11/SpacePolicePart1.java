@@ -31,6 +31,8 @@ public class SpacePolicePart1 implements IntSolver {
         
         program.execute();
         
+        LOGGER.debug("Hull painting:\n{}", ship.getHull());
+        
         return ship.getHull().numberOfPaintedPanels();
     }
     
