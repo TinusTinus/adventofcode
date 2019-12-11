@@ -68,10 +68,38 @@ public class MonitoringStationPart1 implements IntSolver {
      * @return number of visible asteroids
      */
     private int computeVisibleAsteroids(Point point, Set<Point> asteroids) {
-        Set<Point> otherAsteroids = new HashSet<>(asteroids);
-        otherAsteroids.remove(point);
+        int result = 0;
         
-        return 0; // TODO implement
+        Set<Point> remainingAsteroids = new HashSet<>(asteroids);
+        remainingAsteroids.remove(point);
+        
+        while (!remainingAsteroids.isEmpty()) {
+            Point asteroid = remainingAsteroids.stream().findAny().orElseThrow();
+            
+            // Remove this asteroid and all other asteroids that are on the same line.
+            remainingAsteroids.remove(asteroid);
+            remainingAsteroids.removeIf(a -> sameLine(point, asteroid, a));
+            
+            // Exactly one of the asteroids we just removed is visible (which one does not matter).
+            result++;
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Checks whether the given three points are all on the same line.
+     * 
+     * @param point0 first point
+     * @param point1 second point
+     * @param point2 third point
+     * @return whether the three points are all on the same line
+     */
+    private boolean sameLine(Point point0, Point point1, Point point2) {
+        int crossProduct = (point1.getX() - point0.getX()) * (point2.getY() - point0.getY())
+                - (point1.getY() - point0.getY()) * (point2.getX() - point0.getX());
+                
+         return crossProduct == 0;
     }
     
     /**

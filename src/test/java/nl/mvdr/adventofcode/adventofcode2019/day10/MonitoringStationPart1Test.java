@@ -49,6 +49,6 @@ public class MonitoringStationPart1Test extends SolverTest<MonitoringStationPart
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day10-2019.txt"); 
+        assertSolution("?", "input-day10-2019.txt"); // 250 is too low 
     }
 }
