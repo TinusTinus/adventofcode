@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link SpacePolice}.
+ * Unit test cases for {@link SpacePolicePart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class SpacePoliceTest extends SolverTest<SpacePolice> {
+public class SpacePolicePart1Test extends SolverTest<SpacePolicePart1> {
 
     /** Constructor. */
-    public SpacePoliceTest() {
-        super(SpacePolice.class);
+    public SpacePolicePart1Test() {
+        super(SpacePolicePart1.class);
     }
     
     /** Test case based on the accepted solution. */

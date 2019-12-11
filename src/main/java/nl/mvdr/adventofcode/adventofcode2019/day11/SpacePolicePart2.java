@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 
 /**
@@ -14,24 +14,24 @@ import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class SpacePolice implements IntSolver {
+public class SpacePolicePart2 implements LinesSolver<Hull> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpacePolice.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpacePolicePart2.class);
     
     /**
      * {@inheritDoc}
      * 
-     * @return how many panels the robot paints at least once
+     * @return multi-line string representation of the hull
      */
     @Override
-    public int solve(Stream<String> lines) {
-        Ship ship = new Ship();
+    public Hull solve(Stream<String> lines) {
+        Ship ship = new Ship(true);
         
         Program program = Program.parse(lines.findFirst().orElseThrow(), ship, ship);
         
         program.execute();
         
-        return ship.getHull().numberOfPaintedPanels();
+        return ship.getHull();
     }
     
     /**
@@ -40,7 +40,7 @@ public class SpacePolice implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SpacePolice instance = new SpacePolice();
+        SpacePolicePart2 instance = new SpacePolicePart2();
 
         String result = instance.solve("input-day11-2019.txt");
 

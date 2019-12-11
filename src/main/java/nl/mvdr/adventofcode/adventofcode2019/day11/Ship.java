@@ -22,12 +22,22 @@ class Ship implements LongSupplier, LongConsumer {
     
     private boolean justPainted;
     
-    /** Constructor. */
-    Ship() {
+    /**
+     * Constructor.
+     * 
+     * @param whether to start on a white panel
+     */
+    Ship(boolean startOnWhitePanel) {
         super();
         this.hull = new Hull();
         this.robot = new Robot();
         this.justPainted = false;
+        
+        if (startOnWhitePanel) {
+            this.hull = hull.paint(robot.getLocation(), Color.WHITE);
+            // Note: this adds <0,0> to the areas that have been painted.
+            // However this location is guaranteed to be the first to be painted anyway.
+        }
     }
     
     /**
