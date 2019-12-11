@@ -76,12 +76,14 @@ public class MonitoringStationPart1 implements IntSolver {
         while (!remainingAsteroids.isEmpty()) {
             Point asteroid = remainingAsteroids.stream().findAny().orElseThrow();
             
-            // Remove this asteroid and all other asteroids that are on the same line.
+            // Remove this asteroid.
             remainingAsteroids.remove(asteroid);
-            remainingAsteroids.removeIf(a -> sameLine(point, asteroid, a));
+            // Also remove all other asteroids on the same line, and on the same side.
+            remainingAsteroids.removeIf(a -> sameLine(point, asteroid, a)
+                    && Math.signum(point.getX() - asteroid.getX()) == Math.signum(point.getX() - a.getX())
+                    && Math.signum(point.getY() - asteroid.getY()) == Math.signum(point.getY() - a.getY()));
             
             // Exactly one of the asteroids we just removed is visible (which one does not matter).
-            // TODO no, this is wrong, if point is in-between two other asteroids on the same line!
             result++;
         }
         
