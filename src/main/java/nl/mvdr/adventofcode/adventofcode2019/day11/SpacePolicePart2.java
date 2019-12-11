@@ -44,6 +44,6 @@ public class SpacePolicePart2 implements LinesSolver<Hull> {
 
         String result = instance.solve("input-day11-2019.txt");
 
-        LOGGER.info("Result:\n{}", result);
+        LOGGER.info(result);
     }
 }

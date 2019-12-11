@@ -28,6 +28,6 @@ public class SpacePolicePart2Test extends SolverTest<SpacePolicePart2> {
         String result = spacePolicePart2.solve("input-day11-2019.txt");
         
         // Inspect the log for the result; should be "AGALRGJE" represented as ASCII art.
-        LOGGER.info("Result:\n{}", result);
+        LOGGER.info(result);
     }
 }

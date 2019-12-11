@@ -87,7 +87,7 @@ class Hull {
     
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("Hull:\n");
 
         int minX = whitePanels.stream()
                 .mapToInt(Point::getX)
