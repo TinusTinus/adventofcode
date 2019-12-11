@@ -1,12 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2019.day10;
 
-import java.util.Map;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Solution to the day 10 puzzle of 2019's Advent of Code:
@@ -24,8 +19,8 @@ public class MonitoringStationPart1 extends MonitoringStation {
      * @return number of visible asteroids
      */
     @Override
-    int solve(Point station, Map<Double, Set<Point>> otherAsteroidsByAngle) {
-        return otherAsteroidsByAngle.size();
+    int solve(AsteroidField asteroidField) {
+        return asteroidField.visibleAsteroids();
     }
 
     /**
