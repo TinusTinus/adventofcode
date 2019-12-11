@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day10;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -23,8 +24,8 @@ public class MonitoringStationPart1 extends MonitoringStation {
      * @return number of visible asteroids
      */
     @Override
-    int solve(Point station, Set<Point> otherAsteroids) {
-        return computeVisibleAsteroids(station, otherAsteroids);
+    int solve(Point station, Map<Double, Set<Point>> otherAsteroidsByAngle) {
+        return otherAsteroidsByAngle.size();
     }
 
     /**

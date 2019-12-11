@@ -27,9 +27,7 @@ public class MonitoringStationPart2 extends MonitoringStation {
      * @return identification of the 200th asteroid to be completely vaporised by a giant laser
      */
     @Override
-    int solve(Point station, Set<Point> otherAsteroids) {
-        Map<Double, Set<Point>> asteroidsByAngle = mapAsteroidsByAngle(station, otherAsteroids);
-        
+    int solve(Point station, Map<Double, Set<Point>> asteroidsByAngle) {
         // Construct a list of angles, in the order we will inspect them.
         // Start with 90 degrees (up), and place them in decreasing order (clockwise).
         List<Double> angles = asteroidsByAngle.keySet().stream()

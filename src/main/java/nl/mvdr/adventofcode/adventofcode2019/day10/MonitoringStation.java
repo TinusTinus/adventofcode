@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,32 +45,19 @@ abstract class MonitoringStation implements IntSolver {
                 }
             }
         }
-        
         LOGGER.debug("Asteroids: {}", asteroids);
         
-        Point station = asteroids.stream()
-                .max(Comparator.comparingInt(candidate -> computeVisibleAsteroids(candidate, asteroids)))
-                .orElseThrow();
-        
-        LOGGER.debug("Optimal monitoring station location: {}", station);
-        
-        asteroids.remove(station);
-        
-        return solve(station, Set.copyOf(asteroids));
+        return asteroids.stream()
+                .collect(Collectors.toMap(Function.identity(), candidateStation -> mapAsteroidsByAngle(candidateStation, asteroids)))
+                .entrySet()
+                .stream()
+                .max(Comparator.comparingInt(entry -> entry.getValue().size()))
+                .stream()
+                .mapToInt(entry -> solve(entry.getKey(), entry.getValue()))
+                .findFirst()
+                .getAsInt();
     }
     
-    /**
-     * Computes the number of asteroids visible from the station.
-     * 
-     * @param station location of the monitoring station
-     * @param asteroids set of asteroids; may include {@code station}
-     * @return number of visible asteroids visible from the station (not counting the station itself)
-     */
-    int computeVisibleAsteroids(Point station, Set<Point> asteroids) {
-        Map<Double, Set<Point>> asteroidsByAngle = mapAsteroidsByAngle(station, asteroids);
-        return asteroidsByAngle.size();
-    }
-
     /**
      * Creates a map containing the given asteroids, indexed by their angle with respect to the station.
      * 
@@ -77,7 +65,7 @@ abstract class MonitoringStation implements IntSolver {
      * @param asteroids set of asteroids; may include {@code station}
      * @return map of all asteroids (excluding {@code station}), indexed by their angle with respect to {@code station}
      */
-    Map<Double, Set<Point>> mapAsteroidsByAngle(Point station, Set<Point> asteroids) {
+    private Map<Double, Set<Point>> mapAsteroidsByAngle(Point station, Set<Point> asteroids) {
         Map<Double, Set<Point>> result = new HashMap<>();
         asteroids.stream()
                 .filter(Predicate.not(station::equals))
@@ -92,8 +80,8 @@ abstract class MonitoringStation implements IntSolver {
      * Solver method.
      * 
      * @param station location of the optimal asteroid to contain the monitoring station
-     * @param otherAsteroids locations of the other asteroids
+     * @param otherAsteroidsByAngle locations of the other asteroids, indexed by their angle compared to the station
      * @return puzzle answer
      */
-    abstract int solve(Point station, Set<Point> otherAsteroids);
+    abstract int solve(Point station, Map<Double, Set<Point>> otherAsteroidsByAngle);
 }
