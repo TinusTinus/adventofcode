@@ -90,16 +90,20 @@ public class MonitoringStationPart1 implements IntSolver {
     /**
      * Checks whether the given three points are all on the same line.
      * 
-     * @param point0 first point
-     * @param point1 second point
-     * @param point2 third point
+     * @param point1 first point
+     * @param point2 second point
+     * @param point3 third point
      * @return whether the three points are all on the same line
      */
-    private boolean sameLine(Point point0, Point point1, Point point2) {
-        int crossProduct = (point1.getX() - point0.getX()) * (point2.getY() - point0.getY())
-                - (point1.getY() - point0.getY()) * (point2.getX() - point0.getX());
-                
-         return crossProduct == 0;
+    private boolean sameLine(Point point1, Point point2, Point point3) {
+        int x1 = point1.getX();
+        int y1 = point1.getY();
+        int x2 = point2.getX();
+        int y2 = point2.getY();
+        int x3 = point3.getX();
+        int y3 = point3.getY();
+        
+        return (x2 - x1) * (y3 - y1) == (y2 - y1) * (x3 - x1);
     }
     
     /**
