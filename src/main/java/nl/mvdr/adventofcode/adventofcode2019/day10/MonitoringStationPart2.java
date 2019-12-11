@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day10;
 
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,11 +28,7 @@ public class MonitoringStationPart2 extends MonitoringStation {
      */
     @Override
     int solve(Point station, Set<Point> otherAsteroids) {
-        Map<Double, Set<Point>> asteroidsByAngle = new HashMap<>();
-        otherAsteroids.forEach(asteroid -> {
-            double angle = station.computeAngle(asteroid);
-            asteroidsByAngle.computeIfAbsent(Double.valueOf(angle), a -> new HashSet<>()).add(asteroid);
-        });
+        Map<Double, Set<Point>> asteroidsByAngle = mapAsteroidsByAngle(station, otherAsteroids);
         
         // Construct a list of angles, in the order we will inspect them.
         // Start with 90 degrees (up), and place them in decreasing order (clockwise).

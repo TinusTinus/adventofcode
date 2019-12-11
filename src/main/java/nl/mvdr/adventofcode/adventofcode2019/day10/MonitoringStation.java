@@ -1,9 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2019.day10;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,25 +66,25 @@ abstract class MonitoringStation implements IntSolver {
      * @return number of visible asteroids visible from the station (not counting the station itself)
      */
     int computeVisibleAsteroids(Point station, Set<Point> asteroids) {
-        int result = 0;
-        
-        Set<Point> remainingAsteroids = new HashSet<>(asteroids);
-        remainingAsteroids.remove(station);
-        
-        while (!remainingAsteroids.isEmpty()) {
-            Point asteroid = remainingAsteroids.stream().findAny().orElseThrow();
-            
-            // Remove this asteroid.
-            remainingAsteroids.remove(asteroid);
-            // Also remove all other asteroids on the same line, and on the same side of the station.
-            remainingAsteroids.removeIf(a -> Point.sameLine(station, asteroid, a)
-                    && Math.signum(station.getX() - asteroid.getX()) == Math.signum(station.getX() - a.getX())
-                    && Math.signum(station.getY() - asteroid.getY()) == Math.signum(station.getY() - a.getY()));
-            
-            // Exactly one of the asteroids we just removed is visible (which one does not matter).
-            result++;
-        }
-        
+        Map<Double, Set<Point>> asteroidsByAngle = mapAsteroidsByAngle(station, asteroids);
+        return asteroidsByAngle.size();
+    }
+
+    /**
+     * Creates a map containing the given asteroids, indexed by their angle with respect to the station.
+     * 
+     * @param station location of the monitoring station
+     * @param asteroids set of asteroids; may include {@code station}
+     * @return map of all asteroids (excluding {@code station}), indexed by their angle with respect to {@code station}
+     */
+    Map<Double, Set<Point>> mapAsteroidsByAngle(Point station, Set<Point> asteroids) {
+        Map<Double, Set<Point>> result = new HashMap<>();
+        asteroids.stream()
+                .filter(Predicate.not(station::equals))
+                .forEach(asteroid -> {
+                    double angle = station.computeAngle(asteroid);
+                    result.computeIfAbsent(Double.valueOf(angle), a -> new HashSet<>()).add(asteroid);
+                });
         return result;
     }
 
