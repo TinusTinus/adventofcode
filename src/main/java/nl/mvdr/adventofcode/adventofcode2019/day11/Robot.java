@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2019.day11;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
+import nl.mvdr.adventofcode.point.TurnDirection;
 
 /**
  * Representation of a hull-painting robot.

@@ -4,6 +4,7 @@ import java.util.function.LongConsumer;
 import java.util.function.LongSupplier;
 
 import nl.mvdr.adventofcode.point.Point;
+import nl.mvdr.adventofcode.point.TurnDirection;
 
 /**
  * Representation of the current state of the space ship,

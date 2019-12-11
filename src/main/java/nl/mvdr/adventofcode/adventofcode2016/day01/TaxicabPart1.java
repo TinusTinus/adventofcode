@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
+import nl.mvdr.adventofcode.point.TurnDirection;
 
 /**
  * Solution to the day 1 puzzle of 2016's Advent of Code:
@@ -34,11 +35,8 @@ public class TaxicabPart1 implements IntSolver {
         Point location = startingLocation;
         
         for (String part : input.split(", ")) {
-            direction = switch (part.charAt(0)) {
-                case 'L' -> direction.turnCounterClockwise();
-                case 'R' -> direction.turnClockwise();
-                default -> throw new IllegalStateException("Unexpected input: " + part);
-            };
+            TurnDirection turnDirection = TurnDirection.parse(part.charAt(0));
+            direction = turnDirection.turn(direction);
             
             int numberOfSteps = Integer.parseInt(part.substring(1));
             for (int i = 0; i != numberOfSteps; i++) {

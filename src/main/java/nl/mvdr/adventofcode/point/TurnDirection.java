@@ -1,16 +1,14 @@
-package nl.mvdr.adventofcode.adventofcode2019.day11;
+package nl.mvdr.adventofcode.point;
 
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.point.Direction;
-
 /**
- * A direction the robot can turn to.
+ * A turn direction.
  *
  * @author Martijn van de Rijdt
  */
-enum TurnDirection {
+public enum TurnDirection {
     /** Turn left 90 degrees. */
     LEFT(0L, Direction::turnCounterClockwise),
     /** Turn right 90 degrees. */
@@ -25,11 +23,24 @@ enum TurnDirection {
      * @param code representation of a turn direction in an Intcode program
      * @return turn direction
      */
-    static TurnDirection of(long code) {
+    public static TurnDirection of(long code) {
         return Stream.of(values())
                 .filter(value -> value.code == code)
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("Unexpected code: " + code));
+    }
+    
+    /**
+     * Parses a string representation of a turn direction.
+     * 
+     * @param c representation of a turn direction: 'L' or 'R'
+     * @return turn direction
+     */
+    public static TurnDirection parse(char c) {
+        return Stream.of(values())
+                .filter(value -> value.toString().charAt(0) == c)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unexpected turn direction: " + c));
     }
     
     /**
@@ -49,7 +60,7 @@ enum TurnDirection {
      * @param startingDirection starting direction
      * @return direction after turning
      */
-    Direction turn(Direction startingDirection) {
+    public Direction turn(Direction startingDirection) {
         return turnFunction.apply(startingDirection);
     }
 }
