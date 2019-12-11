@@ -1,15 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2019.day10;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -18,7 +14,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class MonitoringStationPart1 implements IntSolver {
+public class MonitoringStationPart1 extends MonitoringStation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringStationPart1.class);
     
@@ -28,36 +24,13 @@ public class MonitoringStationPart1 implements IntSolver {
      * @return number of visible asteroids
      */
     @Override
-    public int solve(Stream<String> lines) {
-        Set<Point> asteroids = parse(lines);
-        
+    int solve(Set<Point> asteroids) {
         return asteroids.stream()
                 .mapToInt(asteroid -> computeVisibleAsteroids(asteroid, asteroids))
                 .max()
                 .getAsInt();
     }
 
-    /**
-     * Parses the contents of the input into a set of asteroid locations.
-     * 
-     * @param linesStream puzzle input
-     * @return locations of the asteroids in the puzzle input
-     */
-    private Set<Point> parse(Stream<String> linesStream) {
-        Set<Point> asteroids = new HashSet<>();
-        List<String> lines = linesStream.collect(Collectors.toList());
-        for (int y = 0; y != lines.size(); y++) {
-            String line = lines.get(y);
-            for (int x = 0; x != line.length(); x++) {
-                char c = line.charAt(x);
-                if (c == '#') {
-                    asteroids.add(new Point(x, y));
-                }
-            }
-        }
-        return Set.copyOf(asteroids);
-    }
-    
     /**
      * Computes the number of asteroids visible from the given point.
      * 
@@ -79,7 +52,7 @@ public class MonitoringStationPart1 implements IntSolver {
             // Remove this asteroid.
             remainingAsteroids.remove(asteroid);
             // Also remove all other asteroids on the same line, and on the same side.
-            remainingAsteroids.removeIf(a -> sameLine(point, asteroid, a)
+            remainingAsteroids.removeIf(a -> Point.sameLine(point, asteroid, a)
                     && Math.signum(point.getX() - asteroid.getX()) == Math.signum(point.getX() - a.getX())
                     && Math.signum(point.getY() - asteroid.getY()) == Math.signum(point.getY() - a.getY()));
             
@@ -88,25 +61,6 @@ public class MonitoringStationPart1 implements IntSolver {
         }
         
         return result;
-    }
-    
-    /**
-     * Checks whether the given three points are all on the same line.
-     * 
-     * @param point1 first point
-     * @param point2 second point
-     * @param point3 third point
-     * @return whether the three points are all on the same line
-     */
-    private boolean sameLine(Point point1, Point point2, Point point3) {
-        int x1 = point1.getX();
-        int y1 = point1.getY();
-        int x2 = point2.getX();
-        int y2 = point2.getY();
-        int x3 = point3.getX();
-        int y3 = point3.getY();
-        
-        return (x2 - x1) * (y3 - y1) == (y2 - y1) * (x3 - x1);
     }
     
     /**
