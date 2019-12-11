@@ -81,6 +81,7 @@ public class MonitoringStationPart1 implements IntSolver {
             remainingAsteroids.removeIf(a -> sameLine(point, asteroid, a));
             
             // Exactly one of the asteroids we just removed is visible (which one does not matter).
+            // TODO no, this is wrong, if point is in-between two other asteroids on the same line!
             result++;
         }
         
