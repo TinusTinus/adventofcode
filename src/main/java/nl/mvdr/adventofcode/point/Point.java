@@ -149,6 +149,22 @@ public class Point implements Comparable<Point> {
     public Point translate(Point other) {
         return new Point(this.x + other.x, this.y + other.y);
     }
+
+    /**
+     * Computes the angle, in degrees, of the line from this point to the other point.
+     * 
+     * @param other other point
+     * @return angle in degrees; 0 &le; angle &lt; 360
+     */
+    public double computeAngle(Point other) {
+        double angle = Math.toDegrees(Math.atan2(y - other.y, other.x - x));
+        
+        while (angle < 0) {
+            angle = angle + 360;
+        }
+        
+        return angle;
+    }
     
     @Override
     public String toString() {

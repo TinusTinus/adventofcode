@@ -52,7 +52,7 @@ abstract class MonitoringStation implements IntSolver {
         
         asteroids.remove(station);
         
-        return solve(station, asteroids);
+        return solve(station, Set.copyOf(asteroids));
     }
     
     /**
