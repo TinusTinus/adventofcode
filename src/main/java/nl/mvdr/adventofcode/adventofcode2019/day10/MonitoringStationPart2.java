@@ -23,8 +23,8 @@ public class MonitoringStationPart2 extends MonitoringStation {
      * @return identification of the 200th asteroid to be completely vaporised by a giant laser
      */
     @Override
-    int solve(Set<Point> asteroids) {
-        Point asteroid = asteroids.stream().findAny().orElseThrow(); // TODO determine the correct asteroid
+    int solve(Point station, Set<Point> otherAsteroids) {
+        Point asteroid = otherAsteroids.stream().findAny().orElseThrow(); // TODO determine the correct asteroid
         
         return asteroid.getX() * 100 + asteroid.getY();
     }
