@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,13 +36,12 @@ class Cave {
     /**
      * Creates a new cave based on the puzzle input.
      * 
-     * @param inputFilePath path to the text file containing the puzzle input
+     * @param linesStream contents of the text file containing the puzzle input
      * @return cave
      * @throws IOException in case the input file could not be read
      */
-    static Cave parse(Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath)
-                .collect(Collectors.toList());
+    static Cave parse(Stream<String> linesStream) {
+        List<String> lines = linesStream.collect(Collectors.toList());
         int depth = Integer.parseInt(lines.get(0).substring("depth: ".length()));
         Point target = Point.parse(lines.get(1).substring("target: ".length()));
         

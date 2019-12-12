@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2018.day23;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 23 puzzle of 2018's Advent of Code:
@@ -15,19 +14,19 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ExperimentalEmergencyTeleportationPart1 implements PathSolver<Long> {
+public class ExperimentalEmergencyTeleportationPart1 implements LongSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ExperimentalEmergencyTeleportationPart1.class);
     
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
+    public long solve(Stream<String> lines) {
+        Set<Nanobot> nanobots = Nanobot.parse(lines);
         
         LOGGER.debug("Nanobots: {}", nanobots);
         
         Nanobot strongestNanobot = Nanobot.strongest(nanobots);
         
-        return Long.valueOf(strongestNanobot.botsInRange(nanobots));
+        return strongestNanobot.botsInRange(nanobots);
     }
     
     /**

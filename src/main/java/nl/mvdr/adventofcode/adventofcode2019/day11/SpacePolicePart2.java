@@ -27,7 +27,7 @@ public class SpacePolicePart2 implements LinesSolver<Hull> {
     public Hull solve(Stream<String> lines) {
         Ship ship = new Ship(true);
         
-        Program program = Program.parse(lines.findFirst().orElseThrow(), ship, ship);
+        Program program = Program.parse(lines.findFirst().orElseThrow(), ship::getColorCode, ship::process);
         
         program.execute();
         

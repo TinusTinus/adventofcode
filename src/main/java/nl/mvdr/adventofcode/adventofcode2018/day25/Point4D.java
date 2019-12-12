@@ -1,11 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2018.day25;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.processing.Generated;
 
@@ -27,15 +26,11 @@ class Point4D {
     /**
      * Parses a text file containing string representations of points.
      * 
-     * @param path path to the text file 
+     * @param lines contents of the input text file
      * @return set of points
-     * @throws IOException if the input file cannot be read
      */
-    static Set<Point4D> parse(Path path) throws IOException {
-        return Files.lines(path)
-                // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+    static Set<Point4D> parse(Stream<String> lines) {
+        return lines.filter(Predicate.not(String::isBlank))
                 .map(Point4D::parsePoint)
                 .collect(Collectors.toSet());
     }

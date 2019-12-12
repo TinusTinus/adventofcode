@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2018.day21;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.Program;
 import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.ProgramExecutionCallback;
 
@@ -17,17 +16,17 @@ import nl.mvdr.adventofcode.adventofcode2018.timetraveldevice.ProgramExecutionCa
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalConversionPart1 implements PathSolver<Integer> {
+public class ChronalConversionPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChronalConversionPart1.class);
 
     private Integer result;
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Program program = Program.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        Program program = Program.parse(lines);
         program.execute(0, this::continueExecution);
-        return result;
+        return result.intValue();
     }
     
     /**

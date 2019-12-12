@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2019.day11;
 
-import java.util.function.LongConsumer;
-import java.util.function.LongSupplier;
-
 import nl.mvdr.adventofcode.point.Point;
 import nl.mvdr.adventofcode.point.TurnDirection;
 
@@ -12,12 +9,9 @@ import nl.mvdr.adventofcode.point.TurnDirection;
  * 
  * This class is mutable.
  * 
- * This class can serve as both the input and the output
- * for the robot's Intcode program.
- * 
  * @author Martijn van de Rijdt
  */
-class Ship implements LongSupplier, LongConsumer {
+class Ship {
     private Hull hull;
     private Robot robot;
     
@@ -42,12 +36,11 @@ class Ship implements LongSupplier, LongConsumer {
     }
     
     /**
-     * Gets an input value for the robot's Intcode program.
+     * Returns an input value for the robot's Intcode program.
      * 
      * @return representation of the panel at the robot's current location
      */
-    @Override
-    public long getAsLong() {
+    public long getColorCode() {
         Point location = robot.getLocation();
         Color color = hull.getColor(location);
         return color.getCode();
@@ -61,8 +54,7 @@ class Ship implements LongSupplier, LongConsumer {
      * 
      * @param value representation of either a turn direction or a color
      */
-    @Override
-    public void accept(long value) {
+    public void process(long value) {
         if (justPainted) {
             // Turn
             TurnDirection turnDirection = TurnDirection.of(value);

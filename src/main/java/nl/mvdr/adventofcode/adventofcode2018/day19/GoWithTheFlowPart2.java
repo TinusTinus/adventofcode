@@ -1,11 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.day19;
 
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 19 puzzle of 2018's Advent of Code:
@@ -13,12 +13,12 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class GoWithTheFlowPart2 implements PathSolver<Integer> {
+public class GoWithTheFlowPart2 implements IntSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(GoWithTheFlowPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) {
+    public int solve(Stream<String> lines) {
         // We could simply run the instructions with initial register values { 1, 0, 0, 0, 0, 0 }.
         // This would result in a correct answer, but would take a very long time to terminate.
         // As it turns out, the program calculates the sum of the divisors of 10551330.
@@ -37,7 +37,7 @@ public class GoWithTheFlowPart2 implements PathSolver<Integer> {
             } 
         } 
        
-        return Integer.valueOf(result);
+        return result;
     }
     
     /**

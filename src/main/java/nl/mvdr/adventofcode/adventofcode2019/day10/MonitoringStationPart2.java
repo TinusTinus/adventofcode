@@ -15,14 +15,31 @@ public class MonitoringStationPart2 extends MonitoringStation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringStationPart2.class);
     
+    private final int targets;
+    
+    /**
+     * Constructor.
+     * 
+     * @param targets number of asteroids to vaporise
+     */
+    MonitoringStationPart2(int targets) {
+        super();
+        this.targets = targets;
+    }
+    
+    /** Constructor. */
+    public MonitoringStationPart2() {
+        this(200);
+    }
+    
     /**
      * {@inheritDoc}
      * 
-     * @return identification of the 200th asteroid to be completely vaporised by a giant laser
+     * @return identification of the last asteroid to be completely vaporised by a giant laser
      */
     @Override
     int solve(AsteroidField asteroidField) {
-        Point result = asteroidField.vaporiseAsteroids(200);
+        Point result = asteroidField.vaporiseAsteroids(targets);
         return result.getX() * 100 + result.getY();
     }
     

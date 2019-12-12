@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 24 puzzle of 2018's Advent of Code:
@@ -15,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ImmuneSystemSimulatorPart2 implements PathSolver<Integer> {
+public class ImmuneSystemSimulatorPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImmuneSystemSimulatorPart2.class);
 
@@ -25,8 +24,8 @@ public class ImmuneSystemSimulatorPart2 implements PathSolver<Integer> {
      * @return how many units the winning army would have
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        State inputState = State.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        State inputState = State.parse(lines);
         
         // Start at 35:
         // * the computation takes a very long time for boost = 34;
@@ -39,8 +38,7 @@ public class ImmuneSystemSimulatorPart2 implements PathSolver<Integer> {
                 .min()
                 .getAsInt();
         
-        int result = inputState.boostImmuneSystem(minimumBoost).fightUntilDone().totalUnits();
-        return Integer.valueOf(result);
+        return inputState.boostImmuneSystem(minimumBoost).fightUntilDone().totalUnits();
     }
     
     /**

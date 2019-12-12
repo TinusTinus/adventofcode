@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day16;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,16 +14,14 @@ import java.util.stream.Stream;
 interface DanceMove {
     
     /**
-     * Parses the given input file to a list of dance moves.
+     * Parses the given input to a list of dance moves.
      * 
-     * @param inputFilePath path to the input text file
+     * @param input input
      * @return list of moves
-     * @throws IOException if the file could not be read
      */
-    static List<DanceMove> parse(Path inputFilePath) throws IOException {
-        String text = Files.lines(inputFilePath).findFirst().get();
+    static List<DanceMove> parse(String text) {
         return Stream.of(text.split(","))
-                .map(DanceMove::parse)
+                .map(DanceMove::parseDanceMove)
                 .collect(Collectors.toList());
     }
     
@@ -35,7 +31,7 @@ interface DanceMove {
      * @param text text to be parsed
      * @return dance move represented by the given text
      */
-    private static DanceMove parse(String text) {
+    private static DanceMove parseDanceMove(String text) {
         DanceMove result;
         if (text.startsWith("s")) {
             int numberOfDancers = Integer.parseInt(text.substring(1));

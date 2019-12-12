@@ -1,13 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2018.timetraveldevice;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A program for the time travel device, used in multiple puzzles.
@@ -28,15 +26,11 @@ public class Program {
     /**
      * Parses the given input file into a program.
      * 
-     * @param inputFilePath path to the input text file
+     * @param linesStream contents of the input file
      * @return program
-     * @throws IOException in case the file could not be read
      */
-    public static Program parse(Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath)
-                // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+    public static Program parse(Stream<String> linesStream) {
+        List<String> lines = linesStream.filter(Predicate.not(String::isBlank))
                 .collect(Collectors.toList());
         
         // The first line indicates the initial value for the instruction pointer binding.

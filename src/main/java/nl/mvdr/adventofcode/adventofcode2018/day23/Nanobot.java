@@ -1,14 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2018.day23;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point3D;
 
@@ -25,15 +23,11 @@ class Nanobot {
     /**
      * Parses a text file containing a set of nanobots.
      * 
-     * @param inputFilePath path to the input text file
+     * @param lines contents of the input text file
      * @return nanobots
-     * @throws IOException in case the input text file could not be read
      */
-    static Set<Nanobot> parse(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
-                // ignore empty lines (the last line in the file)
-                .filter(Objects::nonNull)
-                .filter(line -> !line.isBlank())
+    static Set<Nanobot> parse(Stream<String> lines) {
+        return lines.filter(Predicate.not(String::isBlank))
                 .map(Nanobot::parse)
                 .collect(Collectors.toSet());
     }

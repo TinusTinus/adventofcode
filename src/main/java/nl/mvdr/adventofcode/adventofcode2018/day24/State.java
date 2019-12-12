@@ -1,16 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +28,11 @@ class State {
     /**
      * Parses the given input file into a state.
      * 
-     * @param inputFilePath path to the input text file
+     * @param linesStream contents of the input text file
      * @return set of groups
-     * @throws IOException in case the input file could not be read
      */
-    static State parse(Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath)
-            // ignore empty lines (the last line in the file)
-            .filter(Objects::nonNull)
-            .filter(line -> !line.isBlank())
+    static State parse(Stream<String> linesStream) {
+        List<String> lines = linesStream.filter(Predicate.not(String::isBlank))
             .collect(Collectors.toList());
         
         Set<Group> groups = new HashSet<>();

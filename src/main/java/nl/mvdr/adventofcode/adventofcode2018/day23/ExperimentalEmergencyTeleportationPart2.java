@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2018.day23;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -10,11 +8,12 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.point.Point3D;
 
 /**
@@ -23,14 +22,14 @@ import nl.mvdr.adventofcode.point.Point3D;
  *
  * @author Martijn van de Rijdt
  */
-public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integer> {
+public class ExperimentalEmergencyTeleportationPart2 implements IntSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ExperimentalEmergencyTeleportationPart2.class);
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
+    public int solve(Stream<String> lines) {
         
-        Set<Nanobot> nanobots = Nanobot.parse(inputFilePath);
+        Set<Nanobot> nanobots = Nanobot.parse(lines);
         
         Nanobot startOctohedron = generateStartOctahedron(nanobots);
 
@@ -46,8 +45,7 @@ public class ExperimentalEmergencyTeleportationPart2 implements PathSolver<Integ
         }
         
         Nanobot n = pQ.poll();
-        int result = n.getPosition().manhattanDistanceToOrigin();
-        return Integer.valueOf(result);
+        return n.getPosition().manhattanDistanceToOrigin();
     }
     
     /**

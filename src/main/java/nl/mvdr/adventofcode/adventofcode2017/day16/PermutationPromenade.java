@@ -1,15 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2017.day16;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 16 puzzle of 2017's Advent of Code:
@@ -17,7 +16,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class PermutationPromenade implements PathSolver<String> {
+abstract class PermutationPromenade implements LinesSolver<String> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PermutationPromenade.class);
 
@@ -54,8 +53,8 @@ abstract class PermutationPromenade implements PathSolver<String> {
      * @return order of the programs after completing their dance
      */
     @Override
-    public String solve(Path inputFilePath) throws IOException {
-        List<DanceMove> moves = DanceMove.parse(inputFilePath);
+    public String solve(Stream<String> lines) {
+        List<DanceMove> moves = DanceMove.parse(lines.findFirst().orElseThrow());
 
         List<Program> dancers = IntStream.range(0, numberOfPrograms).map(i -> 'a' + i)
                 .mapToObj(c -> new Program((char) c)).collect(Collectors.toList());

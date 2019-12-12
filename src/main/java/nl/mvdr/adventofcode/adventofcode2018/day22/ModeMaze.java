@@ -1,9 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day22;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 22 puzzle of 2018's Advent of Code:
@@ -11,13 +10,11 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class ModeMaze implements PathSolver<Integer> {
+abstract class ModeMaze implements IntSolver {
     
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Cave cave = Cave.parse(inputFilePath);
-        int result = solve(cave);
-        return Integer.valueOf(result);
+    public int solve(Stream<String> lines) {
+        return solve(Cave.parse(lines));
     }
 
     /**

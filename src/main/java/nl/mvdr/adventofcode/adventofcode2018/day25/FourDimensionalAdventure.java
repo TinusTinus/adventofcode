@@ -1,15 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2018.day25;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 25 puzzle of 2018's Advent of Code:
@@ -17,7 +16,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class FourDimensionalAdventure implements PathSolver<Integer> {
+public class FourDimensionalAdventure implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FourDimensionalAdventure.class);
 
@@ -27,8 +26,8 @@ public class FourDimensionalAdventure implements PathSolver<Integer> {
      * @return number of constellations
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Set<Point4D> points = Point4D.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        Set<Point4D> points = Point4D.parse(lines);
         
         Set<Set<Point4D>> constellations = new HashSet<>();
         
@@ -50,7 +49,7 @@ public class FourDimensionalAdventure implements PathSolver<Integer> {
             constellations.add(newConstellation);
         });
         
-        return Integer.valueOf(constellations.size());
+        return constellations.size();
     }
     
     /**
