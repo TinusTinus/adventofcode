@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2019.day13;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,6 +24,7 @@ class GameState {
     
     private final Map<Point, Tile> tiles;
     private final List<Long> unprocessedOutputs;
+    private final List<Long> inputs;
     private long score;
 
     /** Constructor. */
@@ -30,6 +32,7 @@ class GameState {
         super();
         this.tiles = new HashMap<>();
         this.unprocessedOutputs = new ArrayList<>(2);
+        this.inputs = new LinkedList<>();
     }
     
     /**
@@ -81,6 +84,7 @@ class GameState {
             LOGGER.debug("Moving right.");
             result = 1L;
         }
+        inputs.add(Long.valueOf(result));
         return result;
     }
     
@@ -95,6 +99,10 @@ class GameState {
         return score;
     }
     
+    List<Long> getInputs() {
+        return inputs;
+    }
+    
     /** @return number of blocks */
     long countBlocks() {
         return tiles.values().stream()
@@ -104,7 +112,7 @@ class GameState {
     
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("Score:");
+        StringBuilder builder = new StringBuilder("Score: ");
         builder.append(score);
         builder.append("\n");
 
