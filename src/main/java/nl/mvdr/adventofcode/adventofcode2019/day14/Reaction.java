@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day14;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -45,42 +46,34 @@ class Reaction {
     }
 
     /**
-     * Computes the amount of ORE required to create 1 FUEL.
+     * Computes the amount of ORE required to create the desired amount of FUEL.
      * 
+     * @param required required amount of FUEL
      * @param reactions available alchemical reactions
      * @return required amount of ORE
      */
-    static int computeRequiredOreForFuel(Set<Reaction> reactions) {
-        return computeRequiredOreForFuel(reactions, new HashMap<>());
-    }
-
-    /**
-     * Computes the amount of ORE required to create 1 FUEL.
-     * 
-     * @param reactions available alchemical reactions
-     * @param leftover any available leftovers from a previous invocation of this method
-     * @return required amount of ORE
-     */
-    static int computeRequiredOreForFuel(Set<Reaction> reactions, Map<String, Integer> leftovers) {
-        Map<String, Integer> requiredComponents = new HashMap<>();
-        requiredComponents.put("FUEL", Integer.valueOf(1));
+    static long computeRequiredOreForFuel(int requiredFuel, Set<Reaction> reactions) {
+        Map<String, Long> requiredComponents = new HashMap<>();
+        requiredComponents.put("FUEL", Long.valueOf(requiredFuel));
         
-        Optional<Entry<String, Integer>> requiredComponent = requiredComponents.entrySet().stream().findFirst();
+        Map<String, Long> leftovers = new HashMap<>();
+        
+        Optional<Entry<String, Long>> requiredComponent = requiredComponents.entrySet().stream().findFirst();
         while (requiredComponent.isPresent()) {
             String requiredChemical = requiredComponent.orElseThrow().getKey();
-            int requiredQuantity = requiredComponent.orElseThrow().getValue().intValue();
+            long requiredQuantity = requiredComponent.orElseThrow().getValue().longValue();
             
             // See if we can use any leftovers to satisfy (part of) this requirement
-            int leftover = leftovers.getOrDefault(requiredChemical, Integer.valueOf(0)).intValue();
+            long leftover = leftovers.getOrDefault(requiredChemical, Long.valueOf(0L)).longValue();
             
             if (requiredQuantity <= leftover) {
                 LOGGER.debug("Using leftover {} to satisfy entire requirement", requiredChemical);
                 requiredComponents.remove(requiredChemical);
-                leftovers.put(requiredChemical, Integer.valueOf(leftover - requiredQuantity));
+                leftovers.put(requiredChemical, Long.valueOf(leftover - requiredQuantity));
             } else if (0 < leftover) {
                 LOGGER.debug("Using leftover {}", requiredChemical);
-                requiredComponents.put(requiredChemical, Integer.valueOf(requiredQuantity - leftover));
-                leftovers.put(requiredChemical, Integer.valueOf(0));
+                requiredComponents.put(requiredChemical, Long.valueOf(requiredQuantity - leftover));
+                leftovers.remove(requiredChemical);
             } else {
                 // Find the reaction which produces this chemical. This must be unique.
                 Reaction reaction = reactions.stream()
@@ -89,22 +82,24 @@ class Reaction {
                         .orElseThrow();
                 LOGGER.debug("Applying reaction: {}", reaction);
                 
+                long times = Math.max(requiredQuantity / reaction.getOutput().getQuantity(), 1L);
+                
                 for (Component input : reaction.getInput()) {
                     requiredComponents.merge(input.getChemical(),
-                            Integer.valueOf(input.getQuantity()),
-                            (i, j) -> Integer.valueOf(i.intValue() + j.intValue()));
+                            Long.valueOf(times * input.getQuantity()),
+                            (i, j) -> Long.valueOf(i.longValue() + j.longValue()));
                 }
                 
-                if (requiredQuantity <= reaction.getOutput().getQuantity()) {
+                if (requiredQuantity <= times * reaction.getOutput().getQuantity()) {
                     requiredComponents.remove(requiredChemical);
                 } else {
-                    requiredComponents.put(requiredChemical, Integer.valueOf(requiredQuantity - reaction.getOutput().getQuantity()));
+                    requiredComponents.put(requiredChemical, Long.valueOf(requiredQuantity - times * reaction.getOutput().getQuantity()));
                 }
                 
-                if (requiredQuantity < reaction.getOutput().getQuantity()) {
+                if (requiredQuantity < times * reaction.getOutput().getQuantity()) {
                     leftovers.merge(requiredChemical,
-                            Integer.valueOf(reaction.getOutput().getQuantity() - requiredQuantity),
-                            (i, j) -> Integer.valueOf(i.intValue() + j.intValue()));
+                            Long.valueOf(times * reaction.getOutput().getQuantity() - requiredQuantity),
+                            (i, j) -> Long.valueOf(i.longValue() + j.longValue()));
                 }
             }
             
@@ -114,12 +109,13 @@ class Reaction {
             // Find the next required component.
             requiredComponent = requiredComponents.entrySet()
                     .stream()
-                    .filter(entry -> 0 < entry.getValue().intValue())
+                    .filter(entry -> 0 < entry.getValue().longValue())
                     .filter(entry -> !entry.getKey().equals("ORE"))
+                    .sorted(Comparator.<Entry<String, Long>, Long>comparing(Entry::getValue).reversed())
                     .findFirst();
         }
 
-        return requiredComponents.get("ORE").intValue();
+        return requiredComponents.getOrDefault("ORE", Long.valueOf(0L)).longValue();
     }
     
     /**

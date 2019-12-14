@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 14 puzzle of 2019's Advent of Code:
@@ -16,7 +16,7 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SpaceStoichiometryPart1 implements IntSolver {
+public class SpaceStoichiometryPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpaceStoichiometryPart1.class);
 
@@ -26,13 +26,13 @@ public class SpaceStoichiometryPart1 implements IntSolver {
      * @return the minimum amount of ORE required to produce exactly 1 FUEL
      */
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         Set<Reaction> reactions = lines.filter(Predicate.not(String::isBlank)).map(Reaction::parse)
                 .collect(Collectors.toSet());
 
         LOGGER.debug("Reactions: {}", reactions);
 
-        return Reaction.computeRequiredOreForFuel(reactions);
+        return Reaction.computeRequiredOreForFuel(1, reactions);
     }
 
     /**

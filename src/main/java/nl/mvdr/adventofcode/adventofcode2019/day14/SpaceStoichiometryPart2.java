@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2019.day14;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -32,25 +30,25 @@ public class SpaceStoichiometryPart2 implements IntSolver {
         Set<Reaction> reactions = lines.filter(Predicate.not(String::isBlank)).map(Reaction::parse)
                 .collect(Collectors.toSet());
         LOGGER.debug("Reactions: {}", reactions);
-        
-        int result = 0;
-        long remainingOre = 1000000000000L;
-        boolean done = false;
-        Map<String, Integer> leftovers = new HashMap<>();
-        
-        while(!done) {
-            int requiredOre = Reaction.computeRequiredOreForFuel(reactions, leftovers);
-            if (requiredOre <= remainingOre) {
-                result++;
-                remainingOre -= requiredOre;
-                LOGGER.debug("Fuel created: {}, remaining ore: {}, leftovers: {}", Integer.valueOf(result),
-                        Long.valueOf(remainingOre), leftovers);
+
+        // Binary search for the answer
+        int low = Math.toIntExact(1000000000000L / Reaction.computeRequiredOreForFuel(1, reactions));
+        int high = Integer.MAX_VALUE;
+
+        while (low <= high) {
+            int mid = (low + high) >>> 1;
+            
+            long requiredOre = Reaction.computeRequiredOreForFuel(mid, reactions);
+            
+            LOGGER.debug("{} fuel requires {} ore", Integer.valueOf(mid), Long.valueOf(requiredOre));
+            
+            if (requiredOre < 1000000000000L) {
+                low = mid + 1;
             } else {
-                done = true;
+                high = mid - 1;
             }
         }
-
-        return result;
+        return high;
     }
 
     /**
