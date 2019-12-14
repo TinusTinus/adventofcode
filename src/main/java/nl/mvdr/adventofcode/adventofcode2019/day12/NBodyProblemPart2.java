@@ -73,11 +73,14 @@ public class NBodyProblemPart2 implements LongSolver {
      * @return LCM
      */
     private long leastCommonMultiple(Collection<Long> values) {
-        // Note: I'm not convinced that lcm(a, b, c) = lcm((lcm(a, b), c)
-        // but apparently this works for our inputs.
+        // Note: I'm not convinced that, in general:
+        //    lcm(a, b, c) = lcm((lcm(a, b), c)
+        // But apparently this works for our inputs.
         Iterator<Long> iterator = values.iterator();
-        long result = ArithmeticUtils.lcm(iterator.next().longValue(), iterator.next().longValue());
-        result = ArithmeticUtils.lcm(iterator.next().longValue(), result);
+        long result = 1L;
+        while(iterator.hasNext()) {
+            result = ArithmeticUtils.lcm(iterator.next().longValue(), result);
+        }
         return result;
     }
     
