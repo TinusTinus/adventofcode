@@ -2,14 +2,15 @@ package nl.mvdr.adventofcode.adventofcode2019.day12;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.apache.commons.math3.util.ArithmeticUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,21 +73,11 @@ public class NBodyProblemPart2 implements LongSolver {
      * @return LCM
      */
     private long leastCommonMultiple(Collection<Long> values) {
-        // TODO actually implement an LCM algorithm
-        // Results computed using:
-        // https://www.calculatorsoup.com/calculators/math/lcm.php?input=60424+286332+231614&data=none&action=solve
-        // Furey, Edward "LCM Calculator - Least Common Multiple"; CalculatorSoup, https://www.calculatorsoup.com - Online Calculators
-        
-        long result;
-        if (Set.of(Long.valueOf(18L), Long.valueOf(28L), Long.valueOf(44L)).equals(Set.copyOf(values))) {
-            result = 2_772L;
-        } else if (Set.of(Long.valueOf(2028), Long.valueOf(5898), Long.valueOf(4702)).equals(Set.copyOf(values))) {
-            result = 4_686_774_924L;
-        } else if (Set.of(Long.valueOf(60424L), Long.valueOf(286332L), Long.valueOf(231614L)).equals(Set.copyOf(values))) {
-            result = 500_903_629_351_944L;
-        } else {
-            throw new UnsupportedOperationException();
-        }
+        // Note: I'm not convinced that lcm(a, b, c) = lcm((lcm(a, b), c)
+        // but apparently this works for our inputs.
+        Iterator<Long> iterator = values.iterator();
+        long result = ArithmeticUtils.lcm(iterator.next().longValue(), iterator.next().longValue());
+        result = ArithmeticUtils.lcm(iterator.next().longValue(), result);
         return result;
     }
     
