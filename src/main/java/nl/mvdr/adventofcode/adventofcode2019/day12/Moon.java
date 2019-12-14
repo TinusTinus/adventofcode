@@ -44,15 +44,12 @@ class Moon {
      */
     static List<Moon> performSimulationStep(List<Moon> system) {
         Map<Moon, Point3D> newVelocities = new HashMap<>();
-        for (Moon moon : system) {
-            newVelocities.put(moon, moon.getVelocity());
-        }
+        system.forEach(moon -> newVelocities.put(moon, moon.getVelocity()));
         
-        for (Moon moon0 : system) {
-            for (Moon moon1 : system) {
-                newVelocities.merge(moon1, moon0.getLocation().subtract(moon1.getLocation()).signum(), Point3D::add);
-            }
-        }
+        system.forEach(moon0 -> 
+                system.forEach(moon1 -> newVelocities.merge(moon1,
+                            moon0.getLocation().subtract(moon1.getLocation()).signum(),
+                            Point3D::add)));
         
         return system.stream()
                 .map(moon -> moon.updateVelocity(newVelocities.get(moon)))
