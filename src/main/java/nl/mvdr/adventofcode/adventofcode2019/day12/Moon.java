@@ -49,6 +49,11 @@ class Moon {
         this.velocity = velocity;
     }
 
+    /** @return total energy for this moon */
+    int computeTotalEnergy() {
+        return computePotentialEnergy() * computeKineticEnergy();
+    }
+    
     /** @return potential energy for this moon */
     private int computePotentialEnergy() {
         return computeEnergy(location);
@@ -58,10 +63,24 @@ class Moon {
     private int computeKineticEnergy() {
         return computeEnergy(velocity);
     }
+
+    /**
+     * Applies the given velocity to this moon.
+     * 
+     * @param newVelocity new velocity
+     * @return updated moon
+     */
+    Moon updateVelocity(Point3D newVelocity) {
+        Point3D newLocation = location.add(newVelocity);
+        return new Moon(newLocation, newVelocity);
+    }
     
-    /** @return total energy for this moon */
-    int computeTotalEnergy() {
-        return computePotentialEnergy() + computeKineticEnergy();
+    Point3D getLocation() {
+        return location;
+    }
+    
+    Point3D getVelocity() {
+        return velocity;
     }
 
     @Override
