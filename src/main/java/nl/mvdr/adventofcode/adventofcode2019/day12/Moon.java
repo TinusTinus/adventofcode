@@ -49,25 +49,7 @@ class Moon {
         
         for (Moon moon0 : system) {
             for (Moon moon1 : system) {
-                Point3D point = new Point3D(0, 0, 0);
-                if (moon0.getLocation().getX() < moon1.getLocation().getX()) {
-                    point = point.add(new Point3D(1, 0, 0));
-                } else if (moon1.getLocation().getX() < moon0.getLocation().getX()) {
-                    point = point.add(new Point3D(-1, 0, 0));
-                }
-                
-                if (moon0.getLocation().getY() < moon1.getLocation().getY()) {
-                    point = point.add(new Point3D(0, 1, 0));
-                } else if (moon1.getLocation().getY() < moon0.getLocation().getY()) {
-                    point = point.add(new Point3D(0, -1, 0));
-                }
-                
-                if (moon0.getLocation().getZ() < moon1.getLocation().getZ()) {
-                    point = point.add(new Point3D(0, 0, 1));
-                } else if (moon1.getLocation().getZ() < moon0.getLocation().getZ()) {
-                    point = point.add(new Point3D(0, 0, -1));
-                }
-                newVelocities.merge(moon0, point, Point3D::add);
+                newVelocities.merge(moon1, moon0.getLocation().subtract(moon1.getLocation()).signum(), Point3D::add);
             }
         }
         

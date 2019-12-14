@@ -122,6 +122,26 @@ public class Point3D {
         return new Point3D(this.getX() + other.getX(), this.getY() + other.getY(), this.getZ() + other.getZ());
     }
     
+    /**
+     * Subtracts the given vector to this vector.
+     * 
+     * @param other other vector
+     * @return new vector
+     */
+    public Point3D subtract(Point3D other) {
+        return new Point3D(this.getX() - other.getX(), this.getY() - other.getY(), this.getZ() - other.getZ());
+    }
+    
+    /** @return new vector, which is the inverse of this one */
+    public Point3D negate() {
+        return new Point3D(-x, -y, -z);
+    }
+    
+    /** @return signum vector */
+    public Point3D signum() {
+        return new Point3D(Integer.signum(x), Integer.signum(y), Integer.signum(z));
+    }
+    
     @Override
     public String toString() {
         return "<" + x + "," + y + "," + z + ">";
