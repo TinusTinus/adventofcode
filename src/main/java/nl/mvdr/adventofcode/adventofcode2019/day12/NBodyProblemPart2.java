@@ -27,12 +27,18 @@ public class NBodyProblemPart2 implements LongSolver {
      */
     @Override
     public long solve(Stream<String> lines) {
-        List<Moon> system = lines.filter(Predicate.not(String::isBlank))
+        List<Moon> initialSystem = lines.filter(Predicate.not(String::isBlank))
                 .map(Moon::parse)
                 .collect(Collectors.toList());
-        LOGGER.debug("System: {}", system);
+        LOGGER.debug("System: {}", initialSystem);
         
-        return 0L; // TODO
+        List<Moon> system = Moon.performSimulationStep(initialSystem);
+        long result = 1L;
+        while (!system.equals(initialSystem)) {
+            system = Moon.performSimulationStep(system);
+            result++;
+        }
+        return result;
     }
     
     /**

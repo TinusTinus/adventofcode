@@ -1,5 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2019.day12;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import javax.annotation.processing.Generated;
+
 import nl.mvdr.adventofcode.point.Point3D;
 
 /**
@@ -26,6 +34,52 @@ class Moon {
         
         return new Moon(location, new Point3D(0, 0, 0));
     }
+    
+    /**
+     * Performs a single simulation step.
+     * 
+     * @param system system
+     * @return updated system
+     */
+    static List<Moon> performSimulationStep(List<Moon> system) {
+        Map<Moon, Point3D> newVelocities = new HashMap<>();
+        for (Moon moon : system) {
+            newVelocities.put(moon, moon.getVelocity());
+        }
+        
+        for (Moon moon0 : system) {
+            for (Moon moon1 : system) {
+                if (moon0.getLocation().getX() < moon1.getLocation().getX()) {
+                    newVelocities.merge(moon0, new Point3D(1, 0, 0), Point3D::add);
+                    newVelocities.merge(moon1, new Point3D(-1, 0, 0), Point3D::add);
+                } else if (moon0.getLocation().getX() < moon1.getLocation().getX()) {
+                    newVelocities.merge(moon0, new Point3D(-1, 0, 0), Point3D::add);
+                    newVelocities.merge(moon1, new Point3D(1, 0, 0), Point3D::add);
+                }
+                
+                if (moon0.getLocation().getY() < moon1.getLocation().getY()) {
+                    newVelocities.merge(moon0, new Point3D(0, 1, 0), Point3D::add);
+                    newVelocities.merge(moon1, new Point3D(0, -1, 0), Point3D::add);
+                } else if (moon0.getLocation().getY() < moon1.getLocation().getY()) {
+                    newVelocities.merge(moon0, new Point3D(0, -1, 0), Point3D::add);
+                    newVelocities.merge(moon1, new Point3D(0, 1, 0), Point3D::add);
+                }
+                
+                if (moon0.getLocation().getZ() < moon1.getLocation().getZ()) {
+                    newVelocities.merge(moon0, new Point3D(0, 0, 1), Point3D::add);
+                    newVelocities.merge(moon1, new Point3D(0, 0, -1), Point3D::add);
+                } else if (moon0.getLocation().getZ() < moon1.getLocation().getZ()) {
+                    newVelocities.merge(moon0, new Point3D(0, 0, -1), Point3D::add);
+                    newVelocities.merge(moon1, new Point3D(0, 0, 1), Point3D::add);
+                }
+            }
+        }
+        
+        return system.stream()
+                .map(moon -> moon.updateVelocity(newVelocities.get(moon)))
+                .collect(Collectors.toList());
+    }
+
     
     /**
      * Helper method to compute energy based on the given point.
@@ -86,5 +140,24 @@ class Moon {
     @Override
     public String toString() {
         return "pos=" + location + ", vel=" + velocity + "]";
+    }
+
+    @Override
+    @Generated("Eclipse")
+    public int hashCode() {
+        return Objects.hash(location, velocity);
+    }
+
+    @Override
+    @Generated("Eclipse")
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Moon other = (Moon) obj;
+        return Objects.equals(location, other.location) && Objects.equals(velocity, other.velocity);
     }
 }

@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day12;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
-import nl.mvdr.adventofcode.point.Point3D;
 
 /**
  * Solution to the day 12 puzzle of 2019's Advent of Code:
@@ -50,54 +47,16 @@ public class NBodyProblemPart1 implements IntSolver {
         List<Moon> system = lines.filter(Predicate.not(String::isBlank))
                 .map(Moon::parse)
                 .collect(Collectors.toList());
-        LOGGER.debug("System: {}", system);
         
         for (int i = 0; i != steps; i++) {
-            Map<Moon, Point3D> newVelocities = new HashMap<>();
-            for (Moon moon : system) {
-                newVelocities.put(moon, moon.getVelocity());
-            }
-            
-            for (Moon moon0 : system) {
-                for (Moon moon1 : system) {
-                    if (moon0.getLocation().getX() < moon1.getLocation().getX()) {
-                        newVelocities.merge(moon0, new Point3D(1, 0, 0), Point3D::add);
-                        newVelocities.merge(moon1, new Point3D(-1, 0, 0), Point3D::add);
-                    } else if (moon0.getLocation().getX() < moon1.getLocation().getX()) {
-                        newVelocities.merge(moon0, new Point3D(-1, 0, 0), Point3D::add);
-                        newVelocities.merge(moon1, new Point3D(1, 0, 0), Point3D::add);
-                    }
-                    
-                    if (moon0.getLocation().getY() < moon1.getLocation().getY()) {
-                        newVelocities.merge(moon0, new Point3D(0, 1, 0), Point3D::add);
-                        newVelocities.merge(moon1, new Point3D(0, -1, 0), Point3D::add);
-                    } else if (moon0.getLocation().getY() < moon1.getLocation().getY()) {
-                        newVelocities.merge(moon0, new Point3D(0, -1, 0), Point3D::add);
-                        newVelocities.merge(moon1, new Point3D(0, 1, 0), Point3D::add);
-                    }
-                    
-                    if (moon0.getLocation().getZ() < moon1.getLocation().getZ()) {
-                        newVelocities.merge(moon0, new Point3D(0, 0, 1), Point3D::add);
-                        newVelocities.merge(moon1, new Point3D(0, 0, -1), Point3D::add);
-                    } else if (moon0.getLocation().getZ() < moon1.getLocation().getZ()) {
-                        newVelocities.merge(moon0, new Point3D(0, 0, -1), Point3D::add);
-                        newVelocities.merge(moon1, new Point3D(0, 0, 1), Point3D::add);
-                    }
-                }
-            }
-            
-            system = system.stream()
-                    .map(moon -> moon.updateVelocity(newVelocities.get(moon)))
-                    .collect(Collectors.toList());
-            
-            LOGGER.debug("Updated system: {}", system);
+            system = Moon.performSimulationStep(system);
         }
         
         return system.stream()
                 .mapToInt(Moon::computeTotalEnergy)
                 .sum();
     }
-    
+
     /**
      * Main method.
      * 
