@@ -66,6 +66,16 @@ public class Point3D {
     }
     
     /**
+     * Gets the value along the given axis.
+     * 
+     * @param axis axis
+     * @return value
+     */
+    public int getValue(Axis3D axis) {
+        return axis.getValue(this);
+    }
+    
+    /**
      * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and another.
      * 
      * @param other other point

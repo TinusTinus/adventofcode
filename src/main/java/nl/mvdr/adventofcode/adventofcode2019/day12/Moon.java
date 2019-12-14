@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.processing.Generated;
 
+import nl.mvdr.adventofcode.point.Axis3D;
 import nl.mvdr.adventofcode.point.Point3D;
 
 /**
@@ -113,6 +114,18 @@ class Moon {
     
     Point3D getVelocity() {
         return velocity;
+    }
+    
+    /**
+     * Determines whether this moon's location and velocity are equal to the given moon's in the given axis.
+     * 
+     * @param other moon to compare to
+     * @param axis axis to compare along
+     * @return whether location and velocity value are equal in the given axis
+     */
+    boolean equalsOnAxis(Moon other, Axis3D axis) {
+        return this.location.getValue(axis) == other.location.getValue(axis)
+                && this.velocity.getValue(axis) == other.velocity.getValue(axis);
     }
 
     @Override
