@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +51,44 @@ class GameState {
             }
             unprocessedOutputs.clear();
             LOGGER.info("Updated game state: " + this); // TODO debug?
+            try {
+                // Sleep, to be able to tell what is going on
+                Thread.sleep(10L); // TODO remove this sleep
+            } catch (InterruptedException e) {
+                LOGGER.error("Unexpected interrupt", e);
+                Thread.currentThread().interrupt();
+            }
         } else {
             unprocessedOutputs.add(Long.valueOf(code));
         }
+    }
+    
+    /** @return input for the Intcode computer */
+    long getInput() {
+        Optional<Point> ballLocation = getLocation(Tile.BALL);
+        Optional<Point> paddleLocation = getLocation(Tile.PADDLE);
+        
+        long result;
+        if (ballLocation.equals(paddleLocation) || ballLocation.isEmpty() || paddleLocation.isEmpty()) {
+            LOGGER.debug("Staying put.");
+            result = 0L;
+        } else if (ballLocation.orElseThrow().getX() < paddleLocation.orElseThrow().getX()) {
+            // the ball is left of the paddle
+            LOGGER.debug("Moving left.");
+            result = -1L;
+        } else {
+            // the ball is right of the paddle
+            LOGGER.debug("Moving right.");
+            result = 1L;
+        }
+        return result;
+    }
+    
+    private Optional<Point> getLocation(Tile tile) {
+        return tiles.entrySet().stream()
+                .filter(entry -> entry.getValue() == tile)
+                .map(Entry::getKey)
+                .findFirst();
     }
     
     long getScore() {

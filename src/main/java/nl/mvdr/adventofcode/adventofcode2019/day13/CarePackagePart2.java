@@ -28,7 +28,7 @@ public class CarePackagePart2 implements LongSolver {
         
         GameState gameState = new GameState();
         
-        Program.parse(lines.findFirst().orElseThrow(), () -> 0L, gameState::process) // TODO input handling
+        Program.parse(lines.findFirst().orElseThrow(), gameState::getInput, gameState::process)
                 .set(0, 2)
                 .execute();
         
