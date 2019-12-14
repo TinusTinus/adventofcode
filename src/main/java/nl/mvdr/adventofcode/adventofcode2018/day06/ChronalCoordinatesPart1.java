@@ -21,9 +21,9 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class ChronalCoordinates implements IntSolver {
+public class ChronalCoordinatesPart1 implements IntSolver {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCoordinates.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChronalCoordinatesPart1.class);
     
     @Override
     public int solve(Stream<String> lines) {
@@ -98,7 +98,7 @@ public class ChronalCoordinates implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        ChronalCoordinates instance = new ChronalCoordinates();
+        ChronalCoordinatesPart1 instance = new ChronalCoordinatesPart1();
 
         String result = instance.solve("input-day06-2018.txt");
 
