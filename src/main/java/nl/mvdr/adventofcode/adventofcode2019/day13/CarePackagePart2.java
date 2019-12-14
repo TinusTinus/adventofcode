@@ -32,8 +32,6 @@ public class CarePackagePart2 implements LongSolver {
                 .set(0, 2)
                 .execute();
         
-        LOGGER.info("Inputs: {}", gameState.getInputs());
-        
         return gameState.getScore();
     }
     

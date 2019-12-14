@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2019.day13;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,10 +20,12 @@ import nl.mvdr.adventofcode.point.Point;
 class GameState {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(GameState.class);
-    
+
+    /** Tiles making up the game. */
     private final Map<Point, Tile> tiles;
+    /** Outputs received from the Intcode computer, which have not yet been processed into the game state. */
     private final List<Long> unprocessedOutputs;
-    private final List<Long> inputs;
+    /** Current score. */
     private long score;
 
     /** Constructor. */
@@ -32,7 +33,6 @@ class GameState {
         super();
         this.tiles = new HashMap<>();
         this.unprocessedOutputs = new ArrayList<>(2);
-        this.inputs = new LinkedList<>();
     }
     
     /**
@@ -53,14 +53,7 @@ class GameState {
                 tiles.put(point, tile);
             }
             unprocessedOutputs.clear();
-            LOGGER.info("Updated game state: " + this); // TODO debug?
-            try {
-                // Sleep, to be able to tell what is going on
-                Thread.sleep(10L); // TODO remove this sleep
-            } catch (InterruptedException e) {
-                LOGGER.error("Unexpected interrupt", e);
-                Thread.currentThread().interrupt();
-            }
+            LOGGER.debug("Updated game state: {}", this);
         } else {
             unprocessedOutputs.add(Long.valueOf(code));
         }
@@ -68,14 +61,15 @@ class GameState {
     
     /** @return input for the Intcode computer */
     long getInput() {
-        Optional<Point> ballLocation = getLocation(Tile.BALL);
-        Optional<Point> paddleLocation = getLocation(Tile.PADDLE);
+        Point ballLocation = getLocation(Tile.BALL).orElseThrow();
+        Point paddleLocation = getLocation(Tile.PADDLE).orElseThrow();
         
         long result;
-        if (ballLocation.equals(paddleLocation) || ballLocation.isEmpty() || paddleLocation.isEmpty()) {
+        if (ballLocation.getX() == paddleLocation.getX()) {
+            // the ball is above the paddle
             LOGGER.debug("Staying put.");
             result = 0L;
-        } else if (ballLocation.orElseThrow().getX() < paddleLocation.orElseThrow().getX()) {
+        } else if (ballLocation.getX() < paddleLocation.getX()) {
             // the ball is left of the paddle
             LOGGER.debug("Moving left.");
             result = -1L;
@@ -84,7 +78,6 @@ class GameState {
             LOGGER.debug("Moving right.");
             result = 1L;
         }
-        inputs.add(Long.valueOf(result));
         return result;
     }
     
@@ -97,10 +90,6 @@ class GameState {
     
     long getScore() {
         return score;
-    }
-    
-    List<Long> getInputs() {
-        return inputs;
     }
     
     /** @return number of blocks */
