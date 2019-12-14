@@ -18,6 +18,7 @@ import nl.mvdr.adventofcode.IntSolver;
  */
 public class SpaceStoichiometryPart2 implements IntSolver {
 
+    private static final long TRILLION = 1000000000000L;
     private static final Logger LOGGER = LoggerFactory.getLogger(SpaceStoichiometryPart2.class);
 
     /**
@@ -32,7 +33,7 @@ public class SpaceStoichiometryPart2 implements IntSolver {
         LOGGER.debug("Reactions: {}", reactions);
 
         // Binary search for the answer
-        int low = Math.toIntExact(1000000000000L / Reaction.computeRequiredOreForFuel(1, reactions));
+        int low = Math.toIntExact(TRILLION / Reaction.computeRequiredOreForFuel(1, reactions));
         int high = Integer.MAX_VALUE;
 
         while (low <= high) {
@@ -42,7 +43,7 @@ public class SpaceStoichiometryPart2 implements IntSolver {
             
             LOGGER.debug("{} fuel requires {} ore", Integer.valueOf(mid), Long.valueOf(requiredOre));
             
-            if (requiredOre < 1000000000000L) {
+            if (requiredOre < TRILLION) {
                 low = mid + 1;
             } else {
                 high = mid - 1;
