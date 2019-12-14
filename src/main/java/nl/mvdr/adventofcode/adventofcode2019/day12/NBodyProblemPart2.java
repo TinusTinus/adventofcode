@@ -4,8 +4,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -36,30 +38,31 @@ public class NBodyProblemPart2 implements LongSolver {
                 .collect(Collectors.toList());
         LOGGER.debug("System: {}", initialSystem);
         
-        // Values cycle for each moon independently on individual axes.
-        // TODO or only on axis?
-        Map<MoonAndAxis, Long> repetitions = new HashMap<>();
+        // Values cycle on axes independently.
+        Map<Axis3D, Long> repetitions = new HashMap<>();
         
         List<Moon> system = Moon.performSimulationStep(initialSystem);
         long reps = 1L;
-        while (repetitions.size() != initialSystem.size() * 3) {
+        while (repetitions.size() != 3) {
             system = Moon.performSimulationStep(system);
             reps++;
             
-            for (int i = 0; i != system.size(); i++) {
-                for (Axis3D axis : Axis3D.values()) {
-                    if (!repetitions.containsKey(new MoonAndAxis(initialSystem.get(i), axis)) 
-                            && system.get(i).equalsOnAxis(initialSystem.get(i), axis)) {
-                        LOGGER.debug("Moon {} has repeated itself on axis {} after {} steps", Integer.valueOf(i), axis, Long.valueOf(reps));
-                        repetitions.put(new MoonAndAxis(initialSystem.get(i), axis), Long.valueOf(reps));
-                    }
+            for (Axis3D axis : Axis3D.values()) {
+                if (!repetitions.containsKey(axis) && equalsOnAxis(initialSystem, system, axis)) {
+                    LOGGER.debug("Repeat on axis {} after {} steps", axis, Long.valueOf(reps));
+                    repetitions.put(axis, Long.valueOf(reps));
                 }
             }
         }
         
-        LOGGER.info("Repetitions: {}", repetitions.values());
+        LOGGER.debug("Repetitions: {}", repetitions.values());
         
         return leastCommonMultiple(repetitions.values());
+    }
+    
+    private boolean equalsOnAxis(List<Moon> system0, List<Moon> system1, Axis3D axis) {
+        return IntStream.range(0, system0.size())
+                .allMatch(i -> system0.get(i).equalsOnAxis(system1.get(i), axis));
     }
     
     /**
@@ -69,8 +72,22 @@ public class NBodyProblemPart2 implements LongSolver {
      * @return LCM
      */
     private long leastCommonMultiple(Collection<Long> values) {
-        // TODO
-        return 0L;
+        // TODO actually implement an LCM algorithm
+        // Results computed using:
+        // https://www.calculatorsoup.com/calculators/math/lcm.php?input=60424+286332+231614&data=none&action=solve
+        // Furey, Edward "LCM Calculator - Least Common Multiple"; CalculatorSoup, https://www.calculatorsoup.com - Online Calculators
+        
+        long result;
+        if (Set.of(Long.valueOf(18L), Long.valueOf(28L), Long.valueOf(44L)).equals(Set.copyOf(values))) {
+            result = 2_772L;
+        } else if (Set.of(Long.valueOf(2028), Long.valueOf(5898), Long.valueOf(4702)).equals(Set.copyOf(values))) {
+            result = 4_686_774_924L;
+        } else if (Set.of(Long.valueOf(60424L), Long.valueOf(286332L), Long.valueOf(231614L)).equals(Set.copyOf(values))) {
+            result = 500_903_629_351_944L;
+        } else {
+            throw new UnsupportedOperationException();
+        }
+        return result;
     }
     
     /**

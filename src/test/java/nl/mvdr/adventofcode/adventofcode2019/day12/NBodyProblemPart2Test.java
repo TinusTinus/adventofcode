@@ -31,6 +31,6 @@ public class NBodyProblemPart2Test extends SolverTest<NBodyProblemPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day12-2019.txt"); 
+        assertSolution("500903629351944", "input-day12-2019.txt"); 
     }
 }
