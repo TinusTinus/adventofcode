@@ -30,10 +30,10 @@ public class ChronalCoordinates implements IntSolver {
         Set<Point> points = Point.parse(lines);
 
         // Construct a rectangle surrounding all of the points
-        int minX = points.stream().mapToInt(Point::getX).min().getAsInt() - 1;
-        int maxX = points.stream().mapToInt(Point::getX).max().getAsInt() + 1;
-        int minY = points.stream().mapToInt(Point::getY).min().getAsInt() - 1;
-        int maxY = points.stream().mapToInt(Point::getY).max().getAsInt() + 1;
+        int minX = Point.minX(points) - 1;
+        int maxX = Point.maxX(points) + 1;
+        int minY = Point.minY(points) - 1;
+        int maxY = Point.maxY(points) + 1;
         
         // For each point in this rectangle, find the unique point from the input closest to it, according to its Manhattan distance.
         Map<Point, Optional<Point>> minimalDistances = 
