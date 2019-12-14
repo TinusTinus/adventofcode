@@ -129,22 +129,10 @@ class RoomMap {
     
     @Override
     public String toString() {
-        int minX = rooms.keySet().stream()
-                .mapToInt(Point::getX)
-                .min()
-                .orElse(0);
-        int maxX = rooms.keySet().stream()
-                .mapToInt(Point::getX)
-                .max()
-                .orElse(0);
-        int minY = rooms.keySet().stream()
-                .mapToInt(Point::getY)
-                .min()
-                .orElse(0);
-        int maxY = rooms.keySet().stream()
-                .mapToInt(Point::getY)
-                .max()
-                .orElse(0);
+        int minX = Point.minX(rooms.keySet());
+        int maxX = Point.maxX(rooms.keySet());
+        int minY = Point.minY(rooms.keySet());
+        int maxY = Point.maxY(rooms.keySet());
         
         StringBuilder builder = new StringBuilder("Map:\n");
         

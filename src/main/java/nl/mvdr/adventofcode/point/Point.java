@@ -333,7 +333,7 @@ public class Point implements Comparable<Point> {
         return points.stream()
                 .mapToInt(Point::getX)
                 .min()
-                .getAsInt();
+                .orElse(0);
     }
     
     /**
@@ -346,7 +346,7 @@ public class Point implements Comparable<Point> {
         return points.stream()
                 .mapToInt(Point::getX)
                 .max()
-                .getAsInt();
+                .orElse(0);
     }
     
     /**
@@ -359,7 +359,7 @@ public class Point implements Comparable<Point> {
         return points.stream()
                 .mapToInt(Point::getY)
                 .min()
-                .getAsInt();
+                .orElse(0);
     }
     
     /**
@@ -372,9 +372,6 @@ public class Point implements Comparable<Point> {
         return points.stream()
                 .mapToInt(Point::getY)
                 .max()
-                .getAsInt();
+                .orElse(0);
     }
-
-
-
 }
