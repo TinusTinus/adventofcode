@@ -43,7 +43,8 @@ public class SpaceStoichiometryPart2 implements IntSolver {
             if (requiredOre <= remainingOre) {
                 result++;
                 remainingOre -= requiredOre;
-                LOGGER.info("Fuel created: {}, remaining ore: {}", Integer.valueOf(result), Long.valueOf(remainingOre)); // TODO adjust log level to debug
+                LOGGER.debug("Fuel created: {}, remaining ore: {}, leftovers: {}", Integer.valueOf(result),
+                        Long.valueOf(remainingOre), leftovers);
             } else {
                 done = true;
             }

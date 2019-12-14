@@ -80,7 +80,7 @@ class Reaction {
             } else if (0 < leftover) {
                 LOGGER.debug("Using leftover {}", requiredChemical);
                 requiredComponents.put(requiredChemical, Integer.valueOf(requiredQuantity - leftover));
-                leftovers.remove(requiredChemical);
+                leftovers.put(requiredChemical, Integer.valueOf(0));
             } else {
                 // Find the reaction which produces this chemical. This must be unique.
                 Reaction reaction = reactions.stream()
