@@ -14,24 +14,25 @@ import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class CarePackagePart1 implements LongSolver {
+public class CarePackagePart2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CarePackagePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CarePackagePart2.class);
     
     /**
      * {@inheritDoc}
      * 
-     * @return how many block tiles are on the screen when the game exits
+     * @return score
      */
     @Override
     public long solve(Stream<String> lines) {
+        
         GameState gameState = new GameState();
         
-        Program.parse(lines.findFirst().orElseThrow())
-            .withOutput(gameState::process)
-            .execute();
+        Program.parse(lines.findFirst().orElseThrow(), () -> 0L, gameState::process) // TODO input handling
+                .set(0, 2)
+                .execute();
         
-        return gameState.countBlocks();
+        return gameState.getScore();
     }
     
     /**
@@ -40,7 +41,7 @@ public class CarePackagePart1 implements LongSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        CarePackagePart1 instance = new CarePackagePart1();
+        CarePackagePart2 instance = new CarePackagePart2();
 
         String result = instance.solve("input-day13-2019.txt");
 

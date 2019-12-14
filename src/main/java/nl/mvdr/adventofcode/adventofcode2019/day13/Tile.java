@@ -9,17 +9,18 @@ import java.util.stream.Stream;
  */
 enum Tile {
     /** No game object appears in this tile. */
-    EMPTY(0L),
+    EMPTY(0L, ' '),
     /** Walls are indestructible barriers. */
-    WALL(1L),
+    WALL(1L, '#'),
     /** Blocks can be broken by the ball. */
-    BLOCK(2L),
+    BLOCK(2L, 'x'),
     /** A horizontal paddle tile. The paddle is indestructible. */
-    PADDLE(3L),
+    PADDLE(3L, '-'),
     /** The ball moves diagonally and bounces off objects. */
-    BALL(4L);
+    BALL(4L, '*');
     
     private final long code;
+    private final char representation;
     
     /**
      * Gets the tile associated with the given code.
@@ -38,8 +39,14 @@ enum Tile {
      * Constructor.
      * 
      * @param code representation of this tile in the Intcode program
+     * @param representation single character representation of this type of tile
      */
-    Tile(long code) {
+    Tile(long code, char representation) {
         this.code = code;
+        this.representation = representation;
+    }
+    
+    char getRepresentation() {
+        return representation;
     }
 }

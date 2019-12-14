@@ -322,4 +322,59 @@ public class Point implements Comparable<Point> {
         
         return (x2 - x1) * (y3 - y1) == (y2 - y1) * (x3 - x1);
     }
+    
+    /**
+     * Computes on of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return minimum X coordinate
+     */
+    public static int minX(Set<Point> points) {
+        return points.stream()
+                .mapToInt(Point::getX)
+                .min()
+                .getAsInt();
+    }
+    
+    /**
+     * Computes on of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return maximum X coordinate
+     */
+    public static int maxX(Set<Point> points) {
+        return points.stream()
+                .mapToInt(Point::getX)
+                .max()
+                .getAsInt();
+    }
+    
+    /**
+     * Computes on of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return minimum Y coordinate
+     */
+    public static int minY(Set<Point> points) {
+        return points.stream()
+                .mapToInt(Point::getY)
+                .min()
+                .getAsInt();
+    }
+    
+    /**
+     * Computes on of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return maximum Y coordinate
+     */
+    public static int maxY(Set<Point> points) {
+        return points.stream()
+                .mapToInt(Point::getY)
+                .max()
+                .getAsInt();
+    }
+
+
+
 }
