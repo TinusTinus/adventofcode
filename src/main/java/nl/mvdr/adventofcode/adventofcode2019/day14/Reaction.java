@@ -1,8 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2019.day14;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A chemical reaction.
@@ -13,8 +20,10 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 class Reaction {
-    private final Set<Component> input;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Reaction.class);
     
+    private final Set<Component> input;
     private final Component output;
 
     /**
@@ -33,6 +42,80 @@ class Reaction {
                 .collect(Collectors.toSet());
         
         return new Reaction(input, output);
+    }
+
+    /**
+     * Computes the amount of ORE required to create 1 FUEL.
+     * 
+     * @param reactions available alchemical reactions
+     * @return required amount of ORE
+     */
+    static int computeRequiredOreForFuel(Set<Reaction> reactions) {
+        return computeRequiredOreForFuel(reactions, new HashMap<>());
+    }
+
+    /**
+     * Computes the amount of ORE required to create 1 FUEL.
+     * 
+     * @param reactions available alchemical reactions
+     * @param leftover any available leftovers from a previous invocation of this method
+     * @return required amount of ORE
+     */
+    static int computeRequiredOreForFuel(Set<Reaction> reactions, Map<String, Integer> leftovers) {
+        Map<String, Integer> requiredComponents = new HashMap<>();
+        requiredComponents.put("FUEL", Integer.valueOf(1));
+        
+        Optional<Entry<String, Integer>> requiredComponent = requiredComponents.entrySet().stream().findFirst();
+        while (requiredComponent.isPresent()) {
+            String requiredChemical = requiredComponent.orElseThrow().getKey();
+            int requiredQuantity = requiredComponent.orElseThrow().getValue().intValue();
+            
+            // See if we can use any leftovers to satisfy (part of) this requirement
+            int leftover = leftovers.getOrDefault(requiredChemical, Integer.valueOf(0)).intValue();
+            if (0 < leftover) {
+                LOGGER.debug("Using leftover {}", requiredChemical);
+                // Take from leftovers.
+                leftovers.put(requiredChemical, Integer.valueOf(leftover - 1));
+                requiredComponents.put(requiredChemical, Integer.valueOf(requiredQuantity - 1));
+            } else {
+                // Find the reaction which produces this chemical. This must be unique.
+                Reaction reaction = reactions.stream()
+                        .filter(r -> requiredChemical.equals(r.getOutput().getChemical()))
+                        .findFirst()
+                        .orElseThrow();
+                LOGGER.debug("Applying reaction: {}", reaction);
+                
+                for (Component input : reaction.getInput()) {
+                    requiredComponents.merge(input.getChemical(),
+                            Integer.valueOf(input.getQuantity()),
+                            (i, j) -> Integer.valueOf(i.intValue() + j.intValue()));
+                }
+                
+                if (requiredQuantity <= reaction.getOutput().getQuantity()) {
+                    requiredComponents.remove(requiredChemical);
+                } else {
+                    requiredComponents.put(requiredChemical, Integer.valueOf(requiredQuantity - reaction.getOutput().getQuantity()));
+                }
+                
+                if (requiredQuantity < reaction.getOutput().getQuantity()) {
+                    leftovers.merge(requiredChemical,
+                            Integer.valueOf(reaction.getOutput().getQuantity() - requiredQuantity),
+                            (i, j) -> Integer.valueOf(i.intValue() + j.intValue()));
+                }
+                
+                LOGGER.debug("Remaining required chemicals: {}", requiredComponents);
+                LOGGER.debug("Leftovers: {}", leftovers);
+            }
+            
+            // Find the next required component.
+            requiredComponent = requiredComponents.entrySet()
+                    .stream()
+                    .filter(entry -> 0 < entry.getValue().intValue())
+                    .filter(entry -> !entry.getKey().equals("ORE"))
+                    .findFirst();
+        }
+
+        return requiredComponents.get("ORE").intValue();
     }
     
     /**

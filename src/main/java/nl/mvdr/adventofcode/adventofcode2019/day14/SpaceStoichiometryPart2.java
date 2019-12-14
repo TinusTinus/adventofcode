@@ -2,8 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2019.day14;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -34,63 +32,24 @@ public class SpaceStoichiometryPart2 implements IntSolver {
         Set<Reaction> reactions = lines.filter(Predicate.not(String::isBlank)).map(Reaction::parse)
                 .collect(Collectors.toSet());
         LOGGER.debug("Reactions: {}", reactions);
-
-        Map<String, Long> requiredComponents = new HashMap<>();
-        requiredComponents.put("FUEL", Long.valueOf(1L));
         
-        Map<String, Long> leftovers = new HashMap<>();
-        leftovers.put("ORE", Long.valueOf(1000000000000L));
+        int result = 0;
+        long remainingOre = 1000000000000L;
+        boolean done = false;
+        Map<String, Integer> leftovers = new HashMap<>();
         
-        Optional<Entry<String, Long>> requiredComponent = requiredComponents.entrySet().stream().findFirst();
-        while (requiredComponent.isPresent()) {
-            String requiredChemical = requiredComponent.orElseThrow().getKey();
-            long requiredQuantity = requiredComponent.orElseThrow().getValue().longValue();
-            
-            // See if we can use any leftovers to satisfy (part of) this requirement
-            long leftover = leftovers.getOrDefault(requiredChemical, Long.valueOf(0L)).longValue();
-            if (0L < leftover) {
-                LOGGER.debug("Using leftover {}", requiredChemical);
-                // Take from leftovers.
-                leftovers.put(requiredChemical, Long.valueOf(leftover - 1L));
-                requiredComponents.put(requiredChemical, Long.valueOf(requiredQuantity - 1));
+        while(!done) {
+            int requiredOre = Reaction.computeRequiredOreForFuel(reactions, leftovers);
+            if (requiredOre <= remainingOre) {
+                result++;
+                remainingOre -= requiredOre;
+                LOGGER.info("Fuel created: {}, remaining ore: {}", Integer.valueOf(result), Long.valueOf(remainingOre)); // TODO adjust log level to debug
             } else {
-                // Find the reaction which produces this chemical. This must be unique.
-                Reaction reaction = reactions.stream()
-                        .filter(r -> requiredChemical.equals(r.getOutput().getChemical()))
-                        .findFirst()
-                        .orElseThrow();
-                LOGGER.debug("Applying reaction: {}", reaction);
-                
-                for (Component input : reaction.getInput()) {
-                    requiredComponents.merge(input.getChemical(),
-                            Long.valueOf(input.getQuantity()),
-                            (i, j) -> Long.valueOf(i.longValue() + j.longValue()));
-                }
-                
-                if (requiredQuantity <= reaction.getOutput().getQuantity()) {
-                    requiredComponents.remove(requiredChemical);
-                } else {
-                    requiredComponents.put(requiredChemical, Long.valueOf(requiredQuantity - reaction.getOutput().getQuantity()));
-                }
-                
-                if (requiredQuantity < reaction.getOutput().getQuantity()) {
-                    leftovers.merge(requiredChemical,
-                            Long.valueOf(reaction.getOutput().getQuantity() - requiredQuantity),
-                            (i, j) -> Long.valueOf(i.intValue() + j.intValue()));
-                }
-                
-                LOGGER.debug("Remaining required chemicals: {}", requiredComponents);
-                LOGGER.debug("Leftovers: {}", leftovers);
+                done = true;
             }
-            
-            // Find the next required component.
-            requiredComponent = requiredComponents.entrySet()
-                    .stream()
-                    .filter(entry -> 0L < entry.getValue().longValue())
-                    .findFirst();
         }
 
-        return requiredComponents.get("ORE").intValue();
+        return result;
     }
 
     /**
