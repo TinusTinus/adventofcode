@@ -72,11 +72,15 @@ class Reaction {
             
             // See if we can use any leftovers to satisfy (part of) this requirement
             int leftover = leftovers.getOrDefault(requiredChemical, Integer.valueOf(0)).intValue();
-            if (0 < leftover) {
+            
+            if (requiredQuantity <= leftover) {
+                LOGGER.debug("Using leftover {} to satisfy entire requirement", requiredChemical);
+                requiredComponents.remove(requiredChemical);
+                leftovers.put(requiredChemical, Integer.valueOf(leftover - requiredQuantity));
+            } else if (0 < leftover) {
                 LOGGER.debug("Using leftover {}", requiredChemical);
-                // Take from leftovers.
-                leftovers.put(requiredChemical, Integer.valueOf(leftover - 1));
-                requiredComponents.put(requiredChemical, Integer.valueOf(requiredQuantity - 1));
+                requiredComponents.put(requiredChemical, Integer.valueOf(requiredQuantity - leftover));
+                leftovers.remove(requiredChemical);
             } else {
                 // Find the reaction which produces this chemical. This must be unique.
                 Reaction reaction = reactions.stream()
@@ -102,10 +106,10 @@ class Reaction {
                             Integer.valueOf(reaction.getOutput().getQuantity() - requiredQuantity),
                             (i, j) -> Integer.valueOf(i.intValue() + j.intValue()));
                 }
-                
-                LOGGER.debug("Remaining required chemicals: {}", requiredComponents);
-                LOGGER.debug("Leftovers: {}", leftovers);
             }
+            
+            LOGGER.debug("Remaining required chemicals: {}", requiredComponents);
+            LOGGER.debug("Leftovers: {}", leftovers);
             
             // Find the next required component.
             requiredComponent = requiredComponents.entrySet()
