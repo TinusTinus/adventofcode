@@ -49,6 +49,6 @@ public class SpaceStoichiometryPart1Test extends SolverTest<SpaceStoichiometryPa
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day14-2019.txt"); 
+        assertSolution("337075", "input-day14-2019.txt"); 
     }
 }
