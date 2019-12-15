@@ -10,6 +10,7 @@ import java.util.function.LongBinaryOperator;
 import java.util.function.LongConsumer;
 import java.util.function.LongPredicate;
 import java.util.function.LongSupplier;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -183,12 +184,37 @@ public class Program {
     /**
      * Executes this program.
      * 
-     * @return program state after termination
+     * @return program state after the program has halted
      */
     public Program execute() {
+        return executeUntil(p -> false);
+    }
+    
+    /**
+     * Executes this program until it either halts or is about to perform an {@link Instruction#INPUT}.
+     * 
+     * @return program state
+     */
+    public Program executeUntilNextInput() {
+        return executeUntil(p -> p.nextInstruction() == Instruction.INPUT);
+    }
+    
+    /** @return the next instruction to be executed by this program */
+    private Instruction nextInstruction() {
+        long instructionPointerValue = memory.get(instructionPointer).longValue();
+        int opcode = Math.toIntExact(instructionPointerValue % 100L);
+        return Instruction.of(opcode);
+    }
+    
+    /**
+     * Executes this program until it halts, or the given condition applies.
+     * 
+     * @return program state after the program has halted
+     */
+    private Program executeUntil(Predicate<Program> guard) {
         LOGGER.debug("Initial program state: {}", this);
         Program result = this;
-        while (!result.done) {
+        while (!result.done && !guard.test(result)) {
             long instructionPointerValue = result.memory.get(result.instructionPointer).longValue();
             
             int opcode = Math.toIntExact(instructionPointerValue % 100L);
@@ -207,6 +233,7 @@ public class Program {
         }
         return result;
     }
+
     
     /** @return updated program state after halting */
     Program halt(List<ParameterMode> parameterModes) {
