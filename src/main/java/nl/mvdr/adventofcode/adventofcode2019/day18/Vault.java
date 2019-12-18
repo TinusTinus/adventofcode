@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2019.day18;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +21,7 @@ import org.jgrapht.graph.SimpleGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.permutations.Permutations;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -164,49 +164,8 @@ class Vault {
 
     /** @return length of a shortest path to pick up all of the keys in this vault */
     int shortestPathToPickUpAllKeys() {
-        Vault vault = pickUpKeys()
-                .min(Comparator.comparingInt(v -> v.steps))
-                .orElseThrow();
-        
-        LOGGER.debug("Shortest path: {}", vault.keysPickedUp);
-        
-        return vault.steps;
-    }
-    
-    /** @return possible states of the vault after picking up every key */
-    private Stream<Vault> pickUpKeys() {
-        Stream<Vault> result;
-        
-        if (keys.isEmpty()) {
-            LOGGER.debug("{}: all keys have been picked up", keysPickedUp);
-            result = Stream.of(this);
-        } else {
-            // Recursively call this method after picking up a single key
-            result = pickUpKey()
-                    .flatMap(Vault::pickUpKeys);
-        }
-        
-        return result;
-    }
-    
-    /** @return possible states of the vault after picking up a single key */
-    private Stream<Vault> pickUpKey() {
-        return keys.entrySet().parallelStream()
-            .flatMap(key -> findPrecomputedPathTo(key.getValue()).map(path -> {
-                Point newstartingPoint = key.getValue();
-                
-                Map<Character, Point> newKeys = new HashMap<>(keys);
-                newKeys.remove(key.getKey());
-                
-                int newSteps = steps + path.getLength();
-                
-                List<Character> newKeysPickedUp = new ArrayList<>(keysPickedUp);
-                newKeysPickedUp.add(key.getKey());
-                
-                LOGGER.debug("{}: picking up {}, total steps: {}", keysPickedUp, key.getKey(), Integer.valueOf(newSteps));
-                
-                return new Vault(newstartingPoint, newKeys, newSteps, newKeysPickedUp, precomputedPaths);
-            }).stream());
+        // TODO
+        return 0;
     }
     
     private Optional<Path> findPrecomputedPathTo(Point target) {
@@ -214,8 +173,6 @@ class Vault {
                 .filter(path -> path.getStart().equals(startingPoint) && path.getFinish().equals(target))
                 .findFirst()
                 // check that we have the key to every door along the way
-                .filter(path -> path.getRequiredKeys().stream().allMatch(keysPickedUp::contains))
-                // ignore paths where we step over a key without picking it up
-                .filter(path -> path.getKeysOnTheWay().stream().allMatch(keysPickedUp::contains));
+                .filter(path -> path.getRequiredKeys().stream().allMatch(keysPickedUp::contains));
     }
 }
