@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Helper class to generate permutations of values.
@@ -20,30 +21,29 @@ public class Permutations {
      * 
      * @param <T> value type
      * @param values values
-     * @return set containing all possible permutations of the given values
+     * @return stream of all possible permutations of the given values
      */
-    public static <T> Set<List<T>> generateAllPermutations(Set<T> values) {
-        Set<List<T>> result;
+    public static <T> Stream<List<T>> generateAllPermutations(Set<T> values) {
+        Stream<List<T>> result;
         
         if (values.isEmpty()) {
-            result = Set.of();
+            result = Stream.of();
         } else if (values.size() == 1) {
             T value = values.iterator().next();
-            result = Set.of(List.of(value));
+            result = Stream.of(List.of(value));
         } else {
-            result = new HashSet<>();
-            for (T value : values) {
-                Set<T> remaining = new HashSet<>(values);
-                remaining.remove(value);
-                // Recursively determine all permutations of the remaining values
-                Set<List<T>> permutations = generateAllPermutations(remaining);
-                for (List<T> permutation : permutations) {
-                    List<T> resultPermutation = new ArrayList<>(permutation.size() + 1);
-                    resultPermutation.add(value);
-                    resultPermutation.addAll(permutation);
-                    result.add(resultPermutation);
-                }
-            }
+            result = values.parallelStream()
+                    .flatMap(value -> {
+                        Set<T> remaining = new HashSet<>(values);
+                        remaining.remove(value);
+                        // Recursively determine all permutations of the remaining values
+                        return generateAllPermutations(remaining).map(permutation -> {
+                            List<T> resultPermutation = new ArrayList<>(permutation.size() + 1);
+                            resultPermutation.add(value);
+                            resultPermutation.addAll(permutation);
+                            return resultPermutation;
+                        });
+                    });
         }
         return result;
     }

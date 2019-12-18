@@ -51,12 +51,7 @@ abstract class AmplificationCircuit implements LongSolver {
     public long solve(Stream<String> lines) {
         Program program = Program.parse(lines.findFirst().orElseThrow());
         
-        Set<List<Long>> phaseSettingSequences = generatePhaseSettingSequences(phaseSettingLowerBound, phaseSettingUpperBound); 
-        
-        LOGGER.debug("Phase setting sequences: {}", phaseSettingSequences);
-        
-        return phaseSettingSequences.stream()
-                .parallel()
+        return generatePhaseSettingSequences(phaseSettingLowerBound, phaseSettingUpperBound)
                 .mapToLong(phaseSettingSequence -> computeThrusterSignal(program, phaseSettingSequence))
                 .max()
                 .getAsLong();
@@ -69,7 +64,7 @@ abstract class AmplificationCircuit implements LongSolver {
      * @param upperBound the upper bound phase setting, exclusive
      * @return all possible phase setting sequences
      */
-    private Set<List<Long>> generatePhaseSettingSequences(int lowerBound, int upperBound) {
+    private Stream<List<Long>> generatePhaseSettingSequences(int lowerBound, int upperBound) {
         Set<Long> phaseSettings = IntStream.range(lowerBound, upperBound)
                 .asLongStream()
                 .boxed()
