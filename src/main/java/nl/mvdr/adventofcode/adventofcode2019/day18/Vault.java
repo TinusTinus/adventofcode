@@ -130,6 +130,9 @@ class Vault {
     }
 
     /** @return length of a shortest path to pick up all of the keys in this vault */
+    // TODO This solution is technically correct, but very slow due to the recursion.
+    // Consider computing shortest paths between each pair of keys (and keeping track of which doors are in the way).
+    // (Which should only work if waiting for the doors along the shortest path have opened is better than a slightly longer path with no / other doors...) 
     int shortestPathToPickUpAllKeys() {
         Vault vault = pickUpKeys()
                 .min(Comparator.comparingInt(v -> v.steps))
