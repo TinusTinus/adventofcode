@@ -140,6 +140,8 @@ class Vault {
                 }
             }
         }
+        
+        LOGGER.debug("Precomputed paths: {}", result);
         return Collections.unmodifiableSet(result);
     }
     
@@ -216,6 +218,8 @@ class Vault {
                 // check that we have the key to every door along the way
                 .filter(path -> path.getRequiredKeys().stream().allMatch(keysPickedUp::contains))
                 // ignore paths where we step over a key without picking it up
-                .filter(path -> path.getKeysOnTheWay().stream().allMatch(keysPickedUp::contains));
+                .filter(path -> !path.getKeysOnTheWay().stream()
+                        .filter(keys::containsKey)
+                        .anyMatch(keysPickedUp::contains));
     }
 }

@@ -53,4 +53,10 @@ class Path {
     Set<Character> getKeysOnTheWay() {
         return keysOnTheWay;
     }
+
+    @Override
+    public String toString() {
+        return "Path [start=" + start + ", finish=" + finish + ", length=" + length + ", requiredKeys=" + requiredKeys
+                + ", keysOnTheWay=" + keysOnTheWay + "]";
+    }
 }
