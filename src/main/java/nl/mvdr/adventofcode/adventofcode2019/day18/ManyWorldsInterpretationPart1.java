@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2019.day19;
+package nl.mvdr.adventofcode.adventofcode2019.day18;
 
 import java.util.stream.Stream;
 
@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to the day 19 puzzle of 2019's Advent of Code:
- * <a href="https://adventofcode.com/2019/day/19">Many-Worlds Interpretation</a>.
+ * Solution to the day 18 puzzle of 2019's Advent of Code:
+ * <a href="https://adventofcode.com/2019/day/18">Many-Worlds Interpretation</a>.
  *
  * @author Martijn van de Rijdt
  */
@@ -24,6 +24,8 @@ public class ManyWorldsInterpretationPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
+        Vault vault = Vault.parse(lines);
+        
         return 0; // TODO
     }
 
@@ -35,7 +37,7 @@ public class ManyWorldsInterpretationPart1 implements IntSolver {
     public static void main(String[] args) {
         ManyWorldsInterpretationPart1 instance = new ManyWorldsInterpretationPart1();
 
-        String result = instance.solve("input-day19-2019.txt");
+        String result = instance.solve("input-day18-2019.txt");
 
         LOGGER.info(result);
     }
