@@ -37,21 +37,6 @@ class Vault {
     private final Point startingPoint;
     
     /**
-     * Open passages, which can be freely traveled through.
-     * 
-     * These include the starting point and key locations,
-     * but not walls and closed doors.
-     */
-    private final Set<Point> openPassages;
-
-    /**
-     * Doors for which the key has not yet been obtained.
-     * 
-     * Keys in this map are uppercase characters, corresponding to the lowercase key.
-     */
-    private final Map<Character, Point> closedDoors;
-    
-    /**
      * Locations of keys, which have not yet been obtained.
      * 
      * Keys in this map are lowercase characters, corresponding to the uppercase door.
@@ -63,6 +48,9 @@ class Vault {
     
     /** Keys that have been picked up so far. */
     private final List<Character> keysPickedUp;
+    
+    /** Precomputed paths between points of interest. */
+    private final Set<Path> precomputedPaths;
 
     /**
      * Parses the given input into a {@code Vault}.
@@ -82,16 +70,12 @@ class Vault {
             for (int x = 0; x != line.length(); x++) {
                 Point point = new Point(x, y);
                 char c = line.charAt(x);
-                if (c == '@' && startingPoint.isPresent()) {
-                    throw new IllegalArgumentException("Multiple starting points found.");
-                } else if (c == '@') {
+                if (c == '@') {
                     startingPoint = Optional.of(point);
-                    openPassages.add(point);
                 } else if (c == '.') {
                     openPassages.add(point);
                 } else if (Character.isLowerCase(c)) {
                     keys.put(Character.valueOf(c), point);
-                    openPassages.add(point);
                 } else if (Character.isUpperCase(c)) {
                     closedDoors.put(Character.valueOf(c), point);
                 } else if (c != '#') {
@@ -100,45 +84,84 @@ class Vault {
             }
         }
         
-        return new Vault(startingPoint.orElseThrow(),
-                Collections.unmodifiableSet(openPassages),
-                Collections.unmodifiableMap(closedDoors),
-                Collections.unmodifiableMap(keys),
-                0,
-                List.of());
+        openPassages = Collections.unmodifiableSet(openPassages);
+        closedDoors = Collections.unmodifiableMap(closedDoors);
+        keys = Collections.unmodifiableMap(keys);
+        
+        Set<Path> precomputedPaths = precomputePaths(startingPoint.orElseThrow(), openPassages, closedDoors, keys);
+        
+        return new Vault(startingPoint.orElseThrow(), keys, 0, List.of(), precomputedPaths);
+    }
+    
+    private static Set<Path> precomputePaths(Point startingPoint, Set<Point> openPassages, Map<Character, Point> closedDoors,
+            Map<Character, Point> keys) {
+        
+        Set<Point> pointsOfInterest = new HashSet<>();
+        pointsOfInterest.add(startingPoint);
+        pointsOfInterest.addAll(keys.values());
+        
+        Set<Point> points = new HashSet<>();
+        points.addAll(openPassages);
+        points.addAll(pointsOfInterest);
+        points.addAll(closedDoors.values());
+        
+        Graph<Point, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+        points.forEach(graph::addVertex);
+        
+        for (Point point : points) {
+            if (points.contains(point.eastNeighbour())) {
+                graph.addEdge(point, point.eastNeighbour());
+            }
+            if (points.contains(point.southNeighbour())) {
+                graph.addEdge(point, point.southNeighbour());
+            }
+        }
+        
+        ShortestPathAlgorithm<Point, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
+        
+        Set<Path> result = new HashSet<>();
+        for (Point source : pointsOfInterest) {
+            for (Point target : pointsOfInterest) {
+                GraphPath<Point, DefaultEdge> graphPath = shortestPathAlgorithm.getPath(source, target);
+                
+                Set<Character> requiredKeys = closedDoors.entrySet().stream()
+                        .filter(entry -> graphPath.getVertexList().contains(entry.getValue()))
+                        .map(Entry::getKey)
+                        .map(c -> Character.valueOf(Character.toLowerCase(c.charValue())))
+                        .collect(Collectors.toSet());
+                
+                result.add(new Path(source, target, graphPath.getLength(), requiredKeys));
+            }
+        }
+        return Collections.unmodifiableSet(result);
     }
     
     /**
      * Constructor.
      * 
      * @param startingPoint starting point
-     * @param openPassages open passages
-     * @param closedDoors closed doors
      * @param keys keys
      * @param steps steps taken so far
      * @param keysPickedUp keys picked up so far
+     * @param precomputedPaths precomputed paths between keys and other points of interest
      */
-    private Vault(Point startingPoint, Set<Point> openPassages, Map<Character, Point> closedDoors,
-            Map<Character, Point> keys, int steps, List<Character> keysPickedUp) {
+    private Vault(Point startingPoint, Map<Character, Point> keys, int steps, List<Character> keysPickedUp,
+            Set<Path> precomputedPaths) {
         super();
         this.startingPoint = startingPoint;
-        this.openPassages = openPassages;
-        this.closedDoors = closedDoors;
         this.keys = keys;
         this.steps = steps;
         this.keysPickedUp = keysPickedUp;
+        this.precomputedPaths = precomputedPaths;
     }
 
     /** @return length of a shortest path to pick up all of the keys in this vault */
-    // TODO This solution is technically correct, but very slow due to the recursion.
-    // Consider computing shortest paths between each pair of keys (and keeping track of which doors are in the way).
-    // (Which should only work if waiting for the doors along the shortest path have opened is better than a slightly longer path with no / other doors...) 
     int shortestPathToPickUpAllKeys() {
         Vault vault = pickUpKeys()
                 .min(Comparator.comparingInt(v -> v.steps))
                 .orElseThrow();
         
-        LOGGER.info("Shortest path: {}", vault.keysPickedUp);
+        LOGGER.debug("Shortest path: {}", vault.keysPickedUp);
         
         return vault.steps;
     }
@@ -164,27 +187,11 @@ class Vault {
     private Stream<Vault> pickUpKey() {
         Set<Vault> result = new HashSet<>();
         
-        ShortestPathAlgorithm<Point, DefaultEdge> shortestPathAlgorithm = createShortestPathAlgorithm();
-        
         for (Entry<Character, Point> key : keys.entrySet()) {
-            GraphPath<Point, DefaultEdge> path = shortestPathAlgorithm.getPath(startingPoint, key.getValue());
-            if (path == null) {
-                LOGGER.debug("{}: unable to reach key {}", keysPickedUp, key.getKey());
-            } else {
+            Path path = findPrecomputedPathTo(key.getValue());
+            
+            if (path.getRequiredKeys().stream().allMatch(keysPickedUp::contains)) {
                 Point newstartingPoint = key.getValue();
-                
-                char doorName = Character.toUpperCase(key.getKey().charValue());
-                
-                Map<Character, Point> newClosedDoors = new HashMap<>(closedDoors);
-                Point openedDoor = newClosedDoors.remove(Character.valueOf(doorName));
-
-                Set<Point> newOpenPassages;
-                if (openedDoor == null) {
-                    newOpenPassages = openPassages;
-                } else {
-                    newOpenPassages = new HashSet<>(openPassages);
-                    newOpenPassages.add(openedDoor);
-                }
                 
                 Map<Character, Point> newKeys = new HashMap<>(keys);
                 newKeys.remove(key.getKey());
@@ -196,27 +203,19 @@ class Vault {
                 
                 LOGGER.debug("{}: picking up {}, total steps: {}", keysPickedUp, key.getKey(), Integer.valueOf(newSteps));
                 
-                result.add(new Vault(newstartingPoint, newOpenPassages, newClosedDoors, newKeys, newSteps, newKeysPickedUp));
-                
+                result.add(new Vault(newstartingPoint, newKeys, newSteps, newKeysPickedUp, precomputedPaths));
+            } else {
+                LOGGER.debug("{}: unable to reach key {}", keysPickedUp, key.getKey());
             }
         }
         
         return result.stream();
     }
-
-    private ShortestPathAlgorithm<Point, DefaultEdge> createShortestPathAlgorithm() {
-        Graph<Point, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
-        openPassages.forEach(graph::addVertex);
-        
-        for (Point openPassage : openPassages) {
-            if (openPassages.contains(openPassage.eastNeighbour())) {
-                graph.addEdge(openPassage, openPassage.eastNeighbour());
-            }
-            if (openPassages.contains(openPassage.southNeighbour())) {
-                graph.addEdge(openPassage, openPassage.southNeighbour());
-            }
-        }
-        
-        return new DijkstraShortestPath<>(graph);
+    
+    private Path findPrecomputedPathTo(Point target) {
+        return precomputedPaths.stream()
+                .filter(path -> path.getStart().equals(startingPoint) && path.getFinish().equals(target))
+                .findFirst()
+                .orElseThrow();
     }
 }
