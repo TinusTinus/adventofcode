@@ -168,7 +168,7 @@ class Vault {
                 .min(Comparator.comparingInt(v -> v.steps))
                 .orElseThrow();
         
-        LOGGER.info("Shortest path: {}", vault.keysPickedUp);
+        LOGGER.debug("Shortest path: {}", vault.keysPickedUp);
         
         return vault.steps;
     }
@@ -183,7 +183,6 @@ class Vault {
         } else {
             // Recursively call this method after picking up a single key
             result = pickUpKey()
-                    .parallel()
                     .flatMap(Vault::pickUpKeys);
         }
         
@@ -192,15 +191,8 @@ class Vault {
     
     /** @return possible states of the vault after picking up a single key */
     private Stream<Vault> pickUpKey() {
-        Set<Vault> result = new HashSet<>();
-        
-        for (Entry<Character, Point> key : keys.entrySet()) {
-            Path path = findPrecomputedPathTo(key.getValue());
-
-            // Only consider paths where all doors are open,
-            // and paths that do not skip over other keys we still need
-            if (path.getRequiredKeys().stream().allMatch(keysPickedUp::contains)
-                    && path.getKeysOnTheWay().stream().allMatch(keysPickedUp::contains)) {
+        return keys.entrySet().parallelStream()
+            .flatMap(key -> findPrecomputedPathTo(key.getValue()).map(path -> {
                 Point newstartingPoint = key.getValue();
                 
                 Map<Character, Point> newKeys = new HashMap<>(keys);
@@ -213,17 +205,17 @@ class Vault {
                 
                 LOGGER.debug("{}: picking up {}, total steps: {}", keysPickedUp, key.getKey(), Integer.valueOf(newSteps));
                 
-                result.add(new Vault(newstartingPoint, newKeys, newSteps, newKeysPickedUp, precomputedPaths));
-            }
-        }
-        
-        return result.stream();
+                return new Vault(newstartingPoint, newKeys, newSteps, newKeysPickedUp, precomputedPaths);
+            }).stream());
     }
     
-    private Path findPrecomputedPathTo(Point target) {
+    private Optional<Path> findPrecomputedPathTo(Point target) {
         return precomputedPaths.stream()
                 .filter(path -> path.getStart().equals(startingPoint) && path.getFinish().equals(target))
                 .findFirst()
-                .orElseThrow();
+                // check that we have the key to every door along the way
+                .filter(path -> path.getRequiredKeys().stream().allMatch(keysPickedUp::contains))
+                // ignore paths where we step over a key without picking it up
+                .filter(path -> path.getKeysOnTheWay().stream().allMatch(keysPickedUp::contains));
     }
 }
