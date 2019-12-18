@@ -31,7 +31,7 @@ public class ManyWorldsInterpretationPart1Test extends SolverTest<ManyWorldsInte
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("0", "example-day18-2019-1.txt");
+        assertSolution("0", "example-day18-2019-2.txt");
     }
 
     /** Test case based on an example from the puzzle text. */

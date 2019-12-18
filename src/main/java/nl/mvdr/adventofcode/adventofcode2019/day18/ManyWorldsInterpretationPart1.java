@@ -24,9 +24,7 @@ public class ManyWorldsInterpretationPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        Vault vault = Vault.parse(lines);
-        
-        return 0; // TODO
+        return Vault.parse(lines).shortestPathToPickUpAllKeys();
     }
 
     /**
