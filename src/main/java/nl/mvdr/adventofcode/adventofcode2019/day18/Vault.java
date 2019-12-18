@@ -122,15 +122,22 @@ class Vault {
         Set<Path> result = new HashSet<>();
         for (Point source : pointsOfInterest) {
             for (Point target : pointsOfInterest) {
-                GraphPath<Point, DefaultEdge> graphPath = shortestPathAlgorithm.getPath(source, target);
-                
-                Set<Character> requiredKeys = closedDoors.entrySet().stream()
-                        .filter(entry -> graphPath.getVertexList().contains(entry.getValue()))
-                        .map(Entry::getKey)
-                        .map(c -> Character.valueOf(Character.toLowerCase(c.charValue())))
-                        .collect(Collectors.toSet());
-                
-                result.add(new Path(source, target, graphPath.getLength(), requiredKeys));
+                if (!source.equals(target)) {
+                    GraphPath<Point, DefaultEdge> graphPath = shortestPathAlgorithm.getPath(source, target);
+                    
+                    Set<Character> requiredKeys = closedDoors.entrySet().stream()
+                            .filter(entry -> graphPath.getVertexList().contains(entry.getValue()))
+                            .map(Entry::getKey)
+                            .map(c -> Character.valueOf(Character.toLowerCase(c.charValue())))
+                            .collect(Collectors.toSet());
+                    
+                    Set<Character> keysOnTheWay = keys.entrySet().stream()
+                            .filter(entry -> graphPath.getVertexList().subList(1, graphPath.getVertexList().size() - 1).contains(entry.getValue()))
+                            .map(Entry::getKey)
+                            .collect(Collectors.toSet());
+                    
+                    result.add(new Path(source, target, graphPath.getLength(), requiredKeys, keysOnTheWay));
+                }
             }
         }
         return Collections.unmodifiableSet(result);
@@ -161,7 +168,7 @@ class Vault {
                 .min(Comparator.comparingInt(v -> v.steps))
                 .orElseThrow();
         
-        LOGGER.debug("Shortest path: {}", vault.keysPickedUp);
+        LOGGER.info("Shortest path: {}", vault.keysPickedUp);
         
         return vault.steps;
     }
@@ -189,8 +196,11 @@ class Vault {
         
         for (Entry<Character, Point> key : keys.entrySet()) {
             Path path = findPrecomputedPathTo(key.getValue());
-            
-            if (path.getRequiredKeys().stream().allMatch(keysPickedUp::contains)) {
+
+            // Only consider paths where all doors are open,
+            // and paths that do not skip over other keys we still need
+            if (path.getRequiredKeys().stream().allMatch(keysPickedUp::contains)
+                    && path.getKeysOnTheWay().stream().allMatch(keysPickedUp::contains)) {
                 Point newstartingPoint = key.getValue();
                 
                 Map<Character, Point> newKeys = new HashMap<>(keys);
@@ -204,8 +214,6 @@ class Vault {
                 LOGGER.debug("{}: picking up {}, total steps: {}", keysPickedUp, key.getKey(), Integer.valueOf(newSteps));
                 
                 result.add(new Vault(newstartingPoint, newKeys, newSteps, newKeysPickedUp, precomputedPaths));
-            } else {
-                LOGGER.debug("{}: unable to reach key {}", keysPickedUp, key.getKey());
             }
         }
         
