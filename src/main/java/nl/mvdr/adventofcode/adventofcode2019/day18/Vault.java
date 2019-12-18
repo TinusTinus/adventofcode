@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day18;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +19,8 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -26,6 +30,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 class Vault {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Vault.class);
 
     /** Current location. */
     private final Point startingPoint;
@@ -54,6 +60,9 @@ class Vault {
     
     /** The number of steps taken so far from the entrance to get to {@link #startingPoint}. */
     private final int steps;
+    
+    /** Keys that have been picked up so far. */
+    private final List<Character> keysPickedUp;
 
     /**
      * Parses the given input into a {@code Vault}.
@@ -95,7 +104,8 @@ class Vault {
                 Collections.unmodifiableSet(openPassages),
                 Collections.unmodifiableMap(closedDoors),
                 Collections.unmodifiableMap(keys),
-                0);
+                0,
+                List.of());
     }
     
     /**
@@ -106,22 +116,28 @@ class Vault {
      * @param closedDoors closed doors
      * @param keys keys
      * @param steps steps taken so far
+     * @param keysPickedUp keys picked up so far
      */
     private Vault(Point startingPoint, Set<Point> openPassages, Map<Character, Point> closedDoors,
-            Map<Character, Point> keys, int steps) {
+            Map<Character, Point> keys, int steps, List<Character> keysPickedUp) {
         super();
         this.startingPoint = startingPoint;
         this.openPassages = openPassages;
         this.closedDoors = closedDoors;
         this.keys = keys;
         this.steps = steps;
+        this.keysPickedUp = keysPickedUp;
     }
 
+    /** @return length of a shortest path to pick up all of the keys in this vault */
     int shortestPathToPickUpAllKeys() {
-        return pickUpKeys()
-                .mapToInt(vault -> vault.steps)
-                .min()
-                .orElse(0);
+        Vault vault = pickUpKeys()
+                .min(Comparator.comparingInt(v -> v.steps))
+                .orElseThrow();
+        
+        LOGGER.info("Shortest path: {}", vault.keysPickedUp);
+        
+        return vault.steps;
     }
     
     /** @return possible states of the vault after picking up every key */
@@ -129,6 +145,7 @@ class Vault {
         Stream<Vault> result;
         
         if (keys.isEmpty()) {
+            LOGGER.debug("{}: all keys have been picked up", keysPickedUp);
             result = Stream.of(this);
         } else {
             // Recursively call this method after picking up a single key
@@ -148,10 +165,11 @@ class Vault {
         
         for (Entry<Character, Point> key : keys.entrySet()) {
             GraphPath<Point, DefaultEdge> path = shortestPathAlgorithm.getPath(startingPoint, key.getValue());
-            if (path != null) {
+            if (path == null) {
+                LOGGER.debug("{}: unable to reach key {}", keysPickedUp, key.getKey());
+            } else {
                 Point newstartingPoint = key.getValue();
                 
-                // Found a path to the key!
                 char doorName = Character.toUpperCase(key.getKey().charValue());
                 
                 Map<Character, Point> newClosedDoors = new HashMap<>(closedDoors);
@@ -170,16 +188,19 @@ class Vault {
                 
                 int newSteps = steps + path.getLength();
                 
-                result.add(new Vault(newstartingPoint, newOpenPassages, newClosedDoors, newKeys, newSteps));
+                List<Character> newKeysPickedUp = new ArrayList<>(keysPickedUp);
+                newKeysPickedUp.add(key.getKey());
+                
+                LOGGER.debug("{}: picking up {}, total steps: {}", keysPickedUp, key.getKey(), Integer.valueOf(newSteps));
+                
+                result.add(new Vault(newstartingPoint, newOpenPassages, newClosedDoors, newKeys, newSteps, newKeysPickedUp));
+                
             }
         }
         
         return result.stream();
     }
 
-    /**
-     * @return
-     */
     private ShortestPathAlgorithm<Point, DefaultEdge> createShortestPathAlgorithm() {
         Graph<Point, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         openPassages.forEach(graph::addVertex);
@@ -193,7 +214,6 @@ class Vault {
             }
         }
         
-        ShortestPathAlgorithm<Point, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
-        return shortestPathAlgorithm;
+        return new DijkstraShortestPath<>(graph);
     }
 }
