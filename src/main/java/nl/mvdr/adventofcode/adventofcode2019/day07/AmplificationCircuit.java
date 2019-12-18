@@ -70,7 +70,7 @@ abstract class AmplificationCircuit implements LongSolver {
                 .boxed()
                 .collect(Collectors.toSet());
         
-        return Permutations.generateAllPermutations(phaseSettings);
+        return Permutations.generatePermutations(phaseSettings);
     }
     
     /**
