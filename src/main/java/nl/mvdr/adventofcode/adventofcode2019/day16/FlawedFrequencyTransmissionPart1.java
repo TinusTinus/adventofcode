@@ -77,6 +77,7 @@ public class FlawedFrequencyTransmissionPart1 implements LinesSolver<String> {
      */
     private static List<Integer> performPhase(List<Integer> input) {
         return IntStream.range(0, input.size())
+                .parallel()
                 .mapToObj(i -> getPattern(input.size(), i))
                 .mapToInt(pattern -> applyPattern(input, pattern))
                 .boxed()
