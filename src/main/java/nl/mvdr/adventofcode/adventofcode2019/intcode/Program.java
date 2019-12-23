@@ -212,11 +212,11 @@ public class Program {
      * @return program state after the program has halted
      */
     private Program executeUntil(Predicate<Program> guard) {
-        LOGGER.debug("Initial program state: {}", this);
+        LOGGER.trace("Initial program state: {}", this);
         Program result = this;
         while (!result.done && !guard.test(result)) {
             result = result.executeInstruction();
-            LOGGER.debug("Updated program state: {}", result);
+            LOGGER.trace("Updated program state: {}", result);
         }
         return result;
     }
@@ -243,7 +243,7 @@ public class Program {
             instructionPointerValue = instructionPointerValue / 10L;
         }
         
-        LOGGER.debug("Executing instruction {} {}", instruction, parameterModes);
+        LOGGER.trace("Executing instruction {} {}", instruction, parameterModes);
         return instruction.execute(this, parameterModes);
     }
 
@@ -311,7 +311,7 @@ public class Program {
             throw new IllegalArgumentException("Unexpected number of parameters: " + parameterModes);
         }
         
-        LOGGER.debug("Performing {} {} ({}) {} ({}) {} ({})",
+        LOGGER.trace("Performing {} {} ({}) {} ({}) {} ({})",
                 memory.get(instructionPointer),
                 memory.get(instructionPointer + 1),
                 parameterModes.get(0),
