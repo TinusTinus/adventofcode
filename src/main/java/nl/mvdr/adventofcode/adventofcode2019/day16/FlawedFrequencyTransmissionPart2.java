@@ -58,13 +58,19 @@ public class FlawedFrequencyTransmissionPart2 implements LinesSolver<String> {
                 .map(c -> Integer.parseInt("" + (char)c))
                 .boxed()
                 .collect(Collectors.toList());
+        
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i != 10_000; i++) {
             list.addAll(inputDigits);
         }
         
+        int patternLength = list.size();
+        List<List<Integer>> patterns = IntStream.range(0, list.size())
+                .mapToObj(i -> computePattern(patternLength, i))
+                .collect(Collectors.toList());
+        
         for (int i = 0; i != phases; i++) {
-            list = performPhase(list);
+            list = performPhase(list, patterns);
         }
 
         long offset = Long.parseLong(input.substring(0, 7));
@@ -80,30 +86,30 @@ public class FlawedFrequencyTransmissionPart2 implements LinesSolver<String> {
      * Performs a single phase of the computation.
      * 
      * @param input input list
+     * @param patterns patterns
      * @return output list of the same length
      */
-    private static List<Integer> performPhase(List<Integer> input) {
-        return IntStream.range(0, input.size())
+    private static List<Integer> performPhase(List<Integer> input, List<List<Integer>> patterns) {
+        return patterns.stream()
                 .parallel()
-                .mapToObj(i -> getPattern(input.size(), i))
                 .mapToInt(pattern -> applyPattern(input, pattern))
                 .boxed()
                 .collect(Collectors.toList());
     }
 
     /**
-     * Gets an actual pattern to apply.
+     * Computes an actual pattern to apply.
      * 
      * @param length length of the pattern
      * @param position position which is being computed
      * @return pattern
      */
-    private static List<Integer> getPattern(int length, int position) {
+    private static List<Integer> computePattern(int length, int position) {
         List<Integer> unrepeatedPattern = BASE_PATTERN.stream()
                 .flatMap(i -> Collections.nCopies(position + 1, i).stream())
                 .collect(Collectors.toList());
         
-        List<Integer> result = new ArrayList<>();
+        List<Integer> result = new ArrayList<>(length);
         for (int i = 1; i <= length; i++) {
             result.add(unrepeatedPattern.get(i % unrepeatedPattern.size()));
         }
