@@ -32,6 +32,8 @@ public class OxygenSystemPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         Program program = Program.parse(lines.findFirst().orElseThrow());
         
+        // Use Dijkstra's shortest path algorithm to find a shortest path to the onxygen system.
+        // Visited and unvisited nodes are indexed by their locations.
         Map<Point, RepairDroid> visited = new HashMap<>();
         Map<Point, RepairDroid> unvisited = new HashMap<>();
         RepairDroid current = new RepairDroid(program);
