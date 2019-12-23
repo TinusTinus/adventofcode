@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day16;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,31 +32,34 @@ public class FlawedFrequencyTransmissions {
      * 
      * @param input input message
      * @param phases number of phases
-     * @param repititions number of times to repeat the input
+     * @param repetitions number of times to repeat the input
      * @param offset offset in the output
      * @return output
      */
-    static String fft(String input, int phases, int repititions, long offset) {
+    static String fft(String input, int phases, int repetitions, long offset) {
         List<Integer> inputDigits = input.chars()
                 .map(c -> Integer.parseInt("" + (char)c))
                 .boxed()
                 .collect(Collectors.toList());
         
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i != repititions; i++) {
-            list.addAll(inputDigits);
+        int[] digits = new int[inputDigits.size() * repetitions];
+        for (int i = 0; i != repetitions; i++) {
+            for (int j = 0; j != inputDigits.size(); j++) {
+                digits[i * inputDigits.size() + j] = inputDigits.get(j).intValue();
+            }
         }
-        
         for (int i = 0; i != phases; i++) {
-            list = performPhase(list);
+            digits = performPhase(digits);
             
-            LOGGER.debug("After phase {}: {}", Integer.valueOf(i), list);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("After phase {}: {}", Integer.valueOf(i), Arrays.toString(digits));
+            }
         }
         
-        return list.stream()
+        return IntStream.of(digits)
                 .skip(offset)
                 .limit(8L)
-                .map(Object::toString)
+                .mapToObj(Integer::toString)
                 .collect(Collectors.joining());
     }
     
@@ -66,12 +69,16 @@ public class FlawedFrequencyTransmissions {
      * @param input input list
      * @return output list of the same length
      */
-    private static List<Integer> performPhase(List<Integer> input) {
-        return IntStream.range(0, input.size())
-                .parallel()
-                .map(i -> applyPattern(input, i))
-                .boxed()
-                .collect(Collectors.toList());
+    private static int[] performPhase(int[] input) {
+        int[] result = new int[input.length];
+        
+        result[input.length - 1] = input[input.length - 1];
+        
+        for (int i = input.length - 2; 0 <= i; i--) {
+            result[i] = (result[i + 1] + input[i]) % 10;
+        }
+        
+        return result;
     }
 
     /**

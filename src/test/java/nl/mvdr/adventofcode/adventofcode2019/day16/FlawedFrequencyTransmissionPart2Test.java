@@ -37,6 +37,6 @@ public class FlawedFrequencyTransmissionPart2Test extends SolverTest<FlawedFrequ
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day16-2019.txt"); 
+        assertSolution("85600369", "input-day16-2019.txt"); 
     }
 }
