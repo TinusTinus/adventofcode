@@ -81,19 +81,28 @@ public class FlawedFrequencyTransmissions {
      * @return result value
      */
     private static int applyPattern(List<Integer> input, int position) {
-        List<Integer> pattern = BASE_PATTERN.stream()
-                .flatMap(i -> Collections.nCopies(position + 1, i).stream())
-                .collect(Collectors.toList());
-        
         int sum = IntStream.range(0, input.size())
-                .map(i -> pattern.get((i + 1) % ((position + 1) * BASE_PATTERN.size())).intValue() * input.get(i).intValue())
+                .map(i -> getPatternValue(position, i) * input.get(i).intValue())
                 .sum();
         
-        int result = Math.abs(sum) % 10;
-        
-        LOGGER.debug("Applying pattern {} to input {}: {}", pattern, input, Integer.valueOf(result));
-        
-        return result;
+        return Math.abs(sum) % 10;
+    }
+    
+    /**
+     * Gets a pattern value.
+     * 
+     * @param position position identifying the pattern to apply
+     * @param index index within the pattern
+     * @return pattern value
+     */
+    private static int getPatternValue(int position, int index) {
+        int basePatternIndex;
+        if (index < position) {
+            basePatternIndex = 0;
+        } else {
+            basePatternIndex = ((index - position) / (position + 1) + 1) % BASE_PATTERN.size();
+        }
+        return BASE_PATTERN.get(basePatternIndex).intValue();
     }
 }
  
