@@ -11,13 +11,13 @@ import java.util.stream.Stream;
  */
 public enum Direction {
     /** Up / north. */
-    UP('^', true, Point::aboveNeighbour),
+    UP('^', true, Point::aboveNeighbour, 1L),
     /** Down / south. */
-    DOWN('v', true, Point::belowNeighbour),
+    DOWN('v', true, Point::belowNeighbour, 2L),
     /** Left / west. */
-    LEFT('<', false, Point::leftNeighbour),
+    LEFT('<', false, Point::leftNeighbour, 3L),
     /** Right / east. */
-    RIGHT('>', false, Point::rightNeighbour);
+    RIGHT('>', false, Point::rightNeighbour, 4L);
     
     /** Character representation of this direction. */
     private final char representation;
@@ -28,17 +28,22 @@ public enum Direction {
     /** Function that, given a location, determines the next location. */
     private final Function<Point, Point> next;
     
+    /** Intcode representation of this direction. */
+    private final long code;
+    
     /**
      * Constructor.
      * 
      * @param representation character representation of this direction
      * @param vertical whether this direction is vertical
      * @param next function that, given a location, determines the next location
+     * @param code Intcode representation of this direction
      */
-    Direction(char representation, boolean vertical, Function<Point, Point> next) {
+    Direction(char representation, boolean vertical, Function<Point, Point> next, long code) {
         this.representation = representation;
         this.vertical = vertical;
         this.next = next;
+        this.code = code;
     }
     
     /**
@@ -116,6 +121,11 @@ public enum Direction {
             throw new IllegalStateException("Unexpected direction: " + this);
         }
         return result;
+    }
+    
+    /** @return Intcode representation of this direction */
+    public long getCode() {
+        return code;
     }
     
     @Override

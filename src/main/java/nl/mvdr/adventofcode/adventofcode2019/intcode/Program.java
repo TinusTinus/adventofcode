@@ -215,23 +215,36 @@ public class Program {
         LOGGER.debug("Initial program state: {}", this);
         Program result = this;
         while (!result.done && !guard.test(result)) {
-            long instructionPointerValue = result.memory.get(result.instructionPointer).longValue();
-            
-            int opcode = Math.toIntExact(instructionPointerValue % 100L);
-            Instruction instruction = Instruction.of(opcode);
-            
-            instructionPointerValue = instructionPointerValue / 100L;
-            List<ParameterMode> parameterModes = new ArrayList<>(instruction.getParameterCount());
-            for (int i = 0; i != instruction.getParameterCount(); i++) {
-                parameterModes.add(ParameterMode.of(Math.toIntExact(instructionPointerValue % 10L)));
-                instructionPointerValue = instructionPointerValue / 10L;
-            }
-            
-            LOGGER.debug("Executing instruction {} {}", instruction, parameterModes);
-            result = instruction.execute(result, parameterModes);
+            result = result.executeInstruction();
             LOGGER.debug("Updated program state: {}", result);
         }
         return result;
+    }
+    
+    /**
+     * Executes a single instruction.
+     * 
+     * @return updated program state
+     */
+    public Program executeInstruction() {
+        if (done) {
+            throw new IllegalStateException("This program has already halted.");
+        }
+        
+        long instructionPointerValue = memory.get(instructionPointer).longValue();
+        
+        int opcode = Math.toIntExact(instructionPointerValue % 100L);
+        Instruction instruction = Instruction.of(opcode);
+        
+        instructionPointerValue = instructionPointerValue / 100L;
+        List<ParameterMode> parameterModes = new ArrayList<>(instruction.getParameterCount());
+        for (int i = 0; i != instruction.getParameterCount(); i++) {
+            parameterModes.add(ParameterMode.of(Math.toIntExact(instructionPointerValue % 10L)));
+            instructionPointerValue = instructionPointerValue / 10L;
+        }
+        
+        LOGGER.debug("Executing instruction {} {}", instruction, parameterModes);
+        return instruction.execute(this, parameterModes);
     }
 
     
