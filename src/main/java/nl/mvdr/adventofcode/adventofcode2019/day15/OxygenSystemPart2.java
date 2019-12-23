@@ -34,13 +34,13 @@ public class OxygenSystemPart2 implements IntSolver {
         Program program = Program.parse(lines.findFirst().orElseThrow());
         
         // Find the oxygen system's location by sending the droid there
-        RepairDroid droid = new RepairDroid(program)
+        Location droid = new Location(program)
                 .moveToOxygenSystem();
         
-        // Simulate the oxygen filling the area by repair drones swarming into the area
-        Map<Point, RepairDroid> visited = new HashMap<>();
-        Map<Point, RepairDroid> unvisited = new HashMap<>();
-        Optional<RepairDroid> current = Optional.of(new RepairDroid(droid.getProgram()));
+        // Visit the entire space
+        Map<Point, Location> visited = new HashMap<>();
+        Map<Point, Location> unvisited = new HashMap<>();
+        Optional<Location> current = Optional.of(new Location(droid.getProgram()));
         
         while (current.isPresent()) {
             for (Direction direction : Direction.values()) {
@@ -56,11 +56,11 @@ public class OxygenSystemPart2 implements IntSolver {
             visited.put(current.orElseThrow().getLocation(), current.orElseThrow());
             
             current = unvisited.values().stream()
-                    .min(Comparator.comparing(RepairDroid::getPathLength));
+                    .min(Comparator.comparing(Location::getPathLength));
         }
         
         return visited.values().stream()
-                .mapToInt(RepairDroid::getPathLength)
+                .mapToInt(Location::getPathLength)
                 .max()
                 .orElseThrow();
     }

@@ -27,7 +27,7 @@ public class OxygenSystemPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         Program program = Program.parse(lines.findFirst().orElseThrow());
         
-        RepairDroid droid = new RepairDroid(program)
+        Location droid = new Location(program)
                 .moveToOxygenSystem();
         
         return droid.getPathLength();
