@@ -1,6 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2019.day15;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 import nl.mvdr.adventofcode.point.Direction;
@@ -12,6 +18,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 class RepairDroid {
+    
+    private final Logger LOGGER = LoggerFactory.getLogger(Logger.class);
     
     /** Current location of this droid. */
     private final Point location;
@@ -50,6 +58,35 @@ class RepairDroid {
         this.atOxygenSystem = atOxygenSystem;
     }
     
+    RepairDroid moveToOxygenSystem() {
+        // Use Dijkstra's shortest path algorithm to find a shortest path from the droid's current location to the oxygen system.
+        // Visited and unvisited nodes are indexed by their locations.
+        Map<Point, RepairDroid> visited = new HashMap<>();
+        Map<Point, RepairDroid> unvisited = new HashMap<>();
+        RepairDroid current = this;
+        
+        while (!current.isAtOxygenSystem()) {
+            for (Direction direction : Direction.values()) {
+                if (!visited.containsKey(direction.move(current.getLocation()))) {
+                    current.step(direction)
+                            .filter(next -> !unvisited.containsKey(next.getLocation()) || next.getPathLength() < unvisited.get(next.getLocation()).getPathLength())
+                            .ifPresent(next -> unvisited.put(next.getLocation(), next));
+                }
+            }
+            
+            unvisited.remove(current.getLocation());
+            visited.put(current.getLocation(), current);
+            
+            current = unvisited.values().stream()
+                    .min(Comparator.comparing(RepairDroid::getPathLength))
+                    .orElseThrow();
+        }
+        
+        LOGGER.debug("Oxygen system found at {}", current.getLocation());
+        
+        return current;
+    }
+    
     /**
      * Attempts to take a single step in the given direction.
      * 
@@ -82,5 +119,9 @@ class RepairDroid {
     
     int getPathLength() {
         return pathLength;
+    }
+    
+    public Program getProgram() {
+        return program;
     }
 }
