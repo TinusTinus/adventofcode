@@ -1,13 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2019.day16;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for computing Flawed Frequency Transmissions.
@@ -21,8 +17,6 @@ public class FlawedFrequencyTransmissions {
             Integer.valueOf(1),
             Integer.valueOf(0),
             Integer.valueOf(-1));
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(FlawedFrequencyTransmissions.class);
 
     private FlawedFrequencyTransmissions() {
         // private constructor to prevent utility class instantiation
