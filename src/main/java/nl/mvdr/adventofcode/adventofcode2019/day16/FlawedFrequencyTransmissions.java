@@ -86,7 +86,7 @@ public class FlawedFrequencyTransmissions {
                 .collect(Collectors.toList());
         
         int sum = IntStream.range(0, input.size())
-                .map(i -> pattern.get((i + 1) % pattern.size()).intValue() * input.get(i).intValue())
+                .map(i -> pattern.get((i + 1) % ((position + 1) * BASE_PATTERN.size())).intValue() * input.get(i).intValue())
                 .sum();
         
         int result = Math.abs(sum) % 10;
