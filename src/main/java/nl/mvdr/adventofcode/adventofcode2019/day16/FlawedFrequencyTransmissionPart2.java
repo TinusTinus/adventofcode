@@ -1,5 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2019.day16;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -28,7 +32,48 @@ public class FlawedFrequencyTransmissionPart2 implements LinesSolver<String> {
         
         long offset = Long.parseLong(input.substring(0, 7));
         
-        return FlawedFrequencyTransmissions.fft(input, 100, 10_000, offset);
+        List<Integer> inputDigits = input.chars()
+                .map(c -> Integer.parseInt("" + (char)c))
+                .boxed()
+                .collect(Collectors.toList());
+        
+        int[] digits = new int[inputDigits.size() * 10_000];
+        for (int i = 0; i != 10_000; i++) {
+            for (int j = 0; j != inputDigits.size(); j++) {
+                digits[i * inputDigits.size() + j] = inputDigits.get(j).intValue();
+            }
+        }
+        for (int i = 0; i != 100; i++) {
+            digits = performPhase(digits);
+            
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("After phase {}: {}", Integer.valueOf(i), Arrays.toString(digits));
+            }
+        }
+        
+        return IntStream.of(digits)
+                .skip(offset)
+                .limit(8L)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining());
+    }
+    
+    /**
+     * Performs a single phase of the computation.
+     * 
+     * @param input input list
+     * @return output list of the same length
+     */
+    private static int[] performPhase(int[] input) {
+        int[] result = new int[input.length];
+        
+        result[input.length - 1] = input[input.length - 1];
+        
+        for (int i = input.length - 2; 0 <= i; i--) {
+            result[i] = (result[i + 1] + input[i]) % 10;
+        }
+        
+        return result;
     }
     
     /**
