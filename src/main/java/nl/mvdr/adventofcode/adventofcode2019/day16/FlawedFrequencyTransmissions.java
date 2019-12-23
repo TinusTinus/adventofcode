@@ -68,30 +68,22 @@ public class FlawedFrequencyTransmissions {
     private static List<Integer> performPhase(List<Integer> input) {
         return IntStream.range(0, input.size())
                 .parallel()
-                .mapToObj(i -> computePattern(input.size(), i))
+                .mapToObj(FlawedFrequencyTransmissions::computePattern)
                 .mapToInt(pattern -> applyPattern(input, pattern))
                 .boxed()
                 .collect(Collectors.toList());
     }
 
     /**
-     * Gets an actual pattern to apply.
+     * Gets a pattern.
      * 
-     * @param length length of the pattern
      * @param position position which is being computed
      * @return pattern
      */
-    private static List<Integer> computePattern(int length, int position) {
-        List<Integer> unrepeatedPattern = BASE_PATTERN.stream()
+    private static List<Integer> computePattern(int position) {
+        return BASE_PATTERN.stream()
                 .flatMap(i -> Collections.nCopies(position + 1, i).stream())
                 .collect(Collectors.toList());
-        
-        List<Integer> result = new ArrayList<>();
-        for (int i = 1; i <= length; i++) {
-            result.add(unrepeatedPattern.get(i % unrepeatedPattern.size()));
-        }
-        
-        return result;
     }
     
     /**
@@ -103,7 +95,7 @@ public class FlawedFrequencyTransmissions {
      */
     private static int applyPattern(List<Integer> input, List<Integer> pattern) {
         int sum = IntStream.range(0, input.size())
-                .map(i -> pattern.get(i).intValue() * input.get(i).intValue())
+                .map(i -> pattern.get((i + 1) % pattern.size()).intValue() * input.get(i).intValue())
                 .sum();
         
         int result = Math.abs(sum) % 10;
