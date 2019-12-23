@@ -30,7 +30,7 @@ public class FlawedFrequencyTransmissionPart2 implements LinesSolver<String> {
     public String solve(Stream<String> lines) {
         String input = lines.findFirst().orElseThrow();
         
-        long offset = Long.parseLong(input.substring(0, 7));
+        int offset = Integer.parseInt(input.substring(0, 7));
         
         List<Integer> inputDigits = input.chars()
                 .map(c -> Integer.parseInt("" + (char)c))
@@ -43,6 +43,10 @@ public class FlawedFrequencyTransmissionPart2 implements LinesSolver<String> {
                 digits[i * inputDigits.size() + j] = inputDigits.get(j).intValue();
             }
         }
+        
+        // Drop the digits before offset, since they do not matter to the computation
+        digits = Arrays.copyOfRange(digits, offset, digits.length);
+        
         for (int i = 0; i != 100; i++) {
             digits = performPhase(digits);
             
@@ -52,7 +56,6 @@ public class FlawedFrequencyTransmissionPart2 implements LinesSolver<String> {
         }
         
         return IntStream.of(digits)
-                .skip(offset)
                 .limit(8L)
                 .mapToObj(Integer::toString)
                 .collect(Collectors.joining());
