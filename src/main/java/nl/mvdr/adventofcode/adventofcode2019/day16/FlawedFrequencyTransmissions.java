@@ -1,0 +1,116 @@
+package nl.mvdr.adventofcode.adventofcode2019.day16;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Utility class for computing Flawed Frequency Transmissions.
+ *
+ * @author Martijn van de Rijdt
+ */
+public class FlawedFrequencyTransmissions {
+
+    private static final List<Integer> BASE_PATTERN = List.of(
+            Integer.valueOf(0),
+            Integer.valueOf(1),
+            Integer.valueOf(0),
+            Integer.valueOf(-1));
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlawedFrequencyTransmissions.class);
+
+    private FlawedFrequencyTransmissions() {
+        // private constructor to prevent utility class instantiation
+    }
+    
+    /**
+     * Decodes the given message using Flawed Frequency Transmission.
+     * 
+     * @param input input message
+     * @param phases number of phases
+     * @param repititions number of times to repeat the input
+     * @param offset offset in the output
+     * @return output
+     */
+    static String fft(String input, int phases, int repititions, long offset) {
+        List<Integer> inputDigits = input.chars()
+                .map(c -> Integer.parseInt("" + (char)c))
+                .boxed()
+                .collect(Collectors.toList());
+        
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i != repititions; i++) {
+            list.addAll(inputDigits);
+        }
+        
+        for (int i = 0; i != phases; i++) {
+            list = performPhase(list);
+        }
+        
+        return list.stream()
+                .skip(offset)
+                .limit(8L)
+                .map(Object::toString)
+                .collect(Collectors.joining());
+    }
+    
+    /**
+     * Performs a single phase of the computation.
+     * 
+     * @param input input list
+     * @return output list of the same length
+     */
+    private static List<Integer> performPhase(List<Integer> input) {
+        return IntStream.range(0, input.size())
+                .parallel()
+                .mapToObj(i -> computePattern(input.size(), i))
+                .mapToInt(pattern -> applyPattern(input, pattern))
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets an actual pattern to apply.
+     * 
+     * @param length length of the pattern
+     * @param position position which is being computed
+     * @return pattern
+     */
+    private static List<Integer> computePattern(int length, int position) {
+        List<Integer> unrepeatedPattern = BASE_PATTERN.stream()
+                .flatMap(i -> Collections.nCopies(position + 1, i).stream())
+                .collect(Collectors.toList());
+        
+        List<Integer> result = new ArrayList<>();
+        for (int i = 1; i <= length; i++) {
+            result.add(unrepeatedPattern.get(i % unrepeatedPattern.size()));
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Applies the given pattern to the given list of numbers.
+     * 
+     * @param input list of numbers
+     * @param pattern pattern to apply
+     * @return result value
+     */
+    private static int applyPattern(List<Integer> input, List<Integer> pattern) {
+        int sum = IntStream.range(0, input.size())
+                .map(i -> pattern.get(i).intValue() * input.get(i).intValue())
+                .sum();
+        
+        int result = Math.abs(sum) % 10;
+        
+        LOGGER.debug("Applying pattern {} to input {}: {}", pattern, input, Integer.valueOf(result));
+        
+        return result;
+    }
+}
+ 
