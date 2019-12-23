@@ -68,32 +68,23 @@ public class FlawedFrequencyTransmissions {
     private static List<Integer> performPhase(List<Integer> input) {
         return IntStream.range(0, input.size())
                 .parallel()
-                .mapToObj(FlawedFrequencyTransmissions::computePattern)
-                .mapToInt(pattern -> applyPattern(input, pattern))
+                .map(i -> applyPattern(input, i))
                 .boxed()
                 .collect(Collectors.toList());
     }
 
     /**
-     * Gets a pattern.
-     * 
-     * @param position position which is being computed
-     * @return pattern
-     */
-    private static List<Integer> computePattern(int position) {
-        return BASE_PATTERN.stream()
-                .flatMap(i -> Collections.nCopies(position + 1, i).stream())
-                .collect(Collectors.toList());
-    }
-    
-    /**
      * Applies the given pattern to the given list of numbers.
      * 
      * @param input list of numbers
-     * @param pattern pattern to apply
+     * @param position the position whose pattern to apply
      * @return result value
      */
-    private static int applyPattern(List<Integer> input, List<Integer> pattern) {
+    private static int applyPattern(List<Integer> input, int position) {
+        List<Integer> pattern = BASE_PATTERN.stream()
+                .flatMap(i -> Collections.nCopies(position + 1, i).stream())
+                .collect(Collectors.toList());
+        
         int sum = IntStream.range(0, input.size())
                 .map(i -> pattern.get((i + 1) % pattern.size()).intValue() * input.get(i).intValue())
                 .sum();
