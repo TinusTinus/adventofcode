@@ -50,7 +50,7 @@ public class FlawedFrequencyTransmissions {
         for (int i = 0; i != phases; i++) {
             list = performPhase(list);
             
-            LOGGER.debug("Performed phase {}", Integer.valueOf(i));
+            LOGGER.debug("After phase {}: {}", Integer.valueOf(i), list);
         }
         
         return list.stream()
