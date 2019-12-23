@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Utility class for computing Flawed Frequency Transmissions.
  *
@@ -17,6 +20,8 @@ public class FlawedFrequencyTransmissions {
             Integer.valueOf(1),
             Integer.valueOf(0),
             Integer.valueOf(-1));
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlawedFrequencyTransmissions.class);
 
     private FlawedFrequencyTransmissions() {
         // private constructor to prevent utility class instantiation
@@ -44,6 +49,8 @@ public class FlawedFrequencyTransmissions {
         
         for (int i = 0; i != phases; i++) {
             list = performPhase(list);
+            
+            LOGGER.debug("Performed phase {}", Integer.valueOf(i));
         }
         
         return list.stream()
