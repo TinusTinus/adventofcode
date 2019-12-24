@@ -1,8 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2019.day17;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,7 +25,7 @@ public class SetAndForgetPart2 implements LongSolver {
 
     /** Buffer for unprocessed output of the Intcode computer. */
     private final List<Long> programOutputBuffer;
-
+    
     /** Constructor. */
     public SetAndForgetPart2() {
         super();
@@ -39,12 +40,36 @@ public class SetAndForgetPart2 implements LongSolver {
     @Override
     public long solve(Stream<String> lines) {
         Program program = Program.parse(lines.findFirst().orElseThrow(),
-                () -> { throw new NoSuchElementException("No input available"); }, 
+                getProgramInput()::poll, 
                 this::handleOutput);
         program = program.set(0, 2L);
         program.execute();
         
         return programOutputBuffer.get(programOutputBuffer.size() - 1).longValue();
+    }
+
+    /** @return input for the Intcode program */
+    private Queue<Long> getProgramInput() {
+        // Movement functions determined by hand for my puzzle input
+        String programInputText = "A,B,A,C,B,A,B,C,C,B\n"
+                + "L,12,L,12,R,4\n"
+                + "R,10,R,6,R,4,R,4\n"
+                + "R,6,L,12,L,12\n";
+        if (LOGGER.isDebugEnabled()) {
+            // verbose
+            programInputText = programInputText + "y\n";
+        } else {
+            // not so verbose
+            programInputText = programInputText + "n\n";
+        }
+
+        Queue<Long> result = new LinkedList<>();
+        programInputText.chars()
+                .asLongStream()
+                .boxed()
+                .forEach(result::offer);
+        
+        return result;
     }
     
     /**
@@ -54,12 +79,14 @@ public class SetAndForgetPart2 implements LongSolver {
      */
     private void handleOutput(long value) {
         if ((char) value == '\n') {
-            // Complete line of output received. Flush to log.
-            String scaffoldString = programOutputBuffer.stream()
-                    .mapToInt(Math::toIntExact)
-                    .mapToObj(i -> "" + (char) i)
-                    .collect(Collectors.joining());
-            LOGGER.info(scaffoldString);
+            // Complete line of output received.
+            if (LOGGER.isDebugEnabled()) {
+                String scaffoldString = programOutputBuffer.stream()
+                        .mapToInt(Math::toIntExact)
+                        .mapToObj(i -> "" + (char) i)
+                        .collect(Collectors.joining());
+                LOGGER.debug(scaffoldString);
+            }
             programOutputBuffer.clear();
         } else {
             programOutputBuffer.add(Long.valueOf(value));
