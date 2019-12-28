@@ -47,8 +47,6 @@ class Maze {
         List<String> lines = linesStream.filter(Predicate.not(String::isBlank))
                 .collect(Collectors.toList());
         
-        // Build a map containing all open passages (marked as '.' on the map) as its keys,
-        // and their labels as its values.
         Set<Point> openPassages = new HashSet<>();
         
         Map<String, Point> outerLabels = new HashMap<>();
@@ -62,6 +60,7 @@ class Maze {
                     
                     openPassages.add(point);
                     
+                    // Check whether there is a label, and if so, whether it is on the inner or outer layer.
                     Optional<String> label;
                     boolean outer;
                     if (Character.isUpperCase(line.charAt(x - 2)) && Character.isUpperCase(line.charAt(x - 1))) {
@@ -85,6 +84,7 @@ class Maze {
                         label = Optional.empty();
                         outer = false;
                     }
+                    // Add the label to the correct collection.
                     Map<String, Point> labels;
                     if (outer) {
                         labels = outerLabels;
