@@ -38,6 +38,7 @@ public class SpringdroidAdventurePart1 implements LongSolver {
     
     /** @return input for the springdroid */
     private String getSpringScript() {
+        // !A || (!C && D)
         return """
                NOT C J
                AND D J
