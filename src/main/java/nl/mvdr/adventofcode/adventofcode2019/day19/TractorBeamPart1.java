@@ -35,6 +35,7 @@ public class TractorBeamPart1 implements LongSolver {
         
         return IntStream.range(0, 50)
                 .boxed()
+                .parallel()
                 .flatMap(x -> IntStream.range(0, 50).mapToObj(y -> new Point(x.intValue(), y)))
                 .filter(point -> isBeingPulled(point, program))
                 .count();
