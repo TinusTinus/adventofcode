@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -122,36 +123,49 @@ class Maze {
                 .forEach(openPassage -> graph.addEdge(openPassage, openPassage.belowNeighbour()));
         portals.forEach(portal -> graph.addEdge(portal.getOuterPoint(), portal.getInnerPoint()));
         
-        return shortestPath(graph);
+        return shortestPath(graph, start, finish);
     }
     
-    /** @return length of a shortest path from start to finish in recursive space */
-    int shortestPathInRecursiveSpace() {
-        // TODO construct the graph differently
-        Graph<Point, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+    /** 
+     * Computes the length of a shortest path from start to finish, using the rules for recursive space.
+     * 
+     * @param maxLayers maximum depth of layers to inspect
+     * @return length of a shortest path from start to finish in recursive space
+     */
+    int shortestPathInRecursiveSpace(int maxLayers) {
+        Graph<LayeredPoint, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         
-        openPassages.forEach(graph::addVertex);
+        IntStream.range(0, maxLayers).forEach(layer -> {
+            openPassages.stream()
+                    .map(openPassage -> new LayeredPoint(openPassage, layer))
+                    .forEach(graph::addVertex);
+            
+            openPassages.stream()
+                    .filter(openPassage -> openPassages.contains(openPassage.rightNeighbour()))
+                    .forEach(openPassage -> graph.addEdge(new LayeredPoint(openPassage, layer), new LayeredPoint(openPassage.rightNeighbour(), layer)));
+            openPassages.stream()
+                    .filter(openPassage -> openPassages.contains(openPassage.belowNeighbour()))
+                    .forEach(openPassage -> graph.addEdge(new LayeredPoint(openPassage, layer), new LayeredPoint(openPassage.belowNeighbour(), layer)));
+            if (0 < layer) {
+                portals.forEach(portal -> graph.addEdge(new LayeredPoint(portal.getOuterPoint(), layer), new LayeredPoint(portal.getInnerPoint(), layer - 1)));
+            }
+        });
         
-        openPassages.stream()
-                .filter(openPassage -> openPassages.contains(openPassage.rightNeighbour()))
-                .forEach(openPassage -> graph.addEdge(openPassage, openPassage.rightNeighbour()));
-        openPassages.stream()
-                .filter(openPassage -> openPassages.contains(openPassage.belowNeighbour()))
-                .forEach(openPassage -> graph.addEdge(openPassage, openPassage.belowNeighbour()));
-        portals.forEach(portal -> graph.addEdge(portal.getOuterPoint(), portal.getInnerPoint()));
-        
-        return shortestPath(graph);
+        return shortestPath(graph, new LayeredPoint(start, 0), new LayeredPoint(finish, 0));
     }
 
     /**
      * Computes the length of a shortest path from start to finish.
      * 
+     * @param <T> type of vertices in the graph
      * @param graph graph based on this maze
+     * @param startVertex representation of the starting point
+     * @param finishVertex representation of the finish line
      * @return length of a shortest path from start to finish
      */
-    private int shortestPath(Graph<Point, DefaultEdge> graph) {
-        ShortestPathAlgorithm<Point, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
-        GraphPath<Point, DefaultEdge> path = shortestPathAlgorithm.getPath(start, finish);
+    private <T> int shortestPath(Graph<T, DefaultEdge> graph, T startVertex, T finishVertex) {
+        ShortestPathAlgorithm<T, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
+        GraphPath<T, DefaultEdge> path = shortestPathAlgorithm.getPath(startVertex, finishVertex);
         if (path == null) {
             throw new NoSuchElementException("No shortest path found.");
         }

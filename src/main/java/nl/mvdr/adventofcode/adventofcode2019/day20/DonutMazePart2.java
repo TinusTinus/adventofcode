@@ -16,6 +16,16 @@ import nl.mvdr.adventofcode.IntSolver;
  */
 public class DonutMazePart2 implements IntSolver {
 
+    /**
+     * Maximum number of layers.
+     * 
+     * In order to be able to use JGrapht for shortest path computation, the graph
+     * needs to be finite, so there is a limit to the number of layers. If the
+     * shortest path cannot be found, the value of this constant may need to be
+     * increased.
+     */
+    private static final int MAX_LAYERS = 20;
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(DonutMazePart2.class);
 
     /**
@@ -26,7 +36,7 @@ public class DonutMazePart2 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         Maze maze = Maze.parse(lines.collect(Collectors.toList()));
-        return maze.shortestPathInRecursiveSpace();
+        return maze.shortestPathInRecursiveSpace(MAX_LAYERS);
     }
 
     /**
