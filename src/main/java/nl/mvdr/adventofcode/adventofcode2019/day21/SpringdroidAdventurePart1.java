@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.adventofcode2019.intcode.AsciiOutputDebugLogger;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 
 /**
@@ -25,11 +26,14 @@ public class SpringdroidAdventurePart1 implements LongSolver {
      */
     @Override
     public long solve(Stream<String> lines) {
+        AsciiOutputDebugLogger outputLogger = new AsciiOutputDebugLogger();
+        
         Program.parse(lines.findFirst().orElseThrow())
                 .withAsciiInput("TODO")
+                .withOutput(outputLogger::handleOutput)
                 .execute();
         
-        return 0L; // TODO
+        return outputLogger.getValue();
     }
     
     /**

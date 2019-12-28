@@ -1,14 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2019.day17;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.adventofcode2019.intcode.AsciiOutputDebugLogger;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 
 /**
@@ -21,15 +19,6 @@ public class SetAndForgetPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SetAndForgetPart2.class);
 
-    /** Buffer for unprocessed output of the Intcode computer. */
-    private final List<Long> programOutputBuffer;
-    
-    /** Constructor. */
-    public SetAndForgetPart2() {
-        super();
-        this.programOutputBuffer = new ArrayList<>();
-    }
-    
     /**
      * {@inheritDoc}
      * 
@@ -37,13 +26,15 @@ public class SetAndForgetPart2 implements LongSolver {
      */
     @Override
     public long solve(Stream<String> lines) {
+        AsciiOutputDebugLogger outputLogger = new AsciiOutputDebugLogger();
+        
         Program.parse(lines.findFirst().orElseThrow())
                 .withAsciiInput(getProgramInput()) 
-                .withOutput(this::handleOutput)
+                .withOutput(outputLogger::handleOutput)
                 .set(0, 2L)
                 .execute();
         
-        return programOutputBuffer.get(programOutputBuffer.size() - 1).longValue();
+        return outputLogger.getValue();
     }
 
     /** @return input for the Intcode program */
@@ -63,27 +54,6 @@ public class SetAndForgetPart2 implements LongSolver {
         return result;
     }
     
-    /**
-     * Handles an output value from the Intcode program.
-     * 
-     * @param value value to be handled
-     */
-    private void handleOutput(long value) {
-        if ((char) value == '\n') {
-            // Complete line of output received.
-            if (LOGGER.isDebugEnabled()) {
-                String scaffoldString = programOutputBuffer.stream()
-                        .mapToInt(Math::toIntExact)
-                        .mapToObj(i -> "" + (char) i)
-                        .collect(Collectors.joining());
-                LOGGER.debug(scaffoldString);
-            }
-            programOutputBuffer.clear();
-        } else {
-            programOutputBuffer.add(Long.valueOf(value));
-        }
-    }
-
     /**
      * Main method.
      * 
