@@ -29,11 +29,11 @@ public class AsciiOutputDebugLogger {
         if ((char) value == '\n') {
             // Complete line of ASCII output received.
             if (LOGGER.isDebugEnabled()) {
-                String scaffoldString = programOutputBuffer.stream()
+                String outputLine = programOutputBuffer.stream()
                         .mapToInt(Math::toIntExact)
                         .mapToObj(i -> "" + (char) i)
                         .collect(Collectors.joining());
-                LOGGER.debug(scaffoldString);
+                LOGGER.debug(outputLine);
             }
             programOutputBuffer.clear();
         } else {

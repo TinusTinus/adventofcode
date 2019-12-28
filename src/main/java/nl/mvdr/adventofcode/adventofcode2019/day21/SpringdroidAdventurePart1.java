@@ -41,6 +41,7 @@ public class SpringdroidAdventurePart1 implements LongSolver {
         // TODO
         return """
                NOT D J
+               NOT J J
                WALK
                """;
     }
