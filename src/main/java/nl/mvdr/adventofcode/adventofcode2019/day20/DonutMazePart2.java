@@ -36,6 +36,9 @@ public class DonutMazePart2 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         Maze maze = Maze.parse(lines.collect(Collectors.toList()));
+        
+        LOGGER.debug("Maze: {}", maze);
+        
         return maze.shortestPathInRecursiveSpace(MAX_LAYERS);
     }
 

@@ -85,9 +85,9 @@ class Maze {
         Point finish = labels.remove("ZZ").iterator().next();
         
         Point center = new Point(lines.get(0).length() / 2, lines.size() / 2);
-        Set<Portal> portals = labels.values()
+        Set<Portal> portals = labels.entrySet()
                 .stream()
-                .map(points -> Portal.createPortal(points, center))
+                .map(entry -> Portal.createPortal(entry.getKey(), entry.getValue(), center))
                 .collect(Collectors.toSet());
         
         return new Maze(start, finish, openPassages, portals);
@@ -170,5 +170,10 @@ class Maze {
             throw new NoSuchElementException("No shortest path found.");
         }
         return path.getLength();
+    }
+
+    @Override
+    public String toString() {
+        return "Maze [start=" + start + ", finish=" + finish + ", portals=" + portals + "]";
     }
 }
