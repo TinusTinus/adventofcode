@@ -15,13 +15,15 @@ public class SpringdroidAdventurePart2 extends SpringdroidAdventure {
 
     @Override
     String getSpringscript() {
-        // !A || (D && (!B || !F || C))
+        // !A || (!C && D && (!B || !F))
         return """
                NOT B J
                NOT F T
                OR T J
                OR C J
                AND D J
+               NOT C T
+               AND T J
                NOT A T
                OR T J
                RUN
