@@ -9,7 +9,7 @@ import nl.mvdr.adventofcode.point.Point;
  */
 public class Portal {
     // The two points connected by this portal.
-    // Note that the order of these points should not matter.
+    // Note that the order of these points should not matter: portals are bidirectional.
     private final Point point0;
     private final Point point1;
 
