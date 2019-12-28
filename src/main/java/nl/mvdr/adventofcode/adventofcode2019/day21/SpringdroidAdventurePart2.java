@@ -15,9 +15,11 @@ public class SpringdroidAdventurePart2 extends SpringdroidAdventure {
 
     @Override
     String getSpringscript() {
-        // TODO use registers E - I as well
+        // !A || (D && (E || H))
         return """
-               NOT C J
+               NOT E J
+               NOT J J
+               OR H J
                AND D J
                NOT A T
                OR T J
