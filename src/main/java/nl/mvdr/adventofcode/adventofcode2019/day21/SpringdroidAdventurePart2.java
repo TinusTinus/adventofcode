@@ -9,19 +9,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class SpringdroidAdventurePart1 extends SpringdroidAdventure {
+public class SpringdroidAdventurePart2 extends SpringdroidAdventure {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringdroidAdventurePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringdroidAdventurePart2.class);
 
     @Override
     String getSpringscript() {
-        // !A || (!C && D)
+        // TODO use registers E - I as well
         return """
                NOT C J
                AND D J
                NOT A T
                OR T J
-               WALK
+               RUN
                """;
     }
     
@@ -31,7 +31,7 @@ public class SpringdroidAdventurePart1 extends SpringdroidAdventure {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SpringdroidAdventurePart1 instance = new SpringdroidAdventurePart1();
+        SpringdroidAdventurePart2 instance = new SpringdroidAdventurePart2();
 
         String result = instance.solve("input-day21-2019.txt");
 
