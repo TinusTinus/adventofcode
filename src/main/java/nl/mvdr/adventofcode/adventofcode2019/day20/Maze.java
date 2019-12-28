@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
@@ -71,7 +73,6 @@ class Maze {
                         label = Optional.empty();
                     }
                     label.ifPresent(name -> labels.computeIfAbsent(name, k -> new HashSet<>()).add(point));
-                    
                 }
             }
         }
@@ -82,10 +83,10 @@ class Maze {
         Point start = labels.remove("AA").iterator().next();
         Point finish = labels.remove("ZZ").iterator().next();
         
+        Point center = new Point(lines.get(0).length() / 2, lines.size() / 2);
         Set<Portal> portals = labels.values()
                 .stream()
-                .map(Set::iterator)
-                .map(iterator -> new Portal(iterator.next(), iterator.next()))
+                .map(points -> Portal.createPortal(points, center))
                 .collect(Collectors.toSet());
         
         return new Maze(start, finish, openPassages, portals);
@@ -107,7 +108,7 @@ class Maze {
         this.portals = portals;
     }
     
-    /** @return length of the shortest path from start to finish */
+    /** @return length of a shortest path from start to finish */
     int shortestPath() {
         Graph<Point, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         
@@ -119,9 +120,41 @@ class Maze {
         openPassages.stream()
                 .filter(openPassage -> openPassages.contains(openPassage.belowNeighbour()))
                 .forEach(openPassage -> graph.addEdge(openPassage, openPassage.belowNeighbour()));
-        portals.forEach(portal -> graph.addEdge(portal.getPoint0(), portal.getPoint1()));
+        portals.forEach(portal -> graph.addEdge(portal.getOuterPoint(), portal.getInnerPoint()));
         
+        return shortestPath(graph);
+    }
+    
+    /** @return length of a shortest path from start to finish in recursive space */
+    int shortestPathInRecursiveSpace() {
+        // TODO construct the graph differently
+        Graph<Point, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+        
+        openPassages.forEach(graph::addVertex);
+        
+        openPassages.stream()
+                .filter(openPassage -> openPassages.contains(openPassage.rightNeighbour()))
+                .forEach(openPassage -> graph.addEdge(openPassage, openPassage.rightNeighbour()));
+        openPassages.stream()
+                .filter(openPassage -> openPassages.contains(openPassage.belowNeighbour()))
+                .forEach(openPassage -> graph.addEdge(openPassage, openPassage.belowNeighbour()));
+        portals.forEach(portal -> graph.addEdge(portal.getOuterPoint(), portal.getInnerPoint()));
+        
+        return shortestPath(graph);
+    }
+
+    /**
+     * Computes the length of a shortest path from start to finish.
+     * 
+     * @param graph graph based on this maze
+     * @return length of a shortest path from start to finish
+     */
+    private int shortestPath(Graph<Point, DefaultEdge> graph) {
         ShortestPathAlgorithm<Point, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
-        return shortestPathAlgorithm.getPath(start, finish).getLength();
+        GraphPath<Point, DefaultEdge> path = shortestPathAlgorithm.getPath(start, finish);
+        if (path == null) {
+            throw new NoSuchElementException("No shortest path found.");
+        }
+        return path.getLength();
     }
 }

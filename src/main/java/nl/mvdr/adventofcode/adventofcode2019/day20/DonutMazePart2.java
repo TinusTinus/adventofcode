@@ -14,9 +14,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class DonutMazePart1 implements IntSolver {
+public class DonutMazePart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DonutMazePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DonutMazePart2.class);
 
     /**
      * {@inheritDoc}
@@ -26,7 +26,7 @@ public class DonutMazePart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         Maze maze = Maze.parse(lines.collect(Collectors.toList()));
-        return maze.shortestPath();
+        return maze.shortestPathInRecursiveSpace();
     }
 
     /**
@@ -35,7 +35,7 @@ public class DonutMazePart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        DonutMazePart1 instance = new DonutMazePart1();
+        DonutMazePart2 instance = new DonutMazePart2();
 
         String result = instance.solve("input-day20-2019.txt");
 
