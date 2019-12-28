@@ -23,7 +23,7 @@ public class DonutMazePart2 implements IntSolver {
      * shortest path cannot be found, the value of this constant may need to be
      * increased.
      */
-    private static final int MAX_LAYERS = 50;
+    private static final int MAX_LAYERS = 30;
     
     private static final Logger LOGGER = LoggerFactory.getLogger(DonutMazePart2.class);
 

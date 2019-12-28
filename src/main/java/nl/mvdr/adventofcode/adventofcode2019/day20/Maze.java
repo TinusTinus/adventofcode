@@ -152,20 +152,21 @@ class Maze {
     int shortestPathInRecursiveSpace(int maxLayers) {
         Graph<LayeredPoint, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         
-        IntStream.range(0, maxLayers).forEach(layer -> {
-            openPassages.stream()
-                    .map(openPassage -> new LayeredPoint(openPassage, layer))
-                    .forEach(graph::addVertex);
-            
-            openPassages.stream()
-                    .filter(openPassage -> openPassages.contains(openPassage.rightNeighbour()))
-                    .forEach(openPassage -> graph.addEdge(new LayeredPoint(openPassage, layer), new LayeredPoint(openPassage.rightNeighbour(), layer)));
-            openPassages.stream()
-                    .filter(openPassage -> openPassages.contains(openPassage.belowNeighbour()))
-                    .forEach(openPassage -> graph.addEdge(new LayeredPoint(openPassage, layer), new LayeredPoint(openPassage.belowNeighbour(), layer)));
-            if (0 < layer) {
-                portals.forEach(portal -> graph.addEdge(new LayeredPoint(portal.getOuterPoint(), layer), new LayeredPoint(portal.getInnerPoint(), layer - 1)));
-            }
+        IntStream.range(0, maxLayers)
+                .forEach(layer -> {
+                        openPassages.stream()
+                                .map(openPassage -> new LayeredPoint(openPassage, layer))
+                                .forEach(graph::addVertex);
+                        
+                        openPassages.stream()
+                                .filter(openPassage -> openPassages.contains(openPassage.rightNeighbour()))
+                                .forEach(openPassage -> graph.addEdge(new LayeredPoint(openPassage, layer), new LayeredPoint(openPassage.rightNeighbour(), layer)));
+                        openPassages.stream()
+                                .filter(openPassage -> openPassages.contains(openPassage.belowNeighbour()))
+                                .forEach(openPassage -> graph.addEdge(new LayeredPoint(openPassage, layer), new LayeredPoint(openPassage.belowNeighbour(), layer)));
+                        if (0 < layer) {
+                            portals.forEach(portal -> graph.addEdge(new LayeredPoint(portal.getOuterPoint(), layer), new LayeredPoint(portal.getInnerPoint(), layer - 1)));
+                        }
         });
         
         return shortestPath(graph, new LayeredPoint(start, 0), new LayeredPoint(finish, 0));
