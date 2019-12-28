@@ -29,11 +29,20 @@ public class SpringdroidAdventurePart1 implements LongSolver {
         AsciiOutputDebugLogger outputLogger = new AsciiOutputDebugLogger();
         
         Program.parse(lines.findFirst().orElseThrow())
-                .withAsciiInput("TODO")
+                .withAsciiInput(getSpringScript())
                 .withOutput(outputLogger::handleOutput)
                 .execute();
         
         return outputLogger.getValue();
+    }
+    
+    /** @return input for the springdroid */
+    private String getSpringScript() {
+        // TODO
+        return """
+               NOT D J
+               WALK
+               """;
     }
     
     /**
