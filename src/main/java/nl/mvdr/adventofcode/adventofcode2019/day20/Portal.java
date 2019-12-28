@@ -24,4 +24,12 @@ public class Portal {
         this.point0 = point0;
         this.point1 = point1;
     }
+    
+    Point getPoint0() {
+        return point0;
+    }
+    
+    Point getPoint1() {
+        return point1;
+    }
 }

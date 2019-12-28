@@ -26,8 +26,7 @@ public class DonutMazePart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         Maze maze = Maze.parse(lines.collect(Collectors.toList()));
-        
-        return 0; // TODO
+        return maze.shortestPath();
     }
 
     /**

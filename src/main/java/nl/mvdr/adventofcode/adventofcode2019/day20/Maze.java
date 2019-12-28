@@ -8,6 +8,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jgrapht.Graph;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +30,7 @@ class Maze {
     private final Point start;
     private final Point finish;
     private final Set<Point> openPassages;
-    // TODO portals
+    private final Set<Portal> portals;
     
     /**
      * Parses the given input into a maze.
@@ -83,14 +88,40 @@ class Maze {
                 .map(iterator -> new Portal(iterator.next(), iterator.next()))
                 .collect(Collectors.toSet());
         
-        return new Maze(start, finish, openPassages);
+        return new Maze(start, finish, openPassages, portals);
     }
 
-    private Maze(Point start, Point finish, Set<Point> openPassages) {
+    /**
+     * Constructor.
+     * 
+     * @param start starting point of the maze
+     * @param finish finish point of the maze
+     * @param openPassages open passages in the maze
+     * @param portals teleportation points in the maze
+     */
+    private Maze(Point start, Point finish, Set<Point> openPassages, Set<Portal> portals) {
         super();
         this.start = start;
         this.finish = finish;
         this.openPassages = openPassages;
+        this.portals = portals;
     }
     
+    /** @return length of the shortest path from start to finish */
+    int shortestPath() {
+        Graph<Point, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+        
+        openPassages.forEach(graph::addVertex);
+        
+        openPassages.stream()
+                .filter(openPassage -> openPassages.contains(openPassage.rightNeighbour()))
+                .forEach(openPassage -> graph.addEdge(openPassage, openPassage.rightNeighbour()));
+        openPassages.stream()
+                .filter(openPassage -> openPassages.contains(openPassage.belowNeighbour()))
+                .forEach(openPassage -> graph.addEdge(openPassage, openPassage.belowNeighbour()));
+        portals.forEach(portal -> graph.addEdge(portal.getPoint0(), portal.getPoint1()));
+        
+        ShortestPathAlgorithm<Point, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
+        return shortestPathAlgorithm.getPath(start, finish).getLength();
+    }
 }

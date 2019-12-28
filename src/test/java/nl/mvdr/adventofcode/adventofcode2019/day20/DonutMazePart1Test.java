@@ -31,6 +31,6 @@ public class DonutMazePart1Test extends SolverTest<DonutMazePart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day20-2019.txt"); 
+        assertSolution("620", "input-day20-2019.txt"); 
     }
 }
