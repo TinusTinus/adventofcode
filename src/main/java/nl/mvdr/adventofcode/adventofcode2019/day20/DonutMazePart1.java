@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2019.day20;
 
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ public class DonutMazePart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        Maze maze = Maze.parse(lines.collect(Collectors.toList()));
+        Maze maze = Maze.parse(lines);
         return maze.shortestPath();
     }
 

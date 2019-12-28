@@ -25,14 +25,14 @@ public class Portal {
      * @param points points; should contain exactly two values
      * @param center center of the maze
      * @return portal
+     * @deprecated just use the constructor {@link #Portal(String, Point, Point)}
      */
+    @Deprecated // TODO this factory method is incorrect, remove
     static Portal createPortal(String name, Set<Point> points, Point center) {
         if (points.size() != 2) {
             throw new IllegalArgumentException("A portal must connect exactly two points, but got: " + points);
         }
         
-        // TODO Manhattan distance to center is not a correct way to determine which is inner and which is outer.
-        // See: point FD in example 2.
         Point inner = points.stream()
                 .min(Comparator.comparingInt(point -> point.manhattanDistance(center)))
                 .orElseThrow();

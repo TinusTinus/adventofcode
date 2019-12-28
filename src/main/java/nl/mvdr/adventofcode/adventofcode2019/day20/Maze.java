@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -38,15 +40,19 @@ class Maze {
     /**
      * Parses the given input into a maze.
      * 
-     * @param lines contents of the puzzle input
+     * @param linesStream contents of the puzzle input
      * @return maze
      */
-    static Maze parse(List<String> lines) {
+    static Maze parse(Stream<String> linesStream) {
+        List<String> lines = linesStream.filter(Predicate.not(String::isBlank))
+                .collect(Collectors.toList());
+        
         // Build a map containing all open passages (marked as '.' on the map) as its keys,
         // and their labels as its values.
         Set<Point> openPassages = new HashSet<>();
         
-        Map<String, Set<Point>> labels = new HashMap<>();
+        Map<String, Point> outerLabels = new HashMap<>();
+        Map<String, Point> innerLabels = new HashMap<>();
         
         for (int y = 0; y != lines.size(); y++) {
             String line = lines.get(y);
@@ -57,37 +63,48 @@ class Maze {
                     openPassages.add(point);
                     
                     Optional<String> label;
+                    boolean outer;
                     if (Character.isUpperCase(line.charAt(x - 2)) && Character.isUpperCase(line.charAt(x - 1))) {
                         // there is a label to the left of this passage
                         label = Optional.of(line.substring(x - 2, x));
+                        outer = x - 2 == 0;
                     } else if (Character.isUpperCase(line.charAt(x + 1)) && Character.isUpperCase(line.charAt(x + 2))) {
                         // there is a label to the right of this passage
                         label = Optional.of(line.substring(x + 1, x + 3));
+                        outer = x + 3 == line.length();
                     } else if (Character.isUpperCase(lines.get(y - 2).charAt(x)) && Character.isUpperCase(lines.get(y - 1).charAt(x))) {
                         // there is a label above this passage
                         label = Optional.of("" + lines.get(y - 2).charAt(x) + lines.get(y - 1).charAt(x));
+                        outer = y - 2 == 0;
                     } else if (Character.isUpperCase(lines.get(y + 1).charAt(x)) && Character.isUpperCase(lines.get(y + 2).charAt(x))) {
                         // there is a label below this passage
                         label = Optional.of("" + lines.get(y + 1).charAt(x) + lines.get(y + 2).charAt(x));
+                        outer = y + 3 == lines.size();
                     } else {
                         // no label found
                         label = Optional.empty();
+                        outer = false;
                     }
-                    label.ifPresent(name -> labels.computeIfAbsent(name, k -> new HashSet<>()).add(point));
+                    Map<String, Point> labels;
+                    if (outer) {
+                        labels = outerLabels;
+                    } else {
+                        labels = innerLabels;
+                    }
+                    label.ifPresent(name -> labels.put(name, point));
                 }
             }
         }
         
         LOGGER.debug("Open passages found: {}", openPassages);
-        LOGGER.debug("Labels: {}", labels);
+        LOGGER.debug("Outer labels: {}, inner labels: {}", outerLabels, innerLabels);
         
-        Point start = labels.remove("AA").iterator().next();
-        Point finish = labels.remove("ZZ").iterator().next();
+        Point start = outerLabels.get("AA");
+        Point finish = outerLabels.get("ZZ");
         
-        Point center = new Point(lines.get(0).length() / 2, lines.size() / 2);
-        Set<Portal> portals = labels.entrySet()
+        Set<Portal> portals = innerLabels.entrySet()
                 .stream()
-                .map(entry -> Portal.createPortal(entry.getKey(), entry.getValue(), center))
+                .map(entry -> new Portal(entry.getKey(), outerLabels.get(entry.getKey()), entry.getValue()))
                 .collect(Collectors.toSet());
         
         return new Maze(start, finish, openPassages, portals);
