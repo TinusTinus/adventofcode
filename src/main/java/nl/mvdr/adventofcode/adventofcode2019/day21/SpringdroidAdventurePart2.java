@@ -20,7 +20,6 @@ public class SpringdroidAdventurePart2 extends SpringdroidAdventure {
                NOT B J
                NOT F T
                OR T J
-               OR C J
                AND D J
                NOT C T
                AND T J
