@@ -40,10 +40,12 @@ public class SetAndForgetPart2 implements LongSolver {
     /** @return input for the Intcode program */
     private String getProgramInput() {
         // Movement functions determined by hand for my puzzle input
-        String result = "A,B,A,C,B,A,B,C,C,B\n"
-                + "L,12,L,12,R,4\n"
-                + "R,10,R,6,R,4,R,4\n"
-                + "R,6,L,12,L,12\n";
+        String result = """
+                        A,B,A,C,B,A,B,C,C,B
+                        L,12,L,12,R,4
+                        R,10,R,6,R,4,R,4
+                        R,6,L,12,L,12
+                        """;
         if (LOGGER.isDebugEnabled()) {
             // verbose
             result = result + "y\n";
