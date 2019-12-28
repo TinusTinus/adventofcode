@@ -3,8 +3,10 @@ package nl.mvdr.adventofcode.adventofcode2019.intcode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.function.LongBinaryOperator;
 import java.util.function.LongConsumer;
@@ -139,6 +141,21 @@ public class Program {
             }
             return result;
         });
+    }
+    
+    /**
+     * Returns a copy of this program, using the given String as input, as ASCII values.
+     * 
+     * @param inputString input string
+     * @return updated copy of the program
+     */
+    public Program withAsciiInput(String inputString) {
+        Queue<Long> queue = new LinkedList<>();
+        inputString.chars()
+                .asLongStream()
+                .boxed()
+                .forEach(queue::offer);
+        return withInput(queue::poll);
     }
     
     /**

@@ -1,9 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2019.day17;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,36 +37,29 @@ public class SetAndForgetPart2 implements LongSolver {
      */
     @Override
     public long solve(Stream<String> lines) {
-        Program program = Program.parse(lines.findFirst().orElseThrow(),
-                getProgramInput()::poll, 
-                this::handleOutput);
-        program = program.set(0, 2L);
-        program.execute();
+        Program.parse(lines.findFirst().orElseThrow())
+                .withAsciiInput(getProgramInput()) 
+                .withOutput(this::handleOutput)
+                .set(0, 2L)
+                .execute();
         
         return programOutputBuffer.get(programOutputBuffer.size() - 1).longValue();
     }
 
     /** @return input for the Intcode program */
-    private Queue<Long> getProgramInput() {
+    private String getProgramInput() {
         // Movement functions determined by hand for my puzzle input
-        String programInputText = "A,B,A,C,B,A,B,C,C,B\n"
+        String result = "A,B,A,C,B,A,B,C,C,B\n"
                 + "L,12,L,12,R,4\n"
                 + "R,10,R,6,R,4,R,4\n"
                 + "R,6,L,12,L,12\n";
         if (LOGGER.isDebugEnabled()) {
             // verbose
-            programInputText = programInputText + "y\n";
+            result = result + "y\n";
         } else {
             // not so verbose
-            programInputText = programInputText + "n\n";
+            result = result + "n\n";
         }
-
-        Queue<Long> result = new LinkedList<>();
-        programInputText.chars()
-                .asLongStream()
-                .boxed()
-                .forEach(result::offer);
-        
         return result;
     }
     
