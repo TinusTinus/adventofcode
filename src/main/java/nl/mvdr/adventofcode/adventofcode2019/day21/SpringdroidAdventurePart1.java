@@ -38,10 +38,11 @@ public class SpringdroidAdventurePart1 implements LongSolver {
     
     /** @return input for the springdroid */
     private String getSpringScript() {
-        // TODO
         return """
-               NOT D J
-               NOT J J
+               NOT B J
+               AND D J
+               NOT A T
+               OR T J
                WALK
                """;
     }
