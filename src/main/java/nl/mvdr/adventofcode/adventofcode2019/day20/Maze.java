@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
+import nl.mvdr.adventofcode.point.Point3D;
 
 /**
  * Representation of the maze.
@@ -150,26 +151,26 @@ class Maze {
      * @return length of a shortest path from start to finish in recursive space
      */
     int shortestPathInRecursiveSpace(int maxLayers) {
-        Graph<LayeredPoint, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+        Graph<Point3D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         
         IntStream.range(0, maxLayers)
                 .forEach(layer -> {
                         openPassages.stream()
-                                .map(openPassage -> new LayeredPoint(openPassage, layer))
+                                .map(openPassage -> new Point3D(openPassage, layer))
                                 .forEach(graph::addVertex);
                         
                         openPassages.stream()
                                 .filter(openPassage -> openPassages.contains(openPassage.rightNeighbour()))
-                                .forEach(openPassage -> graph.addEdge(new LayeredPoint(openPassage, layer), new LayeredPoint(openPassage.rightNeighbour(), layer)));
+                                .forEach(openPassage -> graph.addEdge(new Point3D(openPassage, layer), new Point3D(openPassage.rightNeighbour(), layer)));
                         openPassages.stream()
                                 .filter(openPassage -> openPassages.contains(openPassage.belowNeighbour()))
-                                .forEach(openPassage -> graph.addEdge(new LayeredPoint(openPassage, layer), new LayeredPoint(openPassage.belowNeighbour(), layer)));
+                                .forEach(openPassage -> graph.addEdge(new Point3D(openPassage, layer), new Point3D(openPassage.belowNeighbour(), layer)));
                         if (0 < layer) {
-                            portals.forEach(portal -> graph.addEdge(new LayeredPoint(portal.getOuterPoint(), layer), new LayeredPoint(portal.getInnerPoint(), layer - 1)));
+                            portals.forEach(portal -> graph.addEdge(new Point3D(portal.getOuterPoint(), layer), new Point3D(portal.getInnerPoint(), layer - 1)));
                         }
         });
         
-        return shortestPath(graph, new LayeredPoint(start, 0), new LayeredPoint(finish, 0));
+        return shortestPath(graph, new Point3D(start, 0), new Point3D(finish, 0));
     }
 
     /**

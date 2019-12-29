@@ -49,6 +49,19 @@ public class Point3D {
         this.y = y;
         this.z = z;
     }
+    
+    /**
+     * Constructor.
+     * 
+     * @param point x and y coordinates
+     * @param z z coordinate
+     */
+    public Point3D(Point point, int z) {
+        super();
+        this.x = point.getX();
+        this.y = point.getY();
+        this.z = z;
+    }
 
     /** @return x coordinate */
     public int getX() {
