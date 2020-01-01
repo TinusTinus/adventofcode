@@ -21,7 +21,7 @@ public class SlamShufflePart1 implements IntSolver {
     /**
      * {@inheritDoc}
      * 
-     * @return length of the shortest path
+     * @return position of card 2019, after shuffling a factory order deck of 10007 cards 
      */
     @Override
     public int solve(Stream<String> lines) {
