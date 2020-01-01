@@ -65,5 +65,52 @@ public class InstructionTest {
         List<Integer> result = instruction.perform(deck);
         
         Assertions.assertEquals(List.of(0, 7, 4, 1, 8, 5, 2, 9, 6, 3), result);
-    }    
+    }
+    
+    /** Tests {@link Instruction#computePreviousIndex(long, long)} for a "deal into a new stack" instruction. */
+    @Test
+    public void testComputePreviousInstructionDeal() {
+        testComputePreviousInstruction("deal into new stack");
+    }
+    
+    /** Tests {@link Instruction#computePreviousIndex(long, long)} for a "cut" instruction. */
+    @Test
+    public void testComputePreviousInstructionCut() {
+        testComputePreviousInstruction("cut 3");
+    }
+    
+    /** Tests {@link Instruction#computePreviousIndex(long, long)} for a "cut" instruction. */
+    @Test
+    public void testComputePreviousInstructionCutNegative() {
+        testComputePreviousInstruction("cut -4");
+    }
+
+    /** Tests {@link Instruction#computePreviousIndex(long, long)} for a "deal into a new stack" instruction. */
+    @Test
+    public void testComputePreviousInstructionDealWithIncrement() {
+        testComputePreviousInstruction("deal with increment 3");
+    }
+
+    /**
+     * Tests {@link Instruction#computePreviousIndex(long, long)} for the given instruction.
+     * 
+     * Note that this method assumes that {@link Instruction#perform(List)} works correctly.
+     * 
+     * @param instructionText instruction to test
+     */
+    private void testComputePreviousInstruction(String instructionText) {
+        Instruction instruction = Instruction.parse(instructionText);
+        List<Integer> deck = IntStream.range(0, 10)
+                .boxed()
+                .collect(Collectors.toList());
+        List<Integer> shuffledDeck = instruction.perform(deck);
+        for (int i = 0; i != deck.size(); i++) {
+            
+            long result = instruction.computePreviousIndex(i, deck.size());
+            
+            Assertions.assertTrue(0L <= result, "Result " + result + " out of bounds for index " + i);
+            Assertions.assertTrue(result < deck.size(), "Result " + result + " out of bounds for index " + i);
+            Assertions.assertEquals(shuffledDeck.get(i), deck.get(Math.toIntExact(result)), "Incorrect result " + result + " for index " + i);
+        }
+    }
 }

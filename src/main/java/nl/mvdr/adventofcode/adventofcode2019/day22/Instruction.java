@@ -59,4 +59,15 @@ class Instruction {
     List<Integer> perform(List<Integer> deck) {
         return technique.perform(deck, n);
     }
+    
+    /**
+     * Computes the previous index of a card, before this instruction was executed.
+     * 
+     * @param newIndex index of the card after performing this instruction
+     * @param deckSize size of the deck
+     * @return index of the card in the deck before performing this instruction
+     */
+    long computePreviousIndex(long newIndex, long deckSize) {
+        return technique.computePreviousIndex(newIndex, deckSize, n);
+    }
 }

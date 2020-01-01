@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2019.day22;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -39,22 +40,28 @@ class Process {
      * @return shuffled deck
      */
     List<Integer> performOnFactoryOrderDeck(int numberOfCards) {
-        List<Integer> deck = IntStream.range(0, numberOfCards)
+        List<Integer> result = IntStream.range(0, numberOfCards)
                 .boxed()
                 .collect(Collectors.toList());
-        return perform(deck);
+        for (Instruction instruction : instructions) {
+            result = instruction.perform(result);
+        }
+        return result;
+
     }
     
     /**
-     * Performs this shuffle process.
+     * Computes the previous index of a card, before this process was executed.
      * 
-     * @param deck deck to shuffle
-     * @return shuffled deck
+     * @param newIndex index of the card after performing this instruction
+     * @param deckSize size of the deck
+     * @return index of the card in the deck before performing this instruction
      */
-    private List<Integer> perform(List<Integer> deck) {
-        List<Integer> result = deck;
-        for (Instruction instruction : instructions) {
-            result = instruction.perform(result);
+    long computePreviousIndex(long newIndex, long deckSize) {
+        long result = newIndex;
+        ListIterator<Instruction> listIterator = instructions.listIterator(instructions.size());
+        while (listIterator.hasPrevious()) {
+            result = listIterator.previous().computePreviousIndex(result, deckSize);
         }
         return result;
     }

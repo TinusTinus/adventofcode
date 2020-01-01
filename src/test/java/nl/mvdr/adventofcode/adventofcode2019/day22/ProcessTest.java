@@ -60,4 +60,67 @@ public class ProcessTest {
         
         Assertions.assertEquals(expectedShuffledDeck, result);
     }
+    
+    /**
+     * Test case for {@link Process#computePreviousIndex(long, long)}.
+     * 
+     * @throws IOException if the test resource could not be read
+     */
+    @Test
+    public void testComputePreviousIndex0() throws IOException {
+        testComputePreviousInstruction("example-day22-2019-0.txt");
+    }
+    
+    /**
+     * Test case for {@link Process#computePreviousIndex(long, long)}.
+     * 
+     * @throws IOException if the test resource could not be read
+     */
+    @Test
+    public void testComputePreviousIndex1() throws IOException {
+        testComputePreviousInstruction("example-day22-2019-1.txt");
+    }
+    
+    /**
+     * Test case for {@link Process#computePreviousIndex(long, long)}.
+     * 
+     * @throws IOException if the test resource could not be read
+     */
+    @Test
+    public void testComputePreviousIndex2() throws IOException {
+        testComputePreviousInstruction("example-day22-2019-2.txt");
+    }
+    
+    /**
+     * Test case for {@link Process#computePreviousIndex(long, long)}.
+     * 
+     * @throws IOException if the test resource could not be read
+     */
+    @Test
+    public void testComputePreviousIndex3() throws IOException {
+        testComputePreviousInstruction("example-day22-2019-3.txt");
+    }
+    
+    /**
+     * Tests {@link Process#computePreviousIndex(long, long)} for a deck of 10 cards.
+     * 
+     * Note that this method assumes that {@link Process#performOnFactoryOrderDeck(int)} works correctly.
+     * 
+     * @param inputPath filename of the test resource containing shuffle instructions
+     * @throws IOException if the test resource could not be read
+     */
+    private void testComputePreviousInstruction(String inputPath) throws IOException {
+        Process process;
+        Path path = LinesSolver.toPath(getClass(), inputPath);
+        try (Stream<String> lines = Files.lines(path)) {
+            process = Process.parse(lines);
+        }
+        List<Integer> shuffledDeck = process.performOnFactoryOrderDeck(10);
+        for (int i = 0; i != 10; i++) {
+            
+            long result = process.computePreviousIndex(i, 10L);
+            
+            Assertions.assertEquals(shuffledDeck.get(i), Math.toIntExact(result), "Incorrect result " + result + " for index " + i);
+        }
+    }
 }
