@@ -36,6 +36,8 @@ public class CategorySixPart1 implements LongSolver {
         // Parse the input.
         Program program = Program.parse(lines.findFirst().orElseThrow());
         
+        Nat nat = new Nat();
+        
         // Input values, indexed by their address.
         Map<Long, Queue<Long>> inputs = new HashMap<>();
         
@@ -43,11 +45,11 @@ public class CategorySixPart1 implements LongSolver {
                 // Make sure each program is provided with its address first.
                 .mapToObj(address -> inputs.computeIfAbsent(Long.valueOf(address), a -> new LinkedList<>(Set.of(Long.valueOf(address)))))
                 .map(queue -> program.withQueueInput(queue))
-                .map(computer -> computer.withOutput(new OutputHandler(inputs)::handleOutput))
+                .map(computer -> computer.withOutput(new OutputHandler(inputs, nat)::handleOutput))
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
         
         int i = 0;
-        while (inputs.get(Long.valueOf(255L)) == null) {
+        while (!nat.containsValue()) {
             Program computer = computers.get(i);
             computer = computer.executeInstruction();
             computer = computer.executeUntilNextInput();
@@ -55,11 +57,7 @@ public class CategorySixPart1 implements LongSolver {
             i = (i + 1) % computers.size();
         }
         
-        Queue<Long> resultPacket = inputs.get(Long.valueOf(255L));
-        // Get rid of the x value
-        resultPacket.remove();
-        // Return the y value
-        return resultPacket.poll().longValue();
+        return nat.getY();
     }
     
     /**

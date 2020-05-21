@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2019.day23;
 
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.OptionalLong;
 import java.util.Queue;
@@ -16,6 +15,9 @@ class OutputHandler {
     /** Input queues for computers. Keys are addresses, values are queues of input values for the computer with the given address. */
     private final Map<Long, Queue<Long>> inputs;
     
+    /** The Not Always Transmitting Device. */
+    private final Nat nat;
+    
     /** Target address for the packet currently being sent. */
     private OptionalLong address;
     
@@ -27,9 +29,10 @@ class OutputHandler {
      * 
      * @param inputs inputs
      */
-    OutputHandler(Map<Long, Queue<Long>> inputs) {
+    OutputHandler(Map<Long, Queue<Long>> inputs, Nat nat) {
         super();
         this.inputs = inputs;
+        this.nat = nat;
         this.address = OptionalLong.empty();
         this.x = OptionalLong.empty();
     }
@@ -46,9 +49,14 @@ class OutputHandler {
         } else if (x.isEmpty()) {
             // output value is an x coordinate
             x = OptionalLong.of(outputValue);
+        } else if (address.getAsLong() == Nat.ADDRESS) {
+            // Packet complete; send it to the NAT.
+            nat.handlePacket(x.getAsLong(), outputValue);
+            address = OptionalLong.empty();
+            x = OptionalLong.empty();
         } else {
-            // output value is a y coordinate: package complete
-            Queue<Long> targetQueue = inputs.computeIfAbsent(Long.valueOf(address.getAsLong()), a -> new LinkedList<>());
+            // Packet complete; send it to the target computer.
+            Queue<Long> targetQueue = inputs.get(Long.valueOf(address.getAsLong()));
             targetQueue.add(Long.valueOf(x.getAsLong()));
             targetQueue.add(Long.valueOf(outputValue));
             address = OptionalLong.empty();
