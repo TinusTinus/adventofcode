@@ -1,20 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2019.day23;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalLong;
 import java.util.Queue;
-import java.util.Set;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 
 /**
@@ -23,35 +16,19 @@ import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class CategorySixPart2 implements LongSolver {
+public class CategorySixPart2 extends CategorySix {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CategorySixPart2.class);
-
+    
     /**
      * {@inheritDoc}
      * 
      * @return the first Y value delivered by the NAT to the computer at address 0 twice in a row
      */
     @Override
-    public long solve(Stream<String> lines) {
-        // Parse the input.
-        Program program = Program.parse(lines.findFirst().orElseThrow());
-        
-        Nat nat = new Nat();
-        
-        // Input values, indexed by their address.
-        Map<Long, Queue<Long>> inputs = new HashMap<>();
-        
-        List<Program> computers = LongStream.range(0L, 50L)
-                // Make sure each program is provided with its address first.
-                .mapToObj(address -> inputs.computeIfAbsent(Long.valueOf(address), a -> new LinkedList<>(Set.of(Long.valueOf(address)))))
-                .map(queue -> program.withQueueInput(queue))
-                .map(computer -> computer.withOutput(new OutputHandler(inputs, nat)::handleOutput))
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-        
+    long solve(Nat nat, Map<Long, Queue<Long>> inputs, List<Program> computers) {
         OptionalLong previousY = OptionalLong.empty();
         boolean done = false;
-        
         int i = 0;
         while (!done) {
             if (nat.containsValue() && inputs.values().stream().allMatch(Queue::isEmpty)) {
