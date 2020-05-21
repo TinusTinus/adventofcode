@@ -89,7 +89,7 @@ abstract class AmplificationCircuit implements LongSolver {
             BlockingQueue<Long> input = queues.get(i);
             BlockingQueue<Long> output = queues.get((i + 1) % queues.size());
             
-            Program amplifier = initialProgram.withInput(input).withOutput(output);
+            Program amplifier = initialProgram.withBlockingQueueInput(input).withBlockingQueueOutput(output);
             
             executorService.submit(amplifier::execute);
         }

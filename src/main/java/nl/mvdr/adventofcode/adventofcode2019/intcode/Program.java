@@ -116,7 +116,7 @@ public class Program {
      * @param inputValues input for the program
      * @return updated copy of the program
      */
-    public Program withInput(long... inputValues) {
+    public Program withInputValues(long... inputValues) {
         return withInput(Arrays.stream(inputValues).iterator()::next);
     }
     
@@ -128,9 +128,9 @@ public class Program {
      * 
      * @param queue blocking queue, providing input for the program
      * @return updated copy of the program
-     * @see #withOutput(BlockingQueue)
+     * @see #withBlockingQueueOutput(BlockingQueue)
      */
-    public Program withInput(BlockingQueue<Long> queue) {
+    public Program withBlockingQueueInput(BlockingQueue<Long> queue) {
         return withInput(() -> {
             long result;
             try {
@@ -138,6 +138,24 @@ public class Program {
             } catch (InterruptedException e) {
                 handle(e);
                 result = 0;
+            }
+            return result;
+        });
+    }
+    
+    /**
+     * Returns a copy of this program, using the given queue to get its input.
+     * 
+     * @param queue providing input for the program; in case the queue is empty, the value -1 is provided instead
+     * @return updated copy of the program
+     */
+    public Program withQueueInput(Queue<Long> queue) {
+        return withInput(() -> {
+            long result;
+            if (queue.isEmpty()) {
+                result = -1L;
+            } else {
+                result = queue.poll().longValue();
             }
             return result;
         });
@@ -176,9 +194,9 @@ public class Program {
      * 
      * @param queue blocking queue, to which to write the program's output
      * @return updated copy of the program
-     * @see #withInput(BlockingQueue)
+     * @see #withBlockingQueueInput(BlockingQueue)
      */
-    public Program withOutput(BlockingQueue<Long> queue) {
+    public Program withBlockingQueueOutput(BlockingQueue<Long> queue) {
         return withOutput(value -> {
             try {
                 queue.put(Long.valueOf(value));
