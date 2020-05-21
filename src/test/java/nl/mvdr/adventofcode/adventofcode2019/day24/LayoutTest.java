@@ -17,6 +17,50 @@ import nl.mvdr.adventofcode.LinesSolver;
  * @author Martijn van de Rijdt
  */
 public class LayoutTest {
+    /** Test case for {@link Layout#next()}. */
+    @Test
+    public void test1stMinute() {
+        Layout layout = parse("example-day24-2019-0.txt");
+        
+        Layout result = layout.next();
+        
+        Layout expected = parse("example-day24-2019-1.txt");
+        Assertions.assertEquals(expected, result);
+    }
+    
+    /** Test case for {@link Layout#next()}. */
+    @Test
+    public void test2ndMinute() {
+        Layout layout = parse("example-day24-2019-1.txt");
+        
+        Layout result = layout.next();
+        
+        Layout expected = parse("example-day24-2019-2.txt");
+        Assertions.assertEquals(expected, result);
+    }
+    
+    /** Test case for {@link Layout#next()}. */
+    @Test
+    public void test3rdMinute() {
+        Layout layout = parse("example-day24-2019-2.txt");
+        
+        Layout result = layout.next();
+        
+        Layout expected = parse("example-day24-2019-3.txt");
+        Assertions.assertEquals(expected, result);
+    }
+    
+    /** Test case for {@link Layout#next()}. */
+    @Test
+    public void test4thMinute() {
+        Layout layout = parse("example-day24-2019-3.txt");
+        
+        Layout result = layout.next();
+        
+        Layout expected = parse("example-day24-2019-4.txt");
+        Assertions.assertEquals(expected, result);
+    }
+    
     /** Test case for {@link Layout#biodiversity()}. */
     @Test
     public void testBioDiversity() {

@@ -62,6 +62,35 @@ class Layout {
         this.bugs = bugs;
     }
     
+    /**
+     * Determines the next layout, after a minute has passed.
+     * 
+     * @return new layout
+     */
+    Layout next() {
+        Set<Point> newBugLocations = new HashSet<>();
+        for (int x = 0; x != WIDTH; x++) {
+            for (int y = 0; y != HEIGHT; y++) {
+                Point location = new Point(x, y);
+                long adjacentBugs = location.neighbours().stream()
+                        .filter(bugs::contains)
+                        .count();
+                if (bugs.contains(location)) {
+                    // A bug dies (becoming an empty space) unless there is exactly one bug adjacent to it.
+                    if (adjacentBugs == 1L) {
+                        newBugLocations.add(location);
+                    }
+                } else {
+                    // An empty space becomes infested with a bug if exactly one or two bugs are adjacent to it.
+                    if (adjacentBugs == 1L || adjacentBugs == 2L) {
+                        newBugLocations.add(location);
+                    }
+                }
+            }
+        }
+        return new Layout(newBugLocations);
+    }
+    
     /** @return the biodiversity in this layout */
     int biodiversity() {
         return bugs.stream()
