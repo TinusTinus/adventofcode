@@ -41,10 +41,10 @@ public class PlanetOfDiscordPart2 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        Layout layout = Layout.parse(false, lines);
+        Layout layout = Layout.parse(true, lines);
         
         for (int i = 0; i != minutes; i++) {
-            layout = layout.next();
+            layout = layout.tick();
         }
         
         return layout.totalNumberOfBugs();

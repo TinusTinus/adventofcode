@@ -25,6 +25,6 @@ public class PlanetOfDiscordPart2Test extends SolverTest<PlanetOfDiscordPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day24-2019.txt"); 
+        assertSolution("2097", "input-day24-2019.txt"); 
     }
 }

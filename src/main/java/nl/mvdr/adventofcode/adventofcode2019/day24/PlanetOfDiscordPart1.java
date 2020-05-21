@@ -32,7 +32,7 @@ public class PlanetOfDiscordPart1 implements IntSolver {
         
         while (!layouts.contains(layout)) {
             layouts.add(layout);
-            layout = layout.next();
+            layout = layout.tick();
         }
         
         return layout.biodiversity();
