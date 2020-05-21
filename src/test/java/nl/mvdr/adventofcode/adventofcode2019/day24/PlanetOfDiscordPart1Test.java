@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class DonutMazePart1Test extends SolverTest<PlanetOfDiscordPart1> {
+public class PlanetOfDiscordPart1Test extends SolverTest<PlanetOfDiscordPart1> {
 
     /** Constructor. */
-    public DonutMazePart1Test() {
+    public PlanetOfDiscordPart1Test() {
         super(PlanetOfDiscordPart1.class);
     }
     

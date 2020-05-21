@@ -17,16 +17,33 @@ public class PlanetOfDiscordPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PlanetOfDiscordPart2.class);
 
+    private final int minutes;
+    
+    /** Constructor. */
+    public PlanetOfDiscordPart2() {
+        this(200);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param minutes number of minutes
+     */
+    PlanetOfDiscordPart2(int minutes) {
+        super();
+        this.minutes = minutes;
+    }
+    
     /**
      * {@inheritDoc}
      * 
-     * @return how many bugs are present after 200 minutes 
+     * @return how many bugs are present after the specified number of minutes 
      */
     @Override
     public int solve(Stream<String> lines) {
         Layout layout = Layout.parse(false, lines);
         
-        for (int i = 0; i != 200; i++) {
+        for (int i = 0; i != minutes; i++) {
             layout = layout.next();
         }
         
