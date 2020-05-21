@@ -27,16 +27,21 @@ class Layout {
     /** Character representation of an empty space. */
     private static final char EMPTY_SPACE = '.';
 
+    /** Whether the apply the rules for recursively folded space. */
+    private final boolean recursivelyFoldedSpace;
+    
     /** Locations occupied by bugs. */
     private final Set<Point> bugs;
 
     /**
      * Parses puzzle input into a layout.
      * 
+     * @param recursivelyFoldedSpace whether to apply the rules for recursively folded space;
+     *      that is, whether this is part 2 of the puzzle
      * @param linesStream lines from the puzzle input
      * @return layout
      */
-    static Layout parse(Stream<String> linesStream) {
+    static Layout parse(boolean recursivelyFoldedSpace, Stream<String> linesStream) {
         List<String> lines = linesStream.collect(Collectors.toList());
         
         Set<Point> bugLocations = new HashSet<>();
@@ -49,16 +54,18 @@ class Layout {
             }
         }
         
-        return new Layout(bugLocations);
+        return new Layout(recursivelyFoldedSpace, bugLocations);
     }
     
     /**
      * Constructor.
      * 
+     * @param recursivelyFoldedSpace whether to apply the rules for recursively folded space
      * @param bugs locations occupied by bugs
      */
-    private Layout(Set<Point> bugs) {
+    private Layout(boolean recursivelyFoldedSpace, Set<Point> bugs) {
         super();
+        this.recursivelyFoldedSpace = recursivelyFoldedSpace;
         this.bugs = bugs;
     }
     
@@ -68,10 +75,13 @@ class Layout {
      * @return new layout
      */
     Layout next() {
+        // TODO apply recursivelyFoldedSpace rules
+        
         Set<Point> newBugLocations = new HashSet<>();
         for (int x = 0; x != WIDTH; x++) {
             for (int y = 0; y != HEIGHT; y++) {
                 Point location = new Point(x, y);
+
                 long adjacentBugs = location.neighbours().stream()
                         .filter(bugs::contains)
                         .count();
@@ -88,7 +98,7 @@ class Layout {
                 }
             }
         }
-        return new Layout(newBugLocations);
+        return new Layout(recursivelyFoldedSpace, newBugLocations);
     }
     
     /** @return the biodiversity in this layout */
@@ -107,6 +117,11 @@ class Layout {
     private int biodiversityPoints(Point bug) {
         int exponent = bug.getY() * WIDTH + bug.getX();
         return 1 << exponent;
+    }
+    
+    /** @return total number of bugs in the layout */
+    int totalNumberOfBugs() {
+        return bugs.size(); // TODO include other recursive spaces
     }
 
     @Override

@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2019.day24;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -15,27 +13,24 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class PlanetOfDiscordPart1 implements IntSolver {
+public class PlanetOfDiscordPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PlanetOfDiscordPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlanetOfDiscordPart2.class);
 
     /**
      * {@inheritDoc}
      * 
-     * @return the biodiversity rating for the first layout that appears twice 
+     * @return how many bugs are present after 200 minutes 
      */
     @Override
     public int solve(Stream<String> lines) {
         Layout layout = Layout.parse(false, lines);
         
-        Set<Layout> layouts = new HashSet<>();
-        
-        while (!layouts.contains(layout)) {
-            layouts.add(layout);
+        for (int i = 0; i != 200; i++) {
             layout = layout.next();
         }
         
-        return layout.biodiversity();
+        return layout.totalNumberOfBugs();
     }
 
     /**
@@ -44,7 +39,7 @@ public class PlanetOfDiscordPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        PlanetOfDiscordPart1 instance = new PlanetOfDiscordPart1();
+        PlanetOfDiscordPart2 instance = new PlanetOfDiscordPart2();
 
         String result = instance.solve("input-day24-2019.txt");
 

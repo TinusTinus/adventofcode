@@ -78,10 +78,21 @@ public class LayoutTest {
      * @return layout
      */
     private Layout parse(String filename) {
+        return parse(false, filename);
+    }
+    
+    /**
+     * Reads a layout from a test resource.
+     * 
+     * @param recursivelyFoldedSpace whether the rules for recursively-folded space apply
+     * @param filename filename of a test resource
+     * @return layout
+     */
+    private Layout parse(boolean recursivelyFoldedSpace, String filename) {
         Layout result;
         Path path = LinesSolver.toPath(getClass(), filename);
         try (Stream<String> lines = Files.lines(path)) {
-            result = Layout.parse(lines);
+            result = Layout.parse(recursivelyFoldedSpace, lines);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
