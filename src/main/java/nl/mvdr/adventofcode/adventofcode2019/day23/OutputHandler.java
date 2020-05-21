@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.OptionalLong;
 import java.util.Queue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Output handler for a single computer.
  *
@@ -12,6 +15,9 @@ import java.util.Queue;
  * @author Martijn van de Rijdt
  */
 class OutputHandler {
+    /** Logger. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(OutputHandler.class);
+    
     /** Input queues for computers. Keys are addresses, values are queues of input values for the computer with the given address. */
     private final Map<Long, Queue<Long>> inputs;
     
@@ -19,7 +25,7 @@ class OutputHandler {
     private final Nat nat;
     
     /** Target address for the packet currently being sent. */
-    private OptionalLong address;
+    private OptionalLong targetAddress;
     
     /** X coordinate for the packet currently being sent. */
     private OptionalLong x;
@@ -33,7 +39,7 @@ class OutputHandler {
         super();
         this.inputs = inputs;
         this.nat = nat;
-        this.address = OptionalLong.empty();
+        this.targetAddress = OptionalLong.empty();
         this.x = OptionalLong.empty();
     }
     
@@ -43,23 +49,26 @@ class OutputHandler {
      * @param outputValue output value
      */
     void handleOutput(long outputValue) {
-        if (address.isEmpty()) {
+        if (targetAddress.isEmpty()) {
             // output value is an address
-            address = OptionalLong.of(outputValue);
+            targetAddress = OptionalLong.of(outputValue);
         } else if (x.isEmpty()) {
             // output value is an x coordinate
             x = OptionalLong.of(outputValue);
-        } else if (address.getAsLong() == Nat.ADDRESS) {
-            // Packet complete; send it to the NAT.
-            nat.handlePacket(x.getAsLong(), outputValue);
-            address = OptionalLong.empty();
-            x = OptionalLong.empty();
         } else {
-            // Packet complete; send it to the target computer.
-            Queue<Long> targetQueue = inputs.get(Long.valueOf(address.getAsLong()));
-            targetQueue.add(Long.valueOf(x.getAsLong()));
-            targetQueue.add(Long.valueOf(outputValue));
-            address = OptionalLong.empty();
+            // Packet complete.
+            LOGGER.debug("{} <- ({}, {})", Long.valueOf(targetAddress.getAsLong()), Long.valueOf(x.getAsLong()), Long.valueOf(outputValue));
+            
+            if (targetAddress.getAsLong() == Nat.ADDRESS) {
+                // Send to NAT.
+                nat.handlePacket(x.getAsLong(), outputValue);
+            } else {
+                // Send to target computer.
+                Queue<Long> targetQueue = inputs.get(Long.valueOf(targetAddress.getAsLong()));
+                targetQueue.add(Long.valueOf(x.getAsLong()));
+                targetQueue.add(Long.valueOf(outputValue));
+            }
+            targetAddress = OptionalLong.empty();
             x = OptionalLong.empty();
         }
     }

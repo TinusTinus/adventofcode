@@ -49,4 +49,15 @@ class Nat {
     long getY() {
         return y.orElseThrow();
     }
+    
+    @Override
+    public String toString() {
+        String result;
+        if (containsValue()) {
+            result = "(" + x.getAsLong() + ", " + y.getAsLong() + ")";
+        } else {
+            result = "empty";
+        }
+        return result;
+    }
 }

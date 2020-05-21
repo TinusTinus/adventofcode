@@ -60,9 +60,11 @@ public class CategorySixPart2 implements LongSolver {
                     // Same y value twice in a row
                     done = true;
                 } else {
+                    LOGGER.debug("{} <- {}", Long.valueOf(0L), nat);
                     Queue<Long> targetQueue = inputs.get(Long.valueOf(0L));
                     targetQueue.add(Long.valueOf(nat.getX()));
                     targetQueue.add(Long.valueOf(nat.getY()));
+                    previousY = OptionalLong.of(nat.getY());
                 }
             } else {
                 Program computer = computers.get(i);
