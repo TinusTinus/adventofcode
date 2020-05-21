@@ -47,7 +47,7 @@ class OutputHandler {
             // output value is an x coordinate
             x = OptionalLong.of(outputValue);
         } else {
-            // output value is a y coordinate: complete package received
+            // output value is a y coordinate: package complete
             Queue<Long> targetQueue = inputs.computeIfAbsent(Long.valueOf(address.getAsLong()), a -> new LinkedList<>());
             targetQueue.add(Long.valueOf(x.getAsLong()));
             targetQueue.add(Long.valueOf(outputValue));
