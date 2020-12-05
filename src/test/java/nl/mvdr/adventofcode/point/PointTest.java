@@ -5,8 +5,6 @@ import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import nl.mvdr.adventofcode.point.Point;
-
 /**
  * Test class for {@link Point}.
  *
