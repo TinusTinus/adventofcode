@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to the day 24 puzzle of 2019's Advent of Code:
- * <a href="https://adventofcode.com/2019/day/24">Planet of Discord</a>.
+ * Solution to the day 1 puzzle of 2020's Advent of Code:
+ * <a href="https://adventofcode.com/2020/day/1">Report Repair</a>.
  *
  * @author Martijn van de Rijdt
  */
@@ -23,7 +23,7 @@ public class ReportRepairPart2 implements IntSolver {
     /**
      * {@inheritDoc}
      * 
-     * @return product of the two entries that sum to 2020 
+     * @return product of the three entries that sum to 2020 
      */
     @Override
     public int solve(Stream<String> lines) {
