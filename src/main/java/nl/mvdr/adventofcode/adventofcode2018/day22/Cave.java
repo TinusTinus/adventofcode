@@ -91,18 +91,18 @@ class Cave {
     private Region computeRegion(Point point) {
         int geologicIndex;
         
-        if (point.getX() < 0) {
-            throw new IllegalArgumentException("x coordinate was negative: " + point.getX());
-        } else if (point.getY() < 0) {
-            throw new IllegalArgumentException("y coordinate was negative: " + point.getY());
+        if (point.x() < 0) {
+            throw new IllegalArgumentException("x coordinate was negative: " + point.x());
+        } else if (point.y() < 0) {
+            throw new IllegalArgumentException("y coordinate was negative: " + point.y());
         } else if (point.equals(MOUTH)) {
             geologicIndex = 0;
         } else if (point.equals(target)) {
             geologicIndex = 0;
-        } else if (point.getY() == 0) {
-            geologicIndex = point.getX() * 16_807;
-        } else if (point.getX() == 0) {
-            geologicIndex = point.getY() * 48_271;
+        } else if (point.y() == 0) {
+            geologicIndex = point.x() * 16_807;
+        } else if (point.x() == 0) {
+            geologicIndex = point.y() * 48_271;
         } else {
             // Lookup recursively
             geologicIndex = getRegionAt(point.aboveNeighbour()).getErosionLevel()
@@ -116,9 +116,9 @@ class Cave {
     
     /** @return the total risk level for the smallest rectangle that includes 0,0 and the target's coordinates */
     int getTotalRiskLevel() {
-        return IntStream.rangeClosed(0, target.getX())
+        return IntStream.rangeClosed(0, target.x())
                 .boxed()
-                .flatMap(x -> IntStream.rangeClosed(0, target.getY()).mapToObj(y -> new Point(x.intValue(), y)))
+                .flatMap(x -> IntStream.rangeClosed(0, target.y()).mapToObj(y -> new Point(x.intValue(), y)))
                 .map(this::getRegionAt)
                 .map(Region::getType)
                 .mapToInt(Type::getRiskLevel)

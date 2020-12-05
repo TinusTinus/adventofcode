@@ -74,9 +74,9 @@ class Screen {
         Set<Point> newLit = lit.stream()
                 .map(point -> {
                     Point result;
-                    if (point.getY() == a) {
+                    if (point.y() == a) {
                         // Rotate right
-                        result = new Point((point.getX() + b) % width, a);
+                        result = new Point((point.x() + b) % width, a);
                     } else {
                         // Different row, leave unchanged
                         result = point;
@@ -100,9 +100,9 @@ class Screen {
         Set<Point> newLit = lit.stream()
                 .map(point -> {
                     Point result;
-                    if (point.getX() == a) {
+                    if (point.x() == a) {
                         // Rotate down
-                        result = new Point(a, (point.getY() + b) % height);
+                        result = new Point(a, (point.y() + b) % height);
                     } else {
                         // Different column, leave unchanged
                         result = point;

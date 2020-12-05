@@ -57,32 +57,32 @@ public class ExperimentalEmergencyTeleportationPart2 implements IntSolver {
     private static Nanobot generateStartOctahedron(Set<Nanobot> nanobots) {
         int minX = nanobots.stream()
                 .map(Nanobot::getPosition)
-                .mapToInt(Point3D::getX)
+                .mapToInt(Point3D::x)
                 .min()
                 .getAsInt();
         int maxX = nanobots.stream()
                 .map(Nanobot::getPosition)
-                .mapToInt(Point3D::getX)
+                .mapToInt(Point3D::x)
                 .max()
                 .getAsInt();
         int minY = nanobots.stream()
                 .map(Nanobot::getPosition)
-                .mapToInt(Point3D::getY)
+                .mapToInt(Point3D::y)
                 .min()
                 .getAsInt();
         int maxY = nanobots.stream()
                 .map(Nanobot::getPosition)
-                .mapToInt(Point3D::getY)
+                .mapToInt(Point3D::y)
                 .max()
                 .getAsInt();
         int minZ = nanobots.stream()
                 .map(Nanobot::getPosition)
-                .mapToInt(Point3D::getZ)
+                .mapToInt(Point3D::z)
                 .min()
                 .getAsInt();
         int maxZ = nanobots.stream()
                 .map(Nanobot::getPosition)
-                .mapToInt(Point3D::getZ)
+                .mapToInt(Point3D::z)
                 .max()
                 .getAsInt();
         

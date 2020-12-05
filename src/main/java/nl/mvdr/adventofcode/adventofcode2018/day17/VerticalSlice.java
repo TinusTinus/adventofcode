@@ -57,12 +57,12 @@ class VerticalSlice {
         
         // Compute and cache minimum and maximum coordinates
         this.minimumY = clay.stream()
-                .mapToInt(Point::getY)
+                .mapToInt(Point::y)
                 .min()
                 .getAsInt();
         
         this.maximumY = clay.stream()
-                .mapToInt(Point::getY)
+                .mapToInt(Point::y)
                 .max()
                 .getAsInt();
         
@@ -72,11 +72,11 @@ class VerticalSlice {
         points.addAll(water);
         points.addAll(wetSand);
         this.minimumX = points.stream()
-                .mapToInt(Point::getX)
+                .mapToInt(Point::x)
                 .min()
                 .getAsInt();
         this.maximumX = points.stream()
-                .mapToInt(Point::getX)
+                .mapToInt(Point::x)
                 .max()
                 .getAsInt();
     }
@@ -103,7 +103,7 @@ class VerticalSlice {
             Point tricklingWaterPoint = tricklingWater.poll();
             
             Point below = tricklingWaterPoint.belowNeighbour();
-            if (maximumY < below.getY()) {
+            if (maximumY < below.y()) {
                 // Ignore. No need to trickle down further.
             } else if (clay.contains(below) || newWater.contains(below)) {
                 // The tile below is clay or water. Unable to trickle down.
@@ -186,8 +186,8 @@ class VerticalSlice {
         reached.addAll(wetSand);
         
         // To prevent counting forever, ignore tiles with a y coordinate smaller than the smallest y coordinate in your scan data or larger than the largest one.
-        reached.removeIf(point -> point.getY() < minimumY);
-        reached.removeIf(point -> maximumY < point.getY());
+        reached.removeIf(point -> point.y() < minimumY);
+        reached.removeIf(point -> maximumY < point.y());
         
         return reached.size();
     }

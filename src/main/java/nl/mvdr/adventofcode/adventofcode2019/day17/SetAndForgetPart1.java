@@ -41,7 +41,7 @@ public class SetAndForgetPart1 implements IntSolver {
                 .filter(s -> scaffolds.contains(s.belowNeighbour()))
                 .filter(s -> scaffolds.contains(s.leftNeighbour()))
                 .filter(s -> scaffolds.contains(s.rightNeighbour()))
-                .mapToInt(intersection -> intersection.getX() * intersection.getY())
+                .mapToInt(intersection -> intersection.x() * intersection.y())
                 .sum();
     }
 

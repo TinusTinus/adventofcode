@@ -1,48 +1,19 @@
 package nl.mvdr.adventofcode.point;
 
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import javax.annotation.processing.Generated;
-
 /**
  * A point in two dimensions.
  *
  * @author Martijn van de Rijdt
  */
-public class Point implements Comparable<Point> {
+public record Point(int x, int y) implements Comparable<Point> {
 
-    private final int x;
-
-    private final int y;
-
-    /**
-     * Constructor.
-     * 
-     * @param x x coordinate (horizontal)
-     * @param y y coordinate (vertical)
-     */
-    public Point(int x, int y) {
-        super();
-        this.x = x;
-        this.y = y;
-    }
-
-    /** @return x coordinate (horizontal) */
-    public int getX() {
-        return x;
-    }
-    
-    /** @return y coordinate (vertical) */
-    public int getY() {
-        return y;
-    }
-    
     /**
      * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and another.
      * 
@@ -171,24 +142,6 @@ public class Point implements Comparable<Point> {
         return x + "," + y;
     }
     
-    @Override
-    public int hashCode() {
-        return Objects.hash(Integer.valueOf(x), Integer.valueOf(y));
-    }
-
-    @Override
-    @Generated("Eclipse")
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Point other = (Point) obj;
-        return x == other.x && y == other.y;
-    }
-    
     /**
      * {@inheritDoc}
      * <p>
@@ -197,7 +150,7 @@ public class Point implements Comparable<Point> {
      */
     @Override
     public int compareTo(Point other) {
-        Comparator<Point> readingOrder = Comparator.comparing(Point::getY).thenComparing(Point::getX);
+        Comparator<Point> readingOrder = Comparator.comparing(Point::y).thenComparing(Point::x);
         return readingOrder.compare(this, other);
     }
     
@@ -313,12 +266,12 @@ public class Point implements Comparable<Point> {
      * @return whether the three points are all on the same line
      */
     public static boolean sameLine(Point point1, Point point2, Point point3) {
-        int x1 = point1.getX();
-        int y1 = point1.getY();
-        int x2 = point2.getX();
-        int y2 = point2.getY();
-        int x3 = point3.getX();
-        int y3 = point3.getY();
+        int x1 = point1.x();
+        int y1 = point1.y();
+        int x2 = point2.x();
+        int y2 = point2.y();
+        int x3 = point3.x();
+        int y3 = point3.y();
         
         return (x2 - x1) * (y3 - y1) == (y2 - y1) * (x3 - x1);
     }
@@ -331,7 +284,7 @@ public class Point implements Comparable<Point> {
      */
     public static int minX(Set<Point> points) {
         return points.stream()
-                .mapToInt(Point::getX)
+                .mapToInt(Point::x)
                 .min()
                 .orElse(0);
     }
@@ -344,7 +297,7 @@ public class Point implements Comparable<Point> {
      */
     public static int maxX(Set<Point> points) {
         return points.stream()
-                .mapToInt(Point::getX)
+                .mapToInt(Point::x)
                 .max()
                 .orElse(0);
     }
@@ -357,7 +310,7 @@ public class Point implements Comparable<Point> {
      */
     public static int minY(Set<Point> points) {
         return points.stream()
-                .mapToInt(Point::getY)
+                .mapToInt(Point::y)
                 .min()
                 .orElse(0);
     }
@@ -370,7 +323,7 @@ public class Point implements Comparable<Point> {
      */
     public static int maxY(Set<Point> points) {
         return points.stream()
-                .mapToInt(Point::getY)
+                .mapToInt(Point::y)
                 .max()
                 .orElse(0);
     }

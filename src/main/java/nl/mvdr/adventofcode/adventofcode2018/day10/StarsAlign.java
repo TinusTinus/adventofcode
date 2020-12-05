@@ -64,10 +64,10 @@ public class StarsAlign implements LinesSolver<Void> {
      */
     private void log(Set<Star> stars, int second) {
         // Construct a rectangle containing all of the stars
-        int minX = stars.stream().map(Star::getLocation).mapToInt(Point::getX).min().getAsInt();
-        int maxX = stars.stream().map(Star::getLocation).mapToInt(Point::getX).max().getAsInt();
-        int minY = stars.stream().map(Star::getLocation).mapToInt(Point::getY).min().getAsInt();
-        int maxY = stars.stream().map(Star::getLocation).mapToInt(Point::getY).max().getAsInt();
+        int minX = stars.stream().map(Star::getLocation).mapToInt(Point::x).min().getAsInt();
+        int maxX = stars.stream().map(Star::getLocation).mapToInt(Point::x).max().getAsInt();
+        int minY = stars.stream().map(Star::getLocation).mapToInt(Point::y).min().getAsInt();
+        int maxY = stars.stream().map(Star::getLocation).mapToInt(Point::y).max().getAsInt();
 
         int height = maxY - minY;
         

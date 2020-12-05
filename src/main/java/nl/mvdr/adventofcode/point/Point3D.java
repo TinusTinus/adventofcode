@@ -1,9 +1,6 @@
 package nl.mvdr.adventofcode.point;
 
-import java.util.Objects;
 import java.util.Set;
-
-import javax.annotation.processing.Generated;
 
 /**
  * A point (/vector) in three dimensions.
@@ -14,13 +11,7 @@ import javax.annotation.processing.Generated;
  *
  * @author Martijn van de Rijdt
  */
-public class Point3D {
-
-    private final int x;
-
-    private final int y;
-    
-    private final int z;
+public record Point3D(int x, int y, int z) {
 
     /**
      * Parses a string containing a set of coordinates, for example: "<1,3,1>".
@@ -39,45 +30,13 @@ public class Point3D {
     /**
      * Constructor.
      * 
-     * @param x x coordinate
-     * @param y y coordinate
-     * @param z z coordinate
-     */
-    public Point3D(int x, int y, int z) {
-        super();
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-    
-    /**
-     * Constructor.
-     * 
      * @param point x and y coordinates
      * @param z z coordinate
      */
     public Point3D(Point point, int z) {
-        super();
-        this.x = point.getX();
-        this.y = point.getY();
-        this.z = z;
+        this(point.x(), point.y(), z);
     }
 
-    /** @return x coordinate */
-    public int getX() {
-        return x;
-    }
-    
-    /** @return y coordinate */
-    public int getY() {
-        return y;
-    }
-    
-    /** @return z coordinate */
-    public int getZ() {
-        return z;
-    }
-    
     /**
      * Gets the value along the given axis.
      * 
@@ -142,7 +101,7 @@ public class Point3D {
      * @return new vector, which is equal to the sum of the given vectors
      */
     public Point3D add(Point3D other) {
-        return new Point3D(this.getX() + other.getX(), this.getY() + other.getY(), this.getZ() + other.getZ());
+        return new Point3D(this.x() + other.x(), this.y() + other.y(), this.z() + other.z());
     }
     
     /**
@@ -152,7 +111,7 @@ public class Point3D {
      * @return new vector
      */
     public Point3D subtract(Point3D other) {
-        return new Point3D(this.getX() - other.getX(), this.getY() - other.getY(), this.getZ() - other.getZ());
+        return new Point3D(this.x() - other.x(), this.y() - other.y(), this.z() - other.z());
     }
     
     /** @return new vector, which is the inverse of this one */
@@ -168,24 +127,5 @@ public class Point3D {
     @Override
     public String toString() {
         return "<" + x + "," + y + "," + z + ">";
-    }
-
-    @Override
-    @Generated("Eclipse")
-    public int hashCode() {
-        return Objects.hash(Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(z));
-    }
-
-    @Override
-    @Generated("Eclipse")
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Point3D other = (Point3D) obj;
-        return x == other.x && y == other.y && z == other.z;
     }
 }

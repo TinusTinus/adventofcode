@@ -52,10 +52,10 @@ abstract class SeriesOfTubes<R> implements LinesSolver<R> {
             }
             Optional<Packet> next = potentialNextDirections.stream()
                     .map(direction -> new Packet(direction.move(location), direction))
-                    .filter(p -> 0 <= p.getLocation().getY())
-                    .filter(p -> p.getLocation().getY() < map.size())
-                    .filter(p -> 0 <= p.getLocation().getX())
-                    .filter(p -> p.getLocation().getX() < map.get(p.getLocation().getY()).length())
+                    .filter(p -> 0 <= p.getLocation().y())
+                    .filter(p -> p.getLocation().y() < map.size())
+                    .filter(p -> 0 <= p.getLocation().x())
+                    .filter(p -> p.getLocation().x() < map.get(p.getLocation().y()).length())
                     .filter(p -> getCharacterAt(map, p.getLocation()) != ' ')
                     .findFirst();
             if (next.isPresent()) {
@@ -79,8 +79,8 @@ abstract class SeriesOfTubes<R> implements LinesSolver<R> {
     abstract R solve(String letters, int steps);
     
     private char getCharacterAt(List<String> map, Point location) {
-        int x = location.getX();
-        int y = location.getY();
+        int x = location.x();
+        int y = location.y();
         
         return map.get(y).charAt(x);
     }

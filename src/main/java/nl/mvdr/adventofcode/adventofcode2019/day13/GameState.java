@@ -65,11 +65,11 @@ class GameState {
         Point paddleLocation = getLocation(Tile.PADDLE).orElseThrow();
         
         long result;
-        if (ballLocation.getX() == paddleLocation.getX()) {
+        if (ballLocation.x() == paddleLocation.x()) {
             // the ball is above the paddle
             LOGGER.debug("Staying put.");
             result = 0L;
-        } else if (ballLocation.getX() < paddleLocation.getX()) {
+        } else if (ballLocation.x() < paddleLocation.x()) {
             // the ball is left of the paddle
             LOGGER.debug("Moving left.");
             result = -1L;

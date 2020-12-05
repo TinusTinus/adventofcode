@@ -8,9 +8,9 @@ import java.util.function.ToIntFunction;
  * @author Martijn van de Rijdt
  */
 public enum Axis3D {
-    X(Point3D::getX),
-    Y(Point3D::getY),
-    Z(Point3D::getZ);
+    X(Point3D::x),
+    Y(Point3D::y),
+    Z(Point3D::z);
     
     private final ToIntFunction<Point3D> getFunction;
     

@@ -65,7 +65,7 @@ public class ChronalCoordinatesPart1 implements IntSolver {
      * @return whether the area is finite
      */
     private boolean isFinite(Set<Point> area, int minX, int minY, int maxX, int maxY) {
-        return area.stream().allMatch(point -> point.getX() != minX && point.getX() != maxX && point.getY() != minY && point.getY() != maxY);
+        return area.stream().allMatch(point -> point.x() != minX && point.x() != maxX && point.y() != minY && point.y() != maxY);
     }
     
     

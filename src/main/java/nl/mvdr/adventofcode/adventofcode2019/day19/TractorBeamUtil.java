@@ -27,8 +27,8 @@ class TractorBeamUtil {
      */
     static boolean isBeingPulled(Point drone, Program program) {
         Queue<Long> inputQueue = new LinkedList<>();
-        inputQueue.offer(Long.valueOf(drone.getX()));
-        inputQueue.offer(Long.valueOf(drone.getY()));
+        inputQueue.offer(Long.valueOf(drone.x()));
+        inputQueue.offer(Long.valueOf(drone.y()));
         List<Long> outputList = new ArrayList<>(1);
         
         program.withInput(inputQueue::poll)

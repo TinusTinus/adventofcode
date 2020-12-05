@@ -50,7 +50,7 @@ public class TractorBeamPart2 implements IntSolver {
                 .min(Comparator.comparing(Point::manhattanDistanceToOrigin))
                 .orElseThrow();
         
-          return point.getX() * 10_000 + point.getY();
+          return point.x() * 10_000 + point.y();
     }
     
     /**

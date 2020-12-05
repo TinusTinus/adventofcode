@@ -46,8 +46,8 @@ public class ModeMazePart2 extends ModeMaze {
             
             lastAdded.stream()
                 .flatMap(state -> state.getTransitions(cave).stream())
-                .filter(transition -> transition.getNextState().getLocation().getX() < 2 * cave.getTarget().getX())
-                .filter(transition -> transition.getNextState().getLocation().getY() < 2 * cave.getTarget().getY())
+                .filter(transition -> transition.getNextState().getLocation().x() < 2 * cave.getTarget().x())
+                .filter(transition -> transition.getNextState().getLocation().y() < 2 * cave.getTarget().y())
                 .forEach(transition -> {
                     if (!graph.containsVertex(transition.getNextState())) {
                         graph.addVertex(transition.getNextState());

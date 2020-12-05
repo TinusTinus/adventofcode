@@ -105,7 +105,7 @@ class State {
         Direction nextDirection;
         Deque<Action> nextActions;
         
-        TrackSection nextSection = map[nextLocation.getX()][nextLocation.getY()];
+        TrackSection nextSection = map[nextLocation.x()][nextLocation.y()];
         
         if (nextSection == TrackSection.INTERSECTION) {
             nextActions = new LinkedList<>(cart.getActions());

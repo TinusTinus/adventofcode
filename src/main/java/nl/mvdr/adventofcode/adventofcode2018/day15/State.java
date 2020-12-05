@@ -143,7 +143,7 @@ class State {
                         // These are the squares which are adjacent to any target...
                         .flatMap(location -> location.neighbours().stream())
                         // ... and which aren't already occupied by a wall...
-                        .filter(point -> map[point.getX()][point.getY()] == Square.OPEN_AREA)
+                        .filter(point -> map[point.x()][point.y()] == Square.OPEN_AREA)
                         // ... or another unit.
                         .filter(point -> otherUnits.stream().noneMatch(otherUnit -> otherUnit.getLocation().equals(point)))
                         .collect(Collectors.toSet());
@@ -349,7 +349,7 @@ class State {
      */
     private Set<Unit> unitsAt(int x, int y) {
         return units.stream()
-                .filter(unit -> unit.getLocation().getX() == x && unit.getLocation().getY() == y)
+                .filter(unit -> unit.getLocation().x() == x && unit.getLocation().y() == y)
                 .collect(Collectors.toSet());
     }
     
@@ -361,7 +361,7 @@ class State {
      */
     private List<Unit> unitsAt(int y) {
         return units.stream()
-                .filter(unit -> unit.getLocation().getY() == y)
+                .filter(unit -> unit.getLocation().y() == y)
                 .sorted(Unit.READING_ORDER)
                 .collect(Collectors.toList());
     }

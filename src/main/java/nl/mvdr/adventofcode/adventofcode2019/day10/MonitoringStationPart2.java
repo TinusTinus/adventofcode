@@ -40,7 +40,7 @@ public class MonitoringStationPart2 extends MonitoringStation {
     @Override
     int solve(AsteroidField asteroidField) {
         Point result = asteroidField.vaporiseAsteroids(targets);
-        return result.getX() * 100 + result.getY();
+        return result.x() * 100 + result.y();
     }
     
     /**

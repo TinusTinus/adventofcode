@@ -64,7 +64,7 @@ class Moon {
      * @return energy
      */
     private static int computeEnergy(Point3D point) {
-        return Math.abs(point.getX()) + Math.abs(point.getY()) + Math.abs(point.getZ());
+        return Math.abs(point.x()) + Math.abs(point.y()) + Math.abs(point.z());
     }
     
     /**

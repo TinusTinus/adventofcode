@@ -55,8 +55,8 @@ class State {
         Set<Transition> result = new HashSet<>();
         
         this.location.neighbours().stream()
-                .filter(point -> 0 <= point.getX())
-                .filter(point -> 0 <= point.getY())
+                .filter(point -> 0 <= point.x())
+                .filter(point -> 0 <= point.y())
                 .filter(point -> cave.getRegionAt(point).getType().getUsableEquipment().contains(equipment))
                 .map(point -> new State(point, equipment))
                 .map(nextState -> new Transition(this, nextState, 1))

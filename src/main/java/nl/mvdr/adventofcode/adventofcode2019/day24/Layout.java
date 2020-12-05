@@ -241,7 +241,7 @@ class Layout {
      * @return biodiversity points for the bug in the given location
      */
     private int biodiversityPoints(Point bug) {
-        int exponent = bug.getY() * WIDTH + bug.getX();
+        int exponent = bug.y() * WIDTH + bug.x();
         return 1 << exponent;
     }
     
