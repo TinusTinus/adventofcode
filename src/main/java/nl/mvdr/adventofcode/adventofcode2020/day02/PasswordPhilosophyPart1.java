@@ -21,7 +21,7 @@ public class PasswordPhilosophyPart1 implements LongSolver {
     /**
      * {@inheritDoc}
      * 
-     * @return product of the two entries that sum to 2020 
+     * @return number of valid passwords 
      */
     @Override
     public long solve(Stream<String> lines) {
