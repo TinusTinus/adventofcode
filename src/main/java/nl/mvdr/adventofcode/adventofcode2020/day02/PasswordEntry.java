@@ -45,10 +45,18 @@ class PasswordEntry {
     }
     
     /**
-     * @return whether this entry's password is valid
+     * @return whether this entry's password is valid,
+     * according to the rules from part 1 of the puzzle
      */
-    boolean isValid() {
-        return policy.isValid(password);
+    boolean isValidPart1() {
+        return policy.isValidPart1(password);
     }
 
+    /**
+     * @return whether this entry's password is valid,
+     * according to the rules from part 1 of the puzzle
+     */
+    boolean isValidPart2() {
+        return policy.isValidPart2(password);
+    }
 }

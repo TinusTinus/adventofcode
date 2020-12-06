@@ -13,13 +13,26 @@ import org.apache.commons.lang3.StringUtils;
 record PasswordPolicy(int minimum, int maximum, char letter) {
     
     /**
-     * Determines whether the given password satisfies this policy.
+     * Determines whether the given password satisfies this policy,
+     * according to the rules from part 1 of the puzzle.
      * 
      * @param password password to check
      * @return whether the password is valid
      */
-    boolean isValid(String password) {
+    boolean isValidPart1(String password) {
         int matches = StringUtils.countMatches(password, letter);
         return minimum <= matches && matches <= maximum;
+    }
+    
+    /**
+     * Determines whether the given password satisfies this policy,
+     * according to the rules from part 2 of the puzzle.
+     * 
+     * @param password password to check
+     * @return whether the password is valid
+     */
+    boolean isValidPart2(String password) {
+        return (password.charAt(minimum - 1) == letter && password.charAt(maximum - 1) != letter) || 
+                (password.charAt(minimum - 1) != letter && password.charAt(maximum - 1) == letter);
     }
 }

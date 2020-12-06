@@ -14,9 +14,9 @@ import nl.mvdr.adventofcode.LongSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class PasswordPhilosophyPart1 implements LongSolver {
+public class PasswordPhilosophyPart2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PasswordPhilosophyPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PasswordPhilosophyPart2.class);
 
     /**
      * {@inheritDoc}
@@ -27,7 +27,7 @@ public class PasswordPhilosophyPart1 implements LongSolver {
     public long solve(Stream<String> lines) {
         return lines.filter(Predicate.not(String::isEmpty))
                 .map(PasswordEntry::parse)
-                .filter(PasswordEntry::isValidPart1)
+                .filter(PasswordEntry::isValidPart2)
                 .count();
     }
 
@@ -37,7 +37,7 @@ public class PasswordPhilosophyPart1 implements LongSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        PasswordPhilosophyPart1 instance = new PasswordPhilosophyPart1();
+        PasswordPhilosophyPart2 instance = new PasswordPhilosophyPart2();
 
         String result = instance.solve("input-day02-2020.txt");
 
