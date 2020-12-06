@@ -13,9 +13,9 @@ import nl.mvdr.adventofcode.LongSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class PassportProcessingPart1 implements LongSolver {
+public class PassportProcessingPart2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PassportProcessingPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PassportProcessingPart2.class);
 
     /**
      * {@inheritDoc}
@@ -26,7 +26,7 @@ public class PassportProcessingPart1 implements LongSolver {
     public long solve(Stream<String> lines) {
         return Passport.parse(lines)
                 .stream()
-                .filter(Passport::hasRequiredValues)
+                .filter(Passport::hasRequiredAndValidValues)
                 .count();
     }
 
@@ -36,7 +36,7 @@ public class PassportProcessingPart1 implements LongSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        PassportProcessingPart1 instance = new PassportProcessingPart1();
+        PassportProcessingPart2 instance = new PassportProcessingPart2();
 
         String result = instance.solve("input-day04-2020.txt");
 
