@@ -14,19 +14,26 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public class TobogganTrajectoryPart1 implements LongSolver {
+public class TobogganTrajectoryPart2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TobogganTrajectoryPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TobogganTrajectoryPart2.class);
 
     /**
      * {@inheritDoc}
      * 
-     * @return number of trees encountered
+     * @return product of the number of trees encountered on each of the listed slopes
      */
     @Override
     public long solve(Stream<String> lines) {
         Map map = Map.parse(lines);
-        return map.countTrees(new Point(3, 1));
+        
+        map.countTrees(new Point(1, 2));
+        
+        return map.countTrees(new Point(1, 1)) 
+                * map.countTrees(new Point(3, 1))
+                * map.countTrees(new Point(5, 1))
+                * map.countTrees(new Point(7, 1))
+                * map.countTrees(new Point(1, 2));
     }
 
     /**
@@ -35,7 +42,7 @@ public class TobogganTrajectoryPart1 implements LongSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        TobogganTrajectoryPart1 instance = new TobogganTrajectoryPart1();
+        TobogganTrajectoryPart2 instance = new TobogganTrajectoryPart2();
 
         String result = instance.solve("input-day03-2020.txt");
 
