@@ -60,27 +60,16 @@ class Map {
     }
     
     /**
-     * Counts the number of trees encountered while travelling at the given slope.
+     * Counts the number of trees encountered while traveling at the given slope.
      * 
      * @param slope slope
      * @return number of trees encountered
      */
     long countTrees(Point slope) {
         return IntStream.range(0, height / slope.y() + 1)
-                .mapToObj(i -> new Point(i * slope.x(), i * slope.y()))
-                .filter(this::containsTree)
+                .mapToObj(i -> new Point((i * slope.x()) % width, i * slope.y()))
+                .filter(trees::contains)
                 .count();
-    }
-    
-    /**
-     * Determines whether the area specified by the given coordinates contains a tree,
-     * 
-     * @param point location
-     * @return whether there is a tree at the given point
-     */
-    private boolean containsTree(Point point) {
-        Point correctedPoint = new Point(point.x() % width, point.y());
-        return trees.contains(correctedPoint);
     }
     
     /** @return height of the map */

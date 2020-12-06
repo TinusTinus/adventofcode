@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day03;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -27,13 +28,17 @@ public class TobogganTrajectoryPart2 implements LongSolver {
     public long solve(Stream<String> lines) {
         Map map = Map.parse(lines);
         
-        map.countTrees(new Point(1, 2));
+        List<Point> slopes = List.of(
+                new Point(1, 1),
+                new Point(3, 1),
+                new Point(5, 1),
+                new Point(7, 1),
+                new Point(1, 2));
         
-        return map.countTrees(new Point(1, 1)) 
-                * map.countTrees(new Point(3, 1))
-                * map.countTrees(new Point(5, 1))
-                * map.countTrees(new Point(7, 1))
-                * map.countTrees(new Point(1, 2));
+        return slopes.stream()
+                .mapToLong(map::countTrees)
+                .reduce((i, j) -> i * j)
+                .orElseThrow();
     }
 
     /**
