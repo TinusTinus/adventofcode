@@ -50,7 +50,7 @@ record Group(List<Person> people) {
                 .collect(Collectors.toSet());
     }
     
-    /** @return questions answered with "yes" by all member of this group */
+    /** @return questions answered with "yes" by all members of this group */
     Set<Character> questionsAll() {
         Set<Character> result = new HashSet<>(people.get(0).questions());
         people.subList(1, people.size())
