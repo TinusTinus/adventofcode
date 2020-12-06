@@ -14,9 +14,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class CustomCustomsPart1 implements IntSolver {
+public class CustomCustomsPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomCustomsPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomCustomsPart2.class);
 
     /**
      * {@inheritDoc}
@@ -27,7 +27,7 @@ public class CustomCustomsPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         return Group.parse(lines)
                 .stream()
-                .map(Group::questionsAny)
+                .map(Group::questionsAll)
                 .mapToInt(Set::size)
                 .sum();
     }
@@ -38,7 +38,7 @@ public class CustomCustomsPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        CustomCustomsPart1 instance = new CustomCustomsPart1();
+        CustomCustomsPart2 instance = new CustomCustomsPart2();
 
         String result = instance.solve("input-day06-2020.txt");
 
