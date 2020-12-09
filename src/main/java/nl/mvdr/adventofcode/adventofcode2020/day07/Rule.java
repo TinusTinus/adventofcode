@@ -1,7 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2020.day07;
 
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.collections4.MultiSet;
 import org.apache.commons.collections4.multiset.HashMultiSet;
@@ -12,6 +16,19 @@ import org.apache.commons.collections4.multiset.HashMultiSet;
  * @author Martijn van de Rijdt
  */
 record Rule(String container, MultiSet<String> contents) {
+    
+    /**
+     * Parses the specification of a list of rules.
+     * 
+     * @param lines puzzle input
+     * @return rules
+     */
+    static List<Rule> parse(Stream<String> lines) {
+        return lines.filter(Predicate.not(String::isEmpty))
+                .map(Rule::parseRule)
+                .collect(Collectors.toList());
+    }
+    
     /**
      * Parses the specification for a single rule.
      * 
@@ -19,17 +36,18 @@ record Rule(String container, MultiSet<String> contents) {
      * @return rule
      */
     static Rule parseRule(String line) {
-        Pattern pattern = Pattern.compile("([a-z]+ [a-z]+) bags contain(?: (\\d+) ([a-z]+ [a-z]+) bag[s]?[,\\.])+");
-        Matcher matcher = pattern.matcher(line);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException("Rule could not be parsed: " + line);
-        }
-        String container = matcher.group(1);
-        int number = Integer.parseInt(matcher.group(2));
-        String contentType = matcher.group(3);
+        String[] parts = line.split(" bags contain");
+        
+        String container = parts[0];
         
         MultiSet<String> contents = new HashMultiSet<>();
-        contents.add(contentType, number);
+        Pattern pattern = Pattern.compile(" (\\d+) ([a-z]+ [a-z]+) bag[s]?[,\\.]");
+        Matcher matcher = pattern.matcher(line);
+        while(matcher.find()) {
+            int number = Integer.parseInt(matcher.group(1));
+            String type = matcher.group(2);
+            contents.add(type, number);
+        }
         
         return new Rule(container, contents);
     }
