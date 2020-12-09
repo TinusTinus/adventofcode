@@ -83,18 +83,22 @@ public class HandheldHaltingPart2 implements IntSolver {
         
         ProgramState state = ProgramState.initialState();
         
-        while (0 <= state.instructionPointer() && state.instructionPointer() < instructions.size()
-                && !executedInstructions.contains(Integer.valueOf(state.instructionPointer()))) {
-            state = instructions.get(state.instructionPointer()).execute(state);
-            executedInstructions.add(Integer.valueOf(state.instructionPointer()));
+        ProgramState nextState = instructions.get(state.instructionPointer()).execute(state);
+        
+        while (0 <= nextState.instructionPointer() && nextState.instructionPointer() < instructions.size()
+                && !executedInstructions.contains(Integer.valueOf(nextState.instructionPointer()))) {
+            executedInstructions.add(Integer.valueOf(nextState.instructionPointer()));
+            state = nextState;
+            nextState = instructions.get(state.instructionPointer()).execute(state);
         }
         
+        
         OptionalInt result;
-        if (state.instructionPointer() == instructions.size()) {
-            LOGGER.info("The program completed successfully: {} - {}", state, instructions);
-            result = OptionalInt.of(state.accumulator());
+        if (nextState.instructionPointer() == instructions.size()) {
+            LOGGER.debug("The program completed successfully: {} - {}", nextState, instructions);
+            result = OptionalInt.of(nextState.accumulator());
         } else {
-            LOGGER.info("Either an infinite loop was detected, or the instruction pointer jumped too far out of bounds: {} - {}", state, instructions);
+            LOGGER.debug("Either an infinite loop was detected, or the instruction pointer jumped too far out of bounds: {} - {}", nextState, instructions);
             result = OptionalInt.empty();
         }
         
