@@ -37,7 +37,7 @@ public class HandyHaversacksPart1Test extends SolverTest<HandyHaversacksPart1> {
      */
     @Test
     public void testExample() {
-        assertSolution("4", "example-day07-2020.txt");
+        assertSolution("4", "example-day07-2020-0.txt");
     }
     
     /** Test case based on the accepted solution. */
