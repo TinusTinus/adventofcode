@@ -29,7 +29,6 @@ public record Pair(long lhs, long rhs) {
                 .findFirst();
     }
     
-    
     /** @return the result of adding the two numbers together */
     public long sum() {
         return lhs + rhs;
