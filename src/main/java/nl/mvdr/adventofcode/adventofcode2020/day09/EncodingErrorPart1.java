@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2020.sums.Pair;
 
 /**
@@ -17,12 +17,12 @@ import nl.mvdr.adventofcode.adventofcode2020.sums.Pair;
  *
  * @author Martijn van de Rijdt
  */
-public class EncodingErrorPart1 implements IntSolver {
+public class EncodingErrorPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EncodingErrorPart1.class);
 
     private final int preambleSize;
-    
+
     /**
      * Constructor.
      * 
@@ -45,14 +45,14 @@ public class EncodingErrorPart1 implements IntSolver {
      * @return the first number which is not the sum of two of the 25 numbers before it
      */
     @Override
-    public int solve(Stream<String> lines) {
-        int[] integers = lines.filter(Predicate.not(String::isEmpty))
-                .mapToInt(Integer::parseInt)
+    public long solve(Stream<String> lines) {
+        long[] numbers = lines.filter(Predicate.not(String::isEmpty))
+                .mapToLong(Long::parseLong)
                 .toArray();
         
-        return IntStream.range(preambleSize, integers.length)
-                .filter(i -> Pair.findPairWhichSumsTo(Arrays.copyOfRange(integers, i - preambleSize, i), integers[i]).isEmpty())
-                .map(i -> integers[i])
+        return IntStream.range(preambleSize, numbers.length)
+                .filter(i -> Pair.findPairWhichSumsTo(Arrays.copyOfRange(numbers, i - preambleSize, i), numbers[i]).isEmpty())
+                .mapToLong(i -> numbers[i])
                 .findFirst()
                 .orElseThrow();
     }

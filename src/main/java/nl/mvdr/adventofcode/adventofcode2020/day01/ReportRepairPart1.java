@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2020.sums.Pair;
 
 /**
@@ -15,7 +15,7 @@ import nl.mvdr.adventofcode.adventofcode2020.sums.Pair;
  *
  * @author Martijn van de Rijdt
  */
-public class ReportRepairPart1 implements IntSolver {
+public class ReportRepairPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportRepairPart1.class);
 
@@ -25,9 +25,9 @@ public class ReportRepairPart1 implements IntSolver {
      * @return product of the two entries that sum to 2020 
      */
     @Override
-    public int solve(Stream<String> lines) {
-        int[] integers = lines.filter(Predicate.not(String::isEmpty))
-            .mapToInt(Integer::parseInt)
+    public long solve(Stream<String> lines) {
+        long[] integers = lines.filter(Predicate.not(String::isEmpty))
+            .mapToLong(Long::parseLong)
             .toArray();
         
         Pair pair = Pair.findPairWhichSumsTo(integers, 2020).orElseThrow();
