@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day09;
 
-import java.util.Arrays;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -17,9 +15,9 @@ import nl.mvdr.adventofcode.adventofcode2020.sums.Pair;
  *
  * @author Martijn van de Rijdt
  */
-public class EncodingErrorPart1 implements LongSolver {
+public class EncodingErrorPart2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EncodingErrorPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EncodingErrorPart2.class);
 
     private final int preambleSize;
 
@@ -29,20 +27,20 @@ public class EncodingErrorPart1 implements LongSolver {
      * @param preambleSize size of the preamble,
      * as well as the number of integers before the current number to search for pairs
      */
-    EncodingErrorPart1(int preambleSize) {
+    EncodingErrorPart2(int preambleSize) {
         super();
         this.preambleSize = preambleSize;
     }
     
     /** Constructor. */
-    public EncodingErrorPart1() {
+    public EncodingErrorPart2() {
         this(25);
     }
     
     /**
      * {@inheritDoc}
      * 
-     * @return the first number which is not the sum of two of the 25 numbers before it
+     * @return encryption weakness
      */
     @Override
     public long solve(Stream<String> lines) {
@@ -57,14 +55,12 @@ public class EncodingErrorPart1 implements LongSolver {
      * Solver method.
      * 
      * @param numbers input numbers
-     * @return the first number which is not the sum of two of the 25 numbers before it
+     * @return encryption weakness
      */
-    long solve(long[] numbers) {
-        return IntStream.range(preambleSize, numbers.length)
-                .filter(i -> Pair.findPairWhichSumsTo(Arrays.copyOfRange(numbers, i - preambleSize, i), numbers[i]).isEmpty())
-                .mapToLong(i -> numbers[i])
-                .findFirst()
-                .orElseThrow();
+    private long solve(long[] numbers) {
+        long invalidNumber = new EncodingErrorPart1(preambleSize).solve(numbers);
+        
+        return Pair.findContiguousSet(numbers, invalidNumber).sum();
     }
 
     /**
@@ -73,7 +69,7 @@ public class EncodingErrorPart1 implements LongSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        EncodingErrorPart1 instance = new EncodingErrorPart1();
+        EncodingErrorPart2 instance = new EncodingErrorPart2();
 
         String result = instance.solve("input-day09-2020.txt");
 
