@@ -1,14 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2020.day01;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.adventofcode2020.sums.Pair;
 
 /**
  * Solution to the day 1 puzzle of 2020's Advent of Code:
@@ -31,14 +30,9 @@ public class ReportRepairPart1 implements IntSolver {
             .mapToInt(Integer::parseInt)
             .toArray();
         
-        return IntStream.range(0, integers.length)
-            .mapToObj(i -> IntStream.range(i + 1, integers.length).mapToObj(j -> new Pair(integers[i], integers[j])))
-            .flatMap(Function.identity())
-            .peek(pair -> LOGGER.debug("Pair: {}", pair))
-            .filter(pair -> pair.sum() == 2020)
-            .mapToInt(Pair::product)
-            .findFirst()
-            .orElseThrow();
+        Pair pair = Pair.findPairWhichSumsTo(integers, 2020).orElseThrow();
+        
+        return pair.product();
     }
 
     /**
