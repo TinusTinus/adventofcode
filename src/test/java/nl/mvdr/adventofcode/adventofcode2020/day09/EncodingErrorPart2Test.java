@@ -18,10 +18,6 @@ public class EncodingErrorPart2Test extends SolverTest<EncodingErrorPart2> {
     
     /**
      * Test case based on an example from the puzzle text.
-     * 
-     * In this example, after the 5-number preamble, almost every number is the sum
-     * of two of the previous 5 numbers; the only number that does not follow this
-     * rule is 127.
      */
     @Test
     public void testExample() {
