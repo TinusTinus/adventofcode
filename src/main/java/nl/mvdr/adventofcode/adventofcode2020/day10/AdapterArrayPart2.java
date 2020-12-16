@@ -33,7 +33,7 @@ public class AdapterArrayPart2 extends AdapterArray {
      * @param joltages all joltages
      * @return number of valid arrangements
      */
-    long validAdapterArrangements(int previousJoltage, int index, int[] joltages) {
+    private long validAdapterArrangements(int previousJoltage, int index, int[] joltages) {
         long result;
         if (3 < joltages[index] - previousJoltage) {
             // Not a valid adapter arrangement
