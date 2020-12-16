@@ -20,39 +20,33 @@ public class AdapterArrayPart2 extends AdapterArray {
      */
     @Override
     long solve(int[] joltages) {
-        return validAdapterArrangements(0, joltages);
-    }
-    
-    /**
-     * Determines the number of valid adapter arrangements (in a naive recursive way).
-     * 
-     * Note that this solution may be correct, but is too slow for the puzzle input.
-     * 
-     * @param index index of the next adpater to use
-     * @param joltages all joltages
-     * @return number of valid arrangements
-     */
-    private long validAdapterArrangements(int index, int[] joltages) {
-        long result;
-        if (index == joltages.length - 1) {
-            // Valid complete arrangement found
-            result = 1L;
-        } else {
-            // Use the next adapter...
-            result = validAdapterArrangements(index + 1, joltages);
-            // ... skip (only) the next adapter...
-            if (index + 2 < joltages.length && joltages[index + 2] - joltages[index] <= 3) {
-                result = result + validAdapterArrangements(index + 2, joltages);
+        long n1 = 1L;
+        long n0 = 1L;
+        int index = joltages.length - 3;
+        long result = 1L;
+        
+        while (0 <= index) {
+            
+            long previousResult = result;
+            
+            if (joltages[index + 2] - joltages[index] <= 3) {
+                // We can skip the adapter at index + 1
+                result = result + n0;
             }
-            // ... or skip the next two adapters.
             if (index + 3 < joltages.length && joltages[index + 3] - joltages[index] <= 3) {
-                result = result + validAdapterArrangements(index + 3, joltages);
+                // We can skip the adapters at index + 1 and index + 2
+                result = result + n1;
             }
-            // Skipping more adapters is definitely not possible, as the joltage gap is guaranteed to be greater than 3.
+            
+            n1 = n0;
+            n0 = previousResult;
+            
+            index--;
         }
         return result;
+        
     }
-
+    
     /**
      * Main method.
      * 

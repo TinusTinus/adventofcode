@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2020.day10;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -45,8 +44,7 @@ public class AdapterArrayPart2Test extends SolverTest<AdapterArrayPart2> {
     
     /** Test case based on the accepted solution. */
     @Test
-    @Disabled // TODO enable
     public void testSolution() {
-        assertSolution("?", "input-day10-2020.txt");
+        assertSolution("518344341716992", "input-day10-2020.txt");
     }
 }
