@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2020.day16;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -84,37 +85,42 @@ record PuzzleInput(Map<String, List<ValueRange>> rules, Ticket myTicket, List<Ti
                 .filter(ticket -> ticket.fields().stream().mapToInt(Integer::valueOf).allMatch(this::isValidValue))
                 .collect(Collectors.toList());
         
-        return IntStream.range(0, myTicket.fields().size())
-                .mapToObj(i -> determineFieldName(i, validNearbyTickets))
+        List<Set<String>> possibleFieldNames = IntStream.range(0, myTicket.fields().size())
+                .mapToObj(i -> determinePossibleFieldNames(i, validNearbyTickets))
+                .collect(Collectors.toList());
+        
+        while (possibleFieldNames.stream().anyMatch(set -> 1 < set.size())) {
+            IntStream.range(0, possibleFieldNames.size())
+                    .filter(i -> possibleFieldNames.get(i).size() == 1)
+                    .forEach(i -> 
+                            IntStream.range(0, possibleFieldNames.size())
+                            .filter(j -> j != i)
+                            .forEach(j -> possibleFieldNames.get(j).remove(possibleFieldNames.get(i).iterator().next()))
+                    );
+        }
+        
+        return possibleFieldNames.stream()
+                .map(set -> set.iterator().next())
                 .collect(Collectors.toList());
     }
     
     /**
-     * Determins the field name for the given field index, based on nearby ticket values.
+     * Determines the possible field names for the given field index, based on nearby ticket values.
      * 
      * @param fieldIndex field index
      * @param validNearbyTickets valid nearby tickets
-     * @return field name
+     * @return a mutable (!) set containing possible field names
      */
-    private String determineFieldName(int fieldIndex, List<Ticket> validNearbyTickets) {
+    private Set<String> determinePossibleFieldNames(int fieldIndex, List<Ticket> validNearbyTickets) {
         Set<Integer> values = validNearbyTickets.stream()
                 .map(ticket -> ticket.fields().get(fieldIndex))
                 .collect(Collectors.toSet());
-        
-        // TODO remove
-        List<String> fieldNames = rules.entrySet()
-                .stream()
-                .filter(entry -> areAllValid(values, entry.getValue()))
-                .map(Entry::getKey)
-                .collect(Collectors.toList());
-        System.out.println("Possible field names for index " + fieldIndex + ": " + fieldNames);
         
         return rules.entrySet()
                 .stream()
                 .filter(entry -> areAllValid(values, entry.getValue()))
                 .map(Entry::getKey)
-                .findFirst()
-                .orElseThrow();
+                .collect(Collectors.toCollection(HashSet::new));
     }
     
     /**
