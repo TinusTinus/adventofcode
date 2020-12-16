@@ -20,7 +20,7 @@ public class AdapterArrayPart2 extends AdapterArray {
      */
     @Override
     long solve(int[] joltages) {
-        return validAdapterArrangements(0, 1, joltages);
+        return validAdapterArrangements(0, joltages);
     }
     
     /**
@@ -28,23 +28,27 @@ public class AdapterArrayPart2 extends AdapterArray {
      * 
      * Note that this solution may be correct, but is too slow for the puzzle input.
      * 
-     * @param previousJoltageIndex index of the last used adapter
-     * @param index index of the next possible adpater
+     * @param index index of the next adpater to use
      * @param joltages all joltages
      * @return number of valid arrangements
      */
-    private long validAdapterArrangements(int previousJoltageIndex, int index, int[] joltages) {
+    private long validAdapterArrangements(int index, int[] joltages) {
         long result;
-        if (3 < joltages[index] - joltages[previousJoltageIndex]) {
-            // Not a valid adapter arrangement
-            result = 0L;
-        } else if (index == joltages.length - 1) {
+        if (index == joltages.length - 1) {
             // Valid complete arrangement found
             result = 1L;
         } else {
-            // Either skip the adapter at index, or use it
-            result = validAdapterArrangements(previousJoltageIndex, index + 1, joltages)
-                    + validAdapterArrangements(index, index + 1, joltages);
+            // Use the next adapter...
+            result = validAdapterArrangements(index + 1, joltages);
+            // ... skip (only) the next adapter...
+            if (index + 2 < joltages.length && joltages[index + 2] - joltages[index] <= 3) {
+                result = result + validAdapterArrangements(index + 2, joltages);
+            }
+            // ... or skip the next two adapters.
+            if (index + 3 < joltages.length && joltages[index + 3] - joltages[index] <= 3) {
+                result = result + validAdapterArrangements(index + 3, joltages);
+            }
+            // Skipping more adapters is definitely not possible, as the joltage gap is guaranteed to be greater than 3.
         }
         return result;
     }
