@@ -13,9 +13,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SeatingSystemPart1 implements IntSolver {
+public class SeatingSystemPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SeatingSystemPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SeatingSystemPart2.class);
 
     /**
      * {@inheritDoc}
@@ -25,7 +25,7 @@ public class SeatingSystemPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         return WaitingArea.parse(lines)
-                .performSeating(WaitingArea::performRoundPart1)
+                .performSeating(WaitingArea::performRoundPart2)
                 .people()
                 .size();
     }
@@ -36,7 +36,7 @@ public class SeatingSystemPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        SeatingSystemPart1 instance = new SeatingSystemPart1();
+        SeatingSystemPart2 instance = new SeatingSystemPart2();
 
         String result = instance.solve("input-day11-2020.txt");
 

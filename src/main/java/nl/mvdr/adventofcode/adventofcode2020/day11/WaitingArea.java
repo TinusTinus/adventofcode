@@ -2,9 +2,13 @@ package nl.mvdr.adventofcode.adventofcode2020.day11;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
@@ -14,7 +18,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-record WaitingArea(Set<Point> seats, Set<Point> people) {
+record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
     
     /**
      * Parses the textual representation of a waiting area.
@@ -36,28 +40,33 @@ record WaitingArea(Set<Point> seats, Set<Point> people) {
             }
         }
         
-        return new WaitingArea(seats, Set.of());
+        int width = Point.maxX(seats);
+        
+        return new WaitingArea(width, lines.size(), seats, Set.of());
     }
     
     /**
+     * Performs the seating simulation until people stop moving around.
+     * 
+     * @param roundFunction the function to simulate a single round; see {@link #performRoundPart1()} or {@link #performRoundPart2()}
      * @return final state of the waiting area after people have stopped moving around
      */
-    WaitingArea performSeating() {
+    WaitingArea performSeating(Function<WaitingArea, WaitingArea> roundFunction) {
         WaitingArea previous = this;
-        WaitingArea waitingArea = performRound();
+        WaitingArea waitingArea = roundFunction.apply(this);
         while (!waitingArea.equals(previous)) {
             previous = waitingArea;
-            waitingArea = waitingArea.performRound();
+            waitingArea = roundFunction.apply(waitingArea);
         }
         return waitingArea;
     }
     
     /**
-     * Applies the searing rules for a single round.
+     * Applies the seating rules from part 1 of the puzzle for a single round.
      * 
      * @return new state of the waiting area
      */
-    private WaitingArea performRound() {
+    WaitingArea performRoundPart1() {
         Set<Point> newPeople = new HashSet<>();
         for (Point seat : seats) {
             if (people.contains(seat)) {
@@ -79,6 +88,82 @@ record WaitingArea(Set<Point> seats, Set<Point> people) {
             }
         }
         
-        return new WaitingArea(seats, newPeople);
+        return new WaitingArea(width, height, seats, newPeople);
+    }
+    
+    /**
+     * Applies the seating rules from part 2 of the puzzle for a single round.
+     * 
+     * @return new state of the waiting area
+     */
+    WaitingArea performRoundPart2() {
+        Set<Point> newPeople = new HashSet<>();
+        for (Point seat : seats) {
+            if (people.contains(seat)) {
+                // The seat is occupied.
+                if (getClosestVisibleSeats(seat).stream()
+                        .filter(people::contains)
+                        .count() < 5L) {
+                    // The seat stays occupied.
+                    newPeople.add(seat);
+                } // Otherwise: five or more visible seats are occupied. The seat becomes empty.
+            } else {
+                // The seat is empty.
+                if (getClosestVisibleSeats(seat).stream()
+                        .noneMatch(people::contains)) {
+                    // There are no occupied seats adjacent to it.
+                    // The seat becomes occupied.
+                    newPeople.add(seat);
+                } // Otherwise: the seat stays empty.
+            }
+        }
+        
+        return new WaitingArea(width, height, seats, newPeople);
+    }
+    
+    /**
+     * Finds the closest visible seats in all eight directions, seen from the point of view of the given location.
+     * 
+     * @param viewpoint the given location
+     * @return up to eight closest visible seats
+     */
+    private Set<Point> getClosestVisibleSeats(Point viewpoint) {
+        Set<Point> directions = Set.of(
+                new Point(1, 0), // east
+                new Point(1, 1), // southeast
+                new Point(0, 1), // south
+                new Point(-1, 1), // southwest
+                new Point(-1, 0), // west
+                new Point(-1, -1), // northwest
+                new Point(0, -1), // north
+                new Point(1, -1)); // northeast
+        
+        return directions.stream()
+                .map(direction -> getClosestVisibleSeat(viewpoint, direction))
+                .filter(Optional::isPresent)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Finds the closest visible seats in the given direction, seen from the point of view of the given location.
+     * 
+     * @param viewpoint the given location
+     * @param direction direction
+     * @return up to eight closest visible seats
+     */
+    private Optional<Point> getClosestVisibleSeat(Point viewpoint, Point direction) {
+        OptionalInt minimum = IntStream.range(1, Math.max(width, height))
+            .filter(i -> seats.contains(viewpoint.translate(direction.times(i))))
+            .min();
+        
+        Optional<Point> result;
+        if (minimum.isEmpty()) {
+            // No seat in this direction's line of sight
+            result = Optional.empty();
+        } else {
+            result = Optional.of(viewpoint.translate(direction.times(minimum.orElseThrow())));
+        }
+        return result;
     }
 }

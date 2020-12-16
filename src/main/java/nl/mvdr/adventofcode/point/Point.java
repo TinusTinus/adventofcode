@@ -120,6 +120,16 @@ public record Point(int x, int y) implements Comparable<Point> {
     public Point translate(Point other) {
         return new Point(this.x + other.x, this.y + other.y);
     }
+    
+    /**
+     * Multiplies both coordinates with the given number.
+     * 
+     * @param i number to multiply by
+     * @return new point
+     */
+    public Point times(int i) {
+        return new Point(x * i, y * i);
+    }
 
     /**
      * Computes the angle, in degrees, of the line from this point to the other point.
