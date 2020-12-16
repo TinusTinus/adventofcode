@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Solution to the day 11 puzzle of 2020's Advent of Code:
@@ -25,7 +26,7 @@ public class SeatingSystemPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         return WaitingArea.parse(lines)
-                .performSeating(WaitingArea::performRoundPart1)
+                .performSeating(Point::neighboursIncludingDiagonals, 4L)
                 .people()
                 .size();
     }

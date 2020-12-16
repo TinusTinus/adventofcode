@@ -24,8 +24,8 @@ public class SeatingSystemPart2 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        return WaitingArea.parse(lines)
-                .performSeating(WaitingArea::performRoundPart2)
+        WaitingArea waitingArea = WaitingArea.parse(lines);
+        return waitingArea.performSeating(waitingArea::getClosestVisibleSeats, 5L)
                 .people()
                 .size();
     }

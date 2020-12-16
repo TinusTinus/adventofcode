@@ -48,77 +48,52 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
     /**
      * Performs the seating simulation until people stop moving around.
      * 
-     * @param roundFunction the function to simulate a single round; see {@link #performRoundPart1()} or {@link #performRoundPart2()}
+     * @param getSeatsToConsider function to determine which seats are considered by people when determining whether to sit down
+     * @param limit maximum number of occupied considered seats allowed for people to remain seated
      * @return final state of the waiting area after people have stopped moving around
      */
-    WaitingArea performSeating(Function<WaitingArea, WaitingArea> roundFunction) {
+    WaitingArea performSeating(Function<Point, Set<Point>> getSeatsToConsider, long limit) {
         WaitingArea previous = this;
-        WaitingArea waitingArea = roundFunction.apply(this);
+        WaitingArea waitingArea = performRound(getSeatsToConsider, limit);
         while (!waitingArea.equals(previous)) {
             previous = waitingArea;
-            waitingArea = roundFunction.apply(waitingArea);
+            waitingArea = waitingArea.performRound(getSeatsToConsider, limit);
         }
         return waitingArea;
     }
     
     /**
-     * Applies the seating rules from part 1 of the puzzle for a single round.
+     * Applies the seating rules for a single round.
      * 
+     * @param getSeatsToConsider function to determine which seats are considered by people when determining whether to sit down
+     * @param limit maximum number of occupied considered seats allowed for people to remain seated
      * @return new state of the waiting area
      */
-    WaitingArea performRoundPart1() {
-        Set<Point> newPeople = new HashSet<>();
-        for (Point seat : seats) {
-            if (people.contains(seat)) {
-                // The seat is occupied.
-                if (seat.neighboursIncludingDiagonals().stream()
-                        .filter(people::contains)
-                        .count() < 4L) {
-                    // The seat stays occupied.
-                    newPeople.add(seat);
-                } // Otherwise: four or more adjacent seats are occupied. The seat becomes empty.
-            } else {
-                // The seat is empty.
-                if (seat.neighboursIncludingDiagonals().stream()
-                        .noneMatch(people::contains)) {
-                    // There are no occupied seats adjacent to it.
-                    // The seat becomes occupied.
-                    newPeople.add(seat);
-                } // Otherwise: the seat stays empty.
-            }
-        }
-        
-        return new WaitingArea(width, height, seats, newPeople);
-    }
-    
-    /**
-     * Applies the seating rules from part 2 of the puzzle for a single round.
-     * 
-     * @return new state of the waiting area
-     */
-    WaitingArea performRoundPart2() {
+    private WaitingArea performRound(Function<Point, Set<Point>> getSeatsToConsider, long limit) {
         Set<Point> newPeople = seats.parallelStream()
-                .filter(this::becomesOccupiedPart2)
+                .filter(seat -> becomesOccupied(seat, getSeatsToConsider, limit))
                 .collect(Collectors.toSet());
         return new WaitingArea(width, height, seats, newPeople);
     }
+
     
     /**
-     * Determines for the given seat whether it will be occupied in the next round,
-     * according to the seating rules from part 2.
+     * Determines for the given seat whether it will be occupied in the next round.
      * 
      * @param seat seat
-     * @return whether the seat will be occupied
+     * @param getSeatsToConsider function to determine which seats are considered by people when determining whether to sit down
+     * @param limit maximum number of occupied considered seats allowed for people to remain seated
+     * @return whether the seat will be occupied in the next round
      */
-    private boolean becomesOccupiedPart2(Point seat) {
-        Set<Point> seatsToConsider = getClosestVisibleSeats(seat);
+    private boolean becomesOccupied(Point seat, Function<Point, Set<Point>> getSeatsToConsider, long limit) {
+        Set<Point> seatsToConsider = getSeatsToConsider.apply(seat);
         
         boolean result;
         if (people.contains(seat)) {
             // The seat is occupied.
             result = seatsToConsider.stream()
                     .filter(people::contains)
-                    .count() < 5L;
+                    .count() < limit;
         } else {
             // The seat is empty.
             result = seatsToConsider.stream()
@@ -133,7 +108,7 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
      * @param viewpoint the given location
      * @return up to eight closest visible seats
      */
-    private Set<Point> getClosestVisibleSeats(Point viewpoint) {
+    Set<Point> getClosestVisibleSeats(Point viewpoint) {
         Set<Point> directions = Set.of(
                 new Point(1, 0), // east
                 new Point(1, 1), // southeast
