@@ -28,14 +28,14 @@ public class AdapterArrayPart2 extends AdapterArray {
      * 
      * Note that this solution may be correct, but is too slow for the puzzle input.
      * 
-     * @param previousJoltage joltage of the last used adapter
+     * @param previousJoltageIndex index of the last used adapter
      * @param index index of the next possible adpater
      * @param joltages all joltages
      * @return number of valid arrangements
      */
-    private long validAdapterArrangements(int previousJoltage, int index, int[] joltages) {
+    private long validAdapterArrangements(int previousJoltageIndex, int index, int[] joltages) {
         long result;
-        if (3 < joltages[index] - previousJoltage) {
+        if (3 < joltages[index] - joltages[previousJoltageIndex]) {
             // Not a valid adapter arrangement
             result = 0L;
         } else if (index == joltages.length - 1) {
@@ -43,8 +43,8 @@ public class AdapterArrayPart2 extends AdapterArray {
             result = 1L;
         } else {
             // Either skip the adapter at index, or use it
-            result = validAdapterArrangements(previousJoltage, index + 1, joltages)
-                    + validAdapterArrangements(joltages[index], index + 1, joltages);
+            result = validAdapterArrangements(previousJoltageIndex, index + 1, joltages)
+                    + validAdapterArrangements(index, index + 1, joltages);
         }
         return result;
     }
