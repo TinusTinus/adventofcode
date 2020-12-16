@@ -69,12 +69,13 @@ record PuzzleInput(Map<String, List<ValueRange>> rules, Ticket myTicket, List<Ti
     }
     
     /** @return product of the values of the six departure fields on our ticket */
-    int multiplyDepartureFields() {
+    long multiplyDepartureFields() {
         List<String> fieldNames = determineFieldOrder();
         
         return IntStream.range(0, fieldNames.size())
                 .filter(i -> fieldNames.get(i).startsWith("departure"))
                 .map(i -> myTicket.fields().get(i).intValue())
+                .mapToLong(i -> (long)i)
                 .reduce((i, j) -> i * j)
                 .orElseThrow();
     }

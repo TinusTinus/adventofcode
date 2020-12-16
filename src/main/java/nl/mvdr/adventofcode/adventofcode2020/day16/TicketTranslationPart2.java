@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 16 puzzle of 2020's Advent of Code:
@@ -13,7 +13,7 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class TicketTranslationPart2 implements IntSolver {
+public class TicketTranslationPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketTranslationPart2.class);
 
@@ -23,7 +23,7 @@ public class TicketTranslationPart2 implements IntSolver {
      * @return product of the values of the six departure fields on our ticket
      */
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         PuzzleInput input = PuzzleInput.parse(lines);
         return input.multiplyDepartureFields();
     }
