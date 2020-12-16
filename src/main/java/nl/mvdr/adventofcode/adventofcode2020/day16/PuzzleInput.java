@@ -63,6 +63,13 @@ record PuzzleInput(Map<String, List<ValueRange>> rules, Ticket myTicket, List<Ti
                 .filter(value -> !isValidValue(value))
                 .sum();
     }
+
+    /** @return nearby tickets which are valid */
+    List<Ticket> validNearbyTickets() {
+        return nearbyTickets.stream()
+                .filter(ticket -> ticket.fields().stream().mapToInt(Integer::valueOf).allMatch(this::isValidValue))
+                .collect(Collectors.toList());
+    }
     
     /**
      * Determines whether the given value is valid according to any of the rules.
