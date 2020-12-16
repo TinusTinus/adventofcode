@@ -48,7 +48,7 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
     /**
      * Performs the seating simulation until people stop moving around.
      * 
-     * @param getSeatsToConsider function to determine which seats are considered by people when determining whether to sit down
+     * @param getSeatsToConsider function to determine which seats are considered by people when deciding whether to sit down or get up
      * @param limit maximum number of occupied considered seats allowed for people to remain seated
      * @return final state of the waiting area after people have stopped moving around
      */
@@ -65,7 +65,7 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
     /**
      * Applies the seating rules for a single round.
      * 
-     * @param getSeatsToConsider function to determine which seats are considered by people when determining whether to sit down
+     * @param getSeatsToConsider function to determine which seats are considered by people when deciding whether to sit down or get up
      * @param limit maximum number of occupied considered seats allowed for people to remain seated
      * @return new state of the waiting area
      */
@@ -81,7 +81,7 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
      * Determines for the given seat whether it will be occupied in the next round.
      * 
      * @param seat seat
-     * @param getSeatsToConsider function to determine which seats are considered by people when determining whether to sit down
+     * @param getSeatsToConsider function to determine which seats are considered by people when deciding whether to sit down or get up
      * @param limit maximum number of occupied considered seats allowed for people to remain seated
      * @return whether the seat will be occupied in the next round
      */
