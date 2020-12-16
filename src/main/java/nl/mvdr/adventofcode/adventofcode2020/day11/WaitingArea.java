@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2020.day11;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -97,28 +97,34 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
      * @return new state of the waiting area
      */
     WaitingArea performRoundPart2() {
-        Set<Point> newPeople = new HashSet<>();
-        for (Point seat : seats) {
-            if (people.contains(seat)) {
-                // The seat is occupied.
-                if (getClosestVisibleSeats(seat).stream()
-                        .filter(people::contains)
-                        .count() < 5L) {
-                    // The seat stays occupied.
-                    newPeople.add(seat);
-                } // Otherwise: five or more visible seats are occupied. The seat becomes empty.
-            } else {
-                // The seat is empty.
-                if (getClosestVisibleSeats(seat).stream()
-                        .noneMatch(people::contains)) {
-                    // There are no occupied seats adjacent to it.
-                    // The seat becomes occupied.
-                    newPeople.add(seat);
-                } // Otherwise: the seat stays empty.
-            }
-        }
-        
+        Set<Point> newPeople = seats.parallelStream()
+                .filter(this::becomesOccupiedPart2)
+                .collect(Collectors.toSet());
         return new WaitingArea(width, height, seats, newPeople);
+    }
+    
+    /**
+     * Determines for the given seat whether it will be occupied in the next round,
+     * according to the seating rules from part 2.
+     * 
+     * @param seat seat
+     * @return whether the seat will be occupied
+     */
+    private boolean becomesOccupiedPart2(Point seat) {
+        Set<Point> seatsToConsider = getClosestVisibleSeats(seat);
+        
+        boolean result;
+        if (people.contains(seat)) {
+            // The seat is occupied.
+            result = seatsToConsider.stream()
+                    .filter(people::contains)
+                    .count() < 5L;
+        } else {
+            // The seat is empty.
+            result = seatsToConsider.stream()
+                    .noneMatch(people::contains);
+        }
+        return result;
     }
     
     /**
@@ -153,17 +159,9 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
      * @return up to eight closest visible seats
      */
     private Optional<Point> getClosestVisibleSeat(Point viewpoint, Point direction) {
-        OptionalInt minimum = IntStream.range(1, Math.max(width, height))
-            .filter(i -> seats.contains(viewpoint.translate(direction.times(i))))
-            .min();
-        
-        Optional<Point> result;
-        if (minimum.isEmpty()) {
-            // No seat in this direction's line of sight
-            result = Optional.empty();
-        } else {
-            result = Optional.of(viewpoint.translate(direction.times(minimum.orElseThrow())));
-        }
-        return result;
+        return IntStream.range(1, Math.min(width, height))
+                .mapToObj(i -> viewpoint.translate(direction.times(i)))
+                .filter(seats::contains)
+                .min(Comparator.comparing(viewpoint::manhattanDistance));
     }
 }
