@@ -20,7 +20,7 @@ public class TicketTranslationPart1 implements IntSolver {
     /**
      * {@inheritDoc}
      * 
-     * @return the first number which is not the sum of two of the 25 numbers before it
+     * @return ticket scanning error rate
      */
     @Override
     public int solve(Stream<String> lines) {
