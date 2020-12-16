@@ -37,6 +37,12 @@ public class AdapterArrayPart2Test extends SolverTest<AdapterArrayPart2> {
         assertSolution("19208", "example-day10-2020-1.txt");
     }
     
+    /** Test case with only one adapter. */
+    @Test
+    public void testExample2() {
+        assertSolution("1", "example-day10-2020-2.txt");
+    }
+    
     /** Test case based on the accepted solution. */
     @Test
     @Disabled // TODO enable

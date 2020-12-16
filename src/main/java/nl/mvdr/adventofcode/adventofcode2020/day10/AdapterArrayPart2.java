@@ -35,12 +35,12 @@ public class AdapterArrayPart2 extends AdapterArray {
      */
     long validAdapterArrangements(int previousJoltage, int index, int[] joltages) {
         long result;
-        if (index == joltages.length) {
-            // Valid arrangement found
-            result = 1L;
-        } else if (3 < joltages[index] - previousJoltage) {
+        if (3 < joltages[index] - previousJoltage) {
             // Not a valid adapter arrangement
             result = 0L;
+        } else if (index == joltages.length - 1) {
+            // Valid complete arrangement found
+            result = 1L;
         } else {
             // Either skip the adapter at index, or use it
             result = validAdapterArrangements(previousJoltage, index + 1, joltages)
