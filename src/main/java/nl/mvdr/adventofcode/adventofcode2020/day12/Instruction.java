@@ -36,12 +36,14 @@ interface Instruction {
         char letter = line.charAt(0);
         int argument = Integer.parseInt(line.substring(1));
         
-        Optional<Instruction> result = Move.of(letter, argument);
+        Optional<Instruction> result = MoveForward.of(letter, argument);
         if (result.isEmpty()) {
+            // Move.of considers 'R' a valid value.
+            // Make sure to try Turn before Move, to prevent 'R' from being interpreted as a Move to the east.
             result = Turn.of(letter, argument);
         }
         if (result.isEmpty()) {
-            result = MoveForward.of(letter, argument);
+            result = Move.of(letter, argument);
         }
         return result.orElseThrow(() -> new IllegalArgumentException("Cannot parse instruction: " + line));
     }

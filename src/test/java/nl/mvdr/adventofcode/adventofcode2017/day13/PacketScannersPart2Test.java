@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day13;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -27,6 +28,7 @@ public class PacketScannersPart2Test extends SolverTest<PacketScannersPart2> {
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // disabled by default, as this test case typically takes over two minutes to complete
     public void testSolution() {
         assertSolution("3897604", "input-day13-2017.txt");
     }

@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.point;
 
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -11,16 +12,13 @@ import java.util.stream.Stream;
  */
 public enum Direction {
     /** Up / north. */
-    UP('^', true, Point::aboveNeighbour, 1L),
+    UP(true, Point::aboveNeighbour, 1L, '^', 'U', 'N'),
     /** Down / south. */
-    DOWN('v', true, Point::belowNeighbour, 2L),
+    DOWN(true, Point::belowNeighbour, 2L, 'v', 'D', 'S'),
     /** Left / west. */
-    LEFT('<', false, Point::leftNeighbour, 3L),
+    LEFT(false, Point::leftNeighbour, 3L, '<', 'L', 'W'),
     /** Right / east. */
-    RIGHT('>', false, Point::rightNeighbour, 4L);
-    
-    /** Character representation of this direction. */
-    private final char representation;
+    RIGHT(false, Point::rightNeighbour, 4L, '>', 'R', 'E');
     
     /** Whether this direction is vertical. */
     private final boolean vertical;
@@ -31,19 +29,22 @@ public enum Direction {
     /** Intcode representation of this direction. */
     private final long code;
     
+    /** Character representations of this direction. */
+    private final char[] representations;
+    
     /**
      * Constructor.
      * 
-     * @param representation character representation of this direction
      * @param vertical whether this direction is vertical
      * @param next function that, given a location, determines the next location
      * @param code Intcode representation of this direction
+     * @param representations character representations of this direction
      */
-    Direction(char representation, boolean vertical, Function<Point, Point> next, long code) {
-        this.representation = representation;
+    Direction(boolean vertical, Function<Point, Point> next, long code, char... representations) {
         this.vertical = vertical;
         this.next = next;
         this.code = code;
+        this.representations = representations;
     }
     
     /**
@@ -54,7 +55,7 @@ public enum Direction {
      */
     public static Optional<Direction> of(char representation) {
         return Stream.of(Direction.values())
-                .filter(direction -> direction.representation == representation || direction.name().charAt(0) == representation)
+                .filter(direction -> IntStream.range(0, direction.representations.length).map(i -> direction.representations[i]).anyMatch(c -> c == representation))
                 .findFirst();
     }
     
@@ -130,6 +131,6 @@ public enum Direction {
     
     @Override
     public String toString() {
-        return "" + representation;
+        return "" + representations[0];
     }
 }
