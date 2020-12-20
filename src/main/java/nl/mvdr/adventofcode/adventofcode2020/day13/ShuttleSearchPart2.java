@@ -43,6 +43,8 @@ public class ShuttleSearchPart2 implements LongSolver {
      * 
      * @return the ID of the earliest bus we can take to the airport multiplied by the number of minutes we'll need to wait for that bus
      */
+    // Note: this problem seems similar to finding the least common multiple of these bus ids, except with an offset.
+    // Maybe an lcm algorithm can be adapted to solve this?
     @Override
     public long solve(Stream<String> linesStream) {
         Map<Integer, Integer> busIds = getBusIds(linesStream);
