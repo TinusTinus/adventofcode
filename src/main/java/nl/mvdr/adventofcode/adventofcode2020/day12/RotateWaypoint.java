@@ -9,7 +9,7 @@ import nl.mvdr.adventofcode.point.Point;
 import nl.mvdr.adventofcode.point.TurnDirection;
 
 /**
- * Turns the ship a number of degrees.
+ * Rotates the waypoint a number of degrees.
  *
  * @author Martijn van de Rijdt
  */

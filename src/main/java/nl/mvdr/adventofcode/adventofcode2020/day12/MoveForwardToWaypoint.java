@@ -5,18 +5,18 @@ import java.util.Optional;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
- * Moves the ship forward in its current direction.
+ * Moves the ship forward towards the waypoint.
  *
  * @author Martijn van de Rijdt
  */
 record MoveForwardToWaypoint(int distance) implements Instruction {
 
     /**
-     * Attempts to create a new move forward action, based on the given information.
+     * Attempts to create a new move forward to waypoint action, based on the given information.
      * 
      * @param letter representation of the action, should be 'F' for forward
      * @param distance distance to move
-     * @return move forward action, or empty if the given letter does not represent a move forward action
+     * @return action, or empty if the given letter does not represent a move forward to waypoint action
      */
     static Optional<Instruction> of(char letter, int distance) {
         Optional<Instruction> result;
