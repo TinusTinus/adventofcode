@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2020.day13;
 
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
@@ -21,64 +21,15 @@ public class ShuttleSearchPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ShuttleSearchPart2.class);
 
-    private final long startingPoint;
-    
-    /** Constructor, intended for the actual puzzle input. */
-    public ShuttleSearchPart2() {
-        this(100000000000000L);
-    }
-    
-    /**
-     * Constructor, intended for examples / unit tests.
-     * 
-     * @param startingPoint starting point
-     */
-    ShuttleSearchPart2(long startingPoint) {
-        super();
-        this.startingPoint = startingPoint;
-    }
-    
     /**
      * {@inheritDoc}
      * 
      * @return the ID of the earliest bus we can take to the airport multiplied by the number of minutes we'll need to wait for that bus
      */
-    // Note: this problem seems similar to finding the least common multiple of these bus ids, except with an offset.
-    // Maybe an lcm algorithm can be adapted to solve this?
     @Override
     public long solve(Stream<String> linesStream) {
         Map<Integer, Integer> busIds = getBusIds(linesStream);
-        
-        Entry<Integer, Integer> maxBusIdEntry = busIds.entrySet()
-                .stream()
-                .max(Comparator.comparing(Entry::getValue))
-                .orElseThrow();
-        int maxBusId = maxBusIdEntry.getValue().intValue();
-        int maxBusIdIndex = maxBusIdEntry.getKey().intValue();
-        
-        long timestamp = earliestDepartureAfter(maxBusId, startingPoint);
-        while (!isMatchingTimestamp(timestamp - maxBusIdIndex, busIds)) {
-            timestamp = timestamp + maxBusId;
-        }
-        
-        return timestamp - maxBusIdIndex;
-    }
-    
-    /**
-     * Finds the earliest departure time for the given bus, after the given timestamp.
-     * 
-     * That is, the smallest multiple of the given bus ID which is at least the given timestamp
-     * 
-     * @param busId bud ID; also its departure frequency
-     * @param timestamp timestamp
-     * @return earliest departure time
-     */
-    private static long earliestDepartureAfter(int busId, long timestamp) {
-        long result = timestamp;
-        while (result % busId != 0) {
-            result++;
-        }
-        return result;
+        return solve(busIds);
     }
 
     /**
@@ -104,20 +55,26 @@ public class ShuttleSearchPart2 implements LongSolver {
     }
     
     /**
-     * Checks whether the given timestamp matches the requirement.
+     * Solver methods.
      * 
-     * @param timestamp timestamp
-     * @param busIds bus ids
-     * @return whether the given timestamp matches the requirement
+     * @param busIds bus ids by index
+     * @return timestamp
      */
-    static boolean isMatchingTimestamp(long timestamp, Map<Integer, Integer> busIds) {
-        return busIds.entrySet()
-                .stream()
-                .allMatch(entry -> matches(timestamp, entry.getKey().intValue(), entry.getValue().intValue()));
-    }
-
-    private static boolean matches(long timestamp, int index, int busId) {
-        return (timestamp + index) % busId == 0;
+    private long solve(Map<Integer, Integer> busIds) {
+        Iterator<Entry<Integer, Integer>> entryIterator = busIds.entrySet().iterator();
+        
+        long timestamp = 0L;
+        
+        Entry<Integer, Integer> entry = entryIterator.next();
+        long increment = entry.getValue().longValue();
+        while (entryIterator.hasNext()) {
+            entry = entryIterator.next();
+            while ((timestamp + entry.getKey().intValue()) % entry.getValue().intValue() != 0) {
+                timestamp = timestamp + increment;
+            }
+            increment = increment * entry.getValue().longValue();
+        }
+        return timestamp;
     }
     
     /**
