@@ -45,7 +45,7 @@ record Turn(TurnDirection turnDirection, int angle) implements Instruction {
         
         Direction direction = startingPoint.direction();
         for (int i = 0; i != angle; i+= 90) {
-            turnDirection.turn(direction);
+            direction = turnDirection.turn(direction);
         }
         
         return new Ship(startingPoint.location(), direction);
