@@ -26,7 +26,7 @@ public class ShuttleSearchPart1Test extends SolverTest<ShuttleSearchPart1> {
      */
     @Test
     public void testExample() {
-        assertSolution("295", "example-day13-2020.txt");
+        assertSolution("295", "example-day13-2020-0.txt");
     }
     
     /** Test case based on the accepted solution. */

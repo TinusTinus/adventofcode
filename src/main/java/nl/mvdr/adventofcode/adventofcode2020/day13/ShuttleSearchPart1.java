@@ -52,7 +52,7 @@ public class ShuttleSearchPart1 implements IntSolver {
      * @param timestamp timestamp
      * @return earliest departure time
      */
-    private int earliestDepartureAfter(int busId, int timestamp) {
+    static int earliestDepartureAfter(int busId, long timestamp) {
         int result = 0;
         while (result <= timestamp) {
             result += busId;
