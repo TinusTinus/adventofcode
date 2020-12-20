@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.point.Direction;
+import nl.mvdr.adventofcode.point.Point;
 import nl.mvdr.adventofcode.point.TurnDirection;
 
 /**
@@ -39,12 +39,24 @@ record RotateWaypoint(TurnDirection turnDirection, int angle) implements Instruc
     /** {@inheritDoc} */
     @Override
     public Ship execute(Ship startingPoint) {
-        if (!(angle % 90 == 0)) {
+        if (!(angle % 90 == 0) || 360 < angle) {
             throw new IllegalStateException("Invalid angle: " + angle);
         }
         
-        // TODO implement
-        return startingPoint;
+        // Convert to clockwise 
+        int clockwiseAngle;
+        if (turnDirection == TurnDirection.LEFT) {
+            clockwiseAngle = 360 - angle;
+        } else {
+            clockwiseAngle = angle;
+        }
+        
+        Point waypoint = startingPoint.waypoint();
+        for (int i = 0; i != clockwiseAngle; i+= 90) {
+            waypoint = new Point(-waypoint.y(), waypoint.x());
+        }
+        
+        return new Ship(startingPoint.location(), startingPoint.direction(), waypoint);
     }
 
 }

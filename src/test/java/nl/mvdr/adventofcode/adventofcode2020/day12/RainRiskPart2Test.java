@@ -25,6 +25,6 @@ public class RainRiskPart2Test extends SolverTest<RainRiskPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day12-2020.txt");
+        assertSolution("78883", "input-day12-2020.txt");
     }
 }

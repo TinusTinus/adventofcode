@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2020.day12;
 
 import java.util.Optional;
 
+import nl.mvdr.adventofcode.point.Point;
+
 /**
  * Moves the ship forward in its current direction.
  *
@@ -29,8 +31,8 @@ record MoveForwardToWaypoint(int distance) implements Instruction {
     /** {@inheritDoc} */
     @Override
     public Ship execute(Ship startingPoint) {
-        // TODO imlpement
-        return startingPoint;
+        Point location = startingPoint.location().translate(startingPoint.waypoint().times(distance));
+        return new Ship(location, startingPoint.direction(), startingPoint.waypoint());
     }
 
 }
