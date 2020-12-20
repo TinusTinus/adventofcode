@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day07;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 7 puzzle of 2017's Advent of Code:
@@ -15,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RecursiveCircusPart1 implements PathSolver<String> {
+public class RecursiveCircusPart1 implements LinesSolver<String> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecursiveCircusPart1.class);
     
@@ -25,8 +24,8 @@ public class RecursiveCircusPart1 implements PathSolver<String> {
      * @return name of the bottom program
      */
     @Override
-    public String solve(Path inputFilePath) throws IOException {
-        List<Program> programs = Program.parse(inputFilePath);
+    public String solve(Stream<String> lines) {
+        List<Program> programs = Program.parse(lines);
         
         LOGGER.debug("Programs: {}", programs);
         

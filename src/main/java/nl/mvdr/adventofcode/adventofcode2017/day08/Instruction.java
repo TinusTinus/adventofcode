@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day08;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * An instruction.
@@ -20,14 +19,14 @@ class Instruction implements Consumer<Map<String, Integer>> {
     private final Condition condition;
 
     /**
-     * Parses the given text file containing puzzle input.
+     * Parses puzzle input.
      * 
-     * @param inputFilePath path to the input text file
+     * @param lines puzzle input
      * @return list of instructions
      * @throws IOException problem reading the file
      */
-    static List<Instruction> parse(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
+    static List<Instruction> parse(Stream<String> lines) {
+        return lines
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
                 .filter(line -> !line.isBlank())

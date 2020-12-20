@@ -1,15 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2017.day08;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 8 puzzle of 2017's Advent of Code:
@@ -17,7 +16,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RegistersPart1 implements PathSolver<Integer> {
+public class RegistersPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistersPart1.class);
     
@@ -27,18 +26,16 @@ public class RegistersPart1 implements PathSolver<Integer> {
      * @return the largest value in any register after completing the instructions in the puzzle input
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Instruction> instructions = Instruction.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        List<Instruction> instructions = Instruction.parse(lines);
         
         Map<String, Integer> registers = new HashMap<>();
         instructions.forEach(instruction -> instruction.accept(registers));
         
-        int result = registers.values().stream()
+        return registers.values().stream()
                 .mapToInt(Integer::intValue)
                 .max()
                 .orElse(0);
-        
-        return Integer.valueOf(result);
     }
     
     /**

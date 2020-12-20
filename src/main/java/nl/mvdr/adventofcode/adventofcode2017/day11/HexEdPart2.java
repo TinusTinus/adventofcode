@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day11;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 11 puzzle of 2017's Advent of Code:
@@ -15,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class HexEdPart2 implements PathSolver<Integer> {
+public class HexEdPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HexEdPart2.class);
     
@@ -25,8 +24,8 @@ public class HexEdPart2 implements PathSolver<Integer> {
      * @return maximum distance
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<HexagonalDirection> directions = HexagonalDirection.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        List<HexagonalDirection> directions = HexagonalDirection.parse(lines);
         
         LOGGER.debug("Directions: {}", directions);
         
@@ -37,7 +36,7 @@ public class HexEdPart2 implements PathSolver<Integer> {
             maxDistance = Math.max(maxDistance, hexagon.distanceToOrigin());
         }
         
-        return Integer.valueOf(maxDistance);
+        return maxDistance;
     }
     
     /**

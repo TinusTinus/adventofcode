@@ -1,17 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2017.day07;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 7 puzzle of 2017's Advent of Code:
@@ -19,7 +18,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RecursiveCircusPart2 implements PathSolver<Integer> {
+public class RecursiveCircusPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecursiveCircusPart2.class);
     
@@ -29,8 +28,8 @@ public class RecursiveCircusPart2 implements PathSolver<Integer> {
      * @return weight
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Program> programs = Program.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        List<Program> programs = Program.parse(lines);
         Tower tower = Tower.getTower(programs);
         
         Tower unbalancedTower = tower.findSmallestUnbalancedSubtower();
@@ -65,9 +64,7 @@ public class RecursiveCircusPart2 implements PathSolver<Integer> {
                 .get();
         LOGGER.debug("Program with incorrect weight: {}", programWithIncorrectWeight);
         
-        int neededWeight = programWithIncorrectWeight.getWeight() + weightCorrection;
-        
-        return Integer.valueOf(neededWeight);
+        return programWithIncorrectWeight.getWeight() + weightCorrection;
     }
     
     /**

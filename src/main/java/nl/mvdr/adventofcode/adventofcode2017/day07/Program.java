@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2017.day07;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -26,12 +23,11 @@ class Program {
     /**
      * Parses the puzzle input into a collection of programs.
      * 
-     * @param inputFilePath path to the text file containing the input
+     * @param lines puzzle input
      * @return collection of programs
-     * @throws IOException exception indicating that the input text file could not be read
      */
-    static List<Program> parse(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
+    static List<Program> parse(Stream<String> lines) {
+        return lines
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
                 .filter(line -> !line.isBlank())

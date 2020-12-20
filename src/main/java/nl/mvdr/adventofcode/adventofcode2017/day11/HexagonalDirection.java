@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day11;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,14 +21,14 @@ enum HexagonalDirection {
     private final String representation;
 
     /**
-     * Parses the given input file into a list of directions.
+     * Parses the given input into a list of directions.
      * 
-     * @param inputFilePath path of the input text file, containing a comma-separated list of directions
+     * @param lines puzzle input
      * @return list of directions
      * @throws IOException in case the input file could not be read
      */
-    static List<HexagonalDirection> parse(Path inputFilePath) throws IOException {
-        String inputText = Files.lines(inputFilePath).findFirst().get();
+    static List<HexagonalDirection> parse(Stream<String> lines) {
+        String inputText = lines.findFirst().get();
         return Stream.of(inputText.split(","))
                 .map(HexagonalDirection::parseDirection)
                 .collect(Collectors.toList());
