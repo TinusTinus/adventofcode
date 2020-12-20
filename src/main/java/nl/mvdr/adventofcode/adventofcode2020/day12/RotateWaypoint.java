@@ -13,9 +13,9 @@ import nl.mvdr.adventofcode.point.TurnDirection;
  *
  * @author Martijn van de Rijdt
  */
-record Turn(TurnDirection turnDirection, int angle) implements Instruction {
+record RotateWaypoint(TurnDirection turnDirection, int angle) implements Instruction {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(Turn.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RotateWaypoint.class);
 
     /**
      * Attempts to create a new turn action, based on the given information.
@@ -28,7 +28,7 @@ record Turn(TurnDirection turnDirection, int angle) implements Instruction {
         Optional<Instruction> result;
         try {
             TurnDirection turnDirection = TurnDirection.parse(letter);
-            result = Optional.of(new Turn(turnDirection, angle));
+            result = Optional.of(new RotateWaypoint(turnDirection, angle));
         } catch (IllegalArgumentException e) {
             LOGGER.debug("Invalid turn direction: " + letter, e);
             result = Optional.empty();
@@ -43,12 +43,8 @@ record Turn(TurnDirection turnDirection, int angle) implements Instruction {
             throw new IllegalStateException("Invalid angle: " + angle);
         }
         
-        Direction direction = startingPoint.direction();
-        for (int i = 0; i != angle; i+= 90) {
-            direction = turnDirection.turn(direction);
-        }
-        
-        return new Ship(startingPoint.location(), direction, startingPoint.waypoint());
+        // TODO implement
+        return startingPoint;
     }
 
 }

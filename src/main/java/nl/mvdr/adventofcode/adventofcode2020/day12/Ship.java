@@ -9,8 +9,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  * 
  */
-record Ship(Point location, Direction direction) {
+record Ship(Point location, Direction direction, Point waypoint) {
     
     /** Starting position of the ship. */
-    static Ship STARTING_POSITION = new Ship(new Point(0, 0), Direction.RIGHT);
+    static Ship STARTING_POSITION = new Ship(new Point(0, 0), Direction.RIGHT, new Point(10, -1));
 }

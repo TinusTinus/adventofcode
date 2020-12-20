@@ -14,9 +14,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RainRiskPart1 implements IntSolver {
+public class RainRiskPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RainRiskPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RainRiskPart2.class);
 
     /**
      * {@inheritDoc}
@@ -25,7 +25,7 @@ public class RainRiskPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        List<Instruction> instructions = Instruction.parse(lines, true);
+        List<Instruction> instructions = Instruction.parse(lines, false);
         
         Ship ship = Ship.STARTING_POSITION;
         
@@ -42,7 +42,7 @@ public class RainRiskPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        RainRiskPart1 instance = new RainRiskPart1();
+        RainRiskPart2 instance = new RainRiskPart2();
 
         String result = instance.solve("input-day12-2020.txt");
 
