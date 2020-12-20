@@ -54,12 +54,29 @@ public class ShuttleSearchPart2 implements LongSolver {
         int maxBusId = maxBusIdEntry.getValue().intValue();
         int maxBusIdIndex = maxBusIdEntry.getKey().intValue();
         
-        long timestamp = ShuttleSearchPart1.earliestDepartureAfter(maxBusId, startingPoint);
+        long timestamp = earliestDepartureAfter(maxBusId, startingPoint);
         while (!isMatchingTimestamp(timestamp - maxBusIdIndex, busIds)) {
             timestamp = timestamp + maxBusId;
         }
         
         return timestamp - maxBusIdIndex;
+    }
+    
+    /**
+     * Finds the earliest departure time for the given bus, after the given timestamp.
+     * 
+     * That is, the smallest multiple of the given bus ID which is at least the given timestamp
+     * 
+     * @param busId bud ID; also its departure frequency
+     * @param timestamp timestamp
+     * @return earliest departure time
+     */
+    private static long earliestDepartureAfter(int busId, long timestamp) {
+        long result = timestamp;
+        while (result % busId != 0) {
+            result++;
+        }
+        return result;
     }
 
     /**
