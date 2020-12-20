@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2020.day13;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -45,13 +47,19 @@ public class ShuttleSearchPart2 implements LongSolver {
     public long solve(Stream<String> linesStream) {
         Map<Integer, Integer> busIds = getBusIds(linesStream);
         
-        int firstBusId = busIds.get(Integer.valueOf(0)).intValue();
-        long timestamp = ShuttleSearchPart1.earliestDepartureAfter(firstBusId, startingPoint);
-        while (!isMatchingTimestamp(timestamp, busIds)) {
-            timestamp = timestamp + firstBusId;
+        Entry<Integer, Integer> maxBusIdEntry = busIds.entrySet()
+                .stream()
+                .max(Comparator.comparing(Entry::getValue))
+                .orElseThrow();
+        int maxBusId = maxBusIdEntry.getValue().intValue();
+        int maxBusIdIndex = maxBusIdEntry.getKey().intValue();
+        
+        long timestamp = ShuttleSearchPart1.earliestDepartureAfter(maxBusId, startingPoint);
+        while (!isMatchingTimestamp(timestamp - maxBusIdIndex, busIds)) {
+            timestamp = timestamp + maxBusId;
         }
         
-        return timestamp;
+        return timestamp - maxBusIdIndex;
     }
 
     /**
