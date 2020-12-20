@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day25;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Blueprint of a Turing machine.
@@ -23,12 +22,12 @@ class Blueprint {
     /**
      * Parses a text file into a Turing machine.
      * 
-     * @param inputFilePath path to the text file
+     * @param linesStream puzzle input
      * @return Turing machine represented by this text file
      * @throws IOException in case the text file could not be read
      */
-    static Blueprint parse (Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath).collect(Collectors.toList());
+    static Blueprint parse(Stream<String> linesStream) {
+        List<String> lines = linesStream.collect(Collectors.toList());
         
         String initialStateLine = lines.get(0);
         String initialState = initialStateLine.substring("Begin in state ".length(), initialStateLine.length() - 1);

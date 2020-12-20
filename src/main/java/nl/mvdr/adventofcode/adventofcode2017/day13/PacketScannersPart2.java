@@ -1,14 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2017.day13;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 13 puzzle of 2017's Advent of Code:
@@ -16,7 +15,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class PacketScannersPart2 implements PathSolver<Integer> {
+public class PacketScannersPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PacketScannersPart2.class);
     
@@ -26,8 +25,8 @@ public class PacketScannersPart2 implements PathSolver<Integer> {
      * @return fewest number of picoseconds that we need to delay the packet to pass through the firewall without being caught
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Set<Layer> layers = Layer.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        Set<Layer> layers = Layer.parse(lines);
         
         int delay = 0;
         while (isCaught(layers)) {
@@ -35,7 +34,7 @@ public class PacketScannersPart2 implements PathSolver<Integer> {
             delay++;
         }
         
-        return Integer.valueOf(delay);
+        return delay;
     }
 
     /**

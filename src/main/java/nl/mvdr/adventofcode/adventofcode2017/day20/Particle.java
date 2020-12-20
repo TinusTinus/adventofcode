@@ -1,12 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2017.day20;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point3D;
 
@@ -23,12 +21,11 @@ class Particle {
     /**
      * Parses the given text file into a list of particles.
      * 
-     * @param inputFilePath path to the text file
+     * @param lines puzzle input
      * @return list of particles
-     * @throws IOException in case the input could not be read
      */
-    static List<Particle> parse(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
+    static List<Particle> parse(Stream<String> lines) {
+        return lines
                 // ignore empty lines (the last line in the file)
                 .filter(line -> !line.isBlank())
                 .map(Particle::parseParticle)

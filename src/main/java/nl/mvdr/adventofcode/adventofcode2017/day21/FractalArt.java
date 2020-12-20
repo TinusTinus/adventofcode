@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day21;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 21 puzzle of 2017's Advent of Code:
@@ -15,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class FractalArt implements PathSolver<Long> {
+public class FractalArt implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FractalArt.class);
     
@@ -37,12 +36,12 @@ public class FractalArt implements PathSolver<Long> {
      * @return the number of pixels which are on
      */
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        Set<EnhancementRule> rules = EnhancementRule.parse(inputFilePath);
+    public long solve(Stream<String> lines) {
+        Set<EnhancementRule> rules = EnhancementRule.parse(lines);
         
         Image image = Image.INITIAL_IMAGE.enhance(iterations, rules);
         
-        return Long.valueOf(image.countOnPixels());
+        return image.countOnPixels();
     }
     
     /**

@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2017.day12;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -25,24 +22,22 @@ class Line {
     /**
      * Parses the puzzle input.
      * 
-     * @param inputFilePath path to the input text file
+     * @param input puzzle input
      * @return groups
-     * @throws IOException in case the file could not be read
      */
-    static Set<Set<Integer>> parse(Path inputFilePath) throws IOException {
-        List<Line> lines = parseLines(inputFilePath);
+    static Set<Set<Integer>> parse(Stream<String> input) {
+        List<Line> lines = parseLines(input);
         return group(lines);
     }
 
     /**
      * Parses the puzzle input.
      * 
-     * @param inputFilePath path to the input text file
+     * @param input puzzle input
      * @return lines
-     * @throws IOException in case the file could not be read
      */
-    private static List<Line> parseLines(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
+    private static List<Line> parseLines(Stream<String> input) {
+        return input
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
                 .filter(line -> !line.isBlank())

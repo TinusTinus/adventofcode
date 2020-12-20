@@ -1,10 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day21;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Representation of an enhancement rule from the puzzle input.
@@ -19,13 +17,11 @@ class EnhancementRule {
     /**
      * Parses the given text file into a set of rules.
      * 
-     * @param inputFilePath path to a text file containing the text representation of a bunch of rules
+     * @param lines puzzle input
      * @return rules
-     * @throws IOException in case the text file could not be read
      */
-    static Set<EnhancementRule> parse(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
-                .filter(line -> !"".equals(line))
+    static Set<EnhancementRule> parse(Stream<String> lines) {
+        return lines.filter(line -> !"".equals(line))
                 .map(EnhancementRule::parseRule)
                 .collect(Collectors.toSet());
     }

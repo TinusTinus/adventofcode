@@ -1,10 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day24;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Representation of a component.
@@ -18,13 +16,11 @@ class Component {
     /**
      * Parses the given text file into a set of components.
      * 
-     * @param inputFilePath path to the text file
+     * @param lines puzzle input
      * @return set of components
-     * @throws IOException in case the text file could not be read
      */
-    static Set<Component> parse(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
-                .filter(line -> !"".equals(line))
+    static Set<Component> parse(Stream<String> lines) {
+        return lines.filter(line -> !"".equals(line))
                 .map(Component::parseComponent)
                 .collect(Collectors.toSet());
     }

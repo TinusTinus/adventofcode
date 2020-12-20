@@ -1,13 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day22;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +38,11 @@ class Grid {
     /**
      * Creates a new grid, based on the contents of the text file at the given path.
      * 
-     * @param inputFilePath path to a text file containing puzzle input
+     * @param linesStream puzzle input
      * @return grid
-     * @throws IOException in case the text file could not be read
      */
-    static Grid parse(Path inputFilePath) throws IOException {
-        List<String> lines = Files.lines(inputFilePath)
-                .filter(line -> !"".equals(line))
+    static Grid parse(Stream<String> linesStream) {
+        List<String> lines = linesStream.filter(line -> !"".equals(line))
                 .collect(Collectors.toList());
 
         int startingX = lines.size() / 2;

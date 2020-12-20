@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day22;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 22 puzzle of 2017's Advent of Code:
@@ -14,7 +13,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SporificaVirusPart1 implements PathSolver<Integer> {
+public class SporificaVirusPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SporificaVirusPart1.class);
 
@@ -41,12 +40,12 @@ public class SporificaVirusPart1 implements PathSolver<Integer> {
      * @return how many bursts cause a node to become infected
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Grid grid = Grid.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        Grid grid = Grid.parse(lines);
         
         grid.burst(bursts, false);
         
-        return Integer.valueOf(grid.getInfectionCount());
+        return grid.getInfectionCount();
     }
     
     /**

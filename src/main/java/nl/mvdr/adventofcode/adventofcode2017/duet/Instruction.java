@@ -1,11 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2017.duet;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * An instruction in (some version of) the Duet assembly language.
@@ -17,14 +15,13 @@ public interface Instruction {
     /**
      * Parses the instructions in the input file.
      * 
-     * @param inputFilePath path to the text file containing textual representations of instructions
+     * @param lines puzzle input
      * @param sound whether the sound-based instructions (sound and recover) should be used;
      *      if false, messaging operations (send and receive) are used instead
      * @return instructions
-     * @throws IOException if the input could not be read
      */
-    public static List<Instruction> parseInstructions(Path inputFilePath, boolean sound) throws IOException {
-        return Files.lines(inputFilePath)
+    public static List<Instruction> parseInstructions(Stream<String> lines, boolean sound) {
+        return lines
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
                 .filter(line -> !line.isBlank())

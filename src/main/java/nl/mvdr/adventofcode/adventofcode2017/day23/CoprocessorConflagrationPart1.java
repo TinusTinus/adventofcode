@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day23;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.MultiplyInstruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
@@ -18,7 +17,7 @@ import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class CoprocessorConflagrationPart1 implements PathSolver<Integer> {
+public class CoprocessorConflagrationPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CoprocessorConflagrationPart1.class);
     
@@ -28,12 +27,12 @@ public class CoprocessorConflagrationPart1 implements PathSolver<Integer> {
      * @return how many times the mul instruction is invoked
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Instruction> instructions = Instruction.parseInstructions(inputFilePath, false);
+    public int solve(Stream<String> lines) {
+        List<Instruction> instructions = Instruction.parseInstructions(lines, false);
         Program program = new Program(instructions);
         program = program.executeInstructions();
         
-        return Integer.valueOf(program.timesExecuted(MultiplyInstruction.class));
+        return program.timesExecuted(MultiplyInstruction.class);
     }
     
     /**

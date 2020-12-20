@@ -1,16 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2017.day20;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 20 puzzle of 2017's Advent of Code:
@@ -18,7 +17,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ParticleSwarmPart1 implements PathSolver<Integer> {
+public class ParticleSwarmPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticleSwarmPart1.class);
     
@@ -28,8 +27,8 @@ public class ParticleSwarmPart1 implements PathSolver<Integer> {
      * @return the particle which will stay closest to position <0,0,0> in the long term
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Particle> particles = Particle.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        List<Particle> particles = Particle.parse(lines);
         LOGGER.debug("Starting particles: {}", particles);
         
         // Note: if the number of ticks is too high, integer overflows may become an issue
@@ -38,13 +37,13 @@ public class ParticleSwarmPart1 implements PathSolver<Integer> {
                     .map(Particle::tick)
                     .collect(Collectors.toList());
             
-            LOGGER.debug("Particles: {}", particles);
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.info("Closest particle: " + closestToOrigin(particles));
+                LOGGER.debug("Particles: {}", particles);
+                LOGGER.debug("Closest particle: " + closestToOrigin(particles));
             }
         }
         
-        return Integer.valueOf(closestToOrigin(particles));
+        return closestToOrigin(particles);
     }
     
     private int closestToOrigin(List<Particle> particles) {

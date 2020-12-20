@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day18;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
 
@@ -17,7 +16,7 @@ import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
  *
  * @author Martijn van de Rijdt
  */
-public class DuetPart1 implements PathSolver<Long> {
+public class DuetPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DuetPart1.class);
     
@@ -27,8 +26,8 @@ public class DuetPart1 implements PathSolver<Long> {
      * @return recovered frequency
      */
     @Override
-    public Long solve(Path inputFilePath) throws IOException {
-        List<Instruction> instructions = Instruction.parseInstructions(inputFilePath, true);
+    public long solve(Stream<String> lines) {
+        List<Instruction> instructions = Instruction.parseInstructions(lines, true);
         
         Program program = new Program(instructions);
         LOGGER.debug("Program: {}", program);
@@ -37,7 +36,7 @@ public class DuetPart1 implements PathSolver<Long> {
         
         LOGGER.debug("After program execution: {}", program);
         
-        return Long.valueOf(program.getState().getRecoveredFrequency().getAsLong());
+        return program.getState().getRecoveredFrequency().getAsLong();
     }
     
     /**

@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day24;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 24 puzzle of 2017's Advent of Code:
@@ -15,7 +14,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ElectromagneticMoatPart1 implements PathSolver<Integer> {
+public class ElectromagneticMoatPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ElectromagneticMoatPart1.class);
     
@@ -25,14 +24,13 @@ public class ElectromagneticMoatPart1 implements PathSolver<Integer> {
      * @return strength of the strongest bridge
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Set<Component> components = Component.parse(inputFilePath);
-        Set<Bridge> validBridges = Bridge.validBridges(components);
-        int maxStrength = validBridges.stream()
+    public int solve(Stream<String> lines) {
+        Set<Component> components = Component.parse(lines);
+        return Bridge.validBridges(components)
+                .stream()
                 .mapToInt(Bridge::strength)
                 .max()
                 .getAsInt();
-        return Integer.valueOf(maxStrength);
     }
     
     /**

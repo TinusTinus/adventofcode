@@ -1,11 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2017.day13;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A layer of the firewall.
@@ -28,12 +26,11 @@ class Layer {
     /**
      * Parses the puzzle input into a set of layers.
      * 
-     * @param inputFilePath path to the text file containing puzzle input
+     * @param lines puzzle input
      * @return set of layers
-     * @throws IOException exception while attempting to read the puzzle input
      */
-    static Set<Layer> parse(Path inputFilePath) throws IOException {
-        return Files.lines(inputFilePath)
+    static Set<Layer> parse(Stream<String> lines) {
+        return lines
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)
                 .filter(line -> !line.isBlank())

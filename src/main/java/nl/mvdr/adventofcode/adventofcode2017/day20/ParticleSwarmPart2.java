@@ -1,17 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2017.day20;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.point.Point3D;
 
 /**
@@ -20,7 +19,7 @@ import nl.mvdr.adventofcode.point.Point3D;
  *
  * @author Martijn van de Rijdt
  */
-public class ParticleSwarmPart2 implements PathSolver<Integer> {
+public class ParticleSwarmPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticleSwarmPart2.class);
     
@@ -30,8 +29,8 @@ public class ParticleSwarmPart2 implements PathSolver<Integer> {
      * @return number of particles
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Particle> particles = Particle.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        List<Particle> particles = Particle.parse(lines);
         LOGGER.debug("Starting particles: {}", particles);
         
         // Note: if the number of ticks is too high, integer overflows may become an issue
@@ -45,7 +44,7 @@ public class ParticleSwarmPart2 implements PathSolver<Integer> {
             LOGGER.debug("Particles: {}", particles);
         }
         
-        return Integer.valueOf(particles.size());
+        return particles.size();
     }
     
     private void removeCollisions(List<Particle> particles) {

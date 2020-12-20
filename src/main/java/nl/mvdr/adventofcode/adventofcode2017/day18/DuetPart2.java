@@ -1,15 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2017.day18;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Program;
 import nl.mvdr.adventofcode.adventofcode2017.duet.SendInstruction;
@@ -21,7 +20,7 @@ import nl.mvdr.adventofcode.adventofcode2017.duet.State;
  *
  * @author Martijn van de Rijdt
  */
-public class DuetPart2 implements PathSolver<Integer> {
+public class DuetPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DuetPart2.class);
     
@@ -31,8 +30,8 @@ public class DuetPart2 implements PathSolver<Integer> {
      * @return number of times program 1 sent a message
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        List<Instruction> instructions = Instruction.parseInstructions(inputFilePath, false);
+    public int solve(Stream<String> lines) {
+        List<Instruction> instructions = Instruction.parseInstructions(lines, false);
         
         Queue<Long> queue0 = new LinkedList<>();
         Queue<Long> queue1 = new LinkedList<>();
@@ -48,7 +47,7 @@ public class DuetPart2 implements PathSolver<Integer> {
         LOGGER.debug("End program 0: {}", program0);
         LOGGER.debug("End program 1: {}", program1);
         
-        return Integer.valueOf(program1.timesExecuted(SendInstruction.class));
+        return program1.timesExecuted(SendInstruction.class);
     }
     
     /**

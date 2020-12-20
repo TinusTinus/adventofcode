@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day25;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 25 puzzle of 2017's Advent of Code:
@@ -14,7 +13,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class HaltingProblem implements PathSolver<Integer> {
+public class HaltingProblem implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HaltingProblem.class);
     
@@ -24,15 +23,15 @@ public class HaltingProblem implements PathSolver<Integer> {
      * @return diagnostic checksum
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Blueprint blueprint = Blueprint.parse(inputFilePath);
+    public int solve(Stream<String> lines) {
+        Blueprint blueprint = Blueprint.parse(lines);
         TuringMachine machine = blueprint.getTuringMachineDefinition().createTuringMachine();
         
         for (int i = 0; i != blueprint.getSteps(); i++) {
             machine.executeStep();
         }
         
-        return Integer.valueOf(machine.checksum());
+        return machine.checksum();
     }
     
     /**

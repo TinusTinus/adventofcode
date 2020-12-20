@@ -1,11 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day23;
 
-import java.nio.file.Path;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 23 puzzle of 2017's Advent of Code:
@@ -13,7 +13,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class CoprocessorConflagrationPart2 implements PathSolver<Integer> {
+public class CoprocessorConflagrationPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CoprocessorConflagrationPart2.class);
     
@@ -23,7 +23,7 @@ public class CoprocessorConflagrationPart2 implements PathSolver<Integer> {
      * @return the value in register h after execution
      */
     @Override
-    public Integer solve(Path inputFilePath) {
+    public int solve(Stream<String> lines) {
         // Solution inspired by (a.k.a. ripped off from):
         //   https://www.reddit.com/r/adventofcode/comments/7lms6p/2017_day_23_solutions/drngj9r/
         
@@ -54,7 +54,7 @@ public class CoprocessorConflagrationPart2 implements PathSolver<Integer> {
             b += 17;
         } while (g != 0); // stop when b==c (1000 iterations)
 
-        return Integer.valueOf(h);
+        return h;
     }
     
     /**

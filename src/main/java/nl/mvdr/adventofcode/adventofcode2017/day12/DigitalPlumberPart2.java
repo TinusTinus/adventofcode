@@ -1,13 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day12;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.PathSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 12 puzzle of 2017's Advent of Code:
@@ -15,7 +13,7 @@ import nl.mvdr.adventofcode.PathSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class DigitalPlumberPart2 implements PathSolver<Integer> {
+public class DigitalPlumberPart2 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DigitalPlumberPart2.class);
     
@@ -25,10 +23,8 @@ public class DigitalPlumberPart2 implements PathSolver<Integer> {
      * @return number of groups
      */
     @Override
-    public Integer solve(Path inputFilePath) throws IOException {
-        Set<Set<Integer>> groups = Line.parse(inputFilePath);
-        
-        return Integer.valueOf(groups.size());
+    public int solve(Stream<String> lines) {
+        return Line.parse(lines).size();
     }
     
     /**
