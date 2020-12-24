@@ -5,21 +5,21 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link DockingDataPart2}.
+ * Unit test cases for {@link DockingDataPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class ShuttleSearchPart2Test extends SolverTest<DockingDataPart2> {
+public class DockingDataPart1Test extends SolverTest<DockingDataPart1> {
 
     /** Constructor. */
-    public ShuttleSearchPart2Test() {
-        super(DockingDataPart2.class);
+    public DockingDataPart1Test() {
+        super(DockingDataPart1.class);
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("208", "example-day14-2020-1.txt");
+        assertSolution("165", "example-day14-2020-0.txt");
     }
     
     /** Test case based on the accepted solution. */
