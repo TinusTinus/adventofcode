@@ -69,10 +69,12 @@ public class ShuttleSearchPart2 implements LongSolver {
         long increment = entry.getValue().longValue();
         while (entryIterator.hasNext()) {
             entry = entryIterator.next();
-            while ((timestamp + entry.getKey().intValue()) % entry.getValue().intValue() != 0) {
+            int index = entry.getKey().intValue();
+            int busId = entry.getValue().intValue();
+            while ((timestamp + index) % busId != 0) {
                 timestamp = timestamp + increment;
             }
-            increment = increment * entry.getValue().longValue();
+            increment = increment * busId;
         }
         return timestamp;
     }
