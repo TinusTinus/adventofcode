@@ -1,0 +1,58 @@
+package nl.mvdr.adventofcode.adventofcode2020.day14;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
+
+/**
+ * Solution to the day 14 puzzle of 2020's Advent of Code:
+ * <a href="https://adventofcode.com/2020/day/14">Docking Data</a>.
+ *
+ * @author Martijn van de Rijdt
+ */
+public class DockingDataPart1 implements LongSolver {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DockingDataPart1.class);
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @return the sum of all values left in memory after the initialisation program completes
+     */
+    @Override
+    public long solve(Stream<String> linesStream) {
+        List<String> instructions = linesStream.filter(Predicate.not(String::isEmpty))
+                .collect(Collectors.toList());
+        long[] values = new long[99_999]; // indexes go up to five digits in the puzzle input
+        String bitmask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+        
+        for (String instruction : instructions) {
+            // TODO process instruction
+        }
+        
+        return LongStream.of(values).sum();
+    }
+    
+    /**
+     * Main method.
+     * 
+     * @param args commandline arguments; these are ignored
+     */
+    public static void main(String[] args) {
+        DockingDataPart1 instance = new DockingDataPart1();
+
+        String result = instance.solve("input-day14-2020.txt");
+
+        LOGGER.info(result);
+    }
+}
+ 
