@@ -32,7 +32,7 @@ public class DockingDataPart1 implements LongSolver {
                 .collect(Collectors.toList());
         long[] values = new long[99_999]; // indexes go up to five digits in the puzzle input
         long onesMask = 0L;
-        long zeroesMask = 0L;
+        long zeroesMask = 1L;
         
         for (String instruction : instructions) {
             
@@ -40,7 +40,7 @@ public class DockingDataPart1 implements LongSolver {
             if ("mask".equals(sides[0])) {
                 String bitmask = sides[1];
                 onesMask = Long.parseLong(bitmask.replaceAll("X", "0"), 2);
-                zeroesMask = Long.parseLong(bitmask.replaceAll("1", "X").replaceAll("0", "1").replaceAll("X", "0"), 2);
+                zeroesMask = Long.parseLong(bitmask.replaceAll("X", "1"), 2);
             } else {
                 String indexString = sides[0].substring(4, sides[0].length() - 1);
                 int index = Integer.parseInt(indexString);
@@ -48,7 +48,7 @@ public class DockingDataPart1 implements LongSolver {
                 long value = Long.parseLong(sides[1]);
                 
                 long maskedValue = value | onesMask;
-                maskedValue = value & ~zeroesMask;
+                maskedValue = maskedValue & zeroesMask;
                 
                 values[index] = maskedValue;
             }
