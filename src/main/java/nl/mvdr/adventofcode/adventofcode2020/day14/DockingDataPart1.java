@@ -47,10 +47,7 @@ public class DockingDataPart1 implements LongSolver {
                 
                 long value = Long.parseLong(sides[1]);
                 
-                long maskedValue = value | onesMask;
-                maskedValue = maskedValue & zeroesMask;
-                
-                values[index] = maskedValue;
+                values[index] = (value | onesMask) & zeroesMask;
             }
         }
         
