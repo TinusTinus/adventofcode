@@ -31,20 +31,24 @@ public class DockingDataPart1 implements LongSolver {
         List<String> instructions = linesStream.filter(Predicate.not(String::isEmpty))
                 .collect(Collectors.toList());
         long[] values = new long[99_999]; // indexes go up to five digits in the puzzle input
-        String bitmask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+        long onesMask = 0L;
+        long zeroesMask = 0L;
         
         for (String instruction : instructions) {
             
             String[] sides = instruction.split(" = ");
             if ("mask".equals(sides[0])) {
-                bitmask = sides[1];
+                String bitmask = sides[1];
+                onesMask = Long.parseLong(bitmask.replaceAll("X", "0"), 2);
+                zeroesMask = Long.parseLong(bitmask.replaceAll("1", "X").replaceAll("0", "1").replaceAll("X", "0"), 2);
             } else {
                 String indexString = sides[0].substring(4, sides[0].length() - 1);
                 int index = Integer.parseInt(indexString);
                 
                 long value = Long.parseLong(sides[1]);
                 
-                long maskedValue = value; // TODO apply the bitmask
+                long maskedValue = value | onesMask;
+                maskedValue = value & ~zeroesMask;
                 
                 values[index] = maskedValue;
             }
