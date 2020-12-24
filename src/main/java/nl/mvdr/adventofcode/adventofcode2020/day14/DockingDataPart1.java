@@ -30,7 +30,7 @@ public class DockingDataPart1 implements LongSolver {
     public long solve(Stream<String> linesStream) {
         List<String> instructions = linesStream.filter(Predicate.not(String::isEmpty))
                 .collect(Collectors.toList());
-        long[] values = new long[99_999]; // indexes go up to five digits in the puzzle input
+        long[] memory = new long[99_999]; // indexes go up to five digits in the puzzle input
         long onesMask = 0L;
         long zeroesMask = 1L;
         
@@ -47,11 +47,11 @@ public class DockingDataPart1 implements LongSolver {
                 
                 long value = Long.parseLong(sides[1]);
                 
-                values[index] = (value | onesMask) & zeroesMask;
+                memory[index] = (value | onesMask) & zeroesMask;
             }
         }
         
-        return LongStream.of(values).sum();
+        return LongStream.of(memory).sum();
     }
     
     /**
