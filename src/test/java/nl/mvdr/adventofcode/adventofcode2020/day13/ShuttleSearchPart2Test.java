@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2020.day13;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
