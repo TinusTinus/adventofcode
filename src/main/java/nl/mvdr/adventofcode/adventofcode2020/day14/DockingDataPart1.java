@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2020.day14;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -10,7 +9,6 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
 import nl.mvdr.adventofcode.LongSolver;
 
 /**
@@ -36,7 +34,20 @@ public class DockingDataPart1 implements LongSolver {
         String bitmask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
         
         for (String instruction : instructions) {
-            // TODO process instruction
+            
+            String[] sides = instruction.split(" = ");
+            if ("mask".equals(sides[0])) {
+                bitmask = sides[1];
+            } else {
+                String indexString = sides[0].substring(4, sides[0].length() - 1);
+                int index = Integer.parseInt(indexString);
+                
+                long value = Long.parseLong(sides[1]);
+                
+                long maskedValue = value; // TODO apply the bitmask
+                
+                values[index] = maskedValue;
+            }
         }
         
         return LongStream.of(values).sum();
