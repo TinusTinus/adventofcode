@@ -25,6 +25,6 @@ public class DockingDataPart2Test extends SolverTest<DockingDataPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day14-2020.txt"); // 4059323975790 is too low!
+        assertSolution("4574598714592", "input-day14-2020.txt");
     }
 }

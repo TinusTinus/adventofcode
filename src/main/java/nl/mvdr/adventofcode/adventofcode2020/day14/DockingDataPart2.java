@@ -49,7 +49,7 @@ public class DockingDataPart2 implements LongSolver {
                         .map(i -> bitmask.length() - i - 1)
                         .mapToLong(i -> (long) i)
                         // map to powers of 2
-                        .map(i -> 1 << i)
+                        .map(i -> 1L << i)
                         .boxed()
                         .collect(Collectors.toSet());
             } else {
