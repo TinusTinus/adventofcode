@@ -1,12 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2020.day14;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -36,12 +37,21 @@ public class DockingDataPart2 implements LongSolver {
         
         Map<Long, Long> memory = new HashMap<>();
         long onesMask = 0L;
+        Set<Long> xMasks = Set.of();
         
         for (String instruction : instructions) {
             String[] sides = instruction.split(" = ");
             if ("mask".equals(sides[0])) {
                 String bitmask = sides[1];
                 onesMask = Long.parseLong(bitmask.replaceAll("X", "0"), 2);
+                xMasks = IntStream.range(0, bitmask.length())
+                        .filter(i -> bitmask.charAt(i) == 'X')
+                        .map(i -> bitmask.length() - i - 1)
+                        .mapToLong(i -> (long) i)
+                        // map to powers of 2
+                        .map(i -> 1 << i)
+                        .boxed()
+                        .collect(Collectors.toSet());
             } else {
                 String indexString = sides[0].substring(4, sides[0].length() - 1);
                 long index = Long.parseLong(indexString);
@@ -51,8 +61,17 @@ public class DockingDataPart2 implements LongSolver {
                 // Apply the ones.
                 Set<Long> indexes = Set.of(Long.valueOf(index | onesMask));
                 
-                // TODO Apply the Xs.
-                
+                // Apply the Xs.
+                for (Long xMask : xMasks) {
+                    Set<Long> newIndexes = new HashSet<>();
+                    for (Long i : indexes) {
+                        // 1...
+                        newIndexes.add(Long.valueOf(i.longValue() | xMask.longValue()));
+                        // ... or 0
+                        newIndexes.add(Long.valueOf(i.longValue() & ~xMask.longValue()));
+                    }
+                    indexes = newIndexes;
+                }
                 
                 long value = Long.parseLong(sides[1]);
                 
