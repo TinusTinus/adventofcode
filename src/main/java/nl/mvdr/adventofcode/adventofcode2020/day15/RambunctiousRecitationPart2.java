@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class RambunctiousRecitationPart1 extends RambunctiousRecitation {
+public class RambunctiousRecitationPart2 extends RambunctiousRecitation {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RambunctiousRecitationPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RambunctiousRecitationPart2.class);
 
     /** Constructor. */
-    public RambunctiousRecitationPart1() {
-        super(2020);
+    public RambunctiousRecitationPart2() {
+        super(30000000);
     }
     
     /**
@@ -24,7 +24,7 @@ public class RambunctiousRecitationPart1 extends RambunctiousRecitation {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        RambunctiousRecitationPart1 instance = new RambunctiousRecitationPart1();
+        RambunctiousRecitationPart2 instance = new RambunctiousRecitationPart2();
 
         String result = instance.solve("input-day15-2020.txt");
 
