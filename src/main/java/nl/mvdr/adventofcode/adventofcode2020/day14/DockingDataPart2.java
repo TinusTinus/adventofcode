@@ -35,19 +35,26 @@ public class DockingDataPart2 implements LongSolver {
                 .collect(Collectors.toList());
         
         Map<Long, Long> memory = new HashMap<>();
+        long onesMask = 0L;
         
         for (String instruction : instructions) {
             String[] sides = instruction.split(" = ");
             if ("mask".equals(sides[0])) {
                 String bitmask = sides[1];
+                onesMask = Long.parseLong(bitmask.replaceAll("X", "0"), 2);
             } else {
                 String indexString = sides[0].substring(4, sides[0].length() - 1);
                 long index = Long.parseLong(indexString);
                 
-                long value = Long.parseLong(sides[1]);
+                // Determine the actual indexes using bitmask info.
+                // Zeroes have no effect.
+                // Apply the ones.
+                Set<Long> indexes = Set.of(Long.valueOf(index | onesMask));
                 
-                // TODO determine the indexes using the bitmask
-                Set<Long> indexes = Set.of(Long.valueOf(index));
+                // TODO Apply the Xs.
+                
+                
+                long value = Long.parseLong(sides[1]);
                 
                 indexes.forEach(i -> memory.put(i, Long.valueOf(value)));
             }
