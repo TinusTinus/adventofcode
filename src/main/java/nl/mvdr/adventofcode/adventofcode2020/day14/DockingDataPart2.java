@@ -46,10 +46,8 @@ public class DockingDataPart2 implements LongSolver {
                 onesMask = Long.parseLong(bitmask.replaceAll("X", "0"), 2);
                 xMasks = IntStream.range(0, bitmask.length())
                         .filter(i -> bitmask.charAt(i) == 'X')
-                        .map(i -> bitmask.length() - i - 1)
-                        .mapToLong(i -> (long) i)
                         // map to powers of 2
-                        .map(i -> 1L << i)
+                        .mapToLong(i -> 1L << (bitmask.length() - i - 1))
                         .boxed()
                         .collect(Collectors.toSet());
             } else {
