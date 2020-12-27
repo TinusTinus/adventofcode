@@ -35,18 +35,20 @@ public class RambunctiousRecitationPart1 implements IntSolver {
         int[] spokenOnTurn = new int[2021];
         
         // First the starting numbers are spoken.
-        for (int i = 0; i != startingNumbers.size(); i++) {
+        for (int i = 0; i != startingNumbers.size() - 1; i++) {
             spokenOnTurn[startingNumbers.get(i).intValue()] = i + 1;
         }
         
         int lastSpoken = startingNumbers.get(startingNumbers.size() - 1).intValue();
         for (int turn = startingNumbers.size() + 1; turn != 2021; turn++) {
+            int nextToSpeak;
             if (spokenOnTurn[lastSpoken] == 0) {
-                lastSpoken = 0;
+                nextToSpeak = 0;
             } else {
-                lastSpoken = turn - spokenOnTurn[lastSpoken];
+                nextToSpeak = turn - 1 - spokenOnTurn[lastSpoken];
             }
-            spokenOnTurn[lastSpoken] = turn;
+            spokenOnTurn[lastSpoken] = turn - 1;
+            lastSpoken = nextToSpeak;
         }
         return lastSpoken;
     }

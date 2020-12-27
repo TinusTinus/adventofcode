@@ -61,6 +61,6 @@ public class RambunctiousRecitationPart1Test extends SolverTest<RambunctiousReci
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day15-2020.txt");
+        assertSolution("412", "input-day15-2020.txt");
     }
 }
