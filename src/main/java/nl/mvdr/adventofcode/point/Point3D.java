@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.point;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,6 +26,19 @@ public record Point3D(int x, int y, int z) {
                 Integer.parseInt(coordinateStrings[0]),
                 Integer.parseInt(coordinateStrings[1]),
                 Integer.parseInt(coordinateStrings[2]));
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param z z coordinate
+     */
+    public Point3D(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
     
     /**
@@ -66,9 +80,20 @@ public record Point3D(int x, int y, int z) {
         return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
     }
     
-    /** @return the neighbouring points to this one */
+    /** @return the 26 other points where any of their coordinates differ by at most 1 from this one */
     public Set<Point3D> neighbours() {
-        return offsetOnAxes(1);
+        Set<Point3D> result = new HashSet<>();
+        for (int xx = x - 1; xx != x + 2; xx++) {
+            for (int yy = y - 1; yy != y + 2; yy++) {
+                for (int zz = z - 1; zz != z + 2; zz++) {
+                    Point3D point = new Point3D(xx, yy, zz);
+                    if (!point.equals(this)) {
+                        result.add(point);
+                    }
+                }
+            }
+        }
+        return Set.copyOf(result);
     }
     
     /**
