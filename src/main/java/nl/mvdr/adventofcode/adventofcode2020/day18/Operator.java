@@ -35,6 +35,12 @@ enum Operator {
         this.representation = representation;
     }
     
+    /**
+     * Returns the operator represented by the given character.
+     * 
+     * @param c character representation
+     * @return operator
+     */
     static Operator of(char c) {
         return Stream.of(values())
                 .filter(operator -> operator.representation == c)

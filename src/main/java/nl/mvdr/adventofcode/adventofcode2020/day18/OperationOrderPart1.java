@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day18;
 
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -24,7 +25,10 @@ public class OperationOrderPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        return lines.filter(Predicate.not(String::isEmpty))
+                .map(Expression::parse)
+                .mapToInt(Expression::evaluate)
+                .sum();
     }
 
     /**
