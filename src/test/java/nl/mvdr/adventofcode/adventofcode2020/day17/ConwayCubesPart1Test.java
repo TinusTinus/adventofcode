@@ -55,6 +55,6 @@ public class ConwayCubesPart1Test extends SolverTest<ConwayCubesPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day17-2020.txt");
+        assertSolution("209", "input-day17-2020.txt");
     }
 }

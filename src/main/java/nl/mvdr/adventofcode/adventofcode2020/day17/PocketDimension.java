@@ -38,8 +38,35 @@ record PocketDimension(Set<Point3D> activeCubes) {
     
     /** @return updated pocket dimension after simulating a single cycle */
     private PocketDimension simulateCycle() {
-        // TODO implement
-        return null;
+        Set<Point3D> newActiveCubes = new HashSet<>();
+        
+        
+        for (Point3D activeCube : activeCubes) {
+            Set<Point3D> neighbours = activeCube.neighbours();
+            long activeNeighbours = neighbours.stream()
+                    .filter(activeCubes::contains)
+                    .count();
+            // If a cube is active and exactly 2 or 3 of its neighbors are also active, the cube remains active.
+            // Otherwise, the cube becomes inactive.
+            if (activeNeighbours == 2L || activeNeighbours == 3L) {
+                newActiveCubes.add(activeCube);
+            }
+            
+            // If a cube is inactive but exactly 3 of its neighbors are active, the cube becomes active.
+            // Otherwise, the cube remains inactive.
+            for (Point3D neighbour : neighbours) {
+                if (!activeCubes.contains(neighbour)) {
+                    activeNeighbours = neighbour.neighbours().stream()
+                            .filter(activeCubes::contains)
+                            .count();
+                    if (activeNeighbours == 3L) {
+                        newActiveCubes.add(neighbour);
+                    }
+                }
+            }
+        }
+        
+        return new PocketDimension(newActiveCubes);
     }
     
     /**
