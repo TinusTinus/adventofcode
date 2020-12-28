@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 /**
  * A point in four dimensions (spacetime).
  * 
- * Not to be confused with {@link nl.mvdr.adventofcode.point.Point},
- * which represents a point in two dimensions.
+ * Not to be confused with {@link Point} or {@link Point3D},
+ * which represent points in two or three dimensions, respectively.
  *
  * @author Martijn van de Rijdt
  */
@@ -44,7 +44,7 @@ public record Point4D(int x, int y, int z, int w) {
     }
     
     /**
-     * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry"> Manhattan distance</a> between this point and another.
+     * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and another.
      * 
      * @param other other point
      * @return Manhattan distance
