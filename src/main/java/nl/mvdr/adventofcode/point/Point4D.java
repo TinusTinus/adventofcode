@@ -1,12 +1,9 @@
 package nl.mvdr.adventofcode.point;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javax.annotation.processing.Generated;
 
 /**
  * A point in four dimensions (spacetime).
@@ -16,12 +13,7 @@ import javax.annotation.processing.Generated;
  *
  * @author Martijn van de Rijdt
  */
-public class Point4D {
-
-    private final int x;
-    private final int y;
-    private final int z;
-    private final int w;
+public record Point4D(int x, int y, int z, int w) {
 
     /**
      * Parses a text file containing string representations of points.
@@ -50,22 +42,6 @@ public class Point4D {
                 Integer.parseInt(coordinateStrings[3]));
     }
     
-    /**
-     * Constructor.
-     * 
-     * @param coordinate0 first coordinate
-     * @param coordinate1 second coordinate
-     * @param coordinate2 third coordinate
-     * @param coordinate3 dourth coordinate
-     */
-    private Point4D(int coordinate0, int coordinate1, int coordinate2, int coordinate3) {
-        super();
-        this.x = coordinate0;
-        this.y = coordinate1;
-        this.z = coordinate2;
-        this.w = coordinate3;
-    }
-
     /**
      * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry"> Manhattan distance</a> between this point and another.
      * 
@@ -100,24 +76,5 @@ public class Point4D {
     @Override
     public String toString() {
         return x + "," + y + "," + z + "," + w;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(z), Integer.valueOf(w));
-    }
-
-    @Override
-    @Generated("Eclipse")
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Point4D other = (Point4D) obj;
-        return x == other.x && y == other.y && z == other.z
-                && w == other.w;
     }
 }
