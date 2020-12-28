@@ -51,7 +51,7 @@ interface Expression {
                 
                 if (advanced && operator.orElseThrow() == Operator.MULTIPLICATION) {
                     // In advanced math, addition takes precedence over multiplication.
-                    // Evaluate the right-hand side first, in case it includes addition.
+                    // Parse the right-hand side first, in case it includes addition.
                     ExpressionAndIndex expressionAndIndex = parse(representation, index + 1, advanced, false);
                     expression = Optional.of(new Operation(expression.orElseThrow(), operator.orElseThrow(), expressionAndIndex.expression()));
                     operator = Optional.empty();
@@ -63,15 +63,18 @@ interface Expression {
                 // Start of a new subexpression
                 Expression subexpression;
                 if (c == '(') {
+                    // Parse the subexpression between the brackets.
                     ExpressionAndIndex expressionAndIndex = parse(representation, index + 1, advanced, true);
                     subexpression = expressionAndIndex.expression();
                     index = expressionAndIndex.endIndex();
                 } else {
+                    // Not a bracket and not an operator: this must be a numeral.
                     subexpression = Numeral.of(c);
                     index++;
                 }
                 
                 if (operator.isPresent()) {
+                    // This subexpression is the right-hand side of the operator: create an operation expression.
                     expression = Optional.of(new Operation(expression.orElseThrow(), operator.orElseThrow(), subexpression));
                     operator = Optional.empty();
                 } else {
