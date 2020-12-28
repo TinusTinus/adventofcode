@@ -18,10 +18,10 @@ import javax.annotation.processing.Generated;
  */
 public class Point4D {
 
-    private final int coordinate0;
-    private final int coordinate1;
-    private final int coordinate2;
-    private final int coordinate3;
+    private final int x;
+    private final int y;
+    private final int z;
+    private final int w;
 
     /**
      * Parses a text file containing string representations of points.
@@ -60,10 +60,10 @@ public class Point4D {
      */
     private Point4D(int coordinate0, int coordinate1, int coordinate2, int coordinate3) {
         super();
-        this.coordinate0 = coordinate0;
-        this.coordinate1 = coordinate1;
-        this.coordinate2 = coordinate2;
-        this.coordinate3 = coordinate3;
+        this.x = coordinate0;
+        this.y = coordinate1;
+        this.z = coordinate2;
+        this.w = coordinate3;
     }
 
     /**
@@ -73,10 +73,10 @@ public class Point4D {
      * @return Manhattan distance
      */
     public int manhattanDistance(Point4D other) {
-        return Math.abs(this.coordinate0 - other.coordinate0)
-                + Math.abs(this.coordinate1 - other.coordinate1)
-                + Math.abs(this.coordinate2 - other.coordinate2)
-                + Math.abs(this.coordinate3 - other.coordinate3);
+        return Math.abs(this.x - other.x)
+                + Math.abs(this.y - other.y)
+                + Math.abs(this.z - other.z)
+                + Math.abs(this.w - other.w);
     }
     
     /**
@@ -99,12 +99,12 @@ public class Point4D {
     
     @Override
     public String toString() {
-        return coordinate0 + "," + coordinate1 + "," + coordinate2 + "," + coordinate3;
+        return x + "," + y + "," + z + "," + w;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Integer.valueOf(coordinate0), Integer.valueOf(coordinate1), Integer.valueOf(coordinate2), Integer.valueOf(coordinate3));
+        return Objects.hash(Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(z), Integer.valueOf(w));
     }
 
     @Override
@@ -117,7 +117,7 @@ public class Point4D {
         if (getClass() != obj.getClass())
             return false;
         Point4D other = (Point4D) obj;
-        return coordinate0 == other.coordinate0 && coordinate1 == other.coordinate1 && coordinate2 == other.coordinate2
-                && coordinate3 == other.coordinate3;
+        return x == other.x && y == other.y && z == other.z
+                && w == other.w;
     }
 }
