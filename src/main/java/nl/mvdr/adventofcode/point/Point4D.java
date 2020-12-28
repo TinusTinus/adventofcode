@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2018.day25;
+package nl.mvdr.adventofcode.point;
 
 import java.util.Objects;
 import java.util.Set;
@@ -16,7 +16,7 @@ import javax.annotation.processing.Generated;
  *
  * @author Martijn van de Rijdt
  */
-class Point4D {
+public class Point4D {
 
     private final int coordinate0;
     private final int coordinate1;
@@ -29,7 +29,7 @@ class Point4D {
      * @param lines contents of the input text file
      * @return set of points
      */
-    static Set<Point4D> parse(Stream<String> lines) {
+    public static Set<Point4D> parse(Stream<String> lines) {
         return lines.filter(Predicate.not(String::isBlank))
                 .map(Point4D::parsePoint)
                 .collect(Collectors.toSet());
@@ -72,7 +72,7 @@ class Point4D {
      * @param other other point
      * @return Manhattan distance
      */
-    int manhattanDistance(Point4D other) {
+    public int manhattanDistance(Point4D other) {
         return Math.abs(this.coordinate0 - other.coordinate0)
                 + Math.abs(this.coordinate1 - other.coordinate1)
                 + Math.abs(this.coordinate2 - other.coordinate2)
@@ -91,7 +91,7 @@ class Point4D {
      * @param constellation constellation, represented as a (nonempty) set of points
      * @return whether this point is in range
      */
-    boolean inRange(Set<Point4D> constellation) {
+    public boolean inRange(Set<Point4D> constellation) {
         return constellation.stream()
                 .mapToInt(this::manhattanDistance)
                 .anyMatch(i -> i <= 3);
