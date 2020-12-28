@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.point;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -71,6 +72,24 @@ public record Point4D(int x, int y, int z, int w) {
         return constellation.stream()
                 .mapToInt(this::manhattanDistance)
                 .anyMatch(i -> i <= 3);
+    }
+    
+    /** @return the 80 other points where any of their coordinates differ by at most 1 from this one */
+    public Set<Point4D> neighbours() {
+        Set<Point4D> result = new HashSet<>();
+        for (int xx = x - 1; xx != x + 2; xx++) {
+            for (int yy = y - 1; yy != y + 2; yy++) {
+                for (int zz = z - 1; zz != z + 2; zz++) {
+                    for (int ww = w - 1; ww != w + 2; ww++) {
+                        Point4D point = new Point4D(xx, yy, zz, ww);
+                        if (!point.equals(this)) {
+                            result.add(point);
+                        }
+                    }
+                }
+            }
+        }
+        return Set.copyOf(result);
     }
     
     @Override

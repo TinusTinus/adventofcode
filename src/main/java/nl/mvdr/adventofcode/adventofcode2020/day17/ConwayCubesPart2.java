@@ -13,9 +13,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ConwayCubesPart1 implements IntSolver {
+public class ConwayCubesPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConwayCubesPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConwayCubesPart2.class);
 
     private final int cycles;
     
@@ -24,12 +24,12 @@ public class ConwayCubesPart1 implements IntSolver {
      * 
      * @param cycles number of cycles to simulate
      */
-    ConwayCubesPart1(int cycles) {
+    ConwayCubesPart2(int cycles) {
         this.cycles = cycles;
     }
     
     /** Constructor. */
-    public ConwayCubesPart1() {
+    public ConwayCubesPart2() {
         this(6);
     }
     
@@ -40,7 +40,7 @@ public class ConwayCubesPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        return PocketDimension.parseInitialState3D(lines)
+        return PocketDimension.parseInitialState4D(lines)
                 .simulateCycles(cycles)
                 .activeCubes()
                 .size();
@@ -52,7 +52,7 @@ public class ConwayCubesPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        ConwayCubesPart1 instance = new ConwayCubesPart1();
+        ConwayCubesPart2 instance = new ConwayCubesPart2();
 
         String result = instance.solve("input-day17-2020.txt");
 
