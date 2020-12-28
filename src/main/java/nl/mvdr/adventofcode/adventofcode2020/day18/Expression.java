@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day18;
 
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Representation of an expression.
@@ -17,9 +17,9 @@ interface Expression {
      */
     static Expression parse(String representation) {
         String compactRepresentation = representation.replaceAll(" ", "");
-        ExpressionAndIndex parsed = parse(compactRepresentation, 0, 0);
+        ExpressionAndIndex parsed = parse(compactRepresentation, 0);
         if (parsed.endIndex() != compactRepresentation.length()) {
-            throw new IllegalArgumentException("Unable to parse expression: " + representation);
+            throw new IllegalArgumentException("Unable to parse: " + representation + ", end index = " + parsed.endIndex());
         }
         return parsed.expression();
     }
@@ -31,28 +31,49 @@ interface Expression {
      * @param startIndex start index in the given string representation
      * @return the subexpression starting at the given {@code startIndex}, as well as the end index of the subexpression
      */
-    private static ExpressionAndIndex parse(String representation, int startIndex, int depth) {
+    private static ExpressionAndIndex parse(String representation, int startIndex) {
         int index = startIndex;
-        Expression expression = null;
+        Optional<Expression> expression = Optional.empty();
+        Optional<Operator> operator = Optional.empty();
+        boolean endOfSubexpression = false;
         
-        while (index < representation.length() && representation.charAt(index) != ')') {
+        while (!endOfSubexpression && index < representation.length()) {
             char c = representation.charAt(index);
-            if (c == '(') {
-                ExpressionAndIndex subexpressionAndIndex = parse(representation, index + 1, depth + 1);
-                expression = subexpressionAndIndex.expression();
-                index = subexpressionAndIndex.endIndex();
-            } else if (Character.isDigit(c)) {
-                expression = new Numeral(c);
+            if (c == ')') {
+                // End of a subexpression between brackets
+                index++;
+                endOfSubexpression = true;
+            }
+            else if (Operator.isOperator(c)) {
+                expression.orElseThrow(() -> new IllegalArgumentException("Unable to parse: " + representation + ", encountered an operator without a left-hand side"));
+                operator.ifPresent(o -> { throw new IllegalArgumentException("Unable to parse: " + representation + ", encountered two operators in a row"); });
+                
+                operator = Operator.of(c);
                 index++;
             } else {
-                Operator operator = Operator.of(c);
-                ExpressionAndIndex subexpressionAndIndex = parse(representation, index + 1, depth);
-                expression = new Operation(expression, operator, subexpressionAndIndex.expression());
-                index = subexpressionAndIndex.endIndex();
+                // Start of a new subexpression
+                Expression subexpression;
+                if (c == '(') {
+                    ExpressionAndIndex expressionAndIndex = parse(representation, index + 1);
+                    subexpression = expressionAndIndex.expression();
+                    index = expressionAndIndex.endIndex();
+                } else {
+                    subexpression = Numeral.of(c);
+                    index++;
+                }
+                
+                if (operator.isPresent()) {
+                    expression = Optional.of(new Operation(expression.orElseThrow(), operator.orElseThrow(), subexpression));
+                    operator = Optional.empty();
+                } else if (expression.isPresent()){
+                    throw new IllegalArgumentException("Unable to parse: " + representation + ", encountered two subexpressions without an operator between them");
+                } else {
+                    expression = Optional.of(subexpression);
+                }
             }
         }
 
-        return new ExpressionAndIndex(Objects.requireNonNull(expression), index);
+        return new ExpressionAndIndex(expression.orElseThrow(), index);
     }
     
     /** @return the value of this expression */

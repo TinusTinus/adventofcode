@@ -61,6 +61,6 @@ public class OperationOrderPart1Test extends SolverTest<OperationOrderPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day18-2020.txt");
+        assertSolution("?", "input-day18-2020.txt"); // 332615209 is too low
     }
 }

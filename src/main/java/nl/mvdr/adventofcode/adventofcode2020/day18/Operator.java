@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day18;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -36,18 +37,27 @@ enum Operator {
     }
     
     /**
+     * Determines whether the given character represents a valid operator.
+     * 
+     * @param c character
+     * @return whether the character represents a valid operator
+     */
+    static boolean isOperator(char c) {
+        return of(c).isPresent();
+    }
+    
+    /**
      * Returns the operator represented by the given character.
      * 
      * @param c character representation
      * @return operator
      */
-    static Operator of(char c) {
+    static Optional<Operator> of(char c) {
         return Stream.of(values())
                 .filter(operator -> operator.representation == c)
-                .findFirst()
-                .orElseThrow();
+                .findFirst();
     }
-    
+
     /**
      * Apply the operation represented by this operator to the given values.
      * 

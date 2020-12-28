@@ -14,7 +14,7 @@ record Numeral(int value) implements Expression {
      * @return numeral
      */
     static Numeral of(char representation) {
-        return new Numeral(Integer.parseInt("" + representation));
+        return new Numeral(Integer.parseInt(Character.toString(representation)));
     }
     
     @Override
