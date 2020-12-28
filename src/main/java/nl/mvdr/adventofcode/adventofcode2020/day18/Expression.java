@@ -13,11 +13,12 @@ interface Expression {
      * Parses the string representation of an expression.
      * 
      * @param representation string representation of an expression
+     * @param advanced whether to apply "advanced math" rules (part 2 of the puzzle)
      * @return the expression represented by the given string
      */
-    static Expression parse(String representation) {
+    static Expression parse(String representation, boolean advanced) {
         String compactRepresentation = representation.replaceAll(" ", "");
-        ExpressionAndIndex parsed = parse(compactRepresentation, 0);
+        ExpressionAndIndex parsed = parse(compactRepresentation, 0, advanced, true);
         if (parsed.endIndex() != compactRepresentation.length()) {
             throw new IllegalArgumentException("Unable to parse: " + compactRepresentation
                     + ", not the entire expression could be evaluated. End index: " + parsed.endIndex());
@@ -30,9 +31,11 @@ interface Expression {
      * 
      * @param representation string representation of an expression, stripped of all whitespace
      * @param startIndex start index in the given string representation
+     * @param advanced whether to apply "advanced math" rules (part 2 of the puzzle)
+     * @param includeClosingBracket whether to include the encountered closing bracket in the end index value
      * @return the subexpression starting at the given {@code startIndex}, as well as the end index of the subexpression
      */
-    private static ExpressionAndIndex parse(String representation, int startIndex) {
+    private static ExpressionAndIndex parse(String representation, int startIndex, boolean advanced, boolean includeClosingBracket) {
         int index = startIndex;
         Optional<Expression> expression = Optional.empty();
         Optional<Operator> operator = Optional.empty();
@@ -42,7 +45,9 @@ interface Expression {
             char c = representation.charAt(index);
             if (c == ')') {
                 // End of a subexpression between brackets
-                index++;
+                if (includeClosingBracket) {
+                    index++;
+                }
                 endOfSubexpression = true;
             }
             else if (Operator.isOperator(c)) {
@@ -54,12 +59,21 @@ interface Expression {
                 });
                 
                 operator = Operator.of(c);
-                index++;
+                
+                if (advanced && operator.orElseThrow() == Operator.MULTIPLICATION) {
+                    // First, evaluate the right-hand side
+                    ExpressionAndIndex expressionAndIndex = parse(representation, index + 1, advanced, false);
+                    expression = Optional.of(new Operation(expression.orElseThrow(), operator.orElseThrow(), expressionAndIndex.expression()));
+                    operator = Optional.empty();
+                    index = expressionAndIndex.endIndex();
+                } else {
+                    index++;
+                }
             } else {
                 // Start of a new subexpression
                 Expression subexpression;
                 if (c == '(') {
-                    ExpressionAndIndex expressionAndIndex = parse(representation, index + 1);
+                    ExpressionAndIndex expressionAndIndex = parse(representation, index + 1, advanced, true);
                     subexpression = expressionAndIndex.expression();
                     index = expressionAndIndex.endIndex();
                 } else {

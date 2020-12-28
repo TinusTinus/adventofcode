@@ -25,9 +25,8 @@ public class OperationOrderPart2 implements LongSolver {
      */
     @Override
     public long solve(Stream<String> lines) {
-        // TODO update for part 2
         return lines.filter(Predicate.not(String::isEmpty))
-                .map(Expression::parse)
+                .map(line -> Expression.parse(line, true))
                 .mapToLong(Expression::evaluate)
                 .sum();
     }
