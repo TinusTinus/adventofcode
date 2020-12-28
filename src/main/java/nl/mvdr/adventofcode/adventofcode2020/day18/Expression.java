@@ -19,7 +19,8 @@ interface Expression {
         String compactRepresentation = representation.replaceAll(" ", "");
         ExpressionAndIndex parsed = parse(compactRepresentation, 0);
         if (parsed.endIndex() != compactRepresentation.length()) {
-            throw new IllegalArgumentException("Unable to parse: " + representation + ", end index = " + parsed.endIndex());
+            throw new IllegalArgumentException("Unable to parse: " + compactRepresentation
+                    + ", not the entire expression could be evaluated. End index: " + parsed.endIndex());
         }
         return parsed.expression();
     }
@@ -45,8 +46,12 @@ interface Expression {
                 endOfSubexpression = true;
             }
             else if (Operator.isOperator(c)) {
-                expression.orElseThrow(() -> new IllegalArgumentException("Unable to parse: " + representation + ", encountered an operator without a left-hand side"));
-                operator.ifPresent(o -> { throw new IllegalArgumentException("Unable to parse: " + representation + ", encountered two operators in a row"); });
+                expression.orElseThrow(() -> new IllegalArgumentException(
+                        "Unable to parse: " + representation + ", encountered an operator without a left-hand side"));
+                operator.ifPresent(o -> {
+                    throw new IllegalArgumentException(
+                            "Unable to parse: " + representation + ", encountered two operators in a row");
+                });
                 
                 operator = Operator.of(c);
                 index++;
@@ -66,7 +71,8 @@ interface Expression {
                     expression = Optional.of(new Operation(expression.orElseThrow(), operator.orElseThrow(), subexpression));
                     operator = Optional.empty();
                 } else if (expression.isPresent()){
-                    throw new IllegalArgumentException("Unable to parse: " + representation + ", encountered two subexpressions without an operator between them");
+                    throw new IllegalArgumentException("Unable to parse: " + representation
+                            + ", encountered two subexpressions without an operator between them");
                 } else {
                     expression = Optional.of(subexpression);
                 }

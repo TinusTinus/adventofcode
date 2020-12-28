@@ -1,0 +1,48 @@
+package nl.mvdr.adventofcode.adventofcode2020.day18;
+
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nl.mvdr.adventofcode.LongSolver;
+
+/**
+ * Solution to the day 18 puzzle of 2020's Advent of Code:
+ * <a href="https://adventofcode.com/2020/day/18">Operation Order</a>.
+ *
+ * @author Martijn van de Rijdt
+ */
+public class OperationOrderPart2 implements LongSolver {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OperationOrderPart2.class);
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @return sum of the values of the expressions on each line of the input
+     */
+    @Override
+    public long solve(Stream<String> lines) {
+        // TODO update for part 2
+        return lines.filter(Predicate.not(String::isEmpty))
+                .map(Expression::parse)
+                .mapToLong(Expression::evaluate)
+                .sum();
+    }
+
+    /**
+     * Main method.
+     * 
+     * @param args commandline arguments; these are ignored
+     */
+    public static void main(String[] args) {
+        OperationOrderPart2 instance = new OperationOrderPart2();
+
+        String result = instance.solve("input-day18-2020.txt");
+
+        LOGGER.info(result);
+    }
+}
+ 
