@@ -30,7 +30,7 @@ interface PocketDimension<P> {
     }
     
     /**
-     * Parses the initial state of a three-dimensional pocket dimension.
+     * Parses the initial state of a four-dimensional pocket dimension.
      * 
      * @param input lines from the puzzle input
      * @return initial state of the pocket dimension
@@ -85,9 +85,7 @@ interface PocketDimension<P> {
         
         for (P activeCube : activeCubes()) {
             Set<P> neighbours = neighbours(activeCube);
-            long activeNeighbours = neighbours.stream()
-                    .filter(activeCubes()::contains)
-                    .count();
+            long activeNeighbours = countActiveCubes(neighbours);
             // If a cube is active and exactly 2 or 3 of its neighbors are also active, the cube remains active.
             // Otherwise, the cube becomes inactive.
             if (activeNeighbours == 2L || activeNeighbours == 3L) {
@@ -98,10 +96,7 @@ interface PocketDimension<P> {
             // Otherwise, the cube remains inactive.
             for (P neighbour : neighbours) {
                 if (!activeCubes().contains(neighbour)) {
-                    activeNeighbours = neighbours(neighbour).stream()
-                            .filter(activeCubes()::contains)
-                            .count();
-                    if (activeNeighbours == 3L) {
+                    if (countActiveCubes(neighbours(neighbour)) == 3L) {
                         newActiveCubes.add(neighbour);
                     }
                 }
@@ -109,6 +104,18 @@ interface PocketDimension<P> {
         }
         
         return create(newActiveCubes);
+    }
+
+    /**
+     * Counts how many of the given cubes are active.
+     * 
+     * @param cubes cubes
+     * @return number of active elements in the given set of cubes
+     */
+    private long countActiveCubes(Set<P> cubes) {
+        return cubes.stream()
+                .filter(activeCubes()::contains)
+                .count();
     }
     
     /** @return active cubes (or hypercubes) in this pocket dimension */
