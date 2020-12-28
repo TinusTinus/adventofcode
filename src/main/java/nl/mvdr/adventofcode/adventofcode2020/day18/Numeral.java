@@ -21,4 +21,9 @@ record Numeral(int value) implements Expression {
     public long evaluate() {
         return value;
     }
+    
+    @Override
+    public String toString() {
+        return "" + value;
+    }
 }

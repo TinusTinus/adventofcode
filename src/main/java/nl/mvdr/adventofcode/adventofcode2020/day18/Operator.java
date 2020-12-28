@@ -36,6 +36,10 @@ enum Operator {
         this.representation = representation;
     }
     
+    char getRepresentation() {
+        return representation;
+    }
+    
     /**
      * Determines whether the given character represents a valid operator.
      * 

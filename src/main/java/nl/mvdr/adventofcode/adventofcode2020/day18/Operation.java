@@ -12,4 +12,9 @@ record Operation(Expression lhs, Operator operator, Expression rhs) implements E
     public long evaluate() {
         return operator.apply(lhs.evaluate(), rhs.evaluate());
     }
+    
+    @Override
+    public String toString() {
+        return "(" + lhs + " " + operator.getRepresentation() + " " + rhs + ")";
+    }
 }

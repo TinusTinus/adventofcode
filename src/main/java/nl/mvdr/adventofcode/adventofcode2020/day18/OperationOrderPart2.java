@@ -27,6 +27,7 @@ public class OperationOrderPart2 implements LongSolver {
     public long solve(Stream<String> lines) {
         return lines.filter(Predicate.not(String::isEmpty))
                 .map(line -> Expression.parse(line, true))
+                .peek(expression -> LOGGER.debug("Expression: {}", expression))
                 .mapToLong(Expression::evaluate)
                 .sum();
     }
