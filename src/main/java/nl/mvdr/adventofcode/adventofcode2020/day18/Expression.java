@@ -19,10 +19,6 @@ interface Expression {
     static Expression parse(String representation, boolean advanced) {
         String compactRepresentation = representation.replaceAll(" ", "");
         ExpressionAndIndex parsed = parse(compactRepresentation, 0, advanced, true);
-        if (parsed.endIndex() != compactRepresentation.length()) {
-            throw new IllegalArgumentException("Unable to parse: " + compactRepresentation
-                    + ", not the entire expression could be evaluated. End index: " + parsed.endIndex());
-        }
         return parsed.expression();
     }
     
@@ -51,17 +47,11 @@ interface Expression {
                 endOfSubexpression = true;
             }
             else if (Operator.isOperator(c)) {
-                expression.orElseThrow(() -> new IllegalArgumentException(
-                        "Unable to parse: " + representation + ", encountered an operator without a left-hand side"));
-                operator.ifPresent(o -> {
-                    throw new IllegalArgumentException(
-                            "Unable to parse: " + representation + ", encountered two operators in a row");
-                });
-                
                 operator = Operator.of(c);
                 
                 if (advanced && operator.orElseThrow() == Operator.MULTIPLICATION) {
-                    // First, evaluate the right-hand side
+                    // In advanced math, addition takes precedence over multiplication.
+                    // Evaluate the right-hand side first, in case it includes addition.
                     ExpressionAndIndex expressionAndIndex = parse(representation, index + 1, advanced, false);
                     expression = Optional.of(new Operation(expression.orElseThrow(), operator.orElseThrow(), expressionAndIndex.expression()));
                     operator = Optional.empty();
@@ -84,9 +74,6 @@ interface Expression {
                 if (operator.isPresent()) {
                     expression = Optional.of(new Operation(expression.orElseThrow(), operator.orElseThrow(), subexpression));
                     operator = Optional.empty();
-                } else if (expression.isPresent()){
-                    throw new IllegalArgumentException("Unable to parse: " + representation
-                            + ", encountered two subexpressions without an operator between them");
                 } else {
                     expression = Optional.of(subexpression);
                 }
