@@ -77,5 +77,5 @@ interface Expression {
     }
     
     /** @return the value of this expression */
-    int evaluate();
+    long evaluate();
 }

@@ -18,7 +18,7 @@ record Numeral(int value) implements Expression {
     }
     
     @Override
-    public int evaluate() {
+    public long evaluate() {
         return value;
     }
 }

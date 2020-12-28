@@ -9,7 +9,7 @@ package nl.mvdr.adventofcode.adventofcode2020.day18;
 record Operation(Expression lhs, Operator operator, Expression rhs) implements Expression {
     
     @Override
-    public int evaluate() {
+    public long evaluate() {
         return operator.apply(lhs.evaluate(), rhs.evaluate());
     }
 }

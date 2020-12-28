@@ -12,7 +12,7 @@ enum Operator {
     /** Addition, used to compute the sum of two values. */
     ADDITION('+') {
         @Override
-        int apply(int lhs, int rhs) {
+        long apply(long lhs, long rhs) {
             return lhs + rhs;
         }
     },
@@ -20,7 +20,7 @@ enum Operator {
     /** Multiplication, used to compute the product of two values. */
     MULTIPLICATION('*') {
         @Override
-        int apply(int lhs, int rhs) {
+        long apply(long lhs, long rhs) {
             return lhs * rhs;
         }
     };
@@ -65,5 +65,5 @@ enum Operator {
      * @param rhs right-hand side value
      * @return value after applying this operator
      */
-    abstract int apply(int lhs, int rhs);
+    abstract long apply(long lhs, long rhs);
 }

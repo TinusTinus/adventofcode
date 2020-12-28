@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 18 puzzle of 2020's Advent of Code:
@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class OperationOrderPart1 implements IntSolver {
+public class OperationOrderPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OperationOrderPart1.class);
 
@@ -24,10 +24,10 @@ public class OperationOrderPart1 implements IntSolver {
      * @return sum of the values of the expressions on each line of the input
      */
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         return lines.filter(Predicate.not(String::isEmpty))
                 .map(Expression::parse)
-                .mapToInt(Expression::evaluate)
+                .mapToLong(Expression::evaluate)
                 .sum();
     }
 
