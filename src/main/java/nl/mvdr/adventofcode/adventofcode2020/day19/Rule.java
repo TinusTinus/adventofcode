@@ -47,7 +47,7 @@ interface Rule {
             } else if (parts.length == 2) {
                 Rule lhs = parseRule(parts[0]);
                 Rule rhs = parseRule(parts[1]);
-                result = new OrRule(lhs, rhs);
+                result = new ChoiceRule(lhs, rhs);
             } else {
                 throw new IllegalArgumentException("Unable to parse (sub)rule: " + text);
             }
