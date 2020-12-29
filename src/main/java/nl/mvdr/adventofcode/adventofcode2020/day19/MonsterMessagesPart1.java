@@ -1,14 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2020.day19;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 18 puzzle of 2020's Advent of Code:
@@ -16,29 +9,13 @@ import nl.mvdr.adventofcode.LongSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MonsterMessagesPart1 implements LongSolver {
+public class MonsterMessagesPart1 extends MonsterMessages {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonsterMessagesPart1.class);
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @return number of messages which completely match rule 0
-     */
-    @Override
-    public long solve(Stream<String> linesStream) {
-        List<String> lines = linesStream.collect(Collectors.toList());
-        int emptyLineIndex = lines.indexOf("");
-        
-        List<String> ruleLines = lines.subList(0, emptyLineIndex);
-        Map<Integer, Rule> rules = Rule.parseRules(ruleLines);
-        Rule rule0 = rules.get(Integer.valueOf(0));
-        
-        List<String> messages = lines.subList(emptyLineIndex + 1, lines.size());
-        
-        return messages.stream()
-                .filter(message -> rule0.matches(message, rules))
-                .count();
+    /** Constructor. */
+    public MonsterMessagesPart1() {
+        super(false);
     }
 
     /**

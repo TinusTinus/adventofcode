@@ -17,36 +17,15 @@ import nl.mvdr.adventofcode.LongSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MonsterMessagesPart2 implements LongSolver {
+public class MonsterMessagesPart2 extends MonsterMessages {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonsterMessagesPart2.class);
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @return number of messages which completely match rule 0
-     */
-    @Override
-    public long solve(Stream<String> linesStream) {
-        List<String> lines = linesStream.collect(Collectors.toList());
-        int emptyLineIndex = lines.indexOf("");
-        
-        List<String> ruleLines = new ArrayList<>(lines.subList(0, emptyLineIndex));
-        int index8 = ruleLines.indexOf("8: 42");
-        ruleLines.set(index8, "8: 42 | 42 8");
-        int index11 = ruleLines.indexOf("11: 42 31");
-        ruleLines.set(index11, "11: 42 31 | 42 11 31");
-        
-        Map<Integer, Rule> rules = Rule.parseRules(ruleLines);
-        Rule rule0 = rules.get(Integer.valueOf(0));
-        
-        List<String> messages = lines.subList(emptyLineIndex + 1, lines.size());
-        
-        return messages.stream()
-                .filter(message -> rule0.matches(message, rules))
-                .count();
+    /** Constructor. */
+    public MonsterMessagesPart2() {
+        super(true);
     }
-
+    
     /**
      * Main method.
      * 
