@@ -25,6 +25,6 @@ public class MonsterMessagesPart2Test extends SolverTest<MonsterMessagesPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day19-2020.txt");
+        assertSolution("384", "input-day19-2020.txt");
     }
 }

@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2020.day19;
 
 import java.util.List;
 import java.util.Map;
-import java.util.OptionalInt;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,16 +63,16 @@ interface Rule {
      * @return whether the text matches the rule
      */
     default boolean matches(String text, Map<Integer, Rule> rules) {
-        return matchLength(text, rules).orElse(-1) == text.length();
+        return matchingPrefixLengths(text, rules).contains(Integer.valueOf(text.length()));
     }
     
     /**
-     * Determines whether a prefix of the given text matches this rule
-     * and, if so, returns the (unique!) length of the matching prefix.
+     * Determines whether any prefixes of the given text match this rule
+     * and, if so, returns their lengths.
      * 
      * @param text text to match
      * @param rules map of all rules, indexed by their rule number
-     * @return length of the matching prefix
+     * @return lengths of matching prefixes; empty if there is no match at all
      */
-    OptionalInt matchLength(String text, Map<Integer, Rule> rules);
+    Set<Integer> matchingPrefixLengths(String text, Map<Integer, Rule> rules);
 }

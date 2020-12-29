@@ -32,10 +32,10 @@ public class MonsterMessagesPart2 implements LongSolver {
         int emptyLineIndex = lines.indexOf("");
         
         List<String> ruleLines = new ArrayList<>(lines.subList(0, emptyLineIndex));
-        int index8 = lines.indexOf("8: 42");
-        lines.set(index8, "8: 42 | 42 8");
-        int index11 = lines.indexOf("11: 42 31");
-        lines.set(index11, "11: 42 31 | 42 11 31");
+        int index8 = ruleLines.indexOf("8: 42");
+        ruleLines.set(index8, "8: 42 | 42 8");
+        int index11 = ruleLines.indexOf("11: 42 31");
+        ruleLines.set(index11, "11: 42 31 | 42 11 31");
         
         Map<Integer, Rule> rules = Rule.parseRules(ruleLines);
         Rule rule0 = rules.get(Integer.valueOf(0));

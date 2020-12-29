@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2020.day19;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.Set;
 
 /**
  * Rule consisting of a sequence of subrules.
@@ -14,16 +14,19 @@ record SequenceRule(List<Integer> subrules) implements Rule {
 
     /** {@inheritDoc} */
     @Override
-    public OptionalInt matchLength(String text, Map<Integer, Rule> rules) {
-        OptionalInt result = OptionalInt.of(0);
-        for (int i = 0; result.isPresent() && i != subrules.size(); i++) {
+    public Set<Integer> matchingPrefixLengths(String text, Map<Integer, Rule> rules) {
+        Set<Integer> result = Set.of(Integer.valueOf(0));
+        for (int i = 0; i != subrules.size(); i++) {
+            Set<Integer> newResult = new HashSet<>();
             Rule subrule = rules.get(subrules.get(i));
-            OptionalInt subruleMatchLength = subrule.matchLength(text.substring(result.orElseThrow()), rules);
-            if (subruleMatchLength.isPresent()) {
-                result = OptionalInt.of(result.orElseThrow() + subruleMatchLength.orElseThrow());
-            } else {
-                result = OptionalInt.empty();
+            
+            for (Integer prefixLength : result) {
+                Set<Integer> subruleMatchLengths = subrule.matchingPrefixLengths(text.substring(prefixLength.intValue()), rules);
+                for (Integer subruleMatchLength : subruleMatchLengths) {
+                    newResult.add(Integer.valueOf(prefixLength.intValue() + subruleMatchLength.intValue()));
+                }
             }
+            result = newResult;
         }
         return result;
     }
