@@ -1,9 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day20;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -29,85 +26,7 @@ public class JurassicJigsawPart1 implements LongSolver {
      */
     @Override
     public long solve(Stream<String> lines) {
-        Set<Tile> tiles = Tile.parseTiles(lines);
-        LOGGER.debug("Tiles: {}", tiles);
-        
-        Map<Point, Tile> image = new HashMap<>();
-        
-        Set<Tile> remainingTiles = new HashSet<>(tiles);
-
-        // Place a tile
-        image.put(Point.ORIGIN, remainingTiles.iterator().next());
-        remainingTiles.remove(image.get(Point.ORIGIN));
-        LOGGER.debug("Placing at {}: {}", Point.ORIGIN, image.get(Point.ORIGIN));
-        
-        // Keep a set containing points with tiles for which we have not yet attempted to find their neighbours.
-        Set<Point> unexaminedTileLocations = new HashSet<>();
-        unexaminedTileLocations.add(Point.ORIGIN);
-        
-        // Place the other tiles
-        while (!remainingTiles.isEmpty()) {
-            Point location = unexaminedTileLocations.iterator().next();
-            unexaminedTileLocations.remove(location);
-            
-            Point aboveNeighbourLocation = location.aboveNeighbour();
-            if (!image.containsKey(aboveNeighbourLocation)) {
-                remainingTiles.stream()
-                        .flatMap(tile -> tile.arrangements().stream())
-                        .filter(tile -> tile.fitsAbove(image.get(location)))
-                        .findFirst()
-                        .ifPresent(neighbourTile -> {
-                            LOGGER.debug("Placing at {} (above {}): {}", aboveNeighbourLocation, location, neighbourTile);
-                            image.put(aboveNeighbourLocation, neighbourTile);
-                            remainingTiles.removeIf(tile -> tile.id() == neighbourTile.id());
-                            unexaminedTileLocations.add(aboveNeighbourLocation);
-                        });
-            }
-            
-            Point rightNeighbourLocation = location.rightNeighbour();
-            if (!image.containsKey(rightNeighbourLocation)) {
-                remainingTiles.stream()
-                        .flatMap(tile -> tile.arrangements().stream())
-                        .filter(tile -> tile.fitsRightOf(image.get(location)))
-                        .findFirst()
-                        .ifPresent(neighbourTile -> {
-                            LOGGER.debug("Placing at {} (right of {}): {}", rightNeighbourLocation, location, neighbourTile);
-                            image.put(rightNeighbourLocation, neighbourTile);
-                            remainingTiles.removeIf(tile -> tile.id() == neighbourTile.id());
-                            unexaminedTileLocations.add(rightNeighbourLocation);
-                        });
-            }
-            
-            Point belowNeighbourLocation = location.belowNeighbour();
-            if (!image.containsKey(belowNeighbourLocation)) {
-                remainingTiles.stream()
-                        .flatMap(tile -> tile.arrangements().stream())
-                        .filter(tile -> tile.fitsBelow(image.get(location)))
-                        .findFirst()
-                        .ifPresent(neighbourTile -> {
-                            LOGGER.debug("Placing at {} (below {}): {}", belowNeighbourLocation, location, neighbourTile);
-                            image.put(belowNeighbourLocation, neighbourTile);
-                            remainingTiles.removeIf(tile -> tile.id() == neighbourTile.id());
-                            unexaminedTileLocations.add(belowNeighbourLocation);
-                        });
-            }
-            
-            Point leftNeighbourLocation = location.leftNeighbour();
-            if (!image.containsKey(leftNeighbourLocation)) {
-                remainingTiles.stream()
-                        .flatMap(tile -> tile.arrangements().stream())
-                        .filter(tile -> tile.fitsLeftOf(image.get(location)))
-                        .findFirst()
-                        .ifPresent(neighbourTile -> {
-                            LOGGER.debug("Placing at {} (left of {}): {}", leftNeighbourLocation, location, neighbourTile);
-                            image.put(leftNeighbourLocation, neighbourTile);
-                            remainingTiles.removeIf(tile -> tile.id() == neighbourTile.id());
-                            unexaminedTileLocations.add(leftNeighbourLocation);
-                        });
-            }
-        }
-        
-        LOGGER.debug("Image: {}", image);
+        Map<Point, Tile> image = Tile.reassembleImage(lines);
         
         int minX = Point.minX(image.keySet());
         int maxX = Point.maxX(image.keySet());

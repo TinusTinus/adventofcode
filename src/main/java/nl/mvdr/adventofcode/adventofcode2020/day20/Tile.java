@@ -2,12 +2,19 @@ package nl.mvdr.adventofcode.adventofcode2020.day20;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Representation of a tile.
@@ -16,13 +23,102 @@ import java.util.stream.Stream;
  */
 record Tile(int id, List<String> imageLines) {
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(Tile.class);
+    
+    /**
+     * Reassembles the image based on the smaller images given in the puzzle input.
+     * 
+     * @param lines puzzle input
+     * @return map containing the entire image
+     */
+    static Map<Point, Tile> reassembleImage(Stream<String> lines) {
+        Set<Tile> tiles = parseTiles(lines);
+        
+        Map<Point, Tile> image = new HashMap<>();
+        
+        Set<Tile> remainingTiles = new HashSet<>(tiles);
+
+        // Place a tile
+        image.put(Point.ORIGIN, remainingTiles.iterator().next());
+        remainingTiles.remove(image.get(Point.ORIGIN));
+        LOGGER.debug("Placing at {}: {}", Point.ORIGIN, image.get(Point.ORIGIN));
+        
+        // Keep a set containing points with tiles for which we have not yet attempted to find their neighbours.
+        Set<Point> unexaminedTileLocations = new HashSet<>();
+        unexaminedTileLocations.add(Point.ORIGIN);
+        
+        // Place the other tiles
+        while (!remainingTiles.isEmpty()) {
+            Point location = unexaminedTileLocations.iterator().next();
+            unexaminedTileLocations.remove(location);
+            
+            Point aboveNeighbourLocation = location.aboveNeighbour();
+            if (!image.containsKey(aboveNeighbourLocation)) {
+                remainingTiles.stream()
+                        .flatMap(tile -> tile.arrangements().stream())
+                        .filter(tile -> tile.fitsAbove(image.get(location)))
+                        .findFirst()
+                        .ifPresent(neighbourTile -> {
+                            LOGGER.debug("Placing at {} (above {}): {}", aboveNeighbourLocation, location, neighbourTile);
+                            image.put(aboveNeighbourLocation, neighbourTile);
+                            remainingTiles.removeIf(tile -> tile.id() == neighbourTile.id());
+                            unexaminedTileLocations.add(aboveNeighbourLocation);
+                        });
+            }
+            
+            Point rightNeighbourLocation = location.rightNeighbour();
+            if (!image.containsKey(rightNeighbourLocation)) {
+                remainingTiles.stream()
+                        .flatMap(tile -> tile.arrangements().stream())
+                        .filter(tile -> tile.fitsRightOf(image.get(location)))
+                        .findFirst()
+                        .ifPresent(neighbourTile -> {
+                            LOGGER.debug("Placing at {} (right of {}): {}", rightNeighbourLocation, location, neighbourTile);
+                            image.put(rightNeighbourLocation, neighbourTile);
+                            remainingTiles.removeIf(tile -> tile.id() == neighbourTile.id());
+                            unexaminedTileLocations.add(rightNeighbourLocation);
+                        });
+            }
+            
+            Point belowNeighbourLocation = location.belowNeighbour();
+            if (!image.containsKey(belowNeighbourLocation)) {
+                remainingTiles.stream()
+                        .flatMap(tile -> tile.arrangements().stream())
+                        .filter(tile -> tile.fitsBelow(image.get(location)))
+                        .findFirst()
+                        .ifPresent(neighbourTile -> {
+                            LOGGER.debug("Placing at {} (below {}): {}", belowNeighbourLocation, location, neighbourTile);
+                            image.put(belowNeighbourLocation, neighbourTile);
+                            remainingTiles.removeIf(tile -> tile.id() == neighbourTile.id());
+                            unexaminedTileLocations.add(belowNeighbourLocation);
+                        });
+            }
+            
+            Point leftNeighbourLocation = location.leftNeighbour();
+            if (!image.containsKey(leftNeighbourLocation)) {
+                remainingTiles.stream()
+                        .flatMap(tile -> tile.arrangements().stream())
+                        .filter(tile -> tile.fitsLeftOf(image.get(location)))
+                        .findFirst()
+                        .ifPresent(neighbourTile -> {
+                            LOGGER.debug("Placing at {} (left of {}): {}", leftNeighbourLocation, location, neighbourTile);
+                            image.put(leftNeighbourLocation, neighbourTile);
+                            remainingTiles.removeIf(tile -> tile.id() == neighbourTile.id());
+                            unexaminedTileLocations.add(leftNeighbourLocation);
+                        });
+            }
+        }
+        
+        return image;
+    }
+    
     /**
      * Parses the puzzle input into a set of tiles.
      * 
      * @param inputStream puzzle input
      * @return tiles
      */
-    static Set<Tile> parseTiles(Stream<String> inputStream) {
+    private static Set<Tile> parseTiles(Stream<String> inputStream) {
         List<String> input = inputStream.collect(Collectors.toList());
         
         Set<Tile> result = new HashSet<>();
@@ -52,7 +148,7 @@ record Tile(int id, List<String> imageLines) {
     }
     
     /** @return all possible arrangements (through flipping and rotating) of this tile */
-    Set<Tile> arrangements() {
+    private Set<Tile> arrangements() {
         Set<Tile> result = new HashSet<>();
         
         result.add(this);
@@ -107,7 +203,7 @@ record Tile(int id, List<String> imageLines) {
      * @param otherTile other tile
      * @return whether this tile fits above the given other tile
      */
-    boolean fitsAbove(Tile otherTile) {
+    private boolean fitsAbove(Tile otherTile) {
         return otherTile.imageLines.get(otherTile.imageLines.size() - 1).equals(this.imageLines.get(0));
     }
 
@@ -117,7 +213,7 @@ record Tile(int id, List<String> imageLines) {
      * @param otherTile other tile
      * @return whether this tile fits below the given other tile
      */
-    boolean fitsBelow(Tile otherTile) {
+    private boolean fitsBelow(Tile otherTile) {
         return otherTile.fitsAbove(this);
     }
     
@@ -127,7 +223,7 @@ record Tile(int id, List<String> imageLines) {
      * @param otherTile other tile
      * @return whether this tile fits to the right of the given other tile
      */
-    boolean fitsRightOf(Tile otherTile) {
+    private boolean fitsRightOf(Tile otherTile) {
         int imageSize = imageLines.size();
         return IntStream.range(0, imageSize)
                 .allMatch(i -> imageLines.get(i).charAt(0) == otherTile.imageLines.get(i).charAt(imageSize - 1));
@@ -139,7 +235,7 @@ record Tile(int id, List<String> imageLines) {
      * @param otherTile other tile
      * @return whether this tile fits to the left of the given other tile
      */
-    boolean fitsLeftOf(Tile otherTile) {
+    private boolean fitsLeftOf(Tile otherTile) {
         return otherTile.fitsRightOf(this);
     }
     
