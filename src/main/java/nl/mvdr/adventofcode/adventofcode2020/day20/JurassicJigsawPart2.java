@@ -28,8 +28,7 @@ public class JurassicJigsawPart2 implements IntSolver {
     public int solve(Stream<String> lines) {
         Map<Point, Tile> image = Tile.reassembleImage(lines);
         Tile imageTile = Tile.asTile(image);
-        
-        return 0; // TODO
+        return imageTile.waterRoughness();
     }
 
     /**

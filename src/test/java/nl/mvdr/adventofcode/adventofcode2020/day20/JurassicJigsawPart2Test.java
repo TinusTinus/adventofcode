@@ -25,6 +25,6 @@ public class JurassicJigsawPart2Test extends SolverTest<JurassicJigsawPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day20-2020.txt");
+        assertSolution("?", "input-day20-2020.txt"); // 2230 is too high
     }
 }

@@ -23,6 +23,11 @@ import nl.mvdr.adventofcode.point.Point;
  */
 record Tile(int id, List<String> imageLines) {
     
+    private static final List<String> SEA_MONSTER = List.of(
+            "                  # ",
+            "#    ##    ##    ###",
+            " #  #  #  #  #  #   ");
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(Tile.class);
     
     /**
@@ -153,6 +158,7 @@ record Tile(int id, List<String> imageLines) {
      * @param image reassembled image
      * @return tile representing the complete image
      */
+    // TODO this method may be incorrect
     static Tile asTile(Map<Point, Tile> image) {
         List<String> imageLines = new ArrayList<>();
         
@@ -270,6 +276,73 @@ record Tile(int id, List<String> imageLines) {
      */
     private boolean fitsLeftOf(Tile otherTile) {
         return otherTile.fitsRightOf(this);
+    }
+
+    /** @return water roughness of this tile */
+    int waterRoughness() {
+        return arrangements().stream()
+                .peek(arrangement -> LOGGER.info("Image: {}", arrangement)) // TODO remove log statement
+                .mapToInt(Tile::waterRoughnessWithoutFlippingOrRotating)
+                .min()
+                .orElseThrow();
+    }
+    
+    /** @return water roughness of this tile (without rotating or flipping its image) */
+    private int waterRoughnessWithoutFlippingOrRotating() {
+        int seamonsterPoundSigns = countSeaMonsters() * countPoundSigns(SEA_MONSTER);
+        return countPoundSigns() - seamonsterPoundSigns;        
+    }
+    
+    /** @return number of pound signs within this tile's image */
+    private int countPoundSigns() {
+        return countPoundSigns(imageLines);
+    }
+    
+    /** @return number of pound signs within the given text */
+    private static int countPoundSigns(List<String> lines) {
+        int result = 0;
+        for (int y = 0; y != lines.size(); y++) {
+            for (int x = 0; x != lines.get(y).length(); x++) {
+                if (lines.get(y).charAt(x) == '#') {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+    
+    /** @return number of sea monsters within this tile's image */
+    private int countSeaMonsters() {
+        int result = 0;
+        for (int y = 0; y != imageLines.size(); y++) {
+            for (int x = 0; x != imageLines.get(y).length(); x++) {
+                if (containsSeaMonsterAt(x, y)) {
+                    result++;
+                }
+            }
+        }
+        LOGGER.info("{} sea monsters found", Integer.valueOf(result)); // TODO debug
+        
+        return result;
+    }
+    
+    /**
+     * Checks whether this image tile contains an occurrence of a sea monster at the given index.
+     * 
+     * @param x x index; must be at least 0
+     * @param y y index; must be at least 0
+     * @return whether there is a sea monster at (x, y) within this tile
+     */
+    private boolean containsSeaMonsterAt(int x, int y) {
+        boolean result = true;
+        
+        for (int dy = 0; dy != SEA_MONSTER.size(); dy++) {
+            for (int dx = 0; dx != SEA_MONSTER.get(dy).length(); dx++) {
+                result = result && y + dy < imageLines.size() && x + dx < imageLines.get(y + dy).length()
+                        && (SEA_MONSTER.get(dy).charAt(dx) == ' ' || SEA_MONSTER.get(dy).charAt(dx) == imageLines.get(y + dy).charAt(x + dx)); 
+            }
+        }
+        return result;
     }
     
     @Override
