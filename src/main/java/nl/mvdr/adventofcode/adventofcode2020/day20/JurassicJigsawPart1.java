@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2020.day20;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 

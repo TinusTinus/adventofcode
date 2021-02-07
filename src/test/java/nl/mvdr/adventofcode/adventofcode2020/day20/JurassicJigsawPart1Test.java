@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class MonsterMessagesPart1Test extends SolverTest<JurassicJigsawPart1> {
+public class JurassicJigsawPart1Test extends SolverTest<JurassicJigsawPart1> {
 
     /** Constructor. */
-    public MonsterMessagesPart1Test() {
+    public JurassicJigsawPart1Test() {
         super(JurassicJigsawPart1.class);
     }
     
