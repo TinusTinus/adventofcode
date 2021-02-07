@@ -147,6 +147,39 @@ record Tile(int id, List<String> imageLines) {
         return result;
     }
     
+    /**
+     * Converts the given image into a single tile.
+     * 
+     * @param image reassembled image
+     * @return tile representing the complete image
+     */
+    static Tile asTile(Map<Point, Tile> image) {
+        List<String> imageLines = new ArrayList<>();
+        
+        int minX = Point.minX(image.keySet());
+        int maxX = Point.maxX(image.keySet());
+        int minY = Point.minY(image.keySet());
+        int maxY = Point.maxY(image.keySet());
+        
+        // All tiles are squares of the same size
+        int tileSize = image.get(new Point(minX, minY)).imageLines.size();
+        
+        for (int y = minY; y != maxY + 1; y++) {
+            List<String> tempImageLines = new ArrayList<>();
+            IntStream.range(0, tileSize - 2).forEach(i -> tempImageLines.add(""));
+            
+            for (int x = minX; x != maxX + 1; x++) {
+                // Drop the borders
+                for (int i = 1; i != tileSize - 1; i++) {
+                    tempImageLines.set(i - 1, tempImageLines.get(i - 1) + image.get(new Point(x, y)).imageLines.get(i).substring(1, tileSize - 1));
+                }
+            }
+            imageLines.addAll(tempImageLines);
+        }
+        
+        return new Tile(0, imageLines);
+    }
+    
     /** @return all possible arrangements (through flipping and rotating) of this tile */
     private Set<Tile> arrangements() {
         Set<Tile> result = new HashSet<>();
