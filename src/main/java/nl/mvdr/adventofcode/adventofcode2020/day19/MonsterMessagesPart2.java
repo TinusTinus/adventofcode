@@ -1,15 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2020.day19;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 18 puzzle of 2020's Advent of Code:

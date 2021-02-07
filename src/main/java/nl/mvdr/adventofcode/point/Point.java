@@ -13,7 +13,10 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 public record Point(int x, int y) implements Comparable<Point> {
-
+    
+    /** 0, 0 location */
+    public static final Point ORIGIN = new Point(0, 0);
+    
     /**
      * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and another.
      * 
