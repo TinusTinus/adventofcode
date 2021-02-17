@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day21;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -24,6 +25,8 @@ public class AllergenAssessmentPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
+        List<Food> foods = Food.parse(lines);
+        
         return 0; // TODO implement
     }
 
@@ -35,7 +38,7 @@ public class AllergenAssessmentPart1 implements IntSolver {
     public static void main(String[] args) {
         AllergenAssessmentPart1 instance = new AllergenAssessmentPart1();
 
-        String result = instance.solve("input-day20-2020.txt");
+        String result = instance.solve("input-day21-2020.txt");
 
         LOGGER.info(result);
     }
