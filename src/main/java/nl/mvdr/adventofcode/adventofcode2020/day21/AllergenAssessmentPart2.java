@@ -13,7 +13,7 @@ import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to the day 21 puzzle of 2020's Advent of Code:
- * <a href="https://adventofcode.com/2020/day/17">Allergen Assessment</a>.
+ * <a href="https://adventofcode.com/2020/day/21">Allergen Assessment</a>.
  *
  * @author Martijn van de Rijdt
  */
