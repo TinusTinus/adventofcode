@@ -25,6 +25,6 @@ public class AllergenAssessmentPart1Test extends SolverTest<AllergenAssessmentPa
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day21-2020.txt");
+        assertSolution("2150", "input-day21-2020.txt");
     }
 }

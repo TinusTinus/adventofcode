@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day21;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,7 +10,7 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-record Food(List<String> ingredients, List<String> allergens) {
+record Food(Set<Ingredient> ingredients, Set<Allergen> allergens) {
 
     /**
      * Parses puzzle input.
@@ -19,10 +18,10 @@ record Food(List<String> ingredients, List<String> allergens) {
      * @param lines lines from the puzzle input
      * @return list of foods
      */
-    static List<Food> parse(Stream<String> lines) {
+    static Set<Food> parse(Stream<String> lines) {
         return lines.filter(Predicate.not(String::isEmpty))
                 .map(Food::parse)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
     
     /**
@@ -32,13 +31,17 @@ record Food(List<String> ingredients, List<String> allergens) {
      * @return food represented by the given line
      */
     private static Food parse(String line) {
-        String[] parts = line.split(" \\(contains");
+        String[] parts = line.split(" \\(contains ");
         
-        List<String> ingredients = Arrays.asList(parts[0].split(" "));
+        Set<Ingredient> ingredients = Stream.of(parts[0].split(" "))
+                .map(Ingredient::new)
+                .collect(Collectors.toSet());
         
         // Drop the closing bracket
         String allergenPart = parts[1].substring(0, parts[1].length() - 1);
-        List<String> allergens = Arrays.asList(allergenPart.split(", "));
+        Set<Allergen> allergens = Stream.of(allergenPart.split(", "))
+                .map(Allergen::new)
+                .collect(Collectors.toSet());
         
         return new Food(ingredients, allergens);
     }
