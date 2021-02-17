@@ -53,7 +53,7 @@ enum Technique implements PreviousIndexFunction {
                 return result;
             },
             (newIndex, deckSize, n) -> {
-                // TODO optimize: can we do this without a linear search?
+                // Note: optimization may be possible; can we do this without a linear search?
                 OptionalLong result = OptionalLong.empty();
                 long j = 0L;
                 while (result.isEmpty()) {

@@ -158,7 +158,6 @@ record Tile(int id, List<String> imageLines) {
      * @param image reassembled image
      * @return tile representing the complete image
      */
-    // TODO this method may be incorrect
     static Tile asTile(Map<Point, Tile> image) {
         List<String> imageLines = new ArrayList<>();
         
@@ -244,7 +243,7 @@ record Tile(int id, List<String> imageLines) {
      * @return whether this tile fits above the given other tile
      */
     private boolean fitsAbove(Tile otherTile) {
-        return otherTile.imageLines.get(otherTile.imageLines.size() - 1).equals(this.imageLines.get(0));
+        return this.imageLines.get(this.imageLines.size() - 1).equals(otherTile.imageLines.get(0));
     }
 
     /**
@@ -282,7 +281,6 @@ record Tile(int id, List<String> imageLines) {
     /** @return water roughness of this tile */
     int waterRoughness() {
         return arrangements().stream()
-                .peek(arrangement -> LOGGER.info("Image: {}", arrangement)) // TODO remove log statement
                 .mapToInt(Tile::waterRoughnessWithoutFlippingOrRotating)
                 .min()
                 .orElseThrow();
@@ -322,7 +320,7 @@ record Tile(int id, List<String> imageLines) {
                 }
             }
         }
-        LOGGER.info("{} sea monsters found", Integer.valueOf(result)); // TODO debug
+        LOGGER.debug("{} sea monsters found", Integer.valueOf(result));
         
         return result;
     }
