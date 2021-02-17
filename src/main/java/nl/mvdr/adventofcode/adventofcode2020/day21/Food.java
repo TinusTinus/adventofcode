@@ -75,7 +75,7 @@ record Food(Set<Ingredient> ingredients, Set<Allergen> allergens) {
                     
                     Set<Ingredient> possibleIngredients = foodsWithAllergen.stream()
                             .flatMap(food -> food.ingredients().stream())
-                            .filter(Predicate.not(result.values()::contains))
+                            .filter(Predicate.not(result::containsValue))
                             .filter(ingredient -> foodsWithAllergen.stream().allMatch(food -> food.ingredients().contains(ingredient)))
                             .collect(Collectors.toSet());
                             
