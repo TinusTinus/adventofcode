@@ -16,7 +16,7 @@ public class Hexagon {
     private final Point point;
     
     /** Starting point. */
-    static final Hexagon ORIGIN = new Hexagon(new Point(0, 0));
+    static final Hexagon ORIGIN = new Hexagon(Point.ORIGIN);
     
     /**
      * Constructor.

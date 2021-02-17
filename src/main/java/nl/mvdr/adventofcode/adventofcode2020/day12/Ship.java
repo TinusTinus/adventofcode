@@ -12,5 +12,5 @@ import nl.mvdr.adventofcode.point.Point;
 record Ship(Point location, Direction direction, Point waypoint) {
     
     /** Starting position of the ship. */
-    static Ship STARTING_POSITION = new Ship(new Point(0, 0), Direction.RIGHT, new Point(10, -1));
+    static Ship STARTING_POSITION = new Ship(Point.ORIGIN, Direction.RIGHT, new Point(10, -1));
 }

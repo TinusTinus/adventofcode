@@ -20,7 +20,7 @@ import nl.mvdr.adventofcode.point.Point;
  */
 class Cave {
     /** Mouth of the cave. */
-    static final Point MOUTH = new Point(0, 0);
+    static final Point MOUTH = Point.ORIGIN;
     
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(Cave.class);

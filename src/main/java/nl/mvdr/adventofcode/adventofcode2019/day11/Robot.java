@@ -16,7 +16,7 @@ class Robot {
     
     /** Constructor. */
     Robot() {
-        this(new Point(0, 0), Direction.UP);
+        this(Point.ORIGIN, Direction.UP);
     }
     
     /**

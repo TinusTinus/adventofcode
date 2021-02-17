@@ -37,7 +37,7 @@ class RoomMap {
     private static final char NEWLINE = '\n';
     
     /** The starting point. */
-    private static final Point STARTING_POINT = new Point(0, 0); // Arbitrary coordinates
+    private static final Point STARTING_POINT = Point.ORIGIN; // Arbitrary coordinates
     
     /** Logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomMap.class);

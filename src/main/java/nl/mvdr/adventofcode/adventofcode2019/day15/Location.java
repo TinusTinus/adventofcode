@@ -39,7 +39,7 @@ class Location {
      * @param program initial program state
      */
     Location(Program program) {
-        this(new Point(0, 0), program, 0, false);
+        this(Point.ORIGIN, program, 0, false);
     }
     
     /**

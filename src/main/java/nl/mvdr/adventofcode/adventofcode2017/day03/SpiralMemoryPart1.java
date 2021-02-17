@@ -31,9 +31,7 @@ public class SpiralMemoryPart1 implements IntSolver {
         String input = lines.findFirst().orElseThrow();
         int square = Integer.parseInt(input);
         
-        Point startingPoint = new Point(0, 0);
-        
-        Point point = startingPoint;
+        Point point = Point.ORIGIN;
         
         Set<Point> points = new HashSet<>();
         points.add(point);
@@ -51,7 +49,7 @@ public class SpiralMemoryPart1 implements IntSolver {
             point = nextPoint;
         }
         
-        return point.manhattanDistance(startingPoint);
+        return point.manhattanDistanceToOrigin();
     }
     
     /**

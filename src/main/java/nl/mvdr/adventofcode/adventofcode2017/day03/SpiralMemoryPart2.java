@@ -26,9 +26,7 @@ public class SpiralMemoryPart2 implements IntSolver {
         String input = lines.findFirst().orElseThrow();
         int targetValue = Integer.parseInt(input);
         
-        Point startingPoint = new Point(0, 0);
-        
-        Point point = startingPoint;
+        Point point = Point.ORIGIN;
         
         Map<Point, Integer> memory = new HashMap<>();
         memory.put(point, Integer.valueOf(1));

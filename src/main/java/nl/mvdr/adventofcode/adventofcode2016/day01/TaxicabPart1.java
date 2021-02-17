@@ -29,10 +29,8 @@ public class TaxicabPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         String input = lines.findFirst().orElseThrow();
         
-        Point startingLocation = new Point(0, 0);
-        
         Direction direction = Direction.UP;
-        Point location = startingLocation;
+        Point location = Point.ORIGIN;
         
         for (String part : input.split(", ")) {
             TurnDirection turnDirection = TurnDirection.parse(part.charAt(0));
@@ -44,7 +42,7 @@ public class TaxicabPart1 implements IntSolver {
             }
         }
         
-        return location.manhattanDistance(startingLocation);
+        return location.manhattanDistanceToOrigin();
     }
     
     /**

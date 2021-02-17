@@ -47,7 +47,7 @@ abstract class CrossedWires implements IntSolver {
         LOGGER.debug("Found {} intersections", Integer.valueOf(intersections.size()));
         
         return intersections.stream()
-                .filter(point -> !(new Point(0, 0)).equals(point))
+                .filter(point -> !Point.ORIGIN.equals(point))
                 .mapToInt(point -> computeDistance(point, wire0, wire1))
                 .min()
                 .getAsInt();
@@ -62,7 +62,7 @@ abstract class CrossedWires implements IntSolver {
     private List<Point> parseWire(String line) {
         List<Point> result = new LinkedList<>();
         
-        Point point = new Point(0, 0);
+        Point point = Point.ORIGIN;
         result.add(point);
         
         String[] segments = line.split(",");

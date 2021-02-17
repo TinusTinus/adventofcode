@@ -30,10 +30,8 @@ public class TaxicabPart2 implements IntSolver {
     public int solve(Stream<String> lines) {
         String input = lines.findFirst().orElseThrow();
         
-        Point startingLocation = new Point(0, 0);
-        
         Direction direction = Direction.UP;
-        Point location = startingLocation;
+        Point location = Point.ORIGIN;
         
         Set<Point> visited = new HashSet<>();
         visited.add(location);
@@ -50,7 +48,7 @@ public class TaxicabPart2 implements IntSolver {
                 location = direction.move(location);
                 
                 if (!visited.add(location)) {
-                    return location.manhattanDistance(startingLocation);
+                    return location.manhattanDistanceToOrigin();
                 }
             }
         }
