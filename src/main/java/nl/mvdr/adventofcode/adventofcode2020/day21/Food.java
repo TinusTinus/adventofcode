@@ -1,9 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2020.day21;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Representation of a food.
@@ -12,6 +17,8 @@ import java.util.stream.Stream;
  */
 record Food(Set<Ingredient> ingredients, Set<Allergen> allergens) {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Food.class);
+    
     /**
      * Parses puzzle input.
      * 
@@ -44,5 +51,42 @@ record Food(Set<Ingredient> ingredients, Set<Allergen> allergens) {
                 .collect(Collectors.toSet());
         
         return new Food(ingredients, allergens);
+    }
+    
+    /**
+     * Finds, for each known allergen, which ingredient contains that allergen.
+     * 
+     * @param foods foods
+     * @return mapping of allergen to the ingredient containing it
+     */
+    static Map<Allergen, Ingredient> findIngredientsWithAllergens(Set<Food> foods) {
+        Set<Allergen> allAllergens = foods.stream()
+                .flatMap(food -> food.allergens().stream())
+                .collect(Collectors.toSet());
+        
+        Map<Allergen, Ingredient> result = new HashMap<>();
+        
+        while (result.size() != allAllergens.size()) {
+            for (Allergen allergen : allAllergens) {
+                if (!result.containsKey(allergen)) {
+                    Set<Food> foodsWithAllergen = foods.stream()
+                            .filter(food -> food.allergens().contains(allergen))
+                            .collect(Collectors.toSet());
+                    
+                    Set<Ingredient> possibleIngredients = foodsWithAllergen.stream()
+                            .flatMap(food -> food.ingredients().stream())
+                            .filter(Predicate.not(result.values()::contains))
+                            .filter(ingredient -> foodsWithAllergen.stream().allMatch(food -> food.ingredients().contains(ingredient)))
+                            .collect(Collectors.toSet());
+                            
+                    if (possibleIngredients.size() == 1) {
+                        Ingredient ingredient = possibleIngredients.iterator().next();
+                        LOGGER.debug("Allergen {} occurs in ingredient {}", allergen, ingredient);
+                        result.put(allergen, ingredient);
+                    }
+                }
+            }
+        }
+        return result;
     }
 }
