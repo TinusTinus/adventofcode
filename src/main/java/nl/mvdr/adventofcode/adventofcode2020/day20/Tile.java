@@ -175,9 +175,10 @@ record Tile(int id, List<String> imageLines) {
             IntStream.range(0, tileSize - 2).forEach(i -> tempImageLines.add(""));
             
             for (int x = minX; x != maxX + 1; x++) {
+                Tile tile = image.get(new Point(x, y));
                 // Drop the borders
                 for (int i = 1; i != tileSize - 1; i++) {
-                    tempImageLines.set(i - 1, tempImageLines.get(i - 1) + image.get(new Point(x, y)).imageLines.get(i).substring(1, tileSize - 1));
+                    tempImageLines.set(i - 1, tempImageLines.get(i - 1) + tile.imageLines.get(i).substring(1, tileSize - 1));
                 }
             }
             imageLines.addAll(tempImageLines);
