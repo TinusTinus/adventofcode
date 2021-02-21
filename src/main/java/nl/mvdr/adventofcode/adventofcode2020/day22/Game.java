@@ -73,27 +73,7 @@ class Game {
     int play() {
         int round = 1;
         while (!player1Deck.isEmpty() && !player2Deck.isEmpty()) {
-            LOGGER.debug("-- Round {} --", Integer.valueOf(round));
-            logDecks();
-            
-            Integer player1Card = player1Deck.remove(0);
-            LOGGER.debug("Player 1 plays: {}", player1Card);
-            
-            Integer player2Card = player2Deck.remove(0);
-            LOGGER.debug("Player 2 plays: {}", player2Card);
-            
-            if (player2Card.intValue() < player1Card.intValue()) {
-                LOGGER.debug("Player 1 wins the round!");
-                player1Deck.add(player1Card);
-                player1Deck.add(player2Card);
-            } else {
-                LOGGER.debug("Player 2 wins the round!");
-                player2Deck.add(player2Card);
-                player2Deck.add(player1Card);
-            }
-            
-            LOGGER.debug("");
-            
+            playRound(round);
             round++;
         }
         
@@ -103,11 +83,44 @@ class Game {
         
         int result;
         if (player1Deck.isEmpty()) {
+            LOGGER.debug("Player 2 wins!");
             result = player2Score();
         } else {
+            LOGGER.debug("Player 1 wins!");
             result = player1Score();
         }
         return result;
+    }
+
+    /**
+     * Plays a single round of the game.
+     * 
+     * This method assumes that the game has not yet concluded:
+     * both players must still have at least one card in their deck.
+     * 
+     * @param round round number (for logging purposes)
+     */
+    private void playRound(int round) {
+        LOGGER.debug("-- Round {} --", Integer.valueOf(round));
+        logDecks();
+        
+        Integer player1Card = player1Deck.remove(0);
+        LOGGER.debug("Player 1 plays: {}", player1Card);
+        
+        Integer player2Card = player2Deck.remove(0);
+        LOGGER.debug("Player 2 plays: {}", player2Card);
+        
+        if (player2Card.intValue() < player1Card.intValue()) {
+            LOGGER.debug("Player 1 wins the round!");
+            player1Deck.add(player1Card);
+            player1Deck.add(player2Card);
+        } else {
+            LOGGER.debug("Player 2 wins the round!");
+            player2Deck.add(player2Card);
+            player2Deck.add(player1Card);
+        }
+        
+        LOGGER.debug("");
     }
     
     /** Writes the game's current state to the {@link #LOGGER}. */
