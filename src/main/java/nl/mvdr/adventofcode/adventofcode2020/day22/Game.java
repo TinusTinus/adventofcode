@@ -64,10 +64,8 @@ record Game(boolean recursive,
      */
     Game play() {
         Game game = this;
-        int round = 1;
         while (game.winner.isEmpty()) {
-            game = game.playRound(round);
-            round++;
+            game = game.playRound();
         }
         
         LOGGER.debug("");
@@ -84,13 +82,12 @@ record Game(boolean recursive,
      * This method assumes that the game has not yet concluded:
      * both players must still have at least one card in their deck.
      * 
-     * @param round round number (for logging purposes)
      * @return updated game state after playing a single round
      */
-    private Game playRound(int round) {
+    private Game playRound() {
         winner.ifPresent(w -> { throw new IllegalStateException("This game has already concluded: " + this); });
         
-        LOGGER.debug("-- Round {} --", Integer.valueOf(round));
+        LOGGER.debug("-- Round {} --", Integer.valueOf(history.size() + 1));
         logDecks();
         
         Game result;
