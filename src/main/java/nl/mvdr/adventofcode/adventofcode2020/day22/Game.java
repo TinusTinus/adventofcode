@@ -130,7 +130,7 @@ record Game(boolean recursive,
             if (roundWinner == Player.ONE) {
                 newPlayer1Deck.add(player1Card);
                 newPlayer1Deck.add(player2Card);
-            } else if (roundWinner  == Player.TWO) {
+            } else if (roundWinner == Player.TWO) {
                 newPlayer2Deck.add(player2Card);
                 newPlayer2Deck.add(player1Card);
             } else {
