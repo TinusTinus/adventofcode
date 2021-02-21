@@ -18,8 +18,7 @@ import org.slf4j.LoggerFactory;
  * @param recursive whether the rules of Recursive Combat should be used (that is, the rules from part 2 of the puzzle)
  * @param player1Deck Player 1's (our) hand
  * @param player2Deck Player 2's (the small crab's) hand
- * @param player1DeckHistory history of hands held by Player 1
- * @param player2DeckHistory history of hands held by Player 2
+ * @param history previous game states
  * @param winner this game's winner; empty if the game has not yet concluded
  * 
  * @author Martijn van de Rijdt
@@ -27,8 +26,7 @@ import org.slf4j.LoggerFactory;
 record Game(boolean recursive,
         List<Integer> player1Deck,
         List<Integer> player2Deck,
-        List<List<Integer>> player1DeckHistory,
-        List<List<Integer>> player2DeckHistory,
+        List<Game> history,
         Optional<Player> winner) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
@@ -56,7 +54,7 @@ record Game(boolean recursive,
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
         
-        return new Game(recursive, player1Hand, player2Hand, List.of(), List.of(), Optional.empty());
+        return new Game(recursive, player1Hand, player2Hand, List.of(), Optional.empty());
     }
     
     /**
@@ -99,7 +97,7 @@ record Game(boolean recursive,
         if (recursive && detectInfiniteRecursion()) {
             LOGGER.debug("Infinite recursion detected.");
             // The game instantly ends in a win for Player 1. (This prevents infinite games of Recursive Combat.)
-            result = new Game(recursive, player1Deck, player2Deck, player1DeckHistory, player2DeckHistory, Optional.of(Player.ONE));
+            result = new Game(recursive, player1Deck, player2Deck, history, Optional.of(Player.ONE));
         } else {
             Integer player1Card = player1Deck.get(0);
             List<Integer> newPlayer1Deck = new ArrayList<>(player1Deck.subList(1, player1Deck.size()));
@@ -115,7 +113,7 @@ record Game(boolean recursive,
                 LOGGER.debug("");
                 List<Integer> player1SubDeck = newPlayer1Deck.subList(0, player1Card.intValue());
                 List<Integer> player2SubDeck = newPlayer2Deck.subList(0, player2Card.intValue());
-                Game subgame = new Game(true, player1SubDeck, player2SubDeck, List.of(), List.of(), Optional.empty());
+                Game subgame = new Game(true, player1SubDeck, player2SubDeck, List.of(), Optional.empty());
                 roundWinner = subgame.play().winner.orElseThrow();
                 LOGGER.debug("");
                 LOGGER.debug("...anyway, back to the previous game.");
@@ -137,10 +135,8 @@ record Game(boolean recursive,
                 throw new IllegalStateException("Unexpected round winner: " + roundWinner);
             }
 
-            List<List<Integer>> newPlayer1DeckHistory = new ArrayList<>(player1DeckHistory);
-            newPlayer1DeckHistory.add(player1Deck);
-            List<List<Integer>> newPlayer2DeckHistory = new ArrayList<>(player2DeckHistory);
-            newPlayer2DeckHistory.add(player2Deck);
+            List<Game> newHistory = new ArrayList<>(history);
+            newHistory.add(this);
 
             Optional<Player> newWinner;
             if (newPlayer1Deck.isEmpty()) {
@@ -151,7 +147,7 @@ record Game(boolean recursive,
                 newWinner = Optional.empty();
             }
 
-            result = new Game(recursive, newPlayer1Deck, newPlayer2Deck, newPlayer1DeckHistory, newPlayer2DeckHistory, newWinner);
+            result = new Game(recursive, newPlayer1Deck, newPlayer2Deck, newHistory, newWinner);
             LOGGER.debug("");
         }
         return result;
@@ -159,9 +155,9 @@ record Game(boolean recursive,
     
     /** @return whether there was a previous round in this game that had exactly the same cards in the same order in the same players' decks */
     private boolean detectInfiniteRecursion() {
-        return IntStream.range(0, player1DeckHistory.size())
-                .filter(i -> player1DeckHistory.get(i).equals(player1Deck))
-                .filter(i -> player2DeckHistory.get(i).equals(player2Deck))
+        return history.stream()
+                .filter(historicGame -> historicGame.player1Deck.equals(player1Deck))
+                .filter(historicGame -> historicGame.player2Deck.equals(player2Deck))
                 .findAny()
                 .isPresent();
     }
