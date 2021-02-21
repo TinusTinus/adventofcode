@@ -72,7 +72,7 @@ public class MarbleMania implements LinesSolver<BigDecimal> {
         }
         
         if (marble % 1_000_000 == 0) {
-            LOGGER.info("  Progress: " + marble + " / " + puzzleInput.getPoints() + " (" + marble * 100 / puzzleInput.getPoints() + "%)");
+            LOGGER.debug("  Progress: " + marble + " / " + puzzleInput.getPoints() + " (" + marble * 100 / puzzleInput.getPoints() + "%)");
         }
     }
     

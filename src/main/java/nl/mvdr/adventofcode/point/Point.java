@@ -290,7 +290,7 @@ public record Point(int x, int y) implements Comparable<Point> {
     }
     
     /**
-     * Computes on of the bounding coordinates of a set of points.
+     * Computes one of the bounding coordinates of a set of points.
      * 
      * @param points set of points
      * @return minimum X coordinate
@@ -303,7 +303,7 @@ public record Point(int x, int y) implements Comparable<Point> {
     }
     
     /**
-     * Computes on of the bounding coordinates of a set of points.
+     * Computes one of the bounding coordinates of a set of points.
      * 
      * @param points set of points
      * @return maximum X coordinate
@@ -316,7 +316,7 @@ public record Point(int x, int y) implements Comparable<Point> {
     }
     
     /**
-     * Computes on of the bounding coordinates of a set of points.
+     * Computes one of the bounding coordinates of a set of points.
      * 
      * @param points set of points
      * @return minimum Y coordinate
@@ -329,7 +329,7 @@ public record Point(int x, int y) implements Comparable<Point> {
     }
     
     /**
-     * Computes on of the bounding coordinates of a set of points.
+     * Computes one of the bounding coordinates of a set of points.
      * 
      * @param points set of points
      * @return maximum Y coordinate
