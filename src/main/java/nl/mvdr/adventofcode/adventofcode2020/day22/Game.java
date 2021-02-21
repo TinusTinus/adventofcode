@@ -89,14 +89,14 @@ record Game(boolean recursive,
      * @return updated game state after playing a single round
      */
     private Game playRound(int round) {
-        winner.ifPresent(w -> { throw new IllegalStateException("This game has already concluded."); });
+        winner.ifPresent(w -> { throw new IllegalStateException("This game has already concluded: " + this); });
         
         LOGGER.debug("-- Round {} --", Integer.valueOf(round));
         logDecks();
         
         Game result;
-        if (recursive && detectRecursion()) {
-            // Recursion detected.
+        if (recursive && detectInfiniteRecursion()) {
+            LOGGER.debug("Infinite recursion detected.");
             // The game instantly ends in a win for Player 1. (This prevents infinite games of Recursive Combat.)
             result = new Game(recursive, player1Deck, player2Deck, player1DeckHistory, player2DeckHistory, Optional.of(Player.ONE));
         } else {
@@ -109,11 +109,11 @@ record Game(boolean recursive,
             LOGGER.debug("Player 2 plays: {}", player2Card);
 
             Player roundWinner;
-            if (recursive && player1Card.intValue() < player1Deck.size() && player2Card.intValue() < player2Deck.size()) {
+            if (recursive && player1Card.intValue() <= newPlayer1Deck.size() && player2Card.intValue() <= newPlayer2Deck.size()) {
                 LOGGER.debug("Playing a sub-game to determine the winner...");
                 LOGGER.debug("");
-                List<Integer> player1SubDeck = player1Deck.subList(1, player1Card.intValue() + 1);
-                List<Integer> player2SubDeck = player2Deck.subList(1, player2Card.intValue() + 1);
+                List<Integer> player1SubDeck = newPlayer1Deck.subList(0, player1Card.intValue());
+                List<Integer> player2SubDeck = newPlayer2Deck.subList(0, player2Card.intValue());
                 Game subgame = new Game(true, player1SubDeck, player2SubDeck, List.of(), List.of(), Optional.empty());
                 roundWinner = subgame.play().winner.orElseThrow();
                 LOGGER.debug("");
@@ -129,12 +129,12 @@ record Game(boolean recursive,
             if (roundWinner == Player.ONE) {
                 newPlayer1Deck.add(player1Card);
                 newPlayer1Deck.add(player2Card);
-            } else {
+            } else if (roundWinner  == Player.TWO) {
                 newPlayer2Deck.add(player2Card);
                 newPlayer2Deck.add(player1Card);
+            } else {
+                throw new IllegalStateException("Unexpected round winner: " + roundWinner);
             }
-
-            LOGGER.debug("");
 
             List<List<Integer>> newPlayer1DeckHistory = new ArrayList<>(player1DeckHistory);
             newPlayer1DeckHistory.add(player1Deck);
@@ -151,12 +151,13 @@ record Game(boolean recursive,
             }
 
             result = new Game(recursive, newPlayer1Deck, newPlayer2Deck, newPlayer1DeckHistory, newPlayer2DeckHistory, newWinner);
+            LOGGER.debug("");
         }
         return result;
     }
     
     /** @return whether there was a previous round in this game that had exactly the same cards in the same order in the same players' decks */
-    private boolean detectRecursion() {
+    private boolean detectInfiniteRecursion() {
         return IntStream.range(0, player1DeckHistory.size())
                 .filter(i -> player1DeckHistory.get(i).equals(player1Deck))
                 .filter(i -> player2DeckHistory.get(i).equals(player2Deck))
@@ -166,8 +167,10 @@ record Game(boolean recursive,
     
     /** Writes the game's current state to the {@link #LOGGER}. */
     private void logDecks() {
-        LOGGER.debug("Player 1's deck: {}", player1Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
-        LOGGER.debug("Player 2's deck: {}", player2Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Player 1's deck: {}", player1Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
+            LOGGER.debug("Player 2's deck: {}", player2Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        }
     }
     
     /**
