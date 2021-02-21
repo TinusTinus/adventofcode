@@ -16,10 +16,12 @@ import org.slf4j.LoggerFactory;
  *
  * @param player1Deck Player 1's (our) hand
  * @param player2Deck Player 2's (the small crab's) hand
+ * @param player1DeckHistory history of hands held by Player 1
+ * @param player2DeckHistory history of hands held by Player 2
  * 
  * @author Martijn van de Rijdt
  */
-record Game(List<Integer> player1Deck, List<Integer> player2Deck) {
+record Game(List<Integer> player1Deck, List<Integer> player2Deck, List<List<Integer>> player1DeckHistory, List<List<Integer>> player2DeckHistory) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
     
@@ -45,7 +47,7 @@ record Game(List<Integer> player1Deck, List<Integer> player2Deck) {
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
         
-        return new Game(player1Hand, player2Hand);
+        return new Game(player1Hand, player2Hand, List.of(), List.of());
     }
     
     /**
@@ -108,8 +110,13 @@ record Game(List<Integer> player1Deck, List<Integer> player2Deck) {
         }
         
         LOGGER.debug("");
+
+        List<List<Integer>> newPlayer1DeckHistory = new ArrayList<>(player1DeckHistory);
+        newPlayer1DeckHistory.add(player1Deck);
+        List<List<Integer>> newPlayer2DeckHistory = new ArrayList<>(player2DeckHistory);
+        newPlayer1DeckHistory.add(player2Deck);
         
-        return new Game(newPlayer1Deck, newPlayer2Deck);
+        return new Game(newPlayer1Deck, newPlayer2Deck, newPlayer1DeckHistory, newPlayer2DeckHistory);
     }
     
     /** Writes the game's current state to the {@link #LOGGER}. */
