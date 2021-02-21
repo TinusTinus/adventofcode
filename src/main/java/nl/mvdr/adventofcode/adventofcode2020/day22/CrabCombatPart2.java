@@ -13,9 +13,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class CrabCombatPart1 implements IntSolver {
+public class CrabCombatPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CrabCombatPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrabCombatPart2.class);
 
     /**
      * {@inheritDoc}
@@ -24,7 +24,7 @@ public class CrabCombatPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        return Game.parse(lines, false).play().winnerScore();
+        return Game.parse(lines, true).play().winnerScore();
     }
 
     /**
@@ -33,7 +33,7 @@ public class CrabCombatPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        CrabCombatPart1 instance = new CrabCombatPart1();
+        CrabCombatPart2 instance = new CrabCombatPart2();
 
         String result = instance.solve("input-day22-2020.txt");
 

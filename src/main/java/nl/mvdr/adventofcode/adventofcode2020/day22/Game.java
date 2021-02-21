@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2020.day22;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Representation of a game of crab combat.
  *
+ * @param recursive whether the rules of Recursive Combat should be used (that is, the rules from part 2 of the puzzle)
  * @param player1Deck Player 1's (our) hand
  * @param player2Deck Player 2's (the small crab's) hand
  * @param player1DeckHistory history of hands held by Player 1
@@ -21,7 +23,12 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Martijn van de Rijdt
  */
-record Game(List<Integer> player1Deck, List<Integer> player2Deck, List<List<Integer>> player1DeckHistory, List<List<Integer>> player2DeckHistory) {
+record Game(boolean recursive,
+        List<Integer> player1Deck,
+        List<Integer> player2Deck,
+        List<List<Integer>> player1DeckHistory,
+        List<List<Integer>> player2DeckHistory,
+        Optional<Player> winner) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
     
@@ -29,9 +36,10 @@ record Game(List<Integer> player1Deck, List<Integer> player2Deck, List<List<Inte
      * Parses the puzzle input.
      * 
      * @param linesStream lines from the puzzle input
+     * @param recursive whether the rules of Recursive Combat should be used (that is, the rules from part 2 of the puzzle)
      * @return initial state of the game represented by the puzzle input
      */
-    static Game parse(Stream<String> linesStream) {
+    static Game parse(Stream<String> linesStream, boolean recursive) {
         List<String> lines = linesStream.filter(Predicate.not(String::isEmpty))
                 .collect(Collectors.toList());
         
@@ -47,18 +55,18 @@ record Game(List<Integer> player1Deck, List<Integer> player2Deck, List<List<Inte
                 .map(Integer::valueOf)
                 .collect(Collectors.toList());
         
-        return new Game(player1Hand, player2Hand, List.of(), List.of());
+        return new Game(recursive, player1Hand, player2Hand, List.of(), List.of(), Optional.empty());
     }
     
     /**
      * Plays out the entire game.
      * 
-     * @return the winning player's score
+     * @return the concluded game
      */
-    int play() {
+    Game play() {
         Game game = this;
         int round = 1;
-        while (!game.player1Deck.isEmpty() && !game.player2Deck.isEmpty()) {
+        while (game.winner.isEmpty()) {
             game = game.playRound(round);
             round++;
         }
@@ -66,16 +74,9 @@ record Game(List<Integer> player1Deck, List<Integer> player2Deck, List<List<Inte
         LOGGER.debug("");
         LOGGER.debug("== Post-game results ==");
         game.logDecks();
+        LOGGER.debug("{} wins!", game.winner.orElseThrow());
         
-        int result;
-        if (game.player1Deck.isEmpty()) {
-            LOGGER.debug("Player 2 wins!");
-            result = game.player2Score();
-        } else {
-            LOGGER.debug("Player 1 wins!");
-            result = game.player1Score();
-        }
-        return result;
+        return game;
     }
 
     /**
@@ -88,35 +89,79 @@ record Game(List<Integer> player1Deck, List<Integer> player2Deck, List<List<Inte
      * @return updated game state after playing a single round
      */
     private Game playRound(int round) {
+        winner.ifPresent(w -> { throw new IllegalStateException("This game has already concluded."); });
+        
         LOGGER.debug("-- Round {} --", Integer.valueOf(round));
         logDecks();
         
-        Integer player1Card = player1Deck.get(0);
-        List<Integer> newPlayer1Deck = new ArrayList<>(player1Deck.subList(1, player1Deck.size()));
-        LOGGER.debug("Player 1 plays: {}", player1Card);
-        
-        Integer player2Card = player2Deck.get(0);
-        List<Integer> newPlayer2Deck = new ArrayList<>(player2Deck.subList(1, player2Deck.size()));
-        LOGGER.debug("Player 2 plays: {}", player2Card);
-        
-        if (player2Card.intValue() < player1Card.intValue()) {
-            LOGGER.debug("Player 1 wins the round!");
-            newPlayer1Deck.add(player1Card);
-            newPlayer1Deck.add(player2Card);
+        Game result;
+        if (recursive && detectRecursion()) {
+            // Recursion detected.
+            // The game instantly ends in a win for Player 1. (This prevents infinite games of Recursive Combat.)
+            result = new Game(recursive, player1Deck, player2Deck, player1DeckHistory, player2DeckHistory, Optional.of(Player.ONE));
         } else {
-            LOGGER.debug("Player 2 wins the round!");
-            newPlayer2Deck.add(player2Card);
-            newPlayer2Deck.add(player1Card);
-        }
-        
-        LOGGER.debug("");
+            Integer player1Card = player1Deck.get(0);
+            List<Integer> newPlayer1Deck = new ArrayList<>(player1Deck.subList(1, player1Deck.size()));
+            LOGGER.debug("Player 1 plays: {}", player1Card);
 
-        List<List<Integer>> newPlayer1DeckHistory = new ArrayList<>(player1DeckHistory);
-        newPlayer1DeckHistory.add(player1Deck);
-        List<List<Integer>> newPlayer2DeckHistory = new ArrayList<>(player2DeckHistory);
-        newPlayer1DeckHistory.add(player2Deck);
-        
-        return new Game(newPlayer1Deck, newPlayer2Deck, newPlayer1DeckHistory, newPlayer2DeckHistory);
+            Integer player2Card = player2Deck.get(0);
+            List<Integer> newPlayer2Deck = new ArrayList<>(player2Deck.subList(1, player2Deck.size()));
+            LOGGER.debug("Player 2 plays: {}", player2Card);
+
+            Player roundWinner;
+            if (recursive && player1Card.intValue() < player1Deck.size() && player2Card.intValue() < player2Deck.size()) {
+                LOGGER.debug("Playing a sub-game to determine the winner...");
+                LOGGER.debug("");
+                List<Integer> player1SubDeck = player1Deck.subList(1, player1Card.intValue() + 1);
+                List<Integer> player2SubDeck = player2Deck.subList(1, player2Card.intValue() + 1);
+                Game subgame = new Game(true, player1SubDeck, player2SubDeck, List.of(), List.of(), Optional.empty());
+                roundWinner = subgame.play().winner.orElseThrow();
+                LOGGER.debug("");
+                LOGGER.debug("...anyway, back to the previous game.");
+            } else if (player2Card.intValue() < player1Card.intValue()) {
+                roundWinner = Player.ONE;
+            } else {
+                roundWinner = Player.TWO;
+            }
+            
+            LOGGER.debug("{} wins the round!", roundWinner);
+            
+            if (roundWinner == Player.ONE) {
+                newPlayer1Deck.add(player1Card);
+                newPlayer1Deck.add(player2Card);
+            } else {
+                newPlayer2Deck.add(player2Card);
+                newPlayer2Deck.add(player1Card);
+            }
+
+            LOGGER.debug("");
+
+            List<List<Integer>> newPlayer1DeckHistory = new ArrayList<>(player1DeckHistory);
+            newPlayer1DeckHistory.add(player1Deck);
+            List<List<Integer>> newPlayer2DeckHistory = new ArrayList<>(player2DeckHistory);
+            newPlayer2DeckHistory.add(player2Deck);
+
+            Optional<Player> newWinner;
+            if (newPlayer1Deck.isEmpty()) {
+                newWinner = Optional.of(Player.TWO);
+            } else if (newPlayer2Deck.isEmpty()) {
+                newWinner = Optional.of(Player.ONE);
+            } else {
+                newWinner = Optional.empty();
+            }
+
+            result = new Game(recursive, newPlayer1Deck, newPlayer2Deck, newPlayer1DeckHistory, newPlayer2DeckHistory, newWinner);
+        }
+        return result;
+    }
+    
+    /** @return whether there was a previous round in this game that had exactly the same cards in the same order in the same players' decks */
+    private boolean detectRecursion() {
+        return IntStream.range(0, player1DeckHistory.size())
+                .filter(i -> player1DeckHistory.get(i).equals(player1Deck))
+                .filter(i -> player2DeckHistory.get(i).equals(player2Deck))
+                .findAny()
+                .isPresent();
     }
     
     /** Writes the game's current state to the {@link #LOGGER}. */
@@ -125,14 +170,35 @@ record Game(List<Integer> player1Deck, List<Integer> player2Deck, List<List<Inte
         LOGGER.debug("Player 2's deck: {}", player2Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
     
-    /** @return player 1's score */
-    private int player1Score() {
-        return score(player1Deck);
+    /**
+     * Returns the winning player's score.
+     * 
+     * Note that this method only works for games which have concluded!
+     * That is, the result of {@link #play()}.
+     * 
+     * @return the winning player's score
+     */
+    int winnerScore() {
+        return score(winner.orElseThrow(() -> new IllegalStateException("This game has not yet concluded: " + this)));
     }
     
-    /** @return player 2's score */
-    private int player2Score() {
-        return score(player2Deck);
+    /**
+     * Gives the given player's score.
+     * 
+     * @param player player
+     * @return score
+     */
+    private int score(Player player) {
+        List<Integer> deck;
+        if (player == Player.ONE) {
+            deck = player1Deck;
+        } else if (player == Player.TWO) {
+            deck = player2Deck;
+        } else {
+            throw new IllegalArgumentException("Unexpected player: " + player);
+        }
+        
+        return score(deck);
     }
     
     /**
