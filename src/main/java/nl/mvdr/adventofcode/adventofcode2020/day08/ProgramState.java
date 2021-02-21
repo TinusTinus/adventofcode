@@ -7,8 +7,6 @@ package nl.mvdr.adventofcode.adventofcode2020.day08;
  */
 record ProgramState(int instructionPointer, int accumulator) {
     
-    /** @return the initial state of a program execution */
-    static ProgramState initialState() {
-        return new ProgramState(0, 0);
-    }
+    /** The initial state of a program execution. */
+    static final ProgramState INITIAL = new ProgramState(0, 0);
 }

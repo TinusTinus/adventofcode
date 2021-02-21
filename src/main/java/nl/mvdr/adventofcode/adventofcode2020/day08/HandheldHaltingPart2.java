@@ -81,7 +81,7 @@ public class HandheldHaltingPart2 implements IntSolver {
     private OptionalInt execute(List<Instruction> instructions) {
         Set<Integer> executedInstructions = new HashSet<>();
         
-        ProgramState state = ProgramState.initialState();
+        ProgramState state = ProgramState.INITIAL;
         
         ProgramState nextState = instructions.get(state.instructionPointer()).execute(state);
         
