@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
  * @param player2Deck Player 2's (the small crab's) hand
  * @param player1DeckHistory history of hands held by Player 1
  * @param player2DeckHistory history of hands held by Player 2
+ * @param winner this game's winner; empty if the game has not yet concluded
  * 
  * @author Martijn van de Rijdt
  */
