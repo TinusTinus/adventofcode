@@ -75,32 +75,32 @@ class Game {
     int play() {
         int round = 1;
         while (!player1Deck.isEmpty() && !player2Deck.isEmpty()) {
-            LOGGER.info("-- Round {} --", Integer.valueOf(round));
+            LOGGER.debug("-- Round {} --", Integer.valueOf(round));
             logDecks();
             
             Integer player1Card = player1Deck.pop();
-            LOGGER.info("Player 1 plays: {}", player1Card);
+            LOGGER.debug("Player 1 plays: {}", player1Card);
             
             Integer player2Card = player2Deck.pop();
-            LOGGER.info("Player 2 plays: {}", player2Card);
+            LOGGER.debug("Player 2 plays: {}", player2Card);
             
             if (player2Card.intValue() < player1Card.intValue()) {
-                LOGGER.info("Player 1 wins the round!");
+                LOGGER.debug("Player 1 wins the round!");
                 player1Deck.addLast(player1Card);
                 player1Deck.addLast(player2Card);
             } else {
-                LOGGER.info("Player 2 wins the round!");
+                LOGGER.debug("Player 2 wins the round!");
                 player2Deck.addLast(player2Card);
                 player2Deck.addLast(player1Card);
             }
             
-            LOGGER.info("");
+            LOGGER.debug("");
             
             round++;
         }
         
-        LOGGER.info("");
-        LOGGER.info("== Post-game results ==");
+        LOGGER.debug("");
+        LOGGER.debug("== Post-game results ==");
         logDecks();
         
         int result;
@@ -114,8 +114,8 @@ class Game {
     
     /** Writes the game's current state to the {@link #LOGGER}. */
     private void logDecks() {
-        LOGGER.info("Player 1's deck: {}", player1Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
-        LOGGER.info("Player 2's deck: {}", player2Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        LOGGER.debug("Player 1's deck: {}", player1Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
+        LOGGER.debug("Player 2's deck: {}", player2Deck.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
     
     /** @return player 1's score */
