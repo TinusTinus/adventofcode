@@ -40,8 +40,9 @@ interface PocketDimension<P> {
     }
     
     /**
-     * Parses the initial state of a pocket dimension.
+     * Parses the initial state of an n-dimensional pocket dimension.
      * 
+     * @param <P> representation of a point in n-dimensional space
      * @param input lines from the puzzle input
      * @param pointCreator function to create an n-dimensional point based on two coordinates from the initial input
      * @param pocketDimensionCreator function to create a concrete pocket dimension instance
