@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * An instruction for the suhip.
+ * An instruction for the ship.
  *
  * @author Martijn van de Rijdt
  */
