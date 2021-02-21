@@ -1,9 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2020.day22;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -25,10 +23,10 @@ class Game {
     private static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
     
     /** Player 1's (our) hand. */
-    private final Deque<Integer> player1Deck;
+    private final List<Integer> player1Deck;
     
     /** Player 2's (the small crab's) hand. */
-    private final Deque<Integer> player2Deck;
+    private final List<Integer> player2Deck;
 
     /**
      * Constructor.
@@ -36,7 +34,7 @@ class Game {
      * @param player1Deck player 1's initial hand
      * @param player2Deck player 2's initial hand
      */
-    private Game(Deque<Integer> player1Deck, Deque<Integer> player2Deck) {
+    private Game(List<Integer> player1Deck, List<Integer> player2Deck) {
         super();
         this.player1Deck = player1Deck;
         this.player2Deck = player2Deck;
@@ -54,15 +52,15 @@ class Game {
         
         int player2Index = lines.indexOf("Player 2:");
         
-        Deque<Integer> player1Hand = IntStream.range(1, player2Index)
+        List<Integer> player1Hand = IntStream.range(1, player2Index)
                 .mapToObj(lines::get)
                 .map(Integer::valueOf)
-                .collect(Collectors.toCollection(ArrayDeque::new));
+                .collect(Collectors.toList()); // TODO refactor: Collectors.toList() is not guaranteed to return a mutable list type
         
-        Deque<Integer> player2Hand = IntStream.range(player2Index + 1, lines.size())
+        List<Integer> player2Hand = IntStream.range(player2Index + 1, lines.size())
                 .mapToObj(lines::get)
                 .map(Integer::valueOf)
-                .collect(Collectors.toCollection(ArrayDeque::new));
+                .collect(Collectors.toList()); // TODO refactor: Collectors.toList() is not guaranteed to return a mutable list type
         
         return new Game(player1Hand, player2Hand);
     }
@@ -78,20 +76,20 @@ class Game {
             LOGGER.debug("-- Round {} --", Integer.valueOf(round));
             logDecks();
             
-            Integer player1Card = player1Deck.pop();
+            Integer player1Card = player1Deck.remove(0);
             LOGGER.debug("Player 1 plays: {}", player1Card);
             
-            Integer player2Card = player2Deck.pop();
+            Integer player2Card = player2Deck.remove(0);
             LOGGER.debug("Player 2 plays: {}", player2Card);
             
             if (player2Card.intValue() < player1Card.intValue()) {
                 LOGGER.debug("Player 1 wins the round!");
-                player1Deck.addLast(player1Card);
-                player1Deck.addLast(player2Card);
+                player1Deck.add(player1Card);
+                player1Deck.add(player2Card);
             } else {
                 LOGGER.debug("Player 2 wins the round!");
-                player2Deck.addLast(player2Card);
-                player2Deck.addLast(player1Card);
+                player2Deck.add(player2Card);
+                player2Deck.add(player1Card);
             }
             
             LOGGER.debug("");
@@ -134,7 +132,7 @@ class Game {
      * @param deck deck
      * @return score
      */
-    private static int score(Deque<Integer> deck) {
+    private static int score(List<Integer> deck) {
         int result = 0;
         int i = 1;
         
