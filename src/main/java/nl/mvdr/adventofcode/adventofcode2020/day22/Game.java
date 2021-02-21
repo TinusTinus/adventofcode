@@ -13,32 +13,15 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Representation of a game of crab combat.
- * 
- * Note that this class is <em>mutable</em>.
  *
+ * @param player1Deck Player 1's (our) hand
+ * @param player2Deck Player 2's (the small crab's) hand
+ * 
  * @author Martijn van de Rijdt
  */
-class Game {
+record Game(List<Integer> player1Deck, List<Integer> player2Deck) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Game.class);
-    
-    /** Player 1's (our) hand. */
-    private final List<Integer> player1Deck;
-    
-    /** Player 2's (the small crab's) hand. */
-    private final List<Integer> player2Deck;
-
-    /**
-     * Constructor.
-     * 
-     * @param player1Deck player 1's initial hand
-     * @param player2Deck player 2's initial hand
-     */
-    private Game(List<Integer> player1Deck, List<Integer> player2Deck) {
-        super();
-        this.player1Deck = player1Deck;
-        this.player2Deck = player2Deck;
-    }
     
     /**
      * Parses the puzzle input.
@@ -55,12 +38,12 @@ class Game {
         List<Integer> player1Hand = IntStream.range(1, player2Index)
                 .mapToObj(lines::get)
                 .map(Integer::valueOf)
-                .collect(Collectors.toList()); // TODO refactor: Collectors.toList() is not guaranteed to return a mutable list type
+                .collect(Collectors.toList());
         
         List<Integer> player2Hand = IntStream.range(player2Index + 1, lines.size())
                 .mapToObj(lines::get)
                 .map(Integer::valueOf)
-                .collect(Collectors.toList()); // TODO refactor: Collectors.toList() is not guaranteed to return a mutable list type
+                .collect(Collectors.toList());
         
         return new Game(player1Hand, player2Hand);
     }
@@ -71,23 +54,24 @@ class Game {
      * @return the winning player's score
      */
     int play() {
+        Game game = this;
         int round = 1;
-        while (!player1Deck.isEmpty() && !player2Deck.isEmpty()) {
-            playRound(round);
+        while (!game.player1Deck.isEmpty() && !game.player2Deck.isEmpty()) {
+            game = game.playRound(round);
             round++;
         }
         
         LOGGER.debug("");
         LOGGER.debug("== Post-game results ==");
-        logDecks();
+        game.logDecks();
         
         int result;
-        if (player1Deck.isEmpty()) {
+        if (game.player1Deck.isEmpty()) {
             LOGGER.debug("Player 2 wins!");
-            result = player2Score();
+            result = game.player2Score();
         } else {
             LOGGER.debug("Player 1 wins!");
-            result = player1Score();
+            result = game.player1Score();
         }
         return result;
     }
@@ -99,28 +83,33 @@ class Game {
      * both players must still have at least one card in their deck.
      * 
      * @param round round number (for logging purposes)
+     * @return updated game state after playing a single round
      */
-    private void playRound(int round) {
+    private Game playRound(int round) {
         LOGGER.debug("-- Round {} --", Integer.valueOf(round));
         logDecks();
         
-        Integer player1Card = player1Deck.remove(0);
+        Integer player1Card = player1Deck.get(0);
+        List<Integer> newPlayer1Deck = new ArrayList<>(player1Deck.subList(1, player1Deck.size()));
         LOGGER.debug("Player 1 plays: {}", player1Card);
         
-        Integer player2Card = player2Deck.remove(0);
+        Integer player2Card = player2Deck.get(0);
+        List<Integer> newPlayer2Deck = new ArrayList<>(player2Deck.subList(1, player2Deck.size()));
         LOGGER.debug("Player 2 plays: {}", player2Card);
         
         if (player2Card.intValue() < player1Card.intValue()) {
             LOGGER.debug("Player 1 wins the round!");
-            player1Deck.add(player1Card);
-            player1Deck.add(player2Card);
+            newPlayer1Deck.add(player1Card);
+            newPlayer1Deck.add(player2Card);
         } else {
             LOGGER.debug("Player 2 wins the round!");
-            player2Deck.add(player2Card);
-            player2Deck.add(player1Card);
+            newPlayer2Deck.add(player2Card);
+            newPlayer2Deck.add(player1Card);
         }
         
         LOGGER.debug("");
+        
+        return new Game(newPlayer1Deck, newPlayer2Deck);
     }
     
     /** Writes the game's current state to the {@link #LOGGER}. */
