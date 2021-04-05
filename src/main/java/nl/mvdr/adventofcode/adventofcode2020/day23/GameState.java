@@ -73,7 +73,7 @@ record GameState(List<Integer> cups) {
     GameState perform(int moves) {
         GameState result = this;
         for (int move = 0; move != moves; move++) {
-            LOGGER.debug("-- move {} --", move + 1);
+            LOGGER.debug("-- move {} --", Integer.valueOf(move + 1));
             result = result.move();
         }
         return result;
