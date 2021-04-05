@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2020.day23;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -20,21 +21,51 @@ record GameState(List<Integer> cups) {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameState.class);
     
     /**
-     * Parses a game state from the puzzle input.
+     * Parses a game state from the puzzle input,
+     * containing only the cups specified in the input.
      * 
      * @param lines lines from the puzzle input
      * @return game state represented by the input
      */
     static GameState parse(Stream<String> lines) {
-        List<Integer> cups = lines.findFirst()
+        List<Integer> cups = parseCups(lines);
+        
+        return new GameState(cups);
+    }
+
+    /**
+     * Parses a game state from the puzzle input,
+     * using the correct translation from Crab of the game rules.
+     * 
+     * (Part 2 of the puzzle.)
+     * 
+     * @param lines lines from the puzzle input
+     * @return game state represented by the input
+     */
+    static GameState parseCorrectTranslation(Stream<String> lines) {
+        List<Integer> cups = new ArrayList<>(1_000_000);
+        cups.addAll(parseCups(lines));
+        IntStream.range(cups.size(), 1_000_000)
+            .boxed()
+            .forEach(cups::add);
+        return new GameState(cups);
+    }
+    
+    /**
+     * Parses the cups from the puzzle input.
+     * 
+     * @param lines puzzle input
+     * @return cups specified by the puzzle input
+     */
+    private static List<Integer> parseCups(Stream<String> lines) {
+        return lines.findFirst()
                 .orElseThrow()
                 .chars()
                 .map(c -> Integer.parseInt("" + (char)c))
                 .boxed()
                 .collect(Collectors.toList());
-        
-        return new GameState(cups);
     }
+
     
     @Override
     public String toString() {
@@ -44,8 +75,12 @@ record GameState(List<Integer> cups) {
         builder.append(") ");
         builder.append(cups.stream()
                 .skip(1)
+                .limit(8)
                 .map(i -> i.toString())
                 .collect(Collectors.joining("  ")));
+        if (9 < cups.size()) {
+            builder.append(" ...");
+        }
         return builder.toString();
     }
     
@@ -79,7 +114,6 @@ record GameState(List<Integer> cups) {
         return result;
     }
     
-    
     /**
      * Performs a single move.
      * 
@@ -109,5 +143,17 @@ record GameState(List<Integer> cups) {
         newCups.addAll(indexOfDestination + 1, pickup);
         newCups.add(cups.get(0));
         return new GameState(newCups);
+    }
+    
+    /**
+     * @return product of the labels of the cups containing the two stars
+     */
+    long productOfCupsContainingStars() {
+        GameState endState = perform(10_000_000);
+        int indexOf1 = endState.cups.indexOf(Integer.valueOf(1));
+        
+        long nextValue = endState.cups.get((indexOf1 + 1) % cups.size()).longValue();
+        long nextNextValue = endState.cups.get((indexOf1 + 2) % cups.size()).longValue();
+        return nextValue * nextNextValue;
     }
 }
