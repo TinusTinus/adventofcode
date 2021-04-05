@@ -41,9 +41,9 @@ public class CrabCupsPart1 implements LinesSolver<String> {
      */
     @Override
     public String solve(Stream<String> lines) {
-        return GameState.parse(lines)
-                .perform(turns)
-                .getOrder();
+        GameState state = GameState.parse(lines);
+        state.perform(turns);
+        return state.getOrder();
     }
 
     /**

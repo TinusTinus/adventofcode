@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day23;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * State of the game.
+ * 
+ * Note: this class is <em>not</em> immutable: the {@link #perform(int)} method modifies the state of the {@link #cups}.
+ * Do not rely on {@link #equals(Object)} and {@link #hashCode()}.
  *
  * @author Martijn van de Rijdt
  * 
@@ -28,7 +31,7 @@ record GameState(List<Integer> cups) {
      * @return game state represented by the input
      */
     static GameState parse(Stream<String> lines) {
-        List<Integer> cups = parseCups(lines);
+        List<Integer> cups = new LinkedList<>(parseCups(lines));
         
         return new GameState(cups);
     }
@@ -43,7 +46,7 @@ record GameState(List<Integer> cups) {
      * @return game state represented by the input
      */
     static GameState parseCorrectTranslation(Stream<String> lines) {
-        List<Integer> cups = new ArrayList<>(1_000_000);
+        List<Integer> cups = new LinkedList<>();
         cups.addAll(parseCups(lines));
         IntStream.range(cups.size(), 1_000_000)
             .boxed()
@@ -90,7 +93,7 @@ record GameState(List<Integer> cups) {
      */
     String getOrder() {
         int indexOf1 = cups.indexOf(Integer.valueOf(1));
-        List<Integer> orderedCups = new ArrayList<>();
+        List<Integer> orderedCups = new LinkedList<>();
         orderedCups.addAll(cups.subList(indexOf1 + 1, cups.size()));
         orderedCups.addAll(cups.subList(0, indexOf1));
         
@@ -103,57 +106,52 @@ record GameState(List<Integer> cups) {
      * Performs the given number of moves.
      * 
      * @param moves number of moves to perform
-     * @return game state after performing the given number of moves
      */
-    GameState perform(int moves) {
-        GameState result = this;
+    void perform(int moves) {
         for (int move = 0; move != moves; move++) {
-            LOGGER.debug("-- move {} --", Integer.valueOf(move + 1));
-            result = result.move();
+            if (move % 10_00 == 9_999) {
+                LOGGER.info("-- move {} --", Integer.valueOf(move + 1));
+            } else {
+                LOGGER.debug("-- move {} --", Integer.valueOf(move + 1));
+            }
+            move();
         }
-        return result;
     }
     
-    /**
-     * Performs a single move.
-     * 
-     * @return game state after performing a move
-     */
-    private GameState move() {
+    /** Performs a single move. */
+    private void move() {
         LOGGER.debug("cups: {}", this);
         
-        List<Integer> pickup = cups.subList(1, 4);
+        int current = cups.remove(0).intValue();
+        
+        List<Integer> pickup = new LinkedList<>(cups.subList(0, 3));
+        IntStream.range(0, 3).forEach(i -> cups.remove(0));
         LOGGER.debug("pickup: {}", pickup);
         
-        int destination = cups.get(0).intValue() - 1;
+        int destination = current - 1;
         if (destination == 0) {
-            destination = cups.size();
+            destination = cups.size() + pickup.size() + 1;
         }
         while (pickup.contains(Integer.valueOf(destination))) {
             destination--;
             if (destination == 0) {
-                destination = cups.size();
+                destination = cups.size() + pickup.size() + 1;
             }
         }
         LOGGER.debug("destination: " + destination);
 
-        List<Integer> newCups = new ArrayList<>(cups.size());
-        newCups.addAll(cups.subList(4, cups.size()));
-        int indexOfDestination = newCups.indexOf(Integer.valueOf(destination));
-        newCups.addAll(indexOfDestination + 1, pickup);
-        newCups.add(cups.get(0));
-        return new GameState(newCups);
+        int indexOfDestination = cups.indexOf(Integer.valueOf(destination)); // TODO this indexof is expensive, use some administration to prevent this lookup
+        cups.addAll(indexOfDestination + 1, pickup);
+        cups.add(Integer.valueOf(current));
     }
     
     /**
-     * @return product of the labels of the cups containing the two stars
+     * @return product of the labels of the two cups after the one labeled "1"
      */
     long productOfCupsContainingStars() {
-        GameState endState = perform(10_000_000);
-        int indexOf1 = endState.cups.indexOf(Integer.valueOf(1));
-        
-        long nextValue = endState.cups.get((indexOf1 + 1) % cups.size()).longValue();
-        long nextNextValue = endState.cups.get((indexOf1 + 2) % cups.size()).longValue();
+        int indexOf1 = cups.indexOf(Integer.valueOf(1));
+        long nextValue = cups.get((indexOf1 + 1) % cups.size()).longValue();
+        long nextNextValue = cups.get((indexOf1 + 2) % cups.size()).longValue();
         return nextValue * nextNextValue;
     }
 }

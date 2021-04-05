@@ -24,8 +24,9 @@ public class CrabCupsPart2 implements LongSolver {
      */
     @Override
     public long solve(Stream<String> lines) {
-        return GameState.parseCorrectTranslation(lines)
-                .productOfCupsContainingStars();
+        GameState state = GameState.parseCorrectTranslation(lines);
+        state.perform(10_000_000);
+        return state.productOfCupsContainingStars();
     }
 
     /**
