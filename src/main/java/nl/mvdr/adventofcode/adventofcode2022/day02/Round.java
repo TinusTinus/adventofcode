@@ -16,7 +16,7 @@ record Round(Shape opponentShape, Shape ownShape) {
      * @param input line from the puzzle input
      * @return round
      */
-    static Round parsePart1(String input) {
+    static Round parseShapes(String input) {
         Shape opponentShape = Shape.parse(input.charAt(0));
         Shape ownShape = Shape.parseResponse(input.charAt(2));
         return new Round(opponentShape, ownShape);
@@ -31,7 +31,7 @@ record Round(Shape opponentShape, Shape ownShape) {
      * @param input line from the puzzle input
      * @return round
      */
-    static Round parsePart2(String input) {
+    static Round parseShapeAndOutcome(String input) {
         Shape opponentShape = Shape.parse(input.charAt(0));
         Outcome outcome = Outcome.parse(input.charAt(2));
         Shape ownShape = switch(outcome) {

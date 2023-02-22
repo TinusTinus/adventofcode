@@ -23,7 +23,7 @@ class RockPaperScissors implements IntSolver {
     /**
      * Constructor.
      * 
-     * @param roundParser how to parse a round: {@link Round#parsePart1(String)} or {@link Round#parsePart2(String)}
+     * @param roundParser how to parse a round
      */
     RockPaperScissors(Function<String, Round> roundParser) {
         super();

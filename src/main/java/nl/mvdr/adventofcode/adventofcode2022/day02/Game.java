@@ -16,7 +16,7 @@ record Game(List<Round> rounds) {
      * Parses the puzzle input.
      * 
      * @param lines puzzle input
-     * @param roundParser how to parse a round: {@link Round#parsePart1(String)} or {@link Round#parsePart2(String)}
+     * @param roundParser how to parse a round
      * @return game
      */
     static Game parse(Stream<String> lines, Function<String, Round> roundParser) {
