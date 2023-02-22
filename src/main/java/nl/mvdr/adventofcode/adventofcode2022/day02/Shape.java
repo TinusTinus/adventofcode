@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day02;
 
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -34,11 +35,8 @@ enum Shape {
      * @param input value of the first column of the puzzle input
      * @return shape played by the opponent
      */
-    static Shape parseOpponentRepresentation(char input) {
-        return Stream.of(values())
-                .filter(shape -> shape.opponentRepresentation == input)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid opponent shape representation: " + input));
+    static Shape parse(char input) {
+        return find(shape -> shape.representation == input);
     }
     
     /**
@@ -47,27 +45,37 @@ enum Shape {
      * @param input value of the second column of the puzzle input
      * @return shape to be played, according to part 1 of the puzzle
      */
-    static Shape parseResponseRepresentation(char input) {
+    static Shape parseResponse(char input) {
+        return find(shape -> shape.responseRepresentation == input);
+    }
+    
+    /**
+     * Finds the shape that matches the given predicate.
+     * 
+     * @param predicate the predicate to search for; should match exactly one shape
+     * @return shape
+     */
+    static Shape find(Predicate<Shape> predicate) {
         return Stream.of(values())
-                .filter(shape -> shape.responseRepresentation == input)
+                .filter(predicate)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid response shape representation: " + input));
+                .orElseThrow();
     }
     
     private final int score;
-    private final char opponentRepresentation;
+    private final char representation;
     private final char responseRepresentation;
     
     /**
      * Constructor.
      * 
      * @param score the score for this shape (yes, seriously)
-     * @param opponentRepresentation textual representation of this shape in the first column of the puzzle input
-     * @param opponentRepresentation textual representation of this shape in the second column of the puzzle input, according to part 1
+     * @param representation textual representation of this shape
+     * @param representation textual representation of this shape in the second column of the puzzle input, according to part 1
      */
-    Shape(int score, char opponentRepresentation, char responseRepresentation) {
+    Shape(int score, char representation, char responseRepresentation) {
         this.score = score;
-        this.opponentRepresentation = opponentRepresentation;
+        this.representation = representation;
         this.responseRepresentation = responseRepresentation;
     }
     

@@ -29,6 +29,27 @@ enum Outcome {
     }
     
     /**
+     * Determines the outcome for the given two shapes.
+     * 
+     * @param ownShape our own shape
+     * @param opponentShape our opponent's shape
+     * @return outcome of the round
+     */
+    static Outcome of(Shape ownShape, Shape opponentShape) {
+        Outcome outcome;
+        if (opponentShape.beats(ownShape)) {
+            outcome = Outcome.LOSS;
+        } else if (ownShape == opponentShape) {
+            outcome = Outcome.DRAW;
+        } else if (ownShape.beats(opponentShape)) {
+            outcome = Outcome.WIN;
+        } else {
+            throw new IllegalStateException("Unable to determine score for " + ownShape + " vs " + opponentShape);
+        }
+        return outcome;
+    }
+    
+    /**
      * Constructor.
      * 
      * @param score score for this outcome
