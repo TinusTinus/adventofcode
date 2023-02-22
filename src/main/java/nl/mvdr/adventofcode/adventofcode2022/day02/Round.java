@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day02;
 
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +22,34 @@ record Round(Shape opponentShape, Shape ownShape) {
      * @param input line from the puzzle input
      * @return round
      */
-    static Round parse(String input) {
+    static Round parsePart1(String input) {
         Shape opponentShape = Shape.parseOpponentRepresentation(input.charAt(0));
         Shape ownShape = Shape.parseResponseRepresentation(input.charAt(2));
+        return new Round(opponentShape, ownShape);
+    }
+    
+    /**
+     * Parses a line of the puzzle input.
+     * 
+     * This is done according to the rules from part 2 of the puzzle.
+     * 
+     * @param input line from the puzzle input
+     * @return round
+     */
+    static Round parsePart2(String input) {
+        Shape opponentShape = Shape.parseOpponentRepresentation(input.charAt(0));
+        Outcome outcome = Outcome.parse(input.charAt(2));
+        Shape ownShape = switch(outcome) {
+            case DRAW -> opponentShape;
+            case WIN -> Stream.of(Shape.values())
+                    .filter(shape -> shape.beats(opponentShape))
+                    .findFirst()
+                    .orElseThrow();
+            case LOSS -> Stream.of(Shape.values())
+                    .filter(shape -> opponentShape.beats(shape))
+                    .findFirst()
+                    .orElseThrow();
+        };
         return new Round(opponentShape, ownShape);
     }
     

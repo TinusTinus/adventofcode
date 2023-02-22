@@ -13,9 +13,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RockPaperScissorsPart1 implements IntSolver {
+public class RockPaperScissorsPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RockPaperScissorsPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RockPaperScissorsPart2.class);
 
     /**
      * {@inheritDoc}
@@ -24,7 +24,7 @@ public class RockPaperScissorsPart1 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        Game game = Game.parse(lines, Round::parsePart1);
+        Game game = Game.parse(lines, Round::parsePart2);
         LOGGER.debug("Game: {}", game);
         return game.score();
     }
@@ -35,7 +35,7 @@ public class RockPaperScissorsPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        RockPaperScissorsPart1 instance = new RockPaperScissorsPart1();
+        RockPaperScissorsPart2 instance = new RockPaperScissorsPart2();
 
         String result = instance.solve("input-day02-2022.txt");
 
