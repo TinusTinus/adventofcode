@@ -20,13 +20,11 @@ public class RockPaperScissorsPart2 implements IntSolver {
     /**
      * {@inheritDoc}
      * 
-     * @return the winning player's score
+     * @return score
      */
     @Override
     public int solve(Stream<String> lines) {
-        Game game = Game.parse(lines, Round::parsePart2);
-        LOGGER.debug("Game: {}", game);
-        return game.score();
+        return new RockPaperScissors(Round::parsePart2).solve(lines);
     }
 
     /**

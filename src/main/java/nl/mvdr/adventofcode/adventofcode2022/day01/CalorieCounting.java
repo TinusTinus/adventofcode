@@ -17,7 +17,7 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-abstract class CalorieCounting implements IntSolver {
+class CalorieCounting implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CalorieCounting.class);
     
