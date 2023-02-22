@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day23;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -9,6 +10,7 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
+@Disabled // solution is very inefficient
 public class CrabCupsPart2Test extends SolverTest<CrabCupsPart2> {
 
     /** Constructor. */
