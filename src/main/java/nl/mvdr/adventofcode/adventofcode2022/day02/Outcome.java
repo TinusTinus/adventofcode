@@ -72,10 +72,6 @@ enum Outcome implements SecondColumnValue {
      */
     @Override
     public Shape determineOwnShape(Shape opponentShape) {
-        return switch(this) {
-            case DRAW -> opponentShape;
-            case WIN -> Shape.find(shape -> shape.beats(opponentShape));
-            case LOSS -> Shape.find(shape -> opponentShape.beats(shape));
-        };
+        return Shape.find(shape -> Outcome.of(shape, opponentShape) == this);
     }
 }
