@@ -525,7 +525,7 @@ public class Program {
         int resultAddress = switch(mode) {
             case POSITION -> address;
             case RELATIVE -> address + relativeBase;
-            default -> throw new IllegalArgumentException("Unsupported parameter mode: " + mode);
+            case IMMEDIATE -> throw new IllegalArgumentException("Unsupported parameter mode: " + mode);
         };
         
         List<Long> result = new ArrayList<>(memory);
