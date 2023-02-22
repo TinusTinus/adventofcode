@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2022.day01;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,12 +13,11 @@ public class CalorieCountingPart1 extends CalorieCounting {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CalorieCountingPart1.class);
 
-    @Override
-    protected int solve(List<Integer> elves) {
-        return elves.stream()
-                .mapToInt(Integer::intValue)
-                .max()
-                .orElseThrow();
+    /**
+     * Constructor.
+     */
+    public CalorieCountingPart1() {
+        super(1);
     }
 
     /**

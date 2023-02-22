@@ -1,8 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2022.day01;
 
-import java.util.Comparator;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,16 +11,13 @@ import org.slf4j.LoggerFactory;
  */
 public class CalorieCountingPart2 extends CalorieCounting {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CalorieCountingPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CalorieCountingPart2.class);
 
-    @Override
-    protected int solve(List<Integer> elves) {
-        return elves.stream()
-                .sorted(Comparator.reverseOrder())
-                .mapToInt(Integer::intValue)
-                .peek(calories -> LOGGER.debug("Calories: " + calories))
-                .limit(3)
-                .sum();
+    /**
+     * Constructor.
+     */
+    public CalorieCountingPart2() {
+        super(3);
     }
 
     /**

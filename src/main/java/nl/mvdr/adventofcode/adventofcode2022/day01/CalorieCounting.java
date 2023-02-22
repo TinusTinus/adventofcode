@@ -1,9 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2022.day01;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
 
@@ -15,15 +19,17 @@ import nl.mvdr.adventofcode.IntSolver;
  */
 abstract class CalorieCounting implements IntSolver {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CalorieCounting.class);
+    
+    private final int numberOfElves;
+    
     /**
-     * {@inheritDoc}
+     * Parses the input.
      * 
-     * @return number of calories 
+     * @param lines lines from the input
+     * @return elves, represented by the number of calories each elf carries
      */
-    @Override
-    public int solve(Stream<String> linesStream) {
-        List<String> lines = linesStream.collect(Collectors.toList());
-
+    private static List<Integer> parseElves(List<String> lines) {
         List<Integer> elves = new ArrayList<>();
         
         int calories = 0;
@@ -38,6 +44,28 @@ abstract class CalorieCounting implements IntSolver {
         // add the final elf
         elves.add(Integer.valueOf(calories));
         
+        return elves;
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param numberOfElves the number of elves for whom to count the calories
+     */
+    public CalorieCounting(int numberOfElves) {
+        super();
+        this.numberOfElves = numberOfElves;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return number of calories 
+     */
+    @Override
+    public int solve(Stream<String> linesStream) {
+        List<String> lines = linesStream.collect(Collectors.toList());
+        List<Integer> elves = parseElves(lines);
         return solve(elves);
     }
 
@@ -47,6 +75,13 @@ abstract class CalorieCounting implements IntSolver {
      * @param elves elves, represented by the number of calories each elf carries
      * @return number of calories
      */
-    protected abstract int solve(List<Integer> elves);
+    private int solve(List<Integer> elves) {
+        return elves.stream()
+                .sorted(Comparator.reverseOrder())
+                .mapToInt(Integer::intValue)
+                .peek(calories -> LOGGER.debug("Calories: {}", Integer.valueOf(calories)))
+                .limit(numberOfElves)
+                .sum();
+    }
 }
  
