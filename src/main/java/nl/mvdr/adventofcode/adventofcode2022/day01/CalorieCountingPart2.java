@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day01;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,16 +12,18 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-public class CalorieCountingPart1 extends CalorieCounting {
+public class CalorieCountingPart2 extends CalorieCounting {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CalorieCountingPart1.class);
 
     @Override
     protected int solve(List<Integer> elves) {
         return elves.stream()
+                .sorted(Comparator.reverseOrder())
                 .mapToInt(Integer::intValue)
-                .max()
-                .orElseThrow();
+                .peek(calories -> LOGGER.debug("Calories: " + calories))
+                .limit(3)
+                .sum();
     }
 
     /**
@@ -29,7 +32,7 @@ public class CalorieCountingPart1 extends CalorieCounting {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        CalorieCountingPart1 instance = new CalorieCountingPart1();
+        CalorieCountingPart2 instance = new CalorieCountingPart2();
 
         String result = instance.solve("input-day01-2022.txt");
 
