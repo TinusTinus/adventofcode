@@ -8,21 +8,21 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-enum Shape {
+enum Shape implements SecondColumnValue {
     
-    ROCK(1, 'A', 'X') {
+    ROCK(1, "A", "X") {
         @Override
         boolean beats(Shape shape) {
             return shape == SCISSORS;
         }
     },
-    PAPER(2, 'B', 'Y') {
+    PAPER(2, "B", "Y") {
       @Override
         boolean beats(Shape shape) {
             return shape == ROCK;
         }  
     },
-    SCISSORS(3, 'C', 'Z') {
+    SCISSORS(3, "C", "Z") {
         @Override
         boolean beats(Shape shape) {
             return shape == PAPER;
@@ -35,8 +35,8 @@ enum Shape {
      * @param input value of the first column of the puzzle input
      * @return shape played by the opponent
      */
-    static Shape parse(char input) {
-        return find(shape -> shape.representation == input);
+    static Shape parse(String input) {
+        return find(shape -> shape.representation.equals(input));
     }
     
     /**
@@ -45,8 +45,8 @@ enum Shape {
      * @param input value of the second column of the puzzle input
      * @return shape to be played, according to part 1 of the puzzle
      */
-    static Shape parseResponse(char input) {
-        return find(shape -> shape.responseRepresentation == input);
+    static Shape parseResponse(String input) {
+        return find(shape -> shape.responseRepresentation.equals(input));
     }
     
     /**
@@ -63,8 +63,8 @@ enum Shape {
     }
     
     private final int score;
-    private final char representation;
-    private final char responseRepresentation;
+    private final String representation;
+    private final String responseRepresentation;
     
     /**
      * Constructor.
@@ -73,7 +73,7 @@ enum Shape {
      * @param representation textual representation of this shape
      * @param representation textual representation of this shape in the second column of the puzzle input, according to part 1
      */
-    Shape(int score, char representation, char responseRepresentation) {
+    Shape(int score, String representation, String responseRepresentation) {
         this.score = score;
         this.representation = representation;
         this.responseRepresentation = responseRepresentation;
@@ -93,4 +93,9 @@ enum Shape {
      * @return whether this shape beats the given shape
      */
     abstract boolean beats(Shape shape);
+    
+    @Override
+    public Shape determineOwnShape(Shape opponentShape) {
+        return this;
+    }
 }

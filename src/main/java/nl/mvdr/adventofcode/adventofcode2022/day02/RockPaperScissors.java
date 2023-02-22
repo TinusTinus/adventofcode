@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day02;
 
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -18,16 +19,16 @@ class RockPaperScissors implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RockPaperScissors.class);
 
-    private final Function<String, Round> roundParser;
+    private final Function<String, SecondColumnValue> secondColumnParser;
     
     /**
      * Constructor.
      * 
-     * @param roundParser how to parse a round
+     * @param secondColumnParser parser for the second column of the puzzle input
      */
-    RockPaperScissors(Function<String, Round> roundParser) {
+    RockPaperScissors(Function<String, SecondColumnValue> secondColumnParser) {
         super();
-        this.roundParser = roundParser;
+        this.secondColumnParser = secondColumnParser;
     }
     
     /**
@@ -37,7 +38,7 @@ class RockPaperScissors implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        Game game = Game.parse(lines, roundParser);
+        Game game = Game.parse(lines, secondColumnParser);
         LOGGER.debug("Game: {}", game);
         return game.score();
     }

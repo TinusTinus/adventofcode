@@ -16,11 +16,12 @@ record Game(List<Round> rounds) {
      * Parses the puzzle input.
      * 
      * @param lines puzzle input
-     * @param roundParser how to parse a round
+     * @param secondColumnParser parser for the second column of the puzzle input
      * @return game
      */
-    static Game parse(Stream<String> lines, Function<String, Round> roundParser) {
-        List<Round> rounds = lines.map(roundParser).collect(Collectors.toList());
+    static Game parse(Stream<String> lines, Function<String, SecondColumnValue> secondColumnParser) {
+        List<Round> rounds = lines.map(line -> Round.parse(line, secondColumnParser))
+                .collect(Collectors.toList());
         return new Game(rounds);
     }
     

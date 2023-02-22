@@ -24,7 +24,7 @@ public class RockPaperScissorsPart2 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        return new RockPaperScissors(Round::parseShapeAndOutcome).solve(lines);
+        return new RockPaperScissors(Outcome::parse).solve(lines);
     }
 
     /**

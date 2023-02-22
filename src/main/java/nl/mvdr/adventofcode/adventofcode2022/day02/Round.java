@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day02;
 
+import java.util.function.Function;
+
 /**
  * A round of Rock Paper Scissors.
  *
@@ -10,35 +12,21 @@ record Round(Shape opponentShape, Shape ownShape) {
     /**
      * Parses a line of the puzzle input.
      * 
-     * This is done according to the rules from part 1 of the puzzle:
-     * the second column represents the shape to play.
-     * 
      * @param input line from the puzzle input
+     * @param secondColumnParser parser for the second column of the puzzle input
      * @return round
      */
-    static Round parseShapes(String input) {
-        Shape opponentShape = Shape.parse(input.charAt(0));
-        Shape ownShape = Shape.parseResponse(input.charAt(2));
-        return new Round(opponentShape, ownShape);
-    }
-    
-    /**
-     * Parses a line of the puzzle input.
-     * 
-     * This is done according to the rules from part 2 of the puzzle:
-     * the second column represents the desired outcome.
-     * 
-     * @param input line from the puzzle input
-     * @return round
-     */
-    static Round parseShapeAndOutcome(String input) {
-        Shape opponentShape = Shape.parse(input.charAt(0));
-        Outcome outcome = Outcome.parse(input.charAt(2));
-        Shape ownShape = switch(outcome) {
-            case DRAW -> opponentShape;
-            case WIN -> Shape.find(shape -> shape.beats(opponentShape));
-            case LOSS -> Shape.find(shape -> opponentShape.beats(shape));
-        };
+    static Round parse(String input, Function<String, SecondColumnValue> secondColumnParser) {
+        String[] inputValues = input.split(" ");
+        if (inputValues.length != 2) {
+            throw new IllegalArgumentException("Unable to parse input: " + input);
+        }
+        
+        Shape opponentShape = Shape.parse(inputValues[0]);
+        
+        SecondColumnValue secondColumnValue = secondColumnParser.apply(inputValues[1]);
+        Shape ownShape = secondColumnValue.determineOwnShape(opponentShape);
+        
         return new Round(opponentShape, ownShape);
     }
     

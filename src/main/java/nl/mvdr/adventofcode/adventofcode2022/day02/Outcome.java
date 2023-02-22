@@ -7,13 +7,13 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-enum Outcome {
-    WIN(6, 'Z'),
-    DRAW(3, 'Y'),
-    LOSS(0, 'X');
+enum Outcome implements SecondColumnValue {
+    WIN(6, "Z"),
+    DRAW(3, "Y"),
+    LOSS(0, "X");
 
     private final int score;
-    private final char representation;
+    private final String representation;
 
     /**
      * Parses puzzle input.
@@ -21,9 +21,9 @@ enum Outcome {
      * @param input value of the second column of the puzzle input
      * @return desired outcome
      */
-    static Outcome parse(char input) {
+    static Outcome parse(String input) {
         return Stream.of(values())
-                .filter(shape -> shape.representation == input)
+                .filter(shape -> shape.representation.equals(input))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid outcome representation: " + input));
     }
@@ -53,9 +53,9 @@ enum Outcome {
      * Constructor.
      * 
      * @param score score for this outcome
-     * @param representation the character representation of this outcome in the puzzle input
+     * @param representation the representation of this outcome in the puzzle input
      */
-    Outcome(int score, char representation) {
+    Outcome(int score, String representation) {
         this.score = score;
         this.representation = representation;
     }
@@ -65,5 +65,17 @@ enum Outcome {
      */
     int getScore() {
         return score;
+    }
+    
+    /**
+     * @return the shape to play, in order to get this desired outcome
+     */
+    @Override
+    public Shape determineOwnShape(Shape opponentShape) {
+        return switch(this) {
+            case DRAW -> opponentShape;
+            case WIN -> Shape.find(shape -> shape.beats(opponentShape));
+            case LOSS -> Shape.find(shape -> opponentShape.beats(shape));
+        };
     }
 }
