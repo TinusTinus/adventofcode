@@ -17,11 +17,6 @@ public class RucksackReorganizationPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RucksackReorganizationPart1.class);
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @return score
-     */
     @Override
     public int solve(Stream<String> lines) {
         return lines.map(Rucksack::parse)

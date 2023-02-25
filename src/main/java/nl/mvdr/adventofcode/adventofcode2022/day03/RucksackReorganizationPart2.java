@@ -21,11 +21,6 @@ public class RucksackReorganizationPart2 implements IntSolver {
 
     private static final int GROUP_SIZE = 3;
     
-    /**
-     * {@inheritDoc}
-     * 
-     * @return score
-     */
     @Override
     public int solve(Stream<String> lines) {
         var rucksacks = lines.map(Rucksack::parse)

@@ -16,11 +16,6 @@ public class CampCleanupPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CampCleanupPart2.class);
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @return score
-     */
     @Override
     public long solve(Stream<String> lines) {
         return lines.map(Pair::parse)
