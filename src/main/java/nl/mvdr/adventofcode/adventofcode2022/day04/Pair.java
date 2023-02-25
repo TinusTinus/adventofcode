@@ -29,4 +29,11 @@ record Pair(Assignment first, Assignment second) {
     boolean fullyContains() {
         return first.fullyContains(second) || second.fullyContains(first);
     }
+    
+    /**
+     * @return whether the assignments overlap
+     */
+    boolean overlaps() {
+        return first.overlaps(second);
+    }
 }
