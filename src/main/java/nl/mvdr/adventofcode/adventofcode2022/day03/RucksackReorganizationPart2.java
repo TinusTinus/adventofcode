@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2022.day03;
 
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +30,9 @@ public class RucksackReorganizationPart2 implements IntSolver {
             throw new IllegalArgumentException("Unexpected number of rucksacks: " + rucksacks.size());
         }
         
-        return IntStream.range(0, rucksacks.size() / GROUP_SIZE)
-                .map(i -> i * GROUP_SIZE)
-                .mapToObj(i -> rucksacks.subList(i, i + GROUP_SIZE))
+        var groups = ListUtils.partition(rucksacks, GROUP_SIZE);
+        
+        return groups.stream()
                 .map(Rucksack::commonItem)
                 .mapToInt(Item::priority)
                 .sum();
