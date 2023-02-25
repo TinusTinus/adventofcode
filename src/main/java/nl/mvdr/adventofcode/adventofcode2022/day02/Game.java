@@ -20,7 +20,7 @@ record Game(List<Round> rounds) {
      * @return game
      */
     static Game parse(Stream<String> lines, Function<String, SecondColumnValue> secondColumnParser) {
-        List<Round> rounds = lines.map(line -> Round.parse(line, secondColumnParser))
+        var rounds = lines.map(line -> Round.parse(line, secondColumnParser))
                 .collect(Collectors.toList());
         return new Game(rounds);
     }

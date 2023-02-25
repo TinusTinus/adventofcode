@@ -17,15 +17,15 @@ record Round(Shape opponentShape, Shape ownShape) {
      * @return round
      */
     static Round parse(String input, Function<String, SecondColumnValue> secondColumnParser) {
-        String[] inputValues = input.split(" ");
+        var inputValues = input.split(" ");
         if (inputValues.length != 2) {
             throw new IllegalArgumentException("Unable to parse input: " + input);
         }
         
-        Shape opponentShape = Shape.parse(inputValues[0]);
+        var opponentShape = Shape.parse(inputValues[0]);
         
-        SecondColumnValue secondColumnValue = secondColumnParser.apply(inputValues[1]);
-        Shape ownShape = secondColumnValue.determineOwnShape(opponentShape);
+        var secondColumnValue = secondColumnParser.apply(inputValues[1]);
+        var ownShape = secondColumnValue.determineOwnShape(opponentShape);
         
         return new Round(opponentShape, ownShape);
     }
@@ -34,7 +34,7 @@ record Round(Shape opponentShape, Shape ownShape) {
      * @return score for this round
      */
     int score() {
-        Outcome outcome = Outcome.of(ownShape, opponentShape);
+        var outcome = Outcome.of(ownShape, opponentShape);
         return ownShape.getScore() + outcome.getScore();
     }
 }

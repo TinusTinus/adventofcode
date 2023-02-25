@@ -33,9 +33,9 @@ public class RockPaperScissorsPart2 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        RockPaperScissorsPart2 instance = new RockPaperScissorsPart2();
+        var instance = new RockPaperScissorsPart2();
 
-        String result = instance.solve("input-day02-2022.txt");
+        var result = instance.solve("input-day02-2022.txt");
 
         LOGGER.info(result);
     }

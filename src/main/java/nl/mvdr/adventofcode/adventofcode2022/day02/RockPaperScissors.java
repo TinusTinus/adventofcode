@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day02;
 
 import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ class RockPaperScissors implements IntSolver {
      */
     @Override
     public int solve(Stream<String> lines) {
-        Game game = Game.parse(lines, secondColumnParser);
+        var game = Game.parse(lines, secondColumnParser);
         LOGGER.debug("Game: {}", game);
         return game.score();
     }
