@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day03;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,16 +44,32 @@ record Rucksack(Set<Item> leftCompartment, Set<Item> rightCompartment) {
     }
     
     /**
+     * Determines the common item between the given rucksacks.
+     * 
+     * @param rucksacks the rucksacks of a group of elves
+     * @return the (unique) common item
+     */
+    static Item commonItem(List<Rucksack> rucksacks) {
+        Set<Set<Item>> itemSets = rucksacks.stream()
+                .map(Rucksack::allItems)
+                .collect(Collectors.toSet());
+        return Item.commonItem(itemSets);
+    }
+
+    
+    /**
      * @return the (unique) common item between both compartments
      */
     Item commonItem() {
+        return Item.commonItem(Set.of(leftCompartment, rightCompartment));
+    }
+    
+    /**
+     * @return all items in this rucksack
+     */
+    Set<Item> allItems() {
         Set<Item> resultSet = new HashSet<>(leftCompartment);
-        resultSet.retainAll(rightCompartment);
-        
-        if (resultSet.size() != 1) {
-            throw new IllegalStateException("Expected exactly one common item, but found: " + resultSet);
-        }
-        
-        return resultSet.iterator().next();
+        resultSet.addAll(rightCompartment);
+        return resultSet;
     }
 }
