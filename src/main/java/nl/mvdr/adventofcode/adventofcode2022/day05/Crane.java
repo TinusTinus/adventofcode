@@ -44,13 +44,13 @@ enum Crane {
     /**
      * Performs a step.
      * 
-     * @param step   step to be performed
+     * @param step the step to be performed
      * @param stacks the stacks of crates to be updated
      */
     void perform(Step step, List<Deque<Character>> stacks) {
         LOGGER.debug("Performing step: {}", step);
 
-        List<Character> crates = IntStream.range(0, step.numberOfCrates())
+        var crates = IntStream.range(0, step.numberOfCrates())
                 .mapToObj(i -> stacks.get(step.sourceStack() - 1).pop())
                 .collect(Collectors.toList());
         
