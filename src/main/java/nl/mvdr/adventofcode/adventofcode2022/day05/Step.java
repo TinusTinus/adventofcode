@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  *
  * @author Martijn van de Rijdt
  */
-record RearrangementProcedureStep(int numberOfCrates, int sourceStack, int targetStack) {
+record Step(int numberOfCrates, int sourceStack, int targetStack) {
     
     /**
      * Parses a single line from the puzzle input.
@@ -16,7 +16,7 @@ record RearrangementProcedureStep(int numberOfCrates, int sourceStack, int targe
      * @param line textual representation of a step; for example: "move 3 from 1 to 3"
      * @return step
      */
-    static RearrangementProcedureStep parse(String line) {
+    static Step parse(String line) {
         Pattern pattern = Pattern.compile("move (\\d+) from (\\d+) to (\\d+)");
         Matcher matcher = pattern.matcher(line);
         if (!matcher.matches() || matcher.groupCount() != 3) {
@@ -27,6 +27,6 @@ record RearrangementProcedureStep(int numberOfCrates, int sourceStack, int targe
         int sourceStack = Integer.parseInt(matcher.group(2));
         int targetStack = Integer.parseInt(matcher.group(3));
         
-        return new RearrangementProcedureStep(numberOfCrates, sourceStack, targetStack);
+        return new Step(numberOfCrates, sourceStack, targetStack);
     }
 }

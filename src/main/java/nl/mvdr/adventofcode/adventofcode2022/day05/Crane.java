@@ -16,14 +16,18 @@ import org.slf4j.LoggerFactory;
  * @author Martijn van de Rijdt
  */
 enum Crane {
-    /** Moves a single crate at a time. */
+    /**
+     * Moves a single crate at a time.
+     */
     CRATE_MOVER_9000 {
         @Override
         void addCrates(List<Character> crates, Deque<Character> targetStack) {
             crates.forEach(targetStack::push);
         }
     },
-    /** Moves all crates in a step at once. */
+    /**
+     * Moves all crates in a step at once.
+     */
     CRATE_MOVER_9001 {
         @Override
         void addCrates(List<Character> cratesTopToBottom, Deque<Character> targetStack) {
@@ -43,7 +47,7 @@ enum Crane {
      * @param step   step to be performed
      * @param stacks the stacks of crates to be updated
      */
-    void perform(RearrangementProcedureStep step, List<Deque<Character>> stacks) {
+    void perform(Step step, List<Deque<Character>> stacks) {
         LOGGER.debug("Performing step: {}", step);
 
         List<Character> crates = IntStream.range(0, step.numberOfCrates())
@@ -63,7 +67,7 @@ enum Crane {
     /**
      * Adds the given crates to the given stack.
      * 
-     * @param crates crates to add, in top-to-bottom order!
+     * @param crates the crates to add, in top-to-bottom order as they were stacked on their source stack!
      * @param targetStack target stack
      */
     abstract void addCrates(List<Character> crates, Deque<Character> targetStack);

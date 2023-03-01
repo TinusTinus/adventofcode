@@ -20,6 +20,11 @@ class SupplyStacks implements LinesSolver<String> {
 
     private final Crane crane;
     
+    /**
+     * Constructor.
+     * 
+     * @param crane the crane to perform the reorganization
+     */
     SupplyStacks(Crane crane) {
         super();
         this.crane = crane;
@@ -35,9 +40,10 @@ class SupplyStacks implements LinesSolver<String> {
         
         var stacks = Stacks.parse(lines.subList(0, emptyLineIndex));
         LOGGER.debug("Stacks: {}", stacks);
+        
         lines.subList(emptyLineIndex + 1, lines.size())
                 .stream()
-                .map(RearrangementProcedureStep::parse)
+                .map(Step::parse)
                 .forEach(step -> crane.perform(step, stacks));
         
         return stacks.stream()
