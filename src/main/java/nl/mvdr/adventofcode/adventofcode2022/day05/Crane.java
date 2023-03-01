@@ -61,7 +61,7 @@ enum Crane {
     /**
      * Adds the given crates to the given stack.
      * 
-     * @param crates crates to add
+     * @param crates crates to add, in top-to-bottom order!
      * @param targetStack target stack
      */
     abstract void addCrates(List<Character> crates, Deque<Character> targetStack);
