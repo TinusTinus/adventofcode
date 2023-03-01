@@ -24,12 +24,14 @@ enum Crane {
         }
     },
     /** Moves all crates in a step at once. */
-    CRATE_MOVER_9001{
+    CRATE_MOVER_9001 {
         @Override
-        void addCrates(List<Character> crates, Deque<Character> targetStack) {
-            List<Character> cratesReversed = new ArrayList<>(crates);
-            Collections.reverse(cratesReversed);
-            cratesReversed.forEach(targetStack::push);
+        void addCrates(List<Character> cratesTopToBottom, Deque<Character> targetStack) {
+            // Reverse the list of crates to restore the original order
+            List<Character> crates = new ArrayList<>(cratesTopToBottom);
+            Collections.reverse(crates);
+            
+            crates.forEach(targetStack::push);
         }
     };
 
