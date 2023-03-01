@@ -12,11 +12,11 @@ import nl.mvdr.adventofcode.LongSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class TuningTroublePart1 implements LongSolver {
+public class TuningTroublePart2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TuningTroublePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TuningTroublePart2.class);
 
-    private static final int SEQUENCE_LENGTH = 4;
+    private static final int SEQUENCE_LENGTH = 14;
     
     @Override
     public long solve(Stream<String> lines) {
@@ -30,7 +30,7 @@ public class TuningTroublePart1 implements LongSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new TuningTroublePart1();
+        var instance = new TuningTroublePart2();
 
         var result = instance.solve("input-day06-2022.txt");
 
