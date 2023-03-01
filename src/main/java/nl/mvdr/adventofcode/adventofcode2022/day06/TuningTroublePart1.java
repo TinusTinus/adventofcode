@@ -23,10 +23,10 @@ public class TuningTroublePart1 implements LongSolver {
     public long solve(Stream<String> lines) {
         String input = lines.findFirst().orElseThrow();
         
-        return IntStream.range(0, input.length() - SEQUENCE_LENGTH)
-                .filter(i -> charactersAllDistinct(input.substring(i, i + SEQUENCE_LENGTH)))
+        return IntStream.range(SEQUENCE_LENGTH, input.length())
+                .filter(i -> charactersAllDistinct(input.substring(i - SEQUENCE_LENGTH, i)))
                 .findFirst()
-                .orElseThrow() + SEQUENCE_LENGTH;
+                .orElseThrow();
     }
     
     /**
