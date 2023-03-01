@@ -12,13 +12,13 @@ import nl.mvdr.adventofcode.LinesSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SupplyStacksPart1 implements LinesSolver<String> {
+public class SupplyStacksPart2 implements LinesSolver<String> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SupplyStacksPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SupplyStacksPart2.class);
 
     @Override
     public String solve(Stream<String> lines) {
-        SupplyStacks solver = new SupplyStacks(Crane.CRATE_MOVER_9000);
+        SupplyStacks solver = new SupplyStacks(Crane.CRATE_MOVER_9001);
         return solver.solve(lines);
     }
 
@@ -28,7 +28,7 @@ public class SupplyStacksPart1 implements LinesSolver<String> {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new SupplyStacksPart1();
+        var instance = new SupplyStacksPart2();
 
         var result = instance.solve("input-day05-2022.txt");
 
