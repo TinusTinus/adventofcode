@@ -53,6 +53,7 @@ record Directory(Optional<Directory> parent, Map<String, Directory> subdirectori
                 Directory subdirectory = new Directory(Optional.of(currentDirectory), new HashMap<>(), new ArrayList<>());
                 currentDirectory.subdirectories.put(name, subdirectory);
             } else {
+                // New file.
                 var file = File.parse(line);
                 currentDirectory.files.add(file);
             }
@@ -86,6 +87,8 @@ record Directory(Optional<Directory> parent, Map<String, Directory> subdirectori
     }
     
     /**
+     * Method for computing part 1 of the puzzle.
+     * 
      * @return the total sizes of directories with a total size of at most 100000
      */
     int sum() {
@@ -97,6 +100,27 @@ record Directory(Optional<Directory> parent, Map<String, Directory> subdirectori
         int size = totalSize();
         if (size <= 100_000) {
             result = result + size;
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Method for computing part 2 of the puzzle.
+     * 
+     * @return the minimum subdirectory total size over the given lower bound
+     */
+    int min(int lowerBound) {
+        int result = subdirectories.values()
+                .stream()
+                .mapToInt(subdirectory -> subdirectory.min(lowerBound))
+                .min()
+                .orElse(Integer.MAX_VALUE);
+        
+        int size = totalSize();
+        
+        if (lowerBound <= size && size < result) {
+            result = size;
         }
         
         return result;
