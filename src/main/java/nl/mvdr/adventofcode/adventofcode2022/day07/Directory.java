@@ -18,6 +18,15 @@ import java.util.Optional;
 record Directory(Optional<Directory> parent, Map<String, Directory> subdirectories, List<File> files) {
     
     /**
+     * Convenience constructor for creating a new directory.
+     * 
+     * @param parent the parent directory; empty (only) for the root directory
+     */
+    private Directory(Optional<Directory> parent) {
+        this(parent, new HashMap<>(), new ArrayList<>());
+    }
+    
+    /**
      * Parses the puzzle input into a directory structure.
      * 
      * @param lines puzzle input
@@ -25,7 +34,7 @@ record Directory(Optional<Directory> parent, Map<String, Directory> subdirectori
      */
     static Directory parse(List<String> lines) {
         // Create the root directory.
-        Directory currentDirectory = new Directory(Optional.empty(), new HashMap<>(), new ArrayList<>());
+        Directory currentDirectory = new Directory(Optional.empty());
         
         for (String line : lines) {
             if (line.startsWith("$ cd")) {
@@ -50,7 +59,7 @@ record Directory(Optional<Directory> parent, Map<String, Directory> subdirectori
                     throw new IllegalArgumentException("Unable to parse directory listing: " + line);
                 }
                 var name = parts[1];
-                Directory subdirectory = new Directory(Optional.of(currentDirectory), new HashMap<>(), new ArrayList<>());
+                Directory subdirectory = new Directory(Optional.of(currentDirectory));
                 currentDirectory.subdirectories.put(name, subdirectory);
             } else {
                 // New file.

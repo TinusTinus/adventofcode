@@ -5,7 +5,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day07;
  *
  * @author Martijn van de Rijdt
  */
-record File(String name, int size) {
+record File(int size) {
 
     /**
      * Parses a line from the puzzle input as a file.
@@ -20,8 +20,7 @@ record File(String name, int size) {
         }
         
         int size = Integer.parseInt(parts[0]);
-        String name = parts[1];
         
-        return new File(name, size);
+        return new File(size);
     }
 }
