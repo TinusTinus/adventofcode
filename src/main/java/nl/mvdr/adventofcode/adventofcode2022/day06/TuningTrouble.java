@@ -10,7 +10,7 @@ import nl.mvdr.adventofcode.LongSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class TuningTrouble implements LongSolver {
+class TuningTrouble implements LongSolver {
 
     private int sequenceLength;
 
