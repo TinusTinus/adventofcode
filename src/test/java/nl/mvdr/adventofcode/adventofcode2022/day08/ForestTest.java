@@ -184,4 +184,28 @@ public class ForestTest {
         Assertions.assertTrue(forest.isVisible(new Point(2, 3)));
         Assertions.assertFalse(forest.isVisible(new Point(3, 3)));
     }
+    
+    /**
+     * Test case for {@link Forest#scenicScore(Point)}.
+     */
+    @Test
+    public void testScenicScore() {
+        var location = new Point(2, 1);
+        
+        var scenicScore = forest.scenicScore(location);
+        
+        Assertions.assertEquals(4, scenicScore);
+    }
+    
+    /**
+     * Test case for {@link Forest#scenicScore(Point)}.
+     */
+    @Test
+    public void testOptimalScenicScore() {
+        var location = new Point(2, 3);
+        
+        var scenicScore = forest.scenicScore(location);
+        
+        Assertions.assertEquals(8, scenicScore);
+    }
 }

@@ -6,6 +6,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -16,6 +19,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Forest(Map<Point, Integer> trees) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Forest.class);
     
     /**
      * Parses the puzzle input.
@@ -74,6 +79,60 @@ record Forest(Map<Point, Integer> trees) {
             result = otherHeight < height;
             location = direction.move(location);
         }
+        return result;
+    }
+
+    /**
+     * @return optimal scenic score for this forest
+     */
+    int optimalScenicScore() {
+        return trees.keySet()
+                .stream()
+                .mapToInt(this::scenicScore)
+                .max()
+                .orElseThrow();
+    }
+    
+    /**
+     * Computes the scenic score for a specific tree.
+     * 
+     * @param location location of the tree
+     * @return scenic score for this tree
+     */
+    int scenicScore(Point location) {
+        return Stream.of(Direction.values())
+                .mapToInt(direction -> viewingDistance(location, direction))
+                .reduce(1, (i, j) -> i * j);
+    }
+    
+    /**
+     * Calculates the viewing distance from the given tree in the given direction.
+     * 
+     * To measure the viewing distance from a given tree, look up, down, left, and
+     * right from that tree; stop if you reach an edge or at the first tree that is
+     * the same height or taller than the tree under consideration. (If a tree is
+     * right on the edge, at least one of its viewing distances will be zero.)
+     * 
+     * @param treeLocation location of the tree
+     * @param direction    viewing direction
+     * @return viewing distance
+     */
+    private int viewingDistance(Point treeLocation, Direction direction) {
+        var height = Objects.requireNonNull(trees.get(treeLocation), "No tree at " + treeLocation).intValue();
+        
+        var result = 0;
+        var location = direction.move(treeLocation);
+        while (trees.containsKey(location) && trees.get(location).intValue() < height) {
+            result++;
+            location = direction.move(location);
+        }
+        if (trees.containsKey(location)) {
+            // We can see this tree, but nothing past it.
+            result++;
+        }
+        
+        LOGGER.debug("Viewing distance from {} (height: {}) in the direction {}: {}",
+                treeLocation, Integer.valueOf(height), direction, Integer.valueOf(result));
         return result;
     }
 }
