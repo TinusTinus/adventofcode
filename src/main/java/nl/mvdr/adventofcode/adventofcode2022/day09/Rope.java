@@ -42,7 +42,9 @@ record Rope(Point head, Point tail, Set<Point> visited) {
             newTail = tail;
         } else {
             // Move the tail!
-            newTail = new Point(tail.x() + Integer.signum(newHead.x() - tail.x()), tail.y() + Integer.signum(newHead.y() - tail.y()));
+            newTail = new Point(
+                    tail.x() + Integer.signum(newHead.x() - tail.x()),
+                    tail.y() + Integer.signum(newHead.y() - tail.y()));
         }
         Set<Point> newVisited = new HashSet<>(visited);
         newVisited.add(newTail);
