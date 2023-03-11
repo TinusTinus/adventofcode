@@ -122,13 +122,11 @@ record Forest(Map<Point, Integer> trees) {
         
         var result = 0;
         var location = direction.move(treeLocation);
-        while (trees.containsKey(location) && trees.get(location).intValue() < height) {
+        var locationVisible = true;
+        while (locationVisible && trees.containsKey(location)) {
             result++;
+            locationVisible = trees.get(location).intValue() < height;
             location = direction.move(location);
-        }
-        if (trees.containsKey(location)) {
-            // We can see this tree, but nothing past it.
-            result++;
         }
         
         LOGGER.debug("Viewing distance from {} (height: {}) in the direction {}: {}",
