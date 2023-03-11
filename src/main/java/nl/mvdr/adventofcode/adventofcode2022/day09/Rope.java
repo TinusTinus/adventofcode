@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2022.day09;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -12,13 +15,12 @@ import nl.mvdr.adventofcode.point.Point;
 /**
  * Current state of the rope.
  *
- * @param head current location of the rope's head
- * @param tail current location of the rope's tail
+ * @param knots the knots of this rope; the first knot is the rope's head, the last its tail
  * @param visited locations that have been visited by the tail
  * 
  * @author Martijn van de Rijdt
  */
-record Rope(Point head, Point tail, Set<Point> visited) {
+record Rope(List<Point> knots, Set<Point> visited) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Rope.class);
     
@@ -28,8 +30,7 @@ record Rope(Point head, Point tail, Set<Point> visited) {
      * @param length length of the rope
      */
     Rope(int length) {
-        // TODO take length into consideration
-        this(Point.ORIGIN, Point.ORIGIN, Set.of(Point.ORIGIN));
+        this(Collections.nCopies(length, Point.ORIGIN), Set.of(Point.ORIGIN));
     }
     
     /**
@@ -39,19 +40,31 @@ record Rope(Point head, Point tail, Set<Point> visited) {
      * @return updated state of the rope
      */
     Rope step(Direction direction) {
-        var newHead = direction.move(head);
-        Point newTail;
-        if (newHead.neighboursIncludingDiagonals().contains(tail)) {
-            newTail = tail;
-        } else {
-            // Move the tail!
-            newTail = new Point(
-                    tail.x() + Integer.signum(newHead.x() - tail.x()),
-                    tail.y() + Integer.signum(newHead.y() - tail.y()));
+        List<Point> newKnots = new ArrayList<>();
+        
+        // First move the head.
+        var newKnot = direction.move(knots.get(0));
+        newKnots.add(newKnot);
+        
+        // Move the other knots, in order
+        for (int i = 1; i != knots.size(); i++) {
+            var knot = knots.get(i);
+            
+            if (newKnot.neighboursIncludingDiagonals().contains(knot)) {
+                newKnot = knot;
+            } else {
+                // Move the knot
+                newKnot = new Point(
+                        knot.x() + Integer.signum(newKnot.x() - knot.x()),
+                        knot.y() + Integer.signum(newKnot.y() - knot.y()));
+            }
+            newKnots.add(newKnot);
         }
+        
         Set<Point> newVisited = new HashSet<>(visited);
-        newVisited.add(newTail);
-        var result = new Rope(newHead, newTail, newVisited);
+        newVisited.add(newKnot);
+        
+        var result = new Rope(newKnots, newVisited);
         LOGGER.debug("Updated rope after performing a step in direction {}: {}", direction, result);
         return result;
     }
