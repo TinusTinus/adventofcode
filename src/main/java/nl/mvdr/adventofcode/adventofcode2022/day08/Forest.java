@@ -3,13 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2022.day08;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -21,8 +16,6 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Forest(Map<Point, Integer> trees) {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(Forest.class);
     
     /**
      * Parses the puzzle input.
@@ -49,7 +42,6 @@ record Forest(Map<Point, Integer> trees) {
     long countVisibleTrees() {
         return trees.keySet()
                 .stream()
-                .sorted()
                 .filter(this::isVisible)
                 .count();
     }
@@ -60,11 +52,9 @@ record Forest(Map<Point, Integer> trees) {
      * @param treeLocation tree location
      * @return whether the tree is visible
      */
-    private boolean isVisible(Point treeLocation) {
-        var result = Stream.of(Direction.values())
+    boolean isVisible(Point treeLocation) {
+        return Stream.of(Direction.values())
                 .anyMatch(direction -> isVisibleFrom(treeLocation, direction));
-        LOGGER.debug("Tree at {} is {}visible.", treeLocation, result ? "" : "NOT ");
-        return result;
     }
     
     /**
@@ -74,25 +64,15 @@ record Forest(Map<Point, Integer> trees) {
      * @param direction direction
      * @return whether the tree is visible
      */
-    private boolean isVisibleFrom(Point treeLocation, Direction direction) {
+    boolean isVisibleFrom(Point treeLocation, Direction direction) {
         var height = Objects.requireNonNull(trees.get(treeLocation), "No tree at " + treeLocation).intValue();
-        var neighbourLocation = direction.move(treeLocation);
-        var neighbourHeight = Optional.ofNullable(trees.get(neighbourLocation))
-                .map(OptionalInt::of)
-                .orElse(OptionalInt.empty());
-        boolean result;
-        if (neighbourHeight.isEmpty()) {
-            LOGGER.debug("Tree at {} with height {} is visible from {}: it is at the edge of the forest.",
-                    treeLocation, Integer.valueOf(height), direction);
-            result = true;
-        } else if (height <= neighbourHeight.orElseThrow()) {
-            LOGGER.debug("Tree at {} with height {} is NOT visible from {}: neighbouring tree with height {} is taller.",
-                    treeLocation, Integer.valueOf(height), direction, Integer.valueOf(neighbourHeight.orElseThrow()));
-            result = false;
-        } else {
-            result = isVisibleFrom(neighbourLocation, direction);
-            LOGGER.debug("Tree at {} with height {} is {}visible from {}: neighbouring tree with height {} is {}visible.",
-                    treeLocation, Integer.valueOf(height), result ? "" : "NOT ", direction, Integer.valueOf(neighbourHeight.orElseThrow()), result ? "" : "NOT ");
+        
+        var result = true;
+        Point location = direction.move(treeLocation);
+        while (result && trees.containsKey(location)) {
+            var otherHeight = trees.get(location).intValue();
+            result = otherHeight < height;
+            location = direction.move(location);
         }
         return result;
     }
