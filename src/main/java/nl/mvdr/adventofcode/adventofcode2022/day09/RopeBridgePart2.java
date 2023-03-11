@@ -12,13 +12,13 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class RopeBridgePart1 implements IntSolver {
+public class RopeBridgePart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RopeBridgePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RopeBridgePart2.class);
     
     @Override
     public int solve(Stream<String> lines) {
-        var solver = new RopeBridge(2);
+        var solver = new RopeBridge(10);
         return solver.solve(lines);
     }
     
@@ -28,7 +28,7 @@ public class RopeBridgePart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new RopeBridgePart1();
+        var instance = new RopeBridgePart2();
 
         var result = instance.solve("input-day09-2022.txt");
 

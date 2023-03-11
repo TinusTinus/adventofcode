@@ -24,8 +24,11 @@ record Rope(Point head, Point tail, Set<Point> visited) {
     
     /**
      * Constructor for the initial state of the rope.
+     * 
+     * @param length length of the rope
      */
-    Rope() {
+    Rope(int length) {
+        // TODO take length into consideration
         this(Point.ORIGIN, Point.ORIGIN, Set.of(Point.ORIGIN));
     }
     
