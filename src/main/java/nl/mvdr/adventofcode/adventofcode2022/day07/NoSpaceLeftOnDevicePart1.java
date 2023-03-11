@@ -7,19 +7,19 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/07">No Space Left On Device</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class NoSpaceLeftOnDevicePart1 implements LongSolver {
+public class NoSpaceLeftOnDevicePart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NoSpaceLeftOnDevicePart1.class);
     
     @Override
-    public long solve(Stream<String> linesStream) {
+    public int solve(Stream<String> linesStream) {
         List<String> lines = linesStream.collect(Collectors.toList());
         Directory root = Directory.parse(lines);
         return root.sum();
