@@ -59,6 +59,13 @@ public enum Direction {
                 .findFirst();
     }
     
+    public static Direction parse(String representation) {
+        if (representation.length() != 1) {
+            throw new IllegalArgumentException("Direction representation must be a single character but was: " + representation);
+        }
+        return of(representation.charAt(0)).orElseThrow(() -> new IllegalArgumentException("Unknown direction: " + representation));
+    }
+    
     public boolean isVertical() {
         return vertical;
     }
