@@ -14,9 +14,9 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class CathodeRayTubePart1 implements IntSolver {
+public class CathodeRayTube implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CathodeRayTubePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CathodeRayTube.class);
     
     @Override
     public int solve(Stream<String> linesStream) {
@@ -25,20 +25,34 @@ public class CathodeRayTubePart1 implements IntSolver {
         var x = 1;
         var cycle = 0;
         var result = 0;
+        var image = new StringBuilder();
         
-        while(cycle <= 220) {
+        while(cycle < program.size()) {
             cycle++;
             
-            if (cycle % 40 == 20) {
+            int cycleMod40 = cycle % 40;
+            
+            if (cycleMod40 == 20) {
                 int signalStrength = cycle * x;
                 LOGGER.debug("Signal strength during cycle {}: {}", Integer.valueOf(cycle), Integer.valueOf(signalStrength));
                 result = result + signalStrength;
+            }
+
+            if (Math.abs(x - cycleMod40) <= 1) {
+                image.append("#");
+            } else {
+                image.append(".");
+            }
+            if (cycleMod40 == 0) {
+                image.append("\n");
             }
             
             var instruction = program.get(cycle - 1); // off by 1
             x = instruction.perform(x);
             LOGGER.debug("x = {} after cycle {}, last atomic instruction was: {}", Integer.valueOf(x), Integer.valueOf(cycle), instruction);
         }
+        
+        LOGGER.info("Image:\n{}", image);
         
         return result;
     }
@@ -73,7 +87,7 @@ public class CathodeRayTubePart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new CathodeRayTubePart1();
+        var instance = new CathodeRayTube();
 
         var result = instance.solve("input-day10-2022.txt");
 

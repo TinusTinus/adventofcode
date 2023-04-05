@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link CathodeRayTubePart1}.
+ * Unit test cases for {@link CathodeRayTube}.
  *
  * @author Martijn van de Rijdt
  */
-public class CathodeRayTubePart1Test extends SolverTest<CathodeRayTubePart1> {
+public class CathodeRayTubePart1Test extends SolverTest<CathodeRayTube> {
 
     /** Constructor. */
     public CathodeRayTubePart1Test() {
-        super(CathodeRayTubePart1.class);
+        super(CathodeRayTube.class);
     }
     
     /** Test case based on an example from the puzzle text. */
