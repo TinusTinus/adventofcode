@@ -9,11 +9,11 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class CathodeRayTubePart1Test extends SolverTest<CathodeRayTube> {
+public class CathodeRayTubePart1Test extends SolverTest<CathodeRayTubePart1> {
 
     /** Constructor. */
     public CathodeRayTubePart1Test() {
-        super(CathodeRayTube.class);
+        super(CathodeRayTubePart1.class);
     }
     
     /** Test case based on an example from the puzzle text. */
