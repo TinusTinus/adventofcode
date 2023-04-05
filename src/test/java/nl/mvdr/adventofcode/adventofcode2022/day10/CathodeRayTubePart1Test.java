@@ -19,7 +19,7 @@ public class CathodeRayTubePart1Test extends SolverTest<CathodeRayTubePart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("131400", "example-day10-2022.txt");
+        assertSolution("13140", "example-day10-2022.txt");
     }
     
     /** Test case based on the accepted solution. */

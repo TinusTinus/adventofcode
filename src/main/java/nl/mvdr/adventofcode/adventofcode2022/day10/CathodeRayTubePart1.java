@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day10;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -17,8 +19,48 @@ public class CathodeRayTubePart1 implements IntSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(CathodeRayTubePart1.class);
     
     @Override
-    public int solve(Stream<String> lines) {
-        return 0; // TODO
+    public int solve(Stream<String> linesStream) {
+        List<AtomicInstruction> program = parseProgram(linesStream);
+        var cpu = new Cpu(0, 1);
+        int result = 0;
+        
+        while(cpu.cycleNumber() <= 220) {
+            if (cpu.cycleNumber() % 40 == 20) {
+                int signalStrength = cpu.signalStrength();
+                LOGGER.debug("Signal strength during cycle {}: {}", Integer.valueOf(cpu.cycleNumber()), Integer.valueOf(signalStrength));
+                result = result + signalStrength;
+            }
+            
+            var instruction = program.get(cpu.cycleNumber());
+            cpu = instruction.perform(cpu);
+            LOGGER.debug("CPU after performing {}: {}", instruction, cpu);
+        }
+        
+        return result;
+    }
+
+    /**
+     * Parses the puzzle input into a program.
+     * 
+     * @param linesStream puzzle input
+     * @return program
+     */
+    private static List<AtomicInstruction> parseProgram(Stream<String> linesStream) {
+        var lines = linesStream.toList();
+        
+        List<AtomicInstruction> program = new ArrayList<>();
+        for (var line : lines) {
+            if ("noop".equals(line)) {
+                program.add(NoopInstruction.INSTANCE);
+            } else if (line.startsWith("addx ")) {
+                var value = Integer.parseInt(line.substring(5));
+                program.add(NoopInstruction.INSTANCE);
+                program.add(new AtomicAddXInstruction(value));
+            } else {
+                throw new IllegalArgumentException("Unable to parse line: " + line);
+            }
+        }
+        return program;
     }
     
     /**

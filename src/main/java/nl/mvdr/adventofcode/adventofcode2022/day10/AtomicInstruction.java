@@ -1,11 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2022.day10;
 
 /**
- * An instruction to perform.
+ * An atomic instruction for the central processing unit.
+ * 
+ * An atomic instruction takes exactly one cycle.
  *
  * @author Martijn van de Rijdt
  */
-interface Instruction {
+interface AtomicInstruction {
     /**
      * Performs this instruction.
      * 
