@@ -19,8 +19,8 @@ class NoopInstruction implements AtomicInstruction {
     }
     
     @Override
-    public Cpu perform(Cpu cpu) {
-        return new Cpu(cpu.cycleNumber() + 1, cpu.x());
+    public int perform(int x) {
+        return x;
     }
     
     @Override

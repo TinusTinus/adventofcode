@@ -32,7 +32,7 @@ public class CathodeRayTubePart1 implements IntSolver {
             }
             
             var instruction = program.get(cpu.cycleNumber());
-            cpu = instruction.perform(cpu);
+            cpu = new Cpu(cpu.cycleNumber() + 1, instruction.perform(cpu.x()));
             LOGGER.debug("CPU after performing {}: {}", instruction, cpu);
         }
         

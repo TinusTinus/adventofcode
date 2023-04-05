@@ -11,8 +11,8 @@ interface AtomicInstruction {
     /**
      * Performs this instruction.
      * 
-     * @param cpu start state of the cpu
-     * @return next state of the cpu
+     * @param x starting value of the x register
+     * @return next value of the x register
      */
-    Cpu perform(Cpu cpu);
+    int perform(int x);
 }

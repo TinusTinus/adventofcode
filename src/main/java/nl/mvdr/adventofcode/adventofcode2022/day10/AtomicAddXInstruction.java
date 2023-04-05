@@ -9,7 +9,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day10;
  */
 record AtomicAddXInstruction(int value) implements AtomicInstruction {
     @Override
-    public Cpu perform(Cpu cpu) {
-        return new Cpu(cpu.cycleNumber() + 1, cpu.x() + value);
+    public int perform(int x) {
+        return x + value;
     }
 }
