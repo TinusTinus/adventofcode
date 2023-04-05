@@ -68,29 +68,40 @@ record ProgramResult(int signalStrengthSum, String image) {
         var cycle = 0;
         var signalStrengthSum = 0;
         var image = new StringBuilder();
+        var row = new StringBuilder();
         
         for (AtomicInstruction instruction : program) {
             cycle++;
             
-            int cycleMod40 = cycle % 40;
+            LOGGER.debug("Start cycle {}: begin executing {}", Integer.valueOf(cycle), instruction);
             
-            if (cycleMod40 == 20) {
+            if (cycle % 40 == 20) {
                 int signalStrength = cycle * x;
                 LOGGER.debug("Signal strength during cycle {}: {}", Integer.valueOf(cycle), Integer.valueOf(signalStrength));
                 signalStrengthSum = signalStrengthSum + signalStrength;
             }
 
-            if (Math.abs(x - cycleMod40) <= 1) {
-                image.append("#");
+            LOGGER.debug("During cycle {}: CRT draws pixel in position {}", Integer.valueOf(cycle), Integer.valueOf(row.length()));
+            if (Math.abs(x - row.length()) <= 1) {
+                row.append("#");
             } else {
-                image.append(".");
+                row.append(".");
             }
-            if (cycleMod40 == 0) {
-                image.append("\n");
+            LOGGER.debug("Current CRT row: {}" , row);
+            
+            if (row.length() == 40) {
+                // Row is complete
+                if (!image.isEmpty()) {
+                    // Start new line
+                    image.append("\n");
+                }
+                image.append(row);
+                // Start a new row
+                row = new StringBuilder();
             }
             
             x = instruction.perform(x);
-            LOGGER.debug("x = {} after cycle {}, last atomic instruction was: {}", Integer.valueOf(x), Integer.valueOf(cycle), instruction);
+            LOGGER.debug("Finish executing atomic instruction {} (Register is now {})", instruction, Integer.valueOf(x));
         }
         
         return new ProgramResult(signalStrengthSum, image.toString());
