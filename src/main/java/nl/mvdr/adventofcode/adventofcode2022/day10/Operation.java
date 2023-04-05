@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 /**
- * Operations.
+ * An operation supported by the CPU.
  *
  * @author Martijn van de Rijdt
  */
