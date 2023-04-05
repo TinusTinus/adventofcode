@@ -7,7 +7,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day05;
  * 
  */
 class Polymers {
-    /** Private class to prevent singleton instantiation. */
+    /** Private constructor to prevent singleton instantiation. */
     private Polymers() {
         super();
     }
