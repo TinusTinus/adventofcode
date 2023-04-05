@@ -21,19 +21,23 @@ public class CathodeRayTubePart1 implements IntSolver {
     @Override
     public int solve(Stream<String> linesStream) {
         List<AtomicInstruction> program = parseProgram(linesStream);
-        var cpu = new Cpu(0, 1);
-        int result = 0;
         
-        while(cpu.cycleNumber() <= 220) {
-            if (cpu.cycleNumber() % 40 == 20) {
-                int signalStrength = cpu.signalStrength();
-                LOGGER.debug("Signal strength during cycle {}: {}", Integer.valueOf(cpu.cycleNumber()), Integer.valueOf(signalStrength));
+        var x = 1;
+        var cycle = 0;
+        var result = 0;
+        
+        while(cycle <= 220) {
+            cycle++;
+            
+            if (cycle % 40 == 20) {
+                int signalStrength = cycle * x;
+                LOGGER.debug("Signal strength during cycle {}: {}", Integer.valueOf(cycle), Integer.valueOf(signalStrength));
                 result = result + signalStrength;
             }
             
-            var instruction = program.get(cpu.cycleNumber());
-            cpu = new Cpu(cpu.cycleNumber() + 1, instruction.perform(cpu.x()));
-            LOGGER.debug("CPU after performing {}: {}", instruction, cpu);
+            var instruction = program.get(cycle - 1); // off by 1
+            x = instruction.perform(x);
+            LOGGER.debug("x = {} after cycle {}, last atomic instruction was: {}", Integer.valueOf(x), Integer.valueOf(cycle), instruction);
         }
         
         return result;
