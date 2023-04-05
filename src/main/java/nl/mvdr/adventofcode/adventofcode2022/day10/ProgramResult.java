@@ -23,11 +23,11 @@ record ProgramResult(int signalStrengthSum, String image) {
     /**
      * Parses and executes the given program.
      * 
-     * @param linesStream puzzle input
+     * @param lines puzzle input
      * @return result
      */
-    static ProgramResult get(Stream<String> linesStream) {
-        List<AtomicInstruction> program = parseProgram(linesStream);
+    static ProgramResult get(Stream<String> lines) {
+        List<AtomicInstruction> program = parseProgram(lines.toList());
         return execute(program);
     }
 
@@ -37,9 +37,7 @@ record ProgramResult(int signalStrengthSum, String image) {
      * @param linesStream puzzle input
      * @return program
      */
-    private static List<AtomicInstruction> parseProgram(Stream<String> linesStream) {
-        var lines = linesStream.toList();
-        
+    private static List<AtomicInstruction> parseProgram(List<String> lines) {
         List<AtomicInstruction> program = new ArrayList<>();
         for (var line : lines) {
             if ("noop".equals(line)) {
@@ -77,7 +75,7 @@ record ProgramResult(int signalStrengthSum, String image) {
             
             if (cycle % 40 == 20) {
                 int signalStrength = cycle * x;
-                LOGGER.debug("Signal strength during cycle {}: {}", Integer.valueOf(cycle), Integer.valueOf(signalStrength));
+                LOGGER.debug("During cycle {}: signal strength = {}", Integer.valueOf(cycle), Integer.valueOf(signalStrength));
                 signalStrengthSum = signalStrengthSum + signalStrength;
             }
 
@@ -91,11 +89,8 @@ record ProgramResult(int signalStrengthSum, String image) {
             
             if (row.length() == 40) {
                 // Row is complete
-                if (!image.isEmpty()) {
-                    // Start new line
-                    image.append("\n");
-                }
                 image.append(row);
+                image.append("\n");
                 // Start a new row
                 row = new StringBuilder();
             }
