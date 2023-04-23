@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2022.day10;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;

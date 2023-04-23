@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link CathodeRayTube}.
+ * Unit test cases for {@link CathodeRayTubePart1}.
  *
  * @author Martijn van de Rijdt
  */
