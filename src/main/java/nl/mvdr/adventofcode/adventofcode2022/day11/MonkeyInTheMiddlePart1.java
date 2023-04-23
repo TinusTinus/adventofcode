@@ -18,6 +18,8 @@ public class MonkeyInTheMiddlePart1 implements IntSolver {
     
     @Override
     public int solve(Stream<String> lines) {
+        var state = State.parse(lines);
+        
         return 0; // TODO
     }
 
