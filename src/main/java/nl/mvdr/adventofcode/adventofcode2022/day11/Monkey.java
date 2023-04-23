@@ -1,9 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2022.day11;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.IntUnaryOperator;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
@@ -18,7 +19,7 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 record Monkey(List<Item> items,
-        IntUnaryOperator operation,
+        UnaryOperator<BigInteger> operation,
         int divisor,
         int targetMonkeyIfTrue,
         int targetMonkeyIfFalse,
@@ -91,7 +92,8 @@ record Monkey(List<Item> items,
         var startingItemsParts = line.substring(STARTING_ITEMS_LINE_PREFIX.length()).split(", ");
         return Stream.of(startingItemsParts)
                 .mapToInt(Integer::parseInt)
-                .mapToObj(Item::new)
+                .mapToObj(BigInteger::valueOf)
+                .map(Item::new)
                 .toList();
     }
     /**
@@ -100,7 +102,7 @@ record Monkey(List<Item> items,
      * @param line line from the puzzle input, such as: "  Operation: new = old + 6"
      * @return worry level operation
      */
-    private static IntUnaryOperator parseOperation(String line) {
+    private static UnaryOperator<BigInteger> parseOperation(String line) {
         if (!line.startsWith(OPERATION_LINE_PREFIX)) {
             throw new IllegalArgumentException("Expected operation line, unexpected input: " + line);
         }
@@ -110,15 +112,15 @@ record Monkey(List<Item> items,
         //   old * old
         //   old * <n>
         //   old + <n>
-        IntUnaryOperator operation;
+        UnaryOperator<BigInteger> operation;
         if ("old * old".equals(operationString)) {
-            operation = old -> old * old;
+            operation = old -> old.multiply(old);
         } else {
-            var rhs = Integer.parseInt(operationString.substring(6));
+            var rhs = BigInteger.valueOf(Integer.parseInt(operationString.substring(6)));
             if (operationString.startsWith("old * ")) {
-                operation = old -> old * rhs;
+                operation = old -> old.multiply(rhs);
             } else if (operationString.startsWith("old + ")) {
-                operation = old -> old + rhs;
+                operation = old -> old.add(rhs);
             } else {
                 throw new IllegalArgumentException("Unexpected operation: " + line);
             }

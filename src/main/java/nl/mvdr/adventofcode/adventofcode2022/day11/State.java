@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day11;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -87,18 +88,18 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
         var item = monkey.items().get(0);
         var worryLevel = item.worryLevel();
         
-        LOGGER.debug("Monkey inspects an item with a worry level of {}.", Integer.valueOf(worryLevel));
+        LOGGER.debug("Monkey inspects an item with a worry level of {}.", worryLevel);
         
-        worryLevel = monkey.operation().applyAsInt(worryLevel);
-        LOGGER.debug("Worry level is updated by the monkey's operation to {}.", Integer.valueOf(worryLevel));
+        worryLevel = monkey.operation().apply(worryLevel);
+        LOGGER.debug("Worry level is updated by the monkey's operation to {}.", worryLevel);
         
         if (worryLevelsManageable) {
-            worryLevel = worryLevel / 3;
-            LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", Integer.valueOf(worryLevel));
+            worryLevel = worryLevel.divide(BigInteger.valueOf(3));
+            LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", worryLevel);
         }
         
         int targetMonkeyId;
-        if (worryLevel % monkey.divisor() == 0) {
+        if (worryLevel.divideAndRemainder(BigInteger.valueOf(monkey.divisor()))[1].equals(BigInteger.ZERO)) {
             LOGGER.debug("Current worry level is divisible by {}.", Integer.valueOf(monkey.divisor()));
             targetMonkeyId = monkey.targetMonkeyIfTrue();
         } else {
@@ -106,7 +107,7 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
             targetMonkeyId = monkey.targetMonkeyIfFalse();
         }
         
-        LOGGER.debug("Item with worry level {} is thrown to monkey {}.", Integer.valueOf(worryLevel), Integer.valueOf(targetMonkeyId));
+        LOGGER.debug("Item with worry level {} is thrown to monkey {}.", worryLevel, Integer.valueOf(targetMonkeyId));
         
         List<Monkey> newMonkeys = new ArrayList<>(monkeys);
         newMonkeys.set(monkeyId, monkey.inspectAndRemoveFirstItem());
