@@ -15,13 +15,15 @@ import java.util.stream.Stream;
  * @param test the test to perform on items' worry level
  * @param targetMonkeyIfTrue where to throw an item if the test returns {@code true}
  * @param targetMonkeyIfFalse where to throw an item if the test returns {@code false}
+ * @param itemsInspected the number of items inspected by this monkey
  * @author Martijn van de Rijdt
  */
 record Monkey(List<Item> items,
         IntUnaryOperator operation,
         IntPredicate test,
         int targetMonkeyIfTrue,
-        int targetMonkeyIfFalse) {
+        int targetMonkeyIfFalse,
+        int itemsInspected) {
 
     private static final String MONKEY_ID_LINE_PREFIX = "Monkey ";
     private static final String STARTING_ITEMS_LINE_PREFIX = "  Starting items: ";
@@ -52,7 +54,7 @@ record Monkey(List<Item> items,
             var test = parseTest(linesIterator.next());
             var targetMonkeyIfTrue = parseTarget(linesIterator.next(), true);
             var targetMonkeyIfFalse = parseTarget(linesIterator.next(), false);
-            result.add(new Monkey(startingItems, operation, test, targetMonkeyIfTrue, targetMonkeyIfFalse));
+            result.add(new Monkey(startingItems, operation, test, targetMonkeyIfTrue, targetMonkeyIfFalse, 0));
             
             // Skip empty line
             if (linesIterator.hasNext()) {
