@@ -22,7 +22,7 @@ record Monkey(List<Item> items,
         int divisor,
         int targetMonkeyIfTrue,
         int targetMonkeyIfFalse,
-        int itemsInspected) {
+        long itemsInspected) {
 
     private static final String MONKEY_ID_LINE_PREFIX = "Monkey ";
     private static final String STARTING_ITEMS_LINE_PREFIX = "  Starting items: ";

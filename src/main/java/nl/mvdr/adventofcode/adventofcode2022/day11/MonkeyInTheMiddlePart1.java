@@ -5,19 +5,19 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/11">Monkey in the Middel</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class MonkeyInTheMiddlePart1 implements IntSolver {
+public class MonkeyInTheMiddlePart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonkeyInTheMiddlePart1.class);
     
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         var state = State.parse(lines, true);
         
         state = state.performRounds(20);

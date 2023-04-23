@@ -96,6 +96,7 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
             worryLevel = worryLevel / 3;
             LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", Integer.valueOf(worryLevel));
         }
+        // TODO this will cause int overflows and, therefore, incorrect results if not manageable. switching to BigInteger is not an option because of performance.
         
         int targetMonkeyId;
         if (worryLevel % monkey.divisor() == 0) {
@@ -121,9 +122,9 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
      * 
      * @return monkey business in this situation
      */
-    int calculateMonkeyBusiness() {
+    long calculateMonkeyBusiness() {
         return monkeys.stream()
-                .mapToInt(Monkey::itemsInspected)
+                .mapToLong(Monkey::itemsInspected)
                 .sorted()
                 .skip(monkeys.size() - 2)
                 .reduce((i, j) -> i * j)
