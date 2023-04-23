@@ -131,7 +131,7 @@ record State(List<Monkey> monkeys, boolean divideByThree, int divisorLcm) {
     
     /**
      * Calculates the monkey business in this situation,
-     * by mulitplying the number of items inspected by the two most active monkeys.
+     * by multiplying the number of items inspected by the two most active monkeys.
      * 
      * @return monkey business in this situation
      */
