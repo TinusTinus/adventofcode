@@ -95,8 +95,16 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
         if (worryLevelsManageable) {
             worryLevel = worryLevel / 3;
             LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", Integer.valueOf(worryLevel));
+        } else {
+            var productOfDivisors = monkeys.stream()
+                    .mapToInt(Monkey::divisor)
+                    .distinct()
+                    .reduce((i, j) -> i * j)
+                    .orElseThrow();
+            while (productOfDivisors < worryLevel) {
+                worryLevel = worryLevel - productOfDivisors;
+            }
         }
-        // TODO this will cause int overflows and, therefore, incorrect results if not manageable. switching to BigInteger is not an option because of performance.
         
         int targetMonkeyId;
         if (worryLevel % monkey.divisor() == 0) {
