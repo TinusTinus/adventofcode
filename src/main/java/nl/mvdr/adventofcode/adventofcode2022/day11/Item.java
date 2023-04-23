@@ -6,5 +6,9 @@ package nl.mvdr.adventofcode.adventofcode2022.day11;
  * @author Martijn van de Rijdt
  */
 record Item(int worryLevel) {
-
+    
+    @Override
+    public String toString() {
+        return "" + worryLevel;
+    }
 }

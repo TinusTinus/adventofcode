@@ -158,4 +158,33 @@ record Monkey(List<Item> items,
         var target = Integer.parseInt(targetString);
         return target;
     }
+
+    /**
+     * @return copy of this monkey, without its first item and with 1 added to its number of inspected items
+     */
+    Monkey inspectAndRemoveFirstItem() {
+        return new Monkey(items.subList(1, items.size()),
+                operation,
+                test,
+                targetMonkeyIfTrue,
+                targetMonkeyIfFalse,
+                itemsInspected + 1);
+    }
+    
+    /**
+     * Adds the given item to the list of items.
+     * 
+     * @param item item to add
+     * @return copy of this monkey with the added item
+     */
+    Monkey addItem(Item item) {
+        List<Item> newItems = new ArrayList<>(items);
+        newItems.add(item);
+        return new Monkey(newItems,
+                operation,
+                test,
+                targetMonkeyIfTrue,
+                targetMonkeyIfFalse,
+                itemsInspected);
+    }
 }

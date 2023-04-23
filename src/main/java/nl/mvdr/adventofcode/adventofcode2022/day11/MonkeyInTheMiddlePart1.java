@@ -20,7 +20,9 @@ public class MonkeyInTheMiddlePart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         var state = State.parse(lines);
         
-        return 0; // TODO
+        state = state.performRounds(20);
+        
+        return state.calculateMonkeyBusiness();
     }
 
     /**
