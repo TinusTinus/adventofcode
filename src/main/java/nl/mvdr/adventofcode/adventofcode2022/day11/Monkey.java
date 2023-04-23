@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2022.day11;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.IntPredicate;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Stream;
 
@@ -12,7 +11,7 @@ import java.util.stream.Stream;
  *
  * @param items the items currently being held by this monkey
  * @param operation the operation to perform on items' worry level
- * @param test the test to perform on items' worry level
+ * @param divisor divisor used to test items' worry level
  * @param targetMonkeyIfTrue where to throw an item if the test returns {@code true}
  * @param targetMonkeyIfFalse where to throw an item if the test returns {@code false}
  * @param itemsInspected the number of items inspected by this monkey
@@ -20,7 +19,7 @@ import java.util.stream.Stream;
  */
 record Monkey(List<Item> items,
         IntUnaryOperator operation,
-        IntPredicate test,
+        int divisor,
         int targetMonkeyIfTrue,
         int targetMonkeyIfFalse,
         int itemsInspected) {
@@ -51,7 +50,7 @@ record Monkey(List<Item> items,
             
             var startingItems = parseStartingItems(linesIterator.next());
             var operation = parseOperation(linesIterator.next());
-            var test = parseTest(linesIterator.next());
+            var test = parseDivisor(linesIterator.next());
             var targetMonkeyIfTrue = parseTarget(linesIterator.next(), true);
             var targetMonkeyIfFalse = parseTarget(linesIterator.next(), false);
             result.add(new Monkey(startingItems, operation, test, targetMonkeyIfTrue, targetMonkeyIfFalse, 0));
@@ -131,15 +130,14 @@ record Monkey(List<Item> items,
      * Parses a line from the puzzle input, representing the worry level test.
      * 
      * @param line line from the puzzle input, such as: "  Test: divisible by 19" 
-     * @return worry level test
+     * @return divisor
      */
-    private static IntPredicate parseTest(String line) {
+    private static int parseDivisor(String line) {
         if (!line.startsWith(TEST_LINE_PREFIX)) {
             throw new IllegalArgumentException("Expected test line, unexpected input: " + line);
         }
         var divisorString = line.substring(TEST_LINE_PREFIX.length());
-        var divisor = Integer.parseInt(divisorString);
-        return worryLevel -> worryLevel / divisor == 0;
+        return Integer.parseInt(divisorString);
     }
     
     /**
@@ -165,7 +163,7 @@ record Monkey(List<Item> items,
     Monkey inspectAndRemoveFirstItem() {
         return new Monkey(items.subList(1, items.size()),
                 operation,
-                test,
+                divisor,
                 targetMonkeyIfTrue,
                 targetMonkeyIfFalse,
                 itemsInspected + 1);
@@ -182,7 +180,7 @@ record Monkey(List<Item> items,
         newItems.add(item);
         return new Monkey(newItems,
                 operation,
-                test,
+                divisor,
                 targetMonkeyIfTrue,
                 targetMonkeyIfFalse,
                 itemsInspected);

@@ -92,14 +92,13 @@ record State(List<Monkey> monkeys) {
         LOGGER.debug("Worry level is updated by the monkey's operation to {}.", Integer.valueOf(worryLevel));
         worryLevel = worryLevel / 3;
         LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", Integer.valueOf(worryLevel));
-        var newItem = new Item(worryLevel);
         
         int targetMonkeyId;
-        if (monkey.test().test(worryLevel)) {
-            LOGGER.debug("Current worry level is divisible.");
+        if (worryLevel % monkey.divisor() == 0) {
+            LOGGER.debug("Current worry level is divisible by {}.", Integer.valueOf(monkey.divisor()));
             targetMonkeyId = monkey.targetMonkeyIfTrue();
         } else {
-            LOGGER.debug("Current worry level is not divisible.");
+            LOGGER.debug("Current worry level is not divisible by {}.", Integer.valueOf(monkey.divisor()));
             targetMonkeyId = monkey.targetMonkeyIfFalse();
         }
         
@@ -107,7 +106,7 @@ record State(List<Monkey> monkeys) {
         
         List<Monkey> newMonkeys = new ArrayList<>(monkeys);
         newMonkeys.set(monkeyId, monkey.inspectAndRemoveFirstItem());
-        newMonkeys.set(targetMonkeyId, monkeys.get(targetMonkeyId).addItem(newItem));
+        newMonkeys.set(targetMonkeyId, monkeys.get(targetMonkeyId).addItem(new Item(worryLevel)));
         
         return new State(newMonkeys);
     }
