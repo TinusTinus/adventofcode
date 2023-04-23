@@ -99,13 +99,12 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
             LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", worryLevel);
         } else {
             // Reduce worry level in such a way that it does not impact upcoming tests
-            int[] divisors = monkeys.stream()
+            int lcm = monkeys.stream()
                     .mapToInt(Monkey::divisor)
                     .distinct()
-                    .toArray();
-            var lcm = BigInteger.valueOf(lcm(divisors));
-            
-            worryLevel = worryLevel.divideAndRemainder(lcm)[1];
+                    .reduce(ArithmeticUtils::lcm)
+                    .orElseThrow();
+            worryLevel = worryLevel.divideAndRemainder(BigInteger.valueOf(lcm))[1];
             
         }
         
@@ -125,22 +124,6 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
         newMonkeys.set(targetMonkeyId, monkeys.get(targetMonkeyId).addItem(new Item(worryLevel)));
         
         return new State(worryLevelsManageable, newMonkeys);
-    }
-    
-    /**
-     * Helper method to compute the least common multiple of an arbitrary number of numbers.
-     * 
-     * Based on <a href="https://stackoverflow.com/a/4202114">this code sample on Stack Overflow</a>.
-     * 
-     * @param input input
-     * @return lcm
-     */
-    private static long lcm(int[] input) {
-        long result = input[0];
-        for (int i = 1; i < input.length; i++) {
-            result = ArithmeticUtils.lcm(result, input[i]);
-        }
-        return result;
     }
     
     /**
