@@ -45,7 +45,6 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys, int divisorLcm
      * @return updated state
      */
     State performRounds(int rounds) {
-        
         var result = this;
         for (var round = 0; round != rounds; round++) {
             LOGGER.debug("After {} rounds:", Integer.valueOf(round));
