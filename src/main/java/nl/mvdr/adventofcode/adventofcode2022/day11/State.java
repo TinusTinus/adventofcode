@@ -99,8 +99,8 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
             LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", worryLevel);
         } else {
             // Reduce worry level in such a way that it does not impact upcoming tests
-            long[] divisors = monkeys.stream()
-                    .mapToLong(Monkey::divisor)
+            int[] divisors = monkeys.stream()
+                    .mapToInt(Monkey::divisor)
                     .distinct()
                     .toArray();
             var lcm = BigInteger.valueOf(lcm(divisors));
@@ -135,7 +135,7 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
      * @param input input
      * @return lcm
      */
-    private static long lcm(long[] input) {
+    private static long lcm(int[] input) {
         long result = input[0];
         for (int i = 1; i < input.length; i++) {
             result = ArithmeticUtils.lcm(result, input[i]);
