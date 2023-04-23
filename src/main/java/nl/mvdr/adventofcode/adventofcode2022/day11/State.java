@@ -12,9 +12,12 @@ import org.slf4j.LoggerFactory;
 /**
  * Current monkey situation.
  *
+ * @param worryLevelsManageable whether worry levels are still manageable (that is, only in part 1 of the puzzle)
+ * @param monkeys the monkeys, indexed by their id
+ * @param divisorLcm cached value of the least common multiple of the monkeys' divisors
  * @author Martijn van de Rijdt
  */
-record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
+record State(boolean worryLevelsManageable, List<Monkey> monkeys, int divisorLcm) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(State.class);
     
@@ -27,7 +30,12 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
      */
     static State parse(Stream<String> lines, boolean worryLevelsManageable) {
         var monkeys = Monkey.parse(lines.toList());
-        return new State(worryLevelsManageable, monkeys);
+        var lcm = monkeys.stream()
+                .mapToInt(Monkey::divisor)
+                .distinct()
+                .reduce(ArithmeticUtils::lcm)
+                .orElseThrow();
+        return new State(worryLevelsManageable, monkeys, lcm);
     }
     
     /**
@@ -99,12 +107,7 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
             LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", worryLevel);
         } else {
             // Reduce worry level in such a way that it does not impact upcoming tests
-            int lcm = monkeys.stream()
-                    .mapToInt(Monkey::divisor)
-                    .distinct()
-                    .reduce(ArithmeticUtils::lcm)
-                    .orElseThrow();
-            worryLevel = worryLevel.divideAndRemainder(BigInteger.valueOf(lcm))[1];
+            worryLevel = worryLevel.divideAndRemainder(BigInteger.valueOf(divisorLcm))[1];
             
         }
         
@@ -123,7 +126,7 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
         newMonkeys.set(monkeyId, monkey.inspectAndRemoveFirstItem());
         newMonkeys.set(targetMonkeyId, monkeys.get(targetMonkeyId).addItem(new Item(worryLevel)));
         
-        return new State(worryLevelsManageable, newMonkeys);
+        return new State(worryLevelsManageable, newMonkeys, divisorLcm);
     }
     
     /**
