@@ -18,7 +18,7 @@ public class MonkeyInTheMiddlePart2 implements LongSolver {
     
     @Override
     public long solve(Stream<String> lines) {
-        var state = State.parse(lines, false);
+        var state = State.init(lines, false);
         
         state = state.performRounds(10_000);
         

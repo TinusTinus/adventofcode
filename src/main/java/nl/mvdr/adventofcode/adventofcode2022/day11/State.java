@@ -12,30 +12,30 @@ import org.slf4j.LoggerFactory;
 /**
  * Current monkey situation.
  *
- * @param worryLevelsManageable whether worry levels are still manageable (that is, only in part 1 of the puzzle)
  * @param monkeys the monkeys, indexed by their id
+ * @param divideByThree whether worry levels are divided by three on each inspection (that is, only in part 1 of the puzzle)
  * @param divisorLcm cached value of the least common multiple of the monkeys' divisors
  * @author Martijn van de Rijdt
  */
-record State(boolean worryLevelsManageable, List<Monkey> monkeys, int divisorLcm) {
+record State(List<Monkey> monkeys, boolean divideByThree, int divisorLcm) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(State.class);
     
     /**
-     * Parses puzzle input.
+     * Creates the initial state based on the puzzle input.
      * 
      * @param lines puzzle input
-     * @param worryLevelsManageable whether worry levels are still manageable (that is, only in part 1 of the puzzle)
+     * @param divideByThree whether worry levels are divided by three on each inspection (that is, only in part 1 of the puzzle)
      * @return initial state
      */
-    static State parse(Stream<String> lines, boolean worryLevelsManageable) {
+    static State init(Stream<String> lines, boolean divideByThree) {
         var monkeys = Monkey.parse(lines.toList());
         var lcm = monkeys.stream()
                 .mapToInt(Monkey::divisor)
                 .distinct()
                 .reduce(ArithmeticUtils::lcm)
                 .orElseThrow();
-        return new State(worryLevelsManageable, monkeys, lcm);
+        return new State(monkeys, divideByThree, lcm);
     }
     
     /**
@@ -101,13 +101,14 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys, int divisorLcm
         worryLevel = monkey.operation().apply(worryLevel);
         LOGGER.debug("Worry level is updated by the monkey's operation to {}.", worryLevel);
         
-        if (worryLevelsManageable) {
+        if (divideByThree) {
             worryLevel = worryLevel.divide(BigInteger.valueOf(3));
             LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", worryLevel);
         } else {
-            // Reduce worry level in such a way that it does not impact upcoming tests
+            // Reduce worry level in such a way that it does not impact upcoming tests.
+            // This prevents the performance issues which would occur if worry levels kept increasing.
             worryLevel = worryLevel.divideAndRemainder(BigInteger.valueOf(divisorLcm))[1];
-            
+            LOGGER.debug("Worry level is reduced to {} in order to keep it manageable.", worryLevel);
         }
         
         int targetMonkeyId;
@@ -125,7 +126,7 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys, int divisorLcm
         newMonkeys.set(monkeyId, monkey.inspectAndRemoveFirstItem());
         newMonkeys.set(targetMonkeyId, monkeys.get(targetMonkeyId).addItem(new Item(worryLevel)));
         
-        return new State(worryLevelsManageable, newMonkeys, divisorLcm);
+        return new State(newMonkeys, divideByThree, divisorLcm);
     }
     
     /**
