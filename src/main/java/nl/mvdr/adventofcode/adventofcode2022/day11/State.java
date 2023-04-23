@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.apache.commons.math3.util.ArithmeticUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,7 +98,15 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
             worryLevel = worryLevel.divide(BigInteger.valueOf(3));
             LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", worryLevel);
         } else {
-            // TODO reduce worry level if possible, in such a way that it does not impact upcoming tests
+            // Reduce worry level in such a way that it does not impact upcoming tests
+            long[] divisors = monkeys.stream()
+                    .mapToLong(Monkey::divisor)
+                    .distinct()
+                    .toArray();
+            var lcm = BigInteger.valueOf(lcm(divisors));
+            
+            worryLevel = worryLevel.divideAndRemainder(lcm)[1];
+            
         }
         
         int targetMonkeyId;
@@ -116,6 +125,22 @@ record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
         newMonkeys.set(targetMonkeyId, monkeys.get(targetMonkeyId).addItem(new Item(worryLevel)));
         
         return new State(worryLevelsManageable, newMonkeys);
+    }
+    
+    /**
+     * Helper method to compute the least common multiple of an arbitrary number of numbers.
+     * 
+     * Based on <a href="https://stackoverflow.com/a/4202114">this code sample on Stack Overflow</a>.
+     * 
+     * @param input input
+     * @return lcm
+     */
+    private static long lcm(long[] input) {
+        long result = input[0];
+        for (int i = 1; i < input.length; i++) {
+            result = ArithmeticUtils.lcm(result, input[i]);
+        }
+        return result;
     }
     
     /**
