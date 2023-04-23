@@ -12,15 +12,15 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MonkeyInTheMiddlePart1 implements IntSolver {
+public class MonkeyInTheMiddlePart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MonkeyInTheMiddlePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MonkeyInTheMiddlePart2.class);
     
     @Override
     public int solve(Stream<String> lines) {
-        var state = State.parse(lines, true);
+        var state = State.parse(lines, false);
         
-        state = state.performRounds(20);
+        state = state.performRounds(10_000);
         
         return state.calculateMonkeyBusiness();
     }
@@ -31,7 +31,7 @@ public class MonkeyInTheMiddlePart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new MonkeyInTheMiddlePart1();
+        var instance = new MonkeyInTheMiddlePart2();
 
         var result = instance.solve("input-day11-2022.txt");
 

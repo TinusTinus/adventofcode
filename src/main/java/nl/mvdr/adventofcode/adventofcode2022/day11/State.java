@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-record State(List<Monkey> monkeys) {
+record State(boolean worryLevelsManageable, List<Monkey> monkeys) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(State.class);
     
@@ -20,11 +20,12 @@ record State(List<Monkey> monkeys) {
      * Parses puzzle input.
      * 
      * @param lines puzzle input
+     * @param worryLevelsManageable whether worry levels are still manageable (that is, only in part 1 of the puzzle)
      * @return initial state
      */
-    static State parse(Stream<String> lines) {
+    static State parse(Stream<String> lines, boolean worryLevelsManageable) {
         var monkeys = Monkey.parse(lines.toList());
-        return new State(monkeys);
+        return new State(worryLevelsManageable, monkeys);
     }
     
     /**
@@ -90,8 +91,11 @@ record State(List<Monkey> monkeys) {
         
         worryLevel = monkey.operation().applyAsInt(worryLevel);
         LOGGER.debug("Worry level is updated by the monkey's operation to {}.", Integer.valueOf(worryLevel));
-        worryLevel = worryLevel / 3;
-        LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", Integer.valueOf(worryLevel));
+        
+        if (worryLevelsManageable) {
+            worryLevel = worryLevel / 3;
+            LOGGER.debug("Monkey gets bored with item. Worry level is divided by 3 to {}.", Integer.valueOf(worryLevel));
+        }
         
         int targetMonkeyId;
         if (worryLevel % monkey.divisor() == 0) {
@@ -108,7 +112,7 @@ record State(List<Monkey> monkeys) {
         newMonkeys.set(monkeyId, monkey.inspectAndRemoveFirstItem());
         newMonkeys.set(targetMonkeyId, monkeys.get(targetMonkeyId).addItem(new Item(worryLevel)));
         
-        return new State(newMonkeys);
+        return new State(worryLevelsManageable, newMonkeys);
     }
     
     /**
