@@ -3,7 +3,11 @@ package nl.mvdr.adventofcode.adventofcode2022.day12;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -60,6 +64,28 @@ record HeightMap(Point start, Point end, Map<Point, Character> heights) {
      * @return length of the shortest path from start to end
      */
     int computeShortestPathLength() {
+        return computeShortestPathLength(Set.of(start));
+    }
+    
+    /**
+     * @return length of the shortest path from start to end
+     */
+    int computeShortestPathLengthFromAnyLowestPoint() {
+        Set<Point> startingPoints = heights.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().charValue() == 'a')
+                .map(Entry::getKey)
+                .collect(Collectors.toSet());
+        return computeShortestPathLength(startingPoints);
+    }
+    
+    /**
+     * Computes the length of the shortest path, starting from any of the given starting points.
+     * 
+     * @param startPoints the possible starting points
+     * @return length of the shortest path from the given starting point to the end
+     */
+    private int computeShortestPathLength(Set<Point> startPoints) {
         Graph<Point, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
         heights.keySet().forEach(graph::addVertex);
         heights.keySet().forEach(point -> {
@@ -72,7 +98,12 @@ record HeightMap(Point start, Point end, Map<Point, Character> heights) {
         });
         
         ShortestPathAlgorithm<Point, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        GraphPath<Point, DefaultEdge> path = algorithm.getPath(start, end);
-        return path.getLength();
+        
+        return startPoints.stream()
+                .map(startingPoint -> algorithm.getPath(startingPoint, end))
+                .filter(Objects::nonNull)
+                .mapToInt(GraphPath::getLength)
+                .min()
+                .orElseThrow();
     }
 }
