@@ -108,7 +108,7 @@ record HeightMap(Point start, Point end, Map<Point, Character> heights) {
                 .min()
                 .orElseThrow();
         
-        // Note: the above could probably be made more efficient by inverting all edges, and then using DijkstraShortestPath.getPaths().
+        // Note: the above could probably be made more efficient by inverting all edges, and then using DijkstraShortestPath.getPaths(end).
         // However, the above solution is efficient enough: it finds the answer on my machine within a second.
     }
 }
