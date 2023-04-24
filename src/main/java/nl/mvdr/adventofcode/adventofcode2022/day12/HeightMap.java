@@ -86,21 +86,23 @@ record HeightMap(Point start, Point end, Map<Point, Character> heights) {
      * @return length of the shortest path from the given starting point to the end
      */
     private int computeShortestPathLength(Set<Point> startPoints) {
+        // Create a directed graph
         Graph<Point, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        // Each square is a vertex in the graph
         heights.keySet().forEach(graph::addVertex);
-        heights.keySet().forEach(point -> {
-            var height = heights.get(point).charValue();
-            point.neighbours()
+        // Add edges
+        heights.entrySet().forEach(entry ->
+            entry.getKey().neighbours()
                     .stream()
                     .filter(heights::containsKey)
-                    .filter(neighbour -> heights.get(neighbour).charValue() <= height + 1)
-                    .forEach(neighbour -> graph.addEdge(point, neighbour));
-        });
+                    // Only include an edge if the neighbours' height is at most one higher than this square's height
+                    .filter(neighbour -> heights.get(neighbour).charValue() <= entry.getValue().charValue() + 1)
+                    .forEach(neighbour -> graph.addEdge(entry.getKey(), neighbour)));
         
         ShortestPathAlgorithm<Point, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        
         return startPoints.stream()
                 .map(startingPoint -> algorithm.getPath(startingPoint, end))
+                // Exclude starting points for which there is no path to the end
                 .filter(Objects::nonNull)
                 .mapToInt(GraphPath::getLength)
                 .min()
