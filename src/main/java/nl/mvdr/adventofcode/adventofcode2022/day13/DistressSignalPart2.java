@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day13;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -18,17 +19,17 @@ public class DistressSignalPart2 implements IntSolver {
     
     @Override
     public int solve(Stream<String> lines) {
-        var pairs = PacketPair.parse(lines.toList());
-        var pairPackets = pairs.stream()
+        var pairPackets = PacketPair.parse(lines.toList())
+                .stream()
                 .flatMap(pair -> Stream.of(pair.leftPacket(), pair.rightPacket()));
-        var divider2 = PacketValue.parse("[[2]]");
-        var divider6 = PacketValue.parse("[[6]]");
-        var packets = Stream.concat(pairPackets, Stream.of(divider2, divider6))
+        var dividers = List.of(PacketValue.parse("[[2]]"), PacketValue.parse("[[6]]"));
+        var sortedPackets = Stream.concat(pairPackets, dividers.stream())
                 .sorted()
                 .toList();
-        var divider2Index = packets.indexOf(divider2) + 1;
-        var divider6Index = packets.indexOf(divider6) + 1;
-        return divider2Index * divider6Index;
+        return dividers.stream()
+                .mapToInt(sortedPackets::indexOf)
+                .map(index -> index + 1)
+                .reduce(1, (i, j) -> i * j);
     }
 
     /**
