@@ -35,4 +35,9 @@ record IntValue(int value) implements PacketValue {
         }
         return result;
     }
+    
+    @Override
+    public String toString() {
+        return "" + value;
+    }
 }

@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day13;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * A list value within a packet.
@@ -23,9 +23,29 @@ record ListValue(List<PacketValue> elements) implements PacketValue {
             throw new IllegalArgumentException("Not a valid list: " + text);
         }
         var elementsString = text.substring(1, text.length() - 1);
-        var elements = Stream.of(elementsString.split(",")) // TODO nope, there may be sublists!
-                .map(PacketValue::parse)
-                .toList();
+        List<PacketValue> elements = new ArrayList<>();
+        if (!elementsString.isEmpty()) {
+            var index = 0;
+            var listDepth = 0;
+            var startOfElement = index;
+            while (index < elementsString.length()) {
+                var character = elementsString.charAt(index);
+                if (character == ',' && listDepth == 0) {
+                    elements.add(PacketValue.parse(elementsString.substring(startOfElement, index)));
+                    startOfElement = index + 1;
+                } else if (character == '[') {
+                    listDepth++;
+                } else if (character == ']') {
+                    listDepth--;
+                }
+                index++;
+            }
+            if (listDepth != 0) {
+                throw new IllegalStateException();
+            }
+            elements.add(PacketValue.parse(elementsString.substring(startOfElement, index)));
+        }
+        
         return new ListValue(elements);
     }
     
@@ -40,5 +60,10 @@ record ListValue(List<PacketValue> elements) implements PacketValue {
             throw new IllegalArgumentException("Unsupported packet value type: " + other);
         }
         return result;
+    }
+    
+    @Override
+    public String toString() {
+        return elements.toString();
     }
 }

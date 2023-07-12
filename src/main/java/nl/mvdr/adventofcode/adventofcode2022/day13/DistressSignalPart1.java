@@ -22,6 +22,7 @@ public class DistressSignalPart1 implements IntSolver {
         var pairs = PacketPair.parse(lines.toList());
         return IntStream.range(0, pairs.size())
                 .filter(i -> pairs.get(i).isInCorrectOrder())
+                .map(i -> i + 1)
                 .sum();
     }
 

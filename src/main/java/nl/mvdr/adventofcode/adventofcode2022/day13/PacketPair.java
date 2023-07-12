@@ -3,12 +3,17 @@ package nl.mvdr.adventofcode.adventofcode2022.day13;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A pair of packets.
  *
  * @author Martijn van de Rijdt
  */
 record PacketPair(PacketValue leftPacket, PacketValue rightPacket) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(PacketPair.class);
     
     /**
      * Parses puzzle input.
@@ -33,6 +38,13 @@ record PacketPair(PacketValue leftPacket, PacketValue rightPacket) {
      * @return whether this pair's values are in the correct order
      */
     boolean isInCorrectOrder() {
-        return leftPacket.compareTo(rightPacket) <= 0;
+        LOGGER.debug("Comparing left packet {} to right packet {}", leftPacket, rightPacket);
+        boolean result = leftPacket.compareTo(rightPacket) <= 0;
+        if (result) {
+            LOGGER.debug("Packets are in the correct order.");
+        } else {
+            LOGGER.debug("Packets are NOT in the correct order.");
+        }
+        return result;
     }
 }
