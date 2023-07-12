@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.annotation.processing.Generated;
 
@@ -42,7 +43,7 @@ public class VerticalSlice {
     private final int minimumX;
     /** Maximum x coordinate containing anything other than empty tiles. */
     private final int maximumX;
-    /** Minimum y coordinate from the scan input (that is, the solid material). */
+    /** Minimum y coordinate. */
     private final int minimumY;
     /** Maximum y coordinate from the scan input (that is, the solid material). */
     private final int maximumY;
@@ -118,40 +119,58 @@ public class VerticalSlice {
             } else if (solid.contains(below) || newSettled.contains(below)) {
                 // The tile below is solid or settled. Unable to trickle down.
                 
-                // TODO take material type into account
-                
+                boolean settle;
                 // Find out whether falling material can continue to trickle down on the left and/or right.
                 Set<Point> visited = new HashSet<>();
                 visited.add(tricklingFallingMaterialPoint);
-                
-                // Search to the left.
-                Point left = tricklingFallingMaterialPoint.leftNeighbour();
-                while(!solid.contains(left) && (solid.contains(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
-                    visited.add(left);
-                    left = left.leftNeighbour();
-                }
-                if (!solid.contains(left)) {
-                    visited.add(left);
-                }
-                
-                // Search to the right.
-                Point right = tricklingFallingMaterialPoint.rightNeighbour();
-                while(!solid.contains(right) && (solid.contains(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
-                    visited.add(right);
-                    right = right.rightNeighbour();
-                }
-                if (!solid.contains(right)) {
-                    visited.add(right);
-                }
-                
-                boolean settle = true;
-                if (!(solid.contains(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
-                    settle = false;
-                    tricklingFallingMaterial.add(left);
-                }
-                if (!(solid.contains(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
-                    settle = false;
-                    tricklingFallingMaterial.add(right);
+
+                if (liquidFallingMaterial) {
+                    // Search to the left.
+                    Point left = tricklingFallingMaterialPoint.leftNeighbour();
+                    while(!solid.contains(left) && (solid.contains(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
+                        visited.add(left);
+                        left = left.leftNeighbour();
+                    }
+                    if (!solid.contains(left)) {
+                        visited.add(left);
+                    }
+                    
+                    // Search to the right.
+                    Point right = tricklingFallingMaterialPoint.rightNeighbour();
+                    while(!solid.contains(right) && (solid.contains(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
+                        visited.add(right);
+                        right = right.rightNeighbour();
+                    }
+                    if (!solid.contains(right)) {
+                        visited.add(right);
+                    }
+                    
+                    settle = true;
+                    if (!(solid.contains(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
+                        settle = false;
+                        tricklingFallingMaterial.add(left);
+                    }
+                    if (!(solid.contains(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
+                        settle = false;
+                        tricklingFallingMaterial.add(right);
+                    }
+                } else {
+                    Point downAndLeft = tricklingFallingMaterialPoint.leftNeighbour().belowNeighbour();
+                    Point downAndRight = tricklingFallingMaterialPoint.rightNeighbour().belowNeighbour();
+                    if (!solid.contains(downAndLeft) && !newSettled.contains(downAndLeft)) {
+                        // able to move down and left
+                        visited.add(downAndLeft);
+                        tricklingFallingMaterial.add(downAndLeft);
+                        settle = false;
+                    } else if (!solid.contains(downAndRight) && !newSettled.contains(downAndRight)) {
+                        // able to move down and right
+                        visited.add(downAndRight);
+                        tricklingFallingMaterial.add(downAndRight);
+                        settle = false;
+                    } else {
+                        // settle here
+                        settle = true;
+                    }
                 }
                 
                 if (settle) {
@@ -206,7 +225,11 @@ public class VerticalSlice {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("vertical slice:\n");
-        for (int y = minimumY; y != maximumY + 1; y++) {
+        var minimumYForPrint = Stream.concat(solid.stream(), settled.stream())
+                .mapToInt(Point::y)
+                .min()
+                .getAsInt();
+        for (int y = minimumYForPrint; y != maximumY + 1; y++) {
             for (int x = minimumX; x != maximumX + 1; x++) {
                 Point point = new Point(x, y);
                 
@@ -215,10 +238,14 @@ public class VerticalSlice {
                     c = '+';
                 } else if (solid.contains(point)) {
                     c = '#';
-                } else if (settled.contains(point)) {
+                } else if (settled.contains(point) && liquidFallingMaterial) {
                     c = '~';
-                } else if (passedThrough.contains(point)) {
+                } else if (settled.contains(point) && !liquidFallingMaterial) {
+                    c = 'o';
+                } else if (passedThrough.contains(point) && liquidFallingMaterial) {
                     c = '|';
+                } else if (passedThrough.contains(point) && !liquidFallingMaterial) {
+                    c = '~';
                 } else {
                     c = '.';
                 }
