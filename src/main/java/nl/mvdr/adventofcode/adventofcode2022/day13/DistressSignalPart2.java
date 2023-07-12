@@ -22,14 +22,17 @@ public class DistressSignalPart2 implements IntSolver {
         var pairPackets = PacketPair.parse(lines.toList())
                 .stream()
                 .flatMap(pair -> Stream.of(pair.leftPacket(), pair.rightPacket()));
-        var dividers = List.of(PacketValue.parse("[[2]]"), PacketValue.parse("[[6]]"));
+        var dividers = Stream.of("[[2]]", "[[6]]")
+                .map(PacketValue::parse)
+                .toList();
         var sortedPackets = Stream.concat(pairPackets, dividers.stream())
                 .sorted()
                 .toList();
         return dividers.stream()
                 .mapToInt(sortedPackets::indexOf)
                 .map(index -> index + 1)
-                .reduce(1, (i, j) -> i * j);
+                .reduce((i, j) -> i * j)
+                .orElseThrow();
     }
 
     /**
