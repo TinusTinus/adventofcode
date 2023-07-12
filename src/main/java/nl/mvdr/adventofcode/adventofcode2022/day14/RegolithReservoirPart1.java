@@ -26,7 +26,7 @@ public class RegolithReservoirPart1 implements IntSolver {
                 .flatMap(path -> path.allPoints().stream())
                 .collect(Collectors.toSet());
         var spring = new Point(500, 0);
-        var verticalSlice = new VerticalSlice(spring, rock);
+        var verticalSlice = new VerticalSlice(spring, rock, true);
         return verticalSlice.tickUntilDone().countSettled();
     }
 

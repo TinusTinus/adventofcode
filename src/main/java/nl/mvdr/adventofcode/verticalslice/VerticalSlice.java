@@ -31,6 +31,13 @@ public class VerticalSlice {
     /** The tiles where falling material has passed through. */
     private final Set<Point> passedThrough;
     
+    /**
+     * Whether the falling material is a liquid.
+     * 
+     * Determines whether the falling material can settle on its own or if it will continue trickling left / right. 
+     */
+    private final boolean liquidFallingMaterial;
+    
     /** Minimum x coordinate containing anything other than empty tiles. */
     private final int minimumX;
     /** Maximum x coordinate containing anything other than empty tiles. */
@@ -47,13 +54,15 @@ public class VerticalSlice {
      * @param solid the tiles containing solid material
      * @param settled the tiles where falling material has settled
      * @param passedThrough the tiles where falling material has passed through
+     * @param liquidFallingMaterial whether the falling material is a liquid
      */
-    private VerticalSlice(Point spring, Set<Point> solid, Set<Point> settled, Set<Point> passedThrough) {
+    private VerticalSlice(Point spring, Set<Point> solid, Set<Point> settled, Set<Point> passedThrough, boolean liquidFallingMaterial) {
         super();
         this.spring = spring;
         this.solid = solid;
         this.settled = settled;
         this.passedThrough = passedThrough;
+        this.liquidFallingMaterial = liquidFallingMaterial;
         
         // Compute and cache minimum and maximum coordinates
         this.minimumY = solid.stream()
@@ -86,9 +95,10 @@ public class VerticalSlice {
      * 
      * @param spring the square meter where water originates
      * @param clay the tiles containing solid material
+     * @param liquidFallingMaterial whether the falling material is a liquid
      */
-    public VerticalSlice(Point spring, Set<Point> solid) {
-        this(spring, solid, Set.of(), Set.of());
+    public VerticalSlice(Point spring, Set<Point> solid, boolean liquidFallingMaterial) {
+        this(spring, solid, Set.of(), Set.of(), liquidFallingMaterial);
     }
     
     /** @return an updated vertical slice, equal to this slice with an additional layer of falling material settled, if possible */
@@ -108,8 +118,9 @@ public class VerticalSlice {
             } else if (solid.contains(below) || newSettled.contains(below)) {
                 // The tile below is solid or settled. Unable to trickle down.
                 
-                // Find out whether falling material can continue to trickle down on the left and/or right.
+                // TODO take material type into account
                 
+                // Find out whether falling material can continue to trickle down on the left and/or right.
                 Set<Point> visited = new HashSet<>();
                 visited.add(tricklingFallingMaterialPoint);
                 
@@ -158,7 +169,7 @@ public class VerticalSlice {
             }
         }
         
-        return new VerticalSlice(spring, solid, newSettled, newPassedThrough);
+        return new VerticalSlice(spring, solid, newSettled, newPassedThrough, liquidFallingMaterial);
     }
     
     /** @return this slice after falling material has settled wherever possible */

@@ -25,7 +25,7 @@ public class ReservoirResearch implements LinesSolver<String> {
         Point spring = new Point(500, 0);
         Set<Point> claySquareMeters = Point.parseRanges(lines);
         
-        VerticalSlice slice = new VerticalSlice(spring, claySquareMeters);
+        VerticalSlice slice = new VerticalSlice(spring, claySquareMeters, false);
         
         slice = slice.tickUntilDone();
         
