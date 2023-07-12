@@ -40,8 +40,6 @@ public class VerticalSlice {
      */
     private final boolean liquidFallingMaterial;
     
-    /** Minimum y coordinate. */
-    private final int minimumY;
     /** Maximum y coordinate from the scan input (that is, the solid material). */
     private final int maximumY;
     /** Y coordinate of the floor. */
@@ -64,12 +62,6 @@ public class VerticalSlice {
         this.settled = settled;
         this.passedThrough = passedThrough;
         this.liquidFallingMaterial = liquidFallingMaterial;
-        
-        // Compute and cache minimum and maximum coordinates
-        this.minimumY = solid.stream()
-                .mapToInt(Point::y)
-                .min()
-                .getAsInt();
         
         int maximumSolidY = solid.stream()
                 .mapToInt(Point::y)
@@ -220,6 +212,10 @@ public class VerticalSlice {
         reached.addAll(passedThrough);
         
         // To prevent counting forever, ignore tiles with a y coordinate smaller than the smallest y coordinate in your scan data or larger than the largest one.
+        var minimumY = solid.stream()
+                .mapToInt(Point::y)
+                .min()
+                .getAsInt();
         reached.removeIf(point -> point.y() < minimumY);
         reached.removeIf(point -> maximumY < point.y());
         
