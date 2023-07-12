@@ -113,14 +113,13 @@ public class VerticalSlice {
             } else if (isSolid(below) || newSettled.contains(below)) {
                 // The tile below is solid or settled. Unable to trickle down.
                 
-                boolean settle;
                 // Find out whether falling material can continue to trickle down on the left and/or right.
                 Set<Point> visited = new HashSet<>();
                 visited.add(tricklingFallingMaterialPoint);
 
+                // Search to the left.
+                Point left = tricklingFallingMaterialPoint.leftNeighbour();
                 if (liquidFallingMaterial) {
-                    // Search to the left.
-                    Point left = tricklingFallingMaterialPoint.leftNeighbour();
                     while(!isSolid(left) && (isSolid(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
                         visited.add(left);
                         left = left.leftNeighbour();
@@ -128,9 +127,10 @@ public class VerticalSlice {
                     if (!isSolid(left)) {
                         visited.add(left);
                     }
-                    
-                    // Search to the right.
-                    Point right = tricklingFallingMaterialPoint.rightNeighbour();
+                }
+                // Search to the right.
+                Point right = tricklingFallingMaterialPoint.rightNeighbour();
+                if (liquidFallingMaterial) {
                     while(!isSolid(right) && (isSolid(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
                         visited.add(right);
                         right = right.rightNeighbour();
@@ -138,30 +138,16 @@ public class VerticalSlice {
                     if (!isSolid(right)) {
                         visited.add(right);
                     }
-                    
-                    settle = true;
-                    if (!(isSolid(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
-                        settle = false;
-                        tricklingFallingMaterial.add(left);
-                    }
-                    if (!(isSolid(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
-                        settle = false;
-                        tricklingFallingMaterial.add(right);
-                    }
-                } else {
-                    Point downAndLeft = tricklingFallingMaterialPoint.leftNeighbour().belowNeighbour();
-                    Point downAndRight = tricklingFallingMaterialPoint.rightNeighbour().belowNeighbour();
-                    settle = true;
-                    if (!isSolid(downAndLeft) && !newSettled.contains(downAndLeft)) {
-                        // able to move down and left
-                        settle = false;
-                        tricklingFallingMaterial.add(downAndLeft);
-                    } 
-                    if (!isSolid(downAndRight) && !newSettled.contains(downAndRight)) {
-                        // able to move down and right
-                        settle = false;
-                        tricklingFallingMaterial.add(downAndRight);
-                    }
+                }
+                
+                boolean settle = true;
+                if (!(isSolid(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
+                    settle = false;
+                    tricklingFallingMaterial.add(left);
+                }
+                if (!(isSolid(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
+                    settle = false;
+                    tricklingFallingMaterial.add(right);
                 }
                 
                 if (settle) {
