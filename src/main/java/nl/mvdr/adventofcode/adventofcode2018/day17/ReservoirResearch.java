@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.LinesSolver;
 import nl.mvdr.adventofcode.point.Point;
+import nl.mvdr.adventofcode.verticalslice.VerticalSlice;
 
 /**
  * Solution to the day 17 puzzle of 2018's Advent of Code:
@@ -30,7 +31,7 @@ public class ReservoirResearch implements LinesSolver<String> {
         
         LOGGER.info("Done: {}", slice);
         
-        return "Reached by water: " + slice.reachedByWater() + ", settled water: " + slice.settledWater();
+        return "Reached by water: " + slice.countReached() + ", settled water: " + slice.countSettled();
     }
     
     /**
