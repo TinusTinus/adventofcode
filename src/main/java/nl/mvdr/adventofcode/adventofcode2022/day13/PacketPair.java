@@ -21,7 +21,7 @@ record PacketPair(PacketValue leftPacket, PacketValue rightPacket) {
      * @param lines puzzle input
      * @return list of packet pairs
      */
-    static List<PacketPair> parse(List<String> lines) {
+    static List<PacketPair> parsePairs(List<String> lines) {
         List<PacketPair> result = new ArrayList<>();
         var index = 0;
         while (index < lines.size()) {

@@ -19,7 +19,7 @@ public class DistressSignalPart1 implements IntSolver {
     
     @Override
     public int solve(Stream<String> lines) {
-        var pairs = PacketPair.parse(lines.toList());
+        var pairs = PacketPair.parsePairs(lines.toList());
         return IntStream.range(0, pairs.size())
                 .filter(i -> pairs.get(i).isInCorrectOrder())
                 .map(i -> i + 1)
