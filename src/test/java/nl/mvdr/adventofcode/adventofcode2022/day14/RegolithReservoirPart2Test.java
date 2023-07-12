@@ -25,7 +25,7 @@ public class RegolithReservoirPart2Test extends SolverTest<RegolithReservoirPart
     
     /** Test case based on the accepted solution. */
     @Test
-    @Disabled // Disabled by default: this test is awesome but it takes over a minute to complete.
+    @Disabled // Disabled by default: this test is awesome but it takes about a minute to complete.
     public void testSolution() {
         assertSolution("27155", "input-day14-2022.txt");
     }

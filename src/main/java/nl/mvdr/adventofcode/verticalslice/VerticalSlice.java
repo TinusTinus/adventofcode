@@ -40,7 +40,7 @@ public class VerticalSlice {
      */
     private final boolean liquidFallingMaterial;
     
-    /** Maximum y coordinate from the scan input (that is, the solid material). */
+    /** Maximum y coordinate with solid material. */
     private final int maximumY;
     /** Y coordinate of the floor. */
     private final OptionalInt floorY;
@@ -53,14 +53,35 @@ public class VerticalSlice {
      * @param settled the tiles where falling material has settled
      * @param passedThrough the tiles where falling material has passed through
      * @param liquidFallingMaterial whether the falling material is a liquid
-     * @param floor whether there is a floor below the structure; only relevant / supported for solid falling materials
+     * @param maximumY maximum y coordinate with solid material
+     * @param floorY y coordinate of the floor
      */
-    private VerticalSlice(Point spring, Set<Point> solid, Set<Point> settled, Set<Point> passedThrough, boolean liquidFallingMaterial, boolean floor) {
+    private VerticalSlice(Point spring, Set<Point> solid, Set<Point> settled, Set<Point> passedThrough,
+            boolean liquidFallingMaterial, int maximumY, OptionalInt floorY) {
         super();
         this.spring = spring;
         this.solid = solid;
         this.settled = settled;
         this.passedThrough = passedThrough;
+        this.liquidFallingMaterial = liquidFallingMaterial;
+        this.maximumY = maximumY;
+        this.floorY = floorY;
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param spring the tile where falling material originates
+     * @param clay the tiles containing solid material
+     * @param liquidFallingMaterial whether the falling material is a liquid
+     * @param floor whether there is a floor below the structure; only relevant / supported for solid falling materials
+     */
+    public VerticalSlice(Point spring, Set<Point> solid, boolean liquidFallingMaterial, boolean floor) {
+        super();
+        this.spring = spring;
+        this.solid = solid;
+        this.settled = Set.of();
+        this.passedThrough = Set.of();
         this.liquidFallingMaterial = liquidFallingMaterial;
         
         int maximumSolidY = solid.stream()
@@ -73,18 +94,6 @@ public class VerticalSlice {
             floorY = OptionalInt.empty();
         }
         this.maximumY = floorY.orElse(maximumSolidY);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param spring the tile where falling material originates
-     * @param clay the tiles containing solid material
-     * @param liquidFallingMaterial whether the falling material is a liquid
-     * @param floor whether there is a floor below the structure; only relevant / supported for solid falling materials
-     */
-    public VerticalSlice(Point spring, Set<Point> solid, boolean liquidFallingMaterial, boolean floor) {
-        this(spring, solid, Set.of(), Set.of(), liquidFallingMaterial, floor);
     }
     
     /** @return an updated vertical slice, equal to this slice with an additional layer of falling material settled, if possible */
@@ -173,7 +182,7 @@ public class VerticalSlice {
             }
         }
         
-        return new VerticalSlice(spring, solid, newSettled, newPassedThrough, liquidFallingMaterial, floorY.isPresent());
+        return new VerticalSlice(spring, solid, newSettled, newPassedThrough, liquidFallingMaterial, maximumY, floorY);
     }
 
     /**
