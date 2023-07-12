@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.verticalslice;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.OptionalInt;
 import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -47,6 +48,8 @@ public class VerticalSlice {
     private final int minimumY;
     /** Maximum y coordinate from the scan input (that is, the solid material). */
     private final int maximumY;
+    /** Y coordinate of the floor. */
+    private final OptionalInt floorY;
 
     /**
      * Constructor.
@@ -56,8 +59,9 @@ public class VerticalSlice {
      * @param settled the tiles where falling material has settled
      * @param passedThrough the tiles where falling material has passed through
      * @param liquidFallingMaterial whether the falling material is a liquid
+     * @param floor whether there is a floor below the structure; only relevant / supported for solid falling materials
      */
-    private VerticalSlice(Point spring, Set<Point> solid, Set<Point> settled, Set<Point> passedThrough, boolean liquidFallingMaterial) {
+    private VerticalSlice(Point spring, Set<Point> solid, Set<Point> settled, Set<Point> passedThrough, boolean liquidFallingMaterial, boolean floor) {
         super();
         this.spring = spring;
         this.solid = solid;
@@ -71,10 +75,16 @@ public class VerticalSlice {
                 .min()
                 .getAsInt();
         
-        this.maximumY = solid.stream()
+        int maximumSolidY = solid.stream()
                 .mapToInt(Point::y)
                 .max()
                 .getAsInt();
+        if (floor) {
+            floorY = OptionalInt.of(maximumSolidY + 2);
+        } else {
+            floorY = OptionalInt.empty();
+        }
+        this.maximumY = floorY.orElse(maximumSolidY);
         
         Set<Point> points = new HashSet<>();
         points.add(spring);
@@ -94,12 +104,13 @@ public class VerticalSlice {
     /**
      * Constructor.
      * 
-     * @param spring the square meter where water originates
+     * @param spring the tile where falling material originates
      * @param clay the tiles containing solid material
      * @param liquidFallingMaterial whether the falling material is a liquid
+     * @param floor whether there is a floor below the structure; only relevant / supported for solid falling materials
      */
-    public VerticalSlice(Point spring, Set<Point> solid, boolean liquidFallingMaterial) {
-        this(spring, solid, Set.of(), Set.of(), liquidFallingMaterial);
+    public VerticalSlice(Point spring, Set<Point> solid, boolean liquidFallingMaterial, boolean floor) {
+        this(spring, solid, Set.of(), Set.of(), liquidFallingMaterial, floor);
     }
     
     /** @return an updated vertical slice, equal to this slice with an additional layer of falling material settled, if possible */
@@ -116,7 +127,7 @@ public class VerticalSlice {
             Point below = tricklingFallingMaterialPoint.belowNeighbour();
             if (maximumY < below.y()) {
                 // Ignore. No need to trickle down further.
-            } else if (solid.contains(below) || newSettled.contains(below)) {
+            } else if (isSolid(below) || newSettled.contains(below)) {
                 // The tile below is solid or settled. Unable to trickle down.
                 
                 boolean settle;
@@ -127,42 +138,42 @@ public class VerticalSlice {
                 if (liquidFallingMaterial) {
                     // Search to the left.
                     Point left = tricklingFallingMaterialPoint.leftNeighbour();
-                    while(!solid.contains(left) && (solid.contains(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
+                    while(!isSolid(left) && (isSolid(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
                         visited.add(left);
                         left = left.leftNeighbour();
                     }
-                    if (!solid.contains(left)) {
+                    if (!isSolid(left)) {
                         visited.add(left);
                     }
                     
                     // Search to the right.
                     Point right = tricklingFallingMaterialPoint.rightNeighbour();
-                    while(!solid.contains(right) && (solid.contains(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
+                    while(!isSolid(right) && (isSolid(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
                         visited.add(right);
                         right = right.rightNeighbour();
                     }
-                    if (!solid.contains(right)) {
+                    if (!isSolid(right)) {
                         visited.add(right);
                     }
                     
                     settle = true;
-                    if (!(solid.contains(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
+                    if (!(isSolid(left.belowNeighbour()) || newSettled.contains(left.belowNeighbour()))) {
                         settle = false;
                         tricklingFallingMaterial.add(left);
                     }
-                    if (!(solid.contains(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
+                    if (!(isSolid(right.belowNeighbour()) || newSettled.contains(right.belowNeighbour()))) {
                         settle = false;
                         tricklingFallingMaterial.add(right);
                     }
                 } else {
                     Point downAndLeft = tricklingFallingMaterialPoint.leftNeighbour().belowNeighbour();
                     Point downAndRight = tricklingFallingMaterialPoint.rightNeighbour().belowNeighbour();
-                    if (!solid.contains(downAndLeft) && !newSettled.contains(downAndLeft)) {
+                    if (!isSolid(downAndLeft) && !newSettled.contains(downAndLeft)) {
                         // able to move down and left
                         visited.add(downAndLeft);
                         tricklingFallingMaterial.add(downAndLeft);
                         settle = false;
-                    } else if (!solid.contains(downAndRight) && !newSettled.contains(downAndRight)) {
+                    } else if (!isSolid(downAndRight) && !newSettled.contains(downAndRight)) {
                         // able to move down and right
                         visited.add(downAndRight);
                         tricklingFallingMaterial.add(downAndRight);
@@ -188,7 +199,18 @@ public class VerticalSlice {
             }
         }
         
-        return new VerticalSlice(spring, solid, newSettled, newPassedThrough, liquidFallingMaterial);
+        return new VerticalSlice(spring, solid, newSettled, newPassedThrough, liquidFallingMaterial, floorY.isPresent());
+    }
+
+    /**
+     * Checks whether the given point is solid.
+     * 
+     * @param point point
+     * @return whether the given point is a solid
+     */
+    private boolean isSolid(Point point) {
+        return solid.contains(point)
+                || (floorY.isPresent() && floorY.orElseThrow() == point.y());
     }
     
     /** @return this slice after falling material has settled wherever possible */
@@ -236,7 +258,7 @@ public class VerticalSlice {
                 char c;
                 if (spring.equals(point)) {
                     c = '+';
-                } else if (solid.contains(point)) {
+                } else if (isSolid(point)) {
                     c = '#';
                 } else if (settled.contains(point) && liquidFallingMaterial) {
                     c = '~';
