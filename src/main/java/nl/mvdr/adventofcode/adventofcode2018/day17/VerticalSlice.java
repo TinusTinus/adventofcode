@@ -44,7 +44,7 @@ class VerticalSlice {
      * Constructor.
      * 
      * @param spring the quare meter where water originates
-     * @param clay the square meters where the ground is clas
+     * @param clay the square meters where the ground is clay
      * @param water the square meters where water has settled
      * @param wetSand the square meters where water has passed through
      */
