@@ -154,15 +154,13 @@ public class VerticalSlice {
                     settle = true;
                     if (!isSolid(downAndLeft) && !newSettled.contains(downAndLeft)) {
                         // able to move down and left
-                        visited.add(downAndLeft);
-                        tricklingFallingMaterial.add(downAndLeft);
                         settle = false;
+                        tricklingFallingMaterial.add(downAndLeft);
                     } 
                     if (!isSolid(downAndRight) && !newSettled.contains(downAndRight)) {
                         // able to move down and right
-                        visited.add(downAndRight);
-                        tricklingFallingMaterial.add(downAndRight);
                         settle = false;
+                        tricklingFallingMaterial.add(downAndRight);
                     }
                 }
                 
