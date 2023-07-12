@@ -9,6 +9,17 @@ import java.util.List;
  */
 record IntValue(int value) implements PacketValue {
 
+    /**
+     * Parses puzzle input.
+     * 
+     * @param text textual representation of a packet value
+     * @return the packet value
+     */
+    static IntValue parse(String text) {
+        var value = Integer.parseInt(text);
+        return new IntValue(value);
+    }
+    
     @Override
     public int compareTo(PacketValue other) {
         int result;

@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day13;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,16 @@ record PacketPair(PacketValue leftPacket, PacketValue rightPacket) {
      * @return list of packet pairs
      */
     static List<PacketPair> parse(List<String> lines) {
-        return List.of(); // TODO implement
+        List<PacketPair> result = new ArrayList<>();
+        var index = 0;
+        while (index < lines.size()) {
+            var leftPacket = PacketValue.parse(lines.get(index));
+            var rightPacket = PacketValue.parse(lines.get(index + 1));
+            result.add(new PacketPair(leftPacket, rightPacket));
+            index = index + 3;
+        }
+        
+        return result;
     }
     
     /**
