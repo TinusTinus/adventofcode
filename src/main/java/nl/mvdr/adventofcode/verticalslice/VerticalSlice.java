@@ -72,7 +72,7 @@ public class VerticalSlice {
      * Constructor.
      * 
      * @param spring the tile where falling material originates
-     * @param clay the tiles containing solid material
+     * @param solid the tiles containing solid material
      * @param liquidFallingMaterial whether the falling material is a liquid
      * @param floor whether there is a floor below the structure; only relevant / supported for solid falling materials
      */
