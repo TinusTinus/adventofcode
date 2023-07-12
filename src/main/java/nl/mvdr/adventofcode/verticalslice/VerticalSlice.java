@@ -151,19 +151,18 @@ public class VerticalSlice {
                 } else {
                     Point downAndLeft = tricklingFallingMaterialPoint.leftNeighbour().belowNeighbour();
                     Point downAndRight = tricklingFallingMaterialPoint.rightNeighbour().belowNeighbour();
+                    settle = true;
                     if (!isSolid(downAndLeft) && !newSettled.contains(downAndLeft)) {
                         // able to move down and left
                         visited.add(downAndLeft);
                         tricklingFallingMaterial.add(downAndLeft);
                         settle = false;
-                    } else if (!isSolid(downAndRight) && !newSettled.contains(downAndRight)) {
+                    } 
+                    if (!isSolid(downAndRight) && !newSettled.contains(downAndRight)) {
                         // able to move down and right
                         visited.add(downAndRight);
                         tricklingFallingMaterial.add(downAndRight);
                         settle = false;
-                    } else {
-                        // settle here
-                        settle = true;
                     }
                 }
                 
