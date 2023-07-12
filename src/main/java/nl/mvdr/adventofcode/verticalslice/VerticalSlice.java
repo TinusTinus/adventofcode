@@ -40,10 +40,6 @@ public class VerticalSlice {
      */
     private final boolean liquidFallingMaterial;
     
-    /** Minimum x coordinate containing anything other than empty tiles. */
-    private final int minimumX;
-    /** Maximum x coordinate containing anything other than empty tiles. */
-    private final int maximumX;
     /** Minimum y coordinate. */
     private final int minimumY;
     /** Maximum y coordinate from the scan input (that is, the solid material). */
@@ -85,20 +81,6 @@ public class VerticalSlice {
             floorY = OptionalInt.empty();
         }
         this.maximumY = floorY.orElse(maximumSolidY);
-        
-        Set<Point> points = new HashSet<>();
-        points.add(spring);
-        points.addAll(solid);
-        points.addAll(settled);
-        points.addAll(passedThrough);
-        this.minimumX = points.stream()
-                .mapToInt(Point::x)
-                .min()
-                .getAsInt();
-        this.maximumX = points.stream()
-                .mapToInt(Point::x)
-                .max()
-                .getAsInt();
     }
 
     /**
@@ -250,6 +232,19 @@ public class VerticalSlice {
         var minimumYForPrint = Stream.concat(solid.stream(), settled.stream())
                 .mapToInt(Point::y)
                 .min()
+                .getAsInt();
+        Set<Point> points = new HashSet<>();
+        points.add(spring);
+        points.addAll(solid);
+        points.addAll(settled);
+        points.addAll(passedThrough);
+        var minimumX = points.stream()
+                .mapToInt(Point::x)
+                .min()
+                .getAsInt();
+        var maximumX = points.stream()
+                .mapToInt(Point::x)
+                .max()
                 .getAsInt();
         for (int y = minimumYForPrint; y != maximumY + 1; y++) {
             for (int x = minimumX; x != maximumX + 1; x++) {
