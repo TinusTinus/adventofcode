@@ -1,10 +1,7 @@
-package nl.mvdr.adventofcode.adventofcode2022.day14;
+package nl.mvdr.adventofcode.point;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import nl.mvdr.adventofcode.point.Direction;
-import nl.mvdr.adventofcode.point.Point;
 
 /**
  * A line between two points.
@@ -13,11 +10,11 @@ import nl.mvdr.adventofcode.point.Point;
  * @param end the ending point of the line (inclusive)
  * @author Martijn van de Rijdt
  */
-record Line(Point start, Point end) {
+public record Line(Point start, Point end) {
     /**
      * @return the points which are part of this line
      */
-    Set<Point> points() {
+    public Set<Point> points() {
         var direction = determineDirection();
         Set<Point> result = new HashSet<>();
         Point point = start;

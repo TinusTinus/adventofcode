@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2022.day14;
+package nl.mvdr.adventofcode.point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +6,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.point.Point;
-
 /**
  * Representation of a path.
  *
  * @param points the points defining this path
  * @author Martijn van de Rijdt
  */
-record Path(List<Point> points) {
+public record Path(List<Point> points) {
     
     /**
      * Parses puzzle input as a list of paths.
@@ -22,7 +20,7 @@ record Path(List<Point> points) {
      * @param lines contents of the puzzle input
      * @return paths represented by the given input
      */
-    static List<Path> parse(Stream<String> lines) {
+    public static List<Path> parse(Stream<String> lines) {
         return lines.map(Path::parse).toList();
     }
     
@@ -42,7 +40,7 @@ record Path(List<Point> points) {
     /**
      * @return all points covered by the lines in this path
      */
-    Set<Point> allPoints() {
+    public Set<Point> allPoints() {
         return lines().stream()
                 .flatMap(line -> line.points().stream())
                 .collect(Collectors.toSet());

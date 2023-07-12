@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.point.Path;
 import nl.mvdr.adventofcode.point.Point;
 import nl.mvdr.adventofcode.verticalslice.VerticalSlice;
 
