@@ -93,7 +93,7 @@ record SensorBeaconPair(Point sensor, Point beacon, int distance) {
     IntRange xCoordinatesInRange(int y) {
         var distanceToY = Math.abs(y - sensor.y());
         var remainingDistance = distance - distanceToY;
-        return new IntRange(sensor.x() - remainingDistance, sensor.x() + remainingDistance + 1);
+        return new IntRange(sensor.x() - remainingDistance, sensor.x() + remainingDistance);
     }
     
     /**
