@@ -75,7 +75,7 @@ record SensorBeaconPair(Point sensor, Point beacon) {
     }
     
     /**
-     * Determines the x coordinates on the given row where there cannot be a beacon.
+     * Determines the x coordinates on the given row where there cannot be a beacon, purely based on this pair.
      * 
      * @param y y coordinate of the row to inspect
      * @return x coordinates
@@ -86,7 +86,7 @@ record SensorBeaconPair(Point sensor, Point beacon) {
     }
     
     /**
-     * Determines the x coordinates on the given row which are in range of this beacon.
+     * Determines the x coordinates on the given row which are in range of this sensor.
      * 
      * @param y y coordinate of the row to inspect
      * @return x coordinates
