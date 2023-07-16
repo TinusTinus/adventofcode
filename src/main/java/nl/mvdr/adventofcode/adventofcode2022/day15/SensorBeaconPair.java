@@ -95,12 +95,6 @@ record SensorBeaconPair(Point sensor, Point beacon) {
         var distance = sensor.manhattanDistance(beacon);
         var distanceToY = Math.abs(y - sensor.y());
         var remainingDistance = distance - distanceToY;
-        IntStream result;
-        if (remainingDistance < 0) {
-            result = IntStream.of();
-        } else {
-            result = IntStream.range(sensor.x() - remainingDistance, sensor.x() + remainingDistance + 1);
-        }
-        return result;
+        return IntStream.range(sensor.x() - remainingDistance, sensor.x() + remainingDistance + 1);
     }
 }
