@@ -76,7 +76,7 @@ record SensorBeaconPair(Point sensor, Point beacon) {
      * @param y y coordinate of the row to inspect
      * @return x coordinates
      */
-    private IntStream xCoordinatesInRange(int y) {
+    IntStream xCoordinatesInRange(int y) {
         var distance = sensor.manhattanDistance(beacon);
         var distanceToY = Math.abs(y - sensor.y());
         var remainingDistance = distance - distanceToY;
