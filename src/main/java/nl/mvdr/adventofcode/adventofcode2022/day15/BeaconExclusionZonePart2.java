@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day15;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -44,6 +44,7 @@ public class BeaconExclusionZonePart2 implements LongSolver {
     public long solve(Stream<String> lines) {
         var pairs = SensorBeaconPair.parse(lines);
         Point source = findDistressSignalSource(pairs);
+        LOGGER.debug("Source found: {}", source);
         return computeTuningFrequency(source);
     }
 
@@ -71,16 +72,25 @@ public class BeaconExclusionZonePart2 implements LongSolver {
      * @return source of the distress signal, if present on the given row
      */
     private Optional<Point> findDistressSignalSource(Set<SensorBeaconPair> pairs, int y) {
-        Set<Integer> exclusions = pairs.stream()
+        var exclusions = pairs.stream()
                 .map(pair -> pair.xCoordinatesInRange(y))
-                .map(IntRange::stream)
-                .flatMap(IntStream::boxed)
-                .collect(Collectors.toSet());
-        return IntStream.range(0, maxCoordinate + 1)
-                .filter(x -> !exclusions.contains(Integer.valueOf(x)))
-                .boxed()
-                .findFirst()
-                .map(x -> new Point(x.intValue(), y));
+                .map(range -> new IntRange(Math.max(0, range.min()), Math.min(range.max(), maxCoordinate)))
+                .filter(Predicate.not(IntRange::isEmpty))
+                .sorted()
+                .toList();
+        LOGGER.debug("Exclusions for y = {}: {}", Integer.valueOf(y), exclusions);
+        exclusions = IntRange.reduce(exclusions);
+        LOGGER.debug("Merged exclusions for y = {}: {}", Integer.valueOf(y), exclusions);
+        Optional<Point> result;
+        if (exclusions.size() == 1) {
+            result = Optional.empty();
+        } else if (exclusions.size() == 2) {
+            var x = exclusions.get(0).max() + 1;
+            result = Optional.of(new Point(x, y));
+        } else {
+            throw new IllegalStateException(exclusions.toString());
+        }
+        return result;
     }
     
     /**
