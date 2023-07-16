@@ -1,8 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day15;
 
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
@@ -68,21 +68,39 @@ record SensorBeaconPair(Point sensor, Point beacon) {
      */
     static long positionsWithoutBeacon(Set<SensorBeaconPair> pairs, int y) {
         return pairs.stream()
-                .flatMap(pair -> pair.positionsWithoutBeacon(y))
+                .map(pair -> pair.xCoordinatesWithoutBeacon(y))
+                .flatMap(IntStream::boxed)
                 .distinct()
                 .count();
     }
     
     /**
-     * Determines the positions on the given row where there cannot be a beacon.
+     * Determines the x coordinates on the given row where there cannot be a beacon.
      * 
-     * @param y y coordinate of the row to search
-     * @return the positions guaranteed not to contain a beacon, based on this pair
+     * @param y y coordinate of the row to inspect
+     * @return x coordinates
      */
-    private Stream<Point> positionsWithoutBeacon(int y) {
+    private IntStream xCoordinatesWithoutBeacon(int y) {
+        return xCoordinatesInRange(y)
+                .filter(x -> !beacon.equals(new Point(x, y)));
+    }
+    
+    /**
+     * Determines the x coordinates on the given row which are in range of this beacon.
+     * 
+     * @param y y coordinate of the row to inspect
+     * @return x coordinates
+     */
+    private IntStream xCoordinatesInRange(int y) {
         var distance = sensor.manhattanDistance(beacon);
-        return sensor.pointsInRange(distance).stream()
-                .filter(point -> point.y() == y)
-                .filter(Predicate.not(beacon::equals));
+        var distanceToY = Math.abs(y - sensor.y());
+        var remainingDistance = distance - distanceToY;
+        IntStream result;
+        if (remainingDistance < 0) {
+            result = IntStream.of();
+        } else {
+            result = IntStream.range(sensor.x() - remainingDistance, sensor.x() + remainingDistance + 1);
+        }
+        return result;
     }
 }

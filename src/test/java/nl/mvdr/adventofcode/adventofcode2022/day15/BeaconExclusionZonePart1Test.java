@@ -25,6 +25,6 @@ public class BeaconExclusionZonePart1Test extends SolverTest<BeaconExclusionZone
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day15-2022.txt");
+        assertSolution("4883971", "input-day15-2022.txt");
     }
 }
