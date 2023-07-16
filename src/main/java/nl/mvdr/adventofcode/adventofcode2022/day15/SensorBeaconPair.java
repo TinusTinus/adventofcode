@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day15;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,7 +60,7 @@ record SensorBeaconPair(Point sensor, Point beacon) {
     }
 
     /**
-     * Determines the number of positions on the given row where there cannot be a beacon
+     * Determines the number of positions on the given row where there cannot be a beacon.
      * 
      * @param pairs sensor / beacon pairs
      * @param y y coordinate of the row to inspect
@@ -68,20 +68,21 @@ record SensorBeaconPair(Point sensor, Point beacon) {
      */
     static long positionsWithoutBeacon(Set<SensorBeaconPair> pairs, int y) {
         return pairs.stream()
-                .map(SensorBeaconPair::positionsWithoutBeacon)
-                .flatMap(Set::stream)
-                .filter(position -> position.y() == y)
+                .flatMap(pair -> pair.positionsWithoutBeacon(y))
                 .distinct()
                 .count();
     }
     
     /**
+     * Determines the positions on the given row where there cannot be a beacon.
+     * 
+     * @param y y coordinate of the row to search
      * @return the positions guaranteed not to contain a beacon, based on this pair
      */
-    Set<Point> positionsWithoutBeacon() {
+    private Stream<Point> positionsWithoutBeacon(int y) {
         var distance = sensor.manhattanDistance(beacon);
-        Set<Point> result = new HashSet<>(sensor.pointsInRange(distance));
-        result.remove(beacon);
-        return result;
+        return sensor.pointsInRange(distance).stream()
+                .filter(point -> point.y() == y)
+                .filter(Predicate.not(beacon::equals));
     }
 }
