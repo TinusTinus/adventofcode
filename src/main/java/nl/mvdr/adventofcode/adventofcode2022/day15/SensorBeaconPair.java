@@ -1,8 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day15;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
@@ -79,9 +79,16 @@ record SensorBeaconPair(Point sensor, Point beacon, int distance) {
      * @param y y coordinate of the row to inspect
      * @return x coordinates
      */
-    IntStream xCoordinatesWithoutBeacon(int y) {
-        return xCoordinatesInRange(y).stream()
-                .filter(x -> !beacon.equals(new Point(x, y)));
+    List<IntRange> xCoordinatesWithoutBeacon(int y) {
+        IntRange xCoordinatesInRange = xCoordinatesInRange(y);
+        List<IntRange> result;
+        if (beacon.y() == y) {
+            result = List.of(new IntRange(xCoordinatesInRange.min(), beacon.x() - 1),
+                    new IntRange(beacon.x() + 1, xCoordinatesInRange.max()));
+        } else {
+            result = List.of(xCoordinatesInRange);
+        }
+        return result;
     }
     
     /**
