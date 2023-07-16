@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2022.day15;
 
-import java.util.Comparator;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -52,14 +54,33 @@ public class BeaconExclusionZonePart2 implements LongSolver {
      * @return source of the distress signal
      */
     private Point findDistressSignalSource(Set<SensorBeaconPair> pairs) {
-        return pairs.stream()
-                .sorted(Comparator.comparing(SensorBeaconPair::distance))
-                .map(pair -> pair.sensor().pointsAtDistance(pair.distance() + 1, 0, maxCoordinate, 0, maxCoordinate))
-                .flatMap(Set::stream)
-//                .parallel()
-                .filter(position -> pairs.stream().allMatch(pair -> pair.canContainSource(position)))
+        return IntStream.range(0, maxCoordinate + 1)
+                .parallel()
+                .mapToObj(y -> findDistressSignalSource(pairs, y))
+                .filter(Optional::isPresent)
+                .map(Optional::orElseThrow)
                 .findAny()
                 .orElseThrow();
+    }
+    
+    /**
+     * Determines the source of the distress signal on the given row.
+     * 
+     * @param pairs sensor / beacon pairs
+     * @param y y coordinate of the row to inspect
+     * @return source of the distress signal, if present on the given row
+     */
+    private Optional<Point> findDistressSignalSource(Set<SensorBeaconPair> pairs, int y) {
+        Set<Integer> exclusions = pairs.stream()
+                .map(pair -> pair.xCoordinatesInRange(y))
+                .map(IntRange::stream)
+                .flatMap(IntStream::boxed)
+                .collect(Collectors.toSet());
+        return IntStream.range(0, maxCoordinate + 1)
+                .filter(x -> !exclusions.contains(Integer.valueOf(x)))
+                .boxed()
+                .findFirst()
+                .map(x -> new Point(x.intValue(), y));
     }
     
     /**

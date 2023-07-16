@@ -80,7 +80,7 @@ record SensorBeaconPair(Point sensor, Point beacon, int distance) {
      * @return x coordinates
      */
     IntStream xCoordinatesWithoutBeacon(int y) {
-        return xCoordinatesInRange(y)
+        return xCoordinatesInRange(y).stream()
                 .filter(x -> !beacon.equals(new Point(x, y)));
     }
     
@@ -90,10 +90,10 @@ record SensorBeaconPair(Point sensor, Point beacon, int distance) {
      * @param y y coordinate of the row to inspect
      * @return x coordinates
      */
-    IntStream xCoordinatesInRange(int y) {
+    IntRange xCoordinatesInRange(int y) {
         var distanceToY = Math.abs(y - sensor.y());
         var remainingDistance = distance - distanceToY;
-        return IntStream.range(sensor.x() - remainingDistance, sensor.x() + remainingDistance + 1);
+        return new IntRange(sensor.x() - remainingDistance, sensor.x() + remainingDistance + 1);
     }
     
     /**
