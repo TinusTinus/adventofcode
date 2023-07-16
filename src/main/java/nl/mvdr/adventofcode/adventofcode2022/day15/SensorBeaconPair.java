@@ -59,7 +59,13 @@ record SensorBeaconPair(Point sensor, Point beacon) {
         return points.iterator().next();
     }
 
-    
+    /**
+     * Determines the number of positions on the given row where there cannot be a beacon
+     * 
+     * @param pairs sensor / beacon pairs
+     * @param y y coordinate of the row to inspect
+     * @return number of positions
+     */
     static long positionsWithoutBeacon(Set<SensorBeaconPair> pairs, int y) {
         return pairs.stream()
                 .map(SensorBeaconPair::positionsWithoutBeacon)
