@@ -10,9 +10,13 @@ import nl.mvdr.adventofcode.point.Point;
 /**
  * A pair of a sensor and its (unique) closest beacon.
  *
+ * @param sensor the sensor
+ * @param beacon the beacon
+ * @param distance the (cached) Manhattan distance between the sensor and the beacon
+ *
  * @author Martijn van de Rijdt
  */
-record SensorBeaconPair(Point sensor, Point beacon) {
+record SensorBeaconPair(Point sensor, Point beacon, int distance) {
     
     private static final String PREFIX = "Sensor at ";
     private static final String INFIX = ": closest beacon is at ";
@@ -44,6 +48,16 @@ record SensorBeaconPair(Point sensor, Point beacon) {
     }
     
     /**
+     * Constructor.
+     * 
+     * @param sensor the sensor
+     * @param beacon the beacon
+     */
+    private SensorBeaconPair(Point sensor, Point beacon) {
+        this(sensor, beacon, sensor.manhattanDistance(beacon));
+    }
+    
+    /**
      * Helper method to parse the textual representation of a point in two-dimensional space.
      * 
      * Note: {@link Point#parse(String)} expects the textual representation of a point to be slightly different.
@@ -58,7 +72,7 @@ record SensorBeaconPair(Point sensor, Point beacon) {
         }
         return points.iterator().next();
     }
-
+    
     /**
      * Determines the x coordinates on the given row where there cannot be a beacon, purely based on this pair.
      * 
@@ -77,9 +91,19 @@ record SensorBeaconPair(Point sensor, Point beacon) {
      * @return x coordinates
      */
     IntStream xCoordinatesInRange(int y) {
-        var distance = sensor.manhattanDistance(beacon);
         var distanceToY = Math.abs(y - sensor.y());
         var remainingDistance = distance - distanceToY;
         return IntStream.range(sensor.x() - remainingDistance, sensor.x() + remainingDistance + 1);
+    }
+    
+    /**
+     * Determines whether the given position could contain the distress beacon source,
+     * given the information about this pair.
+     * 
+     * @param position position
+     * @return whether the given position could contain the distress beacon
+     */
+    boolean canContainSource(Point position) {
+        return distance < sensor.manhattanDistance(position);
     }
 }

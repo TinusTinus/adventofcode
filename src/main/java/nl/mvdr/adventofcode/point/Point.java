@@ -151,6 +151,35 @@ public record Point(int x, int y) implements Comparable<Point> {
         return angle;
     }
     
+    
+    /**
+     * Returns a set containing all points within the given distance of this point.
+     * 
+     * @param maxDistance Manhattan distance (see {@link #manhattanDistance(Point)})
+     * @return points within the given range
+     */
+    public Set<Point> pointsInRange(int maxDistance) {
+        if (maxDistance < 0) {
+            throw new IllegalArgumentException("Distance must be non-negative but was: " + maxDistance);
+        }
+        Set<Point> result = new HashSet<>();
+        result.add(this);
+        
+        var distance = 0;
+        Set<Point> pointsAtDistance = Set.of(this);
+        while (distance < maxDistance) {
+            pointsAtDistance = pointsAtDistance.stream()
+                    .map(Point::neighbours)
+                    .flatMap(Set::stream)
+                    .filter(Predicate.not(result::contains))
+                    .collect(Collectors.toSet());
+            result.addAll(pointsAtDistance);
+            distance++;
+        }
+        
+        return result;
+    }
+    
     @Override
     public String toString() {
         return x + "," + y;
@@ -261,34 +290,6 @@ public record Point(int x, int y) implements Comparable<Point> {
     }
     
     /**
-     * Returns a set containing all points within the given distance of this point.
-     * 
-     * @param maxDistance Manhattan distance (see {@link #manhattanDistance(Point)})
-     * @return points within the given range
-     */
-    public Set<Point> pointsInRange(int maxDistance) {
-        if (maxDistance < 0) {
-            throw new IllegalArgumentException("Distance must be non-negative but was: " + maxDistance);
-        }
-        Set<Point> result = new HashSet<>();
-        result.add(this);
-        
-        var distance = 0;
-        Set<Point> pointsAtDistance = Set.of(this);
-        while (distance < maxDistance) {
-            pointsAtDistance = pointsAtDistance.stream()
-                    .map(Point::neighbours)
-                    .flatMap(Set::stream)
-                    .filter(Predicate.not(result::contains))
-                    .collect(Collectors.toSet());
-            result.addAll(pointsAtDistance);
-            distance++;
-        }
-        
-        return result;
-    }
-    
-    /**
      * Parses a string containing a comma-separated pair of coordinates, for example: "32,43".
      * 
      * @param text text to be parsed
@@ -360,7 +361,7 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @param maxY maximum Y value
      * @return points in range
      */
-    public static Stream<Point> pointsInRange(int minX, int maxX, int minY, int maxY) {
+    public static Stream<Point> points(int minX, int maxX, int minY, int maxY) {
         return IntStream.range(minX, maxX)
                 .boxed()
                 .flatMap(x -> IntStream.range(minY, maxY + 1)
