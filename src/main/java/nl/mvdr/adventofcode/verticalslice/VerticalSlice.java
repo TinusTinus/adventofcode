@@ -84,10 +84,7 @@ public class VerticalSlice {
         this.passedThrough = Set.of();
         this.liquidFallingMaterial = liquidFallingMaterial;
         
-        int maximumSolidY = solid.stream()
-                .mapToInt(Point::y)
-                .max()
-                .getAsInt();
+        int maximumSolidY = Point.maxY(solid);
         if (floor) {
             floorY = OptionalInt.of(maximumSolidY + 2);
         } else {
@@ -226,14 +223,8 @@ public class VerticalSlice {
         points.addAll(solid);
         points.addAll(settled);
         points.addAll(passedThrough);
-        var minimumX = points.stream()
-                .mapToInt(Point::x)
-                .min()
-                .getAsInt();
-        var maximumX = points.stream()
-                .mapToInt(Point::x)
-                .max()
-                .getAsInt();
+        var minimumX = Point.minX(points);
+        var maximumX = Point.maxX(points);
         for (int y = minimumYForPrint; y != maximumY + 1; y++) {
             for (int x = minimumX; x != maximumX + 1; x++) {
                 Point point = new Point(x, y);

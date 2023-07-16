@@ -12,6 +12,25 @@ import java.util.Set;
  */
 public record Line(Point start, Point end) {
     /**
+     * Checks whether the given three points are all on the same line.
+     * 
+     * @param point1 first point
+     * @param point2 second point
+     * @param point3 third point
+     * @return whether the three points are all on the same line
+     */
+    public static boolean sameLine(Point point1, Point point2, Point point3) {
+        int x1 = point1.x();
+        int y1 = point1.y();
+        int x2 = point2.x();
+        int y2 = point2.y();
+        int x3 = point3.x();
+        int y3 = point3.y();
+        
+        return (x2 - x1) * (y3 - y1) == (y2 - y1) * (x3 - x1);
+    }
+    
+    /**
      * @return the points which are part of this line
      */
     public Set<Point> points() {
