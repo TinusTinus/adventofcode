@@ -23,7 +23,7 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
     /**
      * Merges the given ranges where possible.
      * 
-     * @param ranges int ranges
+     * @param ranges nonempty int ranges
      * @return merged int ranges
      */
     static List<IntRange> reduce(List<IntRange> ranges) { 
@@ -61,13 +61,6 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
     }
     
     /**
-     * @return stream for this int range
-     */
-    IntStream stream() {
-        return IntStream.range(min, max + 1);
-    }
-    
-    /**
      * @return whether this range is empty
      */
     boolean isEmpty() {
@@ -75,12 +68,34 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
     }
     
     /**
+     * @return number of integers in the range
+     */
+    int size() {
+        int result;
+        if (isEmpty()) {
+            result = 0;
+        } else {
+            result = max + 1 - min;
+        }
+        return result;
+    }
+    
+    /**
+     * @return stream for this int range
+     */
+    IntStream stream() {
+        return IntStream.range(min, max + 1);
+    }
+    
+    /**
      * Whether this range overlaps with the given other range.
+     * 
+     * Note: this method assumes that the range is not empty.
      * 
      * @param other other range
      * @return whether there is any overlap
      */
-    boolean canBeMerged(IntRange other) {
+    private boolean canBeMerged(IntRange other) {
         return this.min <= other.max && other.min <= this.max // overlaps
                 || this.min == other.max + 1 || other.min == this.max + 1; // are connected
     }
@@ -88,13 +103,12 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
     /**
      * Produces a new int range which covers both this and the given int range.
      * 
+     * Note: this method assumes that the range is not empty.
+     * 
      * @param other other int range
      * @return range representing all values that are part of these two ranges
      */
-    IntRange merge(IntRange other) {
-        if (!canBeMerged(other)) {
-            throw new IllegalArgumentException("Ranges do not overlap: " + this + ", " + other);
-        }
+    private IntRange merge(IntRange other) {
         return new IntRange(Math.min(this.min, other.min), Math.max(this.max, other.max));
     }
     
