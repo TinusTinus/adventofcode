@@ -350,4 +350,21 @@ public record Point(int x, int y) implements Comparable<Point> {
                 .max()
                 .orElse(0);
     }
+    
+    /**
+     * Returns a stream of the points in the given range.
+     * 
+     * @param minX minimum X value
+     * @param maxX maximum X value
+     * @param minY minimum Y value
+     * @param maxY maximum Y value
+     * @return points in range
+     */
+    public static Stream<Point> pointsInRange(int minX, int maxX, int minY, int maxY) {
+        return IntStream.range(minX, maxX)
+                .boxed()
+                .flatMap(x -> IntStream.range(minY, maxY + 1)
+                        .boxed()
+                        .map(y -> new Point(x.intValue(), y.intValue())));
+    }
 }
