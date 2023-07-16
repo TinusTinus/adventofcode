@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day15;
 
+import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -52,6 +53,7 @@ public class BeaconExclusionZonePart2 implements LongSolver {
      */
     private Point findDistressSignalSource(Set<SensorBeaconPair> pairs) {
         return pairs.stream()
+                .sorted(Comparator.comparing(SensorBeaconPair::distance))
                 .map(pair -> pair.sensor().pointsAtDistance(pair.distance() + 1, 0, maxCoordinate, 0, maxCoordinate))
                 .flatMap(Set::stream)
 //                .parallel()
