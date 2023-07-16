@@ -46,7 +46,7 @@ record SensorBeaconPair(Point sensor, Point beacon) {
     /**
      * Helper method to parse the textual representation of a point in two-dimensional space.
      * 
-     * {@link Point#parse(String)} expects the textual representation of a point to be slightly different.
+     * Note: {@link Point#parse(String)} expects the textual representation of a point to be slightly different.
      * 
      * @param text string representation of a point, for example: "x=2, y=18"
      * @return point
@@ -60,27 +60,12 @@ record SensorBeaconPair(Point sensor, Point beacon) {
     }
 
     /**
-     * Determines the number of positions on the given row where there cannot be a beacon.
-     * 
-     * @param pairs sensor / beacon pairs
-     * @param y y coordinate of the row to inspect
-     * @return number of positions
-     */
-    static long positionsWithoutBeacon(Set<SensorBeaconPair> pairs, int y) {
-        return pairs.stream()
-                .map(pair -> pair.xCoordinatesWithoutBeacon(y))
-                .flatMap(IntStream::boxed)
-                .distinct()
-                .count();
-    }
-    
-    /**
      * Determines the x coordinates on the given row where there cannot be a beacon, purely based on this pair.
      * 
      * @param y y coordinate of the row to inspect
      * @return x coordinates
      */
-    private IntStream xCoordinatesWithoutBeacon(int y) {
+    IntStream xCoordinatesWithoutBeacon(int y) {
         return xCoordinatesInRange(y)
                 .filter(x -> !beacon.equals(new Point(x, y)));
     }

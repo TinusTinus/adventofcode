@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day15;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class BeaconExclusionZonePart1 implements LongSolver {
     /**
      * Constructor.
      * 
-     * @param y the y coordinate of the row to search
+     * @param y the y coordinate of the row to inspect
      */
     BeaconExclusionZonePart1(int y) {
         super();
@@ -38,7 +39,11 @@ public class BeaconExclusionZonePart1 implements LongSolver {
     @Override
     public long solve(Stream<String> lines) {
         var pairs = SensorBeaconPair.parse(lines);
-        return SensorBeaconPair.positionsWithoutBeacon(pairs, y);
+        return pairs.stream()
+                .map(pair -> pair.xCoordinatesWithoutBeacon(y))
+                .flatMap(IntStream::boxed)
+                .distinct()
+                .count();
     }
     
     /**
