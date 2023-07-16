@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.point;
 
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -264,32 +263,29 @@ public record Point(int x, int y) implements Comparable<Point> {
     /**
      * Returns a set containing all points within the given distance of this point.
      * 
-     * @param distance Manhattan distance (see {@link #manhattanDistance(Point)})
+     * @param maxDistance Manhattan distance (see {@link #manhattanDistance(Point)})
      * @return points within the given range
      */
-    public Set<Point> pointsInRange(int distance) {
-        if (distance < 0) {
-            throw new IllegalArgumentException("Distance must be non-negative but was: " + distance);
+    public Set<Point> pointsInRange(int maxDistance) {
+        if (maxDistance < 0) {
+            throw new IllegalArgumentException("Distance must be non-negative but was: " + maxDistance);
         }
         Set<Point> result = new HashSet<>();
-        addPointsInRange(distance, result);
-        return result;
-    }
-    
-    /**
-     * Adds all points within the given distance of this point to the given set.
-     * 
-     * @param distance Manhattan distance (see {@link #manhattanDistance(Point)})
-     * @param result result set
-     */
-    private void addPointsInRange(int distance, Set<Point> result) {
-        // TODO this is incorrect!
         result.add(this);
-        if (0 < distance) {
-            neighbours().stream()
+        
+        var distance = 0;
+        Set<Point> pointsAtDistance = Set.of(this);
+        while (distance < maxDistance) {
+            pointsAtDistance = pointsAtDistance.stream()
+                    .map(Point::neighbours)
+                    .flatMap(Set::stream)
                     .filter(Predicate.not(result::contains))
-                    .forEach(neighbour -> neighbour.addPointsInRange(distance - 1, result));
+                    .collect(Collectors.toSet());
+            result.addAll(pointsAtDistance);
+            distance++;
         }
+        
+        return result;
     }
     
     /**
