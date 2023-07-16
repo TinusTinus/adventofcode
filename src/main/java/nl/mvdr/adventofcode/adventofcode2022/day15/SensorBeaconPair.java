@@ -1,5 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2022.day15;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -11,6 +16,17 @@ record SensorBeaconPair(Point sensor, Point beacon) {
     
     private static final String PREFIX = "Sensor at ";
     private static final String INFIX = ": closest beacon is at ";
+
+    /**
+     * Parses the textual representation of a list of sensor/beacon pairs.
+     * 
+     * @param lines puzzle input
+     * @return the pair represented by the given input
+     */
+    static Set<SensorBeaconPair> parse(Stream<String> lines) {
+        return lines.map(SensorBeaconPair::parse)
+                    .collect(Collectors.toSet());
+    }
     
     /**
      * Parses the textual representation of a sensor/beacon pair.
@@ -18,12 +34,48 @@ record SensorBeaconPair(Point sensor, Point beacon) {
      * @param text string representation of the pair, for example: "Sensor at x=2, y=18: closest beacon is at x=-2, y=15"
      * @return the pair represented by the given string
      */
-    static SensorBeaconPair parse(String text) {
+    private static SensorBeaconPair parse(String text) {
         var infixIndex = text.indexOf(INFIX);
         var sensorCoordinatesString = text.substring(PREFIX.length(), infixIndex);
-        var sensor = Point.parse(sensorCoordinatesString);
+        var sensor = parsePoint(sensorCoordinatesString);
         var beaconCoordinatesString = text.substring(infixIndex + INFIX.length(), text.length());
-        var beacon = Point.parse(beaconCoordinatesString);
+        var beacon = parsePoint(beaconCoordinatesString);
         return new SensorBeaconPair(sensor, beacon);
+    }
+    
+    /**
+     * Helper method to parse the textual representation of a point in two-dimensional space.
+     * 
+     * {@link Point#parse(String)} expects the textual representation of a point to be slightly different.
+     * 
+     * @param text string representation of a point, for example: "x=2, y=18"
+     * @return point
+     */
+    private static Point parsePoint(String text) {
+        var points = Point.parseRanges(Stream.of(text));
+        if (points.size() != 1) {
+            throw new IllegalArgumentException("Failed to parse: " + text);
+        }
+        return points.iterator().next();
+    }
+
+    
+    static long positionsWithoutBeacon(Set<SensorBeaconPair> pairs, int y) {
+        return pairs.stream()
+                .map(SensorBeaconPair::positionsWithoutBeacon)
+                .flatMap(Set::stream)
+                .filter(position -> position.y() == y)
+                .distinct()
+                .count();
+    }
+    
+    /**
+     * @return the positions guaranteed not to contain a beacon, based on this pair
+     */
+    Set<Point> positionsWithoutBeacon() {
+        var distance = sensor.manhattanDistance(beacon);
+        Set<Point> result = new HashSet<>(sensor.pointsInRange(distance));
+        result.remove(beacon);
+        return result;
     }
 }

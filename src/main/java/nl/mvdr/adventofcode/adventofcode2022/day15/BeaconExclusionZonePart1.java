@@ -5,21 +5,40 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/15">Beacon Exclusion Zone</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class BeaconExclusionZonePart1 implements IntSolver {
+public class BeaconExclusionZonePart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BeaconExclusionZonePart1.class);
 
+    private final int y;
+    
+    /**
+     * Constructor.
+     */
+    public BeaconExclusionZonePart1() {
+        this(2_000_000);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param y the y coordinate of the row to search
+     */
+    BeaconExclusionZonePart1(int y) {
+        super();
+        this.y = y;
+    }
+    
     @Override
-    public int solve(Stream<String> lines) {
-        // TODO Auto-generated method stub
-        return 0;
+    public long solve(Stream<String> lines) {
+        var pairs = SensorBeaconPair.parse(lines);
+        return SensorBeaconPair.positionsWithoutBeacon(pairs, y);
     }
     
     /**

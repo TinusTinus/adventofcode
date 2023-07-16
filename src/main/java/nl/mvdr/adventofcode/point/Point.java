@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.point;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -257,6 +258,28 @@ public record Point(int x, int y) implements Comparable<Point> {
         return IntStream.rangeClosed(minimum, maximum)
                 .boxed()
                 .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Returns a set containing all points within the given distance of this point.
+     * 
+     * @param distance Manhattan distance (see {@link #manhattanDistance(Point)})
+     * @return points within the given range
+     */
+    public Set<Point> pointsInRange(int distance) {
+        // Note: this could probably be a lot more efficient. 
+        // The current implementation potentially considers the same point many times.
+        Set<Point> result;
+        if (distance == 0) {
+            result = Set.of(this);
+        } else {
+            result = new HashSet<>();
+            result.add(this);
+            neighbours().stream()
+                .map(neighbour -> neighbour.pointsInRange(distance - 1))
+                .forEach(result::addAll);
+        }
+        return result;
     }
     
     /**

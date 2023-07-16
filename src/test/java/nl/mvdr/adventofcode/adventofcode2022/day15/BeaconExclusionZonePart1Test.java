@@ -19,7 +19,7 @@ public class BeaconExclusionZonePart1Test extends SolverTest<BeaconExclusionZone
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("26", "example-day15-2022.txt");
+        assertSolution(new BeaconExclusionZonePart1(10), "26", "example-day15-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
