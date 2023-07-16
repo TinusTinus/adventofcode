@@ -157,7 +157,7 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @param maxDistance Manhattan distance (see {@link #manhattanDistance(Point)})
      * @return points within the given range
      */
-    public Set<Point> pointsAtDistance(int maxDistance) {
+    public Set<Point> pointsAtDistance(int maxDistance, int minX, int maxX, int minY, int maxY) {
         if (maxDistance < 0) {
             throw new IllegalArgumentException("Distance must be non-negative but was: " + maxDistance);
         }
@@ -170,6 +170,10 @@ public record Point(int x, int y) implements Comparable<Point> {
             pointsAtDistance = pointsAtDistance.stream()
                     .map(Point::neighbours)
                     .flatMap(Set::stream)
+                    .filter(position -> minX <= position.x())
+                    .filter(position -> position.x() <= maxX)
+                    .filter(position -> minY <= position.y())
+                    .filter(position -> position.y() <= maxY)
                     .filter(Predicate.not(visited::contains))
                     .collect(Collectors.toSet());
             visited.addAll(pointsAtDistance);

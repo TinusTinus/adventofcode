@@ -52,14 +52,9 @@ public class BeaconExclusionZonePart2 implements LongSolver {
      */
     private Point findDistressSignalSource(Set<SensorBeaconPair> pairs) {
         return pairs.stream()
-                .map(pair -> pair.sensor().pointsAtDistance(pair.distance() + 1))
+                .map(pair -> pair.sensor().pointsAtDistance(pair.distance() + 1, 0, maxCoordinate, 0, maxCoordinate))
                 .flatMap(Set::stream)
-                .distinct()
-                .parallel()
-                .filter(position -> 0 <= position.x())
-                .filter(position -> position.x() <= maxCoordinate)
-                .filter(position -> 0 <= position.y())
-                .filter(position -> position.y() <= maxCoordinate)
+//                .parallel()
                 .filter(position -> pairs.stream().allMatch(pair -> pair.canContainSource(position)))
                 .findAny()
                 .orElseThrow();
