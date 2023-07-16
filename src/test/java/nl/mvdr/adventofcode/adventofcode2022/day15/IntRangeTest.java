@@ -16,6 +16,27 @@ public class IntRangeTest {
      * Test case for {@link IntRange#reduce(java.util.List)}.
      */
     @Test
+    public void testReduce() {
+        List<IntRange> ranges = List.of(
+                new IntRange(0, 1),
+                new IntRange(0, 4),
+                new IntRange(5, 11),
+                new IntRange(9, 15),
+                new IntRange(13, 15),
+                new IntRange(13, 20)
+                );
+        
+        var result = IntRange.reduce(ranges);
+        
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals(new IntRange(0, 20), result.get(0));
+    }
+
+    
+    /**
+     * Test case for {@link IntRange#reduce(java.util.List)}.
+     */
+    @Test
     public void testReduceOne() {
         List<IntRange> ranges = List.of(
                 new IntRange(0, 7),

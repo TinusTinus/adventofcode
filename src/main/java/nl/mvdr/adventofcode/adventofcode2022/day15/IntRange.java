@@ -36,7 +36,7 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
             IntRange overlapping1 = null;
             for (int i = 0; overlapping0 == null && i != result.size(); i++) {
                 for (int j = i + 1; overlapping0 == null && j != result.size(); j++) {
-                    if (result.get(i).overlaps(result.get(j))) {
+                    if (result.get(i).canBeMerged(result.get(j))) {
                         overlapping0 = result.get(i);
                         overlapping1 = result.get(j);
                     }
@@ -80,8 +80,9 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
      * @param other other range
      * @return whether there is any overlap
      */
-    boolean overlaps(IntRange other) {
-        return this.min <= other.max && other.min <= this.max;
+    boolean canBeMerged(IntRange other) {
+        return this.min <= other.max && other.min <= this.max // overlaps
+                || this.min == other.max + 1 || other.min == this.max + 1; // are connected
     }
     
     /**
@@ -91,7 +92,7 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
      * @return range representing all values that are part of these two ranges
      */
     IntRange merge(IntRange other) {
-        if (!overlaps(other)) {
+        if (!canBeMerged(other)) {
             throw new IllegalArgumentException("Ranges do not overlap: " + this + ", " + other);
         }
         return new IntRange(Math.min(this.min, other.min), Math.max(this.max, other.max));
