@@ -151,33 +151,32 @@ public record Point(int x, int y) implements Comparable<Point> {
         return angle;
     }
     
-    
     /**
-     * Returns a set containing all points within the given distance of this point.
+     * Returns a set containing all points at the given distance of this point.
      * 
      * @param maxDistance Manhattan distance (see {@link #manhattanDistance(Point)})
      * @return points within the given range
      */
-    public Set<Point> pointsInRange(int maxDistance) {
+    public Set<Point> pointsAtDistance(int maxDistance) {
         if (maxDistance < 0) {
             throw new IllegalArgumentException("Distance must be non-negative but was: " + maxDistance);
         }
-        Set<Point> result = new HashSet<>();
-        result.add(this);
+        Set<Point> visited = new HashSet<>();
+        visited.add(this);
         
-        var distance = 0;
+        var d = 0;
         Set<Point> pointsAtDistance = Set.of(this);
-        while (distance < maxDistance) {
+        while (d < maxDistance) {
             pointsAtDistance = pointsAtDistance.stream()
                     .map(Point::neighbours)
                     .flatMap(Set::stream)
-                    .filter(Predicate.not(result::contains))
+                    .filter(Predicate.not(visited::contains))
                     .collect(Collectors.toSet());
-            result.addAll(pointsAtDistance);
-            distance++;
+            visited.addAll(pointsAtDistance);
+            d++;
         }
         
-        return result;
+        return pointsAtDistance;
     }
     
     @Override
