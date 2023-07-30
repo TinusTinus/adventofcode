@@ -47,7 +47,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
         
         var newClosedValves = closedValves;
         var newPressureReleased = pressureReleased;
-        for (Actor actor : Stream.of(me, elephant).filter(Objects::nonNull).toList()) {
+        for (Actor actor : getActors()) {
             if (actor.currentPath() != null && actor.currentPath().isEmpty()) {
                 // The actor has reached their destination and can now close the valve.
                 newClosedValves = new HashSet<>(newClosedValves);
@@ -74,6 +74,13 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
     }
 
     /**
+     * @return all actors
+     */
+    private List<Actor> getActors() {
+        return Stream.of(me, elephant).filter(Objects::nonNull).toList();
+    }
+
+    /**
      * Determines the next possible positions for the given actor.
      * 
      * @param actorToUpdate the actor for which to calculate new positions
@@ -88,9 +95,11 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
             if (actorToUpdate.currentPath() == null) {
                 // Figure out which valves the actor could move to next.
                 for (Valve closedValve : closedValves) {
-                    var path = network.getShortestPath(actorToUpdate.currentPosition(), closedValve);
-                    if (path.size() < remainingMinutes) { // Only consider valves which the actor could get to in time.
-                        result.add(new Actor(path.get(0), path.subList(1, path.size())));
+                    if (!getActors().stream().map(Actor::currentPosition).anyMatch(currentPosition -> closedValve == currentPosition)) { // Do not go after the valve the other actor is already targeting
+                        var path = network.getShortestPath(actorToUpdate.currentPosition(), closedValve);
+                        if (path.size() < remainingMinutes) { // Only consider valves which the actor could get to in time.
+                            result.add(new Actor(path.get(0), path.subList(1, path.size())));
+                        }
                     }
                 }
                 if (result.isEmpty()) {
