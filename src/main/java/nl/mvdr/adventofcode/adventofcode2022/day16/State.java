@@ -33,8 +33,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
     State(Network network, boolean helperElephant) {
         this(network,
                 // Consider valves with air pressure = 0 as already open. Opening them has no effect anyway.
-                network.graph()
-                    .vertexSet()
+                network.getValves()
                     .stream()
                     .filter(valve -> 0 < valve.flowRate())
                     .collect(Collectors.toSet()),

@@ -63,4 +63,11 @@ record Network(Graph<Valve, DefaultEdge> graph) {
     Valve startingPoint() {
         return Valve.find(graph.vertexSet(), "AA");
     }
+    
+    /**
+     * @return all valves
+     */
+    Set<Valve> getValves() {
+        return graph.vertexSet();
+    }
 }
