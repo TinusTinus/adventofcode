@@ -25,6 +25,6 @@ public class ProboscideaVolcaniumPart1Test extends SolverTest<ProboscideaVolcani
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day16-2022.txt");
+        assertSolution("1896", "input-day16-2022.txt");
     }
 }

@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultEdge;
+
 /**
  * A possible state of a network.
  *
@@ -45,20 +49,19 @@ record State(Network network, Valve position, Set<Valve> closedValves, int remai
         var newRemainingMinutes = remainingMinutes - 1;
         
         if (currentPath == null) {
-            // TODO figure out new paths
-            if (closedValves.contains(position)) {
-                Set<Valve> newClosedValves = new HashSet<>(closedValves);
-                newClosedValves.remove(position);
-                
-                var newPressureReleased = pressureReleased + position.flowRate() * newRemainingMinutes;
-                result.add(new State(network, position, newClosedValves, newRemainingMinutes, newPressureReleased, null));
-            }
-            // We could move through a tunnel.
-            for (Valve valve : network.graph().vertexSet()) {
-                if (network.graph().containsEdge(position, valve)) {
-                    result.add(new State(network, valve, closedValves, newRemainingMinutes, pressureReleased, null));
+            ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(network.graph());
+            var paths = algorithm.getPaths(position);
+            for (Valve closedValve : closedValves) {
+                var graphPath = paths.getPath(closedValve);
+                if (graphPath.getLength() < remainingMinutes) {
+                    var path = graphPath.getVertexList();
+                    if (path.get(0) != position) {
+                        throw new IllegalStateException();
+                    }
+                    result.add(new State(network, path.get(1), closedValves, newRemainingMinutes, pressureReleased, path.subList(2, path.size())));
                 }
             }
+            
         } else if (currentPath.isEmpty()) {
             // Close this valve.
             Set<Valve> newClosedValves = new HashSet<>(closedValves);
