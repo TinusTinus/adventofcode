@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day16;
 
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -20,7 +22,17 @@ public class ProboscideaVolcaniumPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         var network = Network.parse(lines.toList());
         LOGGER.debug("{}", network);
-        return 0; // TODO
+        var reachableStates = Set.of(network.startState());
+        while (0 < reachableStates.iterator().next().remainingMinutes()) {
+            reachableStates = reachableStates.stream()
+                    .flatMap(state -> state.nextStates().stream())
+                    .collect(Collectors.toSet());
+            LOGGER.info("Possible states: {}", reachableStates.size()); // TODO remove this logging?
+        }
+        return reachableStates.stream()
+                .mapToInt(State::pressureReleased)
+                .max()
+                .orElseThrow();
     }
     
     /**

@@ -68,9 +68,16 @@ record Network(Map<Valve, Set<Valve>> tunnels) {
     }
     
     /**
+     * @return start state
+     */
+    State startState() {
+        return new State(this, startingPoint(), Set.of(), 30, 0);
+    }
+    
+    /**
      * @return starting location
      */
-    Valve startingPoint() {
+    private Valve startingPoint() {
         return tunnels.keySet()
                 .stream()
                 .filter(valve -> "AA".equals(valve.name()))
