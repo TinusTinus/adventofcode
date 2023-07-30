@@ -57,7 +57,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
                 // The actor has reached their destination and can now close the valve.
                 newClosedValves = new HashSet<>(newClosedValves);
                 if (newClosedValves.remove(actor.currentPosition())) { // Make sure we do not count a valve twice, if multiple actors happen to have arrived in the same place.
-                    newPressureReleased = newPressureReleased + me.currentPosition().flowRate() * newRemainingMinutes;
+                    newPressureReleased = newPressureReleased + actor.currentPosition().flowRate() * newRemainingMinutes;
                 }
             }
         }
