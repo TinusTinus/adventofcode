@@ -1,15 +1,18 @@
 package nl.mvdr.adventofcode.adventofcode2022.day16;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm.SingleSourcePaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -19,7 +22,7 @@ import org.jgrapht.graph.SimpleGraph;
  *
  * @author Martijn van de Rijdt
  */
-record Network(Graph<Valve, DefaultEdge> graph) {
+record Network(Graph<Valve, DefaultEdge> graph, Map<Valve, SingleSourcePaths<Valve, DefaultEdge>> shortestPaths) {
     
     /**
      * Parses a string representation of a network.
@@ -30,6 +33,7 @@ record Network(Graph<Valve, DefaultEdge> graph) {
     static Network parse(List<String> lines) {
         Graph<Valve, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         Map<Valve, Set<String>> tunnels = new HashMap<>();
+        Set<Valve> valves = new HashSet<>();
         for (String valveSpec : lines) {
             // Lines can have the following formats:
             // "Valve AA has flow rate=0; tunnels lead to valves DD, II, BB"
@@ -46,24 +50,31 @@ record Network(Graph<Valve, DefaultEdge> graph) {
             }
             var flowRate = Integer.parseInt(valveSpec.substring(23, semicolonIndex));
             Valve valve = new Valve(name, flowRate);
-            graph.addVertex(valve);
+            valves.add(valve);
             var tunnelExitNamesString = valveSpec.substring(tunnelExitsIndex);
             var tunnelExitNames = Stream.of(tunnelExitNamesString.split(", ")).collect(Collectors.toSet());
             tunnels.put(valve, tunnelExitNames);
         }
+        
+        valves.forEach(graph::addVertex);
         for (Entry<Valve, Set<String>> entry : tunnels.entrySet()) {
             for (String tunnelExit : entry.getValue()) {
                 graph.addEdge(entry.getKey(), Valve.find(graph.vertexSet(), tunnelExit));
             }
         }
-        return new Network(graph);
+        
+        ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        var shortestPaths = valves.stream()
+                .collect(Collectors.toMap(Function.identity(), algorithm::getPaths));
+        
+        return new Network(graph, shortestPaths);
     }
 
     /**
      * @return starting location
      */
     Valve startingPoint() {
-        return Valve.find(graph.vertexSet(), "AA");
+        return Valve.find(getValves(), "AA");
     }
     
     /**
@@ -81,8 +92,7 @@ record Network(Graph<Valve, DefaultEdge> graph) {
      * @return the path, excluding the source but including the target
      */
     List<Valve> getShortestPath(Valve source, Valve target) {
-        ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        var path = algorithm.getPath(source, target);
+        var path = shortestPaths.get(source).getPath(target);
         List<Valve> result = path.getVertexList();
         return result.subList(1, result.size());
     }
