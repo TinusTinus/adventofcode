@@ -45,6 +45,4 @@ record Valve(String name, int flowRate) {
         Valve other = (Valve) obj;
         return Objects.equals(name, other.name);
     }
-    
-    
 }
