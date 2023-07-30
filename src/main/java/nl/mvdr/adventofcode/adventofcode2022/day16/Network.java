@@ -22,7 +22,7 @@ import org.jgrapht.graph.SimpleGraph;
  *
  * @author Martijn van de Rijdt
  */
-record Network(Graph<Valve, DefaultEdge> graph, Map<Valve, SingleSourcePaths<Valve, DefaultEdge>> shortestPaths) {
+record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdge>> shortestPaths) {
     
     /**
      * Parses a string representation of a network.
@@ -62,28 +62,20 @@ record Network(Graph<Valve, DefaultEdge> graph, Map<Valve, SingleSourcePaths<Val
                 graph.addEdge(entry.getKey(), Valve.find(graph.vertexSet(), tunnelExit));
             }
         }
-        
         ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
         var shortestPaths = valves.stream()
                 .collect(Collectors.toMap(Function.identity(), algorithm::getPaths));
         
-        return new Network(graph, shortestPaths);
+        return new Network(valves, shortestPaths);
     }
 
     /**
      * @return starting location
      */
     Valve startingPoint() {
-        return Valve.find(getValves(), "AA");
+        return Valve.find(valves, "AA");
     }
     
-    /**
-     * @return all valves
-     */
-    Set<Valve> getValves() {
-        return graph.vertexSet();
-    }
-
     /**
      * Gets the shortest path between the given valves.
      * 
