@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day16;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A possible state of the network.
@@ -16,7 +17,17 @@ record State(Network network, Valve position, Set<Valve> openValves, int remaini
      * @param network the network
      */
     State(Network network) {
-        this(network, network.startingPoint(), Set.of(), 30, 0);
+        
+        this(network,
+                network.startingPoint(),
+                // Consider valves with air pressure = 0 as already open. Opening them has no effect anyway.
+                network.tunnels()
+                    .keySet()
+                    .stream()
+                    .filter(valve -> valve.flowRate() == 0)
+                    .collect(Collectors.toSet()),
+                30,
+                0);
     }
     
     /**
@@ -25,7 +36,7 @@ record State(Network network, Valve position, Set<Valve> openValves, int remaini
     Set<State> nextStates() {
         Set<State> result = new HashSet<>();
         var newRemainingMinutes = remainingMinutes - 1;
-        if (0 < position.flowRate() &&!openValves.contains(position)) {
+        if (!openValves.contains(position)) {
             // We could open this valve. (Note that, if the flow rate is zero, there is no point in opening this valve.)
             Set<Valve> newOpenValves = new HashSet<>(openValves);
             newOpenValves.add(position);
