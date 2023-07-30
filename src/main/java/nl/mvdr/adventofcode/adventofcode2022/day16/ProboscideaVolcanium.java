@@ -32,6 +32,7 @@ class ProboscideaVolcanium implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var network = Network.parse(lines.toList());
+        // TODO depth-first search?
         var reachableStates = Set.of(new State(network, helperElephant));
         while (0 < reachableStates.iterator().next().remainingMinutes()) {
             reachableStates = reachableStates.stream()
