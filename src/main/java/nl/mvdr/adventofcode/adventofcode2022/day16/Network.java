@@ -8,12 +8,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
+
 /**
  * A network of valves, pipes and tunnels.
  *
  * @author Martijn van de Rijdt
  */
-record Network(Map<Valve, Set<Valve>> tunnels) {
+record Network(Graph<Valve, DefaultEdge> graph) {
     
     /**
      * Parses a string representation of a network.
@@ -22,6 +26,7 @@ record Network(Map<Valve, Set<Valve>> tunnels) {
      * @return network represented by the puzzle input
      */
     static Network parse(List<String> lines) {
+        Graph<Valve, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         Map<Valve, Set<String>> tunnels = new HashMap<>();
         for (String valveSpec : lines) {
             // Lines can have the following formats:
@@ -38,67 +43,24 @@ record Network(Map<Valve, Set<Valve>> tunnels) {
                 tunnelExitsIndex = semicolonIndex + 24;
             }
             var flowRate = Integer.parseInt(valveSpec.substring(23, semicolonIndex));
+            Valve valve = new Valve(name, flowRate);
+            graph.addVertex(valve);
             var tunnelExitNamesString = valveSpec.substring(tunnelExitsIndex);
             var tunnelExitNames = Stream.of(tunnelExitNamesString.split(", ")).collect(Collectors.toSet());
-            tunnels.put(new Valve(name, flowRate), tunnelExitNames);
+            tunnels.put(valve, tunnelExitNames);
         }
-        return toNetwork(tunnels);
+        for (Entry<Valve, Set<String>> entry : tunnels.entrySet()) {
+            for (String tunnelExit : entry.getValue()) {
+                graph.addEdge(entry.getKey(), Valve.find(graph.vertexSet(), tunnelExit));
+            }
+        }
+        return new Network(graph);
     }
 
-    /**
-     * Helper method to create a network based on the given tunnels.
-     * 
-     * @param tunnels tunnels, where tunnel exits are represented by the name of the target valve
-     * @return network
-     */
-    private static Network toNetwork(Map<Valve, Set<String>> tunnels) {
-        Map<Valve, Set<Valve>> result = new HashMap<>();
-        for (Entry<Valve, Set<String>> entry : tunnels.entrySet()) {
-            var tunnelExits = entry.getValue()
-                    .stream()
-                    .map(name -> tunnels.keySet()
-                            .stream()
-                            .filter(valve -> valve.name().equals(name))
-                            .findFirst()
-                            .orElseThrow())
-                    .collect(Collectors.toSet());
-            result.put(entry.getKey(), tunnelExits);
-        }
-        return new Network(result);
-    }
-    
     /**
      * @return starting location
      */
     Valve startingPoint() {
-        return tunnels.keySet()
-                .stream()
-                .filter(valve -> "AA".equals(valve.name()))
-                .findFirst()
-                .orElseThrow();
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Network: \n");
-        for (Entry<Valve, Set<Valve>> entry : tunnels.entrySet()) {
-            builder.append("Valve ");
-            builder.append(entry.getKey().name());
-            builder.append(" has flow rate=");
-            builder.append(entry.getKey().flowRate());
-            builder.append("; ");
-            if (entry.getValue().size() == 1) {
-                builder.append("tunnel leads to valve ");
-            } else {
-                builder.append("tunnels lead to valves ");
-            }
-            builder.append(entry.getValue()
-                    .stream()
-                    .map(Valve::name)
-                    .collect(Collectors.joining(", ")));
-            builder.append("\n");
-        }
-        return builder.toString();
+        return Valve.find(graph.vertexSet(), "AA");
     }
 }

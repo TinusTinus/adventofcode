@@ -17,12 +17,11 @@ record State(Network network, Valve position, Set<Valve> openValves, int remaini
      * @param network the network
      */
     State(Network network) {
-        
         this(network,
                 network.startingPoint(),
                 // Consider valves with air pressure = 0 as already open. Opening them has no effect anyway.
-                network.tunnels()
-                    .keySet()
+                network.graph()
+                    .vertexSet()
                     .stream()
                     .filter(valve -> valve.flowRate() == 0)
                     .collect(Collectors.toSet()),
@@ -31,13 +30,12 @@ record State(Network network, Valve position, Set<Valve> openValves, int remaini
     }
     
     /**
-     * @return possible states that can be reached from this one
+     * @return possible actions to take
      */
     Set<State> nextStates() {
         Set<State> result = new HashSet<>();
         var newRemainingMinutes = remainingMinutes - 1;
         if (!openValves.contains(position)) {
-            // We could open this valve. (Note that, if the flow rate is zero, there is no point in opening this valve.)
             Set<Valve> newOpenValves = new HashSet<>(openValves);
             newOpenValves.add(position);
             
@@ -45,10 +43,16 @@ record State(Network network, Valve position, Set<Valve> openValves, int remaini
             result.add(new State(network, position, newOpenValves, newRemainingMinutes, newPressureReleased));
         }
         // We could move through a tunnel.
-        for (Valve tunnelExit : network.tunnels().get(position)) {
-            result.add(new State(network, tunnelExit, openValves, newRemainingMinutes, pressureReleased));
+        for (Valve valve : network.graph().vertexSet()) {
+            if (network.graph().containsEdge(position, valve)) {
+                result.add(new State(network, valve, openValves, newRemainingMinutes, pressureReleased));
+            }
         }
-        // We could also just do nothing for a minute, but we may as well keep walking back and forth through tunnels.
+        if (result.isEmpty()) {
+            // Nothing to do. We could also just do nothing for a minute.
+            result.add(new State(network, position, openValves, newRemainingMinutes, pressureReleased));
+        }
+        
         return result;
     }
 }
