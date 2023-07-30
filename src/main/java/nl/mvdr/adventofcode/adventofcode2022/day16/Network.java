@@ -108,7 +108,7 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
      */
     List<Valve> getShortestPath(Valve source, Valve target) {
         var path = shortestPaths.get(source).getPath(target);
-        List<Valve> result = path.getVertexList();
+        var result = path.getVertexList();
         return result.subList(1, result.size());
     }
 }
