@@ -33,7 +33,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
                 network.graph()
                     .vertexSet()
                     .stream()
-                    .filter(valve -> valve.flowRate() != 0)
+                    .filter(valve -> 0 < valve.flowRate())
                     .collect(Collectors.toSet()),
                 30,
                 0,
