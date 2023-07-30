@@ -25,9 +25,11 @@ public class ProboscideaVolcaniumPart1 implements IntSolver {
         var reachableStates = Set.of(new State(network));
         while (0 < reachableStates.iterator().next().remainingMinutes()) {
             reachableStates = reachableStates.stream()
+                    .parallel()
                     .flatMap(state -> state.nextStates().stream())
                     .collect(Collectors.toSet());
             LOGGER.info("Possible states: {}", Integer.valueOf(reachableStates.size())); // TODO remove this logging?
+            LOGGER.info("Remaining minutes: {}", Integer.valueOf(reachableStates.iterator().next().remainingMinutes())); // TODO remove this logging!
         }
         return reachableStates.stream()
                 .mapToInt(State::pressureReleased)
