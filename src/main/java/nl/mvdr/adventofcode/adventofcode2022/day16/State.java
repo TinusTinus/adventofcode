@@ -54,11 +54,27 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
             }
         }
         
+        Set<Actor> newActors = updateActor(actor);
+        
+        Set<State> result = new HashSet<>();
+        for (Actor newActor : newActors) {
+            result.add(new State(network, newClosedValves, newRemainingMinutes, newPressureReleased, newActor));
+        }
+        return result;
+    }
+
+    /**
+     * Determines the next possible positions for the given actor.
+     * 
+     * @param actorToUpdate the actor for which to calculate new positions
+     * @return new positions
+     */
+    private Set<Actor> updateActor(Actor actorToUpdate) {
         Set<Actor> newActors = new HashSet<>();
-        if (actor.currentPath() == null) {
+        if (actorToUpdate.currentPath() == null) {
             // Figure out which valves the actor could move to next.
             ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(network.graph());
-            var paths = algorithm.getPaths(actor.currentPosition());
+            var paths = algorithm.getPaths(actorToUpdate.currentPosition());
             for (Valve closedValve : closedValves) {
                 var graphPath = paths.getPath(closedValve);
                 if (graphPath.getLength() < remainingMinutes) { // Only consider valves which the actor could get to in time.
@@ -68,22 +84,17 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
             }
             if (newActors.isEmpty()) {
                 // Nowhere to go. The actor stays here.
-                newActors = Set.of(actor);
+                newActors = Set.of(actorToUpdate);
             }
-        } else if (actor.currentPath().isEmpty()) {
+        } else if (actorToUpdate.currentPath().isEmpty()) {
             // Currently closing a valve.
-            newActors.add(new Actor(actor.currentPosition(), null));
+            newActors.add(new Actor(actorToUpdate.currentPosition(), null));
         } else {
             // Moving along the path.
-            Valve newPosition = actor.currentPath().get(0);
-            List<Valve> newPath = actor.currentPath().subList(1, actor.currentPath().size());
+            Valve newPosition = actorToUpdate.currentPath().get(0);
+            List<Valve> newPath = actorToUpdate.currentPath().subList(1, actorToUpdate.currentPath().size());
             newActors.add(new Actor(newPosition, newPath));
         }
-        
-        Set<State> result = new HashSet<>();
-        for (Actor newActor : newActors) {
-            result.add(new State(network, newClosedValves, newRemainingMinutes, newPressureReleased, newActor));
-        }
-        return result;
+        return newActors;
     }
 }
