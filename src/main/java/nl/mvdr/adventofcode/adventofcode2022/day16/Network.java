@@ -78,11 +78,12 @@ record Network(Graph<Valve, DefaultEdge> graph) {
      * 
      * @param source source valve
      * @param target target valve
-     * @return path (including both valves)
+     * @return the path, excluding the source but including the target
      */
     List<Valve> getShortestPath(Valve source, Valve target) {
         ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
         var path = algorithm.getPath(source, target);
-        return path.getVertexList();
+        List<Valve> result = path.getVertexList();
+        return result.subList(1, result.size());
     }
 }

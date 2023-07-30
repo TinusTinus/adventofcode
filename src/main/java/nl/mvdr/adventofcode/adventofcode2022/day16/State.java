@@ -7,10 +7,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.DefaultEdge;
-
 /**
  * A possible state of a network.
  *
@@ -91,13 +87,10 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
             result = new HashSet<>();
             if (actorToUpdate.currentPath() == null) {
                 // Figure out which valves the actor could move to next.
-                ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(network.graph());
-                var paths = algorithm.getPaths(actorToUpdate.currentPosition());
                 for (Valve closedValve : closedValves) {
-                    var graphPath = paths.getPath(closedValve);
-                    if (graphPath.getLength() < remainingMinutes) { // Only consider valves which the actor could get to in time.
-                        var path = graphPath.getVertexList();
-                        result.add(new Actor(path.get(1), path.subList(2, path.size())));
+                    var path = network.getShortestPath(actorToUpdate.currentPosition(), closedValve);
+                    if (path.size() < remainingMinutes) { // Only consider valves which the actor could get to in time.
+                        result.add(new Actor(path.get(0), path.subList(1, path.size())));
                     }
                 }
                 if (result.isEmpty()) {
