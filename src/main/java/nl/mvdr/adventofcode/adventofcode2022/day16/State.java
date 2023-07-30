@@ -20,7 +20,7 @@ import org.jgrapht.graph.DefaultEdge;
  * @param currentPath the path we are currently on to get to a specific closed valve; may be null, indicating that we are not (yet) on a path
  * @author Martijn van de Rijdt
  */
-record State(Network network, Valve position, Set<Valve> closedValves, int remainingMinutes, int pressureReleased, List<Valve> currentPath) {
+record State(Network network, Set<Valve> closedValves, int remainingMinutes, int pressureReleased, Valve position, List<Valve> currentPath) {
     
     /**
      * Constructor, for the initial state of a network.
@@ -29,7 +29,6 @@ record State(Network network, Valve position, Set<Valve> closedValves, int remai
      */
     State(Network network) {
         this(network,
-                network.startingPoint(),
                 // Consider valves with air pressure = 0 as already open. Opening them has no effect anyway.
                 network.graph()
                     .vertexSet()
@@ -38,6 +37,7 @@ record State(Network network, Valve position, Set<Valve> closedValves, int remai
                     .collect(Collectors.toSet()),
                 30,
                 0,
+                network.startingPoint(),
                 null);
     }
     
@@ -56,7 +56,7 @@ record State(Network network, Valve position, Set<Valve> closedValves, int remai
                 var graphPath = paths.getPath(closedValve);
                 if (graphPath.getLength() < remainingMinutes) { // Only consider valves which we could get to in time.
                     var path = graphPath.getVertexList();
-                    result.add(new State(network, path.get(1), closedValves, newRemainingMinutes, pressureReleased, path.subList(2, path.size())));
+                    result.add(new State(network, closedValves, newRemainingMinutes, pressureReleased, path.get(1), path.subList(2, path.size())));
                 }
             }
         } else if (currentPath.isEmpty()) {
@@ -64,17 +64,17 @@ record State(Network network, Valve position, Set<Valve> closedValves, int remai
             Set<Valve> newClosedValves = new HashSet<>(closedValves);
             newClosedValves.remove(position);
             var newPressureReleased = pressureReleased + position.flowRate() * newRemainingMinutes;
-            result.add(new State(network, position, newClosedValves, newRemainingMinutes, newPressureReleased, null));
+            result.add(new State(network, newClosedValves, newRemainingMinutes, newPressureReleased, position, null));
         } else {
             // Move along the path.
             Valve newPosition = currentPath.get(0);
             List<Valve> newPath = currentPath.subList(1, currentPath.size());
-            result.add(new State(network, newPosition, closedValves, newRemainingMinutes, pressureReleased, newPath));
+            result.add(new State(network, closedValves, newRemainingMinutes, pressureReleased, newPosition, newPath));
         }
         
         if (result.isEmpty()) {
             // Nothing to do. Let's just do nothing for a minute.
-            result.add(new State(network, position, closedValves, newRemainingMinutes, pressureReleased, null));
+            result.add(new State(network, closedValves, newRemainingMinutes, pressureReleased, position, null));
         }
         return result;
     }
