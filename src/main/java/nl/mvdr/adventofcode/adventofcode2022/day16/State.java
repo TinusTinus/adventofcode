@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 record State(Network network, Set<Valve> closedValves, int remainingMinutes, int pressureReleased, Actor me, Actor elephant) {
-    
+
     /**
      * Constructor, for the initial state of a network.
      * 
@@ -47,12 +47,12 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
         if (remainingMinutes == 0) {
             result = pressureReleased;
         } else {
-            // TODO see if we can filter the states to investigate
-            result = nextStates().stream()
-                    .parallel()
-                    .mapToInt(State::maxPressureReleased)
-                    .max()
-                    .orElseThrow();
+            result = 0;
+            for (State state : nextStates()) {
+                if (result < state.maxPressurePotential()) {
+                    result = Integer.max(result, state.maxPressureReleased());
+                }
+            }
         }
         return result;
     }
