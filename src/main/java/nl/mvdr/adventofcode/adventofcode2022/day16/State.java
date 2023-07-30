@@ -42,36 +42,43 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
      * @return possible actions to take
      */
     Set<State> nextStates() {
-        Set<State> result = new HashSet<>();
         var newRemainingMinutes = remainingMinutes - 1;
+        var newClosedValves = closedValves;
+        var newPressureReleased = pressureReleased;
+        Set<Actor> newActors = new HashSet<>();
         
         if (actor.currentPath() == null) {
-            // Figure out which valves we could move to next.
+            // Figure out which valves the actor could move to next.
             ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(network.graph());
             var paths = algorithm.getPaths(actor.currentPosition());
             for (Valve closedValve : closedValves) {
                 var graphPath = paths.getPath(closedValve);
                 if (graphPath.getLength() < remainingMinutes) { // Only consider valves which we could get to in time.
                     var path = graphPath.getVertexList();
-                    result.add(new State(network, closedValves, newRemainingMinutes, pressureReleased, new Actor(path.get(1), path.subList(2, path.size()))));
+                    newActors.add(new Actor(path.get(1), path.subList(2, path.size())));
                 }
             }
+            if (newActors.isEmpty()) {
+                // Nowhere to go. The actor stays here.
+                newActors = Set.of(actor);
+            }
         } else if (actor.currentPath().isEmpty()) {
-            // We've reached our destination. Close this valve.
-            Set<Valve> newClosedValves = new HashSet<>(closedValves);
-            newClosedValves.remove(actor.currentPosition());
-            var newPressureReleased = pressureReleased + actor.currentPosition().flowRate() * newRemainingMinutes;
-            result.add(new State(network, newClosedValves, newRemainingMinutes, newPressureReleased, new Actor(actor.currentPosition(), null)));
+            // The actor has reached their destination and can now close the valve.
+            newClosedValves = new HashSet<>(newClosedValves);
+            if (newClosedValves.remove(actor.currentPosition())) { // Make sure we do not count a valve twice, if both actors happen to have arrived in the same place.
+                newPressureReleased = newPressureReleased + actor.currentPosition().flowRate() * newRemainingMinutes;
+            }
+            newActors.add(new Actor(actor.currentPosition(), null));
         } else {
             // Move along the path.
             Valve newPosition = actor.currentPath().get(0);
             List<Valve> newPath = actor.currentPath().subList(1, actor.currentPath().size());
-            result.add(new State(network, closedValves, newRemainingMinutes, pressureReleased, new Actor(newPosition, newPath)));
+            newActors.add(new Actor(newPosition, newPath));
         }
         
-        if (result.isEmpty()) {
-            // Nothing to do. Let's just do nothing for a minute.
-            result.add(new State(network, closedValves, newRemainingMinutes, pressureReleased, actor));
+        Set<State> result = new HashSet<>();
+        for (Actor newActor : newActors) {
+            result.add(new State(network, newClosedValves, newRemainingMinutes, newPressureReleased, newActor));
         }
         return result;
     }
