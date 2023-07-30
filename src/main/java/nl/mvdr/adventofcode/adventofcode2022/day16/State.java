@@ -49,6 +49,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
         } else {
             // TODO see if we can filter the states to investigate
             result = nextStates().stream()
+                    .parallel()
                     .mapToInt(State::maxPressureReleased)
                     .max()
                     .orElseThrow();
@@ -134,5 +135,16 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
             }
         }
         return result;
+    }
+    
+    /**
+     * Returns an upper bound for the amount of pressure that could still be released from this state.
+     * The return value of this method can be computed pretty efficiently.
+     * The idea is to use this to prune computation branches which may not yield a valuable result.
+     * 
+     * @return an upper bound for the amount of pressure that could still be released from this state
+     */
+    private int maxPressurePotential() {
+        return Integer.MAX_VALUE; // TODO
     }
 }
