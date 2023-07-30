@@ -145,7 +145,10 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
      * @return an upper bound for the amount of pressure that could still be released from this state
      */
     private int maxPressurePotential() {
-        return Integer.MAX_VALUE; // TODO
+        // TODO we could also take the distance to each valve into account...
+        return pressureReleased + closedValves.stream()
+                .mapToInt(this::pressureReleased)
+                .sum();
     }
     
     /**
