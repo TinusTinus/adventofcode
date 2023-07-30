@@ -31,7 +31,7 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
      * @return network represented by the puzzle input
      */
     static Network parse(List<String> lines) {
-        Graph<Valve, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
+        
         Map<Valve, Set<String>> tunnels = new HashMap<>();
         Set<Valve> valves = new HashSet<>();
         for (String valveSpec : lines) {
@@ -56,17 +56,40 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
             tunnels.put(valve, tunnelExitNames);
         }
         
+        return new Network(valves, computeShortestPaths(valves, tunnels));
+    }
+
+    /**
+     * Precomputes all shortest paths.
+     * 
+     * @param valves valves
+     * @param tunnels tunnels connecting valves, where the values contain the names of the valves
+     * @return shortest paths, indexed by the source valve
+     */
+    private static Map<Valve, SingleSourcePaths<Valve, DefaultEdge>> computeShortestPaths(Set<Valve> valves,
+            Map<Valve, Set<String>> tunnels) {
+        Graph<Valve, DefaultEdge> graph = createGraph(valves, tunnels);
+        ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        return valves.stream()
+                .collect(Collectors.toMap(Function.identity(), algorithm::getPaths));
+    }
+
+    /**
+     * Creates a graph with the given data.
+     * 
+     * @param valves valves
+     * @param tunnels tunnels connecting valves, where the values contain the names of the valves
+     * @return graph
+     */
+    private static Graph<Valve, DefaultEdge> createGraph(Set<Valve> valves, Map<Valve, Set<String>> tunnels) {
+        Graph<Valve, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         valves.forEach(graph::addVertex);
         for (Entry<Valve, Set<String>> entry : tunnels.entrySet()) {
             for (String tunnelExit : entry.getValue()) {
                 graph.addEdge(entry.getKey(), Valve.find(graph.vertexSet(), tunnelExit));
             }
         }
-        ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        var shortestPaths = valves.stream()
-                .collect(Collectors.toMap(Function.identity(), algorithm::getPaths));
-        
-        return new Network(valves, shortestPaths);
+        return graph;
     }
 
     /**
