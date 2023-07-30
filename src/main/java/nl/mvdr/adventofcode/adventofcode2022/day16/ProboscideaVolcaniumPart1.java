@@ -21,15 +21,13 @@ public class ProboscideaVolcaniumPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var network = Network.parse(lines.toList());
-        LOGGER.debug("{}", network);
         var reachableStates = Set.of(new State(network));
         while (0 < reachableStates.iterator().next().remainingMinutes()) {
             reachableStates = reachableStates.stream()
                     .parallel()
                     .flatMap(state -> state.nextStates().stream())
                     .collect(Collectors.toSet());
-            LOGGER.info("Possible states: {}", Integer.valueOf(reachableStates.size())); // TODO remove this logging?
-            LOGGER.info("Remaining minutes: {}", Integer.valueOf(reachableStates.iterator().next().remainingMinutes())); // TODO remove this logging!
+            LOGGER.debug("Possible states: {}", Integer.valueOf(reachableStates.size()));
         }
         return reachableStates.stream()
                 .mapToInt(State::pressureReleased)

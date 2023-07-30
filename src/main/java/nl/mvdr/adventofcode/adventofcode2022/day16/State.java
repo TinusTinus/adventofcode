@@ -49,28 +49,27 @@ record State(Network network, Valve position, Set<Valve> closedValves, int remai
         var newRemainingMinutes = remainingMinutes - 1;
         
         if (currentPath == null) {
+            // Figure out which valves we could move to next.
             ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(network.graph());
             var paths = algorithm.getPaths(position);
             for (Valve closedValve : closedValves) {
                 var graphPath = paths.getPath(closedValve);
-                if (graphPath.getLength() < remainingMinutes) {
+                if (graphPath.getLength() < remainingMinutes) { // Only consider valves which we could get to in time.
                     var path = graphPath.getVertexList();
-                    if (path.get(0) != position) {
-                        throw new IllegalStateException();
-                    }
                     result.add(new State(network, path.get(1), closedValves, newRemainingMinutes, pressureReleased, path.subList(2, path.size())));
                 }
             }
-            
         } else if (currentPath.isEmpty()) {
-            // Close this valve.
+            // We've reached our destination. Close this valve.
             Set<Valve> newClosedValves = new HashSet<>(closedValves);
             newClosedValves.remove(position);
             var newPressureReleased = pressureReleased + position.flowRate() * newRemainingMinutes;
             result.add(new State(network, position, newClosedValves, newRemainingMinutes, newPressureReleased, null));
         } else {
-            // Move through the tunnel.
-            result.add(new State(network, currentPath.get(0), closedValves, newRemainingMinutes, pressureReleased, currentPath.subList(1, currentPath.size())));
+            // Move along the path.
+            Valve newPosition = currentPath.get(0);
+            List<Valve> newPath = currentPath.subList(1, currentPath.size());
+            result.add(new State(network, newPosition, closedValves, newRemainingMinutes, pressureReleased, newPath));
         }
         
         if (result.isEmpty()) {
