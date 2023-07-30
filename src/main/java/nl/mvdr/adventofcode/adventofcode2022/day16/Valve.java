@@ -1,7 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2022.day16;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
+
+import javax.annotation.processing.Generated;
 
 /**
  * A valve.
@@ -23,4 +26,25 @@ record Valve(String name, int flowRate) {
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No valve found with name " + name));
     }
+
+    @Override
+    @Generated("eclipse")
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    @Generated("eclipse")
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Valve other = (Valve) obj;
+        return Objects.equals(name, other.name);
+    }
+    
+    
 }
