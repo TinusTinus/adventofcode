@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
@@ -69,5 +71,18 @@ record Network(Graph<Valve, DefaultEdge> graph) {
      */
     Set<Valve> getValves() {
         return graph.vertexSet();
+    }
+
+    /**
+     * Gets the shortest path between the given valves.
+     * 
+     * @param source source valve
+     * @param target target valve
+     * @return path (including both valves)
+     */
+    List<Valve> getShortestPath(Valve source, Valve target) {
+        ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        var path = algorithm.getPath(source, target);
+        return path.getVertexList();
     }
 }
