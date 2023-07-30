@@ -97,7 +97,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
                 for (Valve closedValve : closedValves) {
                     if (!getActors().stream().map(Actor::currentPosition).anyMatch(currentPosition -> closedValve == currentPosition)) { // Do not go after the valve the other actor is already targeting
                         var path = network.getShortestPath(actorToUpdate.currentPosition(), closedValve);
-                        if (path.size() < remainingMinutes) { // Only consider valves which the actor could get to in time.
+                        if (path.size() + 1 < remainingMinutes) { // Only consider valves which the actor could get to in time.
                             result.add(new Actor(path.get(0), path.subList(1, path.size())));
                         }
                     }
