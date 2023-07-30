@@ -40,9 +40,26 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
     }
     
     /**
+     * @return maximum amount of pressure that can be released starting from this state
+     */
+    int maxPressureReleased() {
+        int result;
+        if (remainingMinutes == 0) {
+            result = pressureReleased;
+        } else {
+            // TODO see if we can filter the states to investigate
+            result = nextStates().stream()
+                    .mapToInt(State::maxPressureReleased)
+                    .max()
+                    .orElseThrow();
+        }
+        return result;
+    }
+    
+    /**
      * @return possible actions to take
      */
-    Set<State> nextStates() {
+    private Set<State> nextStates() {
         var newRemainingMinutes = remainingMinutes - 1;
         
         var newClosedValves = closedValves;
