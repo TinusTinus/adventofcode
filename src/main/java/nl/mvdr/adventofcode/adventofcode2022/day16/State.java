@@ -53,7 +53,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
         var newClosedValves = closedValves;
         var newPressureReleased = pressureReleased;
         for (Actor actor : Stream.of(me, elephant).filter(Objects::nonNull).toList()) {
-            if (actor != null && actor.currentPath() != null && actor.currentPath().isEmpty()) {
+            if (actor.currentPath() != null && actor.currentPath().isEmpty()) {
                 // The actor has reached their destination and can now close the valve.
                 newClosedValves = new HashSet<>(newClosedValves);
                 if (newClosedValves.remove(actor.currentPosition())) { // Make sure we do not count a valve twice, if multiple actors happen to have arrived in the same place.
