@@ -70,7 +70,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
                 // The actor has reached their destination and can now close the valve.
                 newClosedValves = new HashSet<>(newClosedValves);
                 if (newClosedValves.remove(actor.currentPosition())) { // Make sure we do not count a valve twice, if multiple actors happen to have arrived in the same place.
-                    newPressureReleased = newPressureReleased + actor.currentPosition().flowRate() * newRemainingMinutes;
+                    newPressureReleased = newPressureReleased + pressureReleased(actor.currentPosition());
                 }
             }
         }
@@ -146,5 +146,15 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
      */
     private int maxPressurePotential() {
         return Integer.MAX_VALUE; // TODO
+    }
+    
+    /**
+     * Computes the amount of pressure that would be released, if one started to open the given valve right now.
+     * 
+     * @param valve valve to open
+     * @return pressure
+     */
+    private int pressureReleased(Valve valve) {
+        return valve.flowRate() * (remainingMinutes - 1);
     }
 }
