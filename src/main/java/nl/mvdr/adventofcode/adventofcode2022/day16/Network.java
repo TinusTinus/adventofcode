@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day16;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,9 +30,18 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
      * @return network represented by the puzzle input
      */
     static Network parse(List<String> lines) {
-        
+        Map<Valve, Set<String>> tunnels = parseTunnels(lines);
+        return new Network(tunnels.keySet(), computeShortestPaths(tunnels.keySet(), tunnels));
+    }
+
+    /**
+     * Parses a string representation of a series of valves and connecting tunnels.
+     * 
+     * @param lines puzzle input
+     * @return tunnels connecting valves, where the values contain the names of the valves
+     */
+    private static Map<Valve, Set<String>> parseTunnels(List<String> lines) {
         Map<Valve, Set<String>> tunnels = new HashMap<>();
-        Set<Valve> valves = new HashSet<>();
         for (String valveSpec : lines) {
             // Lines can have the following formats:
             // "Valve AA has flow rate=0; tunnels lead to valves DD, II, BB"
@@ -49,14 +57,11 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
                 tunnelExitsIndex = semicolonIndex + 24;
             }
             var flowRate = Integer.parseInt(valveSpec.substring(23, semicolonIndex));
-            Valve valve = new Valve(name, flowRate);
-            valves.add(valve);
             var tunnelExitNamesString = valveSpec.substring(tunnelExitsIndex);
             var tunnelExitNames = Stream.of(tunnelExitNamesString.split(", ")).collect(Collectors.toSet());
-            tunnels.put(valve, tunnelExitNames);
+            tunnels.put(new Valve(name, flowRate), tunnelExitNames);
         }
-        
-        return new Network(valves, computeShortestPaths(valves, tunnels));
+        return tunnels;
     }
 
     /**

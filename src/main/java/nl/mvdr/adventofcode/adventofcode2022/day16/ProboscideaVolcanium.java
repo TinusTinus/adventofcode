@@ -39,7 +39,7 @@ class ProboscideaVolcanium implements IntSolver {
                     .parallel()
                     .flatMap(state -> state.nextStates().stream())
                     .collect(Collectors.toSet());
-            LOGGER.info("Possible states: {}", Integer.valueOf(reachableStates.size())); // TODO debug
+            LOGGER.debug("Possible states: {}", Integer.valueOf(reachableStates.size()));
         }
         return reachableStates.stream()
                 .mapToInt(State::pressureReleased)
