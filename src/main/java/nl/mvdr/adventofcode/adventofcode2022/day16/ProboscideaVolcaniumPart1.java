@@ -22,7 +22,7 @@ public class ProboscideaVolcaniumPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         var network = Network.parse(lines.toList());
         LOGGER.debug("{}", network);
-        var reachableStates = Set.of(network.startState());
+        var reachableStates = Set.of(new State(network));
         while (0 < reachableStates.iterator().next().remainingMinutes()) {
             reachableStates = reachableStates.stream()
                     .flatMap(state -> state.nextStates().stream())

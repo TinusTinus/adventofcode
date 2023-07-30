@@ -8,7 +8,16 @@ import java.util.Set;
  *
  * @author Martijn van de Rijdt
  */
-public record State(Network network, Valve position, Set<Valve> openValves, int remainingMinutes, int pressureReleased) {
+record State(Network network, Valve position, Set<Valve> openValves, int remainingMinutes, int pressureReleased) {
+    
+    /**
+     * Constructor, for the initial state of a network.
+     * 
+     * @param network the network
+     */
+    State(Network network) {
+        this(network, network.startingPoint(), Set.of(), 30, 0);
+    }
     
     /**
      * @return possible states that can be reached from this one
