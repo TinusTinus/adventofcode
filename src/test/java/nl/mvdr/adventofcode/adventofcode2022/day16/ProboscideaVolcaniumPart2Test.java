@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day16;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -23,8 +24,9 @@ public class ProboscideaVolcaniumPart2Test extends SolverTest<ProboscideaVolcani
     }
     
     /** Test case based on the accepted solution. */
+    @Disabled // This test case takes like half an hour to run
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day16-2022.txt"); // 2334 is too low
+        assertSolution("2576", "input-day16-2022.txt");
     }
 }
