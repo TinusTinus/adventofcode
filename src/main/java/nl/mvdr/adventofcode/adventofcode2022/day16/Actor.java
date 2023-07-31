@@ -1,14 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2022.day16;
 
-import java.util.List;
-
 /**
  * An actor who is capable of moving around and opening valves.
  *
- * @param currentPosition current position in the network
- * @param currentPath the path we are currently on to get to a specific closed valve; may be null, indicating that we are not (yet) on a path
+ * @param startingPoint whether the actor is still in the starting position
+ * @param currentTarget the valve that this actor is currently traveling towards; may be null if not yet determined
+ * @param distance the distance to the current target; null if not applicable
  * @author Martijn van de Rijdt
  */
-record Actor(Valve currentPosition, List<Valve> currentPath) {
+record Actor(Valve currentTarget, Integer distance) {
 
 }

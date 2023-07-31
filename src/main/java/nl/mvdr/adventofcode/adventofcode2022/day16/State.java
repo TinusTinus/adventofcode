@@ -66,12 +66,11 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
         var newClosedValves = closedValves;
         var newPressureReleased = pressureReleased;
         for (Actor actor : getActors()) {
-            if (actor.currentPath() != null && actor.currentPath().isEmpty()) {
+            if (Integer.valueOf(0).equals(actor.distance()) && newClosedValves.contains(actor.currentTarget())) {
                 // The actor has reached their destination and can now close the valve.
                 newClosedValves = new HashSet<>(newClosedValves);
-                if (newClosedValves.remove(actor.currentPosition())) { // Make sure we do not count a valve twice, if multiple actors happen to have arrived in the same place.
-                    newPressureReleased = newPressureReleased + pressureReleased(actor.currentPosition());
-                }
+                newClosedValves.remove(actor.currentTarget());
+                newPressureReleased = newPressureReleased + pressureReleased(actor.currentTarget());
             }
         }
         
@@ -110,13 +109,20 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
             result = null;
         } else {
             result = new HashSet<>();
-            if (actorToUpdate.currentPath() == null) {
+            if (actorToUpdate.currentTarget() != null && actorToUpdate.distance() != null && 0 < actorToUpdate.distance().intValue()) {
+                // Move along the path.
+                result.add(new Actor(actorToUpdate.currentTarget(), Integer.valueOf(actorToUpdate.distance().intValue() - 1)));
+            } else if (Integer.valueOf(0).equals(actorToUpdate.distance()) && closedValves.contains(actorToUpdate.currentTarget())) {
+                // Currently closing a valve.
+                result.add(new Actor(actorToUpdate.currentTarget(), null));
+            } else {
                 // Figure out which valves the actor could move to next.
                 for (Valve closedValve : closedValves) {
-                    if (getActors().stream().map(Actor::currentPosition).allMatch(currentPosition -> closedValve != currentPosition)) { // Do not go after the valve the other actor is already targeting
-                        var path = network.getShortestPath(actorToUpdate.currentPosition(), closedValve);
-                        if (path.size() + 2 < remainingMinutes) { // Only consider valves which the actor could get to in time.
-                            result.add(new Actor(path.get(0), path.subList(1, path.size())));
+                    if (getActors().stream().map(Actor::currentTarget).allMatch(currentPosition -> closedValve != currentPosition)) { // Do not go after the valve the other actor is already targeting
+                        var path = network.getShortestPath(actorToUpdate.currentTarget(), closedValve);
+                        var pathLength = path.size();
+                        if (pathLength + 1 < remainingMinutes) { // Only consider valves which the actor could get to in time.
+                            result.add(new Actor(closedValve, Integer.valueOf(pathLength - 1)));
                         }
                     }
                 }
@@ -124,14 +130,6 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
                     // Nowhere to go. The actor stays here.
                     result = Set.of(actorToUpdate);
                 }
-            } else if (actorToUpdate.currentPath().isEmpty()) {
-                // Currently closing a valve.
-                result.add(new Actor(actorToUpdate.currentPosition(), null));
-            } else {
-                // Moving along the path.
-                Valve newPosition = actorToUpdate.currentPath().get(0);
-                List<Valve> newPath = actorToUpdate.currentPath().subList(1, actorToUpdate.currentPath().size());
-                result.add(new Actor(newPosition, newPath));
             }
         }
         return result;
