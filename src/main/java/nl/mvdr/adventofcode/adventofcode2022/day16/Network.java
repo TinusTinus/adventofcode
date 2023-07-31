@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
-import org.jgrapht.alg.interfaces.ShortestPathAlgorithm.SingleSourcePaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -21,7 +19,7 @@ import org.jgrapht.graph.SimpleGraph;
  *
  * @author Martijn van de Rijdt
  */
-record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdge>> shortestPaths) {
+record Network(Set<Valve> valves, Map<Valve, Map<Valve, Integer>> distances) {
     
     /**
      * Parses a string representation of a network.
@@ -31,7 +29,7 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
      */
     static Network parse(List<String> lines) {
         Map<Valve, Set<String>> tunnels = parseTunnels(lines);
-        return new Network(tunnels.keySet(), computeShortestPaths(tunnels.keySet(), tunnels));
+        return new Network(tunnels.keySet(), computeDistances(tunnels.keySet(), tunnels));
     }
 
     /**
@@ -63,20 +61,28 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
         }
         return tunnels;
     }
-
+    
     /**
-     * Precomputes all shortest paths.
+     * Precomputes the distance between each set of two vertices.
      * 
      * @param valves valves
      * @param tunnels tunnels connecting valves, where the values contain the names of the valves
      * @return shortest paths, indexed by the source valve
      */
-    private static Map<Valve, SingleSourcePaths<Valve, DefaultEdge>> computeShortestPaths(Set<Valve> valves,
-            Map<Valve, Set<String>> tunnels) {
-        Graph<Valve, DefaultEdge> graph = createGraph(valves, tunnels);
+    private static Map<Valve, Map<Valve, Integer>> computeDistances(Set<Valve> valves, Map<Valve, Set<String>> tunnels) {
+        var graph = createGraph(valves, tunnels);
         ShortestPathAlgorithm<Valve, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        return valves.stream()
-                .collect(Collectors.toMap(Function.identity(), algorithm::getPaths));
+        Map<Valve, Map<Valve, Integer>> result = new HashMap<>();
+        for (Valve source : valves) {
+            Map<Valve, Integer> distances = new HashMap<>();
+            var paths = algorithm.getPaths(source);
+            for (Valve target : valves) {
+                distances.put(target, Integer.valueOf(paths.getPath(target).getLength()));
+            }
+            result.put(source, distances);
+        }
+        return result;
+        
     }
 
     /**
@@ -117,7 +123,6 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
      * @return distance in number of tunnels
      */
     int getDistance(Valve source, Valve target) {
-        var path = shortestPaths.get(source).getPath(target);
-        return path.getLength();
+        return distances.get(source).get(target).intValue();
     }
 }
