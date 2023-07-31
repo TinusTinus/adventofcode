@@ -51,6 +51,11 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
             for (State state : nextStates()) {
                 if (result < state.maxPressurePotential()) {
                     result = Integer.max(result, state.maxPressureReleased());
+                    
+                    // TODO remove
+                    if (remainingMinutes == 26) {
+                        System.out.println(result);
+                    }
                 }
             }
         }
@@ -145,7 +150,6 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
      * @return an upper bound for the amount of pressure that could still be released from this state
      */
     private int maxPressurePotential() {
-        // TODO we could also take the distance to each valve into account...
         return pressureReleased + closedValves.stream()
                 .mapToInt(this::pressureReleased)
                 .sum();
