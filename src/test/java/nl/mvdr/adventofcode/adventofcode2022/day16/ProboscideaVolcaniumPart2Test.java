@@ -25,6 +25,6 @@ public class ProboscideaVolcaniumPart2Test extends SolverTest<ProboscideaVolcani
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day16-2022.txt"); // 2214 is too low
+        assertSolution("?", "input-day16-2022.txt"); // 2334 is too low
     }
 }

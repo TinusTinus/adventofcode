@@ -51,11 +51,6 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
             for (State state : nextStates()) {
                 if (result < state.maxPressurePotential()) {
                     result = Integer.max(result, state.maxPressureReleased());
-                    
-                    // TODO remove
-                    if (remainingMinutes == 26) {
-                        System.out.println(result);
-                    }
                 }
             }
         }
