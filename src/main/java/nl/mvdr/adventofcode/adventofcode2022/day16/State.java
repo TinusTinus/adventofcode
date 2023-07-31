@@ -4,21 +4,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * A possible state of a network.
  *
- * @param network the network
  * @param closedValves valves which can still be opened to release pressure
  * @param remainingMinutes the remaining minutes until the vulcano erupts
  * @param pressureReleased amount of pressure released, as a result of the valves that have already been opened
  * @param me current position of the player character
  * @param elephant current position of the helper elephant; null if not applicable
+ * @param distanceFunction function to get the distance from one valve to another
  * @author Martijn van de Rijdt
  */
-record State(Network network, Set<Valve> closedValves, int remainingMinutes, int pressureReleased, Actor me, Actor elephant) {
+record State(Set<Valve> closedValves, int remainingMinutes, int pressureReleased, Actor me, Actor elephant, BiFunction<Valve, Valve, Integer> distanceFunction) {
 
     /**
      * Constructor, for the initial state of a network.
@@ -27,16 +28,26 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
      * @param helperElephant whether an elephant can help out
      */
     State(Network network, boolean helperElephant) {
-        this(network,
-                // Consider valves with air pressure = 0 as already open. Opening them has no effect anyway.
-                network.valves()
-                    .stream()
-                    .filter(valve -> 0 < valve.flowRate())
-                    .collect(Collectors.toSet()),
+        this(filterBrokenValves(network.valves()),
                 helperElephant ? 26 : 30,
                 0,
                 new Actor(network.startingPoint(), null),
-                helperElephant ? new Actor(network.startingPoint(), null) : null);
+                helperElephant ? new Actor(network.startingPoint(), null) : null,
+                network::getDistance);
+    }
+
+    /**
+     * Filters broken valves from the given set of valves.
+     * 
+     * There is no point in opening these valves. It takes time to do but does not relieve any pressure.
+     * 
+     * @param valves set of valves
+     * @return all valves except the broken ones where the flow rate is zero
+     */
+    private static Set<Valve> filterBrokenValves(Set<Valve> valves) {
+        return valves.stream()
+            .filter(valve -> 0 < valve.flowRate())
+            .collect(Collectors.toSet());
     }
     
     /**
@@ -80,10 +91,10 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
         Set<State> result = new HashSet<>();
         for (Actor newMe : newMes) {
             if (newElephants == null) {
-                result.add(new State(network, newClosedValves, newRemainingMinutes, newPressureReleased, newMe, null));
+                result.add(new State(newClosedValves, newRemainingMinutes, newPressureReleased, newMe, null, distanceFunction));
             } else {
                 for (Actor newElephant : newElephants) {
-                    result.add(new State(network, newClosedValves, newRemainingMinutes, newPressureReleased, newMe, newElephant));
+                    result.add(new State(newClosedValves, newRemainingMinutes, newPressureReleased, newMe, newElephant, distanceFunction));
                 }
             }
         }
@@ -119,7 +130,7 @@ record State(Network network, Set<Valve> closedValves, int remainingMinutes, int
                 // Figure out which valves the actor could move to next.
                 for (Valve closedValve : closedValves) {
                     if (getActors().stream().map(Actor::currentTarget).allMatch(currentPosition -> closedValve != currentPosition)) { // Do not go after the valve the other actor is already targeting
-                        var pathLength = network.getDistance(actorToUpdate.currentTarget(), closedValve);
+                        var pathLength = distanceFunction.apply(actorToUpdate.currentTarget(), closedValve).intValue();
                         if (pathLength + 1 < remainingMinutes) { // Only consider valves which the actor could get to in time to open.
                             result.add(new Actor(closedValve, Integer.valueOf(pathLength - 1)));
                         }
