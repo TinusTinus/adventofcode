@@ -105,13 +105,18 @@ record Network(Set<Valve> valves, Map<Valve, SingleSourcePaths<Valve, DefaultEdg
     }
     
     /**
-     * Gets the time it takes to get from the source to the target, along a shortest path.
+     * Gets the distance to travel in order to get from the source to the target, along a shortest path.
+     * 
+     * The result is measured in the number of tunnels to traverse.
+     * This is equal to the number of minutes it will take to travel the path.
+     * 
+     * Guaranteed to return a positive number if the valves are different.
      * 
      * @param source source valve
      * @param target target valve
-     * @return time taken in minutes (where each tunnel takes a minute to traverse)
+     * @return distance in number of tunnels
      */
-    int getShortestPathLength(Valve source, Valve target) {
+    int getDistance(Valve source, Valve target) {
         var path = shortestPaths.get(source).getPath(target);
         return path.getLength();
     }
