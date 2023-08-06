@@ -109,7 +109,7 @@ class Chamber {
      * @return whether the current state is the start of a repeating pattern
      */
     private boolean startsRepeatingPattern() {
-        return jetStream.equals(initialJetStream) && isToppedOff(); // TODO instead of checking whether the chamber is topped off, we can also check whether the height differences are the same.
+        return jetStream.equals(initialJetStream) && isToppedOff(); // TODO instead of checking whether the chamber is topped off, we can also check the shape of the open space at the top
     }
     
     /**
@@ -150,6 +150,7 @@ class Chamber {
         LOGGER.debug("{}", this);
         while (condition.getAsBoolean()) {
             tick();
+            LOGGER.trace("{}", this);
         }
     }
     
@@ -198,7 +199,7 @@ class Chamber {
                 cleanUp(point.y());
             }
             if (settledRockCount % 100_000 == 0) {
-                LOGGER.info("Settled rocks: {}, tower height: {}, blocks: {}", Integer.valueOf(settledRockCount), Integer.valueOf(height()), Integer.valueOf(tower.size())); // TODO debug maybe?
+                LOGGER.debug("Settled rocks: {}, tower height: {}, blocks: {}", Integer.valueOf(settledRockCount), Integer.valueOf(height()), Integer.valueOf(tower.size())); // TODO debug maybe?
                 
                 // TODO remove overflow detection
                 if (height() < 0) {
