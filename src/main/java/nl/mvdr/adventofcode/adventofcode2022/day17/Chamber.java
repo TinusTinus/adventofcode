@@ -119,23 +119,24 @@ class Chamber {
      * @return whether the chamber is topped off
      */
     private boolean isToppedOff() {
-        return isFullLine(height() - 1);
+        return cleanUp(height() - 1);
     }
     
     /**
-     * Checks whether the line at height y is completely full.
+     * Checks whether the given line is completely filled left-to-right and, if so,
+     * cleans up everything below it.
+     * 
+     * In this case the blocks below no longer matter.
      * 
      * @param y y coordinate to check
      * @return whether the line is full
      */
-    private boolean isFullLine(int y) {
+    private boolean cleanUp(int y) {
         var result = IntStream.range(0, WIDTH)
                 .mapToObj(x -> new Point(x, y))
                 .allMatch(tower::contains);
-        
-        // Clean up everything below the topped off layer; we don't need it for anything anymore.
         if (result && tower.removeIf(point -> point.y() < y)) {
-            LOGGER.info("Lines below {} cleared. Rocks settled: {}", Integer.valueOf(y), Integer.valueOf(settledRockCount)); // TODO debug
+            LOGGER.debug("Lines below {} cleared. Rocks settled: {}", Integer.valueOf(y), Integer.valueOf(settledRockCount));
         }
         return result;
     }
@@ -158,11 +159,6 @@ class Chamber {
     private void tick() {
         push();
         fall();
-        
-        if (settledRockCount % 100_000 == 0) {
-            LOGGER.info("Settled rocks: {}, tower height: {}, blocks: {}", Integer.valueOf(settledRockCount), Integer.valueOf(height()), Integer.valueOf(tower.size())); // TODO remove
-            LOGGER.info("{}", this); // TODO remove
-        }
     }
 
     /**
@@ -199,6 +195,10 @@ class Chamber {
             settledRockCount++;
             for (Point point : fallingRock) {
                 heights[point.x()] = Math.max(heights[point.x()], point.y() + 1);
+                cleanUp(point.y());
+            }
+            if (settledRockCount % 100_000 == 0) {
+                LOGGER.info("Settled rocks: {}, tower height: {}, blocks: {}", Integer.valueOf(settledRockCount), Integer.valueOf(height()), Integer.valueOf(tower.size())); // TODO debug maybe?
             }
             
             // Immediately a new rock starts falling
