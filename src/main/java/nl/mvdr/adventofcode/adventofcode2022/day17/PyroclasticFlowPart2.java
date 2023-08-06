@@ -23,13 +23,16 @@ public class PyroclasticFlowPart2 implements LongSolver {
         String jetStreamString = lines.findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No input provided."));
         var chamber = Chamber.initialize(jetStreamString);
-        chamber.simulateUntilRepeats();
+        var cycle = chamber.simulateUntilRepeats();
         
-        LOGGER.info("{}", chamber.getSettledRockCount());
+        long remainingRocks = ROCKS - chamber.getSettledRockCount();
         
-        // TODO divide ROCKS by currently settled rocks, then simulate for the remainder
+        long cycleOccurrences = remainingRocks / cycle.getRocksInCycle();
         
-        return chamber.height();
+        long remainingRocksToSettle = remainingRocks % cycle.getRocksInCycle();
+        chamber.simulateUntil(cycle.getRocksInCycle() + (int) remainingRocksToSettle);
+        
+        return chamber.height() + cycleOccurrences * cycle.getCycleHeight();
     }
     
     /**

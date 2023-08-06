@@ -52,7 +52,7 @@ class Chamber {
      * Keys in the map: list of height differences compared to the first column.
      * Values in the map: number of settled rocks when that list of height differences first occurred.
      */
-    private Map<List<Integer>, Integer> cycleDetector;
+    private Map<List<Integer>, HeightAndSettledRocks> cycleDetector;
     
     /**
      * Creates a new chamber, in its initial state.
@@ -113,8 +113,9 @@ class Chamber {
      * The pattern repeats as soon as the chamber has been topped off,
      * and the jet stream is in its initial state.
      */
-    void simulateUntilRepeats() {
+    Cycle simulateUntilRepeats() {
         simulateWhile(() -> !startsRepeatingPattern());
+        return new Cycle(cycleDetector.get(calculateHeightDifferences()), new HeightAndSettledRocks(height(), settledRockCount));
     }
 
     /**
@@ -131,7 +132,7 @@ class Chamber {
         List<Integer> heightDifferences = calculateHeightDifferences();
         var result = cycleDetector.containsKey(heightDifferences);
         if (!result) {
-            cycleDetector.put(heightDifferences, Integer.valueOf(settledRockCount));
+            cycleDetector.put(heightDifferences, new HeightAndSettledRocks(height(), settledRockCount));
         }
         return result;
     }
@@ -141,16 +142,6 @@ class Chamber {
                 .map(height -> height - heights[0])
                 .boxed()
                 .toList();
-    }
-    
-    /**
-     * Checks whether the chamber is topped off, that is:
-     * whether the top row is entirely blocked off by settled rock.
-     * 
-     * @return whether the chamber is topped off
-     */
-    private boolean isToppedOff() {
-        return cleanUp(height() - 1);
     }
     
     /**
@@ -182,6 +173,15 @@ class Chamber {
         while (condition.getAsBoolean()) {
             tick();
             LOGGER.trace("{}", this);
+        }
+    }
+    
+    /**
+     * Performs the given number of ticks.
+     */
+    void tick(int numberOfTicks) {
+        for (int i = 0; i != numberOfTicks; i++) {
+            tick();
         }
     }
     
