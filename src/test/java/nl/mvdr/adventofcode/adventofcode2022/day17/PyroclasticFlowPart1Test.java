@@ -25,6 +25,6 @@ public class PyroclasticFlowPart1Test extends SolverTest<PyroclasticFlowPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day17-2022.txt");
+        assertSolution("3069", "input-day17-2022.txt");
     }
 }

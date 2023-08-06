@@ -16,7 +16,7 @@ public class PyroclasticFlowPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PyroclasticFlowPart1.class);
 
-    private static final int ROCKS = 2023;
+    private static final int ROCKS = 2022;
     
     @Override
     public int solve(Stream<String> lines) {
