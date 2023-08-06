@@ -30,7 +30,7 @@ public class PyroclasticFlowPart2 implements LongSolver {
         long cycleOccurrences = remainingRocks / cycle.getRocksInCycle();
         
         long remainingRocksToSettle = remainingRocks % cycle.getRocksInCycle();
-        chamber.simulateUntil(cycle.getRocksInCycle() + (int) remainingRocksToSettle);
+        chamber.simulateUntil(chamber.getSettledRockCount() + (int) remainingRocksToSettle);
         
         return chamber.height() + cycleOccurrences * cycle.getCycleHeight();
     }
