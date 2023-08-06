@@ -109,7 +109,7 @@ class Chamber {
      * @return whether the current state is the start of a repeating pattern
      */
     private boolean startsRepeatingPattern() {
-        return isToppedOff() && jetStream.equals(initialJetStream);
+        return jetStream.equals(initialJetStream) && isToppedOff(); // TODO instead of checking whether the chamber is topped off, we can also check whether the height differences are the same.
     }
     
     /**
@@ -199,6 +199,11 @@ class Chamber {
             }
             if (settledRockCount % 100_000 == 0) {
                 LOGGER.info("Settled rocks: {}, tower height: {}, blocks: {}", Integer.valueOf(settledRockCount), Integer.valueOf(height()), Integer.valueOf(tower.size())); // TODO debug maybe?
+                
+                // TODO remove overflow detection
+                if (height() < 0) {
+                    throw new IllegalStateException("overflow detected after " + settledRockCount + " rocks, height: " + height());
+                }
             }
             
             // Immediately a new rock starts falling
