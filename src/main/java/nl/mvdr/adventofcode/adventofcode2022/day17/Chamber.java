@@ -80,7 +80,74 @@ class Chamber {
      * Performs a single tick.
      */
     void tick() {
-        throw new UnsupportedOperationException(); // TODO actually implement!
+        push();
+        
+        fall();
+    }
+
+    /**
+     * Lets the falling block be pushed one unit by a jet of hot gas.
+     */
+    private void push() {
+        // Get the first direction from the queue.
+        var direction = jetStream.remove();
+        // Re-instert, at the end of the queue.
+        jetStream.add(direction);
+        
+        var newFallingRock = fallingRock.stream()
+                .map(point -> direction.move(point))
+                .collect(Collectors.toSet());
+        if (canMoveTo(newFallingRock)) {
+            fallingRock = newFallingRock;
+        } // Otherwise: just stay
+    }
+    
+    /**
+     * Lets the falling block fall one unit down.
+     */
+    private void fall() {
+        var newFallingRock = fallingRock.stream()
+                .map(point -> new Point(point.x(), point.y() - 1))  
+                .collect(Collectors.toSet());
+        
+        if (canMoveTo(newFallingRock)) {
+            // Move down
+            fallingRock = newFallingRock;
+        } else {
+            // Settle
+            tower.addAll(fallingRock);
+            settledRockCount++;
+            
+            // Immediately a new rock starts falling
+            spawnRock();
+        }
+    }
+    
+    /**
+     * Checks whether the falling rock can move to the given new location.
+     * 
+     * That is, whether the new location is within bounds and not occupied by a settled rock.
+     * 
+     * @param newLocation new location
+     * @return whether the new location can be occupied by the falling rock
+     */
+    private boolean canMoveTo(Set<Point> newLocation) {
+        return newLocation.stream().allMatch(this::canMoveTo);
+    }
+    
+    /**
+     * Checks whether a part of the falling rock can move to the given new location.
+     * 
+     * That is, whether the new location is within bounds and not occupied by a settled rock.
+     * 
+     * @param newLocation new location
+     * @return whether the new location can be occupied by the falling rock
+     */
+    private boolean canMoveTo(Point newLocation) {
+        return 0 <= newLocation.x() 
+                && newLocation.x() < WIDTH 
+                && 0 <= newLocation.y() 
+                && !tower.contains(newLocation);
     }
     
     /**
