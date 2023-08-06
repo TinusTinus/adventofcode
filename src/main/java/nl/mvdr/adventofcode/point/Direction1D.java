@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.point;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -11,9 +12,9 @@ import java.util.stream.Stream;
  */
 public enum Direction1D {
     /** Left. */
-    LEFT('<'),
+    LEFT(Point::leftNeighbour, '<'),
     /** Right. */
-    RIGHT('>');
+    RIGHT(Point::leftNeighbour, '>');
     
     /** Character representations of this direction. */
     private final char[] representations;
@@ -21,9 +22,10 @@ public enum Direction1D {
     /**
      * Constructor.
      * 
+     * @param next function that, given a location, determines the next location if a single step is taken in this direction
      * @param representations character representations of this direction
      */
-    Direction1D(char... representations) {
+    Direction1D(Function<Point, Point> next, char... representations) {
         this.representations = representations;
     }
     
