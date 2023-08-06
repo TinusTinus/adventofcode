@@ -200,11 +200,6 @@ class Chamber {
             }
             if (settledRockCount % 100_000 == 0) {
                 LOGGER.debug("Settled rocks: {}, tower height: {}, blocks: {}", Integer.valueOf(settledRockCount), Integer.valueOf(height()), Integer.valueOf(tower.size())); // TODO debug maybe?
-                
-                // TODO remove overflow detection
-                if (height() < 0) {
-                    throw new IllegalStateException("overflow detected after " + settledRockCount + " rocks, height: " + height());
-                }
             }
             
             // Immediately a new rock starts falling
