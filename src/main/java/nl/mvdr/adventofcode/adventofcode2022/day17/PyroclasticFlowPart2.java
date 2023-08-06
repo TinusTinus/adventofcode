@@ -25,7 +25,7 @@ public class PyroclasticFlowPart2 implements LongSolver {
         var chamber = Chamber.initialize(jetStreamString);
         chamber.simulateUntilRepeats();
         
-        // TODO divede ROCKS by currently settled rocks, then simulate for the remainder
+        // TODO divide ROCKS by currently settled rocks, then simulate for the remainder
         
         return chamber.height();
     }

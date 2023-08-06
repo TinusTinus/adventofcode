@@ -38,6 +38,8 @@ class Chamber {
     private Set<Point> tower;
     /** The number of settled rocks making up the tower. */
     private int settledRockCount;
+    /** Height of each column (indexed by the x coordinate). */
+    private int[] heights;
     /** The current falling rock. */
     private Set<Point> fallingRock;
     
@@ -68,6 +70,7 @@ class Chamber {
         this.shapes = Shape.initialShapeQueue();
         this.tower = new HashSet<>();
         this.settledRockCount = 0;
+        this.heights = new int[WIDTH];
         spawnRock();
     }
     
@@ -99,7 +102,14 @@ class Chamber {
      * and the jet stream is in its initial state.
      */
     void simulateUntilRepeats() {
-        simulateWhile(() -> ! (jetStream.equals(initialJetStream) && isToppedOff()));
+        simulateWhile(() -> !startsRepeatingPattern());
+    }
+
+    /**
+     * @return whether the current state is the start of a repeating pattern
+     */
+    private boolean startsRepeatingPattern() {
+        return isToppedOff() && jetStream.equals(initialJetStream);
     }
     
     /**
@@ -110,9 +120,15 @@ class Chamber {
      */
     private boolean isToppedOff() {
         var height = height();
-        return IntStream.range(0, WIDTH)
+        var result = IntStream.range(0, WIDTH)
             .mapToObj(x -> new Point(x, height - 1))
             .allMatch(tower::contains);
+        
+        // Clean up everything below the topped off layer; we don't need it for anything anymore.
+        if (result && tower.removeIf(point -> point.y() < height - 1)) {
+            LOGGER.info("Lines below {} cleared. Rocks settled: {}", Integer.valueOf(height), Integer.valueOf(settledRockCount)); // TODO debug
+        }
+        return result;
     }
     
     /**
@@ -167,14 +183,8 @@ class Chamber {
             // Settle
             tower.addAll(fallingRock);
             settledRockCount++;
-            
-            if (isToppedOff()) {
-                // Clean up everything below the topped off layer; we don't need it for anything anymore.
-                var height = height();
-                tower = IntStream.range(0, WIDTH)
-                        .mapToObj(x -> new Point(x, height - 1))
-                        .collect(Collectors.toCollection(HashSet::new));
-                LOGGER.info("Lines below {} cleared. Rocks settled: {}", Integer.valueOf(height), Integer.valueOf(settledRockCount)); // TODO debug
+            for (Point point : fallingRock) {
+                heights[point.x()] = Math.max(heights[point.x()], point.y() + 1);
             }
             
             // Immediately a new rock starts falling
@@ -205,19 +215,16 @@ class Chamber {
     private boolean canMoveTo(Point newLocation) {
         return 0 <= newLocation.x() 
                 && newLocation.x() < WIDTH 
-                && 0 <= newLocation.y() 
-                && !tower.contains(newLocation);
+                && 0 <= newLocation.y()
+                // First check the height (for performance)
+                && (heights[newLocation.x()] < newLocation.y() || !tower.contains(newLocation));
     }
     
     /**
      * @return height of the tower
      */
     int height() {
-        return tower.stream()
-                .mapToInt(Point::y)
-                .map(y -> y + 1)
-                .max()
-                .orElse(0);
+        return IntStream.of(heights).max().orElseThrow();
     }
     
     /**
