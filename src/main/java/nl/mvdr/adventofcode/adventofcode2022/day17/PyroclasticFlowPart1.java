@@ -16,12 +16,17 @@ public class PyroclasticFlowPart1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PyroclasticFlowPart1.class);
 
+    private static final int ROCKS = 10; // TODO 2023;
+    
     @Override
     public int solve(Stream<String> lines) {
         var chamber = Chamber.initialize(lines);
         
-        while (chamber.getSettledRockCount() < 2023) {
+        LOGGER.debug("{}", chamber); // TODO debug
+        
+        while (chamber.getSettledRockCount() < ROCKS) {
             chamber.tick();
+            LOGGER.debug("{}", chamber);
         }
         
         return chamber.height();

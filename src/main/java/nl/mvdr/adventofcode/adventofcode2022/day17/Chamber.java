@@ -167,4 +167,25 @@ class Chamber {
         return settledRockCount;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Chamber:\n");
+        for (int y = fallingRock.stream().mapToInt(Point::y).max().orElseThrow(); y != -1; y--) {
+            builder.append("|");
+            for (int x = 0; x != WIDTH; x++) {
+                Point point = new Point(x, y);
+                if (fallingRock.contains(point)) {
+                    builder.append("@");
+                } else if (tower.contains(point)) {
+                    builder.append("#");
+                } else {
+                    builder.append(".");
+                }
+            }
+            builder.append("|\n");
+        }
+        builder.append("+-------+");
+        return builder.toString();
+    }
 }
