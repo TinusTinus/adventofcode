@@ -4,8 +4,12 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -20,6 +24,7 @@ import nl.mvdr.adventofcode.point.Point;
  */
 class Chamber {
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(Chamber.class);
     /** Width of the chamber. */
     private static final int WIDTH = 7;
     
@@ -77,11 +82,32 @@ class Chamber {
     }
     
     /**
+     * Continues the simulation until the specified number of rocks has settled.
+     * 
+     * @param rocksDropped number of rocks
+     */
+    void simulateUntil(int rocksDropped) {
+        simulateWhile(() -> settledRockCount < rocksDropped);
+    }
+    
+    /**
+     * Continues the simulation until the given condition is true.
+     * 
+     * @param rocksDropped number of rocks
+     */
+    private void simulateWhile(BooleanSupplier condition) {
+        LOGGER.debug("{}", this);
+        while (condition.getAsBoolean()) {
+            tick();
+            LOGGER.debug("{}", this);
+        }
+    }
+    
+    /**
      * Performs a single tick.
      */
     void tick() {
         push();
-        
         fall();
     }
 

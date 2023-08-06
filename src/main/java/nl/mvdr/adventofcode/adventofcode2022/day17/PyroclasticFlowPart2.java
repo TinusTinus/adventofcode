@@ -5,23 +5,25 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/17">Pyroclastic Flow</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class PyroclasticFlowPart1 implements IntSolver {
+public class PyroclasticFlowPart2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PyroclasticFlowPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PyroclasticFlowPart2.class);
 
     private static final int ROCKS = 2022;
     
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         var chamber = Chamber.initialize(lines);
-        chamber.simulateUntil(ROCKS);
+        
+        // TODO stuff
+        
         return chamber.height();
     }
     
@@ -31,7 +33,7 @@ public class PyroclasticFlowPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new PyroclasticFlowPart1();
+        var instance = new PyroclasticFlowPart2();
 
         var result = instance.solve("input-day17-2022.txt");
 
