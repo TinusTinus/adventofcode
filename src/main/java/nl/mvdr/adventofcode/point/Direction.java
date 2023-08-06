@@ -36,7 +36,7 @@ public enum Direction {
      * Constructor.
      * 
      * @param vertical whether this direction is vertical
-     * @param next function that, given a location, determines the next location
+     * @param next function that, given a location, determines the next location if a single step is taken in this direction
      * @param code Intcode representation of this direction
      * @param representations character representations of this direction
      */

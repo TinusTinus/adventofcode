@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
-import nl.mvdr.adventofcode.point.Direction1D;
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -28,11 +28,11 @@ public class PyroclasticFlowPart1 implements IntSolver {
     
     @Override
     public int solve(Stream<String> lines) {
-        Queue<Direction1D> jetStream = lines.findFirst()
+        Queue<Direction> jetStream = lines.findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No input provided."))
                 .chars()
                 .mapToObj(c -> "" + (char)c)
-                .map(Direction1D::parse)
+                .map(Direction::parse)
                 .collect(Collectors.toCollection(LinkedList::new));
         
         var shapes = Shape.initialShapeQueue();
