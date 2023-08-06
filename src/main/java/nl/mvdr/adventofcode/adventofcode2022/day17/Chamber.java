@@ -73,7 +73,7 @@ class Chamber {
         // Re-insert, at the end of the queue.
         shapes.add(shape);
         
-        fallingRock = new HashSet<>(); // TODO create based on the shape and current height
+        fallingRock = shape.spawn(height());
     }
     
     /**
