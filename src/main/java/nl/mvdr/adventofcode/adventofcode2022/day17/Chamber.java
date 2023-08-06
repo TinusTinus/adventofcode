@@ -156,6 +156,7 @@ class Chamber {
     int height() {
         return tower.stream()
                 .mapToInt(Point::y)
+                .map(y -> y + 1)
                 .max()
                 .orElse(0);
     }
