@@ -1,7 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2022.day17;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
@@ -42,6 +45,14 @@ class Chamber {
     private int[] heights;
     /** The current falling rock. */
     private Set<Point> fallingRock;
+    /**
+     * Helper map to detect cycles.
+     * 
+     * Entries in this map all have the initial jet stream.
+     * Keys in the map: list of height differences compared to the first column.
+     * Values in the map: number of settled rocks when that list of height differences first occurred.
+     */
+    private Map<List<Integer>, Integer> cycleDetector;
     
     /**
      * Creates a new chamber, in its initial state.
@@ -71,6 +82,7 @@ class Chamber {
         this.tower = new HashSet<>();
         this.settledRockCount = 0;
         this.heights = new int[WIDTH];
+        this.cycleDetector = new HashMap<>();
         spawnRock();
     }
     
@@ -109,7 +121,26 @@ class Chamber {
      * @return whether the current state is the start of a repeating pattern
      */
     private boolean startsRepeatingPattern() {
-        return jetStream.equals(initialJetStream) && isToppedOff(); // TODO instead of checking whether the chamber is topped off, we can also check the shape of the open space at the top
+        return jetStream.equals(initialJetStream) && repeatedHeightDifferences();
+    }
+    
+    /**
+     * @return whether the current height differences value is a repeating one
+     */
+    private boolean repeatedHeightDifferences() {
+        List<Integer> heightDifferences = calculateHeightDifferences();
+        var result = cycleDetector.containsKey(heightDifferences);
+        if (!result) {
+            cycleDetector.put(heightDifferences, Integer.valueOf(settledRockCount));
+        }
+        return result;
+    }
+    
+    private List<Integer> calculateHeightDifferences() {
+        return IntStream.of(heights)
+                .map(height -> height - heights[0])
+                .boxed()
+                .toList();
     }
     
     /**
