@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +28,8 @@ class Chamber {
     /** Width of the chamber. */
     private static final int WIDTH = 7;
     
+    /** Initial directions of the gusts, in order. */
+    private final Queue<Direction> initialJetStream;
     /** Directions of the gusts, in order. */
     private Queue<Direction> jetStream;
     /** Falling shapes, in order. */
@@ -42,12 +44,11 @@ class Chamber {
     /**
      * Creates a new chamber, in its initial state.
      * 
-     * @param lines puzzle input, containing the representation of the jet stream
+     * @param jetStreamString string representation of the directions 
      * @return initial state of the chamber
      */
-    static Chamber initialize(Stream<String> lines) {
-        Queue<Direction> jetStream = lines.findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No input provided."))
+    static Chamber initialize(String jetStreamString) {
+        Queue<Direction> jetStream = jetStreamString
                 .chars()
                 .mapToObj(c -> "" + (char)c)
                 .map(Direction::parse)
@@ -62,6 +63,7 @@ class Chamber {
      */
     private Chamber(Queue<Direction> jetStream) {
         super();
+        this.initialJetStream = new LinkedList<>(jetStream);
         this.jetStream = jetStream;
         this.shapes = Shape.initialShapeQueue();
         this.tower = new HashSet<>();
@@ -91,6 +93,29 @@ class Chamber {
     }
     
     /**
+     * Continues the simulation until a repeated pattern is detected.
+     * 
+     * The pattern repeats as soon as the chamber has been topped off,
+     * and the jet stream is in its initial state.
+     */
+    void simulateUntilRepeats() {
+        simulateWhile(() -> ! (jetStream.equals(initialJetStream) && isToppedOff()));
+    }
+    
+    /**
+     * Checks whether the chamber is topped off, that is:
+     * whether the top row is entirely blocked off by settled rock.
+     * 
+     * @return whether the chamber is topped off
+     */
+    private boolean isToppedOff() {
+        var height = height();
+        return IntStream.range(0, WIDTH)
+            .mapToObj(x -> new Point(x, height - 1))
+            .allMatch(tower::contains);
+    }
+    
+    /**
      * Continues the simulation until the given condition is true.
      * 
      * @param rocksDropped number of rocks
@@ -99,14 +124,13 @@ class Chamber {
         LOGGER.debug("{}", this);
         while (condition.getAsBoolean()) {
             tick();
-            LOGGER.debug("{}", this);
         }
     }
     
     /**
      * Performs a single tick.
      */
-    void tick() {
+    private void tick() {
         push();
         fall();
     }
@@ -143,6 +167,15 @@ class Chamber {
             // Settle
             tower.addAll(fallingRock);
             settledRockCount++;
+            
+            if (isToppedOff()) {
+                // Clean up everything below the topped off layer; we don't need it for anything anymore.
+                var height = height();
+                tower = IntStream.range(0, WIDTH)
+                        .mapToObj(x -> new Point(x, height - 1))
+                        .collect(Collectors.toCollection(HashSet::new));
+                LOGGER.info("Lines below {} cleared. Rocks settled: {}", Integer.valueOf(height), Integer.valueOf(settledRockCount)); // TODO debug
+            }
             
             // Immediately a new rock starts falling
             spawnRock();

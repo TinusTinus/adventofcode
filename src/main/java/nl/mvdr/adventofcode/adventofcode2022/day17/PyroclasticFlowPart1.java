@@ -20,7 +20,9 @@ public class PyroclasticFlowPart1 implements IntSolver {
     
     @Override
     public int solve(Stream<String> lines) {
-        var chamber = Chamber.initialize(lines);
+        String jetStreamString = lines.findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No input provided."));
+        var chamber = Chamber.initialize(jetStreamString);
         chamber.simulateUntil(ROCKS);
         return chamber.height();
     }

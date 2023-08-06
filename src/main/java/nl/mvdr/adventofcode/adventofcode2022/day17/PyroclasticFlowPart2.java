@@ -16,13 +16,16 @@ public class PyroclasticFlowPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PyroclasticFlowPart2.class);
 
-    private static final int ROCKS = 2022;
+    private static final long ROCKS = 1_000_000_000_000L;
     
     @Override
     public long solve(Stream<String> lines) {
-        var chamber = Chamber.initialize(lines);
+        String jetStreamString = lines.findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No input provided."));
+        var chamber = Chamber.initialize(jetStreamString);
+        chamber.simulateUntilRepeats();
         
-        // TODO stuff
+        // TODO divede ROCKS by currently settled rocks, then simulate for the remainder
         
         return chamber.height();
     }
