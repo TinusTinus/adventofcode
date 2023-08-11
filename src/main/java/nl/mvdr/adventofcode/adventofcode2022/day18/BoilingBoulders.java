@@ -59,35 +59,42 @@ abstract class BoilingBoulders implements LongSolver {
         var minZ = Point3D.minZ(cubes);
         var maxZ = Point3D.maxZ(cubes);
         
-        // Find all unoccupied spaces, within a bounding shape of the cubes.
         var unoccupiedSpaces = Point3D.points(minX - 1, maxX + 1, minY - 1, maxY + 1, minZ - 1, maxZ + 1)
                 .filter(space -> !cubes.contains(space))
                 .collect(Collectors.toSet());
         
         if (excludeAirPockets) {
-            // Determine an unoccupied space which is definitely not in an air pocket.
-            var spaceOutside = new Point3D(minX - 1, minY - 1, minZ - 1);
-    
-            // Make a graph of all unoccupied spaces.
-            Graph<Point3D, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
-            unoccupiedSpaces.forEach(graph::addVertex);
-            for (Point3D unoccupiedSpace : unoccupiedSpaces) {
-                for (Point3D neighbour : unoccupiedSpace.neighbours()) {
-                    if (unoccupiedSpaces.contains(neighbour)) {
-                        graph.addEdge(unoccupiedSpace, neighbour);
-                    }
-                }
-            }
-            
-            ShortestPathAlgorithm<Point3D, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
-            SingleSourcePaths<Point3D, DefaultEdge> paths = shortestPathAlgorithm.getPaths(spaceOutside);
-            
-            // Only consider the unoccupied spaces with a path to the space outside.
-            unoccupiedSpaces = unoccupiedSpaces.stream()
-                    .filter(unoccupiedSpace -> paths.getPath(unoccupiedSpace) != null)
-                    .collect(Collectors.toSet());
+            unoccupiedSpaces = filterOutAirPockets(unoccupiedSpaces, new Point3D(minX - 1, minY - 1, minZ - 1));
         }
         return unoccupiedSpaces;
+    }
+
+    /**
+     * Returns the unoccupied spaces, without the spaces that are part of an air pocket.
+     * 
+     * @param unoccupiedSpaces unoccupied spaces, including air pockets
+     * @param spaceOutside an unoccupied space which is definitely not in an air pocket
+     * @return unoccupied spaces, excluding air pockets
+     */
+    private static Set<Point3D> filterOutAirPockets(Set<Point3D> unoccupiedSpaces, Point3D spaceOutside) {
+        // Make a graph of all unoccupied spaces.
+        Graph<Point3D, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        unoccupiedSpaces.forEach(graph::addVertex);
+        for (Point3D unoccupiedSpace : unoccupiedSpaces) {
+            for (Point3D neighbour : unoccupiedSpace.neighbours()) {
+                if (unoccupiedSpaces.contains(neighbour)) {
+                    graph.addEdge(unoccupiedSpace, neighbour);
+                }
+            }
+        }
+        
+        ShortestPathAlgorithm<Point3D, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
+        SingleSourcePaths<Point3D, DefaultEdge> paths = shortestPathAlgorithm.getPaths(spaceOutside);
+        
+        // Only consider the unoccupied spaces with a path to the space outside.
+        return unoccupiedSpaces.stream()
+                .filter(unoccupiedSpace -> paths.getPath(unoccupiedSpace) != null)
+                .collect(Collectors.toSet());
     }
     
     /**
