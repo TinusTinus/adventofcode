@@ -85,7 +85,6 @@ public record Point3D(int x, int y, int z) {
     public int manhattanDistanceToOrigin() {
         return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
     }
-    
 
     /** @return the 6 points neighbouring any of this points's sides */
     public Set<Point3D> neighbours() {
