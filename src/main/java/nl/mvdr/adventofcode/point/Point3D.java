@@ -89,14 +89,7 @@ public record Point3D(int x, int y, int z) {
 
     /** @return the 6 points neighbouring any of this points's sides */
     public Set<Point3D> neighbours() {
-        return Set.of(
-                new Point3D(x - 1, y, z),
-                new Point3D(x + 1, y, z),
-                new Point3D(x, y - 1, z),
-                new Point3D(x, y + 1, z),
-                new Point3D(x, y, z - 1),
-                new Point3D(x, y, z + 1)
-                );
+        return offsetOnAxes(1);
     }
     
     /** @return the 26 other points where any of their coordinates differ by at most 1 from this one */
