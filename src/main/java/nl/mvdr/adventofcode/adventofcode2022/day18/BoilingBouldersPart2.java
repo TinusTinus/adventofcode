@@ -54,7 +54,7 @@ public class BoilingBouldersPart2 implements LongSolver {
         }
         ShortestPathAlgorithm<Point3D, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
         
-        return cubes.stream()
+        return cubes.parallelStream()
                 .mapToLong(cube -> countUnconnectedSides(cube, cubes, shortestPathAlgorithm, spaceOutside))
                 .sum();
     }
