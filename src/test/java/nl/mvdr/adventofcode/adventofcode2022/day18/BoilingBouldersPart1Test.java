@@ -31,6 +31,6 @@ public class BoilingBouldersPart1Test extends SolverTest<BoilingBouldersPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day18-2022.txt");
+        assertSolution("4460", "input-day18-2022.txt");
     }
 }
