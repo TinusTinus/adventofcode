@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
  * @author Martijn van de Rijdt
  */
 public class Point3DTest {
-    /** Test method for {@link Point3D#neighbours()}.*/
+    /** Test method for {@link Point3D#neighboursInludingDiagonals()}.*/
     @Test
-    public void testNeighbours() {
+    public void testNeighboursIncludingDiagonals() {
         Point3D point = new Point3D(0, 0, 0);
         
-        Set<Point3D> neighbours = point.neighbours();
+        Set<Point3D> neighbours = point.neighboursInludingDiagonals();
         
         // A point is not its own neighbour.
         Assertions.assertFalse(neighbours.contains(point));
@@ -35,5 +35,24 @@ public class Point3DTest {
                 .mapToInt(Point3D::z)
                 .map(z -> Math.abs(z - point.z()))
                 .forEach(difference -> Assertions.assertTrue(difference <= 1));
+    }
+    
+    /** Test method for {@link Point3D#neighbours()}.*/
+    @Test
+    public void testNeighbours() {
+        Point3D point = new Point3D(0, 0, 0);
+        
+        Set<Point3D> neighbours = point.neighbours();
+        
+        // A point is not its own neighbour.
+        Assertions.assertFalse(neighbours.contains(point));
+        // There must be 6 points (a cube has six sides)
+        Assertions.assertEquals(6, neighbours.size(), "Neighbours: " + neighbours);
+        Assertions.assertTrue(neighbours.contains(new Point3D(-1, 0, 0)));
+        Assertions.assertTrue(neighbours.contains(new Point3D(1, 0, 0)));
+        Assertions.assertTrue(neighbours.contains(new Point3D(0, -1, 0)));
+        Assertions.assertTrue(neighbours.contains(new Point3D(0, 1, 0)));
+        Assertions.assertTrue(neighbours.contains(new Point3D(0, 0, -1)));
+        Assertions.assertTrue(neighbours.contains(new Point3D(0, 0, 1)));
     }
 }

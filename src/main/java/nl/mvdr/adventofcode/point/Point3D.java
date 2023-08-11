@@ -15,13 +15,19 @@ import java.util.Set;
 public record Point3D(int x, int y, int z) {
 
     /**
-     * Parses a string containing a set of coordinates, for example: "<1,3,1>".
+     * Parses a string containing a set of coordinates, for example: "<1,3,1>" or "2,5,6".
      * 
      * @param text text to be parsed
      * @return point
      */
     public static Point3D parse(String text) {
-        String[] coordinateStrings = text.substring(1, text.length() - 1).split(",");
+        String textToParse;
+        if (text.startsWith("<") && text.endsWith(">")) {
+            textToParse = text.substring(1, text.length() - 1);
+        } else {
+            textToParse = text;
+        }
+        String[] coordinateStrings = textToParse.split(",");
         return new Point3D(
                 Integer.parseInt(coordinateStrings[0]),
                 Integer.parseInt(coordinateStrings[1]),
@@ -80,8 +86,21 @@ public record Point3D(int x, int y, int z) {
         return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
     }
     
-    /** @return the 26 other points where any of their coordinates differ by at most 1 from this one */
+
+    /** @return the 6 points neighbouring any of this points's sides */
     public Set<Point3D> neighbours() {
+        return Set.of(
+                new Point3D(x - 1, y, z),
+                new Point3D(x + 1, y, z),
+                new Point3D(x, y - 1, z),
+                new Point3D(x, y + 1, z),
+                new Point3D(x, y, z - 1),
+                new Point3D(x, y, z + 1)
+                );
+    }
+    
+    /** @return the 26 other points where any of their coordinates differ by at most 1 from this one */
+    public Set<Point3D> neighboursInludingDiagonals() {
         Set<Point3D> result = new HashSet<>();
         for (int xx = x - 1; xx != x + 2; xx++) {
             for (int yy = y - 1; yy != y + 2; yy++) {
@@ -95,6 +114,7 @@ public record Point3D(int x, int y, int z) {
         }
         return Set.copyOf(result);
     }
+    
     
     /**
      * Calculates the (normally 6) points that are offset removed from this one, on each axis.

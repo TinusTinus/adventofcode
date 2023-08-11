@@ -18,6 +18,6 @@ record PocketDimension3D(Set<Point3D> activeCubes) implements PocketDimension<Po
     
     @Override
     public Set<Point3D> neighbours(Point3D point) {
-        return point.neighbours();
+        return point.neighboursInludingDiagonals();
     }
 }
