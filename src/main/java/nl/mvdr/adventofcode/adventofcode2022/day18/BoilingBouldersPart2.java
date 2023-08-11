@@ -75,7 +75,7 @@ public class BoilingBouldersPart2 implements LongSolver {
     private static long countUnconnectedSides(Point3D cube, Set<Point3D> unoccupiedSpacesOutside) {
         return Stream.of(Side.values())
                 .map(side -> side.neighbour(cube))
-                .filter(neighbour -> unoccupiedSpacesOutside.contains(neighbour)) // Neighbour is not part of an air pocket
+                .filter(unoccupiedSpacesOutside::contains)
                 .count();
     }
     
