@@ -9,7 +9,7 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm.SingleSourcePaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.graph.SimpleGraph;
 
 import nl.mvdr.adventofcode.LongSolver;
 import nl.mvdr.adventofcode.point.Point3D;
@@ -78,7 +78,7 @@ abstract class BoilingBoulders implements LongSolver {
      */
     private static Set<Point3D> filterOutAirPockets(Set<Point3D> unoccupiedSpaces, Point3D spaceOutside) {
         // Make a graph of all unoccupied spaces.
-        Graph<Point3D, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        Graph<Point3D, DefaultEdge> graph = new SimpleGraph<>(DefaultEdge.class);
         unoccupiedSpaces.forEach(graph::addVertex);
         for (Point3D unoccupiedSpace : unoccupiedSpaces) {
             for (Point3D neighbour : unoccupiedSpace.neighbours()) {
