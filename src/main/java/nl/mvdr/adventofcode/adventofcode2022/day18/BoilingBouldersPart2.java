@@ -1,22 +1,24 @@
 package nl.mvdr.adventofcode.adventofcode2022.day18;
 
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/18">Boiling Boulders</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class BoilingBouldersPart2 extends BoilingBoulders {
+public class BoilingBouldersPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BoilingBouldersPart2.class);
 
-    /**
-     * Constructor.
-     */
-    public BoilingBouldersPart2() {
-        super(true);
+    @Override
+    public long solve(Stream<String> lines) {
+        return new BoilingBoulders(true).solve(lines);
     }
     
     /**

@@ -19,7 +19,7 @@ import nl.mvdr.adventofcode.point.Point3D;
  *
  * @author Martijn van de Rijdt
  */
-abstract class BoilingBoulders implements LongSolver {
+class BoilingBoulders implements LongSolver {
 
     private final boolean excludeAirPockets;
     
