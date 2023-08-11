@@ -31,6 +31,6 @@ public class BoilingBouldersPart2Test extends SolverTest<BoilingBouldersPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day18-2022.txt"); // must be at most 4460
+        assertSolution("2498", "input-day18-2022.txt");
     }
 }

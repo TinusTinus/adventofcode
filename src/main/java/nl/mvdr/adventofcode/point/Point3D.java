@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.point;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * A point (/vector) in three dimensions.
@@ -32,6 +34,105 @@ public record Point3D(int x, int y, int z) {
                 Integer.parseInt(coordinateStrings[0]),
                 Integer.parseInt(coordinateStrings[1]),
                 Integer.parseInt(coordinateStrings[2]));
+    }
+    
+    /**
+     * Computes one of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return minimum X coordinate
+     */
+    public static int minX(Set<Point3D> points) {
+        return points.stream()
+                .mapToInt(Point3D::x)
+                .min()
+                .orElse(0);
+    }
+    
+    /**
+     * Computes one of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return maximum X coordinate
+     */
+    public static int maxX(Set<Point3D> points) {
+        return points.stream()
+                .mapToInt(Point3D::x)
+                .max()
+                .orElse(0);
+    }
+    
+    /**
+     * Computes one of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return minimum Y coordinate
+     */
+    public static int minY(Set<Point3D> points) {
+        return points.stream()
+                .mapToInt(Point3D::y)
+                .min()
+                .orElse(0);
+    }
+    
+    /**
+     * Computes one of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return maximum Y coordinate
+     */
+    public static int maxY(Set<Point3D> points) {
+        return points.stream()
+                .mapToInt(Point3D::y)
+                .max()
+                .orElse(0);
+    }
+    
+    /**
+     * Computes one of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return minimum Z coordinate
+     */
+    public static int minZ(Set<Point3D> points) {
+        return points.stream()
+                .mapToInt(Point3D::z)
+                .min()
+                .orElse(0);
+    }
+    
+    /**
+     * Computes one of the bounding coordinates of a set of points.
+     * 
+     * @param points set of points
+     * @return maximum Z coordinate
+     */
+    public static int maxZ(Set<Point3D> points) {
+        return points.stream()
+                .mapToInt(Point3D::z)
+                .max()
+                .orElse(0);
+    }
+    
+    /**
+     * Returns a stream of the points in the given range.
+     * 
+     * @param minX minimum X value
+     * @param maxX maximum X value
+     * @param minY minimum Y value
+     * @param maxY maximum Y value
+     * @param minZ minimum Z value
+     * @param maxZ maximum Z value
+     * @return points in range
+     */
+    public static Stream<Point3D> points(int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+        return IntStream.range(minX, maxX + 1)
+                .boxed()
+                .flatMap(x -> IntStream.range(minY, maxY + 1)
+                        .boxed()
+                        .flatMap(y -> IntStream.range(minZ, maxZ + 1)
+                                .boxed()
+                                .map(z -> new Point3D(x.intValue(), y.intValue(), z.intValue()))));
     }
     
     /**

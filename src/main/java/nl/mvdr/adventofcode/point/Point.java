@@ -365,7 +365,7 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @return points in range
      */
     public static Stream<Point> points(int minX, int maxX, int minY, int maxY) {
-        return IntStream.range(minX, maxX)
+        return IntStream.range(minX, maxX) // TODO shouldn't this be maxX + 1?
                 .boxed()
                 .flatMap(x -> IntStream.range(minY, maxY + 1)
                         .boxed()
