@@ -186,11 +186,8 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
      * @return upper bound
      */
     private int upperBound() {
-        return resources.getCount(Resource.GEODE) + robots.getCount(Resource.GEODE) * remainingTime + triangular(remainingTime);
-    }
-    
-    // TODO refactor / rename to make this more understandable; inspired by https://www.reddit.com/r/adventofcode/comments/zpihwi/2022_day_19_solutions/j0tls7a/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-    private static int triangular(int number) {
-        return number * (number + 1) / 2;
+        return resources.getCount(Resource.GEODE) // geodes already open 
+                + robots.getCount(Resource.GEODE) * remainingTime // geodes which will be opened by current robots
+                + remainingTime * (remainingTime + 1) / 2; // geodes which would be opened if we were to build a geode robot every minute from now
     }
 }
