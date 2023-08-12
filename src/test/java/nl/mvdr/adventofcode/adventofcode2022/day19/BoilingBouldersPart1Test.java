@@ -19,7 +19,7 @@ public class BoilingBouldersPart1Test extends SolverTest<NotEnoughMineralsPart1>
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("33", "example-day19-2022.txt"); // 9 + 24
+        assertSolution("33", "example-day19-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
