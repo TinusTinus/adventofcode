@@ -51,10 +51,12 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         if (remainingTime == 0) {
             result = resources.getCount(Resource.GEODE);
         } else {
-            result = getNextStates(blueprint).stream()
-                    .mapToInt(state -> state.computeMaxGeodes(blueprint))
-                    .max()
-                    .orElseThrow();
+            result = 0;
+            for (State state : getNextStates(blueprint)) {
+                if (result < state.upperBound()) {
+                    result = Math.max(result, state.computeMaxGeodes(blueprint));
+                }
+            }
         }
         return result;
     }
@@ -63,7 +65,6 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
      * @return the possible next states starting from this state
      */
     Set<State> getNextStates(Blueprint blueprint) {
-        
         Map<Resource, State> states = new HashMap<>();
         for (Resource type : Resource.values()) {
             State state = buildRobot(type, blueprint);
@@ -75,63 +76,6 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         Set<State> result = new HashSet<>();
         result.addAll(states.values());
         result.add(doNothing(states.keySet()));
-        return result;
-    }
-    
-    /**
-     * Returns the next state, assuming that we do not build a new robot.
-     * 
-     * @param passedUpThisTurn robots which we could have built, but chose not to
-     * @return next state
-     */
-    private State doNothing(Set<Resource> passedUpThisTurn) {
-        if (remainingTime < 1) {
-            throw new IllegalStateException("No more time!");
-        }
-        int newRemainingTime = remainingTime - 1;
-        
-        MultiSet<Resource> newResources = new HashMultiSet<>(resources);
-        newResources.addAll(robots); // each robot collects 1 resource of its type
-        
-        MultiSet<Resource> newRobots = new HashMultiSet<>(robots);
-        
-        Set<Resource> newPassedUp = EnumSet.copyOf(passedUpRobots);
-        newPassedUp.addAll(passedUpThisTurn);
-        
-        return new State(newRemainingTime, newResources, newRobots, newPassedUp);
-    }
-    
-    /**
-     * Determines whether it would be useful to build a robot of the given type.
-     * 
-     * @param type robot tpye
-     * @param blueprint the blueprint to follow when building the robot
-     * @return whether it could be useful to build a robot of this type
-     */
-    private boolean isUseful(Resource type, Blueprint blueprint) {
-        boolean result;
-        if (type == Resource.GEODE) {
-            // Building a geode-cracking robot is always useful.
-            result = true;
-        } else if (remainingTime == 1) {
-            // There is no point in building an ore / clay / obsidian robot in the last minute.
-            // It will not produce anything which can lead to more open geodes.
-            result = false;
-        } else if (passedUpRobots.contains(type)) {
-            // It would be strictly better to have built this robot a minute earlier.
-            // Building it now will not result in an end state with more geodes.
-            result = false;
-        } else {
-            // If we're already producing enough of this resource per minute to satisfy any requirements,
-            // there is no point in making another robot that produces more of this resource.
-            var maxResourceRequired = blueprint.resourceRequirements()
-                    .values()
-                    .stream()
-                    .mapToInt(requirement -> requirement.requires(type))
-                    .max()
-                    .orElseThrow();
-            result = robots.getCount(type) < maxResourceRequired;
-        }
         return result;
     }
     
@@ -174,5 +118,79 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
             result = null;
         }
         return result;
+    }
+    
+    /**
+     * Determines whether it would be useful to build a robot of the given type.
+     * 
+     * @param type robot tpye
+     * @param blueprint the blueprint to follow when building the robot
+     * @return whether it could be useful to build a robot of this type
+     */
+    private boolean isUseful(Resource type, Blueprint blueprint) {
+        boolean result;
+        if (type == Resource.GEODE) {
+            // Building a geode-cracking robot is always useful.
+            result = true;
+        } else if (remainingTime == 1) {
+            // There is no point in building an ore / clay / obsidian robot in the last minute.
+            // It will not produce anything which can lead to more open geodes.
+            result = false;
+        } else if (passedUpRobots.contains(type)) {
+            // It would be strictly better to have built this robot a minute earlier.
+            // Building it now will not result in an end state with more geodes.
+            result = false;
+        } else {
+            // If we're already producing enough of this resource per minute to satisfy any requirements,
+            // there is no point in making another robot that produces more of this resource.
+            var maxResourceRequired = blueprint.resourceRequirements()
+                    .values()
+                    .stream()
+                    .mapToInt(requirement -> requirement.requires(type))
+                    .max()
+                    .orElseThrow();
+            result = robots.getCount(type) < maxResourceRequired;
+        }
+        return result;
+    }
+
+    /**
+     * Returns the next state, assuming that we do not build a new robot.
+     * 
+     * @param passedUpThisTurn robots which we could have built, but chose not to
+     * @return next state
+     */
+    private State doNothing(Set<Resource> passedUpThisTurn) {
+        if (remainingTime < 1) {
+            throw new IllegalStateException("No more time!");
+        }
+        int newRemainingTime = remainingTime - 1;
+        
+        MultiSet<Resource> newResources = new HashMultiSet<>(resources);
+        newResources.addAll(robots); // each robot collects 1 resource of its type
+        
+        MultiSet<Resource> newRobots = new HashMultiSet<>(robots);
+        
+        Set<Resource> newPassedUp = EnumSet.copyOf(passedUpRobots);
+        newPassedUp.addAll(passedUpThisTurn);
+        
+        return new State(newRemainingTime, newResources, newRobots, newPassedUp);
+    }
+    
+    /**
+     * Computes an upper bound for the number of geodes that could be produced by this state.
+     * 
+     * The idea is that this upper bound can be computed a lot more efficiently than the actual number,
+     * so that it can be used to prevent investigating states with no hope of resulting in anything good.
+     * 
+     * @return upper bound
+     */
+    private int upperBound() {
+        return resources.getCount(Resource.GEODE) + robots.getCount(Resource.GEODE) * remainingTime + triangular(remainingTime);
+    }
+    
+    // TODO refactor / rename to make this more understandable; inspired by https://www.reddit.com/r/adventofcode/comments/zpihwi/2022_day_19_solutions/j0tls7a/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+    private static int triangular(int number) {
+        return number * (number + 1) / 2;
     }
 }
