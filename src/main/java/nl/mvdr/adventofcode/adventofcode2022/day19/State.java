@@ -46,6 +46,7 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
             result = resources.getCount(Resource.GEODE);
         } else {
             result = getNextStates(blueprint).stream()
+                    .parallel() // TODO remove
                     .mapToInt(state -> state.computeMaxGeodes(blueprint))
                     .max()
                     .orElseThrow();
@@ -120,18 +121,4 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         }
         return result;
     }
-    
-    /**
-     * Checks whether it is possible to build a robot for the given resource type, using the resources currently available.
-     * 
-     * @param robot type of resource for the new robot to gather
-     * @param blueprint blueprint to be used for construction of the robot
-     * @return whether the robot can be built
-     */
-    private boolean canBuild(Resource robot, Blueprint blueprint) {
-        var requirement = blueprint.resourceRequirements().get(robot);
-        return Stream.of(Resource.values())
-                .allMatch(resource -> requirement.requires(resource) <= resources.getCount(resource));
-    }
-    
 }

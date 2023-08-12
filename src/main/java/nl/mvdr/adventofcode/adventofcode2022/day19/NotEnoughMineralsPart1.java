@@ -18,7 +18,8 @@ public class NotEnoughMineralsPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return lines.map(Blueprint::parse)
+        return lines.parallel()
+                .map(Blueprint::parse)
                 .mapToInt(Blueprint::computeQualityLevel)
                 .sum();
     }
