@@ -48,6 +48,6 @@ record Blueprint(int id, Map<Resource, ResourceRequirement> resourceRequirements
      * @return the maximum number of geodes that can be opened with this blueprint
      */
     private int computeMaxGeodes() {
-        return 0; // TODO implement
+        return State.createInitialState().computeMaxGeodes(this);
     }
 }
