@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class BoilingBouldersPart1Test extends SolverTest<NotEnoughMineralsPart1> {
+public class NotEnoughMineralsPart1Test extends SolverTest<NotEnoughMineralsPart1> {
 
     /** Constructor. */
-    public BoilingBouldersPart1Test() {
+    public NotEnoughMineralsPart1Test() {
         super(NotEnoughMineralsPart1.class);
     }
     
