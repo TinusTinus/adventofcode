@@ -62,8 +62,7 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
                 if (result < state.upperBound()) {
                     result = Math.max(result, state.computeMaxGeodes(blueprint));
                     if (20 < remainingTime) {
-                        // TODO trace instead of debug?
-                        LOGGER.debug("Max geodes found so far for blueprint {} in {} minutes: {}",
+                        LOGGER.trace("Max geodes found so far for blueprint {} with {} remaining minutes: {}",
                                 Integer.valueOf(blueprint.id()),
                                 Integer.valueOf(remainingTime),
                                 Integer.valueOf(result));

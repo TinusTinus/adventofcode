@@ -25,6 +25,6 @@ public class NotEnoughMineralsPart2Test extends SolverTest<NotEnoughMineralsPart
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day19-2022.txt"); // 6 * x * 12, where 32 <= x.  2088 is too low
+        assertSolution("?", "input-day19-2022.txt"); // 6 * x * 12, where 32 < x.  2304 is too low
     }
 }
