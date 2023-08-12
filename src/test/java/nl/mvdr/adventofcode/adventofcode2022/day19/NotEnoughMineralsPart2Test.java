@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day19;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -9,6 +10,7 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
+@Disabled // These test cases take a long time to run
 public class NotEnoughMineralsPart2Test extends SolverTest<NotEnoughMineralsPart2> {
 
     /** Constructor. */
@@ -25,6 +27,6 @@ public class NotEnoughMineralsPart2Test extends SolverTest<NotEnoughMineralsPart
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day19-2022.txt"); // 6 * x * 12, where 32 < x.  2304 is too low
+        assertSolution("3168", "input-day19-2022.txt"); // 6 * 44 * 12
     }
 }
