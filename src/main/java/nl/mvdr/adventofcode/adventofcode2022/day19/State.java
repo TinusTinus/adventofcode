@@ -46,8 +46,13 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
             result = resources.getCount(Resource.GEODE);
         } else {
             result = getNextStates(blueprint).stream()
-                    .parallel() // TODO remove
                     .mapToInt(state -> state.computeMaxGeodes(blueprint))
+                    // TODO remove the peek
+                    .peek(geodes -> {
+                        if (9 < remainingTime) {
+                            System.out.println(remainingTime + ": " + geodes);
+                        }
+                    })
                     .max()
                     .orElseThrow();
         }
@@ -60,7 +65,9 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
     Set<State> getNextStates(Blueprint blueprint) {
         Set<State> result = new HashSet<>();
         result.add(doNothing());
+        
         Stream.of(Resource.values())
+                .filter(type -> 1 < remainingTime ||  type == Resource.GEODE) // There is no point in building an ore / clay / obsidian robot in the last minute.
                 .map(type -> buildRobot(type, blueprint))
                 .filter(Objects::nonNull)
                 .forEach(result::add);
