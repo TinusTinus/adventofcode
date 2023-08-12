@@ -5,6 +5,8 @@ import java.util.Map;
 /**
  * Representation of a single blueprint.
  *
+ * @param id the identification of this blueprint
+ * @param resourceRequirements per resource type: the resources required to build a robot for gathering that resource
  * @author Martijn van de Rijdt
  */
 record Blueprint(int id, Map<Resource, ResourceRequirement> resourceRequirements) {
