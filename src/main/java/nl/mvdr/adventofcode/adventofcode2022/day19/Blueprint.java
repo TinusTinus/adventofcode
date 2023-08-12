@@ -58,7 +58,7 @@ record Blueprint(int id, Map<Resource, ResourceRequirement> resourceRequirements
     int computeMaxGeodes(int time) {
         var result = State.createInitialState(time).computeMaxGeodes(this);
         
-        LOGGER.info("Max geodes for blueprint {} in {} minutes: {}", id, time, result); // TODO debug
+        LOGGER.debug("Max geodes for blueprint {} in {} minutes: {}", Integer.valueOf(id), Integer.valueOf(time), Integer.valueOf(result));
         
         return result;
     }
