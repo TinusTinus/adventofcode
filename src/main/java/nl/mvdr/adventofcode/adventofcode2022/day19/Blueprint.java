@@ -41,13 +41,16 @@ record Blueprint(int id, Map<Resource, ResourceRequirement> resourceRequirements
      * @return quality level of this blueprint
      */
     int computeQualityLevel() {
-        return id * computeMaxGeodes();
+        return id * computeMaxGeodes(24);
     }
     
     /**
-     * @return the maximum number of geodes that can be opened with this blueprint
+     * Computes the maximum number of geodes that can be opened with this blueprint.
+     * 
+     * @param time available time
+     * @return maximum number of geodes
      */
-    private int computeMaxGeodes() {
-        return State.createInitialState().computeMaxGeodes(this);
+    int computeMaxGeodes(int time) {
+        return State.createInitialState(time).computeMaxGeodes(this);
     }
 }

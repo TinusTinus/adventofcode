@@ -24,10 +24,12 @@ import org.apache.commons.collections4.multiset.HashMultiSet;
 record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource> robots, Set<Resource> passedUpRobots) {
     
     /**
+     * Creates the initial state.
+     * 
+     * @param time available time in minutes
      * @return initial state
      */
-    static State createInitialState() {
-        int remainingTime = 24;
+    static State createInitialState(int time ) {
         // Start without resources
         MultiSet<Resource> resources = new HashMultiSet<>();
         // Start with one ore-collecting robot
@@ -35,7 +37,7 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         robots.add(Resource.ORE);
         Set<Resource> passedUpRobots = EnumSet.noneOf(Resource.class);
 
-        return new State(remainingTime, resources, robots, passedUpRobots);
+        return new State(time, resources, robots, passedUpRobots);
     }
     
     /**
