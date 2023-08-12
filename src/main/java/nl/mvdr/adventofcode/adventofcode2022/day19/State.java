@@ -1,14 +1,18 @@
 package nl.mvdr.adventofcode.adventofcode2022.day19;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import org.apache.commons.collections4.MultiSet;
 import org.apache.commons.collections4.multiset.HashMultiSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Current state while cracking geodes.
@@ -22,6 +26,8 @@ import org.apache.commons.collections4.multiset.HashMultiSet;
  * @author Martijn van de Rijdt
  */
 record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource> robots, Set<Resource> passedUpRobots) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(State.class);
     
     /**
      * Creates the initial state.
@@ -55,6 +61,13 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
             for (State state : getNextStates(blueprint)) {
                 if (result < state.upperBound()) {
                     result = Math.max(result, state.computeMaxGeodes(blueprint));
+                    if (20 < remainingTime) {
+                        // TODO trace instead of debug?
+                        LOGGER.debug("Max geodes found so far for blueprint {} in {} minutes: {}",
+                                Integer.valueOf(blueprint.id()),
+                                Integer.valueOf(remainingTime),
+                                Integer.valueOf(result));
+                    }
                 }
             }
         }
@@ -62,9 +75,9 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
     }
     
     /**
-     * @return the possible next states starting from this state
+     * @return the possible next states starting from this state, in the order in which they should be investigated
      */
-    Set<State> getNextStates(Blueprint blueprint) {
+    List<State> getNextStates(Blueprint blueprint) {
         Map<Resource, State> states = new HashMap<>();
         for (Resource type : Resource.values()) {
             State state = buildRobot(type, blueprint);
@@ -73,8 +86,13 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
             }
         }
         
-        Set<State> result = new HashSet<>();
-        result.addAll(states.values());
+        // Return them in order of most promising action to least promising: geode, obsidian, clay, ore, nothing
+        List<State> result = new ArrayList<>();
+        Stream.of(Resource.values())
+                .sorted(Comparator.reverseOrder())
+                .filter(states::containsKey)
+                .map(states::get)
+                .forEach(result::add);
         result.add(doNothing(states.keySet()));
         return result;
     }
