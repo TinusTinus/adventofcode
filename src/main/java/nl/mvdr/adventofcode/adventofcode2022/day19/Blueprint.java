@@ -1,6 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2022.day19;
 
+import java.util.EnumMap;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Representation of a single blueprint.
@@ -18,7 +23,23 @@ record Blueprint(int id, Map<Resource, ResourceRequirement> resourceRequirements
      * @return blueprint
      */
     static Blueprint parse(String text) {
-        return null; // TODO
+        var indexOfColon = text.indexOf(":");
+        var id = Integer.parseInt(text.substring("Blueprint ".length(), indexOfColon));
+        var remainingText = text.substring(indexOfColon + 1);
+        
+        Map<Resource, ResourceRequirement> resourceRequirements = new EnumMap<>(Resource.class);
+        
+        Pattern pattern = Pattern.compile("([a-z]*) robot costs ([a-z \\d]*)\\.");
+        Stream.of(remainingText.split(" Each "))
+                .map(pattern::matcher)
+                .filter(Matcher::matches)
+                .forEach(matcher -> {
+                    var robotType = Resource.parse(matcher.group(1));
+                    var requirement = ResourceRequirement.parse(matcher.group(2));
+                    resourceRequirements.put(robotType, requirement);
+                });
+        
+        return new Blueprint(id, resourceRequirements);
     }
     
     /**
