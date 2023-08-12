@@ -61,7 +61,7 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         result.add(doNothing());
         
         Stream.of(Resource.values())
-                .filter(type -> 1 < remainingTime ||  type == Resource.GEODE) // There is no point in building an ore / clay / obsidian robot in the last minute.
+                .filter(type -> isUseful(type, blueprint))
                 .map(type -> buildRobot(type, blueprint))
                 .filter(Objects::nonNull)
                 .forEach(result::add);
@@ -85,6 +85,36 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         MultiSet<Resource> newRobots = new HashMultiSet<>(robots);
         
         return new State(newRemainingTime, newResources, newRobots);
+    }
+    
+    /**
+     * Determines whether it would be useful to build a robot of the given type.
+     * 
+     * @param type robot tpye
+     * @param blueprint the blueprint to follow when building the robot
+     * @return whether it could be useful to build a robot of this type
+     */
+    private boolean isUseful(Resource type, Blueprint blueprint) {
+        boolean result;
+        if (type == Resource.GEODE) {
+            // Building a geode-cracking robot is always useful.
+            result = true;
+        } else if (remainingTime == 1) {
+            // There is no point in building an ore / clay / obsidian robot in the last minute.
+            // It will not produce anything which can lead to more open geodes.
+            result = false;
+        } else {
+            // If we're already producing enough of this resource per minute to satisfy any requirements,
+            // there is no point in making another robot that produces more of this resource.
+            var maxResourceRequired = blueprint.resourceRequirements()
+                    .values()
+                    .stream()
+                    .mapToInt(requirement -> requirement.requires(type))
+                    .max()
+                    .orElseThrow();
+            result = robots.getCount(type) < maxResourceRequired;
+        }
+        return result;
     }
     
     /**
