@@ -47,12 +47,6 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         } else {
             result = getNextStates(blueprint).stream()
                     .mapToInt(state -> state.computeMaxGeodes(blueprint))
-                    // TODO remove the peek
-                    .peek(geodes -> {
-                        if (9 < remainingTime) {
-                            System.out.println(remainingTime + ": " + geodes);
-                        }
-                    })
                     .max()
                     .orElseThrow();
         }
