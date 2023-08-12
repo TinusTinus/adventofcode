@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day19;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -18,8 +19,11 @@ public class NotEnoughMineralsPart2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return lines.limit(3L)
+        var blueprints = lines.limit(3L)
                 .map(Blueprint::parse)
+                .collect(Collectors.toSet());
+        
+        return blueprints.parallelStream()
                 .mapToInt(blueprint -> blueprint.computeMaxGeodes(32))
                 .reduce(1, (i, j) -> i * j);
     }
