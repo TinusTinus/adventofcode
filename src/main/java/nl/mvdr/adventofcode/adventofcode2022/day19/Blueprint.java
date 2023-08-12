@@ -6,6 +6,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Representation of a single blueprint.
  *
@@ -14,6 +17,8 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 record Blueprint(int id, Map<Resource, ResourceRequirement> resourceRequirements) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Blueprint.class);
     
     /**
      * Parses a textual representation of a blueprint.
@@ -51,6 +56,10 @@ record Blueprint(int id, Map<Resource, ResourceRequirement> resourceRequirements
      * @return maximum number of geodes
      */
     int computeMaxGeodes(int time) {
-        return State.createInitialState(time).computeMaxGeodes(this);
+        var result = State.createInitialState(time).computeMaxGeodes(this);
+        
+        LOGGER.info("Max geodes for blueprint {} in {} minutes: {}", id, time, result); // TODO debug
+        
+        return result;
     }
 }
