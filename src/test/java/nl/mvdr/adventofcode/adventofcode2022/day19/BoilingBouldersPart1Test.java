@@ -25,6 +25,6 @@ public class BoilingBouldersPart1Test extends SolverTest<NotEnoughMineralsPart1>
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day19-2022.txt");
+        assertSolution("1480", "input-day19-2022.txt");
     }
 }

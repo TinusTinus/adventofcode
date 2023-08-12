@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2022.day19;
 
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -16,9 +19,10 @@ import org.apache.commons.collections4.multiset.HashMultiSet;
  * @param robots currently available robots
  * @param robotUnderConstruction robot currently under construction; may be null if not applicable
  * @param constructionTime remaining time needed to complete the construction; only has meaning if a robot is under construction
+ * @param passedUpRobots robots which we could have built a minute ago, but chose not to; there is no point in building such a robot now
  * @author Martijn van de Rijdt
  */
-record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource> robots) {
+record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource> robots, Set<Resource> passedUpRobots) {
     
     /**
      * @return initial state
@@ -30,8 +34,9 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         // Start with one ore-collecting robot
         MultiSet<Resource> robots = new HashMultiSet<>();
         robots.add(Resource.ORE);
+        Set<Resource> passedUpRobots = EnumSet.noneOf(Resource.class);
 
-        return new State(remainingTime, resources, robots);
+        return new State(remainingTime, resources, robots, passedUpRobots);
     }
     
     /**
@@ -57,23 +62,28 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
      * @return the possible next states starting from this state
      */
     Set<State> getNextStates(Blueprint blueprint) {
-        Set<State> result = new HashSet<>();
-        result.add(doNothing());
         
-        Stream.of(Resource.values())
-                .filter(type -> isUseful(type, blueprint))
-                .map(type -> buildRobot(type, blueprint))
-                .filter(Objects::nonNull)
-                .forEach(result::add);
+        Map<Resource, State> states = new HashMap<>();
+        for (Resource type : Resource.values()) {
+            State state = buildRobot(type, blueprint);
+            if (state != null) {
+                states.put(type, state);
+            }
+        }
+        
+        Set<State> result = new HashSet<>();
+        result.addAll(states.values());
+        result.add(doNothing(states.keySet()));
         return result;
     }
     
     /**
      * Returns the next state, assuming that we do not build a new robot.
      * 
+     * @param passedUpThisTurn robots which we could have built, but chose not to
      * @return next state
      */
-    private State doNothing() {
+    private State doNothing(Set<Resource> passedUpThisTurn) {
         if (remainingTime < 1) {
             throw new IllegalStateException("No more time!");
         }
@@ -84,7 +94,10 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         
         MultiSet<Resource> newRobots = new HashMultiSet<>(robots);
         
-        return new State(newRemainingTime, newResources, newRobots);
+        Set<Resource> newPassedUp = EnumSet.copyOf(passedUpRobots);
+        newPassedUp.addAll(passedUpThisTurn);
+        
+        return new State(newRemainingTime, newResources, newRobots, newPassedUp);
     }
     
     /**
@@ -102,6 +115,10 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
         } else if (remainingTime == 1) {
             // There is no point in building an ore / clay / obsidian robot in the last minute.
             // It will not produce anything which can lead to more open geodes.
+            result = false;
+        } else if (passedUpRobots.contains(type)) {
+            // It would be strictly better to have built this robot a minute earlier.
+            // Building it now will not result in an end state with more geodes.
             result = false;
         } else {
             // If we're already producing enough of this resource per minute to satisfy any requirements,
@@ -125,29 +142,34 @@ record State(int remainingTime, MultiSet<Resource> resources, MultiSet<Resource>
      * @return next state, or null if a robot of the given type cannot be built 
      */
     private State buildRobot(Resource type, Blueprint blueprint) {
-        var requirement = blueprint.resourceRequirements().get(type);
-        var canBuild = Stream.of(Resource.values())
-                .allMatch(resource -> requirement.requires(resource) <= resources.getCount(resource));
-        
         State result;
-        if (canBuild) {
-            if (remainingTime < 1) {
-                throw new IllegalStateException("No more time!");
+        if (isUseful(type, blueprint)) {
+            var requirement = blueprint.resourceRequirements().get(type);
+            var canBuild = Stream.of(Resource.values())
+                    .allMatch(resource -> requirement.requires(resource) <= resources.getCount(resource));
+            if (canBuild) {
+                if (remainingTime < 1) {
+                    throw new IllegalStateException("No more time!");
+                }
+                int newRemainingTime = remainingTime - 1;
+                
+                MultiSet<Resource> newResources = new HashMultiSet<>(resources);
+                // Remove resources used to build the robot
+                Stream.of(Resource.values()).forEach(resource -> newResources.remove(resource, requirement.requires(resource)));
+                // Each existing robot collects 1 resource of its type
+                newResources.addAll(robots);
+                
+                MultiSet<Resource> newRobots = new HashMultiSet<>(robots);
+                // Add the new robot
+                newRobots.add(type);
+                
+                result = new State(newRemainingTime, newResources, newRobots, EnumSet.noneOf(Resource.class));
+            } else {
+                // Cannot build
+                result = null;
             }
-            int newRemainingTime = remainingTime - 1;
-            
-            MultiSet<Resource> newResources = new HashMultiSet<>(resources);
-            // Remove resources used to build the robot
-            Stream.of(Resource.values()).forEach(resource -> newResources.remove(resource, requirement.requires(resource)));
-            // Each existing robot collects 1 resource of its type
-            newResources.addAll(robots);
-            
-            MultiSet<Resource> newRobots = new HashMultiSet<>(robots);
-            // Add the new robot
-            newRobots.add(type);
-            
-            result = new State(newRemainingTime, newResources, newRobots);
         } else {
+            // Not useful
             result = null;
         }
         return result;
