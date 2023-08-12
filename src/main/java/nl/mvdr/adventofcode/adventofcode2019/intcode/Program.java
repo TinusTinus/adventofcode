@@ -324,7 +324,7 @@ public class Program {
     }
     
     /** 
-     * Performs the less-than operator.
+     * Performs the equals operator.
      * 
      * @param parameterModes parameter modes
      * @return updated program state 
