@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class NotEnoughMineralsPart1Test extends SolverTest<GrovePositioningSystemPart1> {
+public class GrovePositioningSystemPart1Test extends SolverTest<GrovePositioningSystemPart1> {
 
     /** Constructor. */
-    public NotEnoughMineralsPart1Test() {
+    public GrovePositioningSystemPart1Test() {
         super(GrovePositioningSystemPart1.class);
     }
     
