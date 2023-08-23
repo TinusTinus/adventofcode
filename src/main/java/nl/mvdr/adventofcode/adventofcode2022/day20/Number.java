@@ -21,8 +21,18 @@ record Number(int value, int orderNumber) {
      */
     static List<Number> parse(List<String> lines) {
         return IntStream.range(0, lines.size())
-                .mapToObj(i -> new Number(Integer.parseInt(lines.get(i)), i))
+                .mapToObj(i -> new Number(getValue(lines.get(i)), i))
                 .toList();
+    }
+
+    /**
+     * Parses the given line into a value.
+     * 
+     * @param line line from puzzle input
+     * @return value corresponding to the given line
+     */
+    private static int getValue(String line) {
+        return Integer.parseInt(line);
     }
     
     @Override
