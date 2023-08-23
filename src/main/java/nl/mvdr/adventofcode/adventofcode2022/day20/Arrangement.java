@@ -24,7 +24,7 @@ record Arrangement(List<Number> numbers) {
      * @return list of numbers
      */
     static Arrangement parse(Stream<String> lines) {
-        return new Arrangement(Number.parse(lines.toList()));
+        return new Arrangement(Number.parse(lines.toList(), false));
     }
     
     /**
@@ -38,12 +38,7 @@ record Arrangement(List<Number> numbers) {
             var index = result.indexOf(number);
             result.remove(index);
             
-            var newIndex = index + number.value();
-            newIndex = newIndex % result.size();
-            // TODO see if we can find a more efficient way to do the following
-            while (newIndex < 0) {
-                newIndex = newIndex + result.size();
-            }
+            var newIndex = Math.floorMod(index + number.value(), result.size());
             
             result.add(newIndex, number);
             
@@ -63,7 +58,7 @@ record Arrangement(List<Number> numbers) {
      * @param mixed numbers after mixing
      * @return grove coordinates
      */
-    int findGroveCoordinates() {
+    long findGroveCoordinates() {
         var indexOf0 = IntStream.range(0, numbers.size())
                 .filter(i -> numbers.get(i).value() == 0)
                 .findFirst()
@@ -72,7 +67,7 @@ record Arrangement(List<Number> numbers) {
                 .map(i -> indexOf0 + i)
                 .map(i -> i % numbers.size())
                 .mapToObj(numbers::get)
-                .mapToInt(Number::value)
+                .mapToLong(Number::value)
                 .sum();
     }
     

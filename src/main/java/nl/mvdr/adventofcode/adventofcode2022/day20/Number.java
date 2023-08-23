@@ -11,17 +11,20 @@ import java.util.stream.IntStream;
  *
  * @author Martijn van de Rijdt
  */
-record Number(int value, int orderNumber) {
+record Number(long value, int orderNumber) {
+    
+    private static final long DECRYPTION_KEY = 811589153L;
     
     /**
      * Parses the puzzle input.
      * 
      * @param lines puzzle input
+     * @param applyDecryptionKey whether the decryption key should be applied to each value
      * @return list of numbers
      */
-    static List<Number> parse(List<String> lines) {
+    static List<Number> parse(List<String> lines, boolean applyDecryptionKey) {
         return IntStream.range(0, lines.size())
-                .mapToObj(i -> new Number(getValue(lines.get(i)), i))
+                .mapToObj(i -> new Number(getValue(lines.get(i), applyDecryptionKey), i))
                 .toList();
     }
 
@@ -29,10 +32,15 @@ record Number(int value, int orderNumber) {
      * Parses the given line into a value.
      * 
      * @param line line from puzzle input
+     * @param applyDecryptionKey whether the decryption key should be applied to the value
      * @return value corresponding to the given line
      */
-    private static int getValue(String line) {
-        return Integer.parseInt(line);
+    private static long getValue(String line, boolean applyDecryptionKey) {
+        long result = Long.parseLong(line);
+        if (applyDecryptionKey) {
+            result = result * DECRYPTION_KEY;
+        }
+        return result;
     }
     
     @Override
