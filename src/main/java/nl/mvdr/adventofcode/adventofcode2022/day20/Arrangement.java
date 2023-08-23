@@ -21,10 +21,11 @@ record Arrangement(List<Number> numbers) {
      * Parses the puzzle input.
      * 
      * @param lines puzzle input
+     * @param applyDecryptionKey whether the decryption key should be applied to each value
      * @return list of numbers
      */
-    static Arrangement parse(Stream<String> lines) {
-        return new Arrangement(Number.parse(lines.toList(), false));
+    static Arrangement parse(Stream<String> lines, boolean applyDecryptionKey) {
+        return new Arrangement(Number.parse(lines.toList(), applyDecryptionKey));
     }
     
     /**
@@ -33,21 +34,33 @@ record Arrangement(List<Number> numbers) {
      * @return mixed arrangement
      */
     Arrangement mix() {
+        return mix(1);
+    }
+    
+    /**
+     * Mixes this arrangement the given number of times.
+     * 
+     * @param times the number of times to mix
+     * @return mixed arrangement
+     */
+    Arrangement mix(int times) {
         List<Number> result = new LinkedList<>(numbers);
-        for (Number number : numbers) {
-            var index = result.indexOf(number);
-            result.remove(index);
-            
-            var newIndex = Math.floorMod(index + number.value(), result.size());
-            
-            result.add(newIndex, number);
-            
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Moved {} from {} to {}, result: {}", number, Integer.valueOf(index), Integer.valueOf(newIndex), result);
+        for (int round = 0; round != times; round++) {
+            for (Number number : numbers) {
+                var index = result.indexOf(number);
+                result.remove(index);
+                
+                var newIndex = Math.floorMod(index + number.value(), result.size());
+                
+                result.add(newIndex, number);
+                
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Moved {} from {} to {}, result: {}", number, Integer.valueOf(index), Integer.valueOf(newIndex), result);
+                }
             }
+            
+            LOGGER.debug("After {} round(s) of mixing: {}", Integer.valueOf(round), result);
         }
-        
-        LOGGER.debug("Mixed: {}", result);
         
         return new Arrangement(result);
     }

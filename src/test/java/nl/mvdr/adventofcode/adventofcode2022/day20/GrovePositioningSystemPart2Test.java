@@ -25,6 +25,6 @@ public class GrovePositioningSystemPart2Test extends SolverTest<GrovePositioning
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day20-2022.txt");
+        assertSolution("8927480683", "input-day20-2022.txt");
     }
 }

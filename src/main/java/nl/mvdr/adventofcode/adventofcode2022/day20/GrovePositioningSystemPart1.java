@@ -18,7 +18,7 @@ public class GrovePositioningSystemPart1 implements LongSolver {
 
     @Override
     public long solve(Stream<String> lines) {
-        Arrangement arrangement = Arrangement.parse(lines);
+        Arrangement arrangement = Arrangement.parse(lines, false);
         Arrangement mixed = arrangement.mix();
         return mixed.findGroveCoordinates();
     }
