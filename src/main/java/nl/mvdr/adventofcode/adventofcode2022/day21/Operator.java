@@ -10,13 +10,13 @@ import java.util.stream.Stream;
  */
 enum Operator {
     /** Addition. */
-    PLUS('+', (i, j) -> i + j),
+    PLUS('+', (i, j) -> Math.addExact(i, j)),
     /** Subtraction. */
-    MINUS('-', (i, j) -> i - j),
+    MINUS('-', (i, j) -> Math.addExact(i, -j)),
     /** Multiplication. */
-    TIMES('*', (i, j) -> i * j),
+    TIMES('*', (i, j) -> Math.multiplyExact(i, j)),
     /** Division. */
-    DIVIDE('/', (i, j) -> i / j);
+    DIVIDE('/', (i, j) -> Math.divideExact(i, j));
     
     private final char representation;
     private final IntBinaryOperator binaryOperator;
