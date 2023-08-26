@@ -1,53 +1,25 @@
 package nl.mvdr.adventofcode.adventofcode2022.day21;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/21">Monkey Math</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class MonkeyMathPart1 implements LongSolver {
+public class MonkeyMathPart1 extends MonkeyMath {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonkeyMathPart1.class);
 
     @Override
-    public long solve(Stream<String> lines) {
-        // Construct a map of all monkey values, indexed by the monkey's name.
-        Map<String, Value> values = new HashMap<>();
-        lines.map(line -> line.split(": "))
-                .peek(parts -> {
-                    if (parts.length != 2) {
-                        throw new IllegalArgumentException("Unable to parse puzzle input.");
-                    }
-                })
-                .forEach(parts -> values.put(parts[0], Value.parse(parts[1])));
-        
-        while (values.get("root") instanceof ExpressionValue) {
-            // Evaluate all expressions for which both operands are known number values
-            for (String monkey : values.keySet()) {
-                Value value = values.get(monkey);
-                if (value instanceof ExpressionValue expressionValue) {
-                    if (values.get(expressionValue.lhs()) instanceof NumberValue lhs 
-                            && values.get(expressionValue.rhs()) instanceof NumberValue rhs) {
-                        var numberValue = expressionValue.operator().apply(lhs, rhs);
-                        values.put(monkey, numberValue);
-                    }
-                }
-            }
-        }
-        
+    protected long solve(Map<String, Value> values) {
         NumberValue numberValue = (NumberValue) values.get("root");
         return numberValue.number();
     }
-
+    
     /**
      * Main method.
      * 
