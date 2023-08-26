@@ -48,12 +48,13 @@ public class MonkeyMathPart2 extends MonkeyMath {
                 target = sourceExpression.operator().findLhs(rhs, target);
                 source = values.get(sourceExpression.lhs());
             } else {
-                throw new IllegalArgumentException();
+                // Impossible to solve
+                throw new IllegalArgumentException("Expression found with two unknowns: " + sourceExpression);
             }
         }
         
         if (source != SearchedValue.INSTANCE) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Unexpected value found: " + source);
         }
         return target;
     }
