@@ -18,8 +18,15 @@ public class MonkeyMathPart2 extends MonkeyMath {
     @Override
     protected Map<String, Value> parse(Stream<String> lines) {
         var result = super.parse(lines);
+        
+        // Overwrite the special "root" value.
+        ExpressionValue rootValue = (ExpressionValue) result.get("root");
+        rootValue = new ExpressionValue(rootValue.lhs(), Operator.MATCH, rootValue.rhs());
+        result.put("root", rootValue);
+        
         // Overwrite the special "humn" value.
         result.put("humn", SearchedValue.INSTANCE);
+        
         return result;
     }
     
