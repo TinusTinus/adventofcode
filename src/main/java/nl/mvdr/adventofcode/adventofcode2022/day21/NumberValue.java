@@ -5,7 +5,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day21;
  *
  * @author Martijn van de Rijdt
  */
-record NumberValue(int number) implements Value {
+record NumberValue(long number) implements Value {
     
     /**
      * Parses the string representation of a numberic value.
@@ -14,6 +14,6 @@ record NumberValue(int number) implements Value {
      * @return number value
      */
     static NumberValue parse(String stringRepresentation) {
-        return new NumberValue(Integer.parseInt(stringRepresentation));
+        return new NumberValue(Long.parseLong(stringRepresentation));
     }
 }

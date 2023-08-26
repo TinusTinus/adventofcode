@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day21;
 
-import java.util.function.IntBinaryOperator;
+import java.util.function.LongBinaryOperator;
 import java.util.stream.Stream;
 
 /**
@@ -19,7 +19,7 @@ enum Operator {
     DIVIDE('/', (i, j) -> Math.divideExact(i, j));
     
     private final char representation;
-    private final IntBinaryOperator binaryOperator;
+    private final LongBinaryOperator binaryOperator;
 
     /**
      * Parses the given string representation of an operator.
@@ -40,7 +40,7 @@ enum Operator {
      * @param representation character representation of this operator in the puzzle input
      * @param binaryOperator integer operator
      */
-    Operator(char representation, IntBinaryOperator binaryOperator) {
+    Operator(char representation, LongBinaryOperator binaryOperator) {
         this.representation = representation;
         this.binaryOperator = binaryOperator;
     }
@@ -53,6 +53,6 @@ enum Operator {
      * @return result
      */
     NumberValue apply(NumberValue lhs, NumberValue rhs) {
-        return new NumberValue(binaryOperator.applyAsInt(lhs.number(), rhs.number()));
+        return new NumberValue(binaryOperator.applyAsLong(lhs.number(), rhs.number()));
     }
 }

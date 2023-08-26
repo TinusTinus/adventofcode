@@ -7,19 +7,19 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/21">Monkey Math</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class MonkeyMathPart1 implements IntSolver {
+public class MonkeyMathPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonkeyMathPart1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         // Construct a map of all monkey values, indexed by the monkey's name.
         Map<String, Value> values = new HashMap<>();
         lines.map(line -> line.split(": "))

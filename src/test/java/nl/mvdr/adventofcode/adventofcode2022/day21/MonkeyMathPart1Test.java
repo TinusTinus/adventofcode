@@ -25,6 +25,6 @@ public class MonkeyMathPart1Test extends SolverTest<MonkeyMathPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day21-2022.txt"); // NOT -98997638
+        assertSolution("256997859093114", "input-day21-2022.txt");
     }
 }
