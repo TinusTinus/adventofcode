@@ -10,17 +10,18 @@ import java.util.stream.Stream;
  */
 enum Operator {
     /** Addition. */
-    PLUS('+', (i, j) -> Math.addExact(i, j), (i, j) -> Math.addExact(i, -j)),
+    PLUS('+', (i, j) -> Math.addExact(i, j), (rhs, target) -> Math.addExact(target, -rhs), (lhs, target) -> Math.addExact(target, -lhs)),
     /** Subtraction. */
-    MINUS('-', (i, j) -> Math.addExact(i, -j), (i, j) -> Math.addExact(i, j)),
+    MINUS('-', (i, j) -> Math.addExact(i, -j), (rhs, target) -> Math.addExact(target, rhs), (lhs, target) -> Math.addExact(lhs, -target)),
     /** Multiplication. */
-    TIMES('*', (i, j) -> Math.multiplyExact(i, j), (i, j) -> Math.divideExact(i, j)),
+    TIMES('*', (i, j) -> Math.multiplyExact(i, j), (rhs, target) -> Math.divideExact(target, rhs), (lhs, target) -> Math.divideExact(target, lhs)),
     /** Division. */
-    DIVIDE('/', (i, j) -> Math.divideExact(i, j), (i, j) -> Math.multiplyExact(i, j));
+    DIVIDE('/', (i, j) -> Math.divideExact(i, j), (rhs, target) -> Math.multiplyExact(target, rhs), (lhs, target) -> Math.divideExact(lhs, target));
     
     private final char representation;
     private final LongBinaryOperator binaryOperator;
-    private final LongBinaryOperator binaryInverseOperator;
+    private final LongBinaryOperator findLhsOperator;
+    private final LongBinaryOperator findRhsOperator;
 
     /**
      * Parses the given string representation of an operator.
@@ -40,12 +41,14 @@ enum Operator {
      * 
      * @param representation character representation of this operator in the puzzle input
      * @param binaryOperator operator
-     * @param binaryInverseOperator inverse operator
+     * @param findLhsOperator inverse operator
+     * @param findRhsOperator inverse operator
      */
-    Operator(char representation, LongBinaryOperator binaryOperator, LongBinaryOperator binaryInverseOperator) {
+    Operator(char representation, LongBinaryOperator binaryOperator, LongBinaryOperator findLhsOperator, LongBinaryOperator findRhsOperator) {
         this.representation = representation;
         this.binaryOperator = binaryOperator;
-        this.binaryInverseOperator = binaryInverseOperator;
+        this.findLhsOperator = findLhsOperator;
+        this.findRhsOperator = findRhsOperator;
     }
     
     /**
@@ -60,13 +63,24 @@ enum Operator {
     }
     
     /**
-     * Applies the inverse of this operator to the given numbers.
+     * Finds the left-hand side value of this operator, given the right-hand side value and the expression value.
      * 
-     * @param lhs left-hand side operand
      * @param rhs right-hand side operand
+     * @param target expression value
      * @return result
      */
-    NumberValue applyInverse(NumberValue lhs, NumberValue rhs) {
-        return new NumberValue(binaryInverseOperator.applyAsLong(lhs.number(), rhs.number()));
+    long findLhs(NumberValue rhs, long target) {
+        return findLhsOperator.applyAsLong(rhs.number(), target);
+    }
+    
+    /**
+     * Finds the right-hand side value of this operator, given the left-hand side value and the expression value.
+     * 
+     * @param lhs left-hand side operand
+     * @param target expression value
+     * @return result
+     */
+    long findRhs(NumberValue lhs, long target) {
+        return findRhsOperator.applyAsLong(lhs.number(), target);
     }
 }

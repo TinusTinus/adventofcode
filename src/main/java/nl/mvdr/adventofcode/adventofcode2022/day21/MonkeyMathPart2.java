@@ -25,11 +25,35 @@ public class MonkeyMathPart2 extends MonkeyMath {
     
     @Override
     protected long solve(Map<String, Value> values) {
-        ExpressionValue root = (ExpressionValue) values.get("root");
+        ExpressionValue rootExpression = (ExpressionValue) values.get("root");
+        long target;
+        Value source;
+        if (values.get(rootExpression.lhs()) instanceof NumberValue rootLhs) {
+            target = rootLhs.number();
+            source = values.get(rootExpression.rhs());
+        } else if (values.get(rootExpression.rhs()) instanceof NumberValue rootRhs) {
+            target = rootRhs.number();
+            source = values.get(rootExpression.lhs());
+        } else {
+            throw new IllegalArgumentException();
+        }
         
-        // TODO
+        while (source instanceof ExpressionValue sourceExpression) {
+            if (values.get(sourceExpression.lhs()) instanceof NumberValue lhs) {
+                target = sourceExpression.operator().findRhs(lhs, target);
+                source = values.get(sourceExpression.rhs());
+            } else if (values.get(sourceExpression.rhs()) instanceof NumberValue rhs) {
+                target = sourceExpression.operator().findLhs(rhs, target);
+                source = values.get(sourceExpression.lhs());
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
         
-        return 0L;
+        if (source != SearchedValue.INSTANCE) {
+            throw new IllegalArgumentException();
+        }
+        return target;
     }
     
     /**
