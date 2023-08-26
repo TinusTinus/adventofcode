@@ -18,7 +18,7 @@ enum Operator {
     /** Division. */
     DIVIDE('/', (i, j) -> Math.divideExact(i, j), (rhs, target) -> Math.multiplyExact(target, rhs), (lhs, target) -> Math.divideExact(lhs, target)),
     /** The special MATCH operator, used by the root monkey in part 2 of the puzzle. */
-    MATCH('=', (i, j) -> {throw new UnsupportedOperationException();}, (rhs, target) -> rhs, (lhs, target) -> lhs);
+    MATCH('=', (i, j) -> 0L, (rhs, target) -> rhs, (lhs, target) -> lhs);
     
     private final char representation;
     private final LongBinaryOperator binaryOperator;

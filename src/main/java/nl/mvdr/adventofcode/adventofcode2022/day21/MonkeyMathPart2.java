@@ -32,8 +32,9 @@ public class MonkeyMathPart2 extends MonkeyMath {
     
     @Override
     protected long solve(Map<String, Value> values) {
+        // invariant: source evaluates to target
         Value source = values.get("root");
-        long target = 0L; // dummy value for root, which is a match expression
+        long target = 0L; // root is a match expression
         
         while (source instanceof ExpressionValue sourceExpression) {
             if (values.get(sourceExpression.lhs()) instanceof NumberValue lhs) {
