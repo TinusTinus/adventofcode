@@ -32,24 +32,18 @@ public class MonkeyMathPart2 extends MonkeyMath {
     
     @Override
     protected long solve(Map<String, Value> values) {
-        ExpressionValue rootExpression = (ExpressionValue) values.get("root");
-        long target;
-        Value source;
-        if (values.get(rootExpression.lhs()) instanceof NumberValue rootLhs) {
-            target = rootLhs.number();
-            source = values.get(rootExpression.rhs());
-        } else if (values.get(rootExpression.rhs()) instanceof NumberValue rootRhs) {
-            target = rootRhs.number();
-            source = values.get(rootExpression.lhs());
-        } else {
-            throw new IllegalArgumentException();
-        }
+        Value source = values.get("root");
+        long target = 0L; // dummy value for root, which is a match expression
         
         while (source instanceof ExpressionValue sourceExpression) {
             if (values.get(sourceExpression.lhs()) instanceof NumberValue lhs) {
+                // Left-hand side value has already been calculated.
+                // Determine the right-hand side value.
                 target = sourceExpression.operator().findRhs(lhs, target);
                 source = values.get(sourceExpression.rhs());
             } else if (values.get(sourceExpression.rhs()) instanceof NumberValue rhs) {
+                // Right-hand side value has already been calculated.
+                // Determine the left-hand side value.
                 target = sourceExpression.operator().findLhs(rhs, target);
                 source = values.get(sourceExpression.lhs());
             } else {
