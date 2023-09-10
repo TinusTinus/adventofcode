@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -38,7 +39,12 @@ public class MonkeyMapPart1 implements IntSolver {
         
         var path = Path.parse(lines.get(lines.size() - 1));
         
-        return path.execute(Position.START, map).computePassword();
+        var startingLocation = new Point(1, 1); // TODO fix this: leftmost OPEN TILE on the first row
+        var startingPosition = new Position(startingLocation, Direction.RIGHT); 
+        
+        Position finalPosition = path.execute(startingPosition, map);
+        
+        return finalPosition.computePassword();
     }
     
     /**

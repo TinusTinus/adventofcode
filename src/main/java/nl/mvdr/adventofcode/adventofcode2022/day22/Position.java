@@ -9,9 +9,6 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Position(Point location, Direction facing) {
-    /** The starting position. */
-    static final Position START = new Position(new Point(1, 1), Direction.RIGHT);
-    
     /**
      * Computes the password.
      * 
