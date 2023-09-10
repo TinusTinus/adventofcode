@@ -12,13 +12,13 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MonkeyMapPart1 implements IntSolver {
+public class MonkeyMapPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MonkeyMapPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MonkeyMapPart2.class);
 
     @Override
     public int solve(Stream<String> linesStream) {
-        return new MonkeyMap(WrapAroundStrategy.MODULO).solve(linesStream);
+        return new MonkeyMap(WrapAroundStrategy.CUBE).solve(linesStream);
     }
     
     /**
@@ -27,7 +27,7 @@ public class MonkeyMapPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new MonkeyMapPart1();
+        var instance = new MonkeyMapPart2();
 
         var result = instance.solve("input-day22-2022.txt");
 

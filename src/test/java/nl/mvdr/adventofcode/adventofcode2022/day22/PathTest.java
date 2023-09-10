@@ -13,29 +13,30 @@ import org.junit.jupiter.api.Test;
 public class PathTest {
     
     /**
-     * Test method for {@link Path#parse(String)}.
+     * Test method for {@link Path#parse(String, WrapAroundStrategy)}.
      */
     @Test
     public void testParse() {
         var pathString = "10R5L5R10L4R5L5";
+        var strategy = WrapAroundStrategy.MODULO;
         
-        var path = Path.parse(pathString);
+        var path = Path.parse(pathString, strategy);
         
         var expectedPath = new Path(
                 List.of(
-                        new MovementInstruction(10),
+                        new MovementInstruction(10, strategy),
                         TurnInstruction.RIGHT,
-                        new MovementInstruction(5),
+                        new MovementInstruction(5, strategy),
                         TurnInstruction.LEFT,
-                        new MovementInstruction(5),
+                        new MovementInstruction(5, strategy),
                         TurnInstruction.RIGHT,
-                        new MovementInstruction(10),
+                        new MovementInstruction(10, strategy),
                         TurnInstruction.LEFT,
-                        new MovementInstruction(4),
+                        new MovementInstruction(4, strategy),
                         TurnInstruction.RIGHT,
-                        new MovementInstruction(5),
+                        new MovementInstruction(5, strategy),
                         TurnInstruction.LEFT,
-                        new MovementInstruction(5)
+                        new MovementInstruction(5, strategy)
                         )
                 );
         Assertions.assertEquals(expectedPath, path);
