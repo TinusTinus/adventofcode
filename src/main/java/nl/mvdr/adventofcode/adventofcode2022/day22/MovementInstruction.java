@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day22;
 
 import java.util.Map;
 
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -28,7 +29,32 @@ record MovementInstruction(int tiles) implements Instruction {
     
     @Override
     public Position execute(Position startingPosition, Map<Point, Terrain> map) {
-        // TODO implement!
-        return startingPosition;
+        var remainingTiles = tiles;
+        var facing = startingPosition.facing();
+        var newLocation = startingPosition.location();
+        
+        while (0 < remainingTiles) {
+            var nextLocation = findNextPosition(newLocation, facing, map);
+            var terrain = map.get(nextLocation);
+            if (terrain == Terrain.OPEN_TILE) {
+                newLocation = nextLocation;
+                remainingTiles--;
+            } else if (terrain == Terrain.SOLID_WALL) {
+                // hit a wall
+                remainingTiles = 0;
+            } else {
+                throw new IllegalStateException("Unexpected terrain: " + terrain);
+            }
+        }
+        
+        return new Position(newLocation, facing);
+    }
+
+    private Point findNextPosition(Point location, Direction facing, Map<Point, Terrain> map) {
+        var result = facing.move(location);
+        if (!map.containsKey(result)) {
+            // TODO wrap around the map!
+        }
+        return result;
     }
 }
