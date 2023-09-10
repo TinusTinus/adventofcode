@@ -3,6 +3,9 @@ package nl.mvdr.adventofcode.adventofcode2022.day22;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 import nl.mvdr.adventofcode.point.TurnDirection;
@@ -18,6 +21,7 @@ enum TurnInstruction implements Instruction {
     LEFT(TurnDirection.LEFT),
     RIGHT(TurnDirection.RIGHT);
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(TurnInstruction.class);
     private final TurnDirection turnDirection;
 
     /**
@@ -47,6 +51,7 @@ enum TurnInstruction implements Instruction {
     public Position execute(Position startingPosition, Map<Point, Terrain> map) {
         Point newLocation = startingPosition.location();
         Direction newFacing = turnDirection.turn(startingPosition.facing());
+        LOGGER.debug("Turned {}; new facing: {}", this, newFacing);
         return new Position(newLocation, newFacing);
     }
 }

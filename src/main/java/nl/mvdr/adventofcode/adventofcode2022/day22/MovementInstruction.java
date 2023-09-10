@@ -3,6 +3,9 @@ package nl.mvdr.adventofcode.adventofcode2022.day22;
 import java.util.Comparator;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -16,6 +19,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record MovementInstruction(int tiles) implements Instruction {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(MovementInstruction.class);
     
     /**
      * Parses a string representation of a movement instruction.
@@ -43,26 +48,26 @@ record MovementInstruction(int tiles) implements Instruction {
             if (direction == Direction.RIGHT) {
                 result = map.keySet()
                         .stream()
-                        .filter(point -> point.x() == startingLocation.x())
+                        .filter(point -> point.y() == startingLocation.y())
                         .min(Comparator.comparing(Point::x))
                         .orElseThrow();
             } else if (direction == Direction.LEFT) {
                 result = map.keySet()
                         .stream()
-                        .filter(point -> point.x() == startingLocation.x())
+                        .filter(point -> point.y() == startingLocation.y())
                         .max(Comparator.comparing(Point::x))
                         .orElseThrow();
             } else if (direction == Direction.DOWN) {
                 result = map.keySet()
                         .stream()
-                        .filter(point -> point.y() == startingLocation.y())
-                        .min(Comparator.comparing(Point::x))
+                        .filter(point -> point.x() == startingLocation.x())
+                        .min(Comparator.comparing(Point::y))
                         .orElseThrow();
             } else if (direction == Direction.UP) {
                 result = map.keySet()
                         .stream()
-                        .filter(point -> point.y() == startingLocation.y())
-                        .max(Comparator.comparing(Point::x))
+                        .filter(point -> point.x() == startingLocation.x())
+                        .max(Comparator.comparing(Point::y))
                         .orElseThrow();
             } else {
                 throw new IllegalArgumentException("Unexpected direction: " + direction);
@@ -73,6 +78,7 @@ record MovementInstruction(int tiles) implements Instruction {
     
     @Override
     public Position execute(Position startingPosition, Map<Point, Terrain> map) {
+        LOGGER.debug("Attempting to move {} tiles, starting position: {}.", Integer.valueOf(tiles), startingPosition);
         
         var facing = startingPosition.facing();
         
@@ -85,12 +91,13 @@ record MovementInstruction(int tiles) implements Instruction {
                 newLocation = nextLocation;
                 remainingTiles--;
             } else if (terrain == Terrain.SOLID_WALL) {
-                // hit a wall
+                LOGGER.debug("Hit a wall, unable to move the remaining {} tiles.", Integer.valueOf(remainingTiles));
                 remainingTiles = 0;
             } else {
                 throw new IllegalStateException("Unexpected terrain: " + terrain);
             }
         }
+        LOGGER.debug("New location: {}.", newLocation);
         
         return new Position(newLocation, facing);
     }

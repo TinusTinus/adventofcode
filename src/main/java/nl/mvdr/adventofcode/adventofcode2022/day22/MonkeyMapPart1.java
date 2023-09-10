@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day22;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +40,16 @@ public class MonkeyMapPart1 implements IntSolver {
         
         var path = Path.parse(lines.get(lines.size() - 1));
         
-        var startingLocation = new Point(1, 1); // TODO fix this: leftmost OPEN TILE on the first row
-        var startingPosition = new Position(startingLocation, Direction.RIGHT); 
+        // You begin the path in the leftmost open tile of the top row of tiles.
+        var startingLocation = map.keySet()
+                .stream()
+                .filter(point -> point.y() == 1) // top row
+                .filter(point -> map.get(point) == Terrain.OPEN_TILE) // open tile
+                .min(Comparator.comparing(Point::x)) // leftmost
+                .orElseThrow();
+        // Initially, you are facing to the right (from the perspective of how the map is drawn).
+        var startingPosition = new Position(startingLocation, Direction.RIGHT);
+        LOGGER.debug("Starting position: {}", startingPosition);
         
         Position finalPosition = path.execute(startingPosition, map);
         
