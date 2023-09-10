@@ -34,7 +34,7 @@ record MovementInstruction(int tiles) implements Instruction {
         var newLocation = startingPosition.location();
         
         while (0 < remainingTiles) {
-            var nextLocation = findNextPosition(newLocation, facing, map);
+            var nextLocation = findNextLocation(newLocation, facing, map);
             var terrain = map.get(nextLocation);
             if (terrain == Terrain.OPEN_TILE) {
                 newLocation = nextLocation;
@@ -50,10 +50,18 @@ record MovementInstruction(int tiles) implements Instruction {
         return new Position(newLocation, facing);
     }
 
-    private Point findNextPosition(Point location, Direction facing, Map<Point, Terrain> map) {
-        var result = facing.move(location);
+    /**
+     * Finds the next tile, taking into account that we need to wrap around the edges of the map.
+     * 
+     * @param startingLocation starting location
+     * @param direction direction
+     * @param map the map
+     * @return the next tile
+     */
+    private Point findNextLocation(Point startingLocation, Direction direction, Map<Point, Terrain> map) {
+        var result = direction.move(startingLocation);
         if (!map.containsKey(result)) {
-            // TODO wrap around the map!
+            // TODO wrap around!
         }
         return result;
     }
