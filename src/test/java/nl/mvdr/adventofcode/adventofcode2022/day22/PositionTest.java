@@ -27,5 +27,4 @@ public class PositionTest {
         
         Assertions.assertEquals(6032, password);
     }
-
 }
