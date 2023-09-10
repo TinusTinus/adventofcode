@@ -39,6 +39,7 @@ record MovementInstruction(int tiles) implements Instruction {
     private static Point findNextLocation(Point startingLocation, Direction direction, Map<Point, Terrain> map) {
         var result = direction.move(startingLocation);
         if (!map.containsKey(result)) {
+            // Wrap around
             if (direction == Direction.RIGHT) {
                 result = map.keySet()
                         .stream()
@@ -64,7 +65,7 @@ record MovementInstruction(int tiles) implements Instruction {
                         .max(Comparator.comparing(Point::x))
                         .orElseThrow();
             } else {
-                throw new IllegalStateException("Unexpected direction: " + direction);
+                throw new IllegalArgumentException("Unexpected direction: " + direction);
             }
         }
         return result;
@@ -72,10 +73,11 @@ record MovementInstruction(int tiles) implements Instruction {
     
     @Override
     public Position execute(Position startingPosition, Map<Point, Terrain> map) {
-        var remainingTiles = tiles;
-        var facing = startingPosition.facing();
-        var newLocation = startingPosition.location();
         
+        var facing = startingPosition.facing();
+        
+        var newLocation = startingPosition.location();
+        var remainingTiles = tiles;
         while (0 < remainingTiles) {
             var nextLocation = findNextLocation(newLocation, facing, map);
             var terrain = map.get(nextLocation);
