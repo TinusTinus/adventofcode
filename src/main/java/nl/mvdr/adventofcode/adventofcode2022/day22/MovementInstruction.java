@@ -39,39 +39,52 @@ record MovementInstruction(int tiles) implements Instruction {
      * @param startingLocation starting location
      * @param direction direction
      * @param map the map
-     * @return the next tile
+     * @return the next location when moving 1 position in the given direction
      */
     private static Point findNextLocation(Point startingLocation, Direction direction, Map<Point, Terrain> map) {
         var result = direction.move(startingLocation);
         if (!map.containsKey(result)) {
-            // Wrap around
-            if (direction == Direction.RIGHT) {
-                result = map.keySet()
-                        .stream()
-                        .filter(point -> point.y() == startingLocation.y())
-                        .min(Comparator.comparing(Point::x))
-                        .orElseThrow();
-            } else if (direction == Direction.LEFT) {
-                result = map.keySet()
-                        .stream()
-                        .filter(point -> point.y() == startingLocation.y())
-                        .max(Comparator.comparing(Point::x))
-                        .orElseThrow();
-            } else if (direction == Direction.DOWN) {
-                result = map.keySet()
-                        .stream()
-                        .filter(point -> point.x() == startingLocation.x())
-                        .min(Comparator.comparing(Point::y))
-                        .orElseThrow();
-            } else if (direction == Direction.UP) {
-                result = map.keySet()
-                        .stream()
-                        .filter(point -> point.x() == startingLocation.x())
-                        .max(Comparator.comparing(Point::y))
-                        .orElseThrow();
-            } else {
-                throw new IllegalArgumentException("Unexpected direction: " + direction);
-            }
+            result = wrapAround(startingLocation, direction, map);
+        }
+        return result;
+    }
+
+    /**
+     * Wraps around the map.
+     * 
+     * @param startingLocation starting location, at the edge of the map
+     * @param direction direction
+     * @param map map
+     * @return the next location when moving 1 position in the given direction
+     */
+    private static Point wrapAround(Point startingLocation, Direction direction, Map<Point, Terrain> map) {
+        Point result;
+        if (direction == Direction.RIGHT) {
+            result = map.keySet()
+                    .stream()
+                    .filter(point -> point.y() == startingLocation.y())
+                    .min(Comparator.comparing(Point::x))
+                    .orElseThrow();
+        } else if (direction == Direction.LEFT) {
+            result = map.keySet()
+                    .stream()
+                    .filter(point -> point.y() == startingLocation.y())
+                    .max(Comparator.comparing(Point::x))
+                    .orElseThrow();
+        } else if (direction == Direction.DOWN) {
+            result = map.keySet()
+                    .stream()
+                    .filter(point -> point.x() == startingLocation.x())
+                    .min(Comparator.comparing(Point::y))
+                    .orElseThrow();
+        } else if (direction == Direction.UP) {
+            result = map.keySet()
+                    .stream()
+                    .filter(point -> point.x() == startingLocation.x())
+                    .max(Comparator.comparing(Point::y))
+                    .orElseThrow();
+        } else {
+            throw new IllegalArgumentException("Unexpected direction: " + direction);
         }
         return result;
     }
