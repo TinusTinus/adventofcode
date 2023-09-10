@@ -138,19 +138,6 @@ public record Point3D(int x, int y, int z) {
     /**
      * Constructor.
      * 
-     * @param x x coordinate
-     * @param y y coordinate
-     * @param z z coordinate
-     */
-    public Point3D(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-    
-    /**
-     * Constructor.
-     * 
      * @param point x and y coordinates
      * @param z z coordinate
      */
