@@ -97,15 +97,13 @@ record MovementInstruction(int tiles) implements Instruction {
     public Position execute(Position startingPosition, Map<Point, Terrain> map) {
         LOGGER.debug("Attempting to move {} tiles, starting position: {}.", Integer.valueOf(tiles), startingPosition);
         
-        var facing = startingPosition.facing();
-        
-        var newLocation = startingPosition.location();
+        var newPosition = startingPosition;
         var remainingTiles = tiles;
         while (0 < remainingTiles) {
-            var nextPosition = findNextLocation(new Position(newLocation, facing), map);
+            var nextPosition = findNextLocation(newPosition, map);
             var terrain = map.get(nextPosition.location());
             if (terrain == Terrain.OPEN_TILE) {
-                newLocation = nextPosition.location();
+                newPosition = nextPosition;
                 remainingTiles--;
             } else if (terrain == Terrain.SOLID_WALL) {
                 LOGGER.debug("Hit a wall, unable to move the remaining {} tiles.", Integer.valueOf(remainingTiles));
@@ -114,8 +112,8 @@ record MovementInstruction(int tiles) implements Instruction {
                 throw new IllegalStateException("Unexpected terrain: " + terrain);
             }
         }
-        LOGGER.debug("New location: {}.", newLocation);
+        LOGGER.debug("New position: {}.", newPosition);
         
-        return new Position(newLocation, facing);
+        return newPosition;
     }
 }
