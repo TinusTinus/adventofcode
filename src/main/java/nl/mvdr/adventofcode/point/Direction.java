@@ -12,13 +12,13 @@ import java.util.stream.Stream;
  */
 public enum Direction {
     /** Up / north. */
-    UP(true, Point::aboveNeighbour, 1L, '^', 'U', 'N'),
+    UP(true, Point::aboveNeighbour, 1L, 3, '^', 'U', 'N'),
     /** Down / south. */
-    DOWN(true, Point::belowNeighbour, 2L, 'v', 'D', 'S'),
+    DOWN(true, Point::belowNeighbour, 2L, 1, 'v', 'D', 'S'),
     /** Left / west. */
-    LEFT(false, Point::leftNeighbour, 3L, '<', 'L', 'W'),
+    LEFT(false, Point::leftNeighbour, 3L, 2, '<', 'L', 'W'),
     /** Right / east. */
-    RIGHT(false, Point::rightNeighbour, 4L, '>', 'R', 'E');
+    RIGHT(false, Point::rightNeighbour, 4L, 0, '>', 'R', 'E');
     
     /** Whether this direction is vertical. */
     private final boolean vertical;
@@ -29,6 +29,13 @@ public enum Direction {
     /** Intcode representation of this direction. */
     private final long code;
     
+    /**
+     * Value of this direction when representing a facing in a password.
+     * 
+     * 0 for right (>), 1 for down (v), 2 for left (<), and 3 for up (^)
+     */
+    private final int passwordValue;
+    
     /** Character representations of this direction. */
     private final char[] representations;
     
@@ -38,12 +45,14 @@ public enum Direction {
      * @param vertical whether this direction is vertical
      * @param next function that, given a location, determines the next location if a single step is taken in this direction
      * @param code Intcode representation of this direction
+     * @param passwordValue value of this direction when representing a facing in a password
      * @param representations character representations of this direction
      */
-    Direction(boolean vertical, Function<Point, Point> next, long code, char... representations) {
+    Direction(boolean vertical, Function<Point, Point> next, long code, int passwordValue, char... representations) {
         this.vertical = vertical;
         this.next = next;
         this.code = code;
+        this.passwordValue = passwordValue;
         this.representations = representations;
     }
     
@@ -134,6 +143,17 @@ public enum Direction {
     /** @return Intcode representation of this direction */
     public long getCode() {
         return code;
+    }
+
+    /**
+     * Value of this direction when representing a facing in a password.
+     * 
+     * 0 for right (>), 1 for down (v), 2 for left (<), and 3 for up (^)
+     * 
+     * @return facing value
+     */
+    public int getPasswordValue() {
+        return passwordValue;
     }
     
     @Override
