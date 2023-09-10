@@ -25,6 +25,6 @@ public class MonkeyMapPart1Test extends SolverTest<MonkeyMapPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day22-2022.txt");
+        assertSolution("?", "input-day22-2022.txt"); // 1602 is too low
     }
 }

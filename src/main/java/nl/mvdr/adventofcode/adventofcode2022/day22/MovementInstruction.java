@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day22;
 
+import java.util.Comparator;
 import java.util.Map;
 
 import nl.mvdr.adventofcode.point.Direction;
@@ -26,6 +27,48 @@ record MovementInstruction(int tiles) implements Instruction {
         var tiles = Integer.parseInt(stringRepresentation);
         return new MovementInstruction(tiles);
     }
+
+    /**
+     * Finds the next tile, taking into account that we need to wrap around the edges of the map.
+     * 
+     * @param startingLocation starting location
+     * @param direction direction
+     * @param map the map
+     * @return the next tile
+     */
+    private static Point findNextLocation(Point startingLocation, Direction direction, Map<Point, Terrain> map) {
+        var result = direction.move(startingLocation);
+        if (!map.containsKey(result)) {
+            if (direction == Direction.RIGHT) {
+                result = map.keySet()
+                        .stream()
+                        .filter(point -> point.x() == startingLocation.x())
+                        .min(Comparator.comparing(Point::x))
+                        .orElseThrow();
+            } else if (direction == Direction.LEFT) {
+                result = map.keySet()
+                        .stream()
+                        .filter(point -> point.x() == startingLocation.x())
+                        .max(Comparator.comparing(Point::x))
+                        .orElseThrow();
+            } else if (direction == Direction.DOWN) {
+                result = map.keySet()
+                        .stream()
+                        .filter(point -> point.y() == startingLocation.y())
+                        .min(Comparator.comparing(Point::x))
+                        .orElseThrow();
+            } else if (direction == Direction.UP) {
+                result = map.keySet()
+                        .stream()
+                        .filter(point -> point.y() == startingLocation.y())
+                        .max(Comparator.comparing(Point::x))
+                        .orElseThrow();
+            } else {
+                throw new IllegalStateException("Unexpected direction: " + direction);
+            }
+        }
+        return result;
+    }
     
     @Override
     public Position execute(Position startingPosition, Map<Point, Terrain> map) {
@@ -48,21 +91,5 @@ record MovementInstruction(int tiles) implements Instruction {
         }
         
         return new Position(newLocation, facing);
-    }
-
-    /**
-     * Finds the next tile, taking into account that we need to wrap around the edges of the map.
-     * 
-     * @param startingLocation starting location
-     * @param direction direction
-     * @param map the map
-     * @return the next tile
-     */
-    private Point findNextLocation(Point startingLocation, Direction direction, Map<Point, Terrain> map) {
-        var result = direction.move(startingLocation);
-        if (!map.containsKey(result)) {
-            // TODO wrap around!
-        }
-        return result;
     }
 }
