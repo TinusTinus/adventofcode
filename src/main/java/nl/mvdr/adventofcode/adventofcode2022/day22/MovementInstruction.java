@@ -36,15 +36,18 @@ record MovementInstruction(int tiles) implements Instruction {
     /**
      * Finds the next tile, taking into account that we need to wrap around the edges of the map.
      * 
-     * @param startingLocation starting location
+     * @param startingPosition starting position
      * @param direction direction
      * @param map the map
      * @return the next location when moving 1 position in the given direction
      */
-    private static Point findNextLocation(Point startingLocation, Direction direction, Map<Point, Terrain> map) {
-        var result = direction.move(startingLocation);
-        if (!map.containsKey(result)) {
-            result = wrapAround(startingLocation, direction, map);
+    private static Position findNextLocation(Position startingPosition, Map<Point, Terrain> map) {
+        Position result;
+        var newLocation = startingPosition.facing().move(startingPosition.location());
+        if (map.containsKey(newLocation)) {
+            result = new Position(newLocation, startingPosition.facing());
+        } else {
+            result = wrapAround(startingPosition, map);
         }
         return result;
     }
@@ -52,33 +55,34 @@ record MovementInstruction(int tiles) implements Instruction {
     /**
      * Wraps around the map.
      * 
-     * @param startingLocation starting location, at the edge of the map
-     * @param direction direction
+     * @param startingPosition starting position at the edge of the map
      * @param map map
-     * @return the next location when moving 1 position in the given direction
+     * @return the next position when moving 1 position in the given direction
      */
-    private static Point wrapAround(Point startingLocation, Direction direction, Map<Point, Terrain> map) {
-        Point result;
+    private static Position wrapAround(Position startingPosition, Map<Point, Terrain> map) {
+        var startingLocation = startingPosition.location();
+        var direction = startingPosition.facing();
+        Point newLocation;
         if (direction == Direction.RIGHT) {
-            result = map.keySet()
+            newLocation = map.keySet()
                     .stream()
                     .filter(point -> point.y() == startingLocation.y())
                     .min(Comparator.comparing(Point::x))
                     .orElseThrow();
         } else if (direction == Direction.LEFT) {
-            result = map.keySet()
+            newLocation = map.keySet()
                     .stream()
                     .filter(point -> point.y() == startingLocation.y())
                     .max(Comparator.comparing(Point::x))
                     .orElseThrow();
         } else if (direction == Direction.DOWN) {
-            result = map.keySet()
+            newLocation = map.keySet()
                     .stream()
                     .filter(point -> point.x() == startingLocation.x())
                     .min(Comparator.comparing(Point::y))
                     .orElseThrow();
         } else if (direction == Direction.UP) {
-            result = map.keySet()
+            newLocation = map.keySet()
                     .stream()
                     .filter(point -> point.x() == startingLocation.x())
                     .max(Comparator.comparing(Point::y))
@@ -86,7 +90,7 @@ record MovementInstruction(int tiles) implements Instruction {
         } else {
             throw new IllegalArgumentException("Unexpected direction: " + direction);
         }
-        return result;
+        return new Position(newLocation, direction);
     }
     
     @Override
@@ -98,10 +102,10 @@ record MovementInstruction(int tiles) implements Instruction {
         var newLocation = startingPosition.location();
         var remainingTiles = tiles;
         while (0 < remainingTiles) {
-            var nextLocation = findNextLocation(newLocation, facing, map);
-            var terrain = map.get(nextLocation);
+            var nextPosition = findNextLocation(new Position(newLocation, facing), map);
+            var terrain = map.get(nextPosition.location());
             if (terrain == Terrain.OPEN_TILE) {
-                newLocation = nextLocation;
+                newLocation = nextPosition.location();
                 remainingTiles--;
             } else if (terrain == Terrain.SOLID_WALL) {
                 LOGGER.debug("Hit a wall, unable to move the remaining {} tiles.", Integer.valueOf(remainingTiles));
