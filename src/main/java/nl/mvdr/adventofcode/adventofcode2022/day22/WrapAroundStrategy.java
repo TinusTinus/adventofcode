@@ -64,6 +64,9 @@ enum WrapAroundStrategy {
     CUBE {
         @Override
         Position wrapAround(Position startingPosition, Map<Point, Terrain> map) {
+            // Note that this solution relies on specific puzzle input.
+            // It is not applicable for the general case.
+            
             Position result;
             
             var x = startingPosition.location().x();
@@ -78,8 +81,7 @@ enum WrapAroundStrategy {
                 } else if (y == 5 && x < 5 && facing == Direction.UP) {
                     // B
                     result = new Position(13 - x, 1, Direction.DOWN);
-                }
-                else if (y == 5 && 5 <= x && facing == Direction.UP) {
+                } else if (y == 5 && 5 <= x && facing == Direction.UP) {
                     // A
                     result = new Position(9, x - 4, Direction.RIGHT);
     
@@ -90,8 +92,6 @@ enum WrapAroundStrategy {
                 }
             } else if (map.size() == 15_000) {
                 // Puzzle input
-                // Note that this solution relies on specific puzzle input.
-                // It is not applicable for the general case.
                 result = startingPosition; // TODO implement
             } else {
                 throw new IllegalArgumentException("Unexpected map");
