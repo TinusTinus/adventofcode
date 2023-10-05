@@ -64,8 +64,39 @@ enum WrapAroundStrategy {
     CUBE {
         @Override
         Position wrapAround(Position startingPosition, Map<Point, Terrain> map) {
-            // TODO implement!
-            return startingPosition;
+            Position result;
+            
+            var x = startingPosition.location().x();
+            var y = startingPosition.location().y();
+            var facing = startingPosition.facing();
+            
+            if (map.size() == 96) {
+                // Example input
+                if (y == 1 && facing == Direction.UP) {
+                    // B
+                    result = new Position(5 - (x - 8), 5, Direction.DOWN);
+                } else if (y == 5 && x < 5 && facing == Direction.UP) {
+                    // B
+                    result = new Position(13 - x, 1, Direction.DOWN);
+                }
+                else if (y == 5 && 5 <= x && facing == Direction.UP) {
+                    // A
+                    result = new Position(9, x - 4, Direction.RIGHT);
+    
+                    // TODO all other sides!
+                
+                } else {
+                    throw new IllegalArgumentException("Position is not at an edge: " + startingPosition);
+                }
+            } else if (map.size() == 15_000) {
+                // Puzzle input
+                // Note that this solution relies on specific puzzle input.
+                // It is not applicable for the general case.
+                result = startingPosition; // TODO implement
+            } else {
+                throw new IllegalArgumentException("Unexpected map");
+            }
+            return result;
         }
     };
     
