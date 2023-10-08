@@ -36,10 +36,11 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
      */
     static TerrainMap parse(List<String> lines, WrapAroundStrategy strategy) {
         var map = parseTerrain(lines);
-        return switch(map.size()) {
-            case 96     -> createMapForExampleInput(map, strategy);
-            case 15_000 -> createMapForPuzzleInput(map, strategy);
-            default     -> throw new IllegalArgumentException("Unexpected puzzle input.");
+        int squareSize = (int)Math.sqrt(map.size() / 6);
+        return switch(squareSize) {
+            case SQUARE_SIZE_EXAMPLE_INPUT -> createMapForExampleInput(map, strategy);
+            case SQUARE_SIZE_PUZZLE_INPUT  -> createMapForPuzzleInput(map, strategy);
+            default -> throw new IllegalArgumentException("Unexpected puzzle input.");
         };
     }
 
