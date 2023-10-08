@@ -38,7 +38,6 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
         return new TerrainMap(map, squares, edges);
     }
     
-    
     /**
      * Parses the terrain map.
      * 
@@ -72,5 +71,29 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
                 .orElseThrow();
         // Initially, you are facing to the right (from the perspective of how the map is drawn).
         return new Position(startingLocation, Direction.RIGHT);
+    }
+    
+    /**
+     * Wraps around the map.
+     * 
+     * @param startingPosition starting position, at the edge of the map
+     * @return the next position when moving 1 position in the given direction
+     */
+    Position wrapAround(Position startingPosition) {
+        var startingLocation = startingPosition.location();
+        var startingFacing = startingPosition.facing();
+        var startingSquare = squares.stream()
+                .filter(square -> square.contains(startingLocation))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Position not found in any square: " + startingPosition));
+        
+        var newSquareAndDirection = edges.get(new SquareAndDirection(startingSquare, startingFacing));
+        
+        var newSquare = newSquareAndDirection.square();
+        var newFacing = newSquareAndDirection.direction();
+        
+        var newRelativeLocation = startingSquare.wrapAround(startingPosition, newFacing);
+        var newLocation = newSquare.toAbsolute(newRelativeLocation);
+        return new Position(newLocation, newFacing);
     }
 }
