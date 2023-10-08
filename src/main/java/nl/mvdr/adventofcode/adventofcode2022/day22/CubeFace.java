@@ -59,21 +59,13 @@ record CubeFace(Point topLeft, int size) {
      */
     Point wrapAround(Position startingPosition, Direction newFacing) {
         Point startingPointRelative = toRelative(startingPosition.location());
-        Direction facing = startingPosition.facing();
-        
-        Point result;
-        if (facing == Direction.LEFT) {
-            result = wrapAroundLeft(startingPointRelative, newFacing);
-        } else if (facing == Direction.RIGHT) {
-            result = wrapAroundRight(startingPointRelative, newFacing);
-        } else if (facing == Direction.UP) {
-            result = wrapAroundUp(startingPointRelative, newFacing);
-        } else if (facing == Direction.DOWN) {
-            result = wrapAroundDown(startingPointRelative, newFacing);
-        } else {
-            throw new IllegalArgumentException("Unexpected facing: " + facing);
-        }
-        return result;
+        return switch(startingPosition.facing()) {
+            case LEFT -> wrapAroundLeft(startingPointRelative, newFacing);
+            case RIGHT -> wrapAroundRight(startingPointRelative, newFacing);
+            case UP -> wrapAroundUp(startingPointRelative, newFacing);
+            case DOWN -> wrapAroundDown(startingPointRelative, newFacing);
+            default -> throw new IllegalArgumentException("Unexpected facing: " + startingPosition.facing());
+        };
     }
 
     /**
