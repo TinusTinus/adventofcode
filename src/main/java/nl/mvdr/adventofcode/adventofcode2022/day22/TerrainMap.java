@@ -31,7 +31,50 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
      */
     static TerrainMap parse(List<String> lines) {
         var map = parseTerrain(lines);
+        return switch(map.size()) {
+            case 96     -> createMapForExampleInput(map);
+            case 15_000 -> createMapForPuzzleInput(map);
+            default     -> throw new IllegalArgumentException("Unexpected puzzle input.");
+        };
+    }
+
+    /**
+     * Creates the terrain map.
+     * 
+     * This method returns the map for the example input as provided in the puzzle description.
+     * 
+     * @param map map
+     * @return terrain map
+     */
+    private static TerrainMap createMapForExampleInput(Map<Point, Terrain> map) {
+        var size = 4;
+        var square1 = new Square(new Point(9, 1), size);
+        var square2 = new Square(new Point(1, 5), size);
+        var square3 = new Square(new Point(5, 5), size);
+        var square4 = new Square(new Point(9, 5), size);
+        var square5 = new Square(new Point(9, 9), size);
+        var square6 = new Square(new Point(13, 9), size);
+        var squares = Set.of(square1, square2, square3, square4, square5, square6);
         
+        Map<SquareAndDirection, SquareAndDirection> edges = new HashMap<>();
+        // TODO fill the map
+        
+        return new TerrainMap(map, squares, edges);
+    }
+    
+
+    /**
+     * Creates the terrain map.
+     * 
+     * This method returns the map for the actual puzzle input.
+     * 
+     * Note that this is specific for particular puzzle input.
+     * This solution is not applicable for the general case!
+     * 
+     * @param map map
+     * @return terrain map
+     */
+    private static TerrainMap createMapForPuzzleInput(Map<Point, Terrain> map) {
         Set<Square> squares = Set.of(); // TODO
         Map<SquareAndDirection, SquareAndDirection> edges = Map.of(); // TODO
         
