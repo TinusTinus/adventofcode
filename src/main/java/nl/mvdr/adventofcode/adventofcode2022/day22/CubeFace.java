@@ -65,25 +65,14 @@ record CubeFace(Point topLeft, int size) {
         if (facing == Direction.LEFT) {
             result = wrapAroundLeft(startingPointRelative, newFacing);
         } else if (facing == Direction.RIGHT) {
-            if (startingPointRelative.x() != size - 1) {
-                throw new IllegalArgumentException("Starting position is not at the right edge: " + startingPointRelative);
-            }
-            result = Point.ORIGIN; // TODO
+            result = wrapAroundRight(startingPointRelative, newFacing);
         } else if (facing == Direction.UP) {
-            if (startingPointRelative.y() != 0) {
-                throw new IllegalArgumentException("Starting position is not at the top edge: " + startingPointRelative);
-            }
-            result = Point.ORIGIN; // TODO
+            result = wrapAroundUp(startingPointRelative, newFacing);
         } else if (facing == Direction.DOWN) {
-            if (startingPointRelative.y() != size - 1) {
-                throw new IllegalArgumentException("Starting position is not at the bottom edge: " + startingPointRelative);
-            }
-            result = Point.ORIGIN; // TODO
+            result = wrapAroundDown(startingPointRelative, newFacing);
         } else {
             throw new IllegalArgumentException("Unexpected facing: " + facing);
         }
-        
-        
         return result;
     }
 
@@ -94,7 +83,7 @@ record CubeFace(Point topLeft, int size) {
      * @param newFacing the new facing on the next face
      * @return relative coordinates on the other face
      */
-    private Point wrapAroundLeft(Point startingPointRelative, Direction newFacing, Point result) {
+    private Point wrapAroundLeft(Point startingPointRelative, Direction newFacing) {
         if (startingPointRelative.x() != 0) {
             throw new IllegalArgumentException("Starting position is not at the left edge: " + startingPointRelative);
         }
@@ -111,5 +100,47 @@ record CubeFace(Point topLeft, int size) {
             throw new IllegalArgumentException("Unexpected facing: " + newFacing);
         }
         return result;
+    }
+    
+    /**
+     * Moves a single step off this face over the right edge, onto another face of the cube.
+     * 
+     * @param startingPointRelative starting point, where the point coordinates are relative coordinates
+     * @param newFacing the new facing on the next face
+     * @return relative coordinates on the other face
+     */
+    private Point wrapAroundRight(Point startingPointRelative, Direction newFacing) {
+        if (startingPointRelative.x() != size - 1) {
+            throw new IllegalArgumentException("Starting position is not at the right edge: " + startingPointRelative);
+        }
+        return Point.ORIGIN; // TODO
+    }
+    
+    /**
+     * Moves a single step off this face over the bottom edge, onto another face of the cube.
+     * 
+     * @param startingPointRelative starting point, where the point coordinates are relative coordinates
+     * @param newFacing the new facing on the next face
+     * @return relative coordinates on the other face
+     */
+    private Point wrapAroundDown(Point startingPointRelative, Direction newFacing) {
+        if (startingPointRelative.y() != size - 1) {
+            throw new IllegalArgumentException("Starting position is not at the bottom edge: " + startingPointRelative);
+        }
+        return Point.ORIGIN; // TODO
+    }
+    
+    /**
+     * Moves a single step off this face over the top edge, onto another face of the cube.
+     * 
+     * @param startingPointRelative starting point, where the point coordinates are relative coordinates
+     * @param newFacing the new facing on the next face
+     * @return relative coordinates on the other face
+     */
+    private Point wrapAroundUp(Point startingPointRelative, Direction newFacing) {
+        if (startingPointRelative.y() != size - 1) {
+            throw new IllegalArgumentException("Starting position is not at the bottom edge: " + startingPointRelative);
+        }
+        return Point.ORIGIN; // TODO
     }
 }
