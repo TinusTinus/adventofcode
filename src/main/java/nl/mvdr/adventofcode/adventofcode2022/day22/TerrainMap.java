@@ -83,7 +83,6 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
         return new TerrainMap(map, squares, edges);
     }
     
-
     /**
      * Creates the terrain map.
      * 
@@ -105,7 +104,28 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
         var square6 = new Square(new Point(1, 151), size);
         var squares = Set.of(square1, square2, square3, square4, square5, square6);
         
-        Map<SquareAndDirection, SquareAndDirection> edges = Map.of(); // TODO
+        Map<SquareAndDirection, SquareAndDirection> edges = new HashMap<>();
+        // A
+        edges.put(new SquareAndDirection(square1, Direction.UP),    new SquareAndDirection(square6, Direction.RIGHT));
+        edges.put(new SquareAndDirection(square6, Direction.LEFT),  new SquareAndDirection(square1, Direction.DOWN));
+        // B
+        edges.put(new SquareAndDirection(square2, Direction.UP),    new SquareAndDirection(square6, Direction.UP));
+        edges.put(new SquareAndDirection(square6, Direction.DOWN),  new SquareAndDirection(square2, Direction.DOWN));
+        // C
+        edges.put(new SquareAndDirection(square2, Direction.RIGHT), new SquareAndDirection(square5, Direction.LEFT));
+        edges.put(new SquareAndDirection(square5, Direction.RIGHT), new SquareAndDirection(square2, Direction.LEFT));
+        // D
+        edges.put(new SquareAndDirection(square2, Direction.DOWN),  new SquareAndDirection(square3, Direction.LEFT));
+        edges.put(new SquareAndDirection(square3, Direction.RIGHT), new SquareAndDirection(square2, Direction.UP));
+        // E
+        edges.put(new SquareAndDirection(square5, Direction.DOWN),  new SquareAndDirection(square6, Direction.LEFT));
+        edges.put(new SquareAndDirection(square6, Direction.RIGHT), new SquareAndDirection(square5, Direction.UP));
+        // F
+        edges.put(new SquareAndDirection(square3, Direction.LEFT),  new SquareAndDirection(square4, Direction.DOWN));
+        edges.put(new SquareAndDirection(square4, Direction.UP),    new SquareAndDirection(square3, Direction.RIGHT));
+        // G
+        edges.put(new SquareAndDirection(square1, Direction.LEFT),  new SquareAndDirection(square4, Direction.RIGHT));
+        edges.put(new SquareAndDirection(square4, Direction.LEFT),  new SquareAndDirection(square1, Direction.RIGHT));
         
         return new TerrainMap(map, squares, edges);
     }
