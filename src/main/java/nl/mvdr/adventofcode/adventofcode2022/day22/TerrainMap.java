@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import nl.mvdr.adventofcode.point.Direction;
@@ -57,7 +58,8 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
         var squares = Set.of(square1, square2, square3, square4, square5, square6);
         
         Map<SquareAndDirection, SquareAndDirection> edges = new HashMap<>();
-        // TODO fill the map
+        // A
+        
         
         return new TerrainMap(map, squares, edges);
     }
@@ -131,6 +133,7 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
                 .orElseThrow(() -> new IllegalArgumentException("Position not found in any square: " + startingPosition));
         
         var newSquareAndDirection = edges.get(new SquareAndDirection(startingSquare, startingFacing));
+        Objects.requireNonNull(newSquareAndDirection, "Edge not found for wrapping around from position " + startingPosition);
         
         var newSquare = newSquareAndDirection.square();
         var newFacing = newSquareAndDirection.direction();
