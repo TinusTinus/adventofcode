@@ -24,6 +24,9 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDirection, SquareAndDirection> edges) {
+    private static final int SQUARE_SIZE_EXAMPLE_INPUT = 4;
+    private static final int SQUARE_SIZE_PUZZLE_INPUT = 50;
+
     /**
      * Parses the terrain map.
      * 
@@ -50,13 +53,12 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
      * @return terrain map
      */
     private static TerrainMap createMapForExampleInput(Map<Point, Terrain> map, WrapAroundStrategy strategy) {
-        var size = 4;
-        var square1 = new Square(new Point(9, 1), size);
-        var square2 = new Square(new Point(1, 5), size);
-        var square3 = new Square(new Point(5, 5), size);
-        var square4 = new Square(new Point(9, 5), size);
-        var square5 = new Square(new Point(9, 9), size);
-        var square6 = new Square(new Point(13, 9), size);
+        var square1 = new Square(new Point(9, 1), SQUARE_SIZE_EXAMPLE_INPUT);
+        var square2 = new Square(new Point(1, 5), SQUARE_SIZE_EXAMPLE_INPUT);
+        var square3 = new Square(new Point(5, 5), SQUARE_SIZE_EXAMPLE_INPUT);
+        var square4 = new Square(new Point(9, 5), SQUARE_SIZE_EXAMPLE_INPUT);
+        var square5 = new Square(new Point(9, 9), SQUARE_SIZE_EXAMPLE_INPUT);
+        var square6 = new Square(new Point(13, 9), SQUARE_SIZE_EXAMPLE_INPUT);
         var squares = Set.of(square1, square2, square3, square4, square5, square6);
         
         Map<SquareAndDirection, SquareAndDirection> edges;
@@ -105,13 +107,12 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
      * @return terrain map
      */
     private static TerrainMap createMapForPuzzleInput(Map<Point, Terrain> map, WrapAroundStrategy strategy) {
-        var size = 50;
-        var square1 = new Square(new Point(51, 1), size);
-        var square2 = new Square(new Point(101, 1), size);
-        var square3 = new Square(new Point(51, 51), size);
-        var square4 = new Square(new Point(1, 101), size);
-        var square5 = new Square(new Point(51, 101), size);
-        var square6 = new Square(new Point(1, 151), size);
+        var square1 = new Square(new Point(51, 1), SQUARE_SIZE_PUZZLE_INPUT);
+        var square2 = new Square(new Point(101, 1), SQUARE_SIZE_PUZZLE_INPUT);
+        var square3 = new Square(new Point(51, 51), SQUARE_SIZE_PUZZLE_INPUT);
+        var square4 = new Square(new Point(1, 101), SQUARE_SIZE_PUZZLE_INPUT);
+        var square5 = new Square(new Point(51, 101), SQUARE_SIZE_PUZZLE_INPUT);
+        var square6 = new Square(new Point(1, 151), SQUARE_SIZE_PUZZLE_INPUT);
         var squares = Set.of(square1, square2, square3, square4, square5, square6);
         
         Map<SquareAndDirection, SquareAndDirection> edges;
