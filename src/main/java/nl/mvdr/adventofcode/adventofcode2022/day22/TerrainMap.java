@@ -59,7 +59,26 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
         
         Map<SquareAndDirection, SquareAndDirection> edges = new HashMap<>();
         // A
-        
+        edges.put(new SquareAndDirection(square1, Direction.LEFT),  new SquareAndDirection(square3, Direction.DOWN));
+        edges.put(new SquareAndDirection(square3, Direction.UP),    new SquareAndDirection(square1, Direction.RIGHT));
+        // B
+        edges.put(new SquareAndDirection(square1, Direction.UP),    new SquareAndDirection(square2, Direction.DOWN));
+        edges.put(new SquareAndDirection(square2, Direction.UP),    new SquareAndDirection(square1, Direction.DOWN));
+        // C
+        edges.put(new SquareAndDirection(square1, Direction.RIGHT), new SquareAndDirection(square6, Direction.LEFT));
+        edges.put(new SquareAndDirection(square6, Direction.RIGHT), new SquareAndDirection(square1, Direction.LEFT));
+        // D
+        edges.put(new SquareAndDirection(square4, Direction.RIGHT), new SquareAndDirection(square6, Direction.DOWN));
+        edges.put(new SquareAndDirection(square6, Direction.UP),    new SquareAndDirection(square4, Direction.LEFT));
+        // E
+        edges.put(new SquareAndDirection(square6, Direction.DOWN),  new SquareAndDirection(square2, Direction.RIGHT));
+        edges.put(new SquareAndDirection(square2, Direction.LEFT),  new SquareAndDirection(square6, Direction.UP));
+        // F
+        edges.put(new SquareAndDirection(square5, Direction.DOWN),  new SquareAndDirection(square2, Direction.UP));
+        edges.put(new SquareAndDirection(square2, Direction.DOWN),  new SquareAndDirection(square5, Direction.UP));
+        // G
+        edges.put(new SquareAndDirection(square5, Direction.LEFT),  new SquareAndDirection(square3, Direction.UP));
+        edges.put(new SquareAndDirection(square3, Direction.DOWN),  new SquareAndDirection(square5, Direction.RIGHT));
         
         return new TerrainMap(map, squares, edges);
     }
