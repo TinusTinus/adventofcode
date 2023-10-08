@@ -14,10 +14,9 @@ record Path(List<Instruction> instructions) implements Instruction {
      * Parses the string representation of a path.
      * 
      * @param stringRepresentation string representation of a path, for example: "10R5L5R10L4R5L5"
-     * @param strategy rules for wrapping around the edges of the map
      * @return path
      */
-    static Path parse(String stringRepresentation, WrapAroundStrategy strategy) {
+    static Path parse(String stringRepresentation) {
         var remainingString = stringRepresentation;
         List<Instruction> instructions = new ArrayList<>();
         while (!remainingString.isEmpty()) {
@@ -29,7 +28,7 @@ record Path(List<Instruction> instructions) implements Instruction {
                 while (digits < remainingString.length() && Character.isDigit(remainingString.charAt(digits))) {
                     digits++;
                 }
-                instructions.add(MovementInstruction.parse(remainingString.substring(0, digits), strategy));
+                instructions.add(MovementInstruction.parse(remainingString.substring(0, digits)));
                 remainingString = remainingString.substring(digits);
             }
         }

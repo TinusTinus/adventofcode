@@ -32,8 +32,8 @@ class MonkeyMap implements IntSolver {
     public int solve(Stream<String> linesStream) {
         // Parse the puzzle input
         List<String> lines = linesStream.toList();
-        var map = TerrainMap.parse(lines.subList(0, lines.size() - 1)); // Skip the last line, which contains the path
-        var path = Path.parse(lines.get(lines.size() - 1), strategy);
+        var map = TerrainMap.parse(lines.subList(0, lines.size() - 1), strategy); // Skip the last line, which contains the path
+        var path = Path.parse(lines.get(lines.size() - 1));
         
         var startingPosition = map.startingPosition();
         LOGGER.debug("Starting position: {}", startingPosition);

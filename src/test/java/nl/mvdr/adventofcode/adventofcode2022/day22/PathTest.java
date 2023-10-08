@@ -18,28 +18,26 @@ public class PathTest {
     @Test
     public void testParse() {
         var pathString = "10R5L5R10L4R5L5";
-        var strategy = WrapAroundStrategy.MODULO;
         
-        var path = Path.parse(pathString, strategy);
+        var path = Path.parse(pathString);
         
         var expectedPath = new Path(
                 List.of(
-                        new MovementInstruction(10, strategy),
+                        new MovementInstruction(10),
                         TurnInstruction.RIGHT,
-                        new MovementInstruction(5, strategy),
+                        new MovementInstruction(5),
                         TurnInstruction.LEFT,
-                        new MovementInstruction(5, strategy),
+                        new MovementInstruction(5),
                         TurnInstruction.RIGHT,
-                        new MovementInstruction(10, strategy),
+                        new MovementInstruction(10),
                         TurnInstruction.LEFT,
-                        new MovementInstruction(4, strategy),
+                        new MovementInstruction(4),
                         TurnInstruction.RIGHT,
-                        new MovementInstruction(5, strategy),
+                        new MovementInstruction(5),
                         TurnInstruction.LEFT,
-                        new MovementInstruction(5, strategy)
+                        new MovementInstruction(5)
                         )
                 );
         Assertions.assertEquals(expectedPath, path);
-                
     }
 }

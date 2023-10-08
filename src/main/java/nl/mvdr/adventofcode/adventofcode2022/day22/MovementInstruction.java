@@ -10,10 +10,9 @@ import org.slf4j.LoggerFactory;
  * instruction.
  *
  * @param tiles the number of tiles to move
- * @param strategy rules for wrapping around the edges of the map
  * @author Martijn van de Rijdt
  */
-record MovementInstruction(int tiles, WrapAroundStrategy strategy) implements Instruction {
+record MovementInstruction(int tiles) implements Instruction {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MovementInstruction.class);
     
@@ -21,12 +20,11 @@ record MovementInstruction(int tiles, WrapAroundStrategy strategy) implements In
      * Parses a string representation of a movement instruction.
      * 
      * @param stringRepresentation string representation of the number of tiles to move, for example: "10"
-     * @param strategy rules for wrapping around the edges of the map
      * @return movement instruction
      */
-    static MovementInstruction parse(String stringRepresentation, WrapAroundStrategy strategy) {
+    static MovementInstruction parse(String stringRepresentation) {
         var tiles = Integer.parseInt(stringRepresentation);
-        return new MovementInstruction(tiles, strategy);
+        return new MovementInstruction(tiles);
     }
 
     @Override
@@ -36,7 +34,7 @@ record MovementInstruction(int tiles, WrapAroundStrategy strategy) implements In
         var newPosition = startingPosition;
         var remainingTiles = tiles;
         while (0 < remainingTiles) {
-            var nextPosition = strategy.findNextLocation(newPosition, map);
+            var nextPosition = map.findNextLocation(newPosition);
             var terrain = map.map().get(nextPosition.location());
             if (terrain == Terrain.OPEN_TILE) {
                 newPosition = nextPosition;
