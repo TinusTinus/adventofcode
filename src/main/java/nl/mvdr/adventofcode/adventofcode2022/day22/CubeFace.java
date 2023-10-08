@@ -120,10 +120,10 @@ record CubeFace(Point topLeft, int size) {
             throw new IllegalArgumentException("Starting position is not at the bottom edge: " + startingPointRelative);
         }
         return switch(newFacing) {
-            case LEFT  -> new Point(0, 0); // TODO
-            case DOWN  -> new Point(0, 0); // TODO
-            case UP    -> new Point(0, 0); // TODO 
-            case RIGHT -> new Point(0, 0); // TODO
+            case LEFT  -> new Point(size - 1, startingPointRelative.x());
+            case DOWN  -> new Point(startingPointRelative.x(), 0);
+            case UP    -> new Point(size - 1 - startingPointRelative.x(), size - 1);
+            case RIGHT -> new Point(0, size - 1 - startingPointRelative.x());
             default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
         };
     }
@@ -140,10 +140,10 @@ record CubeFace(Point topLeft, int size) {
             throw new IllegalArgumentException("Starting position is not at the top edge: " + startingPointRelative);
         }
         return switch(newFacing) {
-            case LEFT  -> new Point(0, 0); // TODO
-            case DOWN  -> new Point(0, 0); // TODO
-            case UP    -> new Point(0, 0); // TODO 
-            case RIGHT -> new Point(0, 0); // TODO
+            case LEFT  -> new Point(size - 1, size - 1 - startingPointRelative.x());
+            case DOWN  -> new Point(size - 1 - startingPointRelative.x(), 0);
+            case UP    -> new Point(startingPointRelative.x(), size - 1); 
+            case RIGHT -> new Point(0, startingPointRelative.x());
             default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
         };
     }
