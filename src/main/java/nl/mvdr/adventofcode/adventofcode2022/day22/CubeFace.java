@@ -124,8 +124,8 @@ record CubeFace(Point topLeft, int size) {
      * @return relative coordinates on the other face
      */
     private Point wrapAroundUp(Point startingPointRelative, Direction newFacing) {
-        if (startingPointRelative.y() != size - 1) {
-            throw new IllegalArgumentException("Starting position is not at the bottom edge: " + startingPointRelative);
+        if (startingPointRelative.y() != 0) {
+            throw new IllegalArgumentException("Starting position is not at the top edge: " + startingPointRelative);
         }
         return Point.ORIGIN; // TODO
     }
