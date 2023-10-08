@@ -35,7 +35,6 @@ class MonkeyMap implements IntSolver {
         var map = TerrainMap.parse(lines.subList(0, lines.size() - 1)); // Skip the last line, which contains the path
         var path = Path.parse(lines.get(lines.size() - 1), strategy);
         
-        // You begin the path in the leftmost open tile of the top row of tiles.
         var startingPosition = map.startingPosition();
         LOGGER.debug("Starting position: {}", startingPosition);
         
