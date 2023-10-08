@@ -36,6 +36,7 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
      */
     static TerrainMap parse(List<String> lines, WrapAroundStrategy strategy) {
         var map = parseTerrain(lines);
+        // The input should be divided into exactly six squares. Determine the size of each square.
         int squareSize = (int)Math.sqrt(map.size() / 6);
         return switch(squareSize) {
             case SQUARE_SIZE_EXAMPLE_INPUT -> createMapForExampleInput(map, strategy);
