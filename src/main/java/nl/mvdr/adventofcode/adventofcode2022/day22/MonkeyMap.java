@@ -38,7 +38,7 @@ class MonkeyMap implements IntSolver {
         var startingPosition = map.startingPosition();
         LOGGER.debug("Starting position: {}", startingPosition);
         
-        Position finalPosition = path.execute(startingPosition, map.map());
+        Position finalPosition = path.execute(startingPosition, map);
         
         return finalPosition.computePassword();
     }

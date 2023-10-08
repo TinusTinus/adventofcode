@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2022.day22;
 
-import java.util.Map;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ enum TurnInstruction implements Instruction {
     }
     
     @Override
-    public Position execute(Position startingPosition, Map<Point, Terrain> map) {
+    public Position execute(Position startingPosition, TerrainMap map) {
         Point newLocation = startingPosition.location();
         Direction newFacing = turnDirection.turn(startingPosition.facing());
         LOGGER.debug("Turned {}; new facing: {}", this, newFacing);

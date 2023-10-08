@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day22;
 
 import java.util.Comparator;
-import java.util.Map;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -21,30 +20,30 @@ enum WrapAroundStrategy {
      */
     MODULO {
         @Override
-        Position wrapAround(Position startingPosition, Map<Point, Terrain> map) {
+        Position wrapAround(Position startingPosition, TerrainMap map) {
             var startingLocation = startingPosition.location();
             var direction = startingPosition.facing();
             Point newLocation;
             if (direction == Direction.RIGHT) {
-                newLocation = map.keySet()
+                newLocation = map.map().keySet()
                         .stream()
                         .filter(point -> point.y() == startingLocation.y())
                         .min(Comparator.comparing(Point::x))
                         .orElseThrow();
             } else if (direction == Direction.LEFT) {
-                newLocation = map.keySet()
+                newLocation = map.map().keySet()
                         .stream()
                         .filter(point -> point.y() == startingLocation.y())
                         .max(Comparator.comparing(Point::x))
                         .orElseThrow();
             } else if (direction == Direction.DOWN) {
-                newLocation = map.keySet()
+                newLocation = map.map().keySet()
                         .stream()
                         .filter(point -> point.x() == startingLocation.x())
                         .min(Comparator.comparing(Point::y))
                         .orElseThrow();
             } else if (direction == Direction.UP) {
-                newLocation = map.keySet()
+                newLocation = map.map().keySet()
                         .stream()
                         .filter(point -> point.x() == startingLocation.x())
                         .max(Comparator.comparing(Point::y))
@@ -63,7 +62,7 @@ enum WrapAroundStrategy {
      */
     CUBE {
         @Override
-        Position wrapAround(Position startingPosition, Map<Point, Terrain> map) {
+        Position wrapAround(Position startingPosition, TerrainMap map) {
             // Note that this solution relies on specific puzzle input.
             // It is not applicable for the general case.
             
@@ -73,7 +72,7 @@ enum WrapAroundStrategy {
             var y = startingPosition.location().y();
             var facing = startingPosition.facing();
             
-            if (map.size() == 96) {
+            if (map.map().size() == 96) {
                 // Example input
                 if (y == 1 && facing == Direction.UP) {
                     // B
@@ -90,7 +89,7 @@ enum WrapAroundStrategy {
                 } else {
                     throw new IllegalArgumentException("Position is not at an edge: " + startingPosition);
                 }
-            } else if (map.size() == 15_000) {
+            } else if (map.map().size() == 15_000) {
                 // Puzzle input
                 result = startingPosition; // TODO implement
             } else {
@@ -108,10 +107,10 @@ enum WrapAroundStrategy {
      * @param map the map
      * @return the next location when moving 1 position in the given direction
      */
-    Position findNextLocation(Position startingPosition, Map<Point, Terrain> map) {
+    Position findNextLocation(Position startingPosition, TerrainMap map) {
         Position result;
         var newLocation = startingPosition.facing().move(startingPosition.location());
-        if (map.containsKey(newLocation)) {
+        if (map.map().containsKey(newLocation)) {
             result = new Position(newLocation, startingPosition.facing());
         } else {
             result = wrapAround(startingPosition, map);
@@ -126,5 +125,5 @@ enum WrapAroundStrategy {
      * @param map map
      * @return the next position when moving 1 position in the given direction
      */
-    abstract Position wrapAround(Position startingPosition, Map<Point, Terrain> map);
+    abstract Position wrapAround(Position startingPosition, TerrainMap map);
 }

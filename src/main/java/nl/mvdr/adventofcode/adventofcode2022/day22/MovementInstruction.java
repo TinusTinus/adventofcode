@@ -1,11 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day22;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Indicates the number of tiles to move in the direction you are facing.
@@ -34,14 +30,14 @@ record MovementInstruction(int tiles, WrapAroundStrategy strategy) implements In
     }
 
     @Override
-    public Position execute(Position startingPosition, Map<Point, Terrain> map) {
+    public Position execute(Position startingPosition, TerrainMap map) {
         LOGGER.debug("Attempting to move {} tiles, starting position: {}.", Integer.valueOf(tiles), startingPosition);
         
         var newPosition = startingPosition;
         var remainingTiles = tiles;
         while (0 < remainingTiles) {
             var nextPosition = strategy.findNextLocation(newPosition, map);
-            var terrain = map.get(nextPosition.location());
+            var terrain = map.map().get(nextPosition.location());
             if (terrain == Terrain.OPEN_TILE) {
                 newPosition = nextPosition;
                 remainingTiles--;

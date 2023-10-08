@@ -2,9 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2022.day22;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Representation of a path.
@@ -40,7 +37,7 @@ record Path(List<Instruction> instructions) implements Instruction {
     }
     
     @Override
-    public Position execute(Position startingPosition, Map<Point, Terrain> map) {
+    public Position execute(Position startingPosition, TerrainMap map) {
         var result = startingPosition;
         for (Instruction instruction : instructions) {
             result = instruction.execute(result, map);
