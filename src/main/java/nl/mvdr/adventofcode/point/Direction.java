@@ -29,11 +29,7 @@ public enum Direction {
     /** Intcode representation of this direction. */
     private final long code;
     
-    /**
-     * Value of this direction when representing a facing in a password.
-     * 
-     * 0 for right (>), 1 for down (v), 2 for left (<), and 3 for up (^)
-     */
+    /** Value of this direction when representing a facing in a password. */
     private final int passwordValue;
     
     /** Character representations of this direction. */
@@ -68,6 +64,12 @@ public enum Direction {
                 .findFirst();
     }
     
+    /**
+     * Gives the direction represented by the given string.
+     * 
+     * @param representation string representation
+     * @return direction
+     */
     public static Direction parse(String representation) {
         if (representation.length() != 1) {
             throw new IllegalArgumentException("Direction representation must be a single character but was: " + representation);
