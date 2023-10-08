@@ -58,27 +58,27 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
         var squares = Set.of(square1, square2, square3, square4, square5, square6);
         
         Map<SquareAndDirection, SquareAndDirection> edges = new HashMap<>();
-        // A
-        edges.put(new SquareAndDirection(square1, Direction.LEFT),  new SquareAndDirection(square3, Direction.DOWN));
-        edges.put(new SquareAndDirection(square3, Direction.UP),    new SquareAndDirection(square1, Direction.RIGHT));
-        // B
+        // 1-2
         edges.put(new SquareAndDirection(square1, Direction.UP),    new SquareAndDirection(square2, Direction.DOWN));
         edges.put(new SquareAndDirection(square2, Direction.UP),    new SquareAndDirection(square1, Direction.DOWN));
-        // C
+        // 1-3
+        edges.put(new SquareAndDirection(square1, Direction.LEFT),  new SquareAndDirection(square3, Direction.DOWN));
+        edges.put(new SquareAndDirection(square3, Direction.UP),    new SquareAndDirection(square1, Direction.RIGHT));
+        // 1-6
         edges.put(new SquareAndDirection(square1, Direction.RIGHT), new SquareAndDirection(square6, Direction.LEFT));
         edges.put(new SquareAndDirection(square6, Direction.RIGHT), new SquareAndDirection(square1, Direction.LEFT));
-        // D
+        // 2-5
+        edges.put(new SquareAndDirection(square2, Direction.DOWN),  new SquareAndDirection(square5, Direction.UP));
+        edges.put(new SquareAndDirection(square5, Direction.DOWN),  new SquareAndDirection(square2, Direction.UP));
+        // 2-6
+        edges.put(new SquareAndDirection(square2, Direction.LEFT),  new SquareAndDirection(square6, Direction.UP));
+        edges.put(new SquareAndDirection(square6, Direction.DOWN),  new SquareAndDirection(square2, Direction.RIGHT));
+        // 3-5
+        edges.put(new SquareAndDirection(square3, Direction.DOWN),  new SquareAndDirection(square5, Direction.RIGHT));
+        edges.put(new SquareAndDirection(square5, Direction.LEFT),  new SquareAndDirection(square3, Direction.UP));
+        // 4-6
         edges.put(new SquareAndDirection(square4, Direction.RIGHT), new SquareAndDirection(square6, Direction.DOWN));
         edges.put(new SquareAndDirection(square6, Direction.UP),    new SquareAndDirection(square4, Direction.LEFT));
-        // E
-        edges.put(new SquareAndDirection(square6, Direction.DOWN),  new SquareAndDirection(square2, Direction.RIGHT));
-        edges.put(new SquareAndDirection(square2, Direction.LEFT),  new SquareAndDirection(square6, Direction.UP));
-        // F
-        edges.put(new SquareAndDirection(square5, Direction.DOWN),  new SquareAndDirection(square2, Direction.UP));
-        edges.put(new SquareAndDirection(square2, Direction.DOWN),  new SquareAndDirection(square5, Direction.UP));
-        // G
-        edges.put(new SquareAndDirection(square5, Direction.LEFT),  new SquareAndDirection(square3, Direction.UP));
-        edges.put(new SquareAndDirection(square3, Direction.DOWN),  new SquareAndDirection(square5, Direction.RIGHT));
         
         return new TerrainMap(map, squares, edges);
     }
@@ -96,7 +96,15 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
      * @return terrain map
      */
     private static TerrainMap createMapForPuzzleInput(Map<Point, Terrain> map) {
-        Set<Square> squares = Set.of(); // TODO
+        var size = 50;
+        var square1 = new Square(new Point(51, 1), size);
+        var square2 = new Square(new Point(101, 1), size);
+        var square3 = new Square(new Point(51, 51), size);
+        var square4 = new Square(new Point(1, 101), size);
+        var square5 = new Square(new Point(51, 101), size);
+        var square6 = new Square(new Point(1, 151), size);
+        var squares = Set.of(square1, square2, square3, square4, square5, square6);
+        
         Map<SquareAndDirection, SquareAndDirection> edges = Map.of(); // TODO
         
         return new TerrainMap(map, squares, edges);
