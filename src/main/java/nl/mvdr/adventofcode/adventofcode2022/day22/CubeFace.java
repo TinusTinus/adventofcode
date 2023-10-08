@@ -99,7 +99,13 @@ record CubeFace(Point topLeft, int size) {
         if (startingPointRelative.x() != size - 1) {
             throw new IllegalArgumentException("Starting position is not at the right edge: " + startingPointRelative);
         }
-        return Point.ORIGIN; // TODO
+        return switch(newFacing) {
+            case LEFT  -> new Point(size - 1, size - 1 - startingPointRelative.y());
+            case DOWN  -> new Point(size - 1 - startingPointRelative.y(), 0);
+            case UP    -> new Point(startingPointRelative.y(), size - 1);
+            case RIGHT -> new Point(0, startingPointRelative.y());
+            default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
+        };
     }
     
     /**
@@ -113,7 +119,13 @@ record CubeFace(Point topLeft, int size) {
         if (startingPointRelative.y() != size - 1) {
             throw new IllegalArgumentException("Starting position is not at the bottom edge: " + startingPointRelative);
         }
-        return Point.ORIGIN; // TODO
+        return switch(newFacing) {
+            case LEFT  -> new Point(0, 0); // TODO
+            case DOWN  -> new Point(0, 0); // TODO
+            case UP    -> new Point(0, 0); // TODO 
+            case RIGHT -> new Point(0, 0); // TODO
+            default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
+        };
     }
     
     /**
@@ -127,6 +139,12 @@ record CubeFace(Point topLeft, int size) {
         if (startingPointRelative.y() != 0) {
             throw new IllegalArgumentException("Starting position is not at the top edge: " + startingPointRelative);
         }
-        return Point.ORIGIN; // TODO
+        return switch(newFacing) {
+            case LEFT  -> new Point(0, 0); // TODO
+            case DOWN  -> new Point(0, 0); // TODO
+            case UP    -> new Point(0, 0); // TODO 
+            case RIGHT -> new Point(0, 0); // TODO
+            default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
+        };
     }
 }
