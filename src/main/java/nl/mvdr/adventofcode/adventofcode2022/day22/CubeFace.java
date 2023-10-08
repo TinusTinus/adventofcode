@@ -63,20 +63,7 @@ record CubeFace(Point topLeft, int size) {
         
         Point result;
         if (facing == Direction.LEFT) {
-            if (startingPointRelative.x() != 0) {
-                throw new IllegalArgumentException("Starting position is not at the left edge: " + startingPointRelative);
-            }
-            if (newFacing == Direction.LEFT) {
-                result = new Point(size - 1, startingPointRelative.y());
-            } else if (newFacing == Direction.DOWN) {
-                result = new Point(startingPointRelative.y(), 0);
-            } else if (newFacing == Direction.UP) {
-                result = new Point(size - 1 - startingPointRelative.y(), size - 1);
-            } else if (newFacing == Direction.RIGHT) {
-                result = new Point(0, size - 1 - startingPointRelative.y());
-            } else {
-                throw new IllegalArgumentException("Unexpected facing: " + newFacing);
-            }
+            result = wrapAroundLeft(startingPointRelative, newFacing);
         } else if (facing == Direction.RIGHT) {
             if (startingPointRelative.x() != size - 1) {
                 throw new IllegalArgumentException("Starting position is not at the right edge: " + startingPointRelative);
@@ -97,6 +84,32 @@ record CubeFace(Point topLeft, int size) {
         }
         
         
+        return result;
+    }
+
+    /**
+     * Moves a single step off this face over the left edge, onto another face of the cube.
+     * 
+     * @param startingPointRelative starting point, where the point coordinates are relative coordinates
+     * @param newFacing the new facing on the next face
+     * @return relative coordinates on the other face
+     */
+    private Point wrapAroundLeft(Point startingPointRelative, Direction newFacing, Point result) {
+        if (startingPointRelative.x() != 0) {
+            throw new IllegalArgumentException("Starting position is not at the left edge: " + startingPointRelative);
+        }
+        Point result;
+        if (newFacing == Direction.LEFT) {
+            result = new Point(size - 1, startingPointRelative.y());
+        } else if (newFacing == Direction.DOWN) {
+            result = new Point(startingPointRelative.y(), 0);
+        } else if (newFacing == Direction.UP) {
+            result = new Point(size - 1 - startingPointRelative.y(), size - 1);
+        } else if (newFacing == Direction.RIGHT) {
+            result = new Point(0, size - 1 - startingPointRelative.y());
+        } else {
+            throw new IllegalArgumentException("Unexpected facing: " + newFacing);
+        }
         return result;
     }
 }
