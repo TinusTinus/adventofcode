@@ -1,10 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2022.day22;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -55,5 +57,20 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
             }
         }
         return map;
+    }
+    
+    /**
+     * @return starting position on this map
+     */
+    Position startingPosition() {
+        // You begin the path in the leftmost open tile of the top row of tiles.
+        var startingLocation = map.keySet()
+                .stream()
+                .filter(point -> point.y() == 1) // top row
+                .filter(point -> map.get(point) == Terrain.OPEN_TILE) // open tile
+                .min(Comparator.comparing(Point::x)) // leftmost
+                .orElseThrow();
+        // Initially, you are facing to the right (from the perspective of how the map is drawn).
+        return new Position(startingLocation, Direction.RIGHT);
     }
 }
