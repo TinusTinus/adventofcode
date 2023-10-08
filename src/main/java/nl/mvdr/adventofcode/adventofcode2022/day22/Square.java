@@ -4,7 +4,9 @@ import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
- * Representation of a single two-dimensional square face of a three-dimensional cube.
+ * Representation of a single two-dimensional square, which makes up one sixth of the map in the puzzle input.
+ * 
+ * Can be interpreted as one side of a three-dimensional cube (in part two of the puzzle).
  * 
  * Note that, in the context of this class, there are two separate ways to reason about coordinates:
  * <li>absolute coordinates: coordinates with regard to the map from the puzzle input;</li>
@@ -15,10 +17,10 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-record CubeFace(Point topLeft, int size) {
+record Square(Point topLeft, int size) {
 
     /**
-     * Checks whether the given point lies within this face.
+     * Checks whether the given point lies within this square.
      * 
      * @param absolutePoint point in absolute coordinates
      * @return whether the given point lies within this square
@@ -28,7 +30,7 @@ record CubeFace(Point topLeft, int size) {
     }
     
     /**
-     * Checks whether the given point lies within this face.
+     * Checks whether the given point lies within this square.
      * 
      * @param relativePoint point in absolute coordinates
      * @return whether the given point lies within this square
@@ -59,13 +61,13 @@ record CubeFace(Point topLeft, int size) {
     }
     
     /**
-     * Moves a single step off this face, onto another face of the cube.
+     * Moves a single step off this square, onto another square.
      * 
      * Take care: this method returns a point in <em>relative</em> coordinates!
      * 
      * @param startingPosition starting point and facing, where the point coordinates are absolute coordinates
-     * @param newFacing the new facing on the next face
-     * @return relative coordinates on the other face
+     * @param newFacing the new facing on the next square
+     * @return relative coordinates on the other square
      */
     Point wrapAround(Position startingPosition, Direction newFacing) {
         Point startingPointRelative = toRelative(startingPosition.location());
@@ -79,11 +81,11 @@ record CubeFace(Point topLeft, int size) {
     }
 
     /**
-     * Moves a single step off this face over the left edge, onto another face of the cube.
+     * Moves a single step off this face over the left edge, onto another square.
      * 
      * @param startingPointRelative starting point, where the point coordinates are relative coordinates
-     * @param newFacing the new facing on the next face
-     * @return relative coordinates on the other face
+     * @param newFacing the new facing on the next square
+     * @return relative coordinates on the other square
      */
     private Point wrapAroundLeft(Point startingPointRelative, Direction newFacing) {
         if (startingPointRelative.x() != 0) {
@@ -99,11 +101,11 @@ record CubeFace(Point topLeft, int size) {
     }
     
     /**
-     * Moves a single step off this face over the right edge, onto another face of the cube.
+     * Moves a single step off this face over the right edge, onto another square.
      * 
      * @param startingPointRelative starting point, where the point coordinates are relative coordinates
-     * @param newFacing the new facing on the next face
-     * @return relative coordinates on the other face
+     * @param newFacing the new facing on the next square
+     * @return relative coordinates on the other square
      */
     private Point wrapAroundRight(Point startingPointRelative, Direction newFacing) {
         if (startingPointRelative.x() != size - 1) {
@@ -119,7 +121,7 @@ record CubeFace(Point topLeft, int size) {
     }
     
     /**
-     * Moves a single step off this face over the bottom edge, onto another face of the cube.
+     * Moves a single step off this face over the bottom edge, onto another square.
      * 
      * @param startingPointRelative starting point, where the point coordinates are relative coordinates
      * @param newFacing the new facing on the next face
@@ -139,7 +141,7 @@ record CubeFace(Point topLeft, int size) {
     }
     
     /**
-     * Moves a single step off this face over the top edge, onto another face of the cube.
+     * Moves a single step off this face over the top edge, onto another square.
      * 
      * @param startingPointRelative starting point, where the point coordinates are relative coordinates
      * @param newFacing the new facing on the next face
