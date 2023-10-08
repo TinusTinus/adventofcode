@@ -60,11 +60,11 @@ record CubeFace(Point topLeft, int size) {
     Point wrapAround(Position startingPosition, Direction newFacing) {
         Point startingPointRelative = toRelative(startingPosition.location());
         return switch(startingPosition.facing()) {
-            case LEFT -> wrapAroundLeft(startingPointRelative, newFacing);
+            case LEFT  -> wrapAroundLeft(startingPointRelative, newFacing);
             case RIGHT -> wrapAroundRight(startingPointRelative, newFacing);
-            case UP -> wrapAroundUp(startingPointRelative, newFacing);
-            case DOWN -> wrapAroundDown(startingPointRelative, newFacing);
-            default -> throw new IllegalArgumentException("Unexpected facing: " + startingPosition.facing());
+            case UP    -> wrapAroundUp(startingPointRelative, newFacing);
+            case DOWN  -> wrapAroundDown(startingPointRelative, newFacing);
+            default    -> throw new IllegalArgumentException("Unexpected facing: " + startingPosition.facing());
         };
     }
 
@@ -79,19 +79,13 @@ record CubeFace(Point topLeft, int size) {
         if (startingPointRelative.x() != 0) {
             throw new IllegalArgumentException("Starting position is not at the left edge: " + startingPointRelative);
         }
-        Point result;
-        if (newFacing == Direction.LEFT) {
-            result = new Point(size - 1, startingPointRelative.y());
-        } else if (newFacing == Direction.DOWN) {
-            result = new Point(startingPointRelative.y(), 0);
-        } else if (newFacing == Direction.UP) {
-            result = new Point(size - 1 - startingPointRelative.y(), size - 1);
-        } else if (newFacing == Direction.RIGHT) {
-            result = new Point(0, size - 1 - startingPointRelative.y());
-        } else {
-            throw new IllegalArgumentException("Unexpected facing: " + newFacing);
-        }
-        return result;
+        return switch(newFacing) {
+            case LEFT  -> new Point(size - 1, startingPointRelative.y());
+            case DOWN  -> new Point(startingPointRelative.y(), 0);
+            case UP    -> new Point(size - 1 - startingPointRelative.y(), size - 1);
+            case RIGHT -> new Point(0, size - 1 - startingPointRelative.y());
+            default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
+        };
     }
     
     /**
