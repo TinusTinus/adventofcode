@@ -1,0 +1,102 @@
+package nl.mvdr.adventofcode.adventofcode2022.day22;
+
+import nl.mvdr.adventofcode.point.Direction;
+import nl.mvdr.adventofcode.point.Point;
+
+/**
+ * Representation of a single two-dimensional square face of a three-dimensional cube.
+ * 
+ * Note that, in the context of this class, there are two separate ways to reason about coordinates:
+ * <li>absolute coordinates: coordinates with regard to the map from the puzzle input;</li>
+ * <li>relative coordinates: coordinates with regard to this particular square, where the top-left corner is to be seen as the origin (0, 0).</li>
+ * 
+ * @param topLeft absolute coordinates of the top-left-most point of this face
+ * @param size length and width of the square
+ *
+ * @author Martijn van de Rijdt
+ */
+record CubeFace(Point topLeft, int size) {
+
+    /**
+     * Checks whether the given point lies within this face.
+     * 
+     * @param absolutePoint point in absolute coordinates
+     * @return whether the given point lies within this square
+     */
+    boolean containsAbsolute(Point absolutePoint) {
+        return containsRelative(toRelative(absolutePoint));
+    }
+    
+    /**
+     * Checks whether the given point lies within this face.
+     * 
+     * @param relativePoint point in absolute coordinates
+     * @return whether the given point lies within this square
+     */
+    boolean containsRelative(Point relativePoint) {
+        return 0 <= relativePoint.x() && relativePoint.x() < size
+                && 0 <= relativePoint.y() && relativePoint.y() < size;
+    }
+    
+    /**
+     * Converts a point from absolute coordinates to relative coordinates.
+     * 
+     * @param absolute point in absolute coordinates
+     * @return the same point in relative coordinates
+     */
+    private Point toRelative(Point absolute) {
+        return absolute.subtract(topLeft);
+    }
+    
+    /**
+     * Moves a single step off this face, onto another face of the cube.
+     * 
+     * Take care: this method returns a point in <em>relative</em> coordinates!
+     * 
+     * @param startingPosition starting point and facing, where the point coordinates are absolute coordinates
+     * @param newFacing the new facing on the next face
+     * @return relative coordinates on the other face
+     */
+    Point wrapAround(Position startingPosition, Direction newFacing) {
+        Point startingPointRelative = toRelative(startingPosition.location());
+        Direction facing = startingPosition.facing();
+        
+        Point result;
+        if (facing == Direction.LEFT) {
+            if (startingPointRelative.x() != 0) {
+                throw new IllegalArgumentException("Starting position is not at the left edge: " + startingPointRelative);
+            }
+            if (newFacing == Direction.LEFT) {
+                result = new Point(size - 1, startingPointRelative.y());
+            } else if (newFacing == Direction.DOWN) {
+                result = new Point(startingPointRelative.y(), 0);
+            } else if (newFacing == Direction.UP) {
+                result = new Point(size - 1 - startingPointRelative.y(), size - 1);
+            } else if (newFacing == Direction.RIGHT) {
+                result = new Point(0, size - 1 - startingPointRelative.y());
+            } else {
+                throw new IllegalArgumentException("Unexpected facing: " + newFacing);
+            }
+        } else if (facing == Direction.RIGHT) {
+            if (startingPointRelative.x() != size - 1) {
+                throw new IllegalArgumentException("Starting position is not at the right edge: " + startingPointRelative);
+            }
+            result = Point.ORIGIN; // TODO
+        } else if (facing == Direction.UP) {
+            if (startingPointRelative.y() != 0) {
+                throw new IllegalArgumentException("Starting position is not at the top edge: " + startingPointRelative);
+            }
+            result = Point.ORIGIN; // TODO
+        } else if (facing == Direction.DOWN) {
+            if (startingPointRelative.y() != size - 1) {
+                throw new IllegalArgumentException("Starting position is not at the bottom edge: " + startingPointRelative);
+            }
+            result = Point.ORIGIN; // TODO
+        } else {
+            throw new IllegalArgumentException("Unexpected facing: " + facing);
+        }
+        
+        
+        return result;
+    }
+}

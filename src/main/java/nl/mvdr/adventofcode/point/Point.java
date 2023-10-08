@@ -266,6 +266,35 @@ public record Point(int x, int y) implements Comparable<Point> {
     }
     
     /**
+     * Adds two points together, as if they were two-dimensional vectors.
+     * 
+     * @param other other point
+     * @return sum of the two points
+     */
+    public Point add(Point other) {
+        return new Point(this.x + other.x, this.y + other.y);
+    }
+    
+    /**
+     * Negates both coordinates of this point.
+     * 
+     * @return negated point
+     */
+    public Point negate() {
+        return new Point(-x, -y);
+    }
+    
+    /**
+     * Subtracts the given other point from this one, as if they were two-dimensional vectors.
+     * 
+     * @param other other point
+     * @return result of subtracting the given point from this one
+     */
+    public Point subtract(Point other) {
+        return add(other.negate());
+    }
+    
+    /**
      * Parses a range for a single coordinate, for example: "48" (meaning just the value 48) or "23..27" (meaning the values 23, 24, 25, 26, 27).
      * 
      * @param line text to be parsed
