@@ -23,7 +23,7 @@ record CubeFace(Point topLeft, int size) {
      * @param absolutePoint point in absolute coordinates
      * @return whether the given point lies within this square
      */
-    boolean containsAbsolute(Point absolutePoint) {
+    boolean contains(Point absolutePoint) {
         return containsRelative(toRelative(absolutePoint));
     }
     
@@ -33,7 +33,7 @@ record CubeFace(Point topLeft, int size) {
      * @param relativePoint point in absolute coordinates
      * @return whether the given point lies within this square
      */
-    boolean containsRelative(Point relativePoint) {
+    private boolean containsRelative(Point relativePoint) {
         return 0 <= relativePoint.x() && relativePoint.x() < size
                 && 0 <= relativePoint.y() && relativePoint.y() < size;
     }
@@ -46,6 +46,16 @@ record CubeFace(Point topLeft, int size) {
      */
     private Point toRelative(Point absolute) {
         return absolute.subtract(topLeft);
+    }
+    
+    /**
+     * Converts a point from relative coordinates to absolute coordinates.
+     * 
+     * @param relative point in relative coordinates
+     * @return the same point in absolute coordinates
+     */
+    Point toAbsolute(Point relative) {
+        return topLeft.add(relative);
     }
     
     /**

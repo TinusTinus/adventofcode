@@ -35,20 +35,9 @@ class MonkeyMap implements IntSolver {
     
     @Override
     public int solve(Stream<String> linesStream) {
+        // Parse the puzzle input
         List<String> lines = linesStream.toList();
-        
-        // Parse the map
-        Map<Point, Terrain> map = new HashMap<>();
-        for (var y = 1; y != lines.size(); y++) {
-            String line = lines.get(y - 1);
-            for (var x = 1; x != line.length() + 1; x++) {
-                var terrain = Terrain.parse(line.charAt(x - 1));
-                if (terrain.isPresent()) {
-                    map.put(new Point(x, y), terrain.orElseThrow());
-                }
-            }
-        }
-        
+        Map<Point, Terrain> map = parseTerrain(lines);
         var path = Path.parse(lines.get(lines.size() - 1), strategy);
         
         // You begin the path in the leftmost open tile of the top row of tiles.
@@ -65,6 +54,26 @@ class MonkeyMap implements IntSolver {
         Position finalPosition = path.execute(startingPosition, map);
         
         return finalPosition.computePassword();
+    }
+
+    /**
+     * Parses the terrain map.
+     * 
+     * @param lines puzzle input
+     * @return terrain map
+     */
+    private static Map<Point, Terrain> parseTerrain(List<String> lines) {
+        Map<Point, Terrain> map = new HashMap<>();
+        for (var y = 1; y != lines.size(); y++) {
+            String line = lines.get(y - 1);
+            for (var x = 1; x != line.length() + 1; x++) {
+                var terrain = Terrain.parse(line.charAt(x - 1));
+                if (terrain.isPresent()) {
+                    map.put(new Point(x, y), terrain.orElseThrow());
+                }
+            }
+        }
+        return map;
     }
 }
  
