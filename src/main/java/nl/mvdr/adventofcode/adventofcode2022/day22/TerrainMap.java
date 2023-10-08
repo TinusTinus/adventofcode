@@ -150,11 +150,18 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
         return new TerrainMap(map, squares, edges);
     }
     
+    /**
+     * Creates the edges in case the wrap-around strategy is module, that is, for part 1 of the puzzle.
+     * 
+     * @param squares squares
+     * @return edges
+     */
     private static Map<SquareAndDirection, SquareAndDirection> createEdgesForModulo(Set<Square> squares) {
         Map<SquareAndDirection, SquareAndDirection> edges = new HashMap<>();
         for (var square : squares) {
             // Left
             if (!squares.contains(new Square(new Point(square.topLeft().x() - square.size(), square.topLeft().y()), square.size()))) {
+                // Wrap around to the rightmost square on the same row.
                 Square rightmostSquare = squares.stream()
                         .filter(s -> s.topLeft().y() == square.topLeft().y())
                         .max(Comparator.comparing(s -> Integer.valueOf(s.topLeft().x())))
