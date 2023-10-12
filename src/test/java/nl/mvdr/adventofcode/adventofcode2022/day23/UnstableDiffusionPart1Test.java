@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day23;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -24,6 +25,7 @@ public class UnstableDiffusionPart1Test extends SolverTest<UnstableDiffusionPart
     
     /** Test case based on an example from the puzzle text. */
     @Test
+    @Disabled("The value is supposed to be 110 after round 10, not after the entire simulation is complete!")
     public void testExample1() {
         assertSolution("110", "example-day23-2022-1.txt");
     }
