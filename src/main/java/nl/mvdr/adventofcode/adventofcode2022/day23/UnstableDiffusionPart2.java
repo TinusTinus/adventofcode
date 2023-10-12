@@ -12,16 +12,15 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class UnstableDiffusionPart1 implements IntSolver {
+public class UnstableDiffusionPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnstableDiffusionPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnstableDiffusionPart2.class);
 
     @Override
     public int solve(Stream<String> lines) {
         Grove grove = Grove.parse(lines.toList());
         LOGGER.debug("Elves: {}, Initial {}", grove.elves(), grove);
-        grove = grove.simulateTenRounds();
-        return grove.countEmptyTiles();
+        return grove.simulateUntilComplete();
     }
     
     /**
@@ -30,7 +29,7 @@ public class UnstableDiffusionPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new UnstableDiffusionPart1();
+        var instance = new UnstableDiffusionPart2();
 
         var result = instance.solve("input-day23-2022.txt");
 
