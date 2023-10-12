@@ -115,6 +115,26 @@ public record Point(int x, int y) implements Comparable<Point> {
         return belowNeighbour();
     }
     
+    /** @return neighbour to the Northwest */
+    public Point northwestNeighbour() {
+        return northNeighbour().westNeighbour();
+    }
+    
+    /** @return neighbour to the Northeast */
+    public Point northeastNeighbour() {
+        return northNeighbour().eastNeighbour();
+    }
+    
+    /** @return neighbour to the Southwest */
+    public Point southwestNeighbour() {
+        return southNeighbour().westNeighbour();
+    }
+    
+    /** @return neighbour to the Southeast */
+    public Point southeastNeighbour() {
+        return southNeighbour().eastNeighbour();
+    }
+    
     /**
      * Translates this point with the given coordinates.
      * 
