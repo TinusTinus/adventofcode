@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2022.day23;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -26,14 +25,12 @@ public class UnstableDiffusionPart1Test extends SolverTest<UnstableDiffusionPart
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        // Note: expected value is 110 after ten rounds.
-        // After the entire simulation is complete, it is supposed to be 146 (?)
-        assertSolution("146", "example-day23-2022-1.txt");
+        assertSolution("110", "example-day23-2022-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day23-2022.txt"); // 17359 is too high
+        assertSolution("4254", "input-day23-2022.txt");
     }
 }
