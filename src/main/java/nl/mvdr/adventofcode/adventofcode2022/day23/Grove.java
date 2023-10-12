@@ -169,4 +169,18 @@ record Grove(Set<Point> elves) {
     private Grove move(Map<Point, Point> proposals) {
         return this; // TODO
     }
+    
+    /**
+     * @return the number of empty ground tiles contained by the smallest rectangle that contains every Elf
+     */
+    int countEmptyTiles() {
+        var minX = Point.minX(elves);
+        var maxX = Point.maxX(elves);
+        var minY = Point.minY(elves);
+        var maxY = Point.maxY(elves);
+        
+        var totalTiles = (maxX + 1 - minX) * (maxY + 1 - minY);
+        
+        return totalTiles - elves.size();
+    }
 }
