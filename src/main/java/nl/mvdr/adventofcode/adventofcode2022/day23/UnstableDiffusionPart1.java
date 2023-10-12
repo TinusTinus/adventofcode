@@ -19,6 +19,7 @@ public class UnstableDiffusionPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         Grove grove = Grove.parse(lines.toList());
+        LOGGER.debug("Elves: {}, Initial {}", grove.elves(), grove);
         grove = grove.simulate();
         return grove.countEmptyTiles();
     }

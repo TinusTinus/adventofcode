@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day23;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,15 +12,17 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
  * State of the grove where elves need to plant seedlings.
  *
  * @param elves current locations of the elves
+ * @param directions the order in which directions are to be considered in the next round
  * @author Martijn van de Rijdt
  */
-record Grove(Set<Point> elves) {
+record Grove(Set<Point> elves, List<Direction> directions) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Grove.class);
 
@@ -46,7 +49,12 @@ record Grove(Set<Point> elves) {
                 }
             }
         }
-        return new Grove(elves);
+        var directions = List.of(
+                Direction.UP,     // North
+                Direction.DOWN,   // South
+                Direction.LEFT,   // West
+                Direction.RIGHT); // East
+        return new Grove(elves, directions);
     }
 
     /**
@@ -57,7 +65,7 @@ record Grove(Set<Point> elves) {
     Grove simulate() {
         Grove current = this;
         Grove next = current.performRound();
-        while (!current.equals(next)) {
+        while (!current.elves().equals(next.elves())) {
             current = next;
             next = current.performRound();
             LOGGER.debug("{}", current);
@@ -96,19 +104,16 @@ record Grove(Set<Point> elves) {
      * @return proposal
      */
     private Optional<Point> propose(Point elf) {
-        Optional<Point> result;
-        if (!hasNeighbour(elf)) {
-            result = Optional.empty();
-        } else if (canMoveNorth(elf)) {
-            result = Optional.of(elf.northNeighbour());
-        } else if (canMoveSouth(elf)) {
-            result = Optional.of(elf.southNeighbour());
-        } else if (canMoveWest(elf)) {
-            result = Optional.of(elf.westNeighbour());
-        } else if (canMoveEast(elf)) {
-            result = Optional.of(elf.eastNeighbour());
-        } else {
-            result = Optional.empty();
+        Optional<Point> result = Optional.empty();
+        if (hasNeighbour(elf)) {
+            var i = 0;
+            while (result.isEmpty() && i != directions.size()) {
+                var direction = directions.get(i);
+                if (canMove(elf, direction)) {
+                    result = Optional.of(direction.move(elf));
+                }
+                i++;
+            }
         }
         return result;
     }
@@ -130,6 +135,22 @@ record Grove(Set<Point> elves) {
                 || elves.contains(elf.northeastNeighbour())
                 || elves.contains(elf.southeastNeighbour())
                 || elves.contains(elf.southwestNeighbour());
+    }
+
+    /**
+     * Determines whether the given elf could move to the given direction.
+     * 
+     * @param elf elf's current location
+     * @return whether moving in the given direction is an option
+     */
+    private boolean canMove(Point elf, Direction direction) {
+        return switch(direction) {
+            case UP    -> canMoveNorth(elf);
+            case DOWN  -> canMoveSouth(elf);
+            case LEFT  -> canMoveWest(elf);
+            case RIGHT -> canMoveEast(elf);
+            default -> throw new IllegalArgumentException("Unexpected direction: " + direction);
+        };
     }
     
     /**
@@ -206,9 +227,12 @@ record Grove(Set<Point> elves) {
                 // This elf stays where they were.
                 newElves.add(elf);
             }
-                
         }
-        return new Grove(newElves);
+        List<Direction> newDirections = new ArrayList<>();
+        newDirections.addAll(directions.subList(1, directions.size()));
+        newDirections.add(directions.get(0));
+        
+        return new Grove(newElves, newDirections);
     }
     
     /**
@@ -223,5 +247,27 @@ record Grove(Set<Point> elves) {
         var totalTiles = (maxX + 1 - minX) * (maxY + 1 - minY);
         
         return totalTiles - elves.size();
+    }
+    
+    @Override
+    public String toString() {
+        var minX = Point.minX(elves);
+        var maxX = Point.maxX(elves);
+        var minY = Point.minY(elves);
+        var maxY = Point.maxY(elves);
+        
+        StringBuilder builder = new StringBuilder();
+        builder.append("Grove:");
+        for (var y = minY; y != maxY + 1; y++) {
+            builder.append("\n");
+            for (var x = minX; x != maxX + 1; x++) {
+                if (elves.contains(new Point(x, y))) {
+                    builder.append(ELF);
+                } else {
+                    builder.append(EMPTY_GROUND);
+                }
+            }
+        }
+        return builder.toString();
     }
 }
