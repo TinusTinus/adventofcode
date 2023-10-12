@@ -27,13 +27,13 @@ public class UnstableDiffusionPart1Test extends SolverTest<UnstableDiffusionPart
     @Test
     public void testExample1() {
         // Note: expected value is 110 after ten rounds.
-        // After the entire simulation is complete, it is supposed to be 146.
+        // After the entire simulation is complete, it is supposed to be 146 (?)
         assertSolution("146", "example-day23-2022-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day23-2022.txt");
+        assertSolution("?", "input-day23-2022.txt"); // 17359 is too high
     }
 }
