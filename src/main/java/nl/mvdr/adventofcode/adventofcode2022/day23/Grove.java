@@ -1,11 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2022.day23;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -16,6 +20,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Grove(Set<Point> elves) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Grove.class);
 
     private static final char ELF = '#';
     private static final char EMPTY_GROUND = '.';
@@ -54,6 +60,7 @@ record Grove(Set<Point> elves) {
         while (!current.equals(next)) {
             current = next;
             next = current.performRound();
+            LOGGER.debug("{}", current);
         }
         return current;
     }
@@ -90,7 +97,9 @@ record Grove(Set<Point> elves) {
      */
     private Optional<Point> propose(Point elf) {
         Optional<Point> result;
-        if (canMoveNorth(elf)) {
+        if (!hasNeighbour(elf)) {
+            result = Optional.empty();
+        } else if (canMoveNorth(elf)) {
             result = Optional.of(elf.northNeighbour());
         } else if (canMoveSouth(elf)) {
             result = Optional.of(elf.southNeighbour());
@@ -102,6 +111,25 @@ record Grove(Set<Point> elves) {
             result = Optional.empty();
         }
         return result;
+    }
+    
+    /**
+     * Determines whether there is an elf in one of the locations neighbouring the given elf's location.
+     * 
+     * If there is no Elf in the N, NE, or NW adjacent positions, the Elf could propose moving North one step.
+     * 
+     * @param elf elf's current location
+     * @return whether moving North is an option
+     */
+    private boolean hasNeighbour(Point elf) {
+        return elves.contains(elf.northNeighbour())
+                || elves.contains(elf.eastNeighbour())
+                || elves.contains(elf.southNeighbour())
+                || elves.contains(elf.westNeighbour())
+                || elves.contains(elf.northwestNeighbour())
+                || elves.contains(elf.northeastNeighbour())
+                || elves.contains(elf.southeastNeighbour())
+                || elves.contains(elf.southwestNeighbour());
     }
     
     /**
@@ -167,7 +195,20 @@ record Grove(Set<Point> elves) {
      * @return updated state of the grove
      */
     private Grove move(Map<Point, Point> proposals) {
-        return this; // TODO
+        Set<Point> newElves = new HashSet<>();
+        for (Point elf : elves) {
+            Point proposal = proposals.get(elf);
+            if (Collections.frequency(proposals.values(), proposal) == 1) {
+                // Move to the new location
+                newElves.add(proposal);
+            } else {
+                // No proposal, or the proposal was done by multiple elves.
+                // This elf stays where they were.
+                newElves.add(elf);
+            }
+                
+        }
+        return new Grove(newElves);
     }
     
     /**
