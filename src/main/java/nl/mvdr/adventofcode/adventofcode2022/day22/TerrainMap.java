@@ -109,6 +109,20 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
      * @return terrain map
      */
     private static TerrainMap createMapForPuzzleInput(Map<Point, Terrain> map, WrapAroundStrategy strategy) {
+        // TODO rewrite this createMapForPuzzleInput and createMapForExampleInput, to not require knowledge of the specific input.
+        // 
+        // Detecting squares could be done in a pretty straightforward fashion:
+        // We can check whether there is a square at (1, 1), (51, 1), (101, 1) etc., then (1, 51), (51, 51), etc..
+        // There will not be more than six squares in either direction, so there is a finite number of locations to check for a square.
+        // 
+        // Determining edges is trickier but can also be done.
+        // When moving from any square in the up direction:
+        // - if there is a neighbouring square in that direction, there is an edge with that square, new facing: up
+        // - if there is a square top-left of this square, there is an edge with that square, new facing: left
+        // - if there is a square top-right of this square, there is an edge with that square, new facing: right
+        // Et cetera.
+        // There is a limited number of potential neighbouring squares to inspect. Only one of these should actually be present in the puzzle input.
+        
         var square1 = new Square(new Point(51, 1), SQUARE_SIZE_PUZZLE_INPUT);
         var square2 = new Square(new Point(101, 1), SQUARE_SIZE_PUZZLE_INPUT);
         var square3 = new Square(new Point(51, 51), SQUARE_SIZE_PUZZLE_INPUT);

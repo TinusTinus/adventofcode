@@ -124,8 +124,8 @@ record Square(Point topLeft, int size) {
      * Moves a single step off this face over the bottom edge, onto another square.
      * 
      * @param startingPointRelative starting point, where the point coordinates are relative coordinates
-     * @param newFacing the new facing on the next face
-     * @return relative coordinates on the other face
+     * @param newFacing the new facing on the next square
+     * @return relative coordinates on the other square
      */
     private Point wrapAroundDown(Point startingPointRelative, Direction newFacing) {
         if (startingPointRelative.y() != size - 1) {
@@ -144,8 +144,8 @@ record Square(Point topLeft, int size) {
      * Moves a single step off this face over the top edge, onto another square.
      * 
      * @param startingPointRelative starting point, where the point coordinates are relative coordinates
-     * @param newFacing the new facing on the next face
-     * @return relative coordinates on the other face
+     * @param newFacing the new facing on the next square
+     * @return relative coordinates on the other square
      */
     private Point wrapAroundUp(Point startingPointRelative, Direction newFacing) {
         if (startingPointRelative.y() != 0) {
