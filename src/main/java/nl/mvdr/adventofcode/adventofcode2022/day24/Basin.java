@@ -7,6 +7,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -22,6 +25,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Basin(int width, int height, Point start, Point goal, Set<Point> walls, Set<Blizzard> blizzards, Set<Point> reachablePoints, int minutesPassed) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Basin.class);
     
     /**
      * Parses the puzzle input.
@@ -70,14 +75,38 @@ record Basin(int width, int height, Point start, Point goal, Set<Point> walls, S
     }
     
     /**
-     * @return the fewest number of minutes required to avoid the blizzards and reach the goal
+     * @return updated basin, after moving to the goal in the shortest amount of time possible
      */
-    int shortestPathToGoal() {
+    Basin moveToGoal() {
+        return moveTo(goal);
+    }
+    
+    /**
+     * @return updated basin, after moving to the goal, then the start, then the goal again in the shortest amount of time possible
+     */
+    Basin moveToGoalStartGoal() {
         Basin basin = this;
-        while (!basin.reachablePoints().contains(goal)) {
+        basin = basin.moveTo(goal);
+        basin = basin.withReachablePoints(Set.of(goal));
+        basin = basin.moveTo(start);
+        basin = basin.withReachablePoints(Set.of(start));
+        basin = basin.moveTo(goal);
+        return basin;
+    }
+    
+    /**
+     * Moves to the given goal, in the shortest amount of time possible.
+     * 
+     * @param target the location to move to
+     * @return updated basin, after moving to the given target in the shortest amount of time possible
+     */
+    private Basin moveTo(Point target) {
+        Basin basin = this;
+        while (!basin.reachablePoints().contains(target)) {
             basin = basin.tick();
         }
-        return basin.minutesPassed();
+        LOGGER.debug("{} reached after {} minutes", target, Integer.valueOf(basin.minutesPassed()));
+        return basin;
     }
     
     /**
@@ -126,4 +155,13 @@ record Basin(int width, int height, Point start, Point goal, Set<Point> walls, S
         return new Blizzard(newLocation, blizzard.direction());
     }
     
+    /**
+     * Returns a copy of this basin, with the given reachable points.
+     * 
+     * @param newReachablePoints reachable points value
+     * @return updated basin
+     */
+    private Basin withReachablePoints(Set<Point> newReachablePoints) {
+        return new Basin(width, height, start, goal, walls, blizzards, newReachablePoints, minutesPassed);
+    }
 }

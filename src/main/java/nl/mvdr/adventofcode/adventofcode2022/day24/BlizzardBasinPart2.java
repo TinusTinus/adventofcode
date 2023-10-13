@@ -12,14 +12,14 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class BlizzardBasinPart1 implements IntSolver {
+public class BlizzardBasinPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BlizzardBasinPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlizzardBasinPart2.class);
 
     @Override
     public int solve(Stream<String> lines) {
         var basin = Basin.parse(lines.toList());
-        return basin.moveToGoal().minutesPassed();
+        return basin.moveToGoalStartGoal().minutesPassed();
     }
     
     /**
@@ -28,7 +28,7 @@ public class BlizzardBasinPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new BlizzardBasinPart1();
+        var instance = new BlizzardBasinPart2();
 
         var result = instance.solve("input-day24-2022.txt");
 
