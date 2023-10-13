@@ -20,7 +20,7 @@ import nl.mvdr.adventofcode.point.Point;
  * @param goal the goal
  * @param walls spaces occupied by walls
  * @param blizzards current state of the blizzards
- * @param reachablePoints locations in the basin which can be reached from the starting point at minute 0
+ * @param reachablePoints locations in the basin which can be reached from the last visited point
  * @param minutesPassed the number of minutes for which the blizzards have been simulated
  * @author Martijn van de Rijdt
  */
