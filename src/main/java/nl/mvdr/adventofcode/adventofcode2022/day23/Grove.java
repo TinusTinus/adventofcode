@@ -2,12 +2,12 @@ package nl.mvdr.adventofcode.adventofcode2022.day23;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,11 +105,12 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      * @return proposals
      */
     private Map<Point, Point> propose() {
-        Map<Point, Point> result = new HashMap<>();
-        for (var elf : elves) {
-            propose(elf).ifPresent(newPosition -> result.put(elf, newPosition));
-        }
-        return result;
+        return elves.stream()
+                .parallel()
+                .map(this::propose)
+                .filter(Optional::isPresent)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toMap(Proposal::currentPosition, Proposal::proposedPosition));
     }
     
     /**
@@ -118,13 +119,13 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      * @param elf current position of the elf
      * @return proposal
      */
-    private Optional<Point> propose(Point elf) {
-        Optional<Point> result;
+    private Optional<Proposal> propose(Point elf) {
+        Optional<Proposal> result;
         if (hasNeighbour(elf)) {
             result = directions.stream()
                     .filter(direction -> canMove(elf, direction))
                     .findFirst()
-                    .map(direction -> direction.move(elf));
+                    .map(direction -> new Proposal(elf, direction.move(elf)));
         } else {
             result = Optional.empty();
         }
