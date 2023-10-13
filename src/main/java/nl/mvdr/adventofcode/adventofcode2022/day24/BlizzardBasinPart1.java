@@ -18,7 +18,8 @@ public class BlizzardBasinPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        var basin = Basin.parse(lines.toList());
+        return basin.shortestPathToGoal();
     }
     
     /**

@@ -73,6 +73,18 @@ public record Point(int x, int y) implements Comparable<Point> {
             new Point(x + 1, y + 1)
         );
     }
+    
+    /** @return set containing this point, as well as its four neighbouring points */
+    public Set<Point> andNeighbours() {
+        return Set.of(
+            this,
+            leftNeighbour(),
+            rightNeighbour(),
+            aboveNeighbour(),
+            belowNeighbour()
+        );
+    }
+
 
     /** @return neighbour to the left (assuming x coordinates are numbererd left-to-right) */
     public Point leftNeighbour() {

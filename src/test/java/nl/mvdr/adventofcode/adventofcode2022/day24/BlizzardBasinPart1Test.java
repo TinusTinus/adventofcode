@@ -31,6 +31,6 @@ public class BlizzardBasinPart1Test extends SolverTest<BlizzardBasinPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day24-2022.txt");
+        assertSolution("322", "input-day24-2022.txt");
     }
 }
