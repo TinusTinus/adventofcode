@@ -73,18 +73,19 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
     }
     
     /**
-     * Performs the simulation for this grove.
+     * Performs the simulation for this grove, until a round occurs where no elves move.
      * 
-     * @return number of expired rounds when elves no longer move
+     * @return state of the grove
      */
-    int simulateUntilComplete() {
-        Grove current = this;
-        Grove next = current.performRound();
-        while (!current.elves().equals(next.elves())) {
-            current = next;
-            next = current.performRound();
+    Grove simulateUntilComplete() {
+        Grove grove = this;
+        boolean done = false;
+        while (!done) {
+            var previousElves = grove.elves();
+            grove = grove.performRound();
+            done = previousElves.equals(grove.elves());
         }
-        return next.rounds;
+        return grove;
     }
     
     /**
