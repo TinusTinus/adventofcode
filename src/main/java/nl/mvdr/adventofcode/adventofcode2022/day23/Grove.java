@@ -20,9 +20,10 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @param elves current locations of the elves
  * @param directions the order in which directions are to be considered in the next round
+ * @param rounds the number of rounds which have been performed so far
  * @author Martijn van de Rijdt
  */
-record Grove(Set<Point> elves, List<Direction> directions) {
+record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Grove.class);
 
@@ -54,7 +55,7 @@ record Grove(Set<Point> elves, List<Direction> directions) {
                 Direction.DOWN,   // South
                 Direction.LEFT,   // West
                 Direction.RIGHT); // East
-        return new Grove(elves, directions);
+        return new Grove(elves, directions, 0);
     }
 
     /**
@@ -81,14 +82,12 @@ record Grove(Set<Point> elves, List<Direction> directions) {
     int simulateUntilComplete() {
         Grove current = this;
         Grove next = current.performRound();
-        var round = 0;
         while (!current.elves().equals(next.elves())) {
             current = next;
             next = current.performRound();
-            round++;
-            LOGGER.debug("After {} rounds: {}", Integer.valueOf(round), current);
+            LOGGER.debug("After {} rounds: {}", Integer.valueOf(next.rounds()), next);
         }
-        return round + 1;
+        return next.rounds;
     }
     
     /**
@@ -250,7 +249,7 @@ record Grove(Set<Point> elves, List<Direction> directions) {
         newDirections.addAll(directions.subList(1, directions.size()));
         newDirections.add(directions.get(0));
         
-        return new Grove(newElves, newDirections);
+        return new Grove(newElves, newDirections, rounds + 1);
     }
     
     /**
