@@ -64,7 +64,7 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      * @param roundsToSimulate the number of rounds to simulate
      * @return state of the grove
      */
-    Grove simulateRounds(int roundsToSimulate) {
+    Grove simulate(int roundsToSimulate) {
         Grove grove = this;
         while (grove.rounds != rounds + roundsToSimulate) {
             grove = grove.performRound();
@@ -77,7 +77,7 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      * 
      * @return state of the grove
      */
-    Grove simulateUntilComplete() {
+    Grove simulate() {
         Grove grove = this;
         boolean done = false;
         while (!done) {
@@ -232,8 +232,8 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      */
     private Grove move(Map<Point, Point> proposals) {
         Set<Point> newElves = new HashSet<>();
-        for (Point elf : elves) {
-            Point proposal = proposals.get(elf);
+        for (var elf : elves) {
+            var proposal = proposals.get(elf);
             if (Collections.frequency(proposals.values(), proposal) == 1) {
                 // Move to the new location
                 newElves.add(proposal);
@@ -243,12 +243,13 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
                 newElves.add(elf);
             }
         }
+        
         List<Direction> newDirections = new ArrayList<>();
         newDirections.addAll(directions.subList(1, directions.size()));
         newDirections.add(directions.get(0));
         
         Grove result = new Grove(newElves, newDirections, rounds + 1);
-        LOGGER.debug("After {} rounds: {}", Integer.valueOf(result.rounds), result);
+        LOGGER.debug("After {} rounds: {}", Integer.valueOf(result.rounds()), result);
         return result;
     }
     
