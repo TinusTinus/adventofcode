@@ -106,7 +106,7 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      */
     private Map<Point, Point> propose() {
         Map<Point, Point> result = new HashMap<>();
-        for (Point elf : elves) {
+        for (var elf : elves) {
             propose(elf).ifPresent(newPosition -> result.put(elf, newPosition));
         }
         return result;
@@ -119,16 +119,14 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      * @return proposal
      */
     private Optional<Point> propose(Point elf) {
-        Optional<Point> result = Optional.empty();
+        Optional<Point> result;
         if (hasNeighbour(elf)) {
-            var i = 0;
-            while (result.isEmpty() && i != directions.size()) {
-                var direction = directions.get(i);
-                if (canMove(elf, direction)) {
-                    result = Optional.of(direction.move(elf));
-                }
-                i++;
-            }
+            result = directions.stream()
+                    .filter(direction -> canMove(elf, direction))
+                    .findFirst()
+                    .map(direction -> direction.move(elf));
+        } else {
+            result = Optional.empty();
         }
         return result;
     }
