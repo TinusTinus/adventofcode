@@ -64,14 +64,12 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      * @return state of the grove
      */
     Grove simulateTenRounds() {
-        Grove current = this;
-        Grove next = current.performRound();
+        Grove grove = this;
         for (var round = 0; round != 10; round++) {
-            current = next;
-            next = current.performRound();
-            LOGGER.debug("After {} rounds: {}", Integer.valueOf(round), current);
+            grove = grove.performRound();
+            LOGGER.debug("After {} rounds: {}", Integer.valueOf(round), grove);
         }
-        return current;
+        return grove;
     }
     
     /**
