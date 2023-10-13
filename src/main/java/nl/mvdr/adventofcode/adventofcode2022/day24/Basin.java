@@ -87,6 +87,7 @@ record Basin(int width, int height, Point start, Point goal, Set<Point> walls, S
         var newBlizzards = moveBlizzards();
         
         var newReachablePoints = Point.points(0, width - 1, 0, height - 1)
+                .parallel()
                 .filter(Predicate.not(walls::contains)) // not a wall
                 .filter(point -> newBlizzards.stream().noneMatch(blizzard -> blizzard.location().equals(point))) // not in a blizzard
                 .filter(point -> reachablePoints.stream().anyMatch(reachablePoint -> reachablePoint.andNeighbours().contains(point))) // reachable in 1 step from a point that was previously reachable
