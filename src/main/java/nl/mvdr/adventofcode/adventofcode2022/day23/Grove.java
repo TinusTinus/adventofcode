@@ -65,9 +65,9 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
      */
     Grove simulateTenRounds() {
         Grove grove = this;
-        for (var round = 0; round != 10; round++) {
+        while (grove.rounds != rounds + 10) {
             grove = grove.performRound();
-            LOGGER.debug("After {} rounds: {}", Integer.valueOf(round), grove);
+            LOGGER.debug("After {} rounds: {}", Integer.valueOf(grove.rounds), grove);
         }
         return grove;
     }
