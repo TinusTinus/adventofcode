@@ -20,7 +20,7 @@ public class UnstableDiffusionPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         Grove grove = Grove.parse(lines.toList());
         LOGGER.debug("Elves: {}, Initial {}", grove.elves(), grove);
-        grove = grove.simulateTenRounds();
+        grove = grove.simulateRounds(10);
         return grove.countEmptyTiles();
     }
     

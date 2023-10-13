@@ -59,15 +59,15 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
     }
 
     /**
-     * Performs the simulation for this grove for ten rounds.
+     * Performs the simulation for this grove for the given number of rounds.
      * 
+     * @param roundsToSimulate the number of rounds to simulate
      * @return state of the grove
      */
-    Grove simulateTenRounds() {
+    Grove simulateRounds(int roundsToSimulate) {
         Grove grove = this;
-        while (grove.rounds != rounds + 10) {
+        while (grove.rounds != rounds + roundsToSimulate) {
             grove = grove.performRound();
-            LOGGER.debug("After {} rounds: {}", Integer.valueOf(grove.rounds), grove);
         }
         return grove;
     }
@@ -83,7 +83,6 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
         while (!current.elves().equals(next.elves())) {
             current = next;
             next = current.performRound();
-            LOGGER.debug("After {} rounds: {}", Integer.valueOf(next.rounds()), next);
         }
         return next.rounds;
     }
@@ -247,7 +246,9 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
         newDirections.addAll(directions.subList(1, directions.size()));
         newDirections.add(directions.get(0));
         
-        return new Grove(newElves, newDirections, rounds + 1);
+        Grove result = new Grove(newElves, newDirections, rounds + 1);
+        LOGGER.debug("After {} rounds: {}", Integer.valueOf(result.rounds), result);
+        return result;
     }
     
     /**
