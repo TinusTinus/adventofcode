@@ -19,7 +19,7 @@ public class FullOfHotAirTest extends SolverTest<FullOfHotAir> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("4890", "example-day25-2022.txt");
+        assertSolution("2=-1=0", "example-day25-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
