@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
  */
 record SnafuNumber(List<SnafuDigit> digits) {
     
+    static final SnafuNumber ZERO = new SnafuNumber(List.of(SnafuDigit.ZERO));
+    
     /**
      * Parses a textual representation of a SNAFU number.
      * 
@@ -21,6 +23,16 @@ record SnafuNumber(List<SnafuDigit> digits) {
                 .mapToObj(c -> SnafuDigit.of((char)c))
                 .toList();
         return new SnafuNumber(digits);
+    }
+    
+    /**
+     * Adds the given other SNAFU number to this one.
+     * 
+     * @param other other number
+     * @return sum of the given numbers
+     */
+    SnafuNumber add(SnafuNumber other) {
+        return this; // TODO implement (either by converting to and from ints, or just implementing SNAFU addition directly)
     }
     
     @Override
