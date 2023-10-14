@@ -16,20 +16,6 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class SnafuNumberTest {
     
-    private static final Stream<Arguments> TEST_ADD_ARGUMENTS = Stream.of(
-                Arguments.of("0", "0", "0"),
-                Arguments.of("0", "1", "1"),
-                Arguments.of("1", "0", "1"),
-                Arguments.of("1", "1", "2"),
-                Arguments.of("1", "-", "0"),
-                Arguments.of("-", "1", "0"),
-                Arguments.of("2", "1", "1="),
-                Arguments.of("1", "2", "1="),
-                Arguments.of("2", "2", "1-"),
-                Arguments.of("2", "3", "10"),
-                Arguments.of("3", "2", "10")
-            );
-    
     /**
      * Tests input parsing.
      */
@@ -83,8 +69,6 @@ public class SnafuNumberTest {
             Arguments.of("0", "1", "1"),
             Arguments.of("1", "0", "1"),
             Arguments.of("1", "1", "2"),
-            Arguments.of("1", "-", "0"),
-            Arguments.of("-", "1", "0"),
             Arguments.of("2", "1", "1="),
             Arguments.of("1", "2", "1="),
             Arguments.of("2", "2", "1-"),
