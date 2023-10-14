@@ -21,7 +21,7 @@ enum SnafuDigit {
         return Stream.of(values())
                 .filter(digit -> digit.representation == representation)
                 .findFirst()
-                .orElseThrow("Not a SNAFU digit: " + representation);
+                .orElseThrow(() -> new IllegalArgumentException("Not a SNAFU digit: " + representation));
     }
     
     /**
