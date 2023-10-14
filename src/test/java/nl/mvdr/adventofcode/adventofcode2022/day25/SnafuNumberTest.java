@@ -73,7 +73,8 @@ public class SnafuNumberTest {
             Arguments.of("1", "2", "1="),
             Arguments.of("2", "2", "1-"),
             Arguments.of("2", "3", "10"),
-            Arguments.of("3", "2", "10")
+            Arguments.of("3", "2", "10"),
+            Arguments.of("1=", "1=", "11")
         );
     }
 }
