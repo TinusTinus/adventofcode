@@ -1,9 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day25;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * A number in Special Numeral-Analogue Fuel Units.
@@ -34,8 +33,15 @@ record SnafuNumber(List<SnafuDigit> digits) {
      * @return SNAFU number
      */
     static SnafuNumber valueOf(int i) {
-        List<SnafuDigit> resultDigits = new ArrayList<>();
-        // TODO stuff
+        List<SnafuDigit> resultDigits = new LinkedList<>();
+        var remaining = i;
+        while (remaining != 0) {
+            resultDigits.add(0, SnafuDigit.values()[(remaining + 2) % 5]);
+            remaining = (remaining + 2) / 5;
+        }
+        if (resultDigits.isEmpty()) {
+            resultDigits = List.of(SnafuDigit.ZERO);
+        }
         return new SnafuNumber(resultDigits);
     }
     
