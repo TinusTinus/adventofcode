@@ -90,14 +90,8 @@ record SnafuNumber(List<SnafuDigit> digits) {
     
     @Override
     public String toString() {
-        String result;
-        if (digits.isEmpty()) {
-            result = "0";
-        } else {
-            result = digits.stream()
-                    .map(Object::toString)
-                    .collect(Collectors.joining());
-        }
-        return result;
+        return digits.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining());
     }
 }
