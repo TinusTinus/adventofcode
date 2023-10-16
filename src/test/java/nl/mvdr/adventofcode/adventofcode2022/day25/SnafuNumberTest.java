@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day25;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -89,9 +90,9 @@ public class SnafuNumberTest {
     void testIntValue(String number, int expected) {
         var snafuNumber = SnafuNumber.parse(number);
         
-        var result = snafuNumber.intValue();
+        var result = snafuNumber.bigIntegerValue();
         
-        Assertions.assertEquals(expected, result);
+        Assertions.assertEquals(BigInteger.valueOf(expected), result);
     }
     
     /**
@@ -103,7 +104,9 @@ public class SnafuNumberTest {
     @ParameterizedTest
     @MethodSource("testIntValue")
     void testValueOf(String expected, int i) {
-        var result = SnafuNumber.valueOf(i);
+        var bigI = BigInteger.valueOf(i);
+        
+        var result = SnafuNumber.valueOf(bigI);
 
         var expectedSnafuNumber = SnafuNumber.parse(expected);
         Assertions.assertEquals(expectedSnafuNumber, result);

@@ -25,6 +25,6 @@ public class FullOfHotAirTest extends SolverTest<FullOfHotAir> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day25-2022.txt");
+        assertSolution("2=001=-2=--0212-22-2", "input-day25-2022.txt");
     }
 }

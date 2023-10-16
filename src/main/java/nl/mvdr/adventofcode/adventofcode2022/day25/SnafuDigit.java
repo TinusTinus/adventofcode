@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day25;
 
+import java.math.BigInteger;
 import java.util.stream.Stream;
 
 /**
@@ -45,8 +46,8 @@ enum SnafuDigit {
     /**
      * @return the integer value of this digit
      */
-    int getValue() {
-        return value;
+    BigInteger bigIntegerValue() {
+        return BigInteger.valueOf(value);
     }
     
     @Override

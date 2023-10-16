@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day25;
 
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,12 +33,14 @@ record SnafuNumber(List<SnafuDigit> digits) {
      * @param i integer value
      * @return SNAFU number
      */
-    static SnafuNumber valueOf(int i) {
+    static SnafuNumber valueOf(BigInteger i) {
         List<SnafuDigit> resultDigits = new LinkedList<>();
         var remaining = i;
-        while (remaining != 0) {
-            resultDigits.add(0, SnafuDigit.values()[(remaining + 2) % 5]);
-            remaining = (remaining + 2) / 5;
+        while (!remaining.equals(BigInteger.ZERO)) {
+            var divisionAndRemainder = remaining.add(BigInteger.TWO).divideAndRemainder(BigInteger.valueOf(5));
+            var remainder = divisionAndRemainder[1].intValueExact();
+            resultDigits.add(0, SnafuDigit.values()[remainder]);
+            remaining = divisionAndRemainder[0];
         }
         if (resultDigits.isEmpty()) {
             resultDigits = List.of(SnafuDigit.ZERO);
@@ -52,19 +55,19 @@ record SnafuNumber(List<SnafuDigit> digits) {
      * @return sum of the given numbers
      */
     SnafuNumber add(SnafuNumber other) {
-        var sum = this.intValue() + other.intValue();
+        var sum = this.bigIntegerValue().add(other.bigIntegerValue());
         return valueOf(sum);
     }
     
     /**
      * @return integer value corresponding to this number
      */
-    int intValue() {
-        var result = 0;
-        var place = 1;
+    BigInteger bigIntegerValue() {
+        var result = BigInteger.ZERO;
+        var place = BigInteger.ONE;
         for (var digit : digits.reversed()) {
-            result = result + digit.getValue() * place;
-            place = place * 5;
+            result = result.add(digit.bigIntegerValue().multiply(place));
+            place = place.multiply(BigInteger.valueOf(5));
         }
         return result;
     }
