@@ -141,7 +141,16 @@ public class SnafuNumberTest {
                 Arguments.of("112", Integer.valueOf(32)),
                 Arguments.of("1=-1=", Integer.valueOf(353)),
                 Arguments.of("1-12", Integer.valueOf(107)),
-                Arguments.of("122", Integer.valueOf(37))
+                Arguments.of("122", Integer.valueOf(37)),
+                
+                Arguments.of("11-", Integer.valueOf(29)),
+                Arguments.of("11=", Integer.valueOf(28)),
+                Arguments.of("102", Integer.valueOf(27)),
+                Arguments.of("101", Integer.valueOf(26)),
+                Arguments.of("100", Integer.valueOf(25)),
+                Arguments.of("10-", Integer.valueOf(24)),
+                Arguments.of("10=", Integer.valueOf(23)),
+                Arguments.of("2=00", Integer.valueOf(200))
         );
     }
 }
