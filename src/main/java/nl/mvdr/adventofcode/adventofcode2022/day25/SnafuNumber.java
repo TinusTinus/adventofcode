@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day25;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * A number in Special Numeral-Analogue Fuel Units.
@@ -50,7 +51,9 @@ record SnafuNumber(List<SnafuDigit> digits) {
      * @return integer value corresponding to this number
      */
     int intValue() {
-        return 0; // TODO implement 
+        return IntStream.range(0, digits.size())
+                .map(i -> digits.get(digits.size() - 1 - i).getValue() * (int)Math.pow(5, i))
+                .sum();
     }
     
     @Override
