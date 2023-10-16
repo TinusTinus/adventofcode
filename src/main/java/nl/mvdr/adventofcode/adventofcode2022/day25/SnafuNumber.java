@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day25;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +47,22 @@ record SnafuNumber(List<SnafuDigit> digits) {
             resultDigits = List.of(SnafuDigit.ZERO);
         }
         return new SnafuNumber(resultDigits);
+    }
+    
+    /**
+     * Convenience constructor for a single-digit number.
+     * 
+     * @param digit digit
+     */
+    SnafuNumber(SnafuDigit digit) {
+        this(List.of(digit));
+    }
+    
+    /**
+     * Convenience constructor for a double-digit number.
+     */
+    SnafuNumber(SnafuDigit firstDigit, SnafuDigit secondDigit) {
+        this(List.of(firstDigit, secondDigit));
     }
     
     /**
