@@ -10,54 +10,11 @@ import java.util.stream.Stream;
  */
 enum SnafuDigit {
     
-    DOUBLE_MINUS('=', -2) {
-        @Override
-        SnafuNumber add(SnafuDigit other) {
-            return switch(other) {
-                case DOUBLE_MINUS   -> new SnafuNumber(MINUS, ONE);
-                case MINUS          -> new SnafuNumber(MINUS, TWO);
-                case ZERO, ONE, TWO -> other.add(this);
-            };
-        }
-    },
-    MINUS('-', -1) {
-        @Override
-        SnafuNumber add(SnafuDigit other) {
-                return switch(other) {
-                    case DOUBLE_MINUS          -> new SnafuNumber(DOUBLE_MINUS);
-                    case MINUS, ZERO, ONE, TWO -> other.add(this);
-            };
-        }
-    },
-    ZERO('0', 0) {
-        @Override
-        SnafuNumber add(SnafuDigit other) {
-            return new SnafuNumber(other);
-        }
-    },
-    ONE('1', 1) {
-        @Override
-        SnafuNumber add(SnafuDigit other) {
-            return switch(other) {
-                case DOUBLE_MINUS  -> new SnafuNumber(MINUS);
-                case MINUS         -> new SnafuNumber(ZERO);
-                case ONE           -> new SnafuNumber(TWO);
-                case TWO           -> new SnafuNumber(ONE, DOUBLE_MINUS);
-                case ZERO          -> other.add(this);
-            };
-        }
-    },
-    TWO('2', 2) {
-        @Override
-        SnafuNumber add(SnafuDigit other) {
-            return switch(other) {
-                case DOUBLE_MINUS -> new SnafuNumber(ZERO);
-                case MINUS        -> new SnafuNumber(ONE);
-                case TWO          -> new SnafuNumber(ONE, MINUS);
-                case ZERO, ONE    -> other.add(this);
-            };
-        }
-    };
+    DOUBLE_MINUS('=', -2),
+    MINUS('-', -1),
+    ZERO('0', 0),
+    ONE('1', 1),
+    TWO('2', 2);
     
     private final char representation;
     private final int value;
@@ -97,12 +54,4 @@ enum SnafuDigit {
     public String toString() {
         return "" + representation;
     }
-    
-    /**
-     * Adds tbe given other digit to this one.
-     * 
-     * @param other other digit value
-     * @return sum of the two single-digit numbers
-     */
-    abstract SnafuNumber add(SnafuDigit other);
 }
