@@ -26,13 +26,31 @@ record SnafuNumber(List<SnafuDigit> digits) {
     }
     
     /**
+     * Converts an integer to a SNAFU number.
+     * 
+     * @param i integer value
+     * @return SNAFU number
+     */
+    static SnafuNumber valueOf(int i) {
+        return ZERO; // TODO implement
+    }
+    
+    /**
      * Adds the given other SNAFU number to this one.
      * 
      * @param other other number
      * @return sum of the given numbers
      */
     SnafuNumber add(SnafuNumber other) {
-        return this; // TODO implement (either by converting to and from ints, or just implementing SNAFU addition directly)
+        var sum = this.intValue() + other.intValue();
+        return valueOf(sum);
+    }
+    
+    /**
+     * @return integer value corresponding to this number
+     */
+    int intValue() {
+        return 0; // TODO implement 
     }
     
     @Override
