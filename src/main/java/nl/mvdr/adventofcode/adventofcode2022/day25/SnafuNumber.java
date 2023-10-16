@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day25;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,7 +34,22 @@ record SnafuNumber(List<SnafuDigit> digits) {
      * @return SNAFU number
      */
     static SnafuNumber valueOf(int i) {
-        return ZERO; // TODO implement
+        var e = 0;
+        while (2 < i / Math.pow(5, e)) {
+            e++;
+        }
+        
+        System.out.println(i + " - " + e);
+        
+        List<SnafuDigit> resultDigits = new ArrayList<>(e);
+        
+//        
+//        var remaining = i;
+//        while (remaining != 0) {
+//            var d = remaining / Math.pow(5, e);
+//        }
+//        return new SnafuNumber(resultDigits);
+        return SnafuNumber.ZERO;
     }
     
     /**
