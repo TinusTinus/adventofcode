@@ -34,22 +34,9 @@ record SnafuNumber(List<SnafuDigit> digits) {
      * @return SNAFU number
      */
     static SnafuNumber valueOf(int i) {
-        var e = 0;
-        while (2 < i / Math.pow(5, e)) {
-            e++;
-        }
-        
-        System.out.println(i + " - " + e);
-        
-        List<SnafuDigit> resultDigits = new ArrayList<>(e);
-        
-//        
-//        var remaining = i;
-//        while (remaining != 0) {
-//            var d = remaining / Math.pow(5, e);
-//        }
-//        return new SnafuNumber(resultDigits);
-        return SnafuNumber.ZERO;
+        List<SnafuDigit> resultDigits = new ArrayList<>();
+        // TODO stuff
+        return new SnafuNumber(resultDigits);
     }
     
     /**
@@ -67,9 +54,13 @@ record SnafuNumber(List<SnafuDigit> digits) {
      * @return integer value corresponding to this number
      */
     int intValue() {
-        return IntStream.range(0, digits.size())
-                .map(i -> digits.get(digits.size() - 1 - i).getValue() * (int)Math.pow(5, i))
-                .sum();
+        var result = 0;
+        var place = 1;
+        for (var digit : digits.reversed()) {
+            result = result + digit.getValue() * place;
+            place = place * 5;
+        }
+        return result;
     }
     
     @Override
