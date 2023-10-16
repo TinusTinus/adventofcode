@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day25;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
