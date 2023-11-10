@@ -22,7 +22,6 @@
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>5.10.0</junit.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-        <maven-build-cache-extension.version>1.0.1</maven-build-cache-extension.version>
         <slf4j.version>1.7.36</slf4j.version>
     </properties>
 
@@ -89,13 +88,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.extensions</groupId>
-                <artifactId>maven-build-cache-extension</artifactId>
-                <version>${maven-build-cache-extension.version}</version>
-            </extension>
-        </extensions>
     </build>
-
 </project>
