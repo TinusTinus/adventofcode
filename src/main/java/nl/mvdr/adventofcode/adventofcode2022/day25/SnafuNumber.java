@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day25;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -81,7 +83,9 @@ record SnafuNumber(List<SnafuDigit> digits) {
     BigInteger bigIntegerValue() {
         var result = BigInteger.ZERO;
         var place = BigInteger.ONE;
-        for (var digit : digits.reversed()) {
+        List<SnafuDigit> reversedDigits = new ArrayList<>(digits);
+        Collections.reverse(reversedDigits);
+        for (var digit : reversedDigits) { // TODO in Java 21 we can use digits.reverse()
             result = result.add(digit.bigIntegerValue().multiply(place));
             place = place.multiply(BigInteger.valueOf(5));
         }
