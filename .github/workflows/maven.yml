@@ -14,7 +14,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Check out from master
+      uses: actions/checkout@v3
+      with:
+        ref: master
+    - name: Perform git pull
+      # This should make sure that we are using the latest revision
+      run: git pull origin master
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
