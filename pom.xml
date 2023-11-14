@@ -22,6 +22,12 @@
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>5.10.0</junit.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <!--
+          Note: the Maven Surefire plug-in version should be at least 2.22.0.
+          This ensures it respects JUnit 5's @Disabled annotations.
+          (This does not seem to be the case for the plug-in version used by default on Github Actions, as of 14 Nov 2023.)
+        -->
+        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
     </properties>
 
@@ -78,7 +84,17 @@
     </dependencies>
 
     <build>
+	    <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+			<!-- TODO consider moving the following to plugin management as well -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
