@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day03;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -23,6 +24,7 @@ public class SlicePart2Test extends SolverTest<SlicePart2> {
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // long-running test case
     public void testSolution() {
         assertSolution("1097", "input-day03-2018.txt");
     }

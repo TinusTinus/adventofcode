@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day19;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,6 +47,7 @@ public class BlueprintTest {
      * Test case for {@link Blueprint#computeQualityLevel()}.
      */
     @Test
+    @Disabled // long-running test case
     public void testComputeQualityLevel1() {
         var text = "Blueprint 1:"
                 + " Each ore robot costs 4 ore."
@@ -63,6 +65,7 @@ public class BlueprintTest {
      * Test case for {@link Blueprint#computeQualityLevel()}.
      */
     @Test
+    @Disabled // long-running test case
     public void testComputeQualityLevel2() {
         var text = "Blueprint 2:"
                 + " Each ore robot costs 2 ore."

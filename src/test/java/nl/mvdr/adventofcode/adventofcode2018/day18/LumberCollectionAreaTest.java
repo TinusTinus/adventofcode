@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day18;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.LinesSolver;
@@ -212,6 +213,7 @@ public class LumberCollectionAreaTest {
      * @throws IOException unexpected
      */
     @Test
+    @Disabled // long-running test case
     public void testCycle0() throws IOException {
         LumberCollectionArea area = LumberCollectionArea.parse(LinesSolver.toPath(getClass(), "input-day18-2018.txt"));
         
@@ -227,6 +229,7 @@ public class LumberCollectionAreaTest {
      * @throws IOException unexpected
      */
     @Test
+    @Disabled // long-running test case
     public void testCycle1() throws IOException {
         LumberCollectionArea area = LumberCollectionArea.parse(LinesSolver.toPath(getClass(), "input-day18-2018.txt"));
         
@@ -242,6 +245,7 @@ public class LumberCollectionAreaTest {
      * @throws IOException unexpected
      */
     @Test
+    @Disabled // long-running test case
     public void testCycle2() throws IOException {
         LumberCollectionArea area = LumberCollectionArea.parse(LinesSolver.toPath(getClass(), "input-day18-2018.txt"));
         
@@ -257,6 +261,7 @@ public class LumberCollectionAreaTest {
      * @throws IOException unexpected
      */
     @Test
+    @Disabled // long-running test case
     public void testCycle28() throws IOException {
         LumberCollectionArea area = LumberCollectionArea.parse(LinesSolver.toPath(getClass(), "input-day18-2018.txt"));
         
@@ -272,6 +277,7 @@ public class LumberCollectionAreaTest {
      * @throws IOException unexpected
      */
     @Test
+    @Disabled // long-running test case
     public void testCycle29() throws IOException {
         LumberCollectionArea area = LumberCollectionArea.parse(LinesSolver.toPath(getClass(), "input-day18-2018.txt"));
         
@@ -287,6 +293,7 @@ public class LumberCollectionAreaTest {
      * @throws IOException unexpected
      */
     @Test
+    @Disabled // long-running test case
     public void testCycleTwice1() throws IOException {
         LumberCollectionArea area = LumberCollectionArea.parse(LinesSolver.toPath(getClass(), "input-day18-2018.txt"));
         

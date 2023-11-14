@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day14;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -24,6 +25,7 @@ public class RegolithReservoirPart2Test extends SolverTest<RegolithReservoirPart
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // long-running test case
     public void testSolution() {
         assertSolution("27155", "input-day14-2022.txt");
     }

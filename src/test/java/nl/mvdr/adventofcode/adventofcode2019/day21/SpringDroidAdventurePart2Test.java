@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day21;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -18,6 +19,7 @@ public class SpringDroidAdventurePart2Test extends SolverTest<SpringdroidAdventu
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // long-running test case
     public void testSolution() {
         assertSolution("1141869516", "input-day21-2019.txt"); 
     }

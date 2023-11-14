@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day22;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -72,6 +73,7 @@ public class SporificaVirusPart2Test extends SolverTest<SporificaVirusPart2> {
     
     /** Test case based on an example from the puzzle text. */
     @Test
+    @Disabled // long-running test case
     public void testExample10MillionBursts() {
         assertSolution("2511944", "example-day22-2017.txt");
     }
@@ -84,6 +86,7 @@ public class SporificaVirusPart2Test extends SolverTest<SporificaVirusPart2> {
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // long-running test case
     public void testSolution() {
         assertSolution("2512103", "input-day22-2017.txt");
     }

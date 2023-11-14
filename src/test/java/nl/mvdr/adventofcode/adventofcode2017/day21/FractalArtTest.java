@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day21;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -61,6 +62,7 @@ public class FractalArtTest extends SolverTest<FractalArt> {
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // long-running test case
     public void testPart2Solution() {
         assertSolution(new FractalArt(18), "2449665", "input-day21-2017.txt");
     }

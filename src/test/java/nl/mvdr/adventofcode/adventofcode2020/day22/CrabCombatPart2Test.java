@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day22;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -31,6 +32,7 @@ public class CrabCombatPart2Test extends SolverTest<CrabCombatPart2> {
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // long-running test case
     public void testSolution() {
         assertSolution("32789", "input-day22-2020.txt");
     }

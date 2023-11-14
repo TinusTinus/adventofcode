@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2020.day17;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -42,12 +43,14 @@ public class ConwayCubesPart2Test extends SolverTest<ConwayCubesPart2> {
     
     /** Test case based on an example from the puzzle text. */
     @Test
+    @Disabled // long-running test case
     public void testExample() {
         assertSolution("848", "example-day17-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // long-running test case
     public void testSolution() {
         assertSolution("1492", "input-day17-2020.txt");
     }

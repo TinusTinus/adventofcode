@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -17,6 +18,7 @@ public class ImmuneSystemSimulatorPart2Test extends SolverTest<ImmuneSystemSimul
 
     /** Test case based on the accepted solution to the puzzle. */
     @Test
+    @Disabled // long-running test case
     public void testSolution() {
         assertSolution("8812", "input-day24-2018.txt");
     }

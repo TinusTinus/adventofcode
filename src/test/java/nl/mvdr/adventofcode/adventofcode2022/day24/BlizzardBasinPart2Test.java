@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2022.day24;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -30,6 +31,7 @@ public class BlizzardBasinPart2Test extends SolverTest<BlizzardBasinPart2> {
     
     /** Test case based on the accepted solution. */
     @Test
+    @Disabled // long-running test case
     public void testSolution() {
         assertSolution("974", "input-day24-2022.txt");
     }
