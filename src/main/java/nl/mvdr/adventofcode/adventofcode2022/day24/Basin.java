@@ -87,9 +87,7 @@ record Basin(int width, int height, Point start, Point goal, Set<Point> walls, S
     Basin moveToGoalStartGoal() {
         Basin basin = this;
         basin = basin.moveTo(goal);
-        basin = basin.withReachablePoints(Set.of(goal));
         basin = basin.moveTo(start);
-        basin = basin.withReachablePoints(Set.of(start));
         basin = basin.moveTo(goal);
         return basin;
     }
@@ -105,7 +103,9 @@ record Basin(int width, int height, Point start, Point goal, Set<Point> walls, S
         while (!basin.reachablePoints().contains(target)) {
             basin = basin.tick();
         }
+        // Path to target found
         LOGGER.debug("{} reached after {} minutes", target, Integer.valueOf(basin.minutesPassed()));
+        basin = basin.withReachablePoints(Set.of(target));
         return basin;
     }
     
