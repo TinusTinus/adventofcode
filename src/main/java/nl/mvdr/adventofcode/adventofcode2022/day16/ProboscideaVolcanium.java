@@ -25,7 +25,6 @@ class ProboscideaVolcanium implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var network = Network.parse(lines.toList());
-        // TODO depth-first search?
         var startState = new State(network, helperElephant);
         return startState.maxPressureReleased();
     }
