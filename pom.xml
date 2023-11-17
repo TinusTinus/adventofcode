@@ -28,7 +28,7 @@
           (This does not seem to be the case for the plug-in version used by default on Github Actions, as of 14 Nov 2023.)
         -->
         <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j.version>2.0.9</slf4j.version>
     </properties>
 
     <dependencies>
