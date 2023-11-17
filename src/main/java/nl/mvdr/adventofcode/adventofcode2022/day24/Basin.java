@@ -104,8 +104,8 @@ record Basin(int width, int height, Point start, Point goal, Set<Point> walls, S
             basin = basin.tick();
         }
         // Path to target found
+        basin = basin.visit(target);
         LOGGER.debug("{} reached after {} minutes", target, Integer.valueOf(basin.minutesPassed()));
-        basin = basin.withReachablePoints(Set.of(target));
         return basin;
     }
     
@@ -156,12 +156,15 @@ record Basin(int width, int height, Point start, Point goal, Set<Point> walls, S
     }
     
     /**
-     * Returns a copy of this basin, with the given reachable points.
+     * Returns a copy of this basin, with the current location updated to the given point.
      * 
-     * @param newReachablePoints reachable points value
+     * @param target target point 
      * @return updated basin
      */
-    private Basin withReachablePoints(Set<Point> newReachablePoints) {
-        return new Basin(width, height, start, goal, walls, blizzards, newReachablePoints, minutesPassed);
+    private Basin visit(Point target) {
+        if (!reachablePoints.contains(target)) {
+            throw new IllegalArgumentException("Target is not reachable: " + target);
+        }
+        return new Basin(width, height, start, goal, walls, blizzards, Set.of(target), minutesPassed);
     }
 }
