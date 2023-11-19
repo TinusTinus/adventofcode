@@ -35,6 +35,7 @@ enum Instruction {
      * Constructor.
      * 
      * @param stringRepresentation string representation of the instruction
+     * @param direction the direction to move the submarine, in part 1 of the puzzle
      */
     Instruction(String stringRepresentation, Direction direction) {
         this.stringRepresentation = stringRepresentation;
@@ -48,7 +49,26 @@ enum Instruction {
      * @param distance the distance to move
      * @return end location
      */
-    Point move(Point point, int distance) {
+    private Point move(Point point, int distance) {
         return direction.move(point, distance);
+    }
+    
+    /**
+     * Performs this instruction.
+     * 
+     * @param startingState starting state of the submarine
+     * @param x x parameter of the command
+     * @param applyAim whether the rules from part 2 of the puzzle should be applied
+     * @return updated submarine state
+     */
+    Submarine execute(Submarine startingState, int x, boolean applyAim) {
+        Submarine result;
+        if (applyAim) {
+            throw new IllegalStateException("Not yet implemented"); // TODO
+        } else {
+            var newLocation = move(startingState.location(), x);
+            result = new Submarine(newLocation, 0);
+        }
+        return result;
     }
 }

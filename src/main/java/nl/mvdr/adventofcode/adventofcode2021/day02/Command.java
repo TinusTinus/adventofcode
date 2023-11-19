@@ -50,13 +50,6 @@ record Command(Instruction instruction, int x, boolean applyAim) {
      * @return the submarine's end point
      */
     Submarine execute(Submarine startingState) {
-        Submarine result;
-        if (applyAim) {
-            result = null; // TODO
-        } else {
-            var newLocation = instruction.move(startingState.location(), x);
-            result = new Submarine(newLocation, 0);
-        }
-        return result;
+        return instruction.execute(startingState, x, applyAim);
     }
 }
