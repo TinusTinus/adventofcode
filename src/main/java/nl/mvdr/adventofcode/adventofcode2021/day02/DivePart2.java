@@ -11,13 +11,13 @@ import nl.mvdr.adventofcode.Solver;
  *
  * @author Martijn van de Rijdt
  */
-public class DivePart1 implements Solver {
+public class DivePart2 implements Solver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DivePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DivePart2.class);
 
     @Override
     public String solve(String inputfile) {
-        return new Dive(false).solve(inputfile);
+        return new Dive(true).solve(inputfile);
     }
 
     /**
@@ -26,7 +26,7 @@ public class DivePart1 implements Solver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new DivePart1();
+        var instance = new DivePart2();
 
         var result = instance.solve("input-day02-2021.txt");
 
