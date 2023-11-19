@@ -37,9 +37,7 @@ public class TaxicabPart1 implements IntSolver {
             direction = turnDirection.turn(direction);
             
             int numberOfSteps = Integer.parseInt(part.substring(1));
-            for (int i = 0; i != numberOfSteps; i++) {
-                location = direction.move(location);
-            }
+            location = direction.move(location, numberOfSteps);
         }
         
         return location.manhattanDistanceToOrigin();
