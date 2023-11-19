@@ -25,6 +25,6 @@ public class DivePart2Test extends SolverTest<DivePart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day02-2021.txt");
+        assertSolution("?", "input-day02-2021.txt"); // 1648020 is too low! (maybe an overflow?)
     }
 }
