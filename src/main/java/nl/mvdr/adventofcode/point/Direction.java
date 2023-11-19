@@ -99,8 +99,8 @@ public enum Direction {
      * @return next location
      */
     public Point move(Point location, int numberOfSteps) {
-        // Note: this could be done a lot more efficiently, but that has not been a priority up until now.
-        // Let's just reuse the existing move method.
+        // Note: this could be done a lot more efficiently by just adding / subtracting the number of steps from the appropriate coordinate.
+        // However, performance has not been an issue up until now. Let's just reuse the existing move method.
         Point result;
         if (numberOfSteps < 0) {
             result = reverse().move(location, -numberOfSteps);
