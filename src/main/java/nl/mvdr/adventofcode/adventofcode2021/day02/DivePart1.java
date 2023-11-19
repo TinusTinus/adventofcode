@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Solution to the day 3 puzzle of 2022's Advent of Code:
@@ -19,7 +20,14 @@ public class DivePart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        var commands = Command.parse(lines);
+        
+        var location = Point.ORIGIN;
+        for (Command command : commands) {
+            location = command.execute(location);
+        }
+        
+        return location.x() * location.y();
     }
 
     /**
