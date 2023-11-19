@@ -1,13 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2021.day01;
 
-import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.Solver;
 
 /**
  * Solution to the day 1 puzzle of 2021's Advent of Code:
@@ -15,24 +11,15 @@ import nl.mvdr.adventofcode.LongSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class SonarSweepPart1 implements LongSolver {
+public class SonarSweepPart1 implements Solver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SonarSweepPart1.class);
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @return score
-     */
     @Override
-    public long solve(Stream<String> lines) {
-        List<Integer> report = lines.map(Integer::valueOf)
-                .toList();
-        return IntStream.range(1, report.size())
-                .filter(i -> report.get(i - 1).intValue() < report.get(i).intValue())
-                .count();
+    public String solve(String inputfile) {
+        return new SonarSweep(1).solve(inputfile);
     }
-
+    
     /**
      * Main method.
      * 
