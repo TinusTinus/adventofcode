@@ -91,6 +91,28 @@ public enum Direction {
         return next.apply(location);
     }
     
+    /**
+     * Moves in this direction.
+     * 
+     * @param location current location
+     * @param numberOfSteps number of steps to move
+     * @return next location
+     */
+    public Point move(Point location, int numberOfSteps) {
+        // Note: this could be done a lot more efficiently, but that has not been a priority up until now.
+        // Let's just reuse the existing move method.
+        Point result;
+        if (numberOfSteps < 0) {
+            result = reverse().move(location, -numberOfSteps);
+        } else {
+            result = location;
+            for (int i = 0; i != numberOfSteps; i++) {
+                result = move(result);
+            }
+        }
+        return result;
+    }
+    
     /** @return the direction counter-clockwise from this one */
     public Direction turnCounterClockwise() {
         Direction result;
