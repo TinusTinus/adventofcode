@@ -28,7 +28,7 @@ record BingoGame(List<Integer> numbers, Set<BingoCard> cards) {
                 .toList();
         
         // Starting from line 2, the puzzle input consists of bingo cards, separated by an extra empty line.
-        var bingoCards = IntStream.range(0, Math.divideExact(lines.size() - 2, (BingoCard.SIZE + 1)))
+        var bingoCards = IntStream.range(0, Math.divideExact(lines.size() - 2, (BingoCard.SIZE + 1)) + 1)
                 .map(bingoCardIndex -> 2 + bingoCardIndex * (BingoCard.SIZE + 1))
                 .mapToObj(startIndex -> lines.subList(startIndex, startIndex + BingoCard.SIZE))
                 .map(BingoCard::parse)
