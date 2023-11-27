@@ -25,6 +25,6 @@ public class BinaryDiagnosticPart2Test extends SolverTest<BinaryDiagnosticPart2>
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day03-2021.txt");
+        assertSolution("2135254", "input-day03-2021.txt");
     }
 }

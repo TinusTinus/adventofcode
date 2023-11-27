@@ -35,6 +35,7 @@ public class BinaryDiagnosticPart1 implements IntSolver {
     }
     
     /**
+     * Calculates the gamma rate.
      * 
      * @param numbers diagnostic report 
      * @return gamma rate
