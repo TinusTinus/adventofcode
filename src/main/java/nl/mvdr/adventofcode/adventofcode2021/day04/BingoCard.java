@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2021.day04;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -56,5 +58,15 @@ record BingoCard(List<List<Integer>> rows) {
                         .map(row -> row.get(columnIndex))
                         .toList())
                 .collect(Collectors.toList());
+    }
+    
+    /**
+     * @return all unique rows and columns of this card
+     */
+    Set<List<Integer>> rowsAndColumns() {
+        Set<List<Integer>> result = new HashSet<>();
+        result.addAll(rows());
+        result.addAll(columns());
+        return result;
     }
 }

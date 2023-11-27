@@ -19,8 +19,7 @@ public class GiantSquidPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var game = BingoGame.parse(lines.toList());
-        
-        return 0; // TODO
+        return game.calculateWinningScore();
     }
     
     /**
