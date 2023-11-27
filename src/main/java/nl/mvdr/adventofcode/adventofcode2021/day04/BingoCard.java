@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day04;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -51,7 +52,7 @@ record BingoCard(List<List<Integer>> rows) {
     /**
      * @return columns of this card
      */
-    List<List<Integer>> columns() {
+    private List<List<Integer>> columns() {
         return IntStream.range(0, SIZE)
                 .mapToObj(columnIndex -> IntStream.range(0, SIZE)
                         .mapToObj(rowIndex -> rows.get(rowIndex))
@@ -63,10 +64,37 @@ record BingoCard(List<List<Integer>> rows) {
     /**
      * @return all unique rows and columns of this card
      */
-    Set<List<Integer>> rowsAndColumns() {
+    private Set<List<Integer>> rowsAndColumns() {
+        // Note: could be cached if that would help with performance
         Set<List<Integer>> result = new HashSet<>();
         result.addAll(rows());
         result.addAll(columns());
         return result;
+    }
+
+    /**
+     * Checks whether there is a bingo.
+     * 
+     * @param drawnNumbers the numbers which have been drawn
+     * @return whether this card is a winner
+     */
+    boolean bingo(List<Integer> drawnNumbers) {
+        return rowsAndColumns().stream()
+                .anyMatch(drawnNumbers::containsAll);
+    }
+    
+    /**
+     * Computes the score of this card.
+     * 
+     * @param drawnNumbers the numbers which have been drawn
+     * @return score
+     */
+    int score(List<Integer> drawnNumbers) {
+        var sum = rows.stream()
+                .flatMap(List::stream)
+                .filter(Predicate.not(drawnNumbers::contains))
+                .mapToInt(Integer::intValue)
+                .sum();
+        return sum * drawnNumbers.getLast().intValue();
     }
 }

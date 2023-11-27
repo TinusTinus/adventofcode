@@ -41,32 +41,16 @@ record BingoGame(List<Integer> numbers, Set<BingoCard> cards) {
      * @return winning score of this game
      */
     int calculateWinningScore() {
-        var rowsAndColumns = cards.stream()
-                .map(BingoCard::rowsAndColumns)
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
-        
-        OptionalInt result = OptionalInt.empty();
         var numbersDrawn = 0;
-        while(result.isEmpty()) {
+        OptionalInt result = OptionalInt.empty();
+        while (result.isEmpty()) {
             numbersDrawn++;
-            result = calculateWinningScore(rowsAndColumns, numbersDrawn);
+            var drawnNumbers = numbers.subList(0, numbersDrawn);
+            result = cards.stream()
+                    .filter(card -> card.bingo(drawnNumbers))
+                    .mapToInt(card -> card.score(drawnNumbers))
+                    .max();
         }
         return result.orElseThrow();
-    }
-
-    /**
-     * Calculates the maximum winning score after the given number of drawn numbers.
-     * 
-     * @param rowsAndColumns all rows and columns of all bingo cards
-     * @param numbersDrawn the number of numbers which have been drawn
-     * @return maximum winning score
-     */
-    private OptionalInt calculateWinningScore(Set<List<Integer>> rowsAndColumns, int numbersDrawn) {
-        return rowsAndColumns.stream()
-                .filter(series -> numbers.subList(0, numbersDrawn).containsAll(series))
-                .mapToInt(series -> series.stream().mapToInt(Integer::intValue).sum())
-                .map(score -> score * numbers.get(numbersDrawn - 1).intValue())
-                .max();
     }
 }
