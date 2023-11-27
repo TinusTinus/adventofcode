@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day04;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -45,12 +46,42 @@ record BingoGame(List<Integer> numbers, Set<BingoCard> cards) {
         OptionalInt result = OptionalInt.empty();
         while (result.isEmpty()) {
             numbersDrawn++;
-            var drawnNumbers = numbers.subList(0, numbersDrawn);
+            var drawnNumbers = draw(numbersDrawn);
             result = cards.stream()
                     .filter(card -> card.bingo(drawnNumbers))
                     .mapToInt(card -> card.score(drawnNumbers))
                     .max();
         }
         return result.orElseThrow();
+    }
+
+    /**
+     * Draws the given number of bingo numbers.
+     * 
+     * @param n numbers to draw
+     * @return drawn numbers
+     */
+    private List<Integer> draw(int n) {
+        return numbers.subList(0, n);
+    }
+    
+    /**
+     * @return score of the last board to win
+     */
+    int calculateLastWinnerScore() {
+        var remainingCards = cards;
+        var numbersDrawn = 0;
+        while (1 < remainingCards.size()) {
+            numbersDrawn++;
+            var drawnNumbers = draw(numbersDrawn);
+            remainingCards = remainingCards.stream()
+                    .filter(Predicate.not(card -> card.bingo(drawnNumbers)))
+                    .collect(Collectors.toSet());
+        }
+        var lastCard = remainingCards.iterator().next();
+        while (!lastCard.bingo(draw(numbersDrawn))) {
+            numbersDrawn++;
+        }
+        return lastCard.score(draw(numbersDrawn));
     }
 }
