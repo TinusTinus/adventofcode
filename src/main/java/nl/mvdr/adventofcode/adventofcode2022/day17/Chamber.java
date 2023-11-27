@@ -230,7 +230,7 @@ class Chamber {
                 cleanUp(point.y());
             }
             if (settledRockCount % 100_000 == 0) {
-                LOGGER.debug("Settled rocks: {}, tower height: {}, blocks: {}", Integer.valueOf(settledRockCount), Integer.valueOf(height()), Integer.valueOf(tower.size())); // TODO debug maybe?
+                LOGGER.debug("Settled rocks: {}, tower height: {}, blocks: {}", Integer.valueOf(settledRockCount), Integer.valueOf(height()), Integer.valueOf(tower.size()));
             }
             
             // Immediately a new rock starts falling
