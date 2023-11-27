@@ -140,7 +140,7 @@ record GameState(List<Integer> cups) {
         }
         LOGGER.debug("destination: " + destination);
 
-        int indexOfDestination = cups.indexOf(Integer.valueOf(destination)); // TODO this indexof is expensive, use some administration to prevent this lookup
+        int indexOfDestination = cups.indexOf(Integer.valueOf(destination)); // note: this indexof is expensive, we could use some administration to prevent this lookup
         cups.addAll(indexOfDestination + 1, pickup);
         cups.add(Integer.valueOf(current));
     }
