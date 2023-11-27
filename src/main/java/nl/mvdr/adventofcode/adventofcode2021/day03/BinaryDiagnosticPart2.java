@@ -56,7 +56,8 @@ public class BinaryDiagnosticPart2 implements IntSolver {
      * 
      * @param numbers remaining candidate numbers
      * @param position next position to consider
-     * @param bitCriteria the bit criteria to apply for the rating
+     * @param bitCriteria the bit criteria to apply for the rating:
+     *     takes a list of numbers and a position, and returns a bit value ('0' or '1') for filtering
      * @return rating value
      */
     private String findRating(List<String> numbers, int position, BiFunction<List<String>, Integer, Character> bitCriteria) {
