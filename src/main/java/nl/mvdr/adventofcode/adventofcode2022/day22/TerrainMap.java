@@ -109,7 +109,8 @@ record TerrainMap(Map<Point, Terrain> map, Set<Square> squares, Map<SquareAndDir
      * @return terrain map
      */
     private static TerrainMap createMapForPuzzleInput(Map<Point, Terrain> map, WrapAroundStrategy strategy) {
-        // TODO rewrite this createMapForPuzzleInput and createMapForExampleInput, to not require knowledge of the specific input.
+        // This createMapForPuzzleInput and createMapForExampleInput methods could be rewritten,
+        // to not require knowledge of the specific input.
         // 
         // Detecting squares could be done in a pretty straightforward fashion:
         // We can check whether there is a square at (1, 1), (51, 1), (101, 1) etc., then (1, 51), (51, 51), etc..
