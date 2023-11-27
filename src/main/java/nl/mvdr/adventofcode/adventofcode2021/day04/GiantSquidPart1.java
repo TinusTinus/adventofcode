@@ -17,7 +17,16 @@ public class GiantSquidPart1 implements IntSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(GiantSquidPart1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
+    public int solve(Stream<String> linesStream) {
+        var lines = linesStream.toList();
+        
+        var numbersLine = lines.get(0);
+        var numbers = Stream.of(numbersLine.split(","))
+                .map(Integer::valueOf)
+                .toList();
+        
+        var bingoCards = BingoCard.readBingoCards(lines);
+        
         return 0; // TODO
     }
     
