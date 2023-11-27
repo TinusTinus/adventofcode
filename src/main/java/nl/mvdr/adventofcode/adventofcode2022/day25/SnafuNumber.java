@@ -83,9 +83,7 @@ record SnafuNumber(List<SnafuDigit> digits) {
     BigInteger bigIntegerValue() {
         var result = BigInteger.ZERO;
         var place = BigInteger.ONE;
-        List<SnafuDigit> reversedDigits = new ArrayList<>(digits);
-        Collections.reverse(reversedDigits);
-        for (var digit : reversedDigits) { // TODO in Java 21 we can use digits.reverse()
+        for (var digit : digits.reversed()) {
             result = result.add(digit.bigIntegerValue().multiply(place));
             place = place.multiply(BigInteger.valueOf(5));
         }
