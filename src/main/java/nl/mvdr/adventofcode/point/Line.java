@@ -110,9 +110,28 @@ public record Line(Point start, Point end) {
                 // Should be unreachable
                 throw new IllegalStateException("Unable to determine direction for horizontal line: " + this);
             }
+        } else if (start.x() < end.x()) {
+            // Diagonal to the right
+            var diffX = end.x() - start.x();
+            if (start.y() + diffX == end.y()) {
+                result = Direction.DOWN_RIGHT;
+            } else if (start.y() - diffX == end.y()) {
+                result = Direction.UP_RIGHT;
+            } else {
+                // Not a 45 degree angle
+                throw new IllegalStateException("Unable to determine direction for diagonal line: " + this);
+            }
         } else {
-            // TODO return the correct diagonal direction!
-            throw new IllegalStateException("Unable to determine direction for diagonal line: " + this);
+            // Diagonal to the left
+            var diffX = start.x() - end.x();
+            if (start.y() + diffX == end.y()) {
+                result = Direction.DOWN_LEFT;
+            } else if (start.y() - diffX == end.y()) {
+                result = Direction.UP_LEFT;
+            } else {
+                // Not a 45 degree angle
+                throw new IllegalStateException("Unable to determine direction for diagonal line: " + this);
+            }
         }
         
         return result;
