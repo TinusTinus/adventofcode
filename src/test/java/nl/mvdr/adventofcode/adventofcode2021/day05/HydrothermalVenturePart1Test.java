@@ -25,6 +25,6 @@ public class HydrothermalVenturePart1Test extends SolverTest<HydrothermalVenture
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("?", "input-day05-2021.txt");
+        assertSolution("4826", "input-day05-2021.txt");
     }
 }
