@@ -149,6 +149,7 @@ record Basin(int width, int height, Point start, Point goal, Set<Point> walls, S
                 case LEFT -> new Point(width - 2, newLocation.y());
                 case RIGHT -> new Point(1, newLocation.y());
                 case DOWN -> new Point(newLocation.x(), 1);
+                case DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT -> throw new IllegalArgumentException("Unexpected diagonal direction: " + blizzard.direction());
                 default -> throw new IllegalArgumentException("Unexpected direction: " + blizzard.direction());
             };
         }

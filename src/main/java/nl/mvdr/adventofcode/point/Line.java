@@ -111,6 +111,7 @@ public record Line(Point start, Point end) {
                 throw new IllegalStateException("Unable to determine direction for horizontal line: " + this);
             }
         } else {
+            // TODO return the correct diagonal direction!
             throw new IllegalStateException("Unable to determine direction for diagonal line: " + this);
         }
         

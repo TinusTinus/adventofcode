@@ -18,7 +18,15 @@ public enum Direction {
     /** Left / west. */
     LEFT(false, Point::leftNeighbour, 3L, 2, '<', 'L', 'W'),
     /** Right / east. */
-    RIGHT(false, Point::rightNeighbour, 4L, 0, '>', 'R', 'E');
+    RIGHT(false, Point::rightNeighbour, 4L, 0, '>', 'R', 'E'),
+    /** Up-left 45 degree diagonal. */
+    UP_LEFT(false, point -> point.aboveNeighbour().leftNeighbour(), -1L, -1),
+    /** Up-right 45 degree diagonal. */
+    UP_RIGHT(false, point -> point.aboveNeighbour().rightNeighbour(), -1L, -1),
+    /** Down-left 45 degree diagonal. */
+    DOWN_LEFT(false, point -> point.belowNeighbour().leftNeighbour(), -1L, -1),
+    /** Down-right 45 degree diagonal. */
+    DOWN_RIGHT(false, point -> point.belowNeighbour().rightNeighbour(), -1L, -1);
     
     /** Whether this direction is vertical. */
     private final boolean vertical;
@@ -40,8 +48,8 @@ public enum Direction {
      * 
      * @param vertical whether this direction is vertical
      * @param next function that, given a location, determines the next location if a single step is taken in this direction
-     * @param code Intcode representation of this direction
-     * @param passwordValue value of this direction when representing a facing in a password
+     * @param code Intcode representation of this direction; -1 if not applicable
+     * @param passwordValue value of this direction when representing a facing in a password; -1 if not applicable
      * @param representations character representations of this direction
      */
     Direction(boolean vertical, Function<Point, Point> next, long code, int passwordValue, char... representations) {

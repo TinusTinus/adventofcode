@@ -76,6 +76,7 @@ record Square(Point topLeft, int size) {
             case RIGHT -> wrapAroundRight(startingPointRelative, newFacing);
             case UP    -> wrapAroundUp(startingPointRelative, newFacing);
             case DOWN  -> wrapAroundDown(startingPointRelative, newFacing);
+            case DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT -> throw new IllegalArgumentException("Unexpected diagonal direction: " + newFacing);
             default    -> throw new IllegalArgumentException("Unexpected facing: " + startingPosition.facing());
         };
     }
@@ -96,6 +97,7 @@ record Square(Point topLeft, int size) {
             case DOWN  -> new Point(startingPointRelative.y(), 0);
             case UP    -> new Point(size - 1 - startingPointRelative.y(), size - 1);
             case RIGHT -> new Point(0, size - 1 - startingPointRelative.y());
+            case DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT -> throw new IllegalArgumentException("Unexpected diagonal direction: " + newFacing);
             default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
         };
     }
@@ -116,6 +118,7 @@ record Square(Point topLeft, int size) {
             case DOWN  -> new Point(size - 1 - startingPointRelative.y(), 0);
             case UP    -> new Point(startingPointRelative.y(), size - 1);
             case RIGHT -> new Point(0, startingPointRelative.y());
+            case DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT -> throw new IllegalArgumentException("Unexpected diagonal direction: " + newFacing);
             default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
         };
     }
@@ -136,6 +139,7 @@ record Square(Point topLeft, int size) {
             case DOWN  -> new Point(startingPointRelative.x(), 0);
             case UP    -> new Point(size - 1 - startingPointRelative.x(), size - 1);
             case RIGHT -> new Point(0, size - 1 - startingPointRelative.x());
+            case DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT -> throw new IllegalArgumentException("Unexpected diagonal direction: " + newFacing);
             default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
         };
     }
@@ -156,6 +160,7 @@ record Square(Point topLeft, int size) {
             case DOWN  -> new Point(size - 1 - startingPointRelative.x(), 0);
             case UP    -> new Point(startingPointRelative.x(), size - 1); 
             case RIGHT -> new Point(0, startingPointRelative.x());
+            case DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT -> throw new IllegalArgumentException("Unexpected diagonal direction: " + newFacing);
             default    -> throw new IllegalArgumentException("Unexpected facing: " + newFacing);
         };
     }

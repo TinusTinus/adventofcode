@@ -163,6 +163,7 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
             case DOWN  -> canMoveSouth(elf);
             case LEFT  -> canMoveWest(elf);
             case RIGHT -> canMoveEast(elf);
+            case DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT -> throw new IllegalArgumentException("Unexpected diagonal direction: " + direction);
             default -> throw new IllegalArgumentException("Unexpected direction: " + direction);
         };
     }
