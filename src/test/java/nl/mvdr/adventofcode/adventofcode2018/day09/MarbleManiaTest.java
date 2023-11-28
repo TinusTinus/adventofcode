@@ -19,49 +19,49 @@ public class MarbleManiaTest extends SolverTest<MarbleMania> {
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample0() {
-        assertSolution("32", "example-day09-2018-0.txt");
+        testSolution("32", "example-day09-2018-0.txt");
     }
 
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample1() {
-        assertSolution("8317", "example-day09-2018-1.txt");
+        testSolution("8317", "example-day09-2018-1.txt");
     }
 
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample2() {
-        assertSolution("146373", "example-day09-2018-2.txt");
+        testSolution("146373", "example-day09-2018-2.txt");
     }
 
     /** Test case based on an example from the puzzle. */
     @Test
     @Disabled // This test case fails; maybe an error in the example?
     public void testExample3() {
-        assertSolution("2764", "example-day09-2018-3.txt");
+        testSolution("2764", "example-day09-2018-3.txt");
     }
 
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample4() {
-        assertSolution("54718", "example-day09-2018-4.txt");
+        testSolution("54718", "example-day09-2018-4.txt");
     }
 
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample5() {
-        assertSolution("37305", "example-day09-2018-5.txt");
+        testSolution("37305", "example-day09-2018-5.txt");
     }
     
     /** Test case based on the puzzle. */
     @Test
     public void testSolutionPart1() {
-        assertSolution("434674", "input-day09-2018.txt");
+        testSolution("434674", "input-day09-2018.txt");
     }
     
     /** Test case based on the puzzle. */
     @Test
     public void testSolutionPart2() {
-        assertSolution("3653994575", "input-day09-2018-2.txt");
+        testSolution("3653994575", "input-day09-2018-2.txt");
     }
 }

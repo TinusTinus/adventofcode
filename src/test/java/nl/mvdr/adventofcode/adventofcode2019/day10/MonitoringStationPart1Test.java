@@ -19,36 +19,36 @@ public class MonitoringStationPart1Test extends SolverTest<MonitoringStationPart
     /** Test case based on the first example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("8", "example-day10-2019-0.txt");
+        testSolution("8", "example-day10-2019-0.txt");
     }
 
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("33", "example-day10-2019-1.txt");
+        testSolution("33", "example-day10-2019-1.txt");
     }
 
     /** Test case based on the third example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("35", "example-day10-2019-2.txt");
+        testSolution("35", "example-day10-2019-2.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("41", "example-day10-2019-3.txt");
+        testSolution("41", "example-day10-2019-3.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample4() {
-        assertSolution("210", "example-day10-2019-4.txt");
+        testSolution("210", "example-day10-2019-4.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("256", "input-day10-2019.txt"); 
+        testSolution("256", "input-day10-2019.txt"); 
     }
 }

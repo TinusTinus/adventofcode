@@ -25,6 +25,6 @@ public class KnotHashPart1Test extends SolverTest<KnotHashPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1980", "input-day10-2017.txt");
+        testSolution("1980", "input-day10-2017.txt");
     }
 }

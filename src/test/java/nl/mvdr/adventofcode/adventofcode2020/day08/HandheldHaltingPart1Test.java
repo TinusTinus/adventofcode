@@ -24,12 +24,12 @@ public class HandheldHaltingPart1Test extends SolverTest<HandheldHaltingPart1> {
      */
     @Test
     public void testExample() {
-        assertSolution("5", "example-day08-2020.txt");
+        testSolution("5", "example-day08-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1654", "input-day08-2020.txt");
+        testSolution("1654", "input-day08-2020.txt");
     }
 }

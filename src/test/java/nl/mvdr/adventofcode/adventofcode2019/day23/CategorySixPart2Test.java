@@ -19,6 +19,6 @@ public class CategorySixPart2Test extends SolverTest<CategorySixPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("19498", "input-day23-2019.txt");
+        testSolution("19498", "input-day23-2019.txt");
     }
 }

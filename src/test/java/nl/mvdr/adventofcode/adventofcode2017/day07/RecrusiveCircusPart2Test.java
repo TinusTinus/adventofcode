@@ -19,12 +19,12 @@ public class RecrusiveCircusPart2Test extends SolverTest<RecursiveCircusPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("60", "example-day07-2017.txt");
+        testSolution("60", "example-day07-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("362", "input-day07-2017.txt");
+        testSolution("362", "input-day07-2017.txt");
     }
 }

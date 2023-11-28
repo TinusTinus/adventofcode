@@ -37,12 +37,12 @@ public class CustomCustomsPart2Test extends SolverTest<CustomCustomsPart2> {
      */
     @Test
     public void testExample() {
-        assertSolution("6", "example-day06-2020.txt");
+        testSolution("6", "example-day06-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3476", "input-day06-2020.txt");
+        testSolution("3476", "input-day06-2020.txt");
     }
 }

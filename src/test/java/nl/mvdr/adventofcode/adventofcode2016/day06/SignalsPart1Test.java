@@ -19,12 +19,12 @@ public class SignalsPart1Test extends SolverTest<SignalsPart1> {
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("easter", "example-day06-2016.txt");
+        testSolution("easter", "example-day06-2016.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("zcreqgiv", "input-day06-2016.txt");
+        testSolution("zcreqgiv", "input-day06-2016.txt");
     }
 }

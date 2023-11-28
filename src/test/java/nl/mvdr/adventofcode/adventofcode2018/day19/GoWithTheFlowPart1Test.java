@@ -18,12 +18,12 @@ public class GoWithTheFlowPart1Test extends SolverTest<GoWithTheFlowPart1> {
     /** Test case based on the example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("7", "example-day19-2018.txt");
+        testSolution("7", "example-day19-2018.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("2304", "input-day19-2018.txt");
+        testSolution("2304", "input-day19-2018.txt");
     }
 }

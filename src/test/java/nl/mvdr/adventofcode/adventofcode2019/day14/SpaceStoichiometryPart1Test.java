@@ -19,36 +19,36 @@ public class SpaceStoichiometryPart1Test extends SolverTest<SpaceStoichiometryPa
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("31", "example-day14-2019-0.txt");
+        testSolution("31", "example-day14-2019-0.txt");
     }
 
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("165", "example-day14-2019-1.txt");
+        testSolution("165", "example-day14-2019-1.txt");
     }
 
     /** Test case based on the third example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("13312", "example-day14-2019-2.txt");
+        testSolution("13312", "example-day14-2019-2.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("180697", "example-day14-2019-3.txt");
+        testSolution("180697", "example-day14-2019-3.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample4() {
-        assertSolution("2210736", "example-day14-2019-4.txt");
+        testSolution("2210736", "example-day14-2019-4.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("337075", "input-day14-2019.txt"); 
+        testSolution("337075", "input-day14-2019.txt"); 
     }
 }

@@ -19,6 +19,6 @@ public class CarePackagePart1Test extends SolverTest<CarePackagePart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("344", "input-day13-2019.txt"); 
+        testSolution("344", "input-day13-2019.txt"); 
     }
 }

@@ -19,6 +19,6 @@ public class SetAndForgetPart1Test extends SolverTest<SetAndForgetPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("5724", "input-day17-2019.txt"); 
+        testSolution("5724", "input-day17-2019.txt"); 
     }
 }

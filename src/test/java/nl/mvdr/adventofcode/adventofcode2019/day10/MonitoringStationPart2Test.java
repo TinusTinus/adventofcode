@@ -19,7 +19,7 @@ public class MonitoringStationPart2Test extends SolverTest<MonitoringStationPart
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("802", "example-day10-2019-4.txt");
+        testSolution("802", "example-day10-2019-4.txt");
     }
     
     /** The 1st asteroid to be vaporized is at 11,12. */
@@ -91,6 +91,6 @@ public class MonitoringStationPart2Test extends SolverTest<MonitoringStationPart
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1707", "input-day10-2019.txt");
+        testSolution("1707", "input-day10-2019.txt");
     }
 }

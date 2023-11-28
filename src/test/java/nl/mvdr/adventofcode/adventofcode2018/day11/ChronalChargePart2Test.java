@@ -20,18 +20,18 @@ public class ChronalChargePart2Test extends SolverTest<ChronalChargePart2> {
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample0() {
-        assertSolution("90,269,16", "example-day11-2018-0.txt");
+        testSolution("90,269,16", "example-day11-2018-0.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample1() {
-        assertSolution("232,251,12", "example-day11-2018-1.txt");
+        testSolution("232,251,12", "example-day11-2018-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("236,175,11", "input-day11-2018.txt");
+        testSolution("236,175,11", "input-day11-2018.txt");
     }
 }

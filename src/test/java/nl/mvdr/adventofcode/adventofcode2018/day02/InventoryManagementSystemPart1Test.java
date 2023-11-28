@@ -19,7 +19,7 @@ public class InventoryManagementSystemPart1Test extends SolverTest<InventoryMana
 	/** Test case based on the example from the puzzle. */
 	@Test
 	public void testExample() {
-		assertSolution("12", "example-day02-2018.txt");
+		testSolution("12", "example-day02-2018.txt");
 	}
 	
 	/** Test method for {@link InventoryManagementSystemPart1#containsExactlyNOfAnyLetter(String, int)}. */
@@ -165,6 +165,6 @@ public class InventoryManagementSystemPart1Test extends SolverTest<InventoryMana
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("6696", "input-day02-2018.txt");
+        testSolution("6696", "input-day02-2018.txt");
     }
 }

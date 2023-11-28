@@ -19,6 +19,6 @@ public class OxygenSystemPart1Test extends SolverTest<OxygenSystemPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("318", "input-day15-2019.txt"); 
+        testSolution("318", "input-day15-2019.txt"); 
     }
 }

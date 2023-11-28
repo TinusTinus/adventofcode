@@ -19,6 +19,6 @@ public class SlamShufflePart1Test extends SolverTest<SlamShufflePart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3324", "input-day22-2019.txt");
+        testSolution("3324", "input-day22-2019.txt");
     }
 }

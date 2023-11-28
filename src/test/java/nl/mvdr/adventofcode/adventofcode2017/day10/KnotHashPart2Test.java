@@ -34,30 +34,30 @@ public class KnotHashPart2Test extends SolverTest<KnotHashPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("a2582a3a0e66e6e86e3812dcb672a272", "example-day10-2017-1.txt");
+        testSolution("a2582a3a0e66e6e86e3812dcb672a272", "example-day10-2017-1.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("33efeb34ea91902bb2f59c9920caa6cd", "example-day10-2017-2.txt");
+        testSolution("33efeb34ea91902bb2f59c9920caa6cd", "example-day10-2017-2.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("3efbe78a8d82f29979031a4aa0b16a9d", "example-day10-2017-3.txt");
+        testSolution("3efbe78a8d82f29979031a4aa0b16a9d", "example-day10-2017-3.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample4() {
-        assertSolution("63960835bcdc130f0b66d7ff4f6a5a8e", "example-day10-2017-4.txt");
+        testSolution("63960835bcdc130f0b66d7ff4f6a5a8e", "example-day10-2017-4.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("899124dac21012ebc32e2f4d11eaec55", "input-day10-2017.txt");
+        testSolution("899124dac21012ebc32e2f4d11eaec55", "input-day10-2017.txt");
     }
 }

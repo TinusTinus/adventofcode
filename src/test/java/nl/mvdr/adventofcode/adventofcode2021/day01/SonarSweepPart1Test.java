@@ -19,12 +19,12 @@ public class SonarSweepPart1Test extends SolverTest<SonarSweepPart1> {
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("7", "example-day01-2021.txt");
+        testSolution("7", "example-day01-2021.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1448", "input-day01-2021.txt");
+        testSolution("1448", "input-day01-2021.txt");
     }
 }

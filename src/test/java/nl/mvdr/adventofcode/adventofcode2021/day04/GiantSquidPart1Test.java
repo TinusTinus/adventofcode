@@ -19,12 +19,12 @@ public class GiantSquidPart1Test extends SolverTest<GiantSquidPart1> {
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("4512", "example-day04-2021.txt");
+        testSolution("4512", "example-day04-2021.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("31424", "input-day04-2021.txt");
+        testSolution("31424", "input-day04-2021.txt");
     }
 }

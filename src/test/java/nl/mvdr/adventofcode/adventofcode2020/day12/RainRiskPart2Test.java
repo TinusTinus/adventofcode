@@ -19,12 +19,12 @@ public class RainRiskPart2Test extends SolverTest<RainRiskPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("286", "example-day12-2020.txt");
+        testSolution("286", "example-day12-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("78883", "input-day12-2020.txt");
+        testSolution("78883", "input-day12-2020.txt");
     }
 }

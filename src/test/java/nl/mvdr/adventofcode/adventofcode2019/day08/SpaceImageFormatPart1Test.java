@@ -25,6 +25,6 @@ public class SpaceImageFormatPart1Test extends SolverTest<SpaceImageFormatPart1>
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2460", "input-day08-2019.txt"); 
+        testSolution("2460", "input-day08-2019.txt"); 
     }
 }

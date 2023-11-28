@@ -19,36 +19,36 @@ public class TuningTroublePart2Test extends SolverTest<TuningTroublePart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("19", "example-day06-2022-0.txt");
+        testSolution("19", "example-day06-2022-0.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("23", "example-day06-2022-1.txt");
+        testSolution("23", "example-day06-2022-1.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("23", "example-day06-2022-2.txt");
+        testSolution("23", "example-day06-2022-2.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("29", "example-day06-2022-3.txt");
+        testSolution("29", "example-day06-2022-3.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample4() {
-        assertSolution("26", "example-day06-2022-4.txt");
+        testSolution("26", "example-day06-2022-4.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3037", "input-day06-2022.txt");
+        testSolution("3037", "input-day06-2022.txt");
     }
 }

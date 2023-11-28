@@ -19,12 +19,12 @@ public class CalorieCountingPart1Test extends SolverTest<CalorieCountingPart1> {
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("24000", "example-day01-2022.txt");
+        testSolution("24000", "example-day01-2022.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("67027", "input-day01-2022.txt");
+        testSolution("67027", "input-day01-2022.txt");
     }
 }

@@ -20,13 +20,13 @@ public class ProboscideaVolcaniumPart2Test extends SolverTest<ProboscideaVolcani
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("1707", "example-day16-2022.txt");
+        testSolution("1707", "example-day16-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Disabled // This test case takes like half an hour to run
     @Test
     public void testSolution() {
-        assertSolution("2576", "input-day16-2022.txt");
+        testSolution("2576", "input-day16-2022.txt");
     }
 }

@@ -23,7 +23,7 @@ public class AdapterArrayPart1Test extends SolverTest<AdapterArrayPart1> {
      */
     @Test
     public void testExample0() {
-        assertSolution("35", "example-day10-2020-0.txt");
+        testSolution("35", "example-day10-2020-0.txt");
     }
     
     /**
@@ -33,12 +33,12 @@ public class AdapterArrayPart1Test extends SolverTest<AdapterArrayPart1> {
      */
     @Test
     public void testExample1() {
-        assertSolution("220", "example-day10-2020-1.txt");
+        testSolution("220", "example-day10-2020-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2775", "input-day10-2020.txt");
+        testSolution("2775", "input-day10-2020.txt");
     }
 }

@@ -24,12 +24,12 @@ public class ReportRepairPart2Test extends SolverTest<ReportRepairPart2> {
      */
     @Test
     public void testExample() {
-        assertSolution("241861950", "example-day01-2020.txt");
+        testSolution("241861950", "example-day01-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("232508760", "input-day01-2020.txt"); 
+        testSolution("232508760", "input-day01-2020.txt"); 
     }
 }

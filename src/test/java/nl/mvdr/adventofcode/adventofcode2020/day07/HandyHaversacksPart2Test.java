@@ -25,7 +25,7 @@ public class HandyHaversacksPart2Test extends SolverTest<HandyHaversacksPart2> {
      */
     @Test
     public void testExample0() {
-        assertSolution("32", "example-day07-2020-0.txt");
+        testSolution("32", "example-day07-2020-0.txt");
     }
     
     /**
@@ -35,12 +35,12 @@ public class HandyHaversacksPart2Test extends SolverTest<HandyHaversacksPart2> {
      */
     @Test
     public void testExample1() {
-        assertSolution("126", "example-day07-2020-1.txt");
+        testSolution("126", "example-day07-2020-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("18885", "input-day07-2020.txt");
+        testSolution("18885", "input-day07-2020.txt");
     }
 }

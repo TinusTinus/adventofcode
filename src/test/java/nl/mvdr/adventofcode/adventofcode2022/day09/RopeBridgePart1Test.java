@@ -19,12 +19,12 @@ public class RopeBridgePart1Test extends SolverTest<RopeBridgePart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("13", "example-day09-2022-0.txt");
+        testSolution("13", "example-day09-2022-0.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("5683", "input-day09-2022.txt");
+        testSolution("5683", "input-day09-2022.txt");
     }
 }

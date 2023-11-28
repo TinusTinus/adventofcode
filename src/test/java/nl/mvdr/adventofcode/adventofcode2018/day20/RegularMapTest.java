@@ -23,7 +23,7 @@ public class RegularMapTest extends SolverTest<RegularMap> {
      */
     @Test
     public void testExample0() {
-        assertSolution("Part 1: 3, part 2: 0", "example-day20-2018-0.txt");
+        testSolution("Part 1: 3, part 2: 0", "example-day20-2018-0.txt");
     }
     
     /**
@@ -34,7 +34,7 @@ public class RegularMapTest extends SolverTest<RegularMap> {
      */
     @Test
     public void testExample1() {
-        assertSolution("Part 1: 10, part 2: 0", "example-day20-2018-1.txt");
+        testSolution("Part 1: 10, part 2: 0", "example-day20-2018-1.txt");
     }
     
     /**
@@ -45,7 +45,7 @@ public class RegularMapTest extends SolverTest<RegularMap> {
      */
     @Test
     public void testExample2() {
-        assertSolution("Part 1: 18, part 2: 0", "example-day20-2018-2.txt");
+        testSolution("Part 1: 18, part 2: 0", "example-day20-2018-2.txt");
     }
     
     /**
@@ -56,7 +56,7 @@ public class RegularMapTest extends SolverTest<RegularMap> {
      */
     @Test
     public void testExample3() {
-        assertSolution("Part 1: 23, part 2: 0", "example-day20-2018-3.txt");
+        testSolution("Part 1: 23, part 2: 0", "example-day20-2018-3.txt");
     }
     
     /**
@@ -67,12 +67,12 @@ public class RegularMapTest extends SolverTest<RegularMap> {
      */
     @Test
     public void testExample4() {
-        assertSolution("Part 1: 31, part 2: 0", "example-day20-2018-4.txt");
+        testSolution("Part 1: 31, part 2: 0", "example-day20-2018-4.txt");
     }
         
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("Part 1: 3502, part 2: 8000", "input-day20-2018.txt");
+        testSolution("Part 1: 3502, part 2: 8000", "input-day20-2018.txt");
     }
 }

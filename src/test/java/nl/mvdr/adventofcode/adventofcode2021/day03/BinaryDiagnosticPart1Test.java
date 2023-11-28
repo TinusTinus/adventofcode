@@ -19,12 +19,12 @@ public class BinaryDiagnosticPart1Test extends SolverTest<BinaryDiagnosticPart1>
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("198", "example-day03-2021.txt");
+        testSolution("198", "example-day03-2021.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2595824", "input-day03-2021.txt");
+        testSolution("2595824", "input-day03-2021.txt");
     }
 }

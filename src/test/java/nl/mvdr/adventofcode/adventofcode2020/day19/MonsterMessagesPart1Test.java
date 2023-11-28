@@ -19,18 +19,18 @@ public class MonsterMessagesPart1Test extends SolverTest<MonsterMessagesPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("2", "example-day19-2020-0.txt");
+        testSolution("2", "example-day19-2020-0.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("3", "example-day19-2020-1.txt");
+        testSolution("3", "example-day19-2020-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("279", "input-day19-2020.txt");
+        testSolution("279", "input-day19-2020.txt");
     }
 }

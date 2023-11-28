@@ -19,6 +19,6 @@ public class CoprocessorConflagrationPart1Test extends SolverTest<CoprocessorCon
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3969", "input-day23-2017.txt");
+        testSolution("3969", "input-day23-2017.txt");
     }
 }

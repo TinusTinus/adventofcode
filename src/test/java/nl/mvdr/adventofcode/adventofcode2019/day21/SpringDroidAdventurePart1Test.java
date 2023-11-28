@@ -19,6 +19,6 @@ public class SpringDroidAdventurePart1Test extends SolverTest<SpringdroidAdventu
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("19359752", "input-day21-2019.txt"); 
+        testSolution("19359752", "input-day21-2019.txt"); 
     }
 }

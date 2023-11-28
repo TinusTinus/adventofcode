@@ -18,12 +18,12 @@ public class MineCartMadnessPart2Test extends SolverTest<MineCartMadnessPart2> {
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("6,4", "example-day13-2018-4.txt");
+        testSolution("6,4", "example-day13-2018-4.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("143,123", "input-day13-2018.txt");
+        testSolution("143,123", "input-day13-2018.txt");
     }
 }

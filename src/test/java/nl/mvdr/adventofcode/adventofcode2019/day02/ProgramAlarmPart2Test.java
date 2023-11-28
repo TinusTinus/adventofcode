@@ -19,6 +19,6 @@ public class ProgramAlarmPart2Test extends SolverTest<ProgramAlarmPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2505", "input-day02-2019.txt"); 
+        testSolution("2505", "input-day02-2019.txt"); 
     }
 }

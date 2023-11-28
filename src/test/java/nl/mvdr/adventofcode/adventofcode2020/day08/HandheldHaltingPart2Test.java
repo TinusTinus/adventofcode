@@ -19,12 +19,12 @@ public class HandheldHaltingPart2Test extends SolverTest<HandheldHaltingPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("8", "example-day08-2020.txt");
+        testSolution("8", "example-day08-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("833", "input-day08-2020.txt");
+        testSolution("833", "input-day08-2020.txt");
     }
 }

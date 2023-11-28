@@ -85,12 +85,12 @@ public class CrabCupsPart1Test extends SolverTest<CrabCupsPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("67384529", "example-day23-2020.txt");
+        testSolution("67384529", "example-day23-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("32897654", "input-day23-2020.txt");
+        testSolution("32897654", "input-day23-2020.txt");
     }
 }

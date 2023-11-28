@@ -18,12 +18,12 @@ public class ModeMazePart1Test extends SolverTest<ModeMazePart1> {
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("114", "example-day22-2018.txt");
+        testSolution("114", "example-day22-2018.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("9899", "input-day22-2018.txt");
+        testSolution("9899", "input-day22-2018.txt");
     }
 }

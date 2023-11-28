@@ -19,12 +19,12 @@ public class SecurityThroughObscurityPart1Test extends SolverTest<SecurityThroug
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("1514", "example-day04-2016.txt");
+        testSolution("1514", "example-day04-2016.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("245102", "input-day04-2016.txt");
+        testSolution("245102", "input-day04-2016.txt");
     }
 }

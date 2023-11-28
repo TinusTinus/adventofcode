@@ -21,6 +21,6 @@ public class SpringDroidAdventurePart2Test extends SolverTest<SpringdroidAdventu
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("1141869516", "input-day21-2019.txt"); 
+        testSolution("1141869516", "input-day21-2019.txt"); 
     }
 }

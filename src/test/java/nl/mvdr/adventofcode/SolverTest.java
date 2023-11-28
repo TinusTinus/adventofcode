@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Abstract superclass for unit tests of implementations of {@link Solver}.
@@ -46,13 +48,14 @@ public abstract class SolverTest<S extends Solver> {
     }
 
     /**
-     * Invokes the solver and checks that the given solution matches the expected
-     * result.
+     * Checks that the solver produces the expected solution for the given input.
      * 
      * @param expectedSolution expected solution
      * @param inputfile        input file on the (test) classpath
      */
-    public void assertSolution(String expectedSolution, String inputfile) {
+    @ParameterizedTest
+    @MethodSource
+    public void testSolution(String expectedSolution, String inputfile) {
         S solver = instantiateSolver();
 
         assertSolution(solver, expectedSolution, inputfile);

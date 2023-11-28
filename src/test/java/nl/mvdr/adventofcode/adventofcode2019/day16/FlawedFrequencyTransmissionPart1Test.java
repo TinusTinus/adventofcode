@@ -49,24 +49,24 @@ public class FlawedFrequencyTransmissionPart1Test extends SolverTest<FlawedFrequ
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("24176176", "example-day16-2019-1.txt");
+        testSolution("24176176", "example-day16-2019-1.txt");
     }
 
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("73745418", "example-day16-2019-2.txt");
+        testSolution("73745418", "example-day16-2019-2.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("52432133", "example-day16-2019-3.txt");
+        testSolution("52432133", "example-day16-2019-3.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("96136976", "input-day16-2019.txt"); 
+        testSolution("96136976", "input-day16-2019.txt"); 
     }
 }

@@ -19,12 +19,12 @@ public class HydrothermalVenturePart2Test extends SolverTest<HydrothermalVenture
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("12", "example-day05-2021.txt");
+        testSolution("12", "example-day05-2021.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("16793", "input-day05-2021.txt"); // should be at least 4826
+        testSolution("16793", "input-day05-2021.txt"); // should be at least 4826
     }
 }

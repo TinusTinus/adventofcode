@@ -18,18 +18,18 @@ public class ReposeRecordPart1Test extends SolverTest<ReposeRecordPart1> {
     /** Test case based on the puzzle's example. */
     @Test
     public void testExample() {
-        assertSolution("240", "example-day04-2018.txt");
+        testSolution("240", "example-day04-2018.txt");
     }
     
     /** Test case based on the puzzle's example. */
     @Test
     public void testExampleJumbled() {
-        assertSolution("240", "example-day04-2018-jumbled.txt");
+        testSolution("240", "example-day04-2018-jumbled.txt");
     }
     
     /** Test case based on the puzzle's accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("131469", "input-day04-2018.txt");
+        testSolution("131469", "input-day04-2018.txt");
     }
 }

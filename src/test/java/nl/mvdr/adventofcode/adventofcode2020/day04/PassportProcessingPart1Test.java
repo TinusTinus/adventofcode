@@ -35,12 +35,12 @@ public class PassportProcessingPart1Test extends SolverTest<PassportProcessingPa
      */
     @Test
     public void testExample() {
-        assertSolution("2", "example-day04-2020-0.txt");
+        testSolution("2", "example-day04-2020-0.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("239", "input-day04-2020.txt");
+        testSolution("239", "input-day04-2020.txt");
     }
 }

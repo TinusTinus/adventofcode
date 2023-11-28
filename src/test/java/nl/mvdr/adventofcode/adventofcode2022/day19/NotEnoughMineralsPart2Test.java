@@ -21,12 +21,12 @@ public class NotEnoughMineralsPart2Test extends SolverTest<NotEnoughMineralsPart
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("3472", "example-day19-2022.txt"); // 62 * 56
+        testSolution("3472", "example-day19-2022.txt"); // 62 * 56
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3168", "input-day19-2022.txt"); // 6 * 44 * 12
+        testSolution("3168", "input-day19-2022.txt"); // 6 * 44 * 12
     }
 }

@@ -23,12 +23,12 @@ public class TobogganTrajectoryPart1Test extends SolverTest<TobogganTrajectoryPa
      */
     @Test
     public void testExample() {
-        assertSolution("7", "example-day03-2020.txt");
+        testSolution("7", "example-day03-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("198", "input-day03-2020.txt"); 
+        testSolution("198", "input-day03-2020.txt"); 
     }
 }

@@ -20,6 +20,6 @@ public class ImmuneSystemSimulatorPart2Test extends SolverTest<ImmuneSystemSimul
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("8812", "input-day24-2018.txt");
+        testSolution("8812", "input-day24-2018.txt");
     }
 }

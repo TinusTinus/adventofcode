@@ -19,13 +19,13 @@ public class ExperimentalEmergencyTeleportationPart2Test extends SolverTest<Expe
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("36", "example-day23-2018-1.txt");
+        testSolution("36", "example-day23-2018-1.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     @Disabled // This test case takes a long time
     public void testSolution() {
-        assertSolution("124623002", "input-day23-2018.txt");
+        testSolution("124623002", "input-day23-2018.txt");
     }
 }

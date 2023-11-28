@@ -19,12 +19,12 @@ public class DiskDefragmentationPart2Test extends SolverTest<DiskDefragmentation
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("1242", "example-day14-2017.txt");
+        testSolution("1242", "example-day14-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1128", "input-day14-2017.txt");
+        testSolution("1128", "input-day14-2017.txt");
     }
 }

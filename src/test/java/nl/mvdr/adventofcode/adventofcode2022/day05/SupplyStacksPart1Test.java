@@ -19,12 +19,12 @@ public class SupplyStacksPart1Test extends SolverTest<SupplyStacksPart1> {
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("CMZ", "example-day05-2022.txt");
+        testSolution("CMZ", "example-day05-2022.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("ZRLJGSCTR", "input-day05-2022.txt");
+        testSolution("ZRLJGSCTR", "input-day05-2022.txt");
     }
 }

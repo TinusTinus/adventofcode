@@ -19,30 +19,30 @@ public class ChronalCalibrationPart1Test extends SolverTest<ChronalCalibrationPa
     /** Test case based on the first example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("3", "example-day01-2018-0.txt");
+        testSolution("3", "example-day01-2018-0.txt");
     }
 
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("3", "example-day01-2018-1.txt");
+        testSolution("3", "example-day01-2018-1.txt");
     }
 
     /** Test case based on the third example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("0", "example-day01-2018-2.txt");
+        testSolution("0", "example-day01-2018-2.txt");
     }
 
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("-6", "example-day01-2018-3.txt");
+        testSolution("-6", "example-day01-2018-3.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("425", "input-day01-2018.txt");
+        testSolution("425", "input-day01-2018.txt");
     }
 }

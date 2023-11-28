@@ -19,6 +19,6 @@ public class SecurityThroughObscurityPart2Test extends SolverTest<SecurityThroug
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("324", "input-day04-2016.txt");
+        testSolution("324", "input-day04-2016.txt");
     }
 }

@@ -19,12 +19,12 @@ public class TaxicabPart2Test extends SolverTest<TaxicabPart2> {
     /** Test case based on the first example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("4", "example-day01-2016-3.txt");
+        testSolution("4", "example-day01-2016-3.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("154", "input-day01-2016.txt");
+        testSolution("154", "input-day01-2016.txt");
     }
 }

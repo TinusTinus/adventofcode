@@ -19,6 +19,6 @@ public class TicketTranslationPart2Test extends SolverTest<TicketTranslationPart
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3173135507987", "input-day16-2020.txt");
+        testSolution("3173135507987", "input-day16-2020.txt");
     }
 }

@@ -19,6 +19,6 @@ public class BinaryBoardingPart1Test extends SolverTest<BinaryBoardingPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("801", "input-day05-2020.txt");
+        testSolution("801", "input-day05-2020.txt");
     }
 }

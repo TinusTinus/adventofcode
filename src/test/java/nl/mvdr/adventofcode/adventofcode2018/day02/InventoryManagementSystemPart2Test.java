@@ -18,12 +18,12 @@ public class InventoryManagementSystemPart2Test extends SolverTest<InventoryMana
 	/** Test case based on the example from the puzzle. */
 	@Test
 	public void testExample() {
-		assertSolution("fgij", "example-day02-2018-part2.txt");
+		testSolution("fgij", "example-day02-2018-part2.txt");
 	}
 	
 	/** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("bvnfawcnyoeyudzrpgslimtkj", "input-day02-2018.txt");
+        testSolution("bvnfawcnyoeyudzrpgslimtkj", "input-day02-2018.txt");
     }
 }

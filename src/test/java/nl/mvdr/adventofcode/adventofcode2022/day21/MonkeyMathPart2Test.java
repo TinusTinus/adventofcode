@@ -19,12 +19,12 @@ public class MonkeyMathPart2Test extends SolverTest<MonkeyMathPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("301", "example-day21-2022.txt");
+        testSolution("301", "example-day21-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3952288690726", "input-day21-2022.txt");
+        testSolution("3952288690726", "input-day21-2022.txt");
     }
 }

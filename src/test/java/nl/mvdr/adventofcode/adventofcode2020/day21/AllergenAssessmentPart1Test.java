@@ -19,12 +19,12 @@ public class AllergenAssessmentPart1Test extends SolverTest<AllergenAssessmentPa
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("5", "example-day21-2020.txt");
+        testSolution("5", "example-day21-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2150", "input-day21-2020.txt");
+        testSolution("2150", "input-day21-2020.txt");
     }
 }

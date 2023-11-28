@@ -19,30 +19,30 @@ public class RocketEquationPart2Test extends SolverTest<RocketEquationPart2> {
     /** Test case based on the first example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("2", "example-day01-2019-0.txt");
+        testSolution("2", "example-day01-2019-0.txt");
     }
 
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("2", "example-day01-2019-1.txt");
+        testSolution("2", "example-day01-2019-1.txt");
     }
 
     /** Test case based on the third example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("966", "example-day01-2019-2.txt");
+        testSolution("966", "example-day01-2019-2.txt");
     }
 
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("50346", "example-day01-2019-3.txt");
+        testSolution("50346", "example-day01-2019-3.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("4726527", "input-day01-2019.txt");
+        testSolution("4726527", "input-day01-2019.txt");
     }
 }

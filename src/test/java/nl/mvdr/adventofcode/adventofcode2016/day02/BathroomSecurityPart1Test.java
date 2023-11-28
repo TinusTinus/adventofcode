@@ -19,12 +19,12 @@ public class BathroomSecurityPart1Test extends SolverTest<BathroomSecurityPart1>
     /** Test case based on the first example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("1985", "example-day02-2016.txt");
+        testSolution("1985", "example-day02-2016.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("38961", "input-day02-2016.txt");
+        testSolution("38961", "input-day02-2016.txt");
     }
 }

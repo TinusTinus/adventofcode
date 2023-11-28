@@ -31,6 +31,6 @@ public class EncodingErrorPart1Test extends SolverTest<EncodingErrorPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("144381670", "input-day09-2020.txt");
+        testSolution("144381670", "input-day09-2020.txt");
     }
 }

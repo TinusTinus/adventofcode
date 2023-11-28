@@ -19,12 +19,12 @@ public class RegistersPart1Test extends SolverTest<RegistersPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("1", "example-day08-2017.txt");
+        testSolution("1", "example-day08-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("4647", "input-day08-2017.txt");
+        testSolution("4647", "input-day08-2017.txt");
     }
 }

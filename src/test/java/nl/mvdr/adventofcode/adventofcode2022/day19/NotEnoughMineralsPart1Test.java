@@ -21,13 +21,13 @@ public class NotEnoughMineralsPart1Test extends SolverTest<NotEnoughMineralsPart
     @Test
     @Disabled // long-running test case
     public void testExample() {
-        assertSolution("33", "example-day19-2022.txt");
+        testSolution("33", "example-day19-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("1480", "input-day19-2022.txt");
+        testSolution("1480", "input-day19-2022.txt");
     }
 }

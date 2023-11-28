@@ -19,12 +19,12 @@ public class DockingDataPart2Test extends SolverTest<DockingDataPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("208", "example-day14-2020-1.txt");
+        testSolution("208", "example-day14-2020-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("4574598714592", "input-day14-2020.txt");
+        testSolution("4574598714592", "input-day14-2020.txt");
     }
 }

@@ -20,19 +20,19 @@ public class BlizzardBasinPart2Test extends SolverTest<BlizzardBasinPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("30", "example-day24-2022-0.txt");
+        testSolution("30", "example-day24-2022-0.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("54", "example-day24-2022-1.txt");
+        testSolution("54", "example-day24-2022-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("974", "input-day24-2022.txt");
+        testSolution("974", "input-day24-2022.txt");
     }
 }

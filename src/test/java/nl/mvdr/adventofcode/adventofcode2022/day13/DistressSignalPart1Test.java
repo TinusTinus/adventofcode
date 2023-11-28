@@ -19,12 +19,12 @@ public class DistressSignalPart1Test extends SolverTest<DistressSignalPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("13", "example-day13-2022.txt");
+        testSolution("13", "example-day13-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("6420", "input-day13-2022.txt");
+        testSolution("6420", "input-day13-2022.txt");
     }
 }

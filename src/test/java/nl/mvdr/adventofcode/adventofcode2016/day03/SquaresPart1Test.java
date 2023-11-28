@@ -19,12 +19,12 @@ public class SquaresPart1Test extends SolverTest<SquaresPart1> {
     /** Test case based on the first example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("0", "example-day03-2016.txt");
+        testSolution("0", "example-day03-2016.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1050", "input-day03-2016.txt");
+        testSolution("1050", "input-day03-2016.txt");
     }
 }

@@ -119,6 +119,6 @@ public class SecureContainerPart1Test extends SolverTest<SecureContainerPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1640", "input-day04-2019.txt"); 
+        testSolution("1640", "input-day04-2019.txt"); 
     }
 }

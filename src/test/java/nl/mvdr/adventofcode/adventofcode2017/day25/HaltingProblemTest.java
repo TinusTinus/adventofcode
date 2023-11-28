@@ -19,12 +19,12 @@ public class HaltingProblemTest extends SolverTest<HaltingProblem> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("3", "example-day25-2017.txt");
+        testSolution("3", "example-day25-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3145", "input-day25-2017.txt");
+        testSolution("3145", "input-day25-2017.txt");
     }
 }

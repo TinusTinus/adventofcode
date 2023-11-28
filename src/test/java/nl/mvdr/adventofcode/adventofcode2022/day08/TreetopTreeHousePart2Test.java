@@ -19,12 +19,12 @@ public class TreetopTreeHousePart2Test extends SolverTest<TreetopTreeHousePart2>
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("8", "example-day08-2022.txt");
+        testSolution("8", "example-day08-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("259308", "input-day08-2022.txt");
+        testSolution("259308", "input-day08-2022.txt");
     }
 }

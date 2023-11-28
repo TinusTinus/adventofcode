@@ -21,13 +21,13 @@ public class ChessPart2Test extends SolverTest<ChessPart2> {
     @Test
     @Disabled // long-running test case
     public void testExample() {
-        assertSolution("05ace8e3", "example-day05-2016.txt");
+        testSolution("05ace8e3", "example-day05-2016.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("863dde27", "input-day05-2016.txt");
+        testSolution("863dde27", "input-day05-2016.txt");
     }
 }

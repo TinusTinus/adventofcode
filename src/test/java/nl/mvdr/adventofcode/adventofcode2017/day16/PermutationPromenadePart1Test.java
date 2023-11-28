@@ -25,6 +25,6 @@ public class PermutationPromenadePart1Test extends SolverTest<PermutationPromena
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("ebjpfdgmihonackl", "input-day16-2017.txt");
+        testSolution("ebjpfdgmihonackl", "input-day16-2017.txt");
     }
 }

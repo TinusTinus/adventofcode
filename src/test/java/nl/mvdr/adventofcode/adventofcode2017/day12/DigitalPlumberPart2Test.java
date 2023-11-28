@@ -19,12 +19,12 @@ public class DigitalPlumberPart2Test extends SolverTest<DigitalPlumberPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("2", "example-day12-2017.txt");
+        testSolution("2", "example-day12-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("171", "input-day12-2017.txt");
+        testSolution("171", "input-day12-2017.txt");
     }
 }

@@ -19,12 +19,12 @@ public class RockPaperScissorsPart2Test extends SolverTest<RockPaperScissorsPart
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("12", "example-day02-2022.txt");
+        testSolution("12", "example-day02-2022.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("12091", "input-day02-2022.txt");
+        testSolution("12091", "input-day02-2022.txt");
     }
 }

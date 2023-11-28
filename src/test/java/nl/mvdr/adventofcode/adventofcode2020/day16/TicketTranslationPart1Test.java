@@ -19,12 +19,12 @@ public class TicketTranslationPart1Test extends SolverTest<TicketTranslationPart
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("71", "example-day16-2020.txt");
+        testSolution("71", "example-day16-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("27870", "input-day16-2020.txt");
+        testSolution("27870", "input-day16-2020.txt");
     }
 }

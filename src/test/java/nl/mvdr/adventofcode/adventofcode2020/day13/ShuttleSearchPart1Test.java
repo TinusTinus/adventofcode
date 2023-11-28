@@ -26,12 +26,12 @@ public class ShuttleSearchPart1Test extends SolverTest<ShuttleSearchPart1> {
      */
     @Test
     public void testExample() {
-        assertSolution("295", "example-day13-2020-0.txt");
+        testSolution("295", "example-day13-2020-0.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3269", "input-day13-2020.txt");
+        testSolution("3269", "input-day13-2020.txt");
     }
 }

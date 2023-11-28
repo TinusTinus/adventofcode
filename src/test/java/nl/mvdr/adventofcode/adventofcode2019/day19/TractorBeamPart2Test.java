@@ -21,6 +21,6 @@ public class TractorBeamPart2Test extends SolverTest<TractorBeamPart2> {
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("9231141", "input-day19-2019.txt");
+        testSolution("9231141", "input-day19-2019.txt");
     }
 }

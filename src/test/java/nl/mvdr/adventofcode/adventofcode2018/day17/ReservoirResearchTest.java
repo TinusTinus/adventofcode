@@ -19,13 +19,13 @@ public class ReservoirResearchTest extends SolverTest<ReservoirResearch> {
     /** Test case based on the example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("Reached by water: 57, settled water: 29", "example-day17-2018.txt");
+        testSolution("Reached by water: 57, settled water: 29", "example-day17-2018.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("Reached by water: 30737, settled water: 24699", "input-day17-2018.txt");
+        testSolution("Reached by water: 30737, settled water: 24699", "input-day17-2018.txt");
     }
 }

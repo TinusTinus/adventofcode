@@ -73,7 +73,7 @@ public class SporificaVirusPart1Test extends SolverTest<SporificaVirusPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample10000Bursts() {
-        assertSolution("5587", "example-day22-2017.txt");
+        testSolution("5587", "example-day22-2017.txt");
     }
     
     /** Test case with 0 bursts. No nodes could possibly be infected in this case. */
@@ -85,6 +85,6 @@ public class SporificaVirusPart1Test extends SolverTest<SporificaVirusPart1> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("5330", "input-day22-2017.txt");
+        testSolution("5330", "input-day22-2017.txt");
     }
 }

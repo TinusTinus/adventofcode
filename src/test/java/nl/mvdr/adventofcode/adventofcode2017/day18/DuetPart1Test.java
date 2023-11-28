@@ -19,12 +19,12 @@ public class DuetPart1Test extends SolverTest<DuetPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("4", "example-day18-2017-0.txt");
+        testSolution("4", "example-day18-2017-0.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("4601", "input-day18-2017.txt");
+        testSolution("4601", "input-day18-2017.txt");
     }
 }

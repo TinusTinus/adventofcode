@@ -19,24 +19,24 @@ public class CrossedWiresPart1Test extends SolverTest<CrossedWiresPart1> {
     /** Test case based on the first example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("6", "example-day03-2019-0.txt");
+        testSolution("6", "example-day03-2019-0.txt");
     }
 
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("159", "example-day03-2019-1.txt");
+        testSolution("159", "example-day03-2019-1.txt");
     }
 
     /** Test case based on the third example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("135", "example-day03-2019-2.txt");
+        testSolution("135", "example-day03-2019-2.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("399", "input-day03-2019.txt"); 
+        testSolution("399", "input-day03-2019.txt"); 
     }
 }

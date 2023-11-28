@@ -19,12 +19,12 @@ public class DivePart2Test extends SolverTest<DivePart2> {
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("900", "example-day02-2021.txt");
+        testSolution("900", "example-day02-2021.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1759818555", "input-day02-2021.txt");
+        testSolution("1759818555", "input-day02-2021.txt");
     }
 }

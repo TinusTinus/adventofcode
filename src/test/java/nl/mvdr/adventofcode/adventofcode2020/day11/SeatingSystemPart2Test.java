@@ -19,12 +19,12 @@ public class SeatingSystemPart2Test extends SolverTest<SeatingSystemPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("26", "example-day11-2020.txt");
+        testSolution("26", "example-day11-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2027", "input-day11-2020.txt");
+        testSolution("2027", "input-day11-2020.txt");
     }
 }

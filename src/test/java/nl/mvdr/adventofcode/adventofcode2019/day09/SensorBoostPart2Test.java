@@ -19,6 +19,6 @@ public class SensorBoostPart2Test extends SolverTest<SensorBoostPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("86025", "input-day09-2019.txt"); 
+        testSolution("86025", "input-day09-2019.txt"); 
     }
 }

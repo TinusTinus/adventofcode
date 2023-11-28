@@ -19,14 +19,14 @@ public class AlchemicalReductionPart2Test extends SolverTest<AlchemicalReduction
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("4", "example-day05-2018-0.txt");
+        testSolution("4", "example-day05-2018-0.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     @Disabled // This test case is very slow
     public void testSolution() {
-        assertSolution("5534", "input-day05-2018.txt");
+        testSolution("5534", "input-day05-2018.txt");
     }
 
 }

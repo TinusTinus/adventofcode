@@ -20,12 +20,12 @@ public class PacketScannersPart1Test extends SolverTest<PacketScannersPart1> {
     @Test
     public void testExample() {
         // In the example, the trip severity is 0*3 + 6*4 = 24
-        assertSolution("24", "example-day13-2017.txt");
+        testSolution("24", "example-day13-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1844", "input-day13-2017.txt");
+        testSolution("1844", "input-day13-2017.txt");
     }
 }

@@ -19,12 +19,12 @@ public class FullOfHotAirTest extends SolverTest<FullOfHotAir> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("2=-1=0", "example-day25-2022.txt");
+        testSolution("2=-1=0", "example-day25-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2=001=-2=--0212-22-2", "input-day25-2022.txt");
+        testSolution("2=001=-2=--0212-22-2", "input-day25-2022.txt");
     }
 }

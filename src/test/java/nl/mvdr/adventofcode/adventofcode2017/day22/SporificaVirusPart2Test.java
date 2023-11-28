@@ -75,7 +75,7 @@ public class SporificaVirusPart2Test extends SolverTest<SporificaVirusPart2> {
     @Test
     @Disabled // long-running test case
     public void testExample10MillionBursts() {
-        assertSolution("2511944", "example-day22-2017.txt");
+        testSolution("2511944", "example-day22-2017.txt");
     }
     
     /** Test case with 0 bursts. No nodes could possibly be infected in this case. */
@@ -88,6 +88,6 @@ public class SporificaVirusPart2Test extends SolverTest<SporificaVirusPart2> {
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("2512103", "input-day22-2017.txt");
+        testSolution("2512103", "input-day22-2017.txt");
     }
 }

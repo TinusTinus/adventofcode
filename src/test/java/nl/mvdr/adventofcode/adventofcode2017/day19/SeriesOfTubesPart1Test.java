@@ -19,12 +19,12 @@ public class SeriesOfTubesPart1Test extends SolverTest<SeriesOfTubesPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("ABCDEF", "example-day19-2017.txt");
+        testSolution("ABCDEF", "example-day19-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("SXWAIBUZY", "input-day19-2017.txt");
+        testSolution("SXWAIBUZY", "input-day19-2017.txt");
     }
 }

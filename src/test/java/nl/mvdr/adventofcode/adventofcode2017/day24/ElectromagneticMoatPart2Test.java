@@ -19,12 +19,12 @@ public class ElectromagneticMoatPart2Test extends SolverTest<ElectromagneticMoat
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("19", "example-day24-2017.txt");
+        testSolution("19", "example-day24-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1928", "input-day24-2017.txt");
+        testSolution("1928", "input-day24-2017.txt");
     }
 }

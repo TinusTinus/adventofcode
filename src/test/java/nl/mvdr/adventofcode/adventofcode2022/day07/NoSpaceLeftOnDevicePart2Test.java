@@ -19,12 +19,12 @@ public class NoSpaceLeftOnDevicePart2Test extends SolverTest<NoSpaceLeftOnDevice
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("24933642", "example-day07-2022.txt");
+        testSolution("24933642", "example-day07-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("4183246", "input-day07-2022.txt");
+        testSolution("4183246", "input-day07-2022.txt");
     }
 }

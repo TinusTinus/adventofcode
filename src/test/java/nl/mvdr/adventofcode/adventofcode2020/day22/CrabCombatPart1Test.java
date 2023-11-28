@@ -19,12 +19,12 @@ public class CrabCombatPart1Test extends SolverTest<CrabCombatPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("306", "example-day22-2020-0.txt");
+        testSolution("306", "example-day22-2020-0.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("33559", "input-day22-2020.txt");
+        testSolution("33559", "input-day22-2020.txt");
     }
 }

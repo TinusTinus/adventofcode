@@ -18,6 +18,6 @@ public class SumOfItsPartsPart1Test2 extends SolverTest<SumOfItsPartsPart2> {
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("15", "example-day07-2018.txt");
+        testSolution("15", "example-day07-2018.txt");
     }
 }

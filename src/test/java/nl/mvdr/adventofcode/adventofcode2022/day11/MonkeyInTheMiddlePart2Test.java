@@ -19,12 +19,12 @@ public class MonkeyInTheMiddlePart2Test extends SolverTest<MonkeyInTheMiddlePart
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("2713310158", "example-day11-2022.txt");
+        testSolution("2713310158", "example-day11-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("14399640002", "input-day11-2022.txt");
+        testSolution("14399640002", "input-day11-2022.txt");
     }
 }

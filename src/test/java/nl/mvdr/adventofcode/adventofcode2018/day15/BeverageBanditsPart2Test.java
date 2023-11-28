@@ -19,37 +19,37 @@ public class BeverageBanditsPart2Test extends SolverTest<BeverageBanditsPart2> {
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample0() {
-        assertSolution("4988", "example-day15-2018-0.txt");
+        testSolution("4988", "example-day15-2018-0.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample2() {
-        assertSolution("31284", "example-day15-2018-2.txt");
+        testSolution("31284", "example-day15-2018-2.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample3() {
-        assertSolution("3478", "example-day15-2018-3.txt");
+        testSolution("3478", "example-day15-2018-3.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample4() {
-        assertSolution("6474", "example-day15-2018-4.txt");
+        testSolution("6474", "example-day15-2018-4.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample5() {
-        assertSolution("1140", "example-day15-2018-5.txt");
+        testSolution("1140", "example-day15-2018-5.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     @Disabled // This test case is very slow
     public void testSolution() {
-        assertSolution("66510", "input-day15-2018.txt");
+        testSolution("66510", "input-day15-2018.txt");
     }
 }

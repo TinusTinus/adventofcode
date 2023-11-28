@@ -19,12 +19,12 @@ public class SpinlockPart1Test extends SolverTest<SpinlockPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("638", "example-day17-2017.txt");
+        testSolution("638", "example-day17-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("725", "input-day17-2017.txt");
+        testSolution("725", "input-day17-2017.txt");
     }
 }

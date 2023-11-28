@@ -45,13 +45,13 @@ public class ConwayCubesPart2Test extends SolverTest<ConwayCubesPart2> {
     @Test
     @Disabled // long-running test case
     public void testExample() {
-        assertSolution("848", "example-day17-2020.txt");
+        testSolution("848", "example-day17-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("1492", "input-day17-2020.txt");
+        testSolution("1492", "input-day17-2020.txt");
     }
 }

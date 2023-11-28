@@ -27,6 +27,6 @@ public class BeaconExclusionZonePart2Test extends SolverTest<BeaconExclusionZone
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("12691026767556", "input-day15-2022.txt");
+        testSolution("12691026767556", "input-day15-2022.txt");
     }
 }

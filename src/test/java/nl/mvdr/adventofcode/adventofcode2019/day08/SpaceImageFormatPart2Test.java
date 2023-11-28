@@ -38,6 +38,6 @@ public class SpaceImageFormatPart2Test extends SolverTest<SpaceImageFormatPart2>
      */
     @Test
     public void testSolution() {
-        assertSolution("null", "input-day08-2019.txt"); 
+        testSolution("null", "input-day08-2019.txt"); 
     }
 }

@@ -19,13 +19,13 @@ public class SlicePart2Test extends SolverTest<SlicePart2> {
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample1() {
-        assertSolution("3", "example-day03-2018-1.txt");
+        testSolution("3", "example-day03-2018-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     @Disabled // long-running test case
     public void testSolution() {
-        assertSolution("1097", "input-day03-2018.txt");
+        testSolution("1097", "input-day03-2018.txt");
     }
 }

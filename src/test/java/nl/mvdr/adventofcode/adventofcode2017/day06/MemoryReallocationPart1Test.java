@@ -19,12 +19,12 @@ public class MemoryReallocationPart1Test extends SolverTest<MemoryReallocationPa
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("5", "example-day06-2017.txt");
+        testSolution("5", "example-day06-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("4074", "input-day06-2017.txt");
+        testSolution("4074", "input-day06-2017.txt");
     }
 }

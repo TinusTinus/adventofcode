@@ -19,12 +19,12 @@ public class HighEntropyPassphrasesPart2Test extends SolverTest<HighEntropyPassp
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("3", "example-day04-2017-4.txt");
+        testSolution("3", "example-day04-2017-4.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("208", "input-day04-2017.txt");
+        testSolution("208", "input-day04-2017.txt");
     }
 }

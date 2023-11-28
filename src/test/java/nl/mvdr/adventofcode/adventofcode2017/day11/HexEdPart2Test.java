@@ -19,6 +19,6 @@ public class HexEdPart2Test extends SolverTest<HexEdPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1524", "input-day11-2017.txt");
+        testSolution("1524", "input-day11-2017.txt");
     }
 }

@@ -19,12 +19,12 @@ public class UniversalOrbitMapPart2Test extends SolverTest<UniversalOrbitMapPart
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("4", "example-day06-2019-1.txt"); 
+        testSolution("4", "example-day06-2019-1.txt"); 
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("316", "input-day06-2019.txt"); 
+        testSolution("316", "input-day06-2019.txt"); 
     }
 }

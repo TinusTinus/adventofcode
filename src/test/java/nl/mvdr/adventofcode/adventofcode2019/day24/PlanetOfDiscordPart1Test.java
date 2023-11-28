@@ -19,42 +19,42 @@ public class PlanetOfDiscordPart1Test extends SolverTest<PlanetOfDiscordPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("2129920", "example-day24-2019-0.txt");
+        testSolution("2129920", "example-day24-2019-0.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("2129920", "example-day24-2019-1.txt");
+        testSolution("2129920", "example-day24-2019-1.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("2129920", "example-day24-2019-2.txt");
+        testSolution("2129920", "example-day24-2019-2.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("2129920", "example-day24-2019-3.txt");
+        testSolution("2129920", "example-day24-2019-3.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample4() {
-        assertSolution("2129920", "example-day24-2019-4.txt");
+        testSolution("2129920", "example-day24-2019-4.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample5() {
-        assertSolution("2129920", "example-day24-2019-5.txt");
+        testSolution("2129920", "example-day24-2019-5.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("28778811", "input-day24-2019.txt"); 
+        testSolution("28778811", "input-day24-2019.txt"); 
     }
 }

@@ -18,6 +18,6 @@ public class SettlersPart2Test extends SolverTest<SettlersPart2> {
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("205296", "input-day18-2018.txt");
+        testSolution("205296", "input-day18-2018.txt");
     }
 }

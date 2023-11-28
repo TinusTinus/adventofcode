@@ -26,12 +26,12 @@ public class PasswordPhilosophyPart2Test extends SolverTest<PasswordPhilosophyPa
      */
     @Test
     public void testExample() {
-        assertSolution("1", "example-day02-2020.txt");
+        testSolution("1", "example-day02-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("502", "input-day02-2020.txt");
+        testSolution("502", "input-day02-2020.txt");
     }
 }

@@ -19,18 +19,18 @@ public class AmplificationCircuitPart2Test extends SolverTest<AmplificationCircu
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("139629729", "example-day07-2019-3.txt");
+        testSolution("139629729", "example-day07-2019-3.txt");
     }
 
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample4() {
-        assertSolution("18216", "example-day07-2019-4.txt");
+        testSolution("18216", "example-day07-2019-4.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("35993240", "input-day07-2019.txt"); 
+        testSolution("35993240", "input-day07-2019.txt"); 
     }
 }

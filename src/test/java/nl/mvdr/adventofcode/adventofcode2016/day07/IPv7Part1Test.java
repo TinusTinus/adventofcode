@@ -19,12 +19,12 @@ public class IPv7Part1Test extends SolverTest<IPv7Part1> {
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("2", "example-day07-2016-0.txt");
+        testSolution("2", "example-day07-2016-0.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("105", "input-day07-2016.txt");
+        testSolution("105", "input-day07-2016.txt");
     }
 }

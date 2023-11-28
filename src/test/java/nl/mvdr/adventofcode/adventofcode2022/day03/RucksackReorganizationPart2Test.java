@@ -19,12 +19,12 @@ public class RucksackReorganizationPart2Test extends SolverTest<RucksackReorgani
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("70", "example-day03-2022.txt");
+        testSolution("70", "example-day03-2022.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2581", "input-day03-2022.txt");
+        testSolution("2581", "input-day03-2022.txt");
     }
 }

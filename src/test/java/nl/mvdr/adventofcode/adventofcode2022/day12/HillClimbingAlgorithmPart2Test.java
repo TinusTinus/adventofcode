@@ -19,12 +19,12 @@ public class HillClimbingAlgorithmPart2Test extends SolverTest<HillClimbingAlgor
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("29", "example-day12-2022.txt");
+        testSolution("29", "example-day12-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("478", "input-day12-2022.txt");
+        testSolution("478", "input-day12-2022.txt");
     }
 }

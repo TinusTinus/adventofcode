@@ -19,12 +19,12 @@ public class JurassicJigsawPart1Test extends SolverTest<JurassicJigsawPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("20899048083289", "example-day20-2020.txt");
+        testSolution("20899048083289", "example-day20-2020.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("51214443014783", "input-day20-2020.txt");
+        testSolution("51214443014783", "input-day20-2020.txt");
     }
 }

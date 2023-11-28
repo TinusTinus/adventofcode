@@ -19,18 +19,18 @@ public class UnstableDiffusionPart1Test extends SolverTest<UnstableDiffusionPart
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("25", "example-day23-2022-0.txt");
+        testSolution("25", "example-day23-2022-0.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("110", "example-day23-2022-1.txt");
+        testSolution("110", "example-day23-2022-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("4254", "input-day23-2022.txt");
+        testSolution("4254", "input-day23-2022.txt");
     }
 }

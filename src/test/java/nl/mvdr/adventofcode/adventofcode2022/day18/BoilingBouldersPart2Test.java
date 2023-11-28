@@ -19,18 +19,18 @@ public class BoilingBouldersPart2Test extends SolverTest<BoilingBouldersPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("10", "example-day18-2022-0.txt");
+        testSolution("10", "example-day18-2022-0.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("58", "example-day18-2022-1.txt");
+        testSolution("58", "example-day18-2022-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("2498", "input-day18-2022.txt");
+        testSolution("2498", "input-day18-2022.txt");
     }
 }

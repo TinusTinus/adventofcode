@@ -19,12 +19,12 @@ public class CorruptionChecksumPart2Test extends SolverTest<CorruptionChecksumPa
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("9", "example-day02-2017-1.txt");
+        testSolution("9", "example-day02-2017-1.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("265", "input-day02-2017.txt");
+        testSolution("265", "input-day02-2017.txt");
     }
 }

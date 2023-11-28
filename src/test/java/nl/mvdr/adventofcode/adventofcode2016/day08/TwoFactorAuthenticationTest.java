@@ -19,7 +19,7 @@ public class TwoFactorAuthenticationTest extends SolverTest<TwoFactorAuthenticat
     /** Test case without any instructions. */
     @Test
     public void testNoInstructions() {
-        assertSolution("0", "example-day08-2016-0.txt");
+        testSolution("0", "example-day08-2016-0.txt");
     }
 
     /** Test case based on an example from the puzzle text. */
@@ -49,6 +49,6 @@ public class TwoFactorAuthenticationTest extends SolverTest<TwoFactorAuthenticat
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("116", "input-day08-2016.txt");
+        testSolution("116", "input-day08-2016.txt");
     }
 }

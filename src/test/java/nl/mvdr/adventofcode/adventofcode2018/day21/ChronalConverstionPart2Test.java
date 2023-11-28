@@ -20,6 +20,6 @@ public class ChronalConverstionPart2Test extends SolverTest<ChronalConversionPar
     @Test
     @Disabled // This test case is very slow
     public void testSolution() {
-        assertSolution("6577657", "input-day21-2018.txt");
+        testSolution("6577657", "input-day21-2018.txt");
     }
 }

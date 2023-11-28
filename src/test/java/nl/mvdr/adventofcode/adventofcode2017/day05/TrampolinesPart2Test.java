@@ -19,12 +19,12 @@ public class TrampolinesPart2Test extends SolverTest<TrampolinesPart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("10", "example-day05-2017.txt");
+        testSolution("10", "example-day05-2017.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("25558839", "input-day05-2017.txt");
+        testSolution("25558839", "input-day05-2017.txt");
     }
 }

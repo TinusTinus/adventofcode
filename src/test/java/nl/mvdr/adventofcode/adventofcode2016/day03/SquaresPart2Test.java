@@ -19,6 +19,6 @@ public class SquaresPart2Test extends SolverTest<SquaresPart2> {
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1921", "input-day03-2016.txt");
+        testSolution("1921", "input-day03-2016.txt");
     }
 }

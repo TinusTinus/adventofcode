@@ -19,12 +19,12 @@ public class CampCleanupPart1Test extends SolverTest<CampCleanupPart1> {
     /** Test case based on the example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("2", "example-day04-2022.txt");
+        testSolution("2", "example-day04-2022.txt");
     }
 
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("494", "input-day04-2022.txt");
+        testSolution("494", "input-day04-2022.txt");
     }
 }

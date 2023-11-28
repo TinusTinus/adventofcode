@@ -18,12 +18,12 @@ public class ChronalClassificationPart1Test extends SolverTest<ChronalClassifica
     /** Test case based on the example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("1", "example-day16-2018.txt");
+        testSolution("1", "example-day16-2018.txt");
     }
     
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("646", "input-day16-2018.txt");
+        testSolution("646", "input-day16-2018.txt");
     }
 }

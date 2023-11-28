@@ -21,6 +21,6 @@ public class ChronalConverstionPart1Test extends SolverTest<ChronalConversionPar
         // The first time the instruction on line 30 is executed, the register values are:
         // [<input>, 0, 1, 30, 11840402, 1]
         // So the answer is 11840402.
-        assertSolution("11840402", "input-day21-2018.txt");
+        testSolution("11840402", "input-day21-2018.txt");
     }
 }

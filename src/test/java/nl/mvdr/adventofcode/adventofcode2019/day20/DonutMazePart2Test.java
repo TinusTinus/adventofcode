@@ -23,7 +23,7 @@ public class DonutMazePart2Test extends SolverTest<DonutMazePart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("26", "example-day20-2019-0.txt");
+        testSolution("26", "example-day20-2019-0.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
@@ -37,12 +37,12 @@ public class DonutMazePart2Test extends SolverTest<DonutMazePart2> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("396", "example-day20-2019-2.txt");
+        testSolution("396", "example-day20-2019-2.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("7366", "input-day20-2019.txt"); 
+        testSolution("7366", "input-day20-2019.txt"); 
     }
 }

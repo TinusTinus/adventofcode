@@ -18,6 +18,6 @@ public class ChronalCoordinatesPart2Test extends SolverTest<ChronalCoordinatesPa
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample() {
-        assertSolution("16", "example-day06-2018.txt");
+        testSolution("16", "example-day06-2018.txt");
     }
 }

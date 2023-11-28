@@ -27,7 +27,7 @@ public class CathodeRayTubePart2Test extends SolverTest<CathodeRayTubePart2> {
                 ######......######......######......####
                 #######.......#######.......#######.....
                 """;
-        assertSolution(expected, "example-day10-2022.txt");
+        testSolution(expected, "example-day10-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
@@ -41,6 +41,6 @@ public class CathodeRayTubePart2Test extends SolverTest<CathodeRayTubePart2> {
                 #....#..#.#..#.#..#.#....#..#.#....#....
                 ####..###..##...##..####..##..#....####.
                 """;
-        assertSolution(expected, "input-day10-2022.txt");
+        testSolution(expected, "input-day10-2022.txt");
     }
 }

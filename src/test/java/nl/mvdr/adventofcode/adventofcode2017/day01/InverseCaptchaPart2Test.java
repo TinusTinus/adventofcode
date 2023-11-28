@@ -19,36 +19,36 @@ public class InverseCaptchaPart2Test extends SolverTest<InverseCaptchaPart2> {
     /** Test case based on the first example from the puzzle text. */
     @Test
     public void testExample4() {
-        assertSolution("6", "example-day01-2017-4.txt");
+        testSolution("6", "example-day01-2017-4.txt");
     }
 
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample5() {
-        assertSolution("0", "example-day01-2017-5.txt");
+        testSolution("0", "example-day01-2017-5.txt");
     }
 
     /** Test case based on the third example from the puzzle text. */
     @Test
     public void testExample6() {
-        assertSolution("4", "example-day01-2017-6.txt");
+        testSolution("4", "example-day01-2017-6.txt");
     }
 
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample7() {
-        assertSolution("12", "example-day01-2017-7.txt");
+        testSolution("12", "example-day01-2017-7.txt");
     }
     
     /** Test case based on the second example from the puzzle text. */
     @Test
     public void testExample8() {
-        assertSolution("4", "example-day01-2017-8.txt");
+        testSolution("4", "example-day01-2017-8.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("1244", "input-day01-2017.txt");
+        testSolution("1244", "input-day01-2017.txt");
     }
 }

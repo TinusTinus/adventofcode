@@ -19,12 +19,12 @@ public class PyroclasticFlowPart1Test extends SolverTest<PyroclasticFlowPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("3068", "example-day17-2022.txt");
+        testSolution("3068", "example-day17-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("3069", "input-day17-2022.txt");
+        testSolution("3069", "input-day17-2022.txt");
     }
 }

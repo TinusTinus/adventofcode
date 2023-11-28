@@ -19,48 +19,48 @@ public class OperationOrderPart1Test extends SolverTest<OperationOrderPart1> {
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample0() {
-        assertSolution("71", "example-day18-2020-0.txt");
+        testSolution("71", "example-day18-2020-0.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
-        assertSolution("51", "example-day18-2020-1.txt");
+        testSolution("51", "example-day18-2020-1.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample2() {
-        assertSolution("26", "example-day18-2020-2.txt");
+        testSolution("26", "example-day18-2020-2.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample3() {
-        assertSolution("437", "example-day18-2020-3.txt");
+        testSolution("437", "example-day18-2020-3.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample4() {
-        assertSolution("12240", "example-day18-2020-4.txt");
+        testSolution("12240", "example-day18-2020-4.txt");
     }
     
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample5() {
-        assertSolution("13632", "example-day18-2020-5.txt");
+        testSolution("13632", "example-day18-2020-5.txt");
     }
     
     /** Test case based on the examples from the puzzle text. */
     @Test
     public void testExample6() {
-        assertSolution("26457", "example-day18-2020-6.txt");
+        testSolution("26457", "example-day18-2020-6.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("8929569623593", "input-day18-2020.txt");
+        testSolution("8929569623593", "input-day18-2020.txt");
     }
 }

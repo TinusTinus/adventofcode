@@ -18,37 +18,37 @@ public class BeverageBanditsPart1Test extends SolverTest<BeverageBanditsPart1> {
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample0() {
-        assertSolution("27730", "example-day15-2018-0.txt");
+        testSolution("27730", "example-day15-2018-0.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample1() {
-        assertSolution("36334", "example-day15-2018-1.txt");
+        testSolution("36334", "example-day15-2018-1.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample2() {
-        assertSolution("39514", "example-day15-2018-2.txt");
+        testSolution("39514", "example-day15-2018-2.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample3() {
-        assertSolution("27755", "example-day15-2018-3.txt");
+        testSolution("27755", "example-day15-2018-3.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample4() {
-        assertSolution("28944", "example-day15-2018-4.txt");
+        testSolution("28944", "example-day15-2018-4.txt");
     }
     
     /** Test case based on an example from the puzzle. */
     @Test
     public void testExample5() {
-        assertSolution("18740", "example-day15-2018-5.txt");
+        testSolution("18740", "example-day15-2018-5.txt");
     }
     
     /**
@@ -60,7 +60,7 @@ public class BeverageBanditsPart1Test extends SolverTest<BeverageBanditsPart1> {
      */
     @Test
     public void testExampleOneUnit() {
-        assertSolution("0", "example-day15-2018-6.txt");
+        testSolution("0", "example-day15-2018-6.txt");
     }
     
     
@@ -77,12 +77,12 @@ public class BeverageBanditsPart1Test extends SolverTest<BeverageBanditsPart1> {
      */
     @Test
     public void testExampleNoMovement() {
-        assertSolution("134", "example-day15-2018-7.txt");
+        testSolution("134", "example-day15-2018-7.txt");
     }
         
     /** Test case based on the accepted solution to the puzzle. */
     @Test
     public void testSolution() {
-        assertSolution("198744", "input-day15-2018.txt");
+        testSolution("198744", "input-day15-2018.txt");
     }
 }

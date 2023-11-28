@@ -19,12 +19,12 @@ public class RegolithReservoirPart1Test extends SolverTest<RegolithReservoirPart
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
-        assertSolution("24", "example-day14-2022.txt");
+        testSolution("24", "example-day14-2022.txt");
     }
     
     /** Test case based on the accepted solution. */
     @Test
     public void testSolution() {
-        assertSolution("892", "input-day14-2022.txt");
+        testSolution("892", "input-day14-2022.txt");
     }
 }
