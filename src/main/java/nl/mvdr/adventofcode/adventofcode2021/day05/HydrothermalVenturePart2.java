@@ -10,13 +10,13 @@ import nl.mvdr.adventofcode.Solver;
  *
  * @author Martijn van de Rijdt
  */
-public class HydrothermalVenturePart1 implements Solver {
+public class HydrothermalVenturePart2 implements Solver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HydrothermalVenturePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HydrothermalVenturePart2.class);
 
     @Override
     public String solve(String inputfile) {
-        return new HydrothermalVenture(false).solve(inputfile);
+        return new HydrothermalVenture(true).solve(inputfile);
     }
     
     /**
@@ -25,7 +25,7 @@ public class HydrothermalVenturePart1 implements Solver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new HydrothermalVenturePart1();
+        var instance = new HydrothermalVenturePart2();
 
         var result = instance.solve("input-day05-2021.txt");
 
