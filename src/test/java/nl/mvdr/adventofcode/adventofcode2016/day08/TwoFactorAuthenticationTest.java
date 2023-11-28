@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2016.day08;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,12 +19,13 @@ public class TwoFactorAuthenticationTest extends SolverTest<TwoFactorAuthenticat
         super(TwoFactorAuthentication.class);
     }
 
-    /** Test case without any instructions. */
-    @Test
-    public void testNoInstructions() {
-        testSolution("0", "example-day08-2016-0.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("0", "example-day08-2016-0.txt"),
+                Arguments.of("116", "input-day08-2016.txt"));
     }
-
+    
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample1() {
@@ -44,11 +48,5 @@ public class TwoFactorAuthenticationTest extends SolverTest<TwoFactorAuthenticat
     @Test
     public void testExample4() {
         assertSolution(new TwoFactorAuthentication(7, 3), "6", "example-day08-2016-4.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("116", "input-day08-2016.txt");
     }
 }

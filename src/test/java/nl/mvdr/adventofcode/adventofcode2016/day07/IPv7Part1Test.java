@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2016.day07;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,16 +17,11 @@ public class IPv7Part1Test extends SolverTest<IPv7Part1> {
     public IPv7Part1Test() {
         super(IPv7Part1.class);
     }
-
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("2", "example-day07-2016-0.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("105", "input-day07-2016.txt");
+    
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("2", "example-day07-2016-0.txt"),
+                Arguments.of("105", "input-day07-2016.txt"));
     }
 }
