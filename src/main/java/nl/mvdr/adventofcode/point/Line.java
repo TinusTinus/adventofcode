@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.point;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * A line between two points.
@@ -11,6 +12,27 @@ import java.util.Set;
  * @author Martijn van de Rijdt
  */
 public record Line(Point start, Point end) {
+    
+    private static final String SEPARATOR = " -> ";
+
+    /**
+     * Parses a textual representation of a line.
+     * 
+     * @param text textual representation of a line, for example: "6,4 -> 2,0"
+     * @return the line represented by the given text
+     */
+    public static Line parse(String text) {
+        var points = Stream.of(text.split(SEPARATOR))
+                .map(Point::parse)
+                .toList();
+        
+        if (points.size() != 2) {
+            throw new IllegalArgumentException("Unable to parse as a line: " + text);
+        }
+        
+        return new Line(points.getFirst(), points.getLast());
+    }
+    
     /**
      * Checks whether the given three points are all on the same line.
      * 
@@ -46,11 +68,32 @@ public record Line(Point start, Point end) {
     }
     
     /**
+     * @return whether this is a horizontal line
+     */
+    private boolean isHorizontal() {
+        return start.y() == end.y();
+    }
+
+    /**
+     * @return whether this is a vertical line
+     */
+    private boolean isVertical() {
+        return start.x() == end.x();
+    }
+    
+    /**
+     * @return whether this is a horizontal or vertical line
+     */
+    public boolean isHorizontalOrVertical() {
+        return isHorizontal() || isVertical();
+    }
+    
+    /**
      * @return direction of this line
      */
     private Direction determineDirection() {
         Direction result;
-        if (start.x() == end.x()) {
+        if (isVertical()) {
             if (start.y() < end.y()) {
                 result = Direction.DOWN;
             } else if (end.y() < start.y()){
@@ -58,7 +101,7 @@ public record Line(Point start, Point end) {
             } else {
                 throw new IllegalStateException("Unable to determine direction for vertical line: " + this);
             }
-        } else if (start.y() == end.y()) {
+        } else if (isHorizontal()) {
             if (start.x() < end.x()) {
                 result = Direction.RIGHT;
             } else if (end.x() < start.x()) {
@@ -76,6 +119,6 @@ public record Line(Point start, Point end) {
 
     @Override
     public String toString() {
-        return start + " -> " + end;
+        return start + SEPARATOR + end;
     }
 }
