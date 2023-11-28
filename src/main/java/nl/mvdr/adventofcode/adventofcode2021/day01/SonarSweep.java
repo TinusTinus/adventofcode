@@ -26,11 +26,6 @@ public class SonarSweep implements LongSolver {
         this.slidingWindowSize = slidingWindowSize;
     }
     
-    /**
-     * {@inheritDoc}
-     * 
-     * @return score
-     */
     @Override
     public long solve(Stream<String> lines) {
         List<Integer> report = lines.map(Integer::valueOf)
