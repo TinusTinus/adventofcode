@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2019.day15;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -43,7 +44,7 @@ public class OxygenSystemPart2 implements IntSolver {
         Optional<Location> current = Optional.of(new Location(droid.getProgram()));
         
         while (current.isPresent()) {
-            for (Direction direction : Direction.values()) {
+            for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
                 if (!visited.containsKey(direction.move(current.orElseThrow().getLocation()))) {
                     current.orElseThrow()
                             .step(direction)

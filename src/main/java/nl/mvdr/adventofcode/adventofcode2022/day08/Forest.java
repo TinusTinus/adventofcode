@@ -58,7 +58,7 @@ record Forest(Map<Point, Integer> trees) {
      * @return whether the tree is visible
      */
     boolean isVisible(Point treeLocation) {
-        return Stream.of(Direction.values())
+        return Stream.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)
                 .anyMatch(direction -> isVisibleFrom(treeLocation, direction));
     }
     
@@ -100,7 +100,7 @@ record Forest(Map<Point, Integer> trees) {
      * @return scenic score for this tree
      */
     int scenicScore(Point location) {
-        return Stream.of(Direction.values())
+        return Stream.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)
                 .mapToInt(direction -> viewingDistance(location, direction))
                 .reduce(1, (i, j) -> i * j);
     }

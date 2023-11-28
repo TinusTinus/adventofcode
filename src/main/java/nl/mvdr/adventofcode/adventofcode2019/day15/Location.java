@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2019.day15;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -67,7 +68,7 @@ class Location {
         Location current = this;
         
         while (!current.oxygenSystem) {
-            for (Direction direction : Direction.values()) {
+            for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
                 if (!visited.containsKey(direction.move(current.getLocation()))) {
                     current.step(direction)
                             .filter(next -> !unvisited.containsKey(next.getLocation()) || next.getPathLength() < unvisited.get(next.getLocation()).getPathLength())
