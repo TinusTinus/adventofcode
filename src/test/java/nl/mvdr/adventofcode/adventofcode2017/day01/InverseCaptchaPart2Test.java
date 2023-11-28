@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day01;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,40 +17,15 @@ public class InverseCaptchaPart2Test extends SolverTest<InverseCaptchaPart2> {
     public InverseCaptchaPart2Test() {
         super(InverseCaptchaPart2.class);
     }
-
-    /** Test case based on the first example from the puzzle text. */
-    @Test
-    public void testExample4() {
-        testSolution("6", "example-day01-2017-4.txt");
-    }
-
-    /** Test case based on the second example from the puzzle text. */
-    @Test
-    public void testExample5() {
-        testSolution("0", "example-day01-2017-5.txt");
-    }
-
-    /** Test case based on the third example from the puzzle text. */
-    @Test
-    public void testExample6() {
-        testSolution("4", "example-day01-2017-6.txt");
-    }
-
-    /** Test case based on the second example from the puzzle text. */
-    @Test
-    public void testExample7() {
-        testSolution("12", "example-day01-2017-7.txt");
-    }
     
-    /** Test case based on the second example from the puzzle text. */
-    @Test
-    public void testExample8() {
-        testSolution("4", "example-day01-2017-8.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("1244", "input-day01-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("6", "example-day01-2017-4.txt"),
+                Arguments.of("0", "example-day01-2017-5.txt"),
+                Arguments.of("4", "example-day01-2017-6.txt"),
+                Arguments.of("12", "example-day01-2017-7.txt"),
+                Arguments.of("4", "example-day01-2017-8.txt"),
+                Arguments.of("1244", "input-day01-2017.txt"));
     }
 }
