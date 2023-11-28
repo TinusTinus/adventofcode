@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2016.day04;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class SecurityThroughObscurityPart1Test extends SolverTest<SecurityThroug
         super(SecurityThroughObscurityPart1.class);
     }
 
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("1514", "example-day04-2016.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("245102", "input-day04-2016.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("1514", "example-day04-2016.txt"),
+                Arguments.of("245102", "input-day04-2016.txt"));
     }
 }

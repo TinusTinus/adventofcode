@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2016.day03;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class SquaresPart1Test extends SolverTest<SquaresPart1> {
         super(SquaresPart1.class);
     }
 
-    /** Test case based on the first example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("0", "example-day03-2016.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("1050", "input-day03-2016.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("0", "example-day03-2016.txt"),
+                Arguments.of("1050", "input-day03-2016.txt"));
     }
 }

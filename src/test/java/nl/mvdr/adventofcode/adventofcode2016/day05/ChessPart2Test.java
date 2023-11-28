@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2016.day05;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -17,17 +18,10 @@ public class ChessPart2Test extends SolverTest<ChessPart2> {
         super(ChessPart2.class);
     }
 
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    @Disabled // long-running test case
-    public void testExample() {
-        testSolution("05ace8e3", "example-day05-2016.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    @Disabled // long-running test case
-    public void testSolution() {
-        testSolution("863dde27", "input-day05-2016.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("05ace8e3", "example-day05-2016.txt"),
+                Arguments.of("863dde27", "input-day05-2016.txt"));
     }
 }
