@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day15;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,9 +18,9 @@ public class OxygenSystemPart2Test extends SolverTest<OxygenSystemPart2> {
         super(OxygenSystemPart2.class);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("390", "input-day15-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("390", "input-day15-2019.txt"));
     }
 }

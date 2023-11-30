@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day19;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -17,10 +18,9 @@ public class TractorBeamPart2Test extends SolverTest<TractorBeamPart2> {
         super(TractorBeamPart2.class);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    @Disabled // long-running test case
-    public void testSolution() {
-        testSolution("9231141", "input-day19-2019.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("9231141", "input-day19-2019.txt"));
     }
 }

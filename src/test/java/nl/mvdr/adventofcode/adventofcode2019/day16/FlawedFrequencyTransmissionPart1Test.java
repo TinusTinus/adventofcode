@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2019.day16;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -46,27 +49,12 @@ public class FlawedFrequencyTransmissionPart1Test extends SolverTest<FlawedFrequ
         assertSolution(new FlawedFrequencyTransmissionPart1(4), "01029498", "example-day16-2019-0.txt");
     }
 
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("24176176", "example-day16-2019-1.txt");
-    }
-
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample2() {
-        testSolution("73745418", "example-day16-2019-2.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample3() {
-        testSolution("52432133", "example-day16-2019-3.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("96136976", "input-day16-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("24176176", "example-day16-2019-1.txt"),
+                Arguments.of("73745418", "example-day16-2019-2.txt"),
+                Arguments.of("52432133", "example-day16-2019-3.txt"),
+                Arguments.of("96136976", "input-day16-2019.txt"));
     }
 }

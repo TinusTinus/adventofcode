@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2019.day08;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -30,14 +33,11 @@ public class SpaceImageFormatPart2Test extends SolverTest<SpaceImageFormatPart2>
         assertSolution(new SpaceImageFormatPart2(2, 2), "null", "example-day08-2019-1.txt");
     }
 
-    /**
-     * Test case based on the accepted solution.
-     * 
-     * Inspect the log for the actual decoded image.
-     * It should spell: "LRFKU".
-     */
-    @Test
-    public void testSolution() {
-        testSolution("null", "input-day08-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                // Inspect the log for the actual decoded image.
+                // It should spell: "LRFKU".
+                Arguments.of("null", "input-day08-2019.txt"));
     }
 }

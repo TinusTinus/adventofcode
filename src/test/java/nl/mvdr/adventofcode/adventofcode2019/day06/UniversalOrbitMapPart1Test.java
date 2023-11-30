@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day06;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class UniversalOrbitMapPart1Test extends SolverTest<UniversalOrbitMapPart
         super(UniversalOrbitMapPart1.class);
     }
     
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("42", "example-day06-2019-0.txt"); 
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("194721", "input-day06-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("42", "example-day06-2019-0.txt"),
+                Arguments.of("194721", "input-day06-2019.txt"));
     }
 }

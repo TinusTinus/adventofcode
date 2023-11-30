@@ -1,9 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2019.day20;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.Solver;
 import nl.mvdr.adventofcode.SolverTest;
@@ -20,10 +22,12 @@ public class DonutMazePart2Test extends SolverTest<DonutMazePart2> {
         super(DonutMazePart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("26", "example-day20-2019-0.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("26", "example-day20-2019-0.txt"),
+                Arguments.of("396", "example-day20-2019-2.txt"),
+                Arguments.of("7366", "input-day20-2019.txt"));
     }
     
     /** Test case based on an example from the puzzle text. */
@@ -32,17 +36,5 @@ public class DonutMazePart2Test extends SolverTest<DonutMazePart2> {
         Solver solver = new DonutMazePart2();
         
         Assertions.assertThrows(NoSuchElementException.class, () -> solver.solve("example-day20-2019-1.txt"));
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample2() {
-        testSolution("396", "example-day20-2019-2.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("7366", "input-day20-2019.txt"); 
     }
 }

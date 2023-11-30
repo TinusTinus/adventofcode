@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day20;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,21 +18,11 @@ public class DonutMazePart1Test extends SolverTest<DonutMazePart1> {
         super(DonutMazePart1.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("23", "example-day20-2019-0.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("58", "example-day20-2019-1.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("620", "input-day20-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("23", "example-day20-2019-0.txt"),
+                Arguments.of("58", "example-day20-2019-1.txt"),
+                Arguments.of("620", "input-day20-2019.txt"));
     }
 }

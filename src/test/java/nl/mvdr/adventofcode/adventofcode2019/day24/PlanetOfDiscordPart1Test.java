@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day24;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,45 +18,15 @@ public class PlanetOfDiscordPart1Test extends SolverTest<PlanetOfDiscordPart1> {
         super(PlanetOfDiscordPart1.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("2129920", "example-day24-2019-0.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("2129920", "example-day24-2019-1.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample2() {
-        testSolution("2129920", "example-day24-2019-2.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample3() {
-        testSolution("2129920", "example-day24-2019-3.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample4() {
-        testSolution("2129920", "example-day24-2019-4.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample5() {
-        testSolution("2129920", "example-day24-2019-5.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("28778811", "input-day24-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("2129920", "example-day24-2019-0.txt"),
+                Arguments.of("2129920", "example-day24-2019-1.txt"),
+                Arguments.of("2129920", "example-day24-2019-2.txt"),
+                Arguments.of("2129920", "example-day24-2019-3.txt"),
+                Arguments.of("2129920", "example-day24-2019-4.txt"),
+                Arguments.of("2129920", "example-day24-2019-5.txt"),
+                Arguments.of("28778811", "input-day24-2019.txt"));
     }
 }

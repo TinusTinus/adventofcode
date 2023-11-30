@@ -1,7 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2019.day04;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -116,9 +119,9 @@ public class SecureContainerPart2Test extends SolverTest<SecureContainerPart2> {
         Assertions.assertTrue(valid);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("1126", "input-day04-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("1126", "input-day04-2019.txt"));
     }
 }

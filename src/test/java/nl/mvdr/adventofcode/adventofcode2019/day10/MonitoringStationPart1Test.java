@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day10;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,39 +18,14 @@ public class MonitoringStationPart1Test extends SolverTest<MonitoringStationPart
         super(MonitoringStationPart1.class);
     }
     
-    /** Test case based on the first example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("8", "example-day10-2019-0.txt");
-    }
-
-    /** Test case based on the second example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("33", "example-day10-2019-1.txt");
-    }
-
-    /** Test case based on the third example from the puzzle text. */
-    @Test
-    public void testExample2() {
-        testSolution("35", "example-day10-2019-2.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample3() {
-        testSolution("41", "example-day10-2019-3.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample4() {
-        testSolution("210", "example-day10-2019-4.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("256", "input-day10-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("8", "example-day10-2019-0.txt"),
+                Arguments.of("33", "example-day10-2019-1.txt"),
+                Arguments.of("35", "example-day10-2019-2.txt"),
+                Arguments.of("41", "example-day10-2019-3.txt"),
+                Arguments.of("210", "example-day10-2019-4.txt"),
+                Arguments.of("256", "input-day10-2019.txt"));
     }
 }

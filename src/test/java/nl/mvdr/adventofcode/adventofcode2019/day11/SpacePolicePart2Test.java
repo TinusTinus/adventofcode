@@ -1,8 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day11;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -13,21 +13,22 @@ import nl.mvdr.adventofcode.SolverTest;
  */
 public class SpacePolicePart2Test extends SolverTest<SpacePolicePart2> {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SpacePolicePart2Test.class);
-    
     /** Constructor. */
     public SpacePolicePart2Test() {
         super(SpacePolicePart2.class);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        SpacePolicePart2 spacePolicePart2 = new SpacePolicePart2();
-        
-        String result = spacePolicePart2.solve("input-day11-2019.txt");
-        
-        // Inspect the log for the result; should be "AGALRGJE" represented as ASCII art.
-        LOGGER.info(result);
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("""
+                        Hull:
+                        .##...##...##..#....###...##....##.####
+                        #..#.#..#.#..#.#....#..#.#..#....#.#...
+                        #..#.#....#..#.#....#..#.#.......#.###.
+                        ####.#.##.####.#....###..#.##....#.#...
+                        #..#.#..#.#..#.#....#.#..#..#.#..#.#...
+                        #..#..###.#..#.####.#..#..###..##..####
+                             """, "input-day11-2019.txt")); // "AGALRGJE" represented as ASCII art
     }
 }

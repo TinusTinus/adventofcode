@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day01;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,33 +18,13 @@ public class RocketEquationPart2Test extends SolverTest<RocketEquationPart2> {
         super(RocketEquationPart2.class);
     }
 
-    /** Test case based on the first example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("2", "example-day01-2019-0.txt");
-    }
-
-    /** Test case based on the second example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("2", "example-day01-2019-1.txt");
-    }
-
-    /** Test case based on the third example from the puzzle text. */
-    @Test
-    public void testExample2() {
-        testSolution("966", "example-day01-2019-2.txt");
-    }
-
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample3() {
-        testSolution("50346", "example-day01-2019-3.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("4726527", "input-day01-2019.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("2", "example-day01-2019-0.txt"),
+                Arguments.of("2", "example-day01-2019-1.txt"),
+                Arguments.of("966", "example-day01-2019-2.txt"),
+                Arguments.of("50346", "example-day01-2019-3.txt"),
+                Arguments.of("4726527", "input-day01-2019.txt"));
     }
 }

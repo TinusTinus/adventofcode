@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2019.day24;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -22,9 +25,9 @@ public class PlanetOfDiscordPart2Test extends SolverTest<PlanetOfDiscordPart2> {
         assertSolution(new PlanetOfDiscordPart2(10), "99", "example-day24-2019-0.txt");
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("2097", "input-day24-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("2097", "input-day24-2019.txt"));
     }
 }

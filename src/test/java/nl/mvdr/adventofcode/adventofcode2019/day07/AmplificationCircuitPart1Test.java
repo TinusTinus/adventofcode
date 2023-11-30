@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day07;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,27 +18,12 @@ public class AmplificationCircuitPart1Test extends SolverTest<AmplificationCircu
         super(AmplificationCircuitPart1.class);
     }
     
-    /** Test case based on the first example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("43210", "example-day07-2019-0.txt");
-    }
-
-    /** Test case based on the second example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("54321", "example-day07-2019-1.txt");
-    }
-
-    /** Test case based on the third example from the puzzle text. */
-    @Test
-    public void testExample2() {
-        testSolution("65210", "example-day07-2019-2.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("368584", "input-day07-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("43210", "example-day07-2019-0.txt"),
+                Arguments.of("54321", "example-day07-2019-1.txt"),
+                Arguments.of("65210", "example-day07-2019-2.txt"),
+                Arguments.of("368584", "input-day07-2019.txt"));
     }
 }

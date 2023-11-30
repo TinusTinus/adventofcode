@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2019.day17;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,9 +18,9 @@ public class SetAndForgetPart2Test extends SolverTest<SetAndForgetPart2> {
         super(SetAndForgetPart2.class);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("732985", "input-day17-2019.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("732985", "input-day17-2019.txt"));
     }
 }

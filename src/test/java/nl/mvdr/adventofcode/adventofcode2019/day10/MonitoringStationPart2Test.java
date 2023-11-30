@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2019.day10;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,11 +18,12 @@ public class MonitoringStationPart2Test extends SolverTest<MonitoringStationPart
     public MonitoringStationPart2Test() {
         super(MonitoringStationPart2.class);
     }
-    
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("802", "example-day10-2019-4.txt");
+
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("802", "example-day10-2019-4.txt"),
+                Arguments.of("1707", "input-day10-2019.txt"));
     }
     
     /** The 1st asteroid to be vaporized is at 11,12. */
@@ -86,11 +90,5 @@ public class MonitoringStationPart2Test extends SolverTest<MonitoringStationPart
     @Test
     public void testExample299() {
         assertSolution(new MonitoringStationPart2(299), "1101", "example-day10-2019-4.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("1707", "input-day10-2019.txt");
     }
 }
