@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day19;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,9 +17,9 @@ public class GoWithTheFlowPart2Test extends SolverTest<GoWithTheFlowPart2> {
         super(GoWithTheFlowPart2.class);
     }
 
-    /** Test case based on the accepted solution to the puzzle. */
-    @Test
-    public void testSolution() {
-        testSolution("28137600", "input-day19-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("28137600", "input-day19-2018.txt"));
     }
 }

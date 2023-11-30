@@ -1,7 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2018.day02;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,11 +19,12 @@ public class InventoryManagementSystemPart1Test extends SolverTest<InventoryMana
 		super(InventoryManagementSystemPart1.class);
 	}
 	
-	/** Test case based on the example from the puzzle. */
-	@Test
-	public void testExample() {
-		testSolution("12", "example-day02-2018.txt");
-	}
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("12", "example-day02-2018.txt"),
+                Arguments.of("6696", "input-day02-2018.txt"));
+    }
 	
 	/** Test method for {@link InventoryManagementSystemPart1#containsExactlyNOfAnyLetter(String, int)}. */
 	@Test
@@ -160,11 +164,5 @@ public class InventoryManagementSystemPart1Test extends SolverTest<InventoryMana
 		boolean result = InventoryManagementSystemPart1.containsExactlyNOfAnyLetter(id, 3);
 		
 		Assertions.assertTrue(result, "contains three a and three b");
-    }
-	
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("6696", "input-day02-2018.txt");
     }
 }

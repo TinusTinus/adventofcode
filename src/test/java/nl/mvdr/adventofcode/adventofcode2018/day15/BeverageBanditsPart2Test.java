@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day15;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,40 +17,14 @@ public class BeverageBanditsPart2Test extends SolverTest<BeverageBanditsPart2> {
         super(BeverageBanditsPart2.class);
     }
 
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample0() {
-        testSolution("4988", "example-day15-2018-0.txt");
-    }
-    
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample2() {
-        testSolution("31284", "example-day15-2018-2.txt");
-    }
-    
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample3() {
-        testSolution("3478", "example-day15-2018-3.txt");
-    }
-    
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample4() {
-        testSolution("6474", "example-day15-2018-4.txt");
-    }
-    
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample5() {
-        testSolution("1140", "example-day15-2018-5.txt");
-    }
-    
-    /** Test case based on the accepted solution to the puzzle. */
-    @Test
-    @Disabled // This test case is very slow
-    public void testSolution() {
-        testSolution("66510", "input-day15-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("4988", "example-day15-2018-0.txt"),
+                Arguments.of("31284", "example-day15-2018-2.txt"),
+                Arguments.of("3478", "example-day15-2018-3.txt"),
+                Arguments.of("6474", "example-day15-2018-4.txt"),
+                Arguments.of("1140", "example-day15-2018-5.txt"),
+                Arguments.of("66510", "input-day15-2018.txt"));
     }
 }

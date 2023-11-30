@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day08;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,15 +17,10 @@ public class MemoryManeuverPart2Test extends SolverTest<MemoryManeuverPart2> {
         super(MemoryManeuverPart2.class);
     }
 
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample() {
-        testSolution("66", "example-day08-2018.txt");
-    }
-    
-    /** Test case based on the accepted solution to the puzzle. */
-    @Test
-    public void test() {
-        testSolution("37067", "input-day08-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("66", "example-day08-2018.txt"),
+                Arguments.of("37067", "input-day08-2018.txt"));
     }
 }

@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day04;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,21 +17,11 @@ public class ReposeRecordPart2Test extends SolverTest<ReposeRecordPart2> {
         super(ReposeRecordPart2.class);
     }
     
-    /** Test case based on the puzzle's example. */
-    @Test
-    public void testExample() {
-        testSolution("4455", "example-day04-2018.txt");
-    }
-    
-    /** Test case based on the puzzle's example. */
-    @Test
-    public void testExampleJumbled() {
-        testSolution("4455", "example-day04-2018-jumbled.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("96951", "input-day04-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("4455", "example-day04-2018.txt"),
+                Arguments.of("4455", "example-day04-2018-jumbled.txt"),
+                Arguments.of("96951", "input-day04-2018.txt"));
     }
 }

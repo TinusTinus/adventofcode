@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day07;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -14,16 +16,11 @@ public class SumOfItsPartsPart1Test extends SolverTest<SumOfItsPartsPart1> {
     public SumOfItsPartsPart1Test() {
         super(SumOfItsPartsPart1.class);
     }
-
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample() {
-        testSolution("CABDFE", "example-day07-2018.txt");
-    }
     
-    /** Test case based on the accepted solution for part 1. */
-    @Test
-    public void testSolution() {
-        testSolution("PFKQWJSVUXEMNIHGTYDOZACRLB", "input-day07-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("CABDFE", "example-day07-2018.txt"),
+                Arguments.of("PFKQWJSVUXEMNIHGTYDOZACRLB", "input-day07-2018.txt"));
     }
 }

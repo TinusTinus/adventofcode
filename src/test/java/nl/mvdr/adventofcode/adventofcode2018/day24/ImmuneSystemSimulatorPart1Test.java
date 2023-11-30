@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day24;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,21 +17,11 @@ public class ImmuneSystemSimulatorPart1Test extends SolverTest<ImmuneSystemSimul
         super(ImmuneSystemSimulatorPart1.class);
     }
 
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample0() {
-        testSolution("5216", "example-day24-2018-0.txt");
-    }
-    
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample1() {
-        testSolution("51", "example-day24-2018-1.txt");
-    }
-    
-    /** Test case based on the accepted solution to the puzzle. */
-    @Test
-    public void testSolution() {
-        testSolution("26277", "input-day24-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("5216", "example-day24-2018-0.txt"),
+                Arguments.of("51", "example-day24-2018-1.txt"),
+                Arguments.of("26277", "input-day24-2018.txt"));
     }
 }

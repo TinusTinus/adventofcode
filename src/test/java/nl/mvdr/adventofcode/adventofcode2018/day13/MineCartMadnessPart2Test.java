@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day13;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,15 +17,10 @@ public class MineCartMadnessPart2Test extends SolverTest<MineCartMadnessPart2> {
         super(MineCartMadnessPart2.class);
     }
 
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample() {
-        testSolution("6,4", "example-day13-2018-4.txt");
-    }
-    
-    /** Test case based on the accepted solution to the puzzle. */
-    @Test
-    public void testSolution() {
-        testSolution("143,123", "input-day13-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("6,4", "example-day13-2018-4.txt"),
+                Arguments.of("143,123", "input-day13-2018.txt"));
     }
 }

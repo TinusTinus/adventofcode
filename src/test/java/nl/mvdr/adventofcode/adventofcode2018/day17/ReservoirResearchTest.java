@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day17;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,16 +17,11 @@ public class ReservoirResearchTest extends SolverTest<ReservoirResearch> {
         super(ReservoirResearch.class);
     }
 
-    /** Test case based on the example from the puzzle. */
-    @Test
-    public void testExample() {
-        testSolution("Reached by water: 57, settled water: 29", "example-day17-2018.txt");
-    }
-    
-    /** Test case based on the accepted solution to the puzzle. */
-    @Test
-    @Disabled // long-running test case
-    public void testSolution() {
-        testSolution("Reached by water: 30737, settled water: 24699", "input-day17-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("Reached by water: 57, settled water: 29", "example-day17-2018.txt")
+                // , Arguments.of("Reached by water: 30737, settled water: 24699", "input-day17-2018.txt") // long-running test case
+                );
     }
 }

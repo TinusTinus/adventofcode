@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day14;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,35 +16,14 @@ public class ChocolateChartsPart2Test extends SolverTest<ChocolateChartsPart2> {
     public ChocolateChartsPart2Test() {
         super(ChocolateChartsPart2.class);
     }
-
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample6() {
-        testSolution("9", "example-day14-2018-6.txt");
-    }
     
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample7() {
-        testSolution("5", "example-day14-2018-7.txt");
-    }
-    
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample8() {
-        testSolution("18", "example-day14-2018-8.txt");
-    }
-    
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample9() {
-        testSolution("2018", "example-day14-2018-9.txt");
-    }
-    
-    /** Test case based on the accepted solution to the puzzle. */
-    @Test
-    @Disabled // long-running test case
-    public void testSolution() {
-        testSolution("20278122", "input-day14-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("9", "example-day14-2018-6.txt"),
+                Arguments.of("5", "example-day14-2018-7.txt"),
+                Arguments.of("18", "example-day14-2018-8.txt"),
+                Arguments.of("2018", "example-day14-2018-9.txt"),
+                Arguments.of("20278122", "input-day14-2018.txt"));
     }
 }

@@ -29,7 +29,7 @@ public class ReservoirResearch implements LinesSolver<String> {
         
         slice = slice.tickUntilDone();
         
-        LOGGER.info("Done: {}", slice);
+        LOGGER.debug("Done: {}", slice);
         
         return "Reached by water: " + slice.countReached() + ", settled water: " + slice.countSettled();
     }

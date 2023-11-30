@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day05;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,17 +17,10 @@ public class AlchemicalReductionPart2Test extends SolverTest<AlchemicalReduction
         super(AlchemicalReductionPart2.class);
     }
 
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample() {
-        testSolution("4", "example-day05-2018-0.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("4", "example-day05-2018-0.txt"),
+                Arguments.of("5534", "input-day05-2018.txt"));
     }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    @Disabled // This test case is very slow
-    public void testSolution() {
-        testSolution("5534", "input-day05-2018.txt");
-    }
-
 }

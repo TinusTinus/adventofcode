@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day06;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -14,10 +16,10 @@ public class ChronalCoordinatesPart2Test extends SolverTest<ChronalCoordinatesPa
     public ChronalCoordinatesPart2Test() {
         super(ChronalCoordinatesPart2.class);
     }
-
-    /** Test case based on an example from the puzzle. */
-    @Test
-    public void testExample() {
-        testSolution("16", "example-day06-2018.txt");
+    
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("16", "example-day06-2018.txt"));
     }
 }

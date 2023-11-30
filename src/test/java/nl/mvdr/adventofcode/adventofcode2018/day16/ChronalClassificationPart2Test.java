@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day16;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -14,10 +16,11 @@ public class ChronalClassificationPart2Test extends SolverTest<ChronalClassifica
     public ChronalClassificationPart2Test() {
         super(ChronalClassificationPart2.class);
     }
-
-    /** Test case based on the accepted solution to the puzzle. */
-    @Test
-    public void testSolution() {
-        testSolution("681", "input-day16-2018.txt");
+    
+    
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("681", "input-day16-2018.txt"));
     }
 }

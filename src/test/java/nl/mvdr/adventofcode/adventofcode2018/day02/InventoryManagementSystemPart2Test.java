@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2018.day02;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,15 +17,10 @@ public class InventoryManagementSystemPart2Test extends SolverTest<InventoryMana
 		super(InventoryManagementSystemPart2.class);
 	}
 	
-	/** Test case based on the example from the puzzle. */
-	@Test
-	public void testExample() {
-		testSolution("fgij", "example-day02-2018-part2.txt");
-	}
-	
-	/** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("bvnfawcnyoeyudzrpgslimtkj", "input-day02-2018.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("fgij", "example-day02-2018-part2.txt"),
+                Arguments.of("bvnfawcnyoeyudzrpgslimtkj", "input-day02-2018.txt"));
     }
 }
