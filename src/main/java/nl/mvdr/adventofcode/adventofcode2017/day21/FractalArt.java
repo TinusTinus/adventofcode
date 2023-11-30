@@ -3,9 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2017.day21;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.mvdr.adventofcode.LongSolver;
 
 /**
@@ -16,9 +13,14 @@ import nl.mvdr.adventofcode.LongSolver;
  */
 public class FractalArt implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FractalArt.class);
-    
     private final int iterations;
+    
+    /**
+     * Constructor.
+     */
+    public FractalArt() {
+        this(5); // default value for part 1
+    }
     
     /**
      * Constructor.
@@ -42,20 +44,5 @@ public class FractalArt implements LongSolver {
         Image image = Image.INITIAL_IMAGE.enhance(iterations, rules);
         
         return image.countOnPixels();
-    }
-    
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are ignored
-     */
-    public static void main(String[] args) {
-        FractalArt part1 = new FractalArt(5);
-        String part1Result = part1.solve("input-day21-2017.txt");
-        LOGGER.info("Part 1 result: {}", part1Result);
-        
-        FractalArt part2 = new FractalArt(18);
-        String part2Result = part2.solve("input-day21-2017.txt");
-        LOGGER.info("Part 2 result: {}", part2Result);
     }
 }

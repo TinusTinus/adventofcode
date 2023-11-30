@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day04;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,33 +18,13 @@ public class HighEntropyPassphrasesPart1Test extends SolverTest<HighEntropyPassp
         super(HighEntropyPassphrasesPart1.class);
     }
 
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("1", "example-day04-2017-0.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("0", "example-day04-2017-1.txt");
-    }
-
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample2() {
-        testSolution("1", "example-day04-2017-2.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample3() {
-        testSolution("2", "example-day04-2017-3.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("386", "input-day04-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("1", "example-day04-2017-0.txt"),
+                Arguments.of("0", "example-day04-2017-1.txt"),
+                Arguments.of("1", "example-day04-2017-2.txt"),
+                Arguments.of("2", "example-day04-2017-3.txt"),
+                Arguments.of("386", "input-day04-2017.txt"));
     }
 }

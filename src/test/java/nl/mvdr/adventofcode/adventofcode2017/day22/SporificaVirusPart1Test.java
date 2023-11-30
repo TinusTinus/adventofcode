@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2017.day22;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -70,21 +73,16 @@ public class SporificaVirusPart1Test extends SolverTest<SporificaVirusPart1> {
         assertSolution(new SporificaVirusPart1(70), "41", "example-day22-2017.txt");
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample10000Bursts() {
-        testSolution("5587", "example-day22-2017.txt");
-    }
-    
     /** Test case with 0 bursts. No nodes could possibly be infected in this case. */
     @Test
     public void test0BurstsActualInput() {
         assertSolution(new SporificaVirusPart1(0), "0", "input-day22-2017.txt");
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("5330", "input-day22-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("5587", "example-day22-2017.txt"),
+                Arguments.of("5330", "input-day22-2017.txt"));
     }
 }

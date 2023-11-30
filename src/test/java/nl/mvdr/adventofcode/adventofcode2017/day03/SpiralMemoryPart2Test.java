@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day03;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,34 +17,14 @@ public class SpiralMemoryPart2Test extends SolverTest<SpiralMemoryPart2> {
     public SpiralMemoryPart2Test() {
         super(SpiralMemoryPart2.class);
     }
-
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample4() {
-        testSolution("2", "example-day03-2017-4.txt");
-    }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample5() {
-        testSolution("4", "example-day03-2017-5.txt");
-    }
-
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample6() {
-        testSolution("4", "example-day03-2017-6.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample7() {
-        testSolution("5", "example-day03-2017-7.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("369601", "input-day03-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("2", "example-day03-2017-4.txt"),
+                Arguments.of("4", "example-day03-2017-5.txt"),
+                Arguments.of("4", "example-day03-2017-6.txt"),
+                Arguments.of("5", "example-day03-2017-7.txt"),
+                Arguments.of("369601", "input-day03-2017.txt"));
     }
 }

@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day14;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class DiskDefragmentationPart1Test extends SolverTest<DiskDefragmentation
         super(DiskDefragmentationPart1.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("8108", "example-day14-2017.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("8226", "input-day14-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("8108", "example-day14-2017.txt"),
+                Arguments.of("8226", "input-day14-2017.txt"));
     }
 }

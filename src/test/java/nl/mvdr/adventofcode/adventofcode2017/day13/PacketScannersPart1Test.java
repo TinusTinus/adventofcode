@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day13;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,16 +18,10 @@ public class PacketScannersPart1Test extends SolverTest<PacketScannersPart1> {
         super(PacketScannersPart1.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        // In the example, the trip severity is 0*3 + 6*4 = 24
-        testSolution("24", "example-day13-2017.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("1844", "input-day13-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("24", "example-day13-2017.txt"),
+                Arguments.of("1844", "input-day13-2017.txt"));
     }
 }

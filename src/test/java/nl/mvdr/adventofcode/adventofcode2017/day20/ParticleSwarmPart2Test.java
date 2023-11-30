@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day20;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,21 +18,11 @@ public class ParticleSwarmPart2Test extends SolverTest<ParticleSwarmPart2> {
         super(ParticleSwarmPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("2", "example-day20-2017-0.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("1", "example-day20-2017-1.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("471", "input-day20-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("2", "example-day20-2017-0.txt"),
+                Arguments.of("1", "example-day20-2017-1.txt"),
+                Arguments.of("471", "input-day20-2017.txt"));
     }
 }

@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day17;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,9 +18,9 @@ public class SpinlockPart2Test extends SolverTest<SpinlockPart2> {
         super(SpinlockPart2.class);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("27361412", "input-day17-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("27361412", "input-day17-2017.txt"));
     }
 }

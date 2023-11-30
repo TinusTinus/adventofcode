@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day13;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -17,19 +18,15 @@ public class PacketScannersPart2Test extends SolverTest<PacketScannersPart2> {
         super(PacketScannersPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        // Because all smaller delays would get you caught,
-        // the fewest number of picoseconds you would need to delay to get through safely is 10.
-        // Note: day 4 has severity = 0, but the packet does get caught, at layer 0.
-        testSolution("10", "example-day13-2017.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    @Disabled // disabled by default, as this test case typically takes over two minutes to complete
-    public void testSolution() {
-        testSolution("3897604", "input-day13-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                // Because all smaller delays would get you caught,
+                // the fewest number of picoseconds you would need to delay to get through safely is 10.
+                // Note: day 4 has severity = 0, but the packet does get caught, at layer 0.
+                Arguments.of("10", "example-day13-2017.txt")
+                // Commented out by default, as this test case typically takes over two minutes to complete
+                // , Arguments.of("3897604", "input-day13-2017.txt")
+                );
     }
 }

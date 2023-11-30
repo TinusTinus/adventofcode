@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2017.day11;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,9 +18,9 @@ public class HexEdPart2Test extends SolverTest<HexEdPart2> {
         super(HexEdPart2.class);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("1524", "input-day11-2017.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("1524", "input-day11-2017.txt"));
     }
 }
