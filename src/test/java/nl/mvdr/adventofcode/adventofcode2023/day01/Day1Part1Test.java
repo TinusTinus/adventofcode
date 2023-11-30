@@ -9,10 +9,10 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-public class BlizzardBasinPart1Test extends SolverTest<Day1Part1> {
+public class Day1Part1Test extends SolverTest<Day1Part1> {
 
     /** Constructor. */
-    public BlizzardBasinPart1Test() {
+    public Day1Part1Test() {
         super(Day1Part1.class);
     }
     
