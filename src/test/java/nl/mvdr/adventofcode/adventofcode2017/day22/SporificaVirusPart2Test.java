@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2017.day22;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
