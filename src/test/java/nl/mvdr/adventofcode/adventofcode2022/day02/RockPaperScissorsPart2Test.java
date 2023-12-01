@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day02;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,16 +17,11 @@ public class RockPaperScissorsPart2Test extends SolverTest<RockPaperScissorsPart
     public RockPaperScissorsPart2Test() {
         super(RockPaperScissorsPart2.class);
     }
-
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("12", "example-day02-2022.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("12091", "input-day02-2022.txt");
+    
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("12", "example-day02-2022.txt"),
+                Arguments.of("12091", "input-day02-2022.txt"));
     }
 }

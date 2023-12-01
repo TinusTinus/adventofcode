@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day09;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,21 +18,11 @@ public class RopeBridgePart2Test extends SolverTest<RopeBridgePart2> {
         super(RopeBridgePart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("1", "example-day09-2022-0.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("36", "example-day09-2022-1.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("2372", "input-day09-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("1", "example-day09-2022-0.txt"),
+                Arguments.of("36", "example-day09-2022-1.txt"),
+                Arguments.of("2372", "input-day09-2022.txt"));
     }
 }

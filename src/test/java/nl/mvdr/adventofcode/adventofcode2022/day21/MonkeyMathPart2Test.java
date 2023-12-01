@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day21;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class MonkeyMathPart2Test extends SolverTest<MonkeyMathPart2> {
         super(MonkeyMathPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("301", "example-day21-2022.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("3952288690726", "input-day21-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("301", "example-day21-2022.txt"),
+                Arguments.of("3952288690726", "input-day21-2022.txt"));
     }
 }

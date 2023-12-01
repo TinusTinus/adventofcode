@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day04;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,16 +17,11 @@ public class CampCleanupPart1Test extends SolverTest<CampCleanupPart1> {
     public CampCleanupPart1Test() {
         super(CampCleanupPart1.class);
     }
-
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("2", "example-day04-2022.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("494", "input-day04-2022.txt");
+    
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("2", "example-day04-2022.txt"),
+                Arguments.of("494", "input-day04-2022.txt"));
     }
 }

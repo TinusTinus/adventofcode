@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day10;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,31 +18,24 @@ public class CathodeRayTubePart2Test extends SolverTest<CathodeRayTubePart2> {
         super(CathodeRayTubePart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        String expected = """
-                ##..##..##..##..##..##..##..##..##..##..
-                ###...###...###...###...###...###...###.
-                ####....####....####....####....####....
-                #####.....#####.....#####.....#####.....
-                ######......######......######......####
-                #######.......#######.......#######.....
-                """;
-        testSolution(expected, "example-day10-2022.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        String expected = """
-                ####..##...##....##.####...##.####.#....
-                ...#.#..#.#..#....#....#....#.#....#....
-                ..#..#....#.......#...#.....#.###..#....
-                .#...#.##.#.......#..#......#.#....#....
-                #....#..#.#..#.#..#.#....#..#.#....#....
-                ####..###..##...##..####..##..#....####.
-                """;
-        testSolution(expected, "input-day10-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("""
+                        ##..##..##..##..##..##..##..##..##..##..
+                        ###...###...###...###...###...###...###.
+                        ####....####....####....####....####....
+                        #####.....#####.....#####.....#####.....
+                        ######......######......######......####
+                        #######.......#######.......#######.....
+                        """, "example-day10-2022.txt"),
+                Arguments.of("""
+                        ####..##...##....##.####...##.####.#....
+                        ...#.#..#.#..#....#....#....#.#....#....
+                        ..#..#....#.......#...#.....#.###..#....
+                        .#...#.##.#.......#..#......#.#....#....
+                        #....#..#.#..#.#..#.#....#..#.#....#....
+                        ####..###..##...##..####..##..#....####.
+                        """, "input-day10-2022.txt"));
     }
 }

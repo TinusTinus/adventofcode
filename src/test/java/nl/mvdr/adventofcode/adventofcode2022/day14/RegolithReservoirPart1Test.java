@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day14;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class RegolithReservoirPart1Test extends SolverTest<RegolithReservoirPart
         super(RegolithReservoirPart1.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("24", "example-day14-2022.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("892", "input-day14-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("24", "example-day14-2022.txt"),
+                Arguments.of("892", "input-day14-2022.txt"));
     }
 }

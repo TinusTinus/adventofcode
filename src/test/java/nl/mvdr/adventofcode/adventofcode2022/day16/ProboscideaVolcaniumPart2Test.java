@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day16;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -17,16 +18,11 @@ public class ProboscideaVolcaniumPart2Test extends SolverTest<ProboscideaVolcani
         super(ProboscideaVolcaniumPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("1707", "example-day16-2022.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Disabled // This test case takes like half an hour to run
-    @Test
-    public void testSolution() {
-        testSolution("2576", "input-day16-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("1707", "example-day16-2022.txt")
+                // , Arguments.of("2576", "input-day16-2022.txt") // This test case takes like half an hour to run
+                );
     }
 }

@@ -40,7 +40,9 @@ class RegolithReservoir implements IntSolver {
                 .collect(Collectors.toSet());
         var spring = new Point(500, 0);
         var verticalSlice = new VerticalSlice(spring, rock, false, floor).tickUntilDone();
-        LOGGER.info(verticalSlice.toString());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(verticalSlice.toString());
+        }
         return verticalSlice.countSettled();
     }
 }

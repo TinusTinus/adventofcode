@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day20;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class GrovePositioningSystemPart1Test extends SolverTest<GrovePositioning
         super(GrovePositioningSystemPart1.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("3", "example-day20-2022.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("2215", "input-day20-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("3", "example-day20-2022.txt"),
+                Arguments.of("2215", "input-day20-2022.txt"));
     }
 }

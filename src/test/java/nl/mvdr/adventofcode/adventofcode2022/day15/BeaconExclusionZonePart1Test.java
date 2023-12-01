@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2022.day15;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +19,15 @@ public class BeaconExclusionZonePart1Test extends SolverTest<BeaconExclusionZone
         super(BeaconExclusionZonePart1.class);
     }
     
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("4883971", "input-day15-2022.txt"));
+    }
+    
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExample() {
         assertSolution(new BeaconExclusionZonePart1(10), "26", "example-day15-2022.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("4883971", "input-day15-2022.txt");
     }
 }

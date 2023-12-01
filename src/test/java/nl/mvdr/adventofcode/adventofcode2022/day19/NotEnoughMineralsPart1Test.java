@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day19;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -17,17 +18,10 @@ public class NotEnoughMineralsPart1Test extends SolverTest<NotEnoughMineralsPart
         super(NotEnoughMineralsPart1.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    @Disabled // long-running test case
-    public void testExample() {
-        testSolution("33", "example-day19-2022.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    @Disabled // long-running test case
-    public void testSolution() {
-        testSolution("1480", "input-day19-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("33", "example-day19-2022.txt"),
+                Arguments.of("1480", "input-day19-2022.txt"));
     }
 }

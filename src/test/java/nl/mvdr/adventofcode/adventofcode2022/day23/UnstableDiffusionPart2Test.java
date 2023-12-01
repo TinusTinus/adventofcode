@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day23;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -17,22 +18,11 @@ public class UnstableDiffusionPart2Test extends SolverTest<UnstableDiffusionPart
         super(UnstableDiffusionPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample0() {
-        testSolution("4", "example-day23-2022-0.txt");
-    }
-    
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample1() {
-        testSolution("20", "example-day23-2022-1.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    @Disabled // long-running test case
-    public void testSolution() {
-        testSolution("992", "input-day23-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("4", "example-day23-2022-0.txt"),
+                Arguments.of("20", "example-day23-2022-1.txt"),
+                Arguments.of("992", "input-day23-2022.txt"));
     }
 }

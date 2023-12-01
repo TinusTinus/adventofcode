@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2022.day07;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class NoSpaceLeftOnDevicePart1Test extends SolverTest<NoSpaceLeftOnDevice
         super(NoSpaceLeftOnDevicePart1.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("95437", "example-day07-2022.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("1454188", "input-day07-2022.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("95437", "example-day07-2022.txt"),
+                Arguments.of("1454188", "input-day07-2022.txt"));
     }
 }
