@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2021.day01;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class SonarSweepPart1Test extends SolverTest<SonarSweepPart1> {
         super(SonarSweepPart1.class);
     }
 
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("7", "example-day01-2021.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("1448", "input-day01-2021.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("7", "example-day01-2021.txt"),
+                Arguments.of("1448", "input-day01-2021.txt"));
     }
 }

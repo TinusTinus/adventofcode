@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2021.day05;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,16 +17,12 @@ public class HydrothermalVenturePart2Test extends SolverTest<HydrothermalVenture
     public HydrothermalVenturePart2Test() {
         super(HydrothermalVenturePart2.class);
     }
-
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("12", "example-day05-2021.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("16793", "input-day05-2021.txt"); // should be at least 4826
+    
+    
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("12", "example-day05-2021.txt"),
+                Arguments.of("16793", "input-day05-2021.txt"));
     }
 }

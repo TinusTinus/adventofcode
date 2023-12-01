@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2021.day04;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -15,16 +17,11 @@ public class GiantSquidPart2Test extends SolverTest<GiantSquidPart2> {
     public GiantSquidPart2Test() {
         super(GiantSquidPart2.class);
     }
-
-    /** Test case based on the example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("1924", "example-day04-2021.txt");
-    }
-
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("23042", "input-day04-2021.txt");
+    
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("1924", "example-day04-2021.txt"),
+                Arguments.of("23042", "input-day04-2021.txt"));
     }
 }
