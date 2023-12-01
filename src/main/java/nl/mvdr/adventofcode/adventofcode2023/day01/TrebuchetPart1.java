@@ -1,11 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2023.day01;
 
-import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.Solver;
 
 /**
  * Solution to the day 1 puzzle of 2023's Advent of Code:
@@ -13,31 +11,15 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class TrebuchetPart1 implements IntSolver {
+public class TrebuchetPart1 implements Solver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrebuchetPart1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
-        return lines.mapToInt(TrebuchetPart1::findCalibrationValue)
-            .sum();
+    public String solve(String inputfile) {
+        return new Trebuchet(false).solve(inputfile);
     }
     
-    /**
-     * Finds a calibration value.
-     * 
-     * @param line line from the input, for example: "pqr3stu8vwx"
-     * @return the calibration value; in this example: 38
-     */
-    private static int findCalibrationValue(String line) {
-        var digits = line.chars()
-                .filter(c -> Character.isDigit((char) c))
-                .mapToObj(c -> "" + (char) c)
-                .toList();
-        var calibrationValueString = digits.getFirst() + digits.getLast();
-        return Integer.parseInt(calibrationValueString);
-    }
-
     /**
      * Main method.
      * 
