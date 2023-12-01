@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day03;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,19 +18,10 @@ public class TobogganTrajectoryPart1Test extends SolverTest<TobogganTrajectoryPa
         super(TobogganTrajectoryPart1.class);
     }
     
-    /**
-     * Test case based on an example from the puzzle text.
-     * 
-     * In this example, traversing the map using this slope would cause you to encounter 7 trees.
-     */
-    @Test
-    public void testExample() {
-        testSolution("7", "example-day03-2020.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("198", "input-day03-2020.txt"); 
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("7", "example-day03-2020.txt"),
+                Arguments.of("198", "input-day03-2020.txt"));
     }
 }

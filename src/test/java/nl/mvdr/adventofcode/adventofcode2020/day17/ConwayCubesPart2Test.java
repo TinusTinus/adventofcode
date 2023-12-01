@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2020.day17;
 
-import org.junit.jupiter.api.Disabled;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -41,17 +43,10 @@ public class ConwayCubesPart2Test extends SolverTest<ConwayCubesPart2> {
         assertSolution(new ConwayCubesPart2(6), "848", "example-day17-2020.txt");
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    @Disabled // long-running test case
-    public void testExample() {
-        testSolution("848", "example-day17-2020.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    @Disabled // long-running test case
-    public void testSolution() {
-        testSolution("1492", "input-day17-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("848", "example-day17-2020.txt"),
+                Arguments.of("1492", "input-day17-2020.txt"));
     }
 }

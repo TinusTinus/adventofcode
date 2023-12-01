@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day15;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,9 +18,9 @@ public class RambunctiousRecitationPart2Test extends SolverTest<RambunctiousReci
         super(RambunctiousRecitationPart2.class);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("243", "input-day15-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("243", "input-day15-2020.txt"));
     }
 }

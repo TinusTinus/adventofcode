@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day19;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class MonsterMessagesPart2Test extends SolverTest<MonsterMessagesPart2> {
         super(MonsterMessagesPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("12", "example-day19-2020-1.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("384", "input-day19-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("12", "example-day19-2020-1.txt"),
+                Arguments.of("384", "input-day19-2020.txt"));
     }
 }

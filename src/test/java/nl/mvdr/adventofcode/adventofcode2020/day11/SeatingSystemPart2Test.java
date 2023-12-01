@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day11;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class SeatingSystemPart2Test extends SolverTest<SeatingSystemPart2> {
         super(SeatingSystemPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("26", "example-day11-2020.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("2027", "input-day11-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("26", "example-day11-2020.txt"),
+                Arguments.of("2027", "input-day11-2020.txt"));
     }
 }

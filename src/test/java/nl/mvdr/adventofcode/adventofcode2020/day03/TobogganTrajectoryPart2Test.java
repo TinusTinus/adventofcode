@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day03;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,20 +18,10 @@ public class TobogganTrajectoryPart2Test extends SolverTest<TobogganTrajectoryPa
         super(TobogganTrajectoryPart2.class);
     }
     
-    /**
-     * Test case based on an example from the puzzle text.
-     * 
-     * In the above example, these slopes would find 2, 7, 3, 4, and 2 tree(s) respectively;
-     * multiplied together, these produce the answer 336.
-     */
-    @Test
-    public void testExample() {
-        testSolution("336", "example-day03-2020.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("5140884672", "input-day03-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("336", "example-day03-2020.txt"),
+                Arguments.of("5140884672", "input-day03-2020.txt"));
     }
 }

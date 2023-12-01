@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day10;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,35 +18,12 @@ public class AdapterArrayPart2Test extends SolverTest<AdapterArrayPart2> {
         super(AdapterArrayPart2.class);
     }
     
-    /**
-     * Test case based on an example from the puzzle text.
-     * 
-     * Given the adapters from the first example, the total number of arrangements that connect the charging outlet to your device is 8.
-     */
-    @Test
-    public void testExample0() {
-        testSolution("8", "example-day10-2020-0.txt");
-    }
-    
-    /**
-     * Test case based on an example from the puzzle text.
-     * 
-     * In total, this set of adapters can connect the charging outlet to your device in 19208 distinct arrangements.
-     */
-    @Test
-    public void testExample1() {
-        testSolution("19208", "example-day10-2020-1.txt");
-    }
-    
-    /** Test case with only one adapter. */
-    @Test
-    public void testExample2() {
-        testSolution("1", "example-day10-2020-2.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("518344341716992", "input-day10-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("8", "example-day10-2020-0.txt"),
+                Arguments.of("19208", "example-day10-2020-1.txt"),
+                Arguments.of("1", "example-day10-2020-2.txt"),
+                Arguments.of("518344341716992", "input-day10-2020.txt"));
     }
 }

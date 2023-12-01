@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2020.day23;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -82,15 +85,10 @@ public class CrabCupsPart1Test extends SolverTest<CrabCupsPart1> {
         assertSolution(new CrabCupsPart1(10), "92658374", "example-day23-2020.txt");
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("67384529", "example-day23-2020.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("32897654", "input-day23-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("67384529", "example-day23-2020.txt"),
+                Arguments.of("32897654", "input-day23-2020.txt"));
     }
 }

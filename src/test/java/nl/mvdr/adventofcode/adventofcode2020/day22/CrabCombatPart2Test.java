@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2020.day22;
 
-import org.junit.jupiter.api.Disabled;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -17,23 +19,17 @@ public class CrabCombatPart2Test extends SolverTest<CrabCombatPart2> {
         super(CrabCombatPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("291", "example-day22-2020-0.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("291", "example-day22-2020-0.txt"),
+                Arguments.of("32789", "input-day22-2020.txt"));
     }
-
+    
     /** Test case based on an example from the puzzle text. */
     @Test
     public void testExampleInfiniteRecursion() {
         int expectedScore = 2 * 43 + 19;
         testSolution(Integer.toString(expectedScore), "example-day22-2020-1.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    @Disabled // long-running test case
-    public void testSolution() {
-        testSolution("32789", "input-day22-2020.txt");
     }
 }

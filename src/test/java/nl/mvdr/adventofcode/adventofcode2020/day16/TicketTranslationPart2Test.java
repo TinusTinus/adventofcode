@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day16;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,9 +18,9 @@ public class TicketTranslationPart2Test extends SolverTest<TicketTranslationPart
         super(TicketTranslationPart2.class);
     }
     
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("3173135507987", "input-day16-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("3173135507987", "input-day16-2020.txt"));
     }
 }

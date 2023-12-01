@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day20;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,15 +18,10 @@ public class JurassicJigsawPart2Test extends SolverTest<JurassicJigsawPart2> {
         super(JurassicJigsawPart2.class);
     }
     
-    /** Test case based on an example from the puzzle text. */
-    @Test
-    public void testExample() {
-        testSolution("273", "example-day20-2020.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("2065", "input-day20-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("273", "example-day20-2020.txt"),
+                Arguments.of("2065", "input-day20-2020.txt"));
     }
 }

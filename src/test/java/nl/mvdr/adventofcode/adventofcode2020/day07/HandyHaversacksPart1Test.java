@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2020.day07;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
 
@@ -16,33 +18,10 @@ public class HandyHaversacksPart1Test extends SolverTest<HandyHaversacksPart1> {
         super(HandyHaversacksPart1.class);
     }
     
-    /**
-     * Test case based on an example from the puzzle text.
-     * 
-     * The following options would be available to you:
-     * 
-     * <ul>
-     * <li>A bright white bag, which can hold your shiny gold bag directly.</li>
-     * <li>A muted yellow bag, which can hold your shiny gold bag directly, plus
-     * some other bags.</li>
-     * <li>A dark orange bag, which can hold bright white and muted yellow bags,
-     * either of which could then hold your shiny gold bag.</li>
-     * <li>A light red bag, which can hold bright white and muted yellow bags,
-     * either of which could then hold your shiny gold bag.</li>
-     * </ul>
-     * 
-     * So, in this example, the number of bag colors that can eventually contain at
-     * least one shiny gold bag is 4.
-     * 
-     */
-    @Test
-    public void testExample() {
-        testSolution("4", "example-day07-2020-0.txt");
-    }
-    
-    /** Test case based on the accepted solution. */
-    @Test
-    public void testSolution() {
-        testSolution("348", "input-day07-2020.txt");
+    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
+    static Stream<Arguments> testSolution() {
+        return Stream.of(
+                Arguments.of("4", "example-day07-2020-0.txt"),
+                Arguments.of("348", "input-day07-2020.txt"));
     }
 }
