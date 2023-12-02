@@ -65,4 +65,24 @@ record Game(int id, List<MultiSet<Color>> subsets) {
                 });
         return result;
     }
+    
+    /**
+     * Checks whether the given subset is possible.
+     * 
+     * @param subset subset to check
+     * @return whether the given subset is possible if the bag contained only 12 red cubes, 13 green cubes, and 14 blue cubes
+     */
+    private static boolean isPossible(MultiSet<Color> subset) {
+        return subset.getCount(Color.RED) <= 12
+                && subset.getCount(Color.GREEN) <= 13
+                && subset.getCount(Color.BLUE) <= 14;
+    }
+    
+    /**
+     * @return whether this game is possible if the bag contained only 12 red cubes, 13 green cubes, and 14 blue cubes
+     */
+    boolean isPossible() {
+        return subsets().stream()
+                .allMatch(Game::isPossible);
+    }
 }

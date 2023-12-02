@@ -18,7 +18,10 @@ public class CubeConundrumPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        return lines.map(Game::parse)
+                .filter(Game::isPossible)
+                .mapToInt(Game::id)
+                .sum();
     }
     
     /**

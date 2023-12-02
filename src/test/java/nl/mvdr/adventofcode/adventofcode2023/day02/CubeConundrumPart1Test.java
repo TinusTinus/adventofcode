@@ -22,6 +22,6 @@ public class CubeConundrumPart1Test extends SolverTest<CubeConundrumPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("8", "example-day02-2023.txt"),
-                Arguments.of("?", "input-day02-2023.txt"));
+                Arguments.of("2156", "input-day02-2023.txt"));
     }
 }
