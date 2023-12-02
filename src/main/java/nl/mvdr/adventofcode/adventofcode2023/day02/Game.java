@@ -79,10 +79,47 @@ record Game(int id, List<MultiSet<Color>> subsets) {
     }
     
     /**
+     * Computes the power of a set of cubes.
+     * 
+     * The power of a set of cubes is equal to the numbers of red, green, and blue cubes multiplied together.
+     * 
+     * @param cubes set of cubes (represented as a multiset of their colors)
+     * @return power
+     */
+    private static int computePower(MultiSet<Color> cubes) {
+        return Stream.of(Color.values())
+                .mapToInt(cubes::getCount)
+                .reduce(1, (i, j) -> i * j);
+    }
+    
+    /**
      * @return whether this game is possible if the bag contained only 12 red cubes, 13 green cubes, and 14 blue cubes
      */
     boolean isPossible() {
         return subsets().stream()
                 .allMatch(Game::isPossible);
+    }
+    
+    /**
+     * @return the power of the minimum set of cubes making this game possible
+     */
+    int computeMinimumSetPower() {
+        return computePower(minimumSet());
+    }
+    
+    /**
+     * @return the minimum set of cubes making this game possible
+     */
+    private MultiSet<Color> minimumSet() {
+        MultiSet<Color> result = new HashMultiSet<>();
+        Stream.of(Color.values())
+                .forEach(color -> {
+                    var count = subsets.stream()
+                            .mapToInt(subset -> subset.getCount(color))
+                            .max()
+                            .orElseThrow();
+                    result.add(color, count);
+                });
+        return result;
     }
 }
