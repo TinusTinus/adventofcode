@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/02">?</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/02">Cube Conundrum</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class Day2Part1 implements IntSolver {
+public class CubeConundrumPart1 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Day2Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CubeConundrumPart1.class);
 
     @Override
     public int solve(Stream<String> lines) {
@@ -27,7 +27,7 @@ public class Day2Part1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new Day2Part1();
+        var instance = new CubeConundrumPart1();
 
         var result = instance.solve("input-day02-2023.txt");
 
