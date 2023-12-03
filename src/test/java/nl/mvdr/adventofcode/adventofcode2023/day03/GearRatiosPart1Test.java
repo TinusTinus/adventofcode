@@ -22,6 +22,6 @@ public class GearRatiosPart1Test extends SolverTest<GearRatiosPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("4361", "example-day03-2023.txt"),
-                Arguments.of("?", "input-day03-2023.txt"));
+                Arguments.of("?", "input-day03-2023.txt")); // 527438 is too high!
     }
 }
