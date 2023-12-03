@@ -17,8 +17,9 @@ public class GearRatiosPart2 implements IntSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(GearRatiosPart2.class);
 
     @Override
-    public int solve(Stream<String> linesStream) {
-        return 0; // TODO
+    public int solve(Stream<String> lines) {
+        var schematic = EngineSchematic.parse(lines.toList());
+        return schematic.sumGearRatios();
     }
 
     /**

@@ -57,4 +57,13 @@ record EngineSchematic(Set<SchematicNumber> numbers, Set<Symbol> symbols) {
                 .mapToInt(SchematicNumber::value)
                 .sum();
     }
+    
+    /**
+     * @return sum of the gear ratios on this schematic
+     */
+    int sumGearRatios() {
+        return symbols.stream()
+                .mapToInt(symbol -> symbol.gearRatio(numbers))
+                .sum();
+    }
 }
