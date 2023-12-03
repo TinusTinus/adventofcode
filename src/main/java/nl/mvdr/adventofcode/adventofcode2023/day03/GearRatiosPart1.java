@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/03">?</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/03">Gear Ratios</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class Day3Part1 implements IntSolver {
+public class GearRatiosPart1 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Day3Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GearRatiosPart1.class);
 
     @Override
     public int solve(Stream<String> lines) {
@@ -27,7 +27,7 @@ public class Day3Part1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new Day3Part1();
+        var instance = new GearRatiosPart1();
 
         var result = instance.solve("input-day03-2023.txt");
 
