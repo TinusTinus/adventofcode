@@ -69,7 +69,7 @@ public class GearRatiosPart1 implements IntSolver {
             .filter(y -> y < lines.size())
             .mapToObj(lines::get)
             .anyMatch(line -> 
-                IntStream.range(indexOfNumber - 1, indexOfNumber + numberString.length() + 2)
+                IntStream.range(indexOfNumber - 1, indexOfNumber + numberString.length() + 1)
                     .filter(x -> 0 <= x)
                     .filter(x -> x < line.length())
                     .map(line::charAt)
