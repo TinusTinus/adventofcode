@@ -44,7 +44,7 @@ public class GearRatiosPart1 implements IntSolver {
                         var number = Integer.parseInt(numberString);
                         result = Math.addExact(result, number);
                     } else {
-                        LOGGER.info("Not a part number, ignoring: {}", numberString); // TODO clean up logging
+                        LOGGER.debug("Not a part number, ignoring: {}", numberString);
                     }
                 }
             }
@@ -74,7 +74,7 @@ public class GearRatiosPart1 implements IntSolver {
                     .filter(x -> x < line.length())
                     .map(line::charAt)
                     .filter(c -> isSymbol((char)c))
-                    .peek(c -> LOGGER.info("Number {} is a part number, adjacent symbol: {}", numberString, (char)c)) // TODO clean up logging
+                    .peek(c -> LOGGER.debug("Number {} is a part number, adjacent symbol: {}", numberString, Character.valueOf((char)c)))
                     .findAny()
                     .isPresent()
                 );
