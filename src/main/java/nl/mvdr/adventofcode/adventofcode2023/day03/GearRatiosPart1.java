@@ -65,14 +65,13 @@ public class GearRatiosPart1 implements IntSolver {
         return IntStream.range(lineNumber - 1, lineNumber + 2)
             .filter(y -> 0 <= y)
             .filter(y -> y < lines.size())
-            .anyMatch(y -> 
+            .mapToObj(lines::get)
+            .anyMatch(line -> 
                 IntStream.range(indexOfNumber - 1, indexOfNumber + numberString.length() + 2)
                     .filter(x -> 0 <= x)
-                    .filter(x -> x < lines.get(y).length())
-                    .anyMatch(x -> {
-                        var c = lines.get(y).charAt(x);
-                        return !Character.isDigit(c) && c != '.';
-                    })
+                    .filter(x -> x < line.length())
+                    .map(line::charAt)
+                    .anyMatch(c -> !Character.isDigit((char)c) && c != '.')
                 );
     }
     
