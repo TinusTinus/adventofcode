@@ -42,7 +42,9 @@ public class GearRatiosPart1 implements IntSolver {
                     // Found the complete number. Check whether it is a part number.
                     if (isPartNumber(lines, lineNumber, numberString, i - numberString.length())) {
                         var number = Integer.parseInt(numberString);
-                        result = result + number;
+                        result = Math.addExact(result, number);
+                    } else {
+                        LOGGER.info("Not a part number, ignoring: {}", numberString); // TODO clean up logging
                     }
                 }
             }
@@ -71,8 +73,23 @@ public class GearRatiosPart1 implements IntSolver {
                     .filter(x -> 0 <= x)
                     .filter(x -> x < line.length())
                     .map(line::charAt)
-                    .anyMatch(c -> !Character.isDigit((char)c) && c != '.')
+                    .filter(c -> isSymbol((char)c))
+                    .peek(c -> LOGGER.info("Number {} is a part number, adjacent symbol: {}", numberString, (char)c)) // TODO clean up logging
+                    .findAny()
+                    .isPresent()
                 );
+    }
+
+    /**
+     * Checks whether the given character is a special symbol.
+     * 
+     * That is, checks whether it is a symbol, other than a digit or '.'.
+     * 
+     * @param character character to inspect
+     * @return whether the given character is a symbol
+     */
+    private static boolean isSymbol(char character) {
+        return !Character.isDigit(character) && character != '.';
     }
     
     /**
