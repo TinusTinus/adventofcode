@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/02">Cube Conundrum</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/2">Cube Conundrum</a>.
  *
  * @author Martijn van de Rijdt
  */

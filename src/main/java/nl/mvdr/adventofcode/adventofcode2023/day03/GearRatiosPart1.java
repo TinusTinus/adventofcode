@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/03">Gear Ratios</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/3">Gear Ratios</a>.
  *
  * @author Martijn van de Rijdt
  */

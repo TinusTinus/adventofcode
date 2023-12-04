@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/04">Scratchcards</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/4">Scratchcards</a>.
  *
  * @author Martijn van de Rijdt
  */
