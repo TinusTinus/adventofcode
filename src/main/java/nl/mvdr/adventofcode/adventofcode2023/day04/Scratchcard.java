@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.collections4.MultiSet;
+import org.apache.commons.collections4.MultiSet.Entry;
 
 /**
  * A scratchcard.
@@ -59,7 +60,9 @@ record Scratchcard(int id, Set<Integer> winningNumbers, List<Integer> ourNumbers
      * @return one of the copies of the card with the given id
      */
     static Scratchcard findCard(MultiSet<Scratchcard> scratchcards, int cardId) {
-        return scratchcards.stream()
+        return scratchcards.entrySet()
+                .stream()
+                .map(Entry::getElement)
                 .filter(card -> card.id() == cardId)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Card " + cardId + " not found"));
