@@ -12,15 +12,13 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ScratchcardsPart1 implements IntSolver {
+public class ScratchcardsPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScratchcardsPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScratchcardsPart2.class);
 
     @Override
     public int solve(Stream<String> lines) {
-        return lines.map(Scratchcard::parse)
-                .mapToInt(Scratchcard::score)
-                .sum();
+        return 0; // TODO
     }
 
     /**
@@ -29,7 +27,7 @@ public class ScratchcardsPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new ScratchcardsPart1();
+        var instance = new ScratchcardsPart2();
 
         var result = instance.solve("input-day04-2023.txt");
 

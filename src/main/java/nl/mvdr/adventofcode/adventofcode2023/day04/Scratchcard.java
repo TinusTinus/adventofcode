@@ -51,24 +51,24 @@ record Scratchcard(Set<Integer> winningNumbers, List<Integer> ourNumbers) {
     /**
      * @return the count of our numbers which also occur as a winning number
      */
-    private long countWins() {
-        return ourNumbers.stream()
+    private int countWins() {
+        return Math.toIntExact(ourNumbers.stream()
                 .filter(winningNumbers::contains)
-                .count();
+                .count());
     }
     
     /**
      * @return score of this scratchcard, in points
      */
-    long score() {
+    int score() {
         var wins = countWins();
-        long result;
-        if (wins == 0L) {
-            result = 0L;
+        int result;
+        if (wins == 0) {
+            result = 0;
         } else {
             // score = pow(2, wins - 1)
             // Note that powers of 2 can be implemented efficiently by bitshifting: pow(2, n)  =  1 << n
-            result = 1L << (wins - 1);
+            result = 1 << (wins - 1);
         }
         return result;
     }
