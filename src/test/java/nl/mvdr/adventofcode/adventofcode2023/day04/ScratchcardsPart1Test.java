@@ -7,21 +7,21 @@ import org.junit.jupiter.params.provider.Arguments;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link Day4Part1}.
+ * Unit test cases for {@link ScratchcardsPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class Day4Part1Test extends SolverTest<Day4Part1> {
+public class ScratchcardsPart1Test extends SolverTest<ScratchcardsPart1> {
 
     /** Constructor. */
-    public Day4Part1Test() {
-        super(Day4Part1.class);
+    public ScratchcardsPart1Test() {
+        super(ScratchcardsPart1.class);
     }
     
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("?", "example-day04-2023.txt"),
+                Arguments.of("13", "example-day04-2023.txt"),
                 Arguments.of("?", "input-day04-2023.txt"));
     }
 }
