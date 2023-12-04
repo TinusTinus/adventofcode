@@ -17,6 +17,9 @@ import org.apache.commons.collections4.MultiSet.Entry;
  * @author Martijn van de Rijdt
  */
 record Scratchcard(int id, Set<Integer> winningNumbers, List<Integer> ourNumbers) {
+    
+    private static final String CARD_PREFIX = "Card";
+
     /**
      * Parses the textual representation of a scratchcard.
      *  
@@ -25,13 +28,24 @@ record Scratchcard(int id, Set<Integer> winningNumbers, List<Integer> ourNumbers
      */
     static Scratchcard parse(String text) {
         var parts = text.split(": ");
-        if (parts.length != 2) {
+        if (parts.length != 2 || !parts[0].startsWith(CARD_PREFIX)) {
             throw new IllegalArgumentException("Unable to parse scratchcard: " + text);
         }
-        var id = Integer.parseInt(parts[0].substring("Card".length()).trim());
-        parts = parts[1].split(" \\| ");
+        var id = Integer.parseInt(parts[0].substring(CARD_PREFIX.length()).trim());
+        return parse(id, parts[1]);
+    }
+
+    /**
+     * Parses the textual representation of scratchcard numbers.
+     * 
+     * @param id the scratchcard id
+     * @param text textual representation of all numbers on a card, for example: " 1 21 53 59 44 | 69 82 63 72 16 21 14  1"
+     * @return scratchcard
+     */
+    private static Scratchcard parse(int id, String text) {
+        var parts = text.split(" \\| ");
         if (parts.length != 2) {
-            throw new IllegalArgumentException("Unable to parse scratchcard: " + text);
+            throw new IllegalArgumentException("Unable to parse numbers: " + text);
         }
         var winningNumbers = parseNumbers(parts[0])
                 .collect(Collectors.toSet());
@@ -72,9 +86,10 @@ record Scratchcard(int id, Set<Integer> winningNumbers, List<Integer> ourNumbers
      * @return the count of our numbers which also occur as a winning number
      */
     int countWins() {
-        return Math.toIntExact(ourNumbers.stream()
+        var result = ourNumbers.stream()
                 .filter(winningNumbers::contains)
-                .count());
+                .count();
+        return Math.toIntExact(result);
     }
     
     /**
@@ -87,7 +102,7 @@ record Scratchcard(int id, Set<Integer> winningNumbers, List<Integer> ourNumbers
             result = 0;
         } else {
             // score = pow(2, wins - 1)
-            // Note that powers of 2 can be implemented efficiently by bitshifting: pow(2, n)  =  1 << n
+            // Note that computing powers of 2 can be implemented efficiently by bitshifting: pow(2, n)  =  1 << n
             result = 1 << (wins - 1);
         }
         return result;
