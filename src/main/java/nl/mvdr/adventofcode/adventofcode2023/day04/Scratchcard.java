@@ -8,11 +8,12 @@ import java.util.stream.Stream;
 /**
  * A scratchcard.
  *
+ * @param id this card's unique identifier
  * @param winningNumbers the numbers on the left, that is, the winning numbers
  * @param ourNumbers the numbers on the right
  * @author Martijn van de Rijdt
  */
-record Scratchcard(Set<Integer> winningNumbers, List<Integer> ourNumbers) {
+record Scratchcard(int id, Set<Integer> winningNumbers, List<Integer> ourNumbers) {
     /**
      * Parses the textual representation of a scratchcard.
      *  
@@ -24,7 +25,7 @@ record Scratchcard(Set<Integer> winningNumbers, List<Integer> ourNumbers) {
         if (parts.length != 2) {
             throw new IllegalArgumentException("Unable to parse scratchcard: " + text);
         }
-        // Discard the first part (we do not need the card id)
+        var id = Integer.parseInt(parts[0].substring("Card".length()).trim());
         parts = parts[1].split(" \\| ");
         if (parts.length != 2) {
             throw new IllegalArgumentException("Unable to parse scratchcard: " + text);
@@ -33,7 +34,7 @@ record Scratchcard(Set<Integer> winningNumbers, List<Integer> ourNumbers) {
                 .collect(Collectors.toSet());
         var ourNumbers = parseNumbers(parts[1])
                 .toList();
-        return new Scratchcard(winningNumbers, ourNumbers);
+        return new Scratchcard(id, winningNumbers, ourNumbers);
     }
     
     /**
