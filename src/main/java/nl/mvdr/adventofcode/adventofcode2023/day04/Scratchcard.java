@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.collections4.MultiSet;
+
 /**
  * A scratchcard.
  *
@@ -48,11 +50,25 @@ record Scratchcard(int id, Set<Integer> winningNumbers, List<Integer> ourNumbers
         return Stream.of(parts)
                 .map(Integer::valueOf);
     }
+    
+    /**
+     * Finds the card with the given id.
+     * 
+     * @param scratchcards collection of scratch cards; may contain multiple copies of the same card
+     * @param cardId card id
+     * @return one of the copies of the card with the given id
+     */
+    static Scratchcard findCard(MultiSet<Scratchcard> scratchcards, int cardId) {
+        return scratchcards.stream()
+                .filter(card -> card.id() == cardId)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Card " + cardId + " not found"));
+    }
 
     /**
      * @return the count of our numbers which also occur as a winning number
      */
-    private int countWins() {
+    int countWins() {
         return Math.toIntExact(ourNumbers.stream()
                 .filter(winningNumbers::contains)
                 .count());

@@ -22,6 +22,6 @@ public class ScratchcardsPart2Test extends SolverTest<ScratchcardsPart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("30", "example-day04-2023.txt"),
-                Arguments.of("?", "input-day04-2023.txt"));
+                Arguments.of("14427616", "input-day04-2023.txt"));
     }
 }
