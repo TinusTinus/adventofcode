@@ -44,8 +44,8 @@ record ConversionMapRange(long destinationRangeStart, long sourceRangeStart, lon
         if (!contains(sourceNumber)) {
             throw new IllegalArgumentException("Source number " + sourceNumber + " not in range " + this);
         }
-        var offset = sourceNumber - sourceRangeStart;
-        return destinationRangeStart + offset;
+        var offset = Math.subtractExact(sourceNumber, sourceRangeStart);
+        return Math.addExact(destinationRangeStart, offset);
     }
     
     @Override
