@@ -16,7 +16,7 @@ public class IfYouGiveASeedAFertilizerPart2 implements Solver {
 
     @Override
     public String solve(String inputfile) {
-        return new IfYouGiveASeedAFertilizer(true).solve(inputfile);
+        return new IfYouGiveASeedAFertilizer(false).solve(inputfile);
     }
 
     /**

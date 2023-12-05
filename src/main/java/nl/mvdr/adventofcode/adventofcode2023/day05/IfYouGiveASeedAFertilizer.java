@@ -11,21 +11,21 @@ import nl.mvdr.adventofcode.LongSolver;
  */
 class IfYouGiveASeedAFertilizer implements LongSolver {
 
-    private final boolean seedsAsRanges;
+    private final boolean individualSeeds;
     
     /**
      * Constructor.
      * 
-     * @param seedsAsRanges whether seeds should be interpreted as ranges (as in part 2 of the puzzle)
+     * @param individualSeeds whether seeds should be interpreted as individual values (as in part 1) rather than as ranges (as in part 2)
      */
-    public IfYouGiveASeedAFertilizer(boolean seedsAsRanges) {
+    public IfYouGiveASeedAFertilizer(boolean individualSeeds) {
         super();
-        this.seedsAsRanges = seedsAsRanges;
+        this.individualSeeds = individualSeeds;
     }
     
     @Override
     public long solve(Stream<String> lines) {
-        var almanac = Almanac.parse(lines.toList(), seedsAsRanges);
+        var almanac = Almanac.parse(lines.toList(), individualSeeds);
         return almanac.getLowestLocationNumber();
     }
 }
