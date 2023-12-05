@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/5">?</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/5">If You Give A Seed A Fertilizer</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class Day5Part1 implements IntSolver {
+public class IfYouGiveASeedAFertilizerPart1 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Day5Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IfYouGiveASeedAFertilizerPart1.class);
 
     @Override
     public int solve(Stream<String> lines) {
@@ -27,7 +27,7 @@ public class Day5Part1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new Day5Part1();
+        var instance = new IfYouGiveASeedAFertilizerPart1();
 
         var result = instance.solve("input-day05-2023.txt");
 
