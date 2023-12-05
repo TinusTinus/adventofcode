@@ -5,7 +5,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day05;
  *
  * @author Martijn van de Rijdt
  */
-record ConversionMapRange(long destinationRangeStart, long sourceRangeStart, long rangeLength) {
+record ConversionMapRange(Range destinationRange, Range sourceRange) {
     
     /**
      * Parses a line from the puzzle input.
@@ -21,7 +21,10 @@ record ConversionMapRange(long destinationRangeStart, long sourceRangeStart, lon
         var destinationRangeStart = Long.parseLong(parts[0]);
         var sourceRangeStart = Long.parseLong(parts[1]);
         var rangeLength = Long.parseLong(parts[2]);
-        return new ConversionMapRange(destinationRangeStart, sourceRangeStart, rangeLength);
+        
+        var destinationRange = new Range(destinationRangeStart, rangeLength);
+        var sourceRange = new Range(sourceRangeStart, rangeLength);
+        return new ConversionMapRange(destinationRange, sourceRange);
     }
     
     /**
@@ -31,7 +34,7 @@ record ConversionMapRange(long destinationRangeStart, long sourceRangeStart, lon
      * @return whether the given number is in this range
      */
     boolean contains(long sourceNumber) {
-        return sourceRangeStart <= sourceNumber && sourceNumber < sourceRangeStart + rangeLength;
+        return sourceRange.contains(sourceNumber);
     }
     
     /**
@@ -44,12 +47,12 @@ record ConversionMapRange(long destinationRangeStart, long sourceRangeStart, lon
         if (!contains(sourceNumber)) {
             throw new IllegalArgumentException("Source number " + sourceNumber + " not in range " + this);
         }
-        var offset = Math.subtractExact(sourceNumber, sourceRangeStart);
-        return Math.addExact(destinationRangeStart, offset);
+        var offset = Math.subtractExact(sourceNumber, sourceRange.start());
+        return Math.addExact(destinationRange.start(), offset);
     }
     
     @Override
     public String toString() {
-        return destinationRangeStart + " " + sourceRangeStart + " " + rangeLength;
+        return destinationRange.start() + " " + sourceRange.start() + " " + sourceRange.length();
     }
 }
