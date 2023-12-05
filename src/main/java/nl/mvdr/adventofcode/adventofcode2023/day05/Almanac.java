@@ -21,11 +21,7 @@ record Almanac(List<Range> seedRanges, List<ConversionMap> maps) {
      * @return almanac
      */
     static Almanac parse(List<String> lines) {
-        var seeds = parseSeeds(lines.get(0));
-        var seedRanges = seeds.stream()
-                .mapToLong(Long::longValue)
-                .mapToObj(seedNumber -> new Range(seedNumber, 1))
-                .toList();
+        var seedRanges = parseSeeds(lines.get(0));
         var maps = ConversionMap.parse(lines);
         return new Almanac(seedRanges, maps);
     }
@@ -34,16 +30,21 @@ record Almanac(List<Range> seedRanges, List<ConversionMap> maps) {
      * Parses the line containing the list of seeds.
      * 
      * @param text first line of the puzzle input, for example: "seeds: 79 14 55 13"
-     * @return seeds
+     * @return seed ranges
      */
-    private static List<Long> parseSeeds(String text) {
+    private static List<Range> parseSeeds(String text) {
         if (!text.startsWith(SEEDS_PREFIX)) {
             throw new IllegalArgumentException("Unable to parse as seeds: " + text);
         }
         var parts = text.substring(SEEDS_PREFIX.length()).split(" ");
-        return Stream.of(parts)
+        var seeds = Stream.of(parts)
                 .map(Long::valueOf)
                 .toList();
+        var seedRanges = seeds.stream()
+                .mapToLong(Long::longValue)
+                .mapToObj(seedNumber -> new Range(seedNumber, 1))
+                .toList();
+        return seedRanges;
     }
     
     /**
