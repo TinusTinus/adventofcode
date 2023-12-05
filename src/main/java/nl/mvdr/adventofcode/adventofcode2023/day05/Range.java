@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day05;
 
+import java.util.List;
+
 /**
  * A range of numbers.
  *
@@ -34,6 +36,18 @@ record Range(long start, long length) {
         long resultLength = Math.max(0, Math.subtractExact(endExclusive, startInclusive));
         return new Range(startInclusive, resultLength);
     }
+    
+    /**
+     * Creates a copy of the given list of ranges, with all empty ranges removed.
+     * 
+     * @param ranges list of ranges
+     * @return filtered list
+     */
+    static List<Range> removeEmptyRanges(List<Range> ranges) {
+        return ranges.stream()
+                .filter(Range::nonEmpty)
+                .toList();
+    }
 
     /**
      * @return end of the range (exclusive)
@@ -59,7 +73,8 @@ record Range(long start, long length) {
      * @return whether the given other range is entirely contained within this one
      */
     boolean contains(Range other) {
-        return start <= other.start() && other.endExclusive() <= endExclusive();
+        return other.isEmpty() ||
+                (start <= other.start() && other.endExclusive() <= endExclusive());
     }
     
     /**
@@ -67,6 +82,13 @@ record Range(long start, long length) {
      */
     boolean isEmpty() {
         return length == 0;
+    }
+    
+    /**
+     * @return whether this range is non-empty
+     */
+    boolean nonEmpty() {
+        return !isEmpty();
     }
     
     /**

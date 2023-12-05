@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-record ConversionMap(List<ConversionMapRange> ranges) {
+record ConversionMap(List<ConversionMapRange> conversionRanges) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ConversionMap.class);
     
@@ -55,10 +55,41 @@ record ConversionMap(List<ConversionMapRange> ranges) {
      * @return destination number (in the above example: a soil number)
      */
     long map(long sourceNumber) {
-        return ranges.stream()
-            .filter(range -> range.contains(sourceNumber))
-            .mapToLong(range -> range.map(sourceNumber))
-            .findFirst()
-            .orElse(sourceNumber);
+        Range range = new Range(sourceNumber, 1);
+        var ranges = List.of(range);
+        var mappedRanges = map(ranges);
+        if (mappedRanges.size() != 1) {
+            throw new IllegalStateException();
+        }
+        var mappedRange = mappedRanges.getFirst();
+        if (mappedRange.length() != 1) {
+            throw new IllegalStateException();
+        }
+        return mappedRange.start();
+    }
+    
+    /**
+     * Maps the given list of source ranges to a list of destination ranges.
+     * 
+     * @param ranges source ranges
+     * @return destination ranges
+     */
+    List<Range> map(List<Range> ranges) {
+        List<Range> remainingSourceRanges = new ArrayList<>(ranges);
+        List<Range> destinationRanges = new ArrayList<>();
+        
+        for (ConversionMapRange conversionRange : conversionRanges) {
+            List<Range> newRemainingSourceRanges = new ArrayList<>();
+            while (!remainingSourceRanges.isEmpty()) {
+                var sourceRange = remainingSourceRanges.removeFirst();
+                var overlap = conversionRange.sourceRange().overlappingPart(sourceRange);
+                destinationRanges.add(conversionRange.map(overlap));
+                newRemainingSourceRanges.add(conversionRange.sourceRange().precedingPart(sourceRange));
+                newRemainingSourceRanges.add(conversionRange.sourceRange().followingPart(sourceRange));
+            }
+            remainingSourceRanges = new ArrayList<>(Range.removeEmptyRanges(newRemainingSourceRanges));
+        }
+        destinationRanges.addAll(remainingSourceRanges);
+        return Range.removeEmptyRanges(destinationRanges);
     }
 }
