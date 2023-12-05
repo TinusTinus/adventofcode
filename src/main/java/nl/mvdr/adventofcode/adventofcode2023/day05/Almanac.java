@@ -22,7 +22,7 @@ record Almanac(List<Long> seeds, List<ConversionMap> maps) {
      */
     static Almanac parse(List<String> lines) {
         var seeds = parseSeeds(lines.get(0));
-        var maps = List.<ConversionMap>of(); // TODO
+        var maps = ConversionMap.parse(lines);
         return new Almanac(seeds, maps);
     }
     

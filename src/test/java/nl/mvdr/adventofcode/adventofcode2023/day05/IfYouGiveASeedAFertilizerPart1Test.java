@@ -22,6 +22,6 @@ public class IfYouGiveASeedAFertilizerPart1Test extends SolverTest<IfYouGiveASee
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("35", "example-day05-2023.txt"),
-                Arguments.of("?", "input-day05-2023.txt"));
+                Arguments.of("806029445", "input-day05-2023.txt"));
     }
 }
