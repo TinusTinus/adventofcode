@@ -18,7 +18,8 @@ public class IfYouGiveASeedAFertilizerPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        var almanac = Almanac.parse(lines.toList());
+        return almanac.getLowestLocationNumber();
     }
 
     /**
