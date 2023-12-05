@@ -14,7 +14,7 @@ record Range(long start, long length) {
      * @return whether the given number is in this range
      */
     boolean contains(long number) {
-        return start <= number && number < start + length;
+        return contains(new Range(number, 1));
     }
     
     /**

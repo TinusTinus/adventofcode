@@ -18,6 +18,7 @@ record ConversionMapRange(Range destinationRange, Range sourceRange) {
         if (parts.length != 3) {
             throw new IllegalArgumentException("Unable to parse: " + text);
         }
+        
         var destinationRangeStart = Long.parseLong(parts[0]);
         var sourceRangeStart = Long.parseLong(parts[1]);
         var rangeLength = Long.parseLong(parts[2]);
@@ -44,11 +45,27 @@ record ConversionMapRange(Range destinationRange, Range sourceRange) {
      * @return destination number (in the above example: a soil number)
      */
     long map(long sourceNumber) {
-        if (!contains(sourceNumber)) {
-            throw new IllegalArgumentException("Source number " + sourceNumber + " not in range " + this);
+        var range = new Range(sourceNumber, 1);
+        var mapped = map(range);
+        if (mapped.length() != 1) {
+            throw new IllegalStateException("Failed to map source number " + sourceNumber + ", resulting incorrect range: " + mapped);
         }
-        var offset = Math.subtractExact(sourceNumber, sourceRange.start());
-        return Math.addExact(destinationRange.start(), offset);
+        return mapped.start();
+    }
+    
+    /**
+     * Maps the given source number range to a destination range.
+     * 
+     * @param range source range to be mapped; must be contained entirely within this range
+     * @return destination range
+     */
+    Range map(Range range) {
+        if (!sourceRange.contains(range)) {
+            throw new IllegalArgumentException("Range " + range + " is not contained within " + this);
+        }
+        var offset = Math.subtractExact(range.start(), sourceRange.start());
+        var destinationStart = Math.addExact(destinationRange.start(), offset);
+        return new Range(destinationStart, range.length());
     }
     
     @Override
