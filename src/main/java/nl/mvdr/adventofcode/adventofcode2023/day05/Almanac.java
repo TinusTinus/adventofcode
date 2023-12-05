@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 /**
  * An almanac.
  *
- * @param seeds the required seeds
+ * @param seedRanges ranges of required seed numbers
  * @param maps the conversion maps in order; that is: seed-to-soil, soil-to-fertilizer, ... , humidity-to-location
  * @author Martijn van de Rijdt
  */
@@ -44,11 +44,10 @@ record Almanac(List<Range> seedRanges, List<ConversionMap> maps) {
         List<Range> result;
         if (individualSeeds) {
             // Interpret each value as an individual seed value
-            var seeds = Stream.of(parts)
+            result = Stream.of(parts)
                     .map(Long::valueOf)
-                    .toList();
-            result = seeds.stream()
                     .mapToLong(Long::longValue)
+                    // Convert each value to a range of length 1
                     .mapToObj(seedNumber -> new Range(seedNumber, 1L))
                     .toList();
         } else {
@@ -83,7 +82,6 @@ record Almanac(List<Range> seedRanges, List<ConversionMap> maps) {
      */
     long getLowestLocationNumber() {
         var locationRanges = map(seedRanges);
-        
         return locationRanges.stream()
                 .filter(Range::nonEmpty)
                 .mapToLong(Range::start)
