@@ -10,7 +10,7 @@ import java.util.stream.Stream;
  * @param maps the conversion maps in order; that is: seed-to-soil, soil-to-fertilizer, ... , humidity-to-location
  * @author Martijn van de Rijdt
  */
-record Almanac(List<Integer> seeds, List<ConversionMap> maps) {
+record Almanac(List<Long> seeds, List<ConversionMap> maps) {
     
     private static final String SEEDS_PREFIX = "seeds: ";
 
@@ -32,13 +32,13 @@ record Almanac(List<Integer> seeds, List<ConversionMap> maps) {
      * @param text first line of the puzzle input, for example: "seeds: 79 14 55 13"
      * @return seeds
      */
-    private static List<Integer> parseSeeds(String text) {
+    private static List<Long> parseSeeds(String text) {
         if (!text.startsWith(SEEDS_PREFIX)) {
             throw new IllegalArgumentException("Unable to parse as seeds: " + text);
         }
         var parts = text.substring(SEEDS_PREFIX.length()).split(" ");
         return Stream.of(parts)
-                .map(Integer::valueOf)
+                .map(Long::valueOf)
                 .toList();
     }
     
@@ -47,7 +47,7 @@ record Almanac(List<Integer> seeds, List<ConversionMap> maps) {
      * @param seedNumber seed number
      * @return location number
      */
-    private int map(int seedNumber) {
+    private long map(long seedNumber) {
         var currentNumber = seedNumber;
         for (ConversionMap map : maps) {
             currentNumber = map.map(currentNumber);
@@ -58,9 +58,9 @@ record Almanac(List<Integer> seeds, List<ConversionMap> maps) {
     /**
      * @return the lowest location number
      */
-    int getLowestLocationNumber() {
+    long getLowestLocationNumber() {
         return seeds.stream()
-                .mapToInt(Integer::intValue)
+                .mapToLong(Long::longValue)
                 .map(this::map)
                 .min()
                 .orElseThrow();

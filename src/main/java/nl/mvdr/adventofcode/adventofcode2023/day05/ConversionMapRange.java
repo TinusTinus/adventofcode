@@ -5,7 +5,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day05;
  *
  * @author Martijn van de Rijdt
  */
-record ConversionMapRange(int destinationRangeStart, int sourceRangeStart, int rangeLength) {
+record ConversionMapRange(long destinationRangeStart, long sourceRangeStart, long rangeLength) {
     
     /**
      * Parses a line from the puzzle input.
@@ -18,9 +18,9 @@ record ConversionMapRange(int destinationRangeStart, int sourceRangeStart, int r
         if (parts.length != 3) {
             throw new IllegalArgumentException("Unable to parse: " + text);
         }
-        var destinationRangeStart = Integer.parseInt(parts[0]);
-        var sourceRangeStart = Integer.parseInt(parts[1]);
-        var rangeLength = Integer.parseInt(parts[2]);
+        var destinationRangeStart = Long.parseLong(parts[0]);
+        var sourceRangeStart = Long.parseLong(parts[1]);
+        var rangeLength = Long.parseLong(parts[2]);
         return new ConversionMapRange(destinationRangeStart, sourceRangeStart, rangeLength);
     }
     
@@ -30,7 +30,7 @@ record ConversionMapRange(int destinationRangeStart, int sourceRangeStart, int r
      * @param sourceNumber source number (for example, if this is part of a seed-to-soil map, a seed number)
      * @return whether the given number is in this range
      */
-    boolean contains(int sourceNumber) {
+    boolean contains(long sourceNumber) {
         return sourceRangeStart <= sourceNumber && sourceNumber < sourceRangeStart + rangeLength;
     }
     
@@ -40,7 +40,7 @@ record ConversionMapRange(int destinationRangeStart, int sourceRangeStart, int r
      * @param sourceNumber source number (for example, if this is part of a seed-to-soil map, a seed number); must be in this range
      * @return destination number (in the above example: a soil number)
      */
-    int map(int sourceNumber) {
+    long map(long sourceNumber) {
         if (!contains(sourceNumber)) {
             throw new IllegalArgumentException("Source number " + sourceNumber + " not in range " + this);
         }

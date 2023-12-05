@@ -14,10 +14,10 @@ record ConversionMap(List<ConversionMapRange> ranges) {
      * @param sourceNumber source number (for example, if this is a seed-to-soil map, a seed number)
      * @return destination number (in the above example: a soil number)
      */
-    int map(int sourceNumber) {
+    long map(long sourceNumber) {
         return ranges.stream()
             .filter(range -> range.contains(sourceNumber))
-            .mapToInt(range -> range.map(sourceNumber))
+            .mapToLong(range -> range.map(sourceNumber))
             .findFirst()
             .orElse(sourceNumber);
     }
