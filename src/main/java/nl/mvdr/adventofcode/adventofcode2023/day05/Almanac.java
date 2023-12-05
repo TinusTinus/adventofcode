@@ -10,7 +10,7 @@ import java.util.stream.Stream;
  * @param maps the conversion maps in order; that is: seed-to-soil, soil-to-fertilizer, ... , humidity-to-location
  * @author Martijn van de Rijdt
  */
-record Almanac(List<Long> seeds, List<ConversionMap> maps) {
+record Almanac(List<Range> seedRanges, List<ConversionMap> maps) {
     
     private static final String SEEDS_PREFIX = "seeds: ";
 
@@ -22,8 +22,12 @@ record Almanac(List<Long> seeds, List<ConversionMap> maps) {
      */
     static Almanac parse(List<String> lines) {
         var seeds = parseSeeds(lines.get(0));
+        var seedRanges = seeds.stream()
+                .mapToLong(Long::longValue)
+                .mapToObj(seedNumber -> new Range(seedNumber, 1))
+                .toList();
         var maps = ConversionMap.parse(lines);
-        return new Almanac(seeds, maps);
+        return new Almanac(seedRanges, maps);
     }
     
     /**
@@ -60,11 +64,6 @@ record Almanac(List<Long> seeds, List<ConversionMap> maps) {
      * @return the lowest location number
      */
     long getLowestLocationNumber() {
-        var seedRanges = seeds.stream()
-                .mapToLong(Long::longValue)
-                .mapToObj(seedNumber -> new Range(seedNumber, 1))
-                .toList();
-        
         var locationRanges = map(seedRanges);
         
         return locationRanges.stream()
