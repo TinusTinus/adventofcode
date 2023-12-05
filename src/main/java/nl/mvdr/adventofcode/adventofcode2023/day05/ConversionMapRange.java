@@ -29,31 +29,6 @@ record ConversionMapRange(Range destinationRange, Range sourceRange) {
     }
     
     /**
-     * Checks whether the given source number falls within this range.
-     * 
-     * @param sourceNumber source number (for example, if this is part of a seed-to-soil map, a seed number)
-     * @return whether the given number is in this range
-     */
-    boolean contains(long sourceNumber) {
-        return sourceRange.contains(sourceNumber);
-    }
-    
-    /**
-     * Maps the given source number to a destination number.
-     * 
-     * @param sourceNumber source number (for example, if this is part of a seed-to-soil map, a seed number); must be in this range
-     * @return destination number (in the above example: a soil number)
-     */
-    long map(long sourceNumber) {
-        var range = new Range(sourceNumber, 1);
-        var mapped = map(range);
-        if (mapped.length() != 1) {
-            throw new IllegalStateException("Failed to map source number " + sourceNumber + ", resulting incorrect range: " + mapped);
-        }
-        return mapped.start();
-    }
-    
-    /**
      * Maps the given source number range to a destination range.
      * 
      * @param range source range to be mapped; must be contained entirely within this range

@@ -49,26 +49,6 @@ record ConversionMap(List<ConversionMapRange> conversionRanges) {
     }
     
     /**
-     * Maps the given source number to a destination number.
-     * 
-     * @param sourceNumber source number (for example, if this is a seed-to-soil map, a seed number)
-     * @return destination number (in the above example: a soil number)
-     */
-    long map(long sourceNumber) {
-        Range range = new Range(sourceNumber, 1);
-        var ranges = List.of(range);
-        var mappedRanges = map(ranges);
-        if (mappedRanges.size() != 1) {
-            throw new IllegalStateException();
-        }
-        var mappedRange = mappedRanges.getFirst();
-        if (mappedRange.length() != 1) {
-            throw new IllegalStateException();
-        }
-        return mappedRange.start();
-    }
-    
-    /**
      * Maps the given list of source ranges to a list of destination ranges.
      * 
      * @param ranges source ranges

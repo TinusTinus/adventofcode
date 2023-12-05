@@ -43,25 +43,33 @@ record Almanac(List<Long> seeds, List<ConversionMap> maps) {
     }
     
     /**
-     * Maps a seed number to a location number, by applying each conversion map in order.
-     * @param seedNumber seed number
-     * @return location number
+     * Maps ranges of seed numbers to ranges of location numbers, by applying each conversion map in order.
+     * 
+     * @param ranges ranges of seed numbers
+     * @return ranges of location numbers
      */
-    private long map(long seedNumber) {
-        var currentNumber = seedNumber;
+    private List<Range> map(List<Range> ranges) {
+        var currentRanges = ranges;
         for (ConversionMap map : maps) {
-            currentNumber = map.map(currentNumber);
+            currentRanges = map.map(currentRanges);
         }
-        return currentNumber;
+        return currentRanges;
     }
     
     /**
      * @return the lowest location number
      */
     long getLowestLocationNumber() {
-        return seeds.stream()
+        var seedRanges = seeds.stream()
                 .mapToLong(Long::longValue)
-                .map(this::map)
+                .mapToObj(seedNumber -> new Range(seedNumber, 1))
+                .toList();
+        
+        var locationRanges = map(seedRanges);
+        
+        return locationRanges.stream()
+                .filter(Range::nonEmpty)
+                .mapToLong(Range::start)
                 .min()
                 .orElseThrow();
     }

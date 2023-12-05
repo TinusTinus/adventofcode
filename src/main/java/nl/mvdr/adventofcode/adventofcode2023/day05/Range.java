@@ -57,16 +57,6 @@ record Range(long start, long length) {
     }
     
     /**
-     * Checks whether the given number falls within this range.
-     * 
-     * @param number the number to check
-     * @return whether the given number is in this range
-     */
-    boolean contains(long number) {
-        return contains(new Range(number, 1));
-    }
-    
-    /**
      * Checks whether the entirety of the given other range is contained within this one.
      * 
      * @param other other range
