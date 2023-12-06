@@ -5,19 +5,19 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/6">Wait For It</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class WaitForItPart2 implements IntSolver {
+public class WaitForItPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WaitForItPart2.class);
 
     @Override
-    public int solve(Stream<String> linesStream) {
+    public long solve(Stream<String> linesStream) {
         var lines = linesStream.map(line -> line.replaceAll(" ", ""))
                 .toList();
         var records = Record.parse(lines);
