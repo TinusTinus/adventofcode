@@ -23,8 +23,8 @@ record Record(int time, int distance) {
         if (input.size() != 2) {
             throw new IllegalArgumentException("Invalid input: " + input);
         }
-        var times = parseValues("Time: ", input.getFirst());
-        var distances = parseValues("Distance: ", input.getLast());
+        var times = parseValues("Time:", input.getFirst());
+        var distances = parseValues("Distance:", input.getLast());
         if (times.size() != distances.size()) {
             throw new IllegalArgumentException("Numbers of times (" + times.size() + ") and distances ("
                     + distances.size() + ") do not match in input: " + input);
