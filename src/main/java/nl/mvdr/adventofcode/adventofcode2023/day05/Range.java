@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2023.day05;
 
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * A range of numbers.
@@ -11,18 +13,41 @@ import java.util.List;
  */
 record Range(long start, long length) {
 
+    private static final String SEEDS_PREFIX = "seeds: ";
+
     /**
-     * Constructor.
+     * Parses a line containing a list of seeds.
      * 
-     * @param start start of the range
-     * @param length length of the range
+     * @param text first line of the puzzle input, for example: "seeds: 79 14 55 13"
+     * @param individualSeeds whether seeds should be interpreted as individual values (as in part 1) rather than as ranges (as in part 2)
+     * @return seed ranges
      */
-    Range(long start, long length) {
-        if (length < 0) {
-            throw new IllegalArgumentException("Invalid length: " + length);
+    static List<Range> parseSeeds(String text, boolean individualSeeds) {
+        if (!text.startsWith(SEEDS_PREFIX)) {
+            throw new IllegalArgumentException("Unable to parse as seeds: " + text);
         }
-        this.start = start;
-        this.length = length;
+        var parts = text.substring(SEEDS_PREFIX.length()).split(" ");
+        
+        List<Range> result;
+        if (individualSeeds) {
+            // Interpret each value as an individual seed value
+            result = Stream.of(parts)
+                    .map(Long::valueOf)
+                    .mapToLong(Long::longValue)
+                    // Convert each value to a range of length 1
+                    .mapToObj(seedNumber -> new Range(seedNumber, 1L))
+                    .toList();
+        } else {
+            // Interpret pairs of values as a range specification
+            if (parts.length % 2 != 0) {
+                throw new IllegalArgumentException("Unable to parse as seed ranges: " + text);
+            }
+            result = IntStream.range(0, parts.length)
+                    .filter(i -> i % 2 == 0)
+                    .mapToObj(i -> new Range(Long.parseLong(parts[i]), Long.parseLong(parts[i + 1])))
+                    .toList();
+        }
+        return result;
     }
     
     /**
@@ -35,6 +60,20 @@ record Range(long start, long length) {
     private static Range of(long startInclusive, long endExclusive) {
         long resultLength = Math.max(0, Math.subtractExact(endExclusive, startInclusive));
         return new Range(startInclusive, resultLength);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param start start of the range
+     * @param length length of the range
+     */
+    Range(long start, long length) {
+        if (length < 0) {
+            throw new IllegalArgumentException("Invalid length: " + length);
+        }
+        this.start = start;
+        this.length = length;
     }
     
     /**
