@@ -22,6 +22,6 @@ public class WaitForItPart1Test extends SolverTest<WaitForItPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("288", "example-day06-2023.txt"),
-                Arguments.of("?", "input-day06-2023.txt"));
+                Arguments.of("608902", "input-day06-2023.txt"));
     }
 }

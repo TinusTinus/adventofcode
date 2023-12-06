@@ -58,6 +58,25 @@ record Record(int time, int distance) {
      * @return the number of possible ways to beat this record
      */
     int countWaysToBeat() {
-        return 0; // TODO implement
+        var result = IntStream.range(0, time)
+                .map(this::computeDistance)
+                .filter(d -> distance < d)
+                .count();
+        return Math.toIntExact(result);
+    }
+    
+    /**
+     * Computes the distance traveled if the button is held for the given amount of time.
+     * 
+     * @param buttonHoldTime amount of time to hold the button in milliseconds
+     * @return distance traveled in millimeters
+     */
+    private int computeDistance(int buttonHoldTime) {
+        if (buttonHoldTime < 0 || time < buttonHoldTime) {
+            throw new IllegalArgumentException("Invalid button hold time: " + buttonHoldTime);
+        }
+        var speed = buttonHoldTime; // in millimeters per millisecond
+        var travelTime = time - buttonHoldTime; // in milliseconds
+        return travelTime * speed;
     }
 }
