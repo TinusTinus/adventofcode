@@ -18,7 +18,10 @@ public class WaitForItPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        var records = Record.parse(lines.toList());
+        return records.stream()
+                .mapToInt(Record::countWaysToBeat)
+                .reduce(1, (i, j) -> i * j);
     }
 
     /**
