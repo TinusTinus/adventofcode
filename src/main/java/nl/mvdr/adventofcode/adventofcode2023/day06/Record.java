@@ -58,6 +58,11 @@ record Record(int time, int distance) {
      * @return the number of possible ways to beat this record
      */
     int countWaysToBeat() {
+        // Note: an obvious way to optimize this for large inputs would be:
+        // - binary search for an optimal button hold time
+        // - binary search the first value over the record, in the values before the optimum
+        // - binary search the first value no longer over the record, in the values after the optimum
+        // - subtract these two values
         var result = IntStream.range(0, time)
                 .map(this::computeDistance)
                 .filter(d -> distance < d)
