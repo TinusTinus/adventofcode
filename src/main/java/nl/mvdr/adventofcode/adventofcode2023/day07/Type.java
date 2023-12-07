@@ -97,13 +97,15 @@ enum Type {
     }
 
     /**
-     * @param cards
-     * @param jokerCount
-     * @return
+     * Returns a copy of the given multiset, where any Jokers have been replaced by the card as which they should be counted.
+     * 
+     * @param cards cards
+     * @param jokerCount number of Jokers
+     * @return cards with Jokers replaced
      */
     private static MultiSet<Part2Card> replaceJokers(MultiSet<Part2Card> cards, int jokerCount) {
         MultiSet<Part2Card> result = new HashMultiSet<>(cards);
-        result.removeIf(card -> card == Part2Card.JOKER);
+        result.remove(Part2Card.JOKER, jokerCount);
         var mostFrequentCard = cards.entrySet()
                 .stream()
                 .max(Comparator.comparing(Entry::getCount))
