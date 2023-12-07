@@ -6,13 +6,13 @@ package nl.mvdr.adventofcode.adventofcode2023.day07;
  * Values are comparable, where a stronger hand is greater than a weaker hand.
  * (Note that it is assumed that the puzzle input will not contain multiple copies of the same hand with different bids.)
  *
+ * @param <C> the concrete card class
  * @author Martijn van de Rijdt
  */
 record HandAndBid<C extends Card & Comparable<C>>(Hand<C> hand, int bid) implements Comparable<HandAndBid<C>> {
     /**
      * Parses the textual representation of a hand and its corresponding bid.
      * 
-     * @param <C> the concrete card class
      * @param text line from the puzzle input, for example: 32T3K 765
      * @param cardClass the concrete card class
      * @return

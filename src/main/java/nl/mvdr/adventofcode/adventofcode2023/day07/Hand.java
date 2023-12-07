@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
  * 
  * Hands are comparable, where a stronger hand is greater than a weaker hand.
  *
- * @param cards the cards; should contain exactly five cards
+ * @param <C> the concrete card class
+ * @param cards the cards; must contain exactly five cards
  * @param type the type of this hand
  * @author Martijn van de Rijdt
  */

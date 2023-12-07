@@ -54,12 +54,14 @@ enum Type {
      * Determines the type of a hand containing the given cards.
      *  
      * @param cards cards
-     * @return
+     * @return type
      */
     static Type of(List<? extends Card> cards) {
         if (cards.size() != 5) {
             throw new IllegalArgumentException("Invalid hand");
         }
+        
+        // TODO take Jokers into account here!
         
         var counts = cards.stream()
                 .collect(Collectors.toCollection(HashMultiSet::new))
@@ -69,8 +71,16 @@ enum Type {
                 .boxed()
                 .toList();
         
-        // TODO take Jokers into account here
-        
+        return ofCounts(counts);
+    }
+
+    /**
+     * Determines the type of a hand containing the number of occurrences of each card.
+     * 
+     * @param counts counts of each card unique
+     * @return type
+     */
+    private static Type ofCounts(List<Integer> counts) {
         Type result;
         if (counts.equals(List.of(Integer.valueOf(5)))) {
             result = FIVE_OF_A_KIND;
@@ -87,7 +97,7 @@ enum Type {
         } else if (counts.stream().filter(i -> i.intValue() == 1).count() == 5L) {
             result = HIGH_CARD;
         } else {
-            throw new IllegalStateException("Unexpected counts for hand " + cards + ": " + counts);
+            throw new IllegalStateException("Unexpected counts: " + counts);
         }
         return result;
     }
