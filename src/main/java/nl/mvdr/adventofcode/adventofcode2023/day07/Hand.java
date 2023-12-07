@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @param type the type of this hand
  * @author Martijn van de Rijdt
  */
-record Hand<C extends Card & Comparable<C>>(List<C> cards, Type type) implements Comparable<Hand<C>> {
+record Hand<C extends Card<C>>(List<C> cards, Type type) implements Comparable<Hand<C>> {
     /**
      * Constructor.
      * 
@@ -31,7 +31,7 @@ record Hand<C extends Card & Comparable<C>>(List<C> cards, Type type) implements
      * @param cardClass the concrete card class
      * @return the hand represented by the given text
      */
-    static <C extends Card & Comparable<C>> Hand<C> parse(String text, Class<C> cardClass) {
+    static <C extends Card<C>> Hand<C> parse(String text, Class<C> cardClass) {
         var cards = text.chars()
                 .mapToObj(c -> Card.parse((char)c, cardClass))
                 .toList();

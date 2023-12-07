@@ -8,9 +8,10 @@ import java.util.stream.Stream;
  * Cards are ordered in <em>increasing</em> value.
  * (Note: this is as opposed to their order in the puzzle description.)
  *
+ * @param <C> concrete card type
  * @author Martijn van de Rijdt
  */
-interface Card {
+interface Card<C> extends Comparable<C> {
     /**
      * Parses a single-character representation of a card.
      * 
@@ -19,7 +20,7 @@ interface Card {
      * @param cardClass the concrete card class
      * @return the corresponding card
      */
-    static <C extends Card> C parse(char representation, Class<C> cardClass) {
+    static <C extends Card<C>> C parse(char representation, Class<C> cardClass) {
         if (!cardClass.isEnum()) {
             throw new IllegalArgumentException("Must be an enum: " + cardClass);
         }

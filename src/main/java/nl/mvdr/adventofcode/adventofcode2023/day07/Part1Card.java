@@ -5,7 +5,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day07;
  * 
  * @author Martijn van de Rijdt
  */
-enum Part1Card implements Card {
+enum Part1Card implements Card<Part1Card> {
     
     TWO('2'),
     THREE('3'),

@@ -9,7 +9,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day07;
  * @param <C> the concrete card class
  * @author Martijn van de Rijdt
  */
-record HandAndBid<C extends Card & Comparable<C>>(Hand<C> hand, int bid) implements Comparable<HandAndBid<C>> {
+record HandAndBid<C extends Card<C>>(Hand<C> hand, int bid) implements Comparable<HandAndBid<C>> {
     /**
      * Parses the textual representation of a hand and its corresponding bid.
      * 
@@ -18,7 +18,7 @@ record HandAndBid<C extends Card & Comparable<C>>(Hand<C> hand, int bid) impleme
      * @param cardClass the concrete card class
      * @return hand and corresponding bid
      */
-    static <C extends Card & Comparable<C>> HandAndBid<C> parse(String text, Class<C> cardClass) {
+    static <C extends Card<C>> HandAndBid<C> parse(String text, Class<C> cardClass) {
         var parts = text.split(" ");
         if (parts.length != 2) {
             throw new IllegalArgumentException("Unable to parse as a hand and bid: " + text);

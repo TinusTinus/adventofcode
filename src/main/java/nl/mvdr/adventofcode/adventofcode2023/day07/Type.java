@@ -59,12 +59,12 @@ enum Type {
      * @return type
      */
     @SuppressWarnings("unchecked") // If the collection contains a Joker, it must be a collection of Part2Cards
-    static Type of(List<? extends Card> cardsList) {
+    static Type of(List<? extends Card<?>> cardsList) {
         if (cardsList.size() != 5) {
             throw new IllegalArgumentException("Invalid hand: " + cardsList);
         }
         
-        MultiSet<? extends Card> cards = cardsList.stream()
+        MultiSet<? extends Card<?>> cards = cardsList.stream()
                 .collect(Collectors.toCollection(HashMultiSet::new));
         
         if (cards.contains(Part2Card.JOKER)) {
@@ -111,7 +111,7 @@ enum Type {
      * @param cards cards, where any Jokers have already been replaced
      * @return type
      */
-    private static Type of(MultiSet<? extends Card> cards) {
+    private static Type of(MultiSet<? extends Card<?>> cards) {
         var counts = cards.entrySet()
                 .stream()
                 .mapToInt(Entry::getCount)
