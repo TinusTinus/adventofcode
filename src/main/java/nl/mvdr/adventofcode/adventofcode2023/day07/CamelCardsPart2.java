@@ -10,13 +10,13 @@ import nl.mvdr.adventofcode.Solver;
  *
  * @author Martijn van de Rijdt
  */
-public class CamelCardsPart1 implements Solver {
+public class CamelCardsPart2 implements Solver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CamelCardsPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CamelCardsPart2.class);
 
     @Override
     public String solve(String inputfile) {
-        return new CamelCards<>(Part1Card.class).solve(inputfile);
+        return new CamelCards<>(Part2Card.class).solve(inputfile);
     }
 
     /**
@@ -25,7 +25,7 @@ public class CamelCardsPart1 implements Solver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new CamelCardsPart1();
+        var instance = new CamelCardsPart2();
 
         var result = instance.solve("input-day07-2023.txt");
 
