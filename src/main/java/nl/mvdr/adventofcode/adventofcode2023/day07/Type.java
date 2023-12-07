@@ -58,10 +58,10 @@ enum Type {
      * @param cardsList cards
      * @return type
      */
-    @SuppressWarnings("unchecked") // If the collection contains a joker, it must be a collection of Part2Cards
+    @SuppressWarnings("unchecked") // If the collection contains a Joker, it must be a collection of Part2Cards
     static Type of(List<? extends Card> cardsList) {
         if (cardsList.size() != 5) {
-            throw new IllegalArgumentException("Invalid hand");
+            throw new IllegalArgumentException("Invalid hand: " + cardsList);
         }
         
         MultiSet<? extends Card> cards = cardsList.stream()
