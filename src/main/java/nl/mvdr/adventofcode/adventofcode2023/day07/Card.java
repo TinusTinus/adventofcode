@@ -10,48 +10,27 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-enum Card {
-    
-    TWO('2'),
-    THREE('3'),
-    FOUR('4'),
-    FIVE('5'),
-    SIX('6'),
-    SEVEN('7'),
-    EIGHT('8'),
-    NINE('9'),
-    TEN('T'),
-    JACK('J'),
-    QUEEN('Q'),
-    KING('K'),
-    ACE('A');
-    
-    private final char representation;
-    
+interface Card {
     /**
      * Parses a single-character representation of a card.
      * 
+     * @param C the concrete card class
      * @param representation card representation, such as '5' or 'Q'
+     * @param cardClass the concrete card class
      * @return the corresponding card
      */
-    static Card parse(char representation) {
-        return Stream.of(values())
-                .filter(card -> card.representation == representation)
+    static <C extends Card> C parse(char representation, Class<C> cardClass) {
+        if (!cardClass.isEnum()) {
+            throw new IllegalArgumentException("Must be an enum: " + cardClass);
+        }
+        return Stream.of(cardClass.getEnumConstants())
+                .filter(card -> card.getRepresentation() == representation)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unable to parse card: " + representation));
     }
     
     /**
-     * Constructor.
-     * 
-     * @param representation single-character representation of the card
+     * @return single-character representation of the card
      */
-    Card(char representation) {
-        this.representation = representation;
-    }
-    
-    @Override
-    public String toString() {
-        return "" + representation;
-    }
+    char getRepresentation();
 }

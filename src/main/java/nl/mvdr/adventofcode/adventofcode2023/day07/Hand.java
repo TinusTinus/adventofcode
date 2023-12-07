@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
  * @param type the type of this hand
  * @author Martijn van de Rijdt
  */
-record Hand(List<Card> cards, Type type) implements Comparable<Hand> {
+record Hand(List<? extends Card> cards, Type type) implements Comparable<Hand> {
     /**
      * Constructor.
      * 
      * @param cards cards in the hand
      */
-    Hand(List<Card> cards) {
+    Hand(List<? extends Card> cards) {
         this(cards, Type.of(cards));
     }
     
@@ -30,7 +30,7 @@ record Hand(List<Card> cards, Type type) implements Comparable<Hand> {
      */
     static Hand parse(String text) {
         var cards = text.chars()
-                .mapToObj(c -> Card.parse((char)c))
+                .mapToObj(c -> Card.parse((char)c, Part1Card.class))
                 .toList();
         return new Hand(cards);
     }
@@ -38,7 +38,7 @@ record Hand(List<Card> cards, Type type) implements Comparable<Hand> {
     @Override
     public String toString() {
         return cards.stream()
-                .map(Card::toString)
+                .map(Object::toString)
                 .collect(Collectors.joining());
     }
 
@@ -47,7 +47,7 @@ record Hand(List<Card> cards, Type type) implements Comparable<Hand> {
         var result = this.type().compareTo(other.type());
         var cardIndex = 0;
         while (result == 0 && cardIndex < 5) {
-            result = this.cards().get(cardIndex).compareTo(other.cards().get(cardIndex));
+            // TODO result = this.cards().get(cardIndex).compareTo(other.cards().get(cardIndex));
             cardIndex++;
         }
         return result;

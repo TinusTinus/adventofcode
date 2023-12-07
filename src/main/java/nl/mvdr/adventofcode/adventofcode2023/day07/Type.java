@@ -56,7 +56,7 @@ enum Type {
      * @param cards cards
      * @return
      */
-    static Type of(List<Card> cards) {
+    static Type of(List<? extends Card> cards) {
         if (cards.size() != 5) {
             throw new IllegalArgumentException("Invalid hand");
         }
@@ -68,6 +68,8 @@ enum Type {
                 .mapToInt(Entry::getCount)
                 .boxed()
                 .toList();
+        
+        // TODO take Jokers into account here
         
         Type result;
         if (counts.equals(List.of(Integer.valueOf(5)))) {
