@@ -31,7 +31,7 @@ record Hand<C extends Card<C>>(List<C> cards, Type type) implements Comparable<H
      * @param cardClass the concrete card class
      * @return the hand represented by the given text
      */
-    static <C extends Card<C>> Hand<C> parse(String text, Class<C> cardClass) {
+    static <C extends Enum<C> & Card<C>> Hand<C> parse(String text, Class<C> cardClass) {
         var cards = text.chars()
                 .mapToObj(c -> Card.parse((char)c, cardClass))
                 .toList();

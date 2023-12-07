@@ -10,7 +10,7 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-class CamelCards<C extends Card<C>> implements IntSolver {
+class CamelCards<C extends Enum<C> & Card<C>> implements IntSolver {
 
     private final Class<C> cardClass;
     

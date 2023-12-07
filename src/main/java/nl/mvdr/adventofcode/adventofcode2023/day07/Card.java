@@ -20,10 +20,7 @@ interface Card<C extends Card<C>> extends Comparable<C> {
      * @param cardClass the concrete card class
      * @return the corresponding card
      */
-    static <C extends Card<C>> C parse(char representation, Class<C> cardClass) {
-        if (!cardClass.isEnum()) {
-            throw new IllegalArgumentException("Must be an enum: " + cardClass);
-        }
+    static <C extends Enum<C> & Card<C>> C parse(char representation, Class<C> cardClass) {
         return Stream.of(cardClass.getEnumConstants())
                 .filter(card -> card.getRepresentation() == representation)
                 .findFirst()

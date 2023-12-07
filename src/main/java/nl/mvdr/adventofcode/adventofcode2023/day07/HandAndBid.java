@@ -18,7 +18,7 @@ record HandAndBid<C extends Card<C>>(Hand<C> hand, int bid) implements Comparabl
      * @param cardClass the concrete card class
      * @return hand and corresponding bid
      */
-    static <C extends Card<C>> HandAndBid<C> parse(String text, Class<C> cardClass) {
+    static <C extends Enum<C> & Card<C>> HandAndBid<C> parse(String text, Class<C> cardClass) {
         var parts = text.split(" ");
         if (parts.length != 2) {
             throw new IllegalArgumentException("Unable to parse as a hand and bid: " + text);
