@@ -65,21 +65,7 @@ enum Type {
         
         MultiSet<? extends Card> cards = cardsList.stream()
                 .collect(Collectors.toCollection(HashMultiSet::new));
-        
-        var jokerCount = cards.getCount(Part2Card.JOKER);
-        
-        if (0 < jokerCount) {
-            // Replace the jokers by the most frequent card
-            cards.removeIf(card -> card == Part2Card.JOKER);
-            var mostFrequentCard = cards.entrySet()
-                    .stream()
-                    .max(Comparator.comparing(Entry::getCount))
-                    .map(Entry::getElement)
-                    .map(card -> (Part2Card) card)
-                    // if the hand contained five jokers, just count them as twos
-                    .orElse(Part2Card.TWO);
-            ((MultiSet<Part2Card>)cards).add(mostFrequentCard, jokerCount);
-        }
+        replaceJokers(cards);
         
         var counts = cards.entrySet()
                 .stream()
@@ -88,6 +74,45 @@ enum Type {
                 .toList();
         
         return ofCounts(counts);
+    }
+
+    /**
+     * Returns a copy of the given multiset, where any Jokers have been replaced by the card as which they should be counted.
+     * 
+     * @param cards cards
+     * @param cards with Jokers replaced
+     */
+    @SuppressWarnings("unchecked")
+    private static MultiSet<? extends Card> replaceJokers(MultiSet<? extends Card> cards) {
+        var jokerCount = cards.getCount(Part2Card.JOKER);
+        
+        MultiSet<? extends Card> result;
+        if (jokerCount == 0) {
+            result = cards;
+        } else {
+            // Replace the jokers by the most frequent card
+            result = replaceJokers((MultiSet<Part2Card>)cards, jokerCount);
+        }
+        return result;
+    }
+
+    /**
+     * @param cards
+     * @param jokerCount
+     * @return
+     */
+    private static MultiSet<Part2Card> replaceJokers(MultiSet<Part2Card> cards, int jokerCount) {
+        MultiSet<Part2Card> result = new HashMultiSet<>(cards);
+        result.removeIf(card -> card == Part2Card.JOKER);
+        var mostFrequentCard = cards.entrySet()
+                .stream()
+                .max(Comparator.comparing(Entry::getCount))
+                .map(Entry::getElement)
+                .map(card -> card)
+                // if the hand contained five jokers, just count them as twos
+                .orElse(Part2Card.TWO);
+        result.add(mostFrequentCard, jokerCount);
+        return result;
     }
 
     /**
