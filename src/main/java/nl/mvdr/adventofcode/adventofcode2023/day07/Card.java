@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  * @param <C> concrete card type
  * @author Martijn van de Rijdt
  */
-interface Card<C> extends Comparable<C> {
+interface Card<C extends Card<C>> extends Comparable<C> {
     /**
      * Parses a single-character representation of a card.
      * 
