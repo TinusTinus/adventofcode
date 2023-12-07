@@ -71,13 +71,7 @@ enum Type {
             cards = replaceJokers((MultiSet<Part2Card>)cards);
         }
         
-        var counts = cards.entrySet()
-                .stream()
-                .mapToInt(Entry::getCount)
-                .boxed()
-                .toList();
-        
-        return ofCounts(counts);
+        return of(cards);
     }
 
     /**
@@ -90,8 +84,12 @@ enum Type {
         var jokerCount = cards.getCount(Part2Card.JOKER);
         
         MultiSet<Part2Card> result = new HashMultiSet<>(cards);
+        
+        // Remove the Jokers.
         result.remove(Part2Card.JOKER, jokerCount);
         
+        // Determine whichever other card occurs most frequently.
+        // We should count the Jokers as additional occurrences of this card, to get the strongest type.
         var mostFrequentCard = result.entrySet()
                 .stream()
                 .max(Comparator.comparing(Entry::getCount))
@@ -103,14 +101,23 @@ enum Type {
         
         return result;
     }
-
+    
     /**
-     * Determines the type of a hand containing the number of occurrences of each card.
+     * Determines the type of a hand containing the given cards.
      * 
-     * @param counts counts of each card unique
+     * Note that this method expects the given multiset not to contain any Jokers.
+     * Instead, any Jokers should be replaced by the cards as which they should be counted.
+     *  
+     * @param cards cards, where any Jokers have already been replaced
      * @return type
      */
-    private static Type ofCounts(List<Integer> counts) {
+    private static Type of(MultiSet<? extends Card> cards) {
+        var counts = cards.entrySet()
+                .stream()
+                .mapToInt(Entry::getCount)
+                .boxed()
+                .toList();
+        
         Type result;
         if (counts.equals(List.of(Integer.valueOf(5)))) {
             result = FIVE_OF_A_KIND;
