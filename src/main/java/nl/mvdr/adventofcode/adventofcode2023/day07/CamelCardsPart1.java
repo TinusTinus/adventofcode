@@ -8,16 +8,21 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/7">?</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/7">Camel Cards</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class Day7Part1 implements IntSolver {
+public class CamelCardsPart1 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Day7Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CamelCardsPart1.class);
 
     @Override
     public int solve(Stream<String> lines) {
+        var sorted = lines.map(HandAndBid::parse)
+                // Sort weak-to-strong
+                .sorted()
+                .toList();
+        
         return 0; // TODO implement
     }
 
@@ -27,7 +32,7 @@ public class Day7Part1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new Day7Part1();
+        var instance = new CamelCardsPart1();
 
         var result = instance.solve("input-day07-2023.txt");
 

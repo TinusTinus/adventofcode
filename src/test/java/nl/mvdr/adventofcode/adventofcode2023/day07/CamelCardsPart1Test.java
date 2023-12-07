@@ -7,15 +7,15 @@ import org.junit.jupiter.params.provider.Arguments;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link Day7Part1}.
+ * Unit test cases for {@link CamelCardsPart1}.
  *
  * @author Martijn van de Rijdt
  */
-public class Day7Part1Test extends SolverTest<Day7Part1> {
+public class CamelCardsPart1Test extends SolverTest<CamelCardsPart1> {
 
     /** Constructor. */
-    public Day7Part1Test() {
-        super(Day7Part1.class);
+    public CamelCardsPart1Test() {
+        super(CamelCardsPart1.class);
     }
     
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
