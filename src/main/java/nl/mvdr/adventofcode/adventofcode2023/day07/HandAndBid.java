@@ -12,15 +12,17 @@ record HandAndBid<C extends Card & Comparable<C>>(Hand<C> hand, int bid) impleme
     /**
      * Parses the textual representation of a hand and its corresponding bid.
      * 
+     * @param <C> the concrete card class
      * @param text line from the puzzle input, for example: 32T3K 765
+     * @param cardClass the concrete card class
      * @return
      */
-    static HandAndBid<?> parse(String text) {
+    static <C extends Card & Comparable<C>> HandAndBid<C> parse(String text, Class<C> cardClass) {
         var parts = text.split(" ");
         if (parts.length != 2) {
             throw new IllegalArgumentException("Unable to parse as a hand and bid: " + text);
         }
-        var hand = Hand.parse(parts[0]);
+        var hand = Hand.parse(parts[0], cardClass);
         var bid = Integer.parseInt(parts[1]);
         return new HandAndBid<>(hand, bid);
     }

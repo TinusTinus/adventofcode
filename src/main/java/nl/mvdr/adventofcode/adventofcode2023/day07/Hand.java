@@ -25,12 +25,14 @@ record Hand<C extends Card & Comparable<C>>(List<C> cards, Type type) implements
     /**
      * Parses a textual representation of a hand of cards.
      * 
+     * @param <C> the concrete card class
      * @param text textual representation, for example: "32T3K"
+     * @param cardClass the concrete card class
      * @return the hand represented by the given text
      */
-    static Hand<Part1Card> parse(String text) {
+    static <C extends Card & Comparable<C>> Hand<C> parse(String text, Class<C> cardClass) {
         var cards = text.chars()
-                .mapToObj(c -> Card.parse((char)c, Part1Card.class))
+                .mapToObj(c -> Card.parse((char)c, cardClass))
                 .toList();
         return new Hand<>(cards);
     }

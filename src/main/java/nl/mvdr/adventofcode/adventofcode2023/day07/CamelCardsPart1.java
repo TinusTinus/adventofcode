@@ -19,12 +19,13 @@ public class CamelCardsPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        var sorted = lines.map(HandAndBid::parse)
+        var sorted = lines.map(line -> HandAndBid.parse(line, Part1Card.class))
                 // Sort weak-to-strong
                 .sorted()
                 .toList();
         
         return IntStream.range(0, sorted.size())
+                // rank * bid
                 .map(i -> (i + 1) * sorted.get(i).bid())
                 .sum();
     }
