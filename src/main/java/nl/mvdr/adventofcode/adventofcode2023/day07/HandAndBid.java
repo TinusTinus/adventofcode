@@ -13,9 +13,10 @@ record HandAndBid<C extends Card & Comparable<C>>(Hand<C> hand, int bid) impleme
     /**
      * Parses the textual representation of a hand and its corresponding bid.
      * 
+     * @param <C> the concrete card class
      * @param text line from the puzzle input, for example: 32T3K 765
      * @param cardClass the concrete card class
-     * @return
+     * @return hand and corresponding bid
      */
     static <C extends Card & Comparable<C>> HandAndBid<C> parse(String text, Class<C> cardClass) {
         var parts = text.split(" ");
