@@ -1,8 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2023.day07;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.MultiSet;
 import org.apache.commons.collections4.MultiSet.Entry;
 import org.apache.commons.collections4.multiset.HashMultiSet;
 
@@ -53,19 +55,33 @@ enum Type {
     /**
      * Determines the type of a hand containing the given cards.
      *  
-     * @param cards cards
+     * @param cardsList cards
      * @return type
      */
-    static Type of(List<? extends Card> cards) {
-        if (cards.size() != 5) {
+    static Type of(List<? extends Card> cardsList) {
+        if (cardsList.size() != 5) {
             throw new IllegalArgumentException("Invalid hand");
         }
         
-        // TODO take Jokers into account here!
+        MultiSet<? extends Card> cards = cardsList.stream()
+                .collect(Collectors.toCollection(HashMultiSet::new));
         
-        var counts = cards.stream()
-                .collect(Collectors.toCollection(HashMultiSet::new))
-                .entrySet()
+        var jokerCount = cards.getCount(Part2Card.JOKER);
+        
+        if (0 < jokerCount) {
+            // Replace the jokers by the most frequent card
+            cards.removeIf(card -> card == Part2Card.JOKER);
+            var mostFrequentCard = cards.entrySet()
+                    .stream()
+                    .max(Comparator.comparing(Entry::getCount))
+                    .map(Entry::getElement)
+                    .map(card -> (Part2Card) card)
+                    // if the hand contained five jokers, just count them as twos
+                    .orElse(Part2Card.TWO);
+            ((MultiSet<Part2Card>)cards).add(mostFrequentCard, jokerCount);
+        }
+        
+        var counts = cards.entrySet()
                 .stream()
                 .mapToInt(Entry::getCount)
                 .boxed()

@@ -22,6 +22,6 @@ public class CamelCardsPart2Test extends SolverTest<CamelCardsPart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("5905", "example-day07-2023.txt"),
-                Arguments.of("?", "input-day07-2023.txt"));
+                Arguments.of("250665248", "input-day07-2023.txt"));
     }
 }
