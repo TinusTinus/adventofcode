@@ -58,6 +58,7 @@ enum Type {
      * @param cardsList cards
      * @return type
      */
+    @SuppressWarnings("unchecked")
     static Type of(List<? extends Card> cardsList) {
         if (cardsList.size() != 5) {
             throw new IllegalArgumentException("Invalid hand");
@@ -65,7 +66,9 @@ enum Type {
         
         MultiSet<? extends Card> cards = cardsList.stream()
                 .collect(Collectors.toCollection(HashMultiSet::new));
-        replaceJokers(cards);
+        if (cards.contains(Part2Card.JOKER)) {
+            cards = replaceJokers((MultiSet<Part2Card>)cards);
+        }
         
         var counts = cards.entrySet()
                 .stream()
@@ -82,31 +85,13 @@ enum Type {
      * @param cards cards
      * @param cards with Jokers replaced
      */
-    @SuppressWarnings("unchecked")
-    private static MultiSet<? extends Card> replaceJokers(MultiSet<? extends Card> cards) {
+    private static MultiSet<Part2Card> replaceJokers(MultiSet<Part2Card> cards) {
         var jokerCount = cards.getCount(Part2Card.JOKER);
         
-        MultiSet<? extends Card> result;
-        if (jokerCount == 0) {
-            result = cards;
-        } else {
-            // Replace the jokers by the most frequent card
-            result = replaceJokers((MultiSet<Part2Card>)cards, jokerCount);
-        }
-        return result;
-    }
-
-    /**
-     * Returns a copy of the given multiset, where any Jokers have been replaced by the card as which they should be counted.
-     * 
-     * @param cards cards
-     * @param jokerCount number of Jokers
-     * @return cards with Jokers replaced
-     */
-    private static MultiSet<Part2Card> replaceJokers(MultiSet<Part2Card> cards, int jokerCount) {
         MultiSet<Part2Card> result = new HashMultiSet<>(cards);
         result.remove(Part2Card.JOKER, jokerCount);
-        var mostFrequentCard = cards.entrySet()
+        
+        var mostFrequentCard = result.entrySet()
                 .stream()
                 .max(Comparator.comparing(Entry::getCount))
                 .map(Entry::getElement)
@@ -114,6 +99,7 @@ enum Type {
                 // if the hand contained five jokers, just count them as twos
                 .orElse(Part2Card.TWO);
         result.add(mostFrequentCard, jokerCount);
+        
         return result;
     }
 
