@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day07;
 
 /**
- * A card as in part 1 of the puzzle, where 'J' is a Jack.
+ * A card as in part 2 of the puzzle, where 'J' is a Joker.
  * 
  * @author Martijn van de Rijdt
  */
