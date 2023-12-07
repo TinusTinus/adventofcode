@@ -58,7 +58,7 @@ enum Type {
      * @param cardsList cards
      * @return type
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // If the collection contains a joker, it must be a collection of Part2Cards
     static Type of(List<? extends Card> cardsList) {
         if (cardsList.size() != 5) {
             throw new IllegalArgumentException("Invalid hand");
@@ -66,6 +66,7 @@ enum Type {
         
         MultiSet<? extends Card> cards = cardsList.stream()
                 .collect(Collectors.toCollection(HashMultiSet::new));
+        
         if (cards.contains(Part2Card.JOKER)) {
             cards = replaceJokers((MultiSet<Part2Card>)cards);
         }
@@ -96,7 +97,7 @@ enum Type {
                 .max(Comparator.comparing(Entry::getCount))
                 .map(Entry::getElement)
                 .map(card -> card)
-                // if the hand contained five jokers, just count them as twos
+                // if the hand contained five jokers, just count them as any different card, so we get a five of a kind
                 .orElse(Part2Card.TWO);
         result.add(mostFrequentCard, jokerCount);
         
