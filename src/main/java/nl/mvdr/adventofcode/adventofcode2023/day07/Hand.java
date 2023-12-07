@@ -44,7 +44,12 @@ record Hand(List<Card> cards, Type type) implements Comparable<Hand> {
 
     @Override
     public int compareTo(Hand other) {
-        // TODO Auto-generated method stub
-        return 0;
+        var result = this.type().compareTo(other.type());
+        var cardIndex = 0;
+        while (result == 0 && cardIndex < 5) {
+            result = this.cards().get(cardIndex).compareTo(other.cards().get(cardIndex));
+            cardIndex++;
+        }
+        return result;
     }
 }

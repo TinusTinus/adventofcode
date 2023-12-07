@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day07;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -23,7 +24,9 @@ public class CamelCardsPart1 implements IntSolver {
                 .sorted()
                 .toList();
         
-        return 0; // TODO implement
+        return IntStream.range(0, sorted.size())
+                .map(i -> (i + 1) * sorted.get(i).bid())
+                .sum();
     }
 
     /**
