@@ -18,7 +18,8 @@ public class HauntedWastelandPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        var map = DesertMap.parse(lines.toList());
+        return map.computePathLength();
     }
 
     /**

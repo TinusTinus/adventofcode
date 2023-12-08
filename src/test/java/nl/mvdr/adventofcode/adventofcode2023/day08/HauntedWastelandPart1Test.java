@@ -23,6 +23,6 @@ public class HauntedWastelandPart1Test extends SolverTest<HauntedWastelandPart1>
         return Stream.of(
                 Arguments.of("2", "example-day08-2023-0.txt"),
                 Arguments.of("6", "example-day08-2023-1.txt"),
-                Arguments.of("?", "input-day08-2023.txt"));
+                Arguments.of("12599", "input-day08-2023.txt"));
     }
 }
