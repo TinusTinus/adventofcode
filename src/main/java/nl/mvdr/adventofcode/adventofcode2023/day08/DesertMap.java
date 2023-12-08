@@ -33,43 +33,38 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
      * @return length of the path from AAA to ZZZ
      */
     int computePathLength() {
-        return computePathLength(
-                name -> "AAA".equals(name),
-                name -> "ZZZ".equals(name));
+        return computePathLength("AAA", "ZZZ");
     }
     
     /**
      * @return length of the path from **A to **Z
      */
     int computeGhostPathLength() {
-        return computePathLength(
-                name -> name.endsWith("A"),
-                name -> name.endsWith("Z"));
+        var startNodes = findNodes(name -> name.endsWith("A"));
+        var endNodes = findNodes(name -> name.endsWith("Z"));
+        return 0; // TODO
     }
     
     /**
-     * First the length of a path through the desert.
+     * Finds the length of the path from the given start node to the given end node.
      * 
-     * @param start predicate specifying node names of the start nodes
-     * @param end predicate specifying node names of the end nodes
-     * @return length of the path from the start nodes to the end nodes
+     * @param start name of the start node
+     * @param end name of the end node
+     * @return length of the path
      */
-    private int computePathLength(Predicate<String> start, Predicate<String> end) {
+    private int computePathLength(String start, String end) {
         var result = 0;
-        var currentNodes = findNodes(start);
-        
-        while (!currentNodes.stream().allMatch(node -> end.test(node.name()))) {
+        var currentNode = findNode(start);
+        while (!currentNode.name().equals(end)) {
             var instruction = instructions.get(result % instructions.size());
-            currentNodes = currentNodes.stream()
-                    .map(node -> node.edges().get(instruction))
-                    .map(this::findNode)
-                    .collect(Collectors.toSet());
+            var nextNodeName = currentNode.edges().get(instruction);
+            currentNode = findNode(nextNodeName);
             result++;
         }
         
         return result;
     }
-
+    
     /**
      * Finds the node with the given name.
      * 
