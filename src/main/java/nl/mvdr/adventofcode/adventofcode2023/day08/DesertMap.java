@@ -46,7 +46,7 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
     long computeGhostPathLength() {
         var startNodes = findNodes(name -> name.endsWith("A"));
         var endNodes = findNodes(name -> name.endsWith("Z"));
-        return startNodes.stream()
+        return startNodes.parallelStream()
                 .mapToLong(startNode -> computePathLength(startNode, endNodes))
                 .reduce(ArithmeticUtils::lcm)
                 .orElseThrow();
