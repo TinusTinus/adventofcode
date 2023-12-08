@@ -79,7 +79,7 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
      * @return the node with the given name
      */
     private Node findNode(String name) {
-        var nodes = findNodes(n -> n.equals(name));
+        var nodes = findNodes(name::equals);
         if (nodes.size() != 1) {
             throw new IllegalStateException("Node not found: " + name);
         }
