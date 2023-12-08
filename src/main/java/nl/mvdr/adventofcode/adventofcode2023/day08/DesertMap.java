@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.commons.math3.util.ArithmeticUtils;
+
 /**
  * Representation of a desert map.
  *
@@ -33,7 +35,7 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
      * @return length of the path from AAA to ZZZ
      */
     int computePathLength() {
-        return computePathLength("AAA", "ZZZ");
+        return computePathLength(findNode("AAA"), node -> "ZZZ".equals(node.name()));
     }
     
     /**
@@ -42,20 +44,24 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
     int computeGhostPathLength() {
         var startNodes = findNodes(name -> name.endsWith("A"));
         var endNodes = findNodes(name -> name.endsWith("Z"));
-        return 0; // TODO
+        var pathLengths = startNodes.stream()
+                .mapToInt(startNode -> computePathLength(startNode, endNodes::contains))
+                .boxed()
+                .collect(Collectors.toSet());
+        return 0;
     }
     
     /**
      * Finds the length of the path from the given start node to the given end node.
      * 
-     * @param start name of the start node
-     * @param end name of the end node
+     * @param start start node
+     * @param end predicate specifying whether a node is an end node
      * @return length of the path
      */
-    private int computePathLength(String start, String end) {
+    private int computePathLength(Node start, Predicate<Node> end) {
         var result = 0;
-        var currentNode = findNode(start);
-        while (!currentNode.name().equals(end)) {
+        var currentNode = start;
+        while (!end.test(currentNode)) {
             var instruction = instructions.get(result % instructions.size());
             var nextNodeName = currentNode.edges().get(instruction);
             currentNode = findNode(nextNodeName);
