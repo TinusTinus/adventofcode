@@ -35,7 +35,9 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
      * @return length of the path from AAA to ZZZ
      */
     long computePathLength() {
-        return computePathLength(findNode("AAA"), node -> "ZZZ".equals(node.name()));
+        var startNode = findNode("AAA");
+        var endNode = findNode("ZZZ");
+        return computePathLength(startNode, Set.of(endNode));
     }
     
     /**
@@ -45,22 +47,22 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
         var startNodes = findNodes(name -> name.endsWith("A"));
         var endNodes = findNodes(name -> name.endsWith("Z"));
         return startNodes.stream()
-                .mapToLong(startNode -> computePathLength(startNode, endNodes::contains))
+                .mapToLong(startNode -> computePathLength(startNode, endNodes))
                 .reduce(ArithmeticUtils::lcm)
                 .orElseThrow();
     }
     
     /**
-     * Finds the length of the path from the given start node to the given end node.
+     * Finds the length of the path from the given start node to any of the given end nodes.
      * 
      * @param start start node
-     * @param end predicate specifying whether a node is an end node
+     * @param end end nodes
      * @return length of the path
      */
-    private long computePathLength(Node start, Predicate<Node> end) {
+    private long computePathLength(Node start, Set<Node> end) {
         var result = 0L;
         var currentNode = start;
-        while (!end.test(currentNode)) {
+        while (!end.contains(currentNode)) {
             var instruction = instructions.get((int)(result % instructions.size()));
             var nextNodeName = currentNode.edges().get(instruction);
             currentNode = findNode(nextNodeName);
