@@ -49,7 +49,7 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
         return startNodes.parallelStream()
                 .mapToLong(startNode -> computePathLength(startNode, endNodes))
                 .reduce(ArithmeticUtils::lcm)
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalStateException("No nodes found whose name ends with 'A'"));
     }
     
     /**
