@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2023.day08;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Representation of a desert map.
@@ -31,12 +33,37 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
      * @return length of the path from AAA to ZZZ
      */
     int computePathLength() {
+        return computePathLength(
+                name -> "AAA".equals(name),
+                name -> "ZZZ".equals(name));
+    }
+    
+    /**
+     * @return length of the path from **A to **Z
+     */
+    int computeGhostPathLength() {
+        return computePathLength(
+                name -> name.endsWith("A"),
+                name -> name.endsWith("Z"));
+    }
+    
+    /**
+     * First the length of a path through the desert.
+     * 
+     * @param start predicate specifying node names of the start nodes
+     * @param end predicate specifying node names of the end nodes
+     * @return length of the path from the start nodes to the end nodes
+     */
+    private int computePathLength(Predicate<String> start, Predicate<String> end) {
         var result = 0;
-        var currentNode = findNode("AAA");
-        while (!currentNode.name().equals("ZZZ")) {
+        var currentNodes = findNodes(start);
+        
+        while (!currentNodes.stream().allMatch(node -> end.test(node.name()))) {
             var instruction = instructions.get(result % instructions.size());
-            var nextNodeName = currentNode.edges().get(instruction);
-            currentNode = findNode(nextNodeName);
+            currentNodes = currentNodes.stream()
+                    .map(node -> node.edges().get(instruction))
+                    .map(this::findNode)
+                    .collect(Collectors.toSet());
             result++;
         }
         
@@ -50,9 +77,22 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
      * @return the node with the given name
      */
     private Node findNode(String name) {
+        var nodes = findNodes(n -> n.equals(name));
+        if (nodes.size() != 1) {
+            throw new IllegalStateException("Node not found: " + name);
+        }
+        return nodes.iterator().next();
+    }
+    
+    /**
+     * Finds nodes satisfying the given predicate.
+     * 
+     * @param predicate string predicate
+     * @return nodes satisfying the given predicate
+     */
+    private Set<Node> findNodes(Predicate<String> predicate) {
         return network.stream()
-                .filter(node -> name.equals(node.name()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Node not found: " + name));
+                .filter(node -> predicate.test(node.name()))
+                .collect(Collectors.toSet());
     }
 }
