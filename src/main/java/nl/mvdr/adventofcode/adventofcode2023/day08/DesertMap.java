@@ -44,11 +44,10 @@ record DesertMap(List<Instruction> instructions, Set<Node> network) {
     int computeGhostPathLength() {
         var startNodes = findNodes(name -> name.endsWith("A"));
         var endNodes = findNodes(name -> name.endsWith("Z"));
-        var pathLengths = startNodes.stream()
+        return startNodes.stream()
                 .mapToInt(startNode -> computePathLength(startNode, endNodes::contains))
-                .boxed()
-                .collect(Collectors.toSet());
-        return 0;
+                .reduce(ArithmeticUtils::lcm)
+                .orElseThrow();
     }
     
     /**
