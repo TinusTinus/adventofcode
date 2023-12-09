@@ -29,7 +29,7 @@ record Sequence(List<Integer> values) {
      */
     int extrapolateNextValue() {
         int result;
-        if (isAllZeroes()) {
+        if (values.stream().allMatch(value -> value.intValue() == 0)) {
             result = 0;
         } else {
             var differences = computeDifferences();
@@ -43,24 +43,10 @@ record Sequence(List<Integer> values) {
      * @return previous value in this sequence
      */
     int extrapolatePreviousValue() {
-        int result;
-        if (isAllZeroes()) {
-            result = 0;
-        } else {
-            var differences = computeDifferences();
-            var previousExtrapolatedDifference = differences.extrapolatePreviousValue();
-            result = Math.subtractExact(values.getFirst().intValue(), previousExtrapolatedDifference);
-        }
-        return result;
+        var reversedSequence = new Sequence(values.reversed());
+        return reversedSequence.extrapolateNextValue();
     }
 
-    /**
-     * @return whether this sequence contains only zeroes
-     */
-    private boolean isAllZeroes() {
-        return values.stream().allMatch(value -> value.intValue() == 0);
-    }
-    
     /**
      * @return sequence containing the differences between the values of this sequence
      */
