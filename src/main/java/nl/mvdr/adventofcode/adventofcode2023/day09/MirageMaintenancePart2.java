@@ -12,14 +12,14 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class MirageMaintenancePart1 implements IntSolver {
+public class MirageMaintenancePart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MirageMaintenancePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MirageMaintenancePart2.class);
 
     @Override
     public int solve(Stream<String> lines) {
         return lines.map(Sequence::parse)
-                .mapToInt(Sequence::extrapolateNextValue)
+                .mapToInt(Sequence::extrapolatePreviousValue)
                 .sum();
     }
 
@@ -29,7 +29,7 @@ public class MirageMaintenancePart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new MirageMaintenancePart1();
+        var instance = new MirageMaintenancePart2();
 
         var result = instance.solve("input-day09-2023.txt");
 

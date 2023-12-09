@@ -27,14 +27,29 @@ record Sequence(List<Integer> values) {
     /**
      * @return next value in this sequence
      */
-    int extrapolate() {
+    int extrapolateNextValue() {
         int result;
         if (values.stream().allMatch(value -> value.intValue() == 0)) {
             result = 0;
         } else {
             var differences = computeDifferences();
-            var nextExtrapolatedDifference = differences.extrapolate();
+            var nextExtrapolatedDifference = differences.extrapolateNextValue();
             result = Math.addExact(values.getLast().intValue(), nextExtrapolatedDifference);
+        }
+        return result;
+    }
+    
+    /**
+     * @return previous value in this sequence
+     */
+    int extrapolatePreviousValue() {
+        int result;
+        if (values.stream().allMatch(value -> value.intValue() == 0)) {
+            result = 0;
+        } else {
+            var differences = computeDifferences();
+            var previousExtrapolatedDifference = differences.extrapolatePreviousValue();
+            result = Math.subtractExact(values.getFirst().intValue(), previousExtrapolatedDifference);
         }
         return result;
     }
