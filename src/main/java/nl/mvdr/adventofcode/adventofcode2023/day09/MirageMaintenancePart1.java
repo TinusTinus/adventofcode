@@ -18,7 +18,9 @@ public class MirageMaintenancePart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        return lines.map(Sequence::parse)
+                .mapToInt(Sequence::extrapolate)
+                .sum();
     }
 
     /**

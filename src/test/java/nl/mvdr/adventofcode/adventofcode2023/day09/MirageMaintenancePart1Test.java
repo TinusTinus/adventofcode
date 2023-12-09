@@ -22,6 +22,6 @@ public class MirageMaintenancePart1Test extends SolverTest<MirageMaintenancePart
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("114", "example-day09-2023.txt"),
-                Arguments.of("?", "input-day09-2023.txt"));
+                Arguments.of("1666172641", "input-day09-2023.txt"));
     }
 }
