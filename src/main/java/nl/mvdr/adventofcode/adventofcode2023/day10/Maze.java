@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -165,29 +166,25 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
                 .filter(side -> side.stream().anyMatch(outsidePlane::contains))
                 .findFirst()
                 .orElseThrow();
-        var insideSide = sides.stream()
-                .filter(Predicate.not(outsideSide::equals))
-                .findFirst()
-                .orElseThrow();
+        var insideSide = otherSide(sides, outsideSide);
         
         var loopElementIndex = (loop.indexOf(loopElement) + 1) % loop.size();
         while (!unknownPlanes.isEmpty()) {
             loopElement = loop.get(loopElementIndex);
-            sides = pipes.get(loopElement).getSides(loopElement);
+            var newSides = pipes.get(loopElement).getSides(loopElement);
             
-            try {
-                outsideSide = findSameSide(sides, outsideSide);
-                var newOutsidePlanes = findPlanes(unknownPlanes, outsideSide);
-                unknownPlanes.removeAll(newOutsidePlanes);
-                outsidePlanes.addAll(newOutsidePlanes);
+            var newOutsideSide = findSameSide(newSides, outsideSide);
+            var newInsideSide = findSameSide(newSides, insideSide);
             
-                insideSide = findSameSide(sides, insideSide);
-                var newInsidePlanes = findPlanes(unknownPlanes, insideSide);
-                unknownPlanes.removeAll(newInsidePlanes);
-                insidePlanes.addAll(newInsidePlanes);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalStateException("Failed to determine side for loop pipe " + pipes.get(loopElement) + " at " + loopElement, e);
-            }
+            outsideSide = newOutsideSide.orElseGet(() -> otherSide(newSides, newInsideSide.orElseThrow()));
+            var newOutsidePlanes = findPlanes(unknownPlanes, outsideSide);
+            unknownPlanes.removeAll(newOutsidePlanes);
+            outsidePlanes.addAll(newOutsidePlanes);
+        
+            insideSide = newInsideSide.orElse(otherSide(newSides, outsideSide));
+            var newInsidePlanes = findPlanes(unknownPlanes, insideSide);
+            unknownPlanes.removeAll(newInsidePlanes);
+            insidePlanes.addAll(newInsidePlanes);
             
             loopElementIndex = (loopElementIndex + 1) % loop.size();
         }
@@ -218,15 +215,24 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
      * @param previousSide side of the previous pipe
      * @return same side of the current pipe
      */
-    private Set<Point> findSameSide(Set<Set<Point>> sides, Set<Point> previousSide) {
+    private Optional<Set<Point>> findSameSide(Set<Set<Point>> sides, Set<Point> previousSide) {
         return sides.stream()
                 .filter(side -> side.stream().anyMatch(previousSide::contains))
+                .findFirst();
+    }
+    
+    /**
+     * Finds the other side.
+     * 
+     * @param sides set of (two) sides
+     * @param side the side we're not looking for
+     * @return the other side
+     */
+    private Set<Point> otherSide(Set<Set<Point>> sides, Set<Point> side) {
+        return sides.stream()
+                .filter(Predicate.not(side::equals))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No overlap found between " + sides + " and " + previousSide));
-        // TODO this can go wrong in case of this pattern:
-        // L7
-        // -J
-        // One side of the J does not overlap with any sides of the 7!
+                .orElseThrow();
     }
 
     /**
