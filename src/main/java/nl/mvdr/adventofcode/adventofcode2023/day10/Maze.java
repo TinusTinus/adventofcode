@@ -170,6 +170,7 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
         
         var loopElementIndex = (loop.indexOf(loopElement) + 1) % loop.size();
         while (!unknownPlanes.isEmpty()) {
+            // Keep following along the loop and divide any neighbouring planes into inside and outside
             loopElement = loop.get(loopElementIndex);
             var newSides = pipes.get(loopElement).getSides(loopElement);
             
@@ -181,7 +182,7 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
             unknownPlanes.removeAll(newOutsidePlanes);
             outsidePlanes.addAll(newOutsidePlanes);
         
-            insideSide = newInsideSide.orElse(otherSide(newSides, outsideSide));
+            insideSide = newInsideSide.orElseGet(() -> otherSide(newSides, newOutsideSide.orElseThrow()));
             var newInsidePlanes = findPlanes(unknownPlanes, insideSide);
             unknownPlanes.removeAll(newInsidePlanes);
             insidePlanes.addAll(newInsidePlanes);
@@ -193,46 +194,6 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
         return insidePlanes.stream()
                 .mapToInt(Set::size)
                 .sum();
-    }
-
-    /**
-     * Finds the planes overlapping with the given set.
-     * 
-     * @param planes planes to filter
-     * @param points set of points to check for overlap with
-     * @return the planes overlapping with the given set
-     */
-    private Set<Set<Point>> findPlanes(Set<Set<Point>> planes, Set<Point> points) {
-        return planes.stream()
-                .filter(plane -> plane.stream().anyMatch(points::contains))
-                .collect(Collectors.toSet());
-    }
-
-    /**
-     * Finds the same side after taking a single step along the loop.
-     * 
-     * @param sides sides of the current pipe
-     * @param previousSide side of the previous pipe
-     * @return same side of the current pipe
-     */
-    private Optional<Set<Point>> findSameSide(Set<Set<Point>> sides, Set<Point> previousSide) {
-        return sides.stream()
-                .filter(side -> side.stream().anyMatch(previousSide::contains))
-                .findFirst();
-    }
-    
-    /**
-     * Finds the other side.
-     * 
-     * @param sides set of (two) sides
-     * @param side the side we're not looking for
-     * @return the other side
-     */
-    private Set<Point> otherSide(Set<Set<Point>> sides, Set<Point> side) {
-        return sides.stream()
-                .filter(Predicate.not(side::equals))
-                .findFirst()
-                .orElseThrow();
     }
 
     /**
@@ -266,7 +227,7 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
      * @param point point within the plane; must not be part of the loop
      * @return plane 
      */
-    private Set<Point >findPlane(List<Point> loop, Point point) {
+    private Set<Point> findPlane(List<Point> loop, Point point) {
         Set<Point> result = new HashSet<>();
         Set<Point> toAdd = Set.of(point);
         while (!toAdd.isEmpty()) {
@@ -281,5 +242,45 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
         }
         LOGGER.debug("Found new plane: {}", result);
         return result;
+    }
+    
+    /**
+     * Finds the planes overlapping with the given set of points.
+     * 
+     * @param planes planes to filter
+     * @param points set of points to check for overlap with
+     * @return the planes overlapping with the given set
+     */
+    private static Set<Set<Point>> findPlanes(Set<Set<Point>> planes, Set<Point> points) {
+        return planes.stream()
+                .filter(plane -> plane.stream().anyMatch(points::contains))
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Finds the same side after taking a single step along the loop.
+     * 
+     * @param sides sides of the current pipe
+     * @param previousSide side of the previous pipe
+     * @return same side of the current pipe
+     */
+    private static Optional<Set<Point>> findSameSide(Set<Set<Point>> sides, Set<Point> previousSide) {
+        return sides.stream()
+                .filter(side -> side.stream().anyMatch(previousSide::contains))
+                .findFirst();
+    }
+    
+    /**
+     * Finds the other side.
+     * 
+     * @param sides set of (two) sides
+     * @param side the side we're not looking for
+     * @return the other side
+     */
+    private static Set<Point> otherSide(Set<Set<Point>> sides, Set<Point> side) {
+        return sides.stream()
+                .filter(Predicate.not(side::equals))
+                .findFirst()
+                .orElseThrow();
     }
 }
