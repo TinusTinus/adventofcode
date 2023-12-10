@@ -25,6 +25,6 @@ public class PipeMazePart1Test extends SolverTest<PipeMazePart1> {
                 Arguments.of("4", "example-day10-2023-1.txt"),
                 Arguments.of("8", "example-day10-2023-2.txt"),
                 Arguments.of("8", "example-day10-2023-3.txt"),
-                Arguments.of("?", "input-day10-2023.txt"));
+                Arguments.of("6757", "input-day10-2023.txt"));
     }
 }

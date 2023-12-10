@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day10;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Direction;
@@ -58,6 +59,29 @@ enum Pipe {
      */
     boolean connectsTo(Direction direction) {
         return connections.contains(direction);
+    }
+    
+    /**
+     * @return connections
+     */
+    Set<Direction> getConnections() {
+        return connections;
+    }
+    
+    /**
+     * Finds the next direction, given that this pipe was entered <em>from</em> the given direction.
+     * 
+     * @param previousDirection previous direction
+     * @return next direction
+     */
+    Direction findNextDirection(Direction previousDirection) {
+        var result = connections.stream()
+                .filter(connection -> previousDirection.reverse() != connection)
+                .collect(Collectors.toSet());
+        if (result.size() != 1) {
+            throw new IllegalArgumentException(this + " does not connect to direction " + previousDirection.reverse());
+        }
+        return result.iterator().next();
     }
     
     /**

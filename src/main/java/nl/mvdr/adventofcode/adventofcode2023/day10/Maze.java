@@ -94,6 +94,18 @@ record Maze(Point start, Map<Point, Pipe> pipes) {
      * @return length of the loop containing the starting point
      */
     private int computeLoopLength() {
-        return 0; // TODO implement
+        // Pick either starting direction. The problem is symmetrical.
+        var direction = pipes.get(start).getConnections().iterator().next();
+        var location = direction.move(start);
+        var steps = 1;
+        
+        while (!location.equals(start)) {
+            var pipe = pipes.get(location);
+            direction = pipe.findNextDirection(direction);
+            location = direction.move(location);
+            steps++;
+        }
+        
+        return steps;
     }
 }
