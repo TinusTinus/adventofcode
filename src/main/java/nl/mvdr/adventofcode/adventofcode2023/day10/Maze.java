@@ -15,9 +15,11 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @param start the animal's starting point
  * @param pipes the pipes in the maze, including the starting point
+ * @param width the horizontal length of the maze
+ * @param width the vertical length of the maze
  * @author Martijn van de Rijdt
  */
-record Maze(Point start, Map<Point, Pipe> pipes) {
+record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
     
     /** Representation of the starting position of the animal. */
     private static final char STARTING_POINT = 'S';
@@ -31,11 +33,17 @@ record Maze(Point start, Map<Point, Pipe> pipes) {
      * @return maze
      */
     static Maze parse(List<String> lines) {
+        var width = lines.getFirst().length();
+        var height = lines.size();
+        
         Point start = null;
         Map<Point, Pipe> pipes = new HashMap<>();
-        for (var y = 0; y != lines.size(); y++) {
+        for (var y = 0; y != height; y++) {
             var line = lines.get(y);
-            for (var x = 0; x != line.length(); x++) {
+            if (line.length() != width) {
+                throw new IllegalArgumentException("Input is not rectangular");
+            }
+            for (var x = 0; x != width; x++) {
                 var character = line.charAt(x);
                 if (character == STARTING_POINT) {
                     if (start != null) {
@@ -48,16 +56,17 @@ record Maze(Point start, Map<Point, Pipe> pipes) {
                 }
             }
         }
+        
         if (start == null) {
             throw new IllegalArgumentException("No starting point found");
         }
         pipes.put(start, findStartPipe(start, pipes));
         
-        return new Maze(start, pipes);
+        return new Maze(start, pipes, width, height);
     }
 
     /**
-     * Finds the type of pipe at the starting point.
+     * Determines the type of pipe at the starting point.
      * 
      * @param start starting point
      * @param pipes every other pipe
@@ -88,25 +97,19 @@ record Maze(Point start, Map<Point, Pipe> pipes) {
      * @return the number of steps along the loop it takes to get from the starting position to the point farthest from the starting position
      */
     int computeMaxLoopDistance() {
-        return computeLoopLength() / 2;
-    }
-    
-    /**
-     * @return length of the loop containing the starting point
-     */
-    private int computeLoopLength() {
-        return getLoop().size();
+        return findLoop().size() / 2;
     }
     
     /**
      * @return the loop containing the starting point
      */
-    private List<Point> getLoop() {
+    private List<Point> findLoop() {
         List<Point> result = new ArrayList<>();
         result.add(start);
 
+        var startPipe = pipes.get(start);
         // Pick either starting direction. The problem is symmetrical.
-        var direction = pipes.get(start).getConnections().iterator().next();
+        var direction = startPipe.getConnections().iterator().next();
         
         var location = direction.move(start);
         while (!result.getFirst().equals(location)) {
