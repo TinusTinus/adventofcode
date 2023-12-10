@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day10;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,18 +95,28 @@ record Maze(Point start, Map<Point, Pipe> pipes) {
      * @return length of the loop containing the starting point
      */
     private int computeLoopLength() {
+        return getLoop().size();
+    }
+    
+    /**
+     * @return the loop containing the starting point
+     */
+    private List<Point> getLoop() {
+        List<Point> result = new ArrayList<>();
+        result.add(start);
+
         // Pick either starting direction. The problem is symmetrical.
         var direction = pipes.get(start).getConnections().iterator().next();
-        var location = direction.move(start);
-        var steps = 1;
         
-        while (!location.equals(start)) {
+        var location = direction.move(start);
+        while (!result.getFirst().equals(location)) {
             var pipe = pipes.get(location);
             direction = pipe.findNextDirection(direction);
             location = direction.move(location);
-            steps++;
+            result.add(location);
         }
         
-        return steps;
+        return result;
     }
+
 }
