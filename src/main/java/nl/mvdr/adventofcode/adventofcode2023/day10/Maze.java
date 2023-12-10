@@ -175,15 +175,19 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
             loopElement = loop.get(loopElementIndex);
             sides = pipes.get(loopElement).getSides(loopElement);
             
-            outsideSide = findSameSide(sides, outsideSide);
-            var newOutsidePlanes = findPlanes(unknownPlanes, outsideSide);
-            unknownPlanes.removeAll(newOutsidePlanes);
-            outsidePlanes.addAll(newOutsidePlanes);
+            try {
+                outsideSide = findSameSide(sides, outsideSide);
+                var newOutsidePlanes = findPlanes(unknownPlanes, outsideSide);
+                unknownPlanes.removeAll(newOutsidePlanes);
+                outsidePlanes.addAll(newOutsidePlanes);
             
-            insideSide = findSameSide(sides, insideSide);
-            var newInsidePlanes = findPlanes(unknownPlanes, insideSide);
-            unknownPlanes.removeAll(newInsidePlanes);
-            insidePlanes.addAll(newInsidePlanes);
+                insideSide = findSameSide(sides, insideSide);
+                var newInsidePlanes = findPlanes(unknownPlanes, insideSide);
+                unknownPlanes.removeAll(newInsidePlanes);
+                insidePlanes.addAll(newInsidePlanes);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalStateException("Failed to determine side for loop pipe " + pipes.get(loopElement) + " at " + loopElement, e);
+            }
             
             loopElementIndex = (loopElementIndex + 1) % loop.size();
         }
@@ -218,7 +222,11 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
         return sides.stream()
                 .filter(side -> side.stream().anyMatch(previousSide::contains))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("No overlap found between " + sides + " and " + previousSide));
+        // TODO this can go wrong in case of this pattern:
+        // L7
+        // -J
+        // One side of the J does not overlap with any sides of the 7!
     }
 
     /**
