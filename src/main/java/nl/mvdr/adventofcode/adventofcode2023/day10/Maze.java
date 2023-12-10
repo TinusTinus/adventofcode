@@ -141,7 +141,14 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
         Set<Set<Point>> insidePlanes = new HashSet<>();
         Set<Set<Point>> outsidePlanes = new HashSet<>();
         
-        // TODO divide unknown planes into inside and outside
+        // Find planes next to the input's border; these are definitely outside the loop
+        unknownPlanes.stream()
+                .filter(plane -> plane.stream().anyMatch(point -> point.x() == 0 || point.y() == 0 || point.x() == width - 1 || point.y() == height - 1))
+                .forEach(outsidePlanes::add);
+        unknownPlanes.removeAll(outsidePlanes);
+        LOGGER.debug("Outside planes found: {}", outsidePlanes);
+        
+        // TODO divide remaining unknown planes up into inside and outside, by following along the loop
         
         return insidePlanes.stream()
                 .mapToInt(Set::size)
