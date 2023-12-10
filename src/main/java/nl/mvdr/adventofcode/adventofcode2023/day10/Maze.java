@@ -82,4 +82,18 @@ record Maze(Point start, Map<Point, Pipe> pipes) {
         var neighbouringPipe = pipes.get(neighbour);
         return neighbouringPipe != null && neighbouringPipe.connectsTo(direction.reverse());
     }
+    
+    /**
+     * @return the number of steps along the loop it takes to get from the starting position to the point farthest from the starting position
+     */
+    int computeMaxLoopDistance() {
+        return computeLoopLength() / 2;
+    }
+    
+    /**
+     * @return length of the loop containing the starting point
+     */
+    private int computeLoopLength() {
+        return 0; // TODO implement
+    }
 }
