@@ -137,7 +137,10 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
      */
     int computeTilesEnclosedByLoop() {
         var loop = findLoop();
+        
         var unknownPlanes = findPlanes(loop);
+
+        // The goal is now to divide these planes up into two sets: those inside the loop and those outside the loop.
         Set<Set<Point>> insidePlanes = new HashSet<>();
         Set<Set<Point>> outsidePlanes = new HashSet<>();
         
@@ -148,8 +151,10 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
         unknownPlanes.removeAll(outsidePlanes);
         LOGGER.debug("Outside planes found: {}", outsidePlanes);
         
-        // TODO divide remaining unknown planes up into inside and outside, by following along the loop
+        // TODO find a pipe in the loop bordering one of the outside planes. We can now determine which side is inside and outside
+        // TODO while !unknownPlanes.isEmpty(): follow along the loop, dividing any of the unknown planes up into inside and outside
         
+        // All planes have been divided up.
         return insidePlanes.stream()
                 .mapToInt(Set::size)
                 .sum();
