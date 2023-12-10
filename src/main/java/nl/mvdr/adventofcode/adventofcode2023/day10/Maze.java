@@ -158,20 +158,67 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
                         .anyMatch(outsideLocation -> location.neighbours().contains(outsideLocation)))
                 .findAny()
                 .orElseThrow();
-        
+
         // We can now determine which of this pipe's sides is inside and which is outside
-        var sides = pipes.get(loopElement).getSides();
+        var sides = pipes.get(loopElement).getSides(loopElement);
         var outsideSide = sides.stream()
-                .filter(side -> side.stream().anyMatch(direction -> outsidePlane.contains(direction.move(loopElement))))
+                .filter(side -> side.stream().anyMatch(outsidePlane::contains))
+                .findFirst()
+                .orElseThrow();
+        var insideSide = sides.stream()
+                .filter(Predicate.not(outsideSide::equals))
                 .findFirst()
                 .orElseThrow();
         
-        // TODO while !unknownPlanes.isEmpty(): follow along the loop, dividing any of the unknown planes up into inside and outside
+        var loopElementIndex = (loop.indexOf(loopElement) + 1) % loop.size();
+        while (!unknownPlanes.isEmpty()) {
+            loopElement = loop.get(loopElementIndex);
+            sides = pipes.get(loopElement).getSides(loopElement);
+            
+            outsideSide = findSameSide(sides, outsideSide);
+            var newOutsidePlanes = findPlanes(unknownPlanes, outsideSide);
+            unknownPlanes.removeAll(newOutsidePlanes);
+            outsidePlanes.addAll(newOutsidePlanes);
+            
+            insideSide = findSameSide(sides, insideSide);
+            var newInsidePlanes = findPlanes(unknownPlanes, insideSide);
+            unknownPlanes.removeAll(newInsidePlanes);
+            insidePlanes.addAll(newInsidePlanes);
+            
+            loopElementIndex = (loopElementIndex + 1) % loop.size();
+        }
         
         // All planes have been divided up.
         return insidePlanes.stream()
                 .mapToInt(Set::size)
                 .sum();
+    }
+
+    /**
+     * Finds the planes overlapping with the given set.
+     * 
+     * @param planes planes to filter
+     * @param points set of points to check for overlap with
+     * @return the planes overlapping with the given set
+     */
+    private Set<Set<Point>> findPlanes(Set<Set<Point>> planes, Set<Point> points) {
+        return planes.stream()
+                .filter(plane -> plane.stream().anyMatch(points::contains))
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Finds the same side after taking a single step along the loop.
+     * 
+     * @param sides sides of the current pipe
+     * @param previousSide side of the previous pipe
+     * @return same side of the current pipe
+     */
+    private Set<Point> findSameSide(Set<Set<Point>> sides, Set<Point> previousSide) {
+        return sides.stream()
+                .filter(side -> side.stream().anyMatch(previousSide::contains))
+                .findFirst()
+                .orElseThrow();
     }
 
     /**

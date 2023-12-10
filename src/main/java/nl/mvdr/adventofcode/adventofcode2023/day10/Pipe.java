@@ -97,17 +97,6 @@ enum Pipe {
     }
     
     /**
-     * Returns the (exactly two) sides of this pipe, as two sets of directions (including diagonals!).
-     * 
-     * If this pipe is part of the loop, one of these sides is the inside of the loop, and the other is the outside.
-     * 
-     * @return sides
-     */
-    Set<Set<Direction>> getSides() {
-        return sides;
-    }
-    
-    /**
      * Returns the (exactly two) sides of this pipe.
      * 
      * @param location location of this pipe in the maze
