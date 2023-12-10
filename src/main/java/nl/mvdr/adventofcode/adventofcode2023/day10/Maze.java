@@ -151,7 +151,17 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
         unknownPlanes.removeAll(outsidePlanes);
         LOGGER.debug("Outside planes found: {}", outsidePlanes);
         
-        // TODO find a pipe in the loop bordering one of the outside planes. We can now determine which side is inside and outside
+        // Find a pipe in the loop bordering one of the outside planes
+        var loopElement = loop.stream()
+                .filter(location -> unknownPlanes.stream()
+                        .flatMap(plane -> plane.stream())
+                        .anyMatch(outsideLocation -> location.neighbours().contains(outsideLocation)))
+                .findAny()
+                .orElseThrow();
+        // We can now determine which of this pipe's sides is inside and which is outside
+        var sides = pipes.get(loopElement).getSides();
+        // TODO 
+        
         // TODO while !unknownPlanes.isEmpty(): follow along the loop, dividing any of the unknown planes up into inside and outside
         
         // All planes have been divided up.
