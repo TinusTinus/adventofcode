@@ -51,6 +51,16 @@ enum Pipe {
     }
     
     /**
+     * Whether this pipe connects to the given direction.
+     * 
+     * @param direction direction
+     * @return whether the given direction is a connection
+     */
+    boolean connectsTo(Direction direction) {
+        return connections.contains(direction);
+    }
+    
+    /**
      * Parses a character from the puzzle input.
      * 
      * @param representation representation of a pipe
@@ -61,5 +71,18 @@ enum Pipe {
                 .filter(value -> value.representation == representation)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Not a pipe: " + representation));
+    }
+    
+    /**
+     * Finds the pipe which connects the given directions.
+     * 
+     * @param connections set of (two) directions
+     * @return the pipe connecting the given directions
+     */
+    static Pipe of(Set<Direction> connections) {
+        return Stream.of(values())
+                .filter(value -> value.connections.equals(connections))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No pipes connecting: " + connections));
     }
 }
