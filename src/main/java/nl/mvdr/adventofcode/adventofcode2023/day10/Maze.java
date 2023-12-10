@@ -121,10 +121,10 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
         
         var location = direction.move(start);
         while (!result.getFirst().equals(location)) {
+            result.add(location);
             var pipe = pipes.get(location);
             direction = pipe.findNextDirection(direction);
             location = direction.move(location);
-            result.add(location);
         }
         
         LOGGER.debug("Loop found: {}", result);
