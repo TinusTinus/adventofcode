@@ -19,7 +19,7 @@ public class PipeMazePart2 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var maze = Maze.parse(lines.toList());
-        return 0; // TODO
+        return maze.computeTilesEnclosedByLoop();
     }
 
     /**

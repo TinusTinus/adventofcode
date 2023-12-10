@@ -15,40 +15,67 @@ enum Pipe {
     /**
      * | is a vertical pipe connecting north and south.
      */
-    NORTH_SOUTH('|', Set.of(Direction.UP, Direction.DOWN)),
+    NORTH_SOUTH('|',
+            Set.of(Direction.UP, Direction.DOWN),
+            Set.of(
+                    Set.of(Direction.LEFT, Direction.DOWN_LEFT, Direction.UP_LEFT),
+                    Set.of(Direction.RIGHT, Direction.DOWN_RIGHT, Direction.UP_RIGHT))),
     /**
      * - is a horizontal pipe connecting east and west.
      */
-    WEST_EAST('-', Set.of(Direction.LEFT, Direction.RIGHT)),
+    WEST_EAST('-',
+            Set.of(Direction.LEFT, Direction.RIGHT),
+            Set.of(
+                    Set.of(Direction.UP, Direction.UP_LEFT, Direction.UP_RIGHT),
+                    Set.of(Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_RIGHT))),
     /**
      * L is a 90-degree bend connecting north and east.
      */
-    NORTH_EAST('L', Set.of(Direction.UP, Direction.RIGHT)),
+    NORTH_EAST('L',
+            Set.of(Direction.UP, Direction.RIGHT),
+            Set.of(
+                    Set.of(Direction.UP_RIGHT),
+                    Set.of(Direction.UP_LEFT, Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN, Direction.DOWN_RIGHT))),
     /**
      * J is a 90-degree bend connecting north and west.
      */
-    NORTH_WEST('J', Set.of(Direction.UP, Direction.LEFT)),
+    NORTH_WEST('J',
+            Set.of(Direction.UP, Direction.LEFT),
+            Set.of(
+                    Set.of(Direction.UP_LEFT),
+                    Set.of(Direction.UP_RIGHT, Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN, Direction.DOWN_LEFT))),
     /**
      * 7 is a 90-degree bend connecting south and west.
      */
-    SOUTH_WEST('7', Set.of(Direction.DOWN, Direction.LEFT)),
+    SOUTH_WEST('7',
+            Set.of(Direction.DOWN, Direction.LEFT),
+            Set.of(
+                    Set.of(Direction.DOWN_LEFT),
+                    Set.of(Direction.DOWN_RIGHT, Direction.RIGHT, Direction.UP_RIGHT, Direction.UP, Direction.UP_LEFT))),
     /**
      * F is a 90-degree bend connecting south and east.
      */
-    SOUTH_EAST('F', Set.of(Direction.DOWN, Direction.RIGHT));
+    SOUTH_EAST('F',
+            Set.of(Direction.DOWN, Direction.RIGHT),
+            Set.of(
+                    Set.of(Direction.DOWN_RIGHT),
+                    Set.of(Direction.UP_RIGHT, Direction.UP, Direction.UP_LEFT, Direction.LEFT, Direction.DOWN_LEFT)));
     
-    final char representation;
-    final Set<Direction> connections;
+    private final char representation;
+    private final Set<Direction> connections;
+    private final Set<Set<Direction>> sides;
     
     /**
      * Constructor.
      * 
      * @param representation the single-character representation of this pipe in the puzzle input
      * @param connections the (exactly two) directions connected by this pipe, where {@link Direction#UP} represents north
+     * @param sides the (exactly two) sides of this pipe
      */
-    Pipe(char representation, Set<Direction> connections) {
+    Pipe(char representation, Set<Direction> connections, Set<Set<Direction>> sides) {
         this.representation = representation;
         this.connections = connections;
+        this.sides = sides;
     }
     
     /**
@@ -62,10 +89,21 @@ enum Pipe {
     }
     
     /**
-     * @return connections
+     * @return the (exactly two) directions connected by this pipe, where {@link Direction#UP} represents north
      */
     Set<Direction> getConnections() {
         return connections;
+    }
+    
+    /**
+     * Returns the (exactly two) sides of this pipe, as two sets of directions (including diagonals!).
+     * 
+     * If this pipe is part of the loop, one of these sides is the inside of the loop, and the other is the outside.
+     * 
+     * @return sides
+     */
+    Set<Set<Direction>> getSides() {
+        return sides;
     }
     
     /**

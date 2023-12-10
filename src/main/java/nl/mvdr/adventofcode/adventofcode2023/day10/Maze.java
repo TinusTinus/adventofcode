@@ -2,10 +2,16 @@ package nl.mvdr.adventofcode.adventofcode2023.day10;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -20,6 +26,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Maze.class);
     
     /** Representation of the starting position of the animal. */
     private static final char STARTING_POINT = 'S';
@@ -119,7 +127,72 @@ record Maze(Point start, Map<Point, Pipe> pipes, int width, int height) {
             result.add(location);
         }
         
+        LOGGER.debug("Loop found: {}", result);
+        
         return result;
     }
+    
+    /**
+     * @return the number of tiles enclosed by the loop
+     */
+    int computeTilesEnclosedByLoop() {
+        var loop = findLoop();
+        var unknownPlanes = findPlanes(loop);
+        Set<Set<Point>> insidePlanes = new HashSet<>();
+        Set<Set<Point>> outsidePlanes = new HashSet<>();
+        
+        // TODO divide unknown planes into inside and outside
+        
+        return insidePlanes.stream()
+                .mapToInt(Set::size)
+                .sum();
+    }
 
+    /**
+     * Finds all connected planes, inside and outside the loop
+     * 
+     * @param loop points containing the pipes making up the loop
+     * @return planes
+     */
+    private Set<Set<Point>> findPlanes(List<Point> loop) {
+        Set<Set<Point>> planes = new HashSet<>();
+        
+        for (var x = 0; x != width; x++) {
+            for (var y = 0; y != height; y++) {
+                var point = new Point(x, y);
+                if (!loop.contains(point) && !planes.stream().anyMatch(plane -> plane.contains(point))) {
+                    // Start of a new plane
+                    planes.add(findPlane(loop, point));
+                }
+            }
+        }
+        
+        return planes;
+    }
+
+    /**
+     * Finds a plane, that is a set of connected points.
+     * 
+     * This plane is either inside or outside of the loop.
+     * 
+     * @param loop points containing the pipes making up the loop
+     * @param point point within the plane; must not be part of the loop
+     * @return plane 
+     */
+    private Set<Point >findPlane(List<Point> loop, Point point) {
+        Set<Point> result = new HashSet<>();
+        Set<Point> toAdd = Set.of(point);
+        while (!toAdd.isEmpty()) {
+            result.addAll(toAdd);
+            toAdd = toAdd.stream()
+                    .flatMap(p -> p.neighbours().stream())
+                    .filter(p -> 0 <= p.x() && p.x() < width)
+                    .filter(p -> 0 <= p.y() && p.y() < height)
+                    .filter(Predicate.not(result::contains))
+                    .filter(Predicate.not(loop::contains))
+                    .collect(Collectors.toSet());
+        }
+        LOGGER.debug("Found new plane: {}", result);
+        return result;
+    }
 }
