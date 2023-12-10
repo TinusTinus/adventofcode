@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Direction;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * TODO javadoc
@@ -70,7 +71,7 @@ enum Pipe {
      * 
      * @param representation the single-character representation of this pipe in the puzzle input
      * @param connections the (exactly two) directions connected by this pipe, where {@link Direction#UP} represents north
-     * @param sides the (exactly two) sides of this pipe
+     * @param sides the (exactly two) sides of this pipe, as two sets of directions (including diagonals!)
      */
     Pipe(char representation, Set<Direction> connections, Set<Set<Direction>> sides) {
         this.representation = representation;
@@ -104,6 +105,20 @@ enum Pipe {
      */
     Set<Set<Direction>> getSides() {
         return sides;
+    }
+    
+    /**
+     * Returns the (exactly two) sides of this pipe.
+     * 
+     * @param location location of this pipe in the maze
+     * @return sides, as two sets of neighbouring points of this pipe (including diagonals!)
+     */
+    Set<Set<Point>> getSides(Point location) {
+        return sides.stream()
+                .map(side -> side.stream()
+                        .map(direction -> direction.move(location))
+                        .collect(Collectors.toSet()))
+                .collect(Collectors.toSet());
     }
     
     /**
