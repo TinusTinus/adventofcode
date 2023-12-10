@@ -94,7 +94,6 @@ enum Type {
                 .stream()
                 .max(Comparator.comparing(Entry::getCount))
                 .map(Entry::getElement)
-                .map(card -> card)
                 // if the hand contained five jokers, just count them as any different card, so we get a five of a kind
                 .orElse(Part2Card.TWO);
         result.add(mostFrequentCard, jokerCount);
