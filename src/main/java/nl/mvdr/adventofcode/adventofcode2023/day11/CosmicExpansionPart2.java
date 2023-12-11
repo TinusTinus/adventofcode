@@ -28,7 +28,8 @@ public class CosmicExpansionPart2 implements LongSolver {
     /**
      * Constructor.
      * 
-     * @param expansionFactor the amount by which to expand the universe
+     * @param expansionFactor the factor by which the universe should be expanded;
+     *       that is, the number of rows / columns by which to replace each empty row and column
      */
     CosmicExpansionPart2(int expansionFactor) {
         super();
