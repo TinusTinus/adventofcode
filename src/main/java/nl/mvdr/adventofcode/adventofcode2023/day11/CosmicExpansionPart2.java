@@ -5,14 +5,14 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/11">Cosmic Expansion</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class CosmicExpansionPart2 implements IntSolver {
+public class CosmicExpansionPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CosmicExpansionPart2.class);
 
@@ -36,7 +36,7 @@ public class CosmicExpansionPart2 implements IntSolver {
     }
     
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         var universe = Universe.parse(lines.toList());
         universe = universe.expand(expansionAmount);
         return universe.sumShortestPaths();

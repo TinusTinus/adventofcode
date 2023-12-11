@@ -7,14 +7,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.point.Point;
+import nl.mvdr.adventofcode.point.LongPoint;
 
 /**
  * Representation of a universe.
  *
  * @author Martijn van de Rijdt
  */
-record Universe(Set<Point> galaxies, int width, int height) {
+record Universe(Set<LongPoint> galaxies, int width, int height) {
     /**
      * Parses the textual representation of a universe.
      * 
@@ -25,13 +25,13 @@ record Universe(Set<Point> galaxies, int width, int height) {
         var width = lines.getFirst().length(); // input is expected to be rectangular: all lines are of equal length
         var height = lines.size();
         
-        Set<Point> galaxies = new HashSet<>();
+        Set<LongPoint> galaxies = new HashSet<>();
         for (var y = 0; y != height; y++) {
             var line = lines.get(y);
             for (var x = 0; x != width; x++) {
                 var character = line.charAt(x);
                 if (character == '#') {
-                    galaxies.add(new Point(x, y));
+                    galaxies.add(new LongPoint(x, y));
                 } else if (character != '.') {
                     throw new IllegalArgumentException(
                             "Unexpected input character '" + character + "' in line " + line);
@@ -69,7 +69,7 @@ record Universe(Set<Point> galaxies, int width, int height) {
         var newWidth = width + emptyColumns.size();
         
         var newGalaxies = galaxies.stream()
-                .map(galaxy -> new Point(galaxy.x() + (expansionFactor - 1) * (int)emptyColumns.stream().filter(x -> x.intValue() < galaxy.x()).count(), galaxy.y()))
+                .map(galaxy -> new LongPoint(galaxy.x() + (expansionFactor - 1) * emptyColumns.stream().filter(x -> x.intValue() < galaxy.x()).count(), galaxy.y()))
                 .collect(Collectors.toSet());
         
         return new Universe(newGalaxies, newWidth, height);
@@ -91,7 +91,7 @@ record Universe(Set<Point> galaxies, int width, int height) {
         var newHeight = height + emptyRows.size();
         
         var newGalaxies = galaxies.stream()
-                .map(galaxy -> new Point(galaxy.x(), galaxy.y() + (expansionFactor - 1) * (int)emptyRows.stream().filter(y -> y.intValue() < galaxy.y()).count()))
+                .map(galaxy -> new LongPoint(galaxy.x(), galaxy.y() + (expansionFactor - 1) * emptyRows.stream().filter(y -> y.intValue() < galaxy.y()).count()))
                 .collect(Collectors.toSet());
         
         return new Universe(newGalaxies, width, newHeight);
@@ -100,11 +100,11 @@ record Universe(Set<Point> galaxies, int width, int height) {
     /**
      * @return sum of the shortest path between each pair of galaxies
      */
-    int sumShortestPaths() {
-        var pathLengths = generatePairs().mapToInt(GalaxyPair::computeDistance)
+    long sumShortestPaths() {
+        var pathLengths = generatePairs().mapToLong(GalaxyPair::computeDistance)
                 .sum();
         // every path was counted twice
-        return pathLengths / 2;
+        return pathLengths / 2L;
     }
     
     /**

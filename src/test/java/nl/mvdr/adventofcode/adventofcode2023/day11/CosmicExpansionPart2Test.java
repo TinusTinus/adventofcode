@@ -37,6 +37,6 @@ public class CosmicExpansionPart2Test extends SolverTest<CosmicExpansionPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("?", "input-day11-2023.txt"));
+                Arguments.of("648458253817", "input-day11-2023.txt"));
     }
 }
