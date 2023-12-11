@@ -16,7 +16,7 @@ public class CosmicExpansionPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CosmicExpansionPart2.class);
 
-    private final int expansionAmount;
+    private final int expansionFactor;
     
     /**
      * Constructor.
@@ -28,17 +28,17 @@ public class CosmicExpansionPart2 implements LongSolver {
     /**
      * Constructor.
      * 
-     * @param expansionAmount the amount by which to expand the universe
+     * @param expansionFactor the amount by which to expand the universe
      */
-    CosmicExpansionPart2(int expansionAmount) {
+    CosmicExpansionPart2(int expansionFactor) {
         super();
-        this.expansionAmount = expansionAmount;
+        this.expansionFactor = expansionFactor;
     }
     
     @Override
     public long solve(Stream<String> lines) {
         var universe = Universe.parse(lines.toList());
-        universe = universe.expand(expansionAmount);
+        universe = universe.expand(expansionFactor);
         return universe.sumShortestPaths();
     }
     
