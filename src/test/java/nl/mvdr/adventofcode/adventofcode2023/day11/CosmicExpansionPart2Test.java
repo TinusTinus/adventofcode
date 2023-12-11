@@ -20,8 +20,8 @@ public class CosmicExpansionPart2Test extends SolverTest<CosmicExpansionPart2> {
     }
     
     @Test
-    public void testExample1() {
-        assertSolution(new CosmicExpansionPart2(1), "374", "example-day11-2023.txt");
+    public void testExample2() {
+        assertSolution(new CosmicExpansionPart2(2), "374", "example-day11-2023.txt");
     }
     
     @Test

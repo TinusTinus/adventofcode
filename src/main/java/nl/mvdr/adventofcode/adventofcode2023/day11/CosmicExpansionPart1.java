@@ -16,7 +16,7 @@ public class CosmicExpansionPart1 implements Solver {
 
     @Override
     public String solve(String inputfile) {
-        return new CosmicExpansionPart2(1).solve(inputfile);
+        return new CosmicExpansionPart2(2).solve(inputfile);
     }
 
     /**
