@@ -18,7 +18,9 @@ public class CosmicExpansionPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; //TODO
+        var universe = Universe.parse(lines.toList());
+        universe = universe.expand();
+        return universe.sumShortestPaths();
     }
 
     /**

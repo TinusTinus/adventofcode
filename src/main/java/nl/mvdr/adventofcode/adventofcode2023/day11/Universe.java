@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -88,5 +89,30 @@ record Universe(Set<Point> galaxies, int width, int height) {
                 .collect(Collectors.toSet());
         
         return new Universe(newGalaxies, width, newHeight);
+    }
+    
+    /**
+     * @return sum of the shortest path between each pair of galaxies
+     */
+    int sumShortestPaths() {
+        var pathLengths = generatePairs().mapToInt(GalaxyPair::computeDistance)
+                .sum();
+        // every path was counted twice
+        return pathLengths / 2;
+    }
+    
+    /**
+     * Generates a set of all pairs of galaxies.
+     * 
+     * Note that every pair will occur twice:
+     * once as (g0, g1) and once as (g1, g0).
+     * 
+     * @return all pairs of galaxies
+     */
+    private Stream<GalaxyPair> generatePairs() {
+        return galaxies.stream()
+                .flatMap(galaxy0 -> galaxies.stream()
+                        .map(galaxy1 -> new GalaxyPair(galaxy0, galaxy1)));
+                
     }
 }
