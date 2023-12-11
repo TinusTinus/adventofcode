@@ -1,26 +1,22 @@
 package nl.mvdr.adventofcode.adventofcode2023.day11;
 
-import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.Solver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/11">Cosmic Expansion</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class CosmicExpansionPart1 implements IntSolver {
+public class CosmicExpansionPart1 implements Solver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CosmicExpansionPart1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
-        var universe = Universe.parse(lines.toList());
-        universe = universe.expand();
-        return universe.sumShortestPaths();
+    public String solve(String inputfile) {
+        return new CosmicExpansionPart2(1).solve(inputfile);
     }
 
     /**

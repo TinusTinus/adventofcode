@@ -45,18 +45,22 @@ record Universe(Set<Point> galaxies, int width, int height) {
     /**
      * Expands the universe.
      * 
-     * @return a copy of this universe, where any rows or columns that contain no galaxies have been doubled
+     * @param expansionAmount the amount by which the universe should be expanded;
+     *       that is, the number of extra rows / columns to be inserted for each empty row and column
+     * @return a copy of this universe, where any rows or columns that contain no galaxies have been expanded by the given amount
      */
-    Universe expand() {
-        return expandHorizontally().expandVertically();
+    Universe expand(int expansionAmount) {
+        return expandHorizontally(expansionAmount).expandVertically(expansionAmount);
     }
     
     /**
      * Expands the universe horizontally.
      * 
-     * @return a copy of this universe, where any columns that contain no galaxies have been doubled
+     * @param expansionAmount the amount by which the universe should be expanded;
+     *       that is, the number of extra columns to be inserted for each empty column
+     * @return a copy of this universe, where any columns that contain no galaxies have been expanded by the given amount
      */
-    private Universe expandHorizontally() {
+    private Universe expandHorizontally(int expansionAmount) {
         var emptyColumns = IntStream.range(0, width)
                 .filter(x -> !galaxies.stream().anyMatch(galaxy -> galaxy.x() == x))
                 .boxed()
@@ -65,7 +69,7 @@ record Universe(Set<Point> galaxies, int width, int height) {
         var newWidth = width + emptyColumns.size();
         
         var newGalaxies = galaxies.stream()
-                .map(galaxy -> new Point(galaxy.x() + (int)emptyColumns.stream().filter(x -> x.intValue() < galaxy.x()).count(), galaxy.y()))
+                .map(galaxy -> new Point(galaxy.x() + expansionAmount * (int)emptyColumns.stream().filter(x -> x.intValue() < galaxy.x()).count(), galaxy.y()))
                 .collect(Collectors.toSet());
         
         return new Universe(newGalaxies, newWidth, height);
@@ -74,9 +78,11 @@ record Universe(Set<Point> galaxies, int width, int height) {
     /**
      * Expands the universe vertically.
      * 
-     * @return a copy of this universe, where any rows that contain no galaxies have been doubled
+     * @param expansionAmount the amount by which the universe should be expanded;
+     *       that is, the number of extra rows to be inserted for each empty row
+     * @return a copy of this universe, where any rows that contain no galaxies have been expanded by the given amount
      */
-    private Universe expandVertically() {
+    private Universe expandVertically(int expansionAmount) {
         var emptyRows = IntStream.range(0, height)
                 .filter(y -> !galaxies.stream().anyMatch(galaxy -> galaxy.y() == y))
                 .boxed()
@@ -85,7 +91,7 @@ record Universe(Set<Point> galaxies, int width, int height) {
         var newHeight = height + emptyRows.size();
         
         var newGalaxies = galaxies.stream()
-                .map(galaxy -> new Point(galaxy.x(), galaxy.y() + (int)emptyRows.stream().filter(y -> y.intValue() < galaxy.y()).count()))
+                .map(galaxy -> new Point(galaxy.x(), galaxy.y() + expansionAmount * (int)emptyRows.stream().filter(y -> y.intValue() < galaxy.y()).count()))
                 .collect(Collectors.toSet());
         
         return new Universe(newGalaxies, width, newHeight);
