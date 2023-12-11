@@ -1,17 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2023.day11;
 
-import nl.mvdr.adventofcode.point.LongPoint;
-
 /**
  * A pair of galaxies.
  *
  * @author Martijn van de Rijdt
  */
-record GalaxyPair(LongPoint galaxy0, LongPoint galaxy1) {
+record GalaxyPair(Galaxy galaxy0, Galaxy galaxy1) {
     /**
      * @return the distance between the two galaxies
      */
     long computeDistance() {
-        return galaxy0.manhattanDistance(galaxy1);
+        return Math.abs(galaxy0.x() - galaxy1.x()) + Math.abs(galaxy0.y() - galaxy1.y());
     }
 }
