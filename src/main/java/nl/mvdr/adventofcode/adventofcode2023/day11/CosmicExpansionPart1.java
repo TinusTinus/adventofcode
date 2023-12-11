@@ -16,6 +16,7 @@ public class CosmicExpansionPart1 implements Solver {
 
     @Override
     public String solve(String inputfile) {
+        // Part 1 is essentially just a special case of part 2.
         return new CosmicExpansionPart2(2).solve(inputfile);
     }
 
