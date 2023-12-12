@@ -1,8 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2023.day12;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -52,7 +54,7 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
     long countArrangements() {
         long result;
         if (contiguousGroupSizes.isEmpty() && !springs.contains(Condition.DAMAGED)) {
-            // This is a single valid arrangement: all springs in this row must be operational.
+            // This is a single valid arrangement: all springs in this row are operational.
             result = 1L;
         } else if (springs.isEmpty()) {
             // There are contiguous group sizes (see the previous guard).
@@ -129,6 +131,24 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
             throw new IllegalStateException("Unable to drop damaged spring without matching it to a group. " + this);
         }
         return new ConditionRecord(springs.subList(1, springs.size()), contiguousGroupSizes);
+    }
+    
+    /**
+     * @return unfolded version of this record
+     */
+    ConditionRecord unfold() {
+        List<Integer> newSizes = new ArrayList<>();
+        IntStream.range(0, 5)
+            .forEach(i -> newSizes.addAll(contiguousGroupSizes));
+        
+        List<Condition> newSprings = new ArrayList<>(springs);
+        IntStream.range(0, 4)
+            .forEach(i -> {
+                newSprings.add(Condition.UNKNOWN);
+                newSprings.addAll(springs);
+            });
+        
+        return new ConditionRecord(newSprings, newSizes);
     }
     
     @Override
