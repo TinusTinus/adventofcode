@@ -2,7 +2,11 @@ package nl.mvdr.adventofcode.adventofcode2023.day12;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A (possibly damaged) record of the conditions of a row of springs.
@@ -10,6 +14,8 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSizes) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConditionRecord.class);
     
     /**
      * Parses a line from the puzzle input.
@@ -62,7 +68,8 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
         } else if (couldStartWithContiguousGroup()) {
             var groupSize = contiguousGroupSizes.getFirst().intValue();
             if (springs.size() == groupSize) {
-                result = 1L;
+                result = new ConditionRecord(List.of(), contiguousGroupSizes.subList(1, contiguousGroupSizes.size()))
+                        .countArrangements();
             } else {
                 // Compute the number of valid arrangements, assuming the contiguous group does start here.
                 var newSprings = springs.subList(groupSize + 1, springs.size());
@@ -83,6 +90,8 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
                 default -> throw new IllegalStateException("Unexpected condition: " + springs.getFirst());
             };
         }
+        
+        LOGGER.debug("Count for {}: {}", this, Long.valueOf(result));
         
         return result;
     }
@@ -120,5 +129,16 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
             throw new IllegalStateException("Unable to drop damaged spring without matching it to a group. " + this);
         }
         return new ConditionRecord(springs.subList(1, springs.size()), contiguousGroupSizes);
+    }
+    
+    @Override
+    public String toString() {
+        var springsString = springs.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining());
+        var sizesString = contiguousGroupSizes.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(","));
+        return springsString + " "  + sizesString;
     }
 }

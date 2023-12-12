@@ -49,4 +49,9 @@ enum Condition {
                 .orElseThrow(() -> new IllegalArgumentException("Not a valid spring condition: " + representation));
     }
 
+    
+    @Override
+    public String toString() {
+        return "" + representation;
+    }
 }

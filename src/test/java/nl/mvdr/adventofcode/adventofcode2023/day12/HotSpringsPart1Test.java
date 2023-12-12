@@ -23,6 +23,6 @@ public class HotSpringsPart1Test extends SolverTest<HotSpringsPart1> {
         return Stream.of(
                 Arguments.of("21", "example-day12-2023.txt"),
                 Arguments.of("6", "example-day12-2023-no-questionmarks.txt"), // exactly one arrangement per line
-                Arguments.of("?", "input-day12-2023.txt"));
+                Arguments.of("7732", "input-day12-2023.txt"));
     }
 }
