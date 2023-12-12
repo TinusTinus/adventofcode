@@ -94,7 +94,7 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
             } else {
                 // No contiguous group can start here.
                 result = switch(springs.getFirst()) {
-                    case DAMAGED -> 0L; // Invalid record.
+                    case DAMAGED -> 0L; // The first spring is damaged, so a group must start here. This is an invalid record.
                     case UNKNOWN -> dropFirstSpring().countArrangements(); // First spring must be operational.
                     case OPERATIONAL -> throw new IllegalStateException("Unexpected operational spring found at the start of " + this); // Should be prevented by earlier checks
                     default -> throw new IllegalStateException("Unexpected condition: " + springs.getFirst());
