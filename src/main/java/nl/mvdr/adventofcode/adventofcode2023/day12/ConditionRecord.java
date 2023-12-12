@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2023.day12;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -16,6 +18,8 @@ import org.slf4j.LoggerFactory;
  * @author Martijn van de Rijdt
  */
 record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSizes) {
+    
+    private static final Map<ConditionRecord, Long> ARRANGEMENT_COUNT_CACHE = new HashMap<>();
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ConditionRecord.class);
     
@@ -49,52 +53,59 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
     }
     
     /**
-     * @return number of possible spring arrangements conforming to this record
+     * @return number of possible spring arrangements conforming to this record, pulled from cache if available
      */
     long countArrangements() {
         long result;
-        if (contiguousGroupSizes.isEmpty() && !springs.contains(Condition.DAMAGED)) {
-            // This is a single valid arrangement: all springs in this row are operational.
-            result = 1L;
-        } else if (springs.isEmpty()) {
-            // There are contiguous group sizes (see the previous guard).
-            // Therefore this is an invalid arrangement.
-            result = 0L;
-        } else if (contiguousGroupSizes.isEmpty()) {
-            // There are damaged springs (see the first guard).
-            // Therefore this is an invalid arrangement.
-            result = 0L;
-        } else if (springs.getFirst() == Condition.OPERATIONAL) {
-            // We can just ignore this spring. Inspect the rest of the row.
-            result = dropFirstSpring().countArrangements();
-        } else if (couldStartWithContiguousGroup()) {
-            var groupSize = contiguousGroupSizes.getFirst().intValue();
-            if (springs.size() == groupSize) {
-                result = new ConditionRecord(List.of(), contiguousGroupSizes.subList(1, contiguousGroupSizes.size()))
-                        .countArrangements();
-            } else {
-                // Compute the number of valid arrangements, assuming the contiguous group does start here.
-                var newSprings = springs.subList(groupSize + 1, springs.size());
-                var newGroupSizes = contiguousGroupSizes.subList(1, contiguousGroupSizes.size());
-                result = new ConditionRecord(newSprings, newGroupSizes).countArrangements();
-                
-                if (springs.getFirst() == Condition.UNKNOWN) {
-                    // The first spring could also be operational.
-                    result = result + dropFirstSpring().countArrangements();
+        
+        Long cached = ARRANGEMENT_COUNT_CACHE.get(this);
+        
+        if (cached == null) {
+            if (contiguousGroupSizes.isEmpty() && !springs.contains(Condition.DAMAGED)) {
+                // This is a single valid arrangement: all springs in this row are operational.
+                result = 1L;
+            } else if (springs.isEmpty()) {
+                // There are contiguous group sizes (see the previous guard).
+                // Therefore this is an invalid arrangement.
+                result = 0L;
+            } else if (contiguousGroupSizes.isEmpty()) {
+                // There are damaged springs (see the first guard).
+                // Therefore this is an invalid arrangement.
+                result = 0L;
+            } else if (springs.getFirst() == Condition.OPERATIONAL) {
+                // We can just ignore this spring. Inspect the rest of the row.
+                result = dropFirstSpring().countArrangements();
+            } else if (couldStartWithContiguousGroup()) {
+                var groupSize = contiguousGroupSizes.getFirst().intValue();
+                if (springs.size() == groupSize) {
+                    result = new ConditionRecord(List.of(), contiguousGroupSizes.subList(1, contiguousGroupSizes.size()))
+                            .countArrangements();
+                } else {
+                    // Compute the number of valid arrangements, assuming the contiguous group does start here.
+                    var newSprings = springs.subList(groupSize + 1, springs.size());
+                    var newGroupSizes = contiguousGroupSizes.subList(1, contiguousGroupSizes.size());
+                    result = new ConditionRecord(newSprings, newGroupSizes).countArrangements();
+                    
+                    if (springs.getFirst() == Condition.UNKNOWN) {
+                        // The first spring could also be operational.
+                        result = result + dropFirstSpring().countArrangements();
+                    }
                 }
+            } else {
+                // No contiguous group can start here.
+                result = switch(springs.getFirst()) {
+                    case DAMAGED -> 0L; // Invalid record.
+                    case UNKNOWN -> dropFirstSpring().countArrangements(); // First spring must be operational.
+                    case OPERATIONAL -> throw new IllegalStateException("Unexpected operational spring found at the start of " + this); // Should be prevented by earlier checks
+                    default -> throw new IllegalStateException("Unexpected condition: " + springs.getFirst());
+                };
             }
+            
+            LOGGER.debug("Count for {}: {}", this, Long.valueOf(result));
+            ARRANGEMENT_COUNT_CACHE.put(this, Long.valueOf(result));
         } else {
-            // No contiguous group can start here.
-            result = switch(springs.getFirst()) {
-                case DAMAGED -> 0L; // Invalid record.
-                case UNKNOWN -> dropFirstSpring().countArrangements(); // First spring must be operational.
-                case OPERATIONAL -> throw new IllegalStateException("Unexpected operational spring found at the start of " + this); // Should be prevented by earlier checks
-                default -> throw new IllegalStateException("Unexpected condition: " + springs.getFirst());
-            };
+            result = cached.longValue();
         }
-        
-        LOGGER.debug("Count for {}: {}", this, Long.valueOf(result));
-        
         return result;
     }
     
