@@ -5,20 +5,22 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/12">Hot Springs</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class HotSpringsPart1 implements IntSolver {
+public class HotSpringsPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HotSpringsPart1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
-        return 0; //TODO
+    public long solve(Stream<String> lines) {
+        return lines.map(ConditionRecord::parse)
+                .mapToLong(ConditionRecord::countArrangements)
+                .sum();
     }
 
     /**
