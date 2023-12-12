@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day12;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 /**
@@ -43,6 +44,51 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
      * @return number of possible spring arrangements conforming to this record
      */
     long countArrangements() {
-        return 0L; // TODO implement
+        long result;
+        if (contiguousGroupSizes.isEmpty() && !springs.contains(Condition.DAMAGED)) {
+            // This is a single valid arrangement: all springs in this row must be operational.
+            result = 1L;
+        } else if (springs.isEmpty()) {
+            // There are contiguous group sizes (see the previous guard).
+            // Therefore this is an invalid arrangement.
+            result = 0L;
+        } else if (contiguousGroupSizes.isEmpty()) {
+            // There are damaged springs (see the first guard).
+            // Therefore this is an invalid arrangement.
+            result = 0L;
+        } else if (springs.getFirst() == Condition.OPERATIONAL) {
+            // We can just ignore this spring. Inspect the rest of the row.
+            result = dropFirstSpring().countArrangements();
+        } else {
+            var firstSpring = springs.getFirst(); // Could be damaged or unknown (see the previous guard).
+            var firstContiguousGroupSize = contiguousGroupSizes.getFirst().intValue();
+            if (springs.subList(0, firstContiguousGroupSize).contains(Condition.OPERATIONAL)) {
+                // This group cannot start here.
+                result = switch(firstSpring) {
+                    case DAMAGED -> 0L; // Invalid record.
+                    case UNKNOWN -> dropFirstSpring().countArrangements(); // First spring must be operational.
+                    case OPERATIONAL -> throw new IllegalStateException("Unexpected operational string found at the start of " + this); // Should be prevented by earlier checks
+                    default -> throw new IllegalStateException("Unexpected condition: " + firstSpring);
+                };
+            } else {
+                // The group could start here.
+                result = 0L; // TODO implement the rest of this case!
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * @return condition record without taking the first spring into consideration
+     */
+    private ConditionRecord dropFirstSpring() {
+        if (springs.isEmpty()) {
+            throw new NoSuchElementException("No springs available.");
+        }
+        if (springs().getFirst() == Condition.DAMAGED) {
+            throw new IllegalStateException("Unable to drop damaged spring without matching it to a group. " + this);
+        }
+        return new ConditionRecord(springs.subList(1, springs.size()), contiguousGroupSizes);
     }
 }
