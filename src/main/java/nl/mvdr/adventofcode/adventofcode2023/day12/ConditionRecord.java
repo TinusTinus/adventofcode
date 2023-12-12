@@ -62,7 +62,20 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
         } else {
             var firstSpring = springs.getFirst(); // Could be damaged or unknown (see the previous guard).
             if (couldStartWithContiguousGroup()) {
-                result = 0L; // TODO
+                var groupSize = contiguousGroupSizes.getFirst().intValue();
+                if (springs.size() == groupSize) {
+                    result = 1L;
+                } else {
+                    // Compute the number of valid arrangements, assuming the contiguous group does start here.
+                    var newSprings = springs.subList(groupSize + 1, springs.size());
+                    var newGroupSizes = contiguousGroupSizes.subList(1, contiguousGroupSizes.size());
+                    result = new ConditionRecord(newSprings, newGroupSizes).countArrangements();
+                    
+                    if (firstSpring == Condition.UNKNOWN) {
+                        // The first spring could also be operational.
+                        result = result + dropFirstSpring().countArrangements();
+                    }
+                }
             } else {
                 // No contiguous group can start here.
                 result = switch(firstSpring) {
