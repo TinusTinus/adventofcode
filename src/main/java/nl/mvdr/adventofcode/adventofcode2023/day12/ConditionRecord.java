@@ -61,24 +61,44 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
             result = dropFirstSpring().countArrangements();
         } else {
             var firstSpring = springs.getFirst(); // Could be damaged or unknown (see the previous guard).
-            var firstContiguousGroupSize = contiguousGroupSizes.getFirst().intValue();
-            if (springs.subList(0, firstContiguousGroupSize).contains(Condition.OPERATIONAL)) {
-                // This group cannot start here.
+            if (couldStartWithContiguousGroup()) {
+                result = 0L; // TODO
+            } else {
+                // No contiguous group can start here.
                 result = switch(firstSpring) {
                     case DAMAGED -> 0L; // Invalid record.
                     case UNKNOWN -> dropFirstSpring().countArrangements(); // First spring must be operational.
                     case OPERATIONAL -> throw new IllegalStateException("Unexpected operational string found at the start of " + this); // Should be prevented by earlier checks
                     default -> throw new IllegalStateException("Unexpected condition: " + firstSpring);
                 };
-            } else {
-                // The group could start here.
-                result = 0L; // TODO implement the rest of this case!
             }
         }
         
         return result;
     }
     
+    /**
+     * @return whether the first springs of this record could potentially form a contiguous group of damanged springs
+     */
+    private boolean couldStartWithContiguousGroup() {
+        boolean result;
+        if (contiguousGroupSizes.isEmpty()) {
+            result = false;
+        } else {
+            var groupSize = contiguousGroupSizes.getFirst().intValue();
+            if (springs.size() < groupSize) {
+                result = false;
+            } else {
+                var potentialGroup = springs.subList(0, groupSize);
+                result = !potentialGroup.contains(Condition.OPERATIONAL);
+                if (groupSize < springs.size()) {
+                    result = result && springs.get(groupSize) != Condition.DAMAGED;
+                }
+            }
+        }
+        return result;
+    }
+
     /**
      * @return condition record without taking the first spring into consideration
      */
