@@ -327,6 +327,13 @@ public record Point(int x, int y) implements Comparable<Point> {
     }
     
     /**
+     * @return this point with its x and y coordinates swapped
+     */
+    public Point transpose() {
+        return new Point(y, x);
+    }
+    
+    /**
      * Parses a range for a single coordinate, for example: "48" (meaning just the value 48) or "23..27" (meaning the values 23, 24, 25, 26, 27).
      * 
      * @param line text to be parsed

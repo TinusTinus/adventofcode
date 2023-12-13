@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.OptionalInt;
+import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -66,19 +68,36 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
         return new Pattern(map, width, height);
     }
     
+    /**
+     * @return number of columns to the left of the vertical mirror in this pattern
+     */
     private OptionalInt findVerticalMirror() {
         return OptionalInt.empty(); // TODO implement
     }
     
+    /**
+     * @return number of rows above the horizontal mirror in this pattern
+     */
     private OptionalInt findHorizontalMirror() {
-        return OptionalInt.empty(); // TODO implement (possibly by just transposing and reusing findVerticalMirror?)
+        return transpose().findVerticalMirror();
     }
     
     /**
-     * @return summary of this pattern's notes (that is, info about the mirror's location)
+     * @return transposed version of this pattern
+     */
+    private Pattern transpose() {
+        var transposedMap = map.entrySet()
+                .stream()
+                .collect(Collectors.toMap(entry -> entry.getKey().transpose(), Entry::getValue));
+        return new Pattern(transposedMap, height, width);
+    }
+    
+    /**
+     * @return summary of this pattern's notes; that is, info about the mirror's location
      */
     int summarize() {
         return findVerticalMirror()
-                .orElseGet(() -> 100 * findHorizontalMirror().orElseThrow(() -> new IllegalStateException("No mirror found.")));
+                .orElseGet(() -> 100 * findHorizontalMirror()
+                        .orElseThrow(() -> new IllegalStateException("No mirror found!")));
     }
 }
