@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -72,7 +73,21 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
      * @return number of columns to the left of the vertical mirror in this pattern
      */
     private OptionalInt findVerticalMirror() {
-        return OptionalInt.empty(); // TODO implement
+        return IntStream.range(1, width - 1)
+                .filter(this::mirrorsVerticallyAt)
+                .findAny();
+    }
+    
+    /**
+     * Checks whether there is a vertical mirror at the given index.
+     * 
+     * That is, whether all columns left of the given index are a mirror image of all columns right of the given index.
+     * 
+     * @param index index to inspect
+     * @return whether there is a mirror at the given index
+     */
+    private boolean mirrorsVerticallyAt(int index) {
+        return false; // TODO implement
     }
     
     /**
