@@ -87,7 +87,11 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
      * @return whether there is a mirror at the given index
      */
     private boolean mirrorsVerticallyAt(int index) {
-        return false; // TODO implement
+        return map.keySet()
+                .stream()
+                .filter(point -> index <= point.x())
+                .filter(point -> 0 <= index - (point.x() - index))
+                .allMatch(point -> map.get(point) == map.get(new Point(index - (point.x() - index), point.y())));
     }
     
     /**
