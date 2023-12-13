@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/13">?</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/13">Point of Incidence</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class Day13Part1 implements IntSolver {
+public class PointOfIncidencePart1 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Day13Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointOfIncidencePart1.class);
 
     @Override
     public int solve(Stream<String> lines) {
@@ -27,7 +27,7 @@ public class Day13Part1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new Day13Part1();
+        var instance = new PointOfIncidencePart1();
 
         var result = instance.solve("input-day13-2023.txt");
 
