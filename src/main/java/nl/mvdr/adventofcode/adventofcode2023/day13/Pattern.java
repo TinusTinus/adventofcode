@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -63,5 +64,21 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
         }
         
         return new Pattern(map, width, height);
+    }
+    
+    private OptionalInt findVerticalMirror() {
+        return OptionalInt.empty(); // TODO implement
+    }
+    
+    private OptionalInt findHorizontalMirror() {
+        return OptionalInt.empty(); // TODO implement (possibly by just transposing and reusing findVerticalMirror?)
+    }
+    
+    /**
+     * @return summary of this pattern's notes (that is, info about the mirror's location)
+     */
+    int summarize() {
+        return findVerticalMirror()
+                .orElseGet(() -> 100 * findHorizontalMirror().orElseThrow(() -> new IllegalStateException("No mirror found.")));
     }
 }
