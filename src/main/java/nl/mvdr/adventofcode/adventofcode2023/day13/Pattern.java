@@ -108,9 +108,9 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     private boolean mirrorsVerticallyAt(int index, int smudges) {
         var differences = IntStream.range(0, width - index)
                 .filter(offset -> 0 <= index - offset - 1)
-                .filter(offset -> getColumn(index + offset) != getColumn(index - offset - 1))
+                .filter(offset -> !getColumn(index + offset).equals(getColumn(index - offset - 1))) // TODO no, if smudges == 1, this checks that 1 column does not match.
                 .count();
-        return differences == smudges;
+        return differences == 0;
     }
 
     /**
