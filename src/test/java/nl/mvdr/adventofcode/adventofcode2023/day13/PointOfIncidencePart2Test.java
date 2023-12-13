@@ -22,6 +22,6 @@ public class PointOfIncidencePart2Test extends SolverTest<PointOfIncidencePart2>
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("400", "example-day13-2023.txt"),
-                Arguments.of("?", "input-day13-2023.txt"));
+                Arguments.of("34795", "input-day13-2023.txt"));
     }
 }
