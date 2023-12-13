@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day13;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,11 +88,24 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
      * @return whether there is a mirror at the given index
      */
     private boolean mirrorsVerticallyAt(int index) {
-        return map.keySet()
+        return IntStream.range(0, width - index)
+                .filter(offset -> 0 <= index - offset - 1)
+                .allMatch(offset -> getColumn(index + offset).equals(getColumn(index - offset - 1)));
+    }
+
+    /**
+     * Gets the column with the given x coordinate.
+     * 
+     * @param x coordinate
+     * @return column of values
+     */
+    private List<Terrain> getColumn(int x) {
+        return map.entrySet()
                 .stream()
-                .filter(point -> index <= point.x())
-                .filter(point -> 0 <= index - (point.x() - index))
-                .allMatch(point -> map.get(point) == map.get(new Point(index - (point.x() - index), point.y())));
+                .filter(entry -> entry.getKey().x() == x)
+                .sorted(Comparator.comparing(Entry::getKey))
+                .map(Entry::getValue)
+                .toList();
     }
     
     /**
