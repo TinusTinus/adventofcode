@@ -22,6 +22,6 @@ public class PointOfIncidencePart1Test extends SolverTest<PointOfIncidencePart1>
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("405", "example-day13-2023.txt"),
-                Arguments.of("?", "input-day13-2023.txt")); // 22777 is too low!
+                Arguments.of("35521", "input-day13-2023.txt"));
     }
 }

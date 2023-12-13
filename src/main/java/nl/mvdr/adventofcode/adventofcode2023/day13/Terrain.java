@@ -22,10 +22,21 @@ enum Terrain {
         this.representation = representation;
     }
     
+    /**
+     * Finds the terrain represented by the given character.
+     * 
+     * @param representation single-character representation of terrain
+     * @return terrain
+     */
     static Terrain of(char representation) {
         return Stream.of(values())
                 .filter(terrain -> terrain.representation == representation)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Not a valid terrain: " + representation));
+    }
+    
+    @Override
+    public String toString() {
+        return "" + representation;
     }
 }

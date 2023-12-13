@@ -9,6 +9,9 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -17,6 +20,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Pattern(Map<Point, Terrain> map, int width, int height) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Pattern.class);
     
     /**
      * Parses the string representation of a list of patterns.
@@ -73,7 +78,7 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
      * @return indexes of any vertical mirrors in the input
      */
     private IntStream findVerticalMirrors() {
-        return IntStream.range(1, width - 1)
+        return IntStream.range(1, width)
                 .filter(this::mirrorsVerticallyAt);
     }
     
@@ -129,6 +134,26 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     int summarize() {
         var verticalMirrorScore = findVerticalMirrors().sum();
         var horizontalMirrorScore = findHorizontalMirrors().map(i -> i * 100).sum();
-        return verticalMirrorScore + horizontalMirrorScore;
+        int result = verticalMirrorScore + horizontalMirrorScore;
+        
+        if (result == 0) {
+            LOGGER.warn("No mirrors found for {}", this);
+        } else {
+            LOGGER.debug("Summary: {} for {}", Integer.valueOf(result), this);
+        }
+        
+        return result;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Pattern:");
+        for (var y = 0; y != height; y++) {
+            builder.append("\n");
+            for (var x = 0; x != width; x++) {
+                builder.append(map.get(new Point(x, y)));
+            }
+        }
+        return builder.toString();
     }
 }
