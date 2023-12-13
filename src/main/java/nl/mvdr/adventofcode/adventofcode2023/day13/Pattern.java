@@ -6,11 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -20,8 +18,6 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Pattern(Map<Point, Terrain> map, int width, int height) {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(Pattern.class);
     
     /**
      * Parses the string representation of a list of patterns.
@@ -75,6 +71,13 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     }
     
     /**
+     * @return number of columns to the left of the vertical mirror in this pattern
+     */
+    private OptionalInt findVerticalMirror() {
+        return findVerticalMirrors().findAny();
+    }
+    
+    /**
      * @return indexes of any vertical mirrors in the input
      */
     private IntStream findVerticalMirrors() {
@@ -112,10 +115,10 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     }
     
     /**
-     * @return indexes of any horizontal mirrors in the input
+     * @return number of rows above the horizontal mirror in this pattern
      */
-    private IntStream findHorizontalMirrors() {
-        return transpose().findVerticalMirrors();
+    private OptionalInt findHorizontalMirror() {
+        return transpose().findVerticalMirror();
     }
     
     /**
@@ -132,17 +135,9 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
      * @return summary of this pattern's notes; that is, info about the mirror's location
      */
     int summarize() {
-        var verticalMirrorScore = findVerticalMirrors().sum();
-        var horizontalMirrorScore = findHorizontalMirrors().map(i -> i * 100).sum();
-        int result = verticalMirrorScore + horizontalMirrorScore;
-        
-        if (result == 0) {
-            LOGGER.warn("No mirrors found for {}", this);
-        } else {
-            LOGGER.debug("Summary: {} for {}", Integer.valueOf(result), this);
-        }
-        
-        return result;
+        return findVerticalMirror()
+                .orElseGet(() -> 100 * findHorizontalMirror()
+                        .orElseThrow(() -> new IllegalStateException("No mirror found in " + this)));
     }
     
     @Override
