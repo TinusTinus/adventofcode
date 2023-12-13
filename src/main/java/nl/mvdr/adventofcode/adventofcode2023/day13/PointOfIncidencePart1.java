@@ -18,6 +18,8 @@ public class PointOfIncidencePart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
+        var patterns = Pattern.parse(lines.toList());
+        
         return 0; // TODO
     }
 
