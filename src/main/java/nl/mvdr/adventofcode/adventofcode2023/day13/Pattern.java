@@ -10,6 +10,9 @@ import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -18,6 +21,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Pattern(Map<Point, Terrain> map, int width, int height) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Pattern.class);
     
     /**
      * Parses the string representation of a list of patterns.
@@ -71,18 +76,24 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     }
     
     /**
+     * Finds the vertical mirror.
+     * 
+     * @param smudges number of smudges on the mirror
      * @return number of columns to the left of the vertical mirror in this pattern
      */
-    private OptionalInt findVerticalMirror() {
-        return findVerticalMirrors().findAny();
+    private OptionalInt findVerticalMirror(int smudges) {
+        return findVerticalMirrors(smudges).findAny();
     }
     
     /**
+     * Finds any vertical mirrors.
+     * 
+     * @param smudges number of smudges on the mirror
      * @return indexes of any vertical mirrors in the input
      */
-    private IntStream findVerticalMirrors() {
+    private IntStream findVerticalMirrors(int smudges) {
         return IntStream.range(1, width)
-                .filter(this::mirrorsVerticallyAt);
+                .filter(x -> mirrorsVerticallyAt(x, smudges));
     }
     
     /**
@@ -91,12 +102,15 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
      * That is, whether all columns left of the given index are a mirror image of all columns right of the given index.
      * 
      * @param index index to inspect
+     * @param smudges number of smudges on the mirror
      * @return whether there is a mirror at the given index
      */
-    private boolean mirrorsVerticallyAt(int index) {
-        return IntStream.range(0, width - index)
+    private boolean mirrorsVerticallyAt(int index, int smudges) {
+        var differences = IntStream.range(0, width - index)
                 .filter(offset -> 0 <= index - offset - 1)
-                .allMatch(offset -> getColumn(index + offset).equals(getColumn(index - offset - 1)));
+                .filter(offset -> getColumn(index + offset) != getColumn(index - offset - 1))
+                .count();
+        return differences == smudges;
     }
 
     /**
@@ -115,10 +129,13 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     }
     
     /**
+     * Finds the horizontal mirror.
+     * 
+     * @param smudges number of smudges on the mirror
      * @return number of rows above the horizontal mirror in this pattern
      */
-    private OptionalInt findHorizontalMirror() {
-        return transpose().findVerticalMirror();
+    private OptionalInt findHorizontalMirror(int smudges) {
+        return transpose().findVerticalMirror(smudges);
     }
     
     /**
@@ -132,12 +149,17 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     }
     
     /**
+     * Summarizes this pattern.
+     * 
+     * @param smudges number of smudges on the mirror
      * @return summary of this pattern's notes; that is, info about the mirror's location
      */
-    int summarize() {
-        return findVerticalMirror()
-                .orElseGet(() -> 100 * findHorizontalMirror()
+    int summarize(int smudges) {
+        var result = findVerticalMirror(smudges)
+                .orElseGet(() -> 100 * findHorizontalMirror(smudges)
                         .orElseThrow(() -> new IllegalStateException("No mirror found in " + this)));
+        LOGGER.debug("Summary: {} for {}", Integer.valueOf(result), this);
+        return result;
     }
     
     @Override

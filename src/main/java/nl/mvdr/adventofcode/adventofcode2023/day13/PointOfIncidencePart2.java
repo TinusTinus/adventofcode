@@ -10,13 +10,13 @@ import nl.mvdr.adventofcode.Solver;
  *
  * @author Martijn van de Rijdt
  */
-public class PointOfIncidencePart1 implements Solver {
+public class PointOfIncidencePart2 implements Solver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PointOfIncidencePart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointOfIncidencePart2.class);
 
     @Override
     public String solve(String inputfile) {
-        return new PointOfIncidence(0).solve(inputfile);
+        return new PointOfIncidence(1).solve(inputfile);
     }
 
     /**
@@ -25,7 +25,7 @@ public class PointOfIncidencePart1 implements Solver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new PointOfIncidencePart1();
+        var instance = new PointOfIncidencePart2();
 
         var result = instance.solve("input-day13-2023.txt");
 
