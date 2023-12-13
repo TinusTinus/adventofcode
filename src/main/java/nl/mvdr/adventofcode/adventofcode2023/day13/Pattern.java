@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -71,12 +70,11 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     }
     
     /**
-     * @return number of columns to the left of the vertical mirror in this pattern
+     * @return indexes of any vertical mirrors in the input
      */
-    private OptionalInt findVerticalMirror() {
+    private IntStream findVerticalMirrors() {
         return IntStream.range(1, width - 1)
-                .filter(this::mirrorsVerticallyAt)
-                .findAny();
+                .filter(this::mirrorsVerticallyAt);
     }
     
     /**
@@ -109,10 +107,10 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
     }
     
     /**
-     * @return number of rows above the horizontal mirror in this pattern
+     * @return indexes of any horizontal mirrors in the input
      */
-    private OptionalInt findHorizontalMirror() {
-        return transpose().findVerticalMirror();
+    private IntStream findHorizontalMirrors() {
+        return transpose().findVerticalMirrors();
     }
     
     /**
@@ -129,8 +127,8 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
      * @return summary of this pattern's notes; that is, info about the mirror's location
      */
     int summarize() {
-        return findVerticalMirror()
-                .orElseGet(() -> 100 * findHorizontalMirror()
-                        .orElseThrow(() -> new IllegalStateException("No mirror found!")));
+        var verticalMirrorScore = findVerticalMirrors().sum();
+        var horizontalMirrorScore = findHorizontalMirrors().map(i -> i * 100).sum();
+        return verticalMirrorScore + horizontalMirrorScore;
     }
 }
