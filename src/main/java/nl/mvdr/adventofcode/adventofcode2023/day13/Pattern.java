@@ -117,7 +117,7 @@ record Pattern(Map<Point, Terrain> map, int width, int height) {
      * 
      * @param column0 x coordinate of the first column
      * @param column1 x coordinate of the second column
-     * @return
+     * @return the number of differing values between the two columns
      */
     private int countDifferences(int column0, int column1) {
         return (int)IntStream.range(0, height)
