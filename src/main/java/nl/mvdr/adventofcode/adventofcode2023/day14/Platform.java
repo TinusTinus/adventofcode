@@ -128,10 +128,8 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
      * @return updated platform
      */
     Platform performCycles(int cycles) {
-        Platform previousPlatform = null;
         var result = this;
-        for (var i = 0; !result.equals(previousPlatform) && i != cycles; i++) {
-            previousPlatform = result;
+        for (var i = 0; i != cycles; i++) {
             result = result.performCycle();
         }
         return result;
