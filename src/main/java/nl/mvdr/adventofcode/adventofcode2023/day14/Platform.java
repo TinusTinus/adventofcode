@@ -56,6 +56,7 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
     /**
      * Tilts the platform so that all rounded rocks shift in the given direction as far as they will go.
      * 
+     * @param direction the direction to tilt in (where north = UP, etc.)
      * @return updated platform
      */
     private Platform tiltAllTheWay(Direction direction) {
@@ -63,25 +64,16 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
         var result = previousPlatform.tilt(direction);
         while (!previousPlatform.equals(result)) {
             previousPlatform = result;
-            result = previousPlatform.tiltNorth();
+            result = previousPlatform.tilt(direction);
         }
         return result;
-    }
-    
-    /**
-     * Briefly tilts the platform, so that all rounded rocks shift north one step
-     * (unless blocked by a different rock or the northern edge).
-     * 
-     * @return updated platform
-     */
-    private Platform tiltNorth() {
-        return tilt(Direction.UP);
     }
     
     /**
      * Briefly tilts the platform, so that all rounded rocks shift one step in the given direction
      * (unless blocked by a different rock or the northern edge).
      * 
+     * @param direction the direction to tilt in (where north = UP, etc.)
      * @return updated platform
      */
     private Platform tilt(Direction direction) {
@@ -108,6 +100,7 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
      * Moves a rounded rock one position in the given direction, if possible.
      * 
      * @param roundedRock current position of the rounded rock
+     * @param direction the direction to tilt in (where north = UP, etc.)
      * @param newRoundedRocks new position of other rounded rocks
      *      (note: these must include all rounded rocks which started further in the given direction that this one!)
      * @return new position of the given rock
@@ -129,11 +122,9 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
     }
     
     /**
-     * Computes the load on the north support beam,
-     * assuming that this platform has already been tilted so that all rocks roll north.
+     * Computes the load on the north support beam.
      * 
      * @return load on the north support beam
-     * @see #tiltNorthAllTheWay()
      */
     int computeLoad() {
         return roundedRocks.stream()
