@@ -82,9 +82,24 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
      * @return new position of the given rock
      */
     private Point moveNorthIfPossible(Point roundedRock, Set<Point> newRoundedRocks) {
+        return moveIfPossible(roundedRock, Direction.UP, newRoundedRocks);
+    }
+    
+    /**
+     * Moves a rounded rock one position in the given direction, if possible.
+     * 
+     * @param roundedRock current position of the rounded rock
+     * @param newRoundedRocks new position of other rounded rocks
+     *      (note: these must include all rounded rocks which started further in the given direction that this one!)
+     * @return new position of the given rock
+     */
+    private Point moveIfPossible(Point roundedRock, Direction direction, Set<Point> newRoundedRocks) {
         Point newPosition;
-        var candidatePosition = Direction.UP.move(roundedRock);
-        if (candidatePosition.y() < 0 // blocked by north edge?
+        var candidatePosition = direction.move(roundedRock);
+        if (candidatePosition.x() < 0 // blocked by west edge?
+                || width <= candidatePosition.x() // blocked by east edge?
+                || candidatePosition.y() < 0 // blocked by north edge?
+                || height <= candidatePosition.y() // blocked by south edge? 
                 || cubeRocks.contains(candidatePosition) // blocked by cube rock?
                 || newRoundedRocks.contains(candidatePosition)) { // blocked by another rounded rock?
             newPosition = roundedRock;
