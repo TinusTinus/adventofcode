@@ -122,6 +122,34 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
     }
     
     /**
+     * Performs the given number of cycles.
+     * 
+     * @param cycles number of cycles
+     * @return updated platform
+     */
+    Platform performCycles(int cycles) {
+        var result = this;
+        for (var i = 0; i != cycles; i++) {
+            result = result.performCycle();
+        }
+        return result;
+    }
+    
+    /**
+     * Performs a single cycle.
+     * 
+     * @return updated platform
+     */
+    private Platform performCycle() {
+        var result = this;
+        result = result.tiltAllTheWay(Direction.UP); // Tilt north
+        result = result.tiltAllTheWay(Direction.LEFT); // Tilt west
+        result = result.tiltAllTheWay(Direction.DOWN); // Tilt south
+        result = result.tiltAllTheWay(Direction.RIGHT); // Tilt east
+        return result;
+    }
+    
+    /**
      * Computes the load on the north support beam.
      * 
      * @return load on the north support beam

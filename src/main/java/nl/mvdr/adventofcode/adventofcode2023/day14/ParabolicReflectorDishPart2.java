@@ -19,7 +19,7 @@ public class ParabolicReflectorDishPart2 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var platform = Platform.parse(lines.toList());
-        // TODO perform 1000000000 cycles
+        platform = platform.performCycles(1_000_000_000);
         return platform.computeLoad();
     }
 

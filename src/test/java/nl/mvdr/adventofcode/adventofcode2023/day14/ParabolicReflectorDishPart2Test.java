@@ -7,15 +7,15 @@ import org.junit.jupiter.params.provider.Arguments;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link ParabolicReflectorDishPart1}.
+ * Unit test cases for {@link ParabolicReflectorDishPart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class ParabolicReflectorDishPart2Test extends SolverTest<ParabolicReflectorDishPart1> {
+public class ParabolicReflectorDishPart2Test extends SolverTest<ParabolicReflectorDishPart2> {
 
     /** Constructor. */
     public ParabolicReflectorDishPart2Test() {
-        super(ParabolicReflectorDishPart1.class);
+        super(ParabolicReflectorDishPart2.class);
     }
     
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
