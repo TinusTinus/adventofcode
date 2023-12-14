@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day14;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,26 +66,35 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
      * @return updated platform
      */
     private Platform tiltNorth() {
+        return tilt(Direction.UP);
+    }
+    
+    /**
+     * Briefly tilts the platform, so that all rounded rocks shift one step in the given direction
+     * (unless blocked by a different rock or the northern edge).
+     * 
+     * @return updated platform
+     */
+    private Platform tilt(Direction direction) {
         Set<Point> newRoundedRocks = new HashSet<>();
         
+        // Determine in which order to consider rocks.
+        Comparator<Point> comparator =
+                switch(direction) {
+                    case UP -> Comparator.comparing(Point::y).thenComparing(Point::x);
+                    case LEFT -> Comparator.comparing(Point::x).thenComparing(Point::y);
+                    case DOWN -> Comparator.comparing(Point::y).reversed().thenComparing(Point::x);
+                    case RIGHT -> Comparator.comparing(Point::x).reversed().thenComparing(Point::y);
+                    case DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT -> throw new IllegalArgumentException("Unsupported diagonal direction: " + direction);
+                    default -> throw new IllegalArgumentException("Unexpected direction: " + direction);
+                };
         roundedRocks.stream()
-                .sorted() // Consider rouded rocks in order, north-to-south
-                .map(roundedRock -> moveNorthIfPossible(roundedRock, newRoundedRocks))
+                .sorted(comparator)
+                .map(roundedRock -> moveIfPossible(roundedRock, direction, newRoundedRocks))
                 .forEach(newRoundedRocks::add);
         return new Platform(newRoundedRocks, cubeRocks, width, height);
     }
 
-    /**
-     * Moves a rounded rock one position north, if possible.
-     * 
-     * @param roundedRock current position of the rounded rock
-     * @param newRoundedRocks new position of other rounded rocks (including all rounded rocks which started north of this one!)
-     * @return new position of the given rock
-     */
-    private Point moveNorthIfPossible(Point roundedRock, Set<Point> newRoundedRocks) {
-        return moveIfPossible(roundedRock, Direction.UP, newRoundedRocks);
-    }
-    
     /**
      * Moves a rounded rock one position in the given direction, if possible.
      * 
