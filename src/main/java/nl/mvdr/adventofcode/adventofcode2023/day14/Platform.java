@@ -47,6 +47,24 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
         return new Platform(roundedRocks, cubeRocks, width, height);
     }
     
+
+    /**
+     * Finds the key associated with the given value.
+     * 
+     * @param map map
+     * @param value value to search for
+     * @return accompanying key
+     */
+    private static <K, V> K findKey(Map<K, V> map, V value) {
+        return map
+                .entrySet()
+                .stream()
+                .filter(entry -> value.equals(entry.getValue()))
+                .map(Entry::getKey)
+                .findFirst()
+                .orElseThrow();
+    }
+    
     /**
      * Tilts the platform so that all rounded rocks shift north as far as they will go.
      * 
@@ -156,23 +174,6 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
             result = previousStates.get(Integer.valueOf(firstOccurrence + remainingCycles % repeatingPatternLength));
         }
         return result;
-    }
-
-    /**
-     * Finds the key associated with the given value.
-     * 
-     * @param map map
-     * @param value value to search for
-     * @return accompanying key
-     */
-    private static <K, V> K findKey(Map<K, V> map, V value) {
-        return map
-                .entrySet()
-                .stream()
-                .filter(entry -> value.equals(entry.getValue()))
-                .map(Entry::getKey)
-                .findFirst()
-                .orElseThrow();
     }
     
     /**
