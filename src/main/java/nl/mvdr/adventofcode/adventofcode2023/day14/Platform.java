@@ -136,19 +136,26 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
         // This will let us detect repeating patterns.
         Map<Integer, Platform> previousStates = new HashMap<>();
         
-        var result = this;
+        var platform = this;
         var i = 0;
-        while(!previousStates.containsValue(result)) {
-            previousStates.put(Integer.valueOf(i), result);
-            result = result.performCycle();
+        while(!previousStates.containsValue(platform) && i < cycles) {
+            previousStates.put(Integer.valueOf(i), platform);
+            platform = platform.performCycle();
             i++;
         }
         
-        // Repeating pattern detected.
-        var firstOccurrence = findKey(previousStates, result).intValue();
-        var repeatingPatternLength = i - firstOccurrence;
-        var remainingCycles = cycles - i;
-        return previousStates.get(Integer.valueOf(firstOccurrence + remainingCycles % repeatingPatternLength));
+        Platform result;
+        if (i == cycles) {
+            // Performed all cycles.
+            result = platform;
+        } else {
+            // Repeating pattern detected.
+            var firstOccurrence = findKey(previousStates, platform).intValue();
+            var repeatingPatternLength = i - firstOccurrence;
+            var remainingCycles = cycles - i;
+            result = previousStates.get(Integer.valueOf(firstOccurrence + remainingCycles % repeatingPatternLength));
+        }
+        return result;
     }
 
     /**
