@@ -50,8 +50,17 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
      * @return updated platform
      */
     Platform tiltNorthAllTheWay() {
+        return tiltAllTheWay(Direction.UP);
+    }
+    
+    /**
+     * Tilts the platform so that all rounded rocks shift in the given direction as far as they will go.
+     * 
+     * @return updated platform
+     */
+    private Platform tiltAllTheWay(Direction direction) {
         var previousPlatform = this;
-        var result = previousPlatform.tiltNorth();
+        var result = previousPlatform.tilt(direction);
         while (!previousPlatform.equals(result)) {
             previousPlatform = result;
             result = previousPlatform.tiltNorth();
