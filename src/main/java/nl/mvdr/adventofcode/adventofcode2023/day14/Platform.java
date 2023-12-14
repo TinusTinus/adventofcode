@@ -1,9 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2023.day14;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -14,6 +19,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int height) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Platform.class);
     
     /**
      * Parses a string representation of a platform.
@@ -128,11 +135,29 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
      * @return updated platform
      */
     Platform performCycles(int cycles) {
+        // Keep a map of platform state -> number of cycles.
+        // This way we can keep track of which states of the platform we've already encountered.
+        // This will let us detect repeating patterns.
+        Map<Platform, Integer> previousStates = new HashMap<>();
+        
         var result = this;
-        for (var i = 0; i != cycles; i++) {
+        var i = 0;
+        while(!previousStates.containsKey(result)) {
+            previousStates.put(result, Integer.valueOf(i));
             result = result.performCycle();
+            i++;
         }
-        return result;
+        
+        LOGGER.debug("Repeating pattern detected. Platform after {} cycles is equal to the one after {} cycles.",
+                previousStates.get(result), Integer.valueOf(i));
+        
+        var firstOccurrence = previousStates.get(result).intValue();
+        var repeatingPatternLength = i - firstOccurrence;
+        
+        var remainingCycles = cycles - i;
+        
+        // TODO previousStates.get(firstOccurrence + remainingCycles % repeatingPatternLength); // TODO no
+        return result; // TODO fix
     }
     
     /**
