@@ -47,6 +47,24 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
         return new Platform(roundedRocks, cubeRocks, width, height);
     }
     
+
+    /**
+     * Finds the key associated with the given value.
+     * 
+     * @param map map
+     * @param value value to search for
+     * @return accompanying key
+     */
+    private static <K, V> K findKey(Map<K, V> map, V value) {
+        return map
+                .entrySet()
+                .stream()
+                .filter(entry -> value.equals(entry.getValue()))
+                .map(Entry::getKey)
+                .findFirst()
+                .orElseThrow();
+    }
+    
     /**
      * Tilts the platform so that all rounded rocks shift north as far as they will go.
      * 
@@ -136,36 +154,26 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
         // This will let us detect repeating patterns.
         Map<Integer, Platform> previousStates = new HashMap<>();
         
-        var result = this;
+        var platform = this;
         var i = 0;
-        while(!previousStates.containsValue(result)) {
-            previousStates.put(Integer.valueOf(i), result);
-            result = result.performCycle();
+        while (!previousStates.containsValue(platform) && i < cycles) {
+            previousStates.put(Integer.valueOf(i), platform);
+            platform = platform.performCycle();
             i++;
         }
         
-        // Repeating pattern detected.
-        var firstOccurrence = findKey(previousStates, result).intValue();
-        var repeatingPatternLength = i - firstOccurrence;
-        var remainingCycles = cycles - i;
-        return previousStates.get(Integer.valueOf(firstOccurrence + remainingCycles % repeatingPatternLength));
-    }
-
-    /**
-     * Finds the key associated with the given value.
-     * 
-     * @param map map
-     * @param value value to search for
-     * @return accompanying key
-     */
-    private static <K, V> K findKey(Map<K, V> map, V value) {
-        return map
-                .entrySet()
-                .stream()
-                .filter(entry -> value.equals(entry.getValue()))
-                .map(Entry::getKey)
-                .findFirst()
-                .orElseThrow();
+        Platform result;
+        if (i == cycles) {
+            // Performed all cycles.
+            result = platform;
+        } else {
+            // Repeating pattern detected.
+            var firstOccurrence = findKey(previousStates, platform).intValue();
+            var repeatingPatternLength = i - firstOccurrence;
+            var remainingCycles = cycles - i;
+            result = previousStates.get(Integer.valueOf(firstOccurrence + remainingCycles % repeatingPatternLength));
+        }
+        return result;
     }
     
     /**
