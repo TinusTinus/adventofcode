@@ -18,6 +18,8 @@ public class ParabolicReflectorDishPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
+        var platform = Platform.parse(lines.toList());
+        
         return 0; // TODO
     }
 
