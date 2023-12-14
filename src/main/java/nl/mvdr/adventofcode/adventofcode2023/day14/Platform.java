@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -19,8 +17,6 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int height) {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(Platform.class);
     
     /**
      * Parses a string representation of a platform.
@@ -135,29 +131,41 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
      * @return updated platform
      */
     Platform performCycles(int cycles) {
-        // Keep a map of platform state -> number of cycles.
+        // Keep a map of number of cycles -> platform state.
         // This way we can keep track of which states of the platform we've already encountered.
         // This will let us detect repeating patterns.
-        Map<Platform, Integer> previousStates = new HashMap<>();
+        Map<Integer, Platform> previousStates = new HashMap<>();
         
         var result = this;
         var i = 0;
-        while(!previousStates.containsKey(result)) {
-            previousStates.put(result, Integer.valueOf(i));
+        while(!previousStates.containsValue(result)) {
+            previousStates.put(Integer.valueOf(i), result);
             result = result.performCycle();
             i++;
         }
         
-        LOGGER.debug("Repeating pattern detected. Platform after {} cycles is equal to the one after {} cycles.",
-                previousStates.get(result), Integer.valueOf(i));
-        
-        var firstOccurrence = previousStates.get(result).intValue();
+        // Repeating pattern detected.
+        var firstOccurrence = findKey(previousStates, result).intValue();
         var repeatingPatternLength = i - firstOccurrence;
-        
         var remainingCycles = cycles - i;
-        
-        // TODO previousStates.get(firstOccurrence + remainingCycles % repeatingPatternLength); // TODO no
-        return result; // TODO fix
+        return previousStates.get(Integer.valueOf(firstOccurrence + remainingCycles % repeatingPatternLength));
+    }
+
+    /**
+     * Finds the key associated with the given value.
+     * 
+     * @param map map
+     * @param value value to search for
+     * @return accompanying key
+     */
+    private static <K, V> K findKey(Map<K, V> map, V value) {
+        return map
+                .entrySet()
+                .stream()
+                .filter(entry -> value.equals(entry.getValue()))
+                .map(Entry::getKey)
+                .findFirst()
+                .orElseThrow();
     }
     
     /**
