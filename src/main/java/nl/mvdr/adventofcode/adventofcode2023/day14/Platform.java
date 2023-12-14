@@ -138,7 +138,7 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
         
         var platform = this;
         var i = 0;
-        while(!previousStates.containsValue(platform) && i < cycles) {
+        while (!previousStates.containsValue(platform) && i < cycles) {
             previousStates.put(Integer.valueOf(i), platform);
             platform = platform.performCycle();
             i++;
