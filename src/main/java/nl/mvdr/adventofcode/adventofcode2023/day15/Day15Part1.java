@@ -22,21 +22,10 @@ public class Day15Part1 implements IntSolver {
         var string = lines.collect(Collectors.joining()); // ignore any newlines
         var parts = string.split(",");
         return Stream.of(parts)
-                .mapToInt(Day15Part1::hash)
+                .mapToInt(Hash::hash)
                 .sum();
     }
     
-    /**
-     * Computes the hash of a string according to the puzzle rules.
-     * 
-     * @param string string to hash
-     * @return hash
-     */
-    private static int hash(String string) {
-        return string.chars()
-                .reduce(0, (currentValue, currentCharacter) -> ((currentValue + currentCharacter) * 17) % 256);
-    }
-
     /**
      * Main method.
      * 
