@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day15;
 
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -19,8 +20,16 @@ public class Day15Part2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
+        var boxes = new Box[HashAlgorithm.DIVISOR];
+        IntStream.range(0, HashAlgorithm.DIVISOR)
+                .forEach(i -> boxes[i] = new Box());
+
         var string = lines.collect(Collectors.joining()); // ignore any newlines
         var parts = string.split(",");
+        Stream.of(parts)
+                .map(Step::parse)
+                .forEach(step -> step.performStep(boxes));
+        
         return 0; // TODO implement
     }
     
