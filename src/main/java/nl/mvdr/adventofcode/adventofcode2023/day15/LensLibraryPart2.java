@@ -10,13 +10,13 @@ import org.slf4j.LoggerFactory;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
- * Solution to <a href="https://adventofcode.com/2023/day/15">?</a>.
+ * Solution to <a href="https://adventofcode.com/2023/day/15">Lens Library</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class Day15Part2 implements IntSolver {
+public class LensLibraryPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Day15Part2.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LensLibraryPart2.class);
 
     @Override
     public int solve(Stream<String> lines) {
@@ -41,7 +41,7 @@ public class Day15Part2 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new Day15Part2();
+        var instance = new LensLibraryPart2();
 
         var result = instance.solve("input-day15-2023.txt");
 
