@@ -20,8 +20,8 @@ public class Day15Part2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        var boxes = new Box[HashAlgorithm.DIVISOR];
-        IntStream.range(0, HashAlgorithm.DIVISOR)
+        var boxes = new Box[HashAlgorithm.NUMBER_OF_VALUES];
+        IntStream.range(0, HashAlgorithm.NUMBER_OF_VALUES)
                 .forEach(i -> boxes[i] = new Box());
 
         var string = lines.collect(Collectors.joining()); // ignore any newlines
