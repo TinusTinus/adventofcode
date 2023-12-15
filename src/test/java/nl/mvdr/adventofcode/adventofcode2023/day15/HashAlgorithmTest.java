@@ -17,7 +17,7 @@ import nl.mvdr.adventofcode.SolverTest;
 public class HashAlgorithmTest {
     
     /**
-     * Test case.
+     * Test case for {@link HashAlgorithm#hash(String)}.
      * 
      * @param expectedHash expected hash value
      * @param string string to be hashed
@@ -30,7 +30,7 @@ public class HashAlgorithmTest {
     }
     
     /**
-     * @return arguments for {@link SolverTest#testSolution(String, String)},
+     * @return arguments for {@link #testHash(int, String)},
      *      based on the examples from the puzzle input
      */
     @SuppressWarnings("boxing")
