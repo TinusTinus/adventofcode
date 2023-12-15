@@ -5,9 +5,9 @@ package nl.mvdr.adventofcode.adventofcode2023.day15;
  *
  * @author Martijn van de Rijdt
  */
-class Hash {
+class HashAlgorithm {
     /** Private constructor to prevent utility class instantiation. */
-    private Hash() {
+    private HashAlgorithm() {
         super();
     }
     

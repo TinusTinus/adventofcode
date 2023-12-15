@@ -22,7 +22,7 @@ public class Day15Part1 implements IntSolver {
         var string = lines.collect(Collectors.joining()); // ignore any newlines
         var parts = string.split(",");
         return Stream.of(parts)
-                .mapToInt(Hash::hash)
+                .mapToInt(HashAlgorithm::hash)
                 .sum();
     }
     

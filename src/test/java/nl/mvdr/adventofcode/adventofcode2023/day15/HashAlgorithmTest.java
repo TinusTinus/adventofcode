@@ -10,11 +10,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test class for {@link Hash}.
+ * Unit test class for {@link HashAlgorithm}.
  *
  * @author Martijn van de Rijdt
  */
-public class HashTest {
+public class HashAlgorithmTest {
     
     /**
      * Test case.
@@ -25,7 +25,7 @@ public class HashTest {
     @ParameterizedTest
     @MethodSource
     public void testHash(int expectedHash, String string) {
-        var hash = Hash.hash(string);
+        var hash = HashAlgorithm.hash(string);
         Assertions.assertEquals(expectedHash, hash);
     }
     
