@@ -20,9 +20,9 @@ public class LensLibraryPart2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        var boxes = new Box[HashAlgorithm.NUMBER_OF_VALUES];
-        IntStream.range(0, HashAlgorithm.NUMBER_OF_VALUES)
-                .forEach(i -> boxes[i] = new Box());
+        var boxes = IntStream.range(0, HashAlgorithm.NUMBER_OF_VALUES)
+                .mapToObj(i -> new Box())
+                .toArray(Box[]::new);
 
         var string = lines.collect(Collectors.joining()); // ignore any newlines
         var parts = string.split(",");
