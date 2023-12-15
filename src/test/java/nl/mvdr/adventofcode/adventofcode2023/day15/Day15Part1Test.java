@@ -21,7 +21,7 @@ public class Day15Part1Test extends SolverTest<Day15Part1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("?", "example-day15-2023.txt"),
-                Arguments.of("?", "input-day15-2023.txt"));
+                Arguments.of("1320", "example-day15-2023.txt"),
+                Arguments.of("513643", "input-day15-2023.txt"));
     }
 }

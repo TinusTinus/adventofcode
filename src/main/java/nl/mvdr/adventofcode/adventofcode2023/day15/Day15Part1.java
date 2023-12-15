@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day15;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -18,7 +19,22 @@ public class Day15Part1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TOOD
+        var string = lines.collect(Collectors.joining()); // ignore any newlines
+        var parts = string.split(",");
+        return Stream.of(parts)
+                .mapToInt(Day15Part1::hash)
+                .sum();
+    }
+    
+    /**
+     * Computes the hash of a string according to the puzzle rules.
+     * 
+     * @param string string to hash
+     * @return hash
+     */
+    private static int hash(String string) {
+        return string.chars()
+                .reduce(0, (currentValue, currentCharacter) -> ((currentValue + currentCharacter) * 17) % 256);
     }
 
     /**
