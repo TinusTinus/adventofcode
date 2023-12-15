@@ -30,7 +30,9 @@ public class Day15Part2 implements IntSolver {
                 .map(Step::parse)
                 .forEach(step -> step.performStep(boxes));
         
-        return 0; // TODO implement
+        return Stream.of(boxes)
+                .mapToInt(Box::focusingPower)
+                .sum();
     }
     
     /**

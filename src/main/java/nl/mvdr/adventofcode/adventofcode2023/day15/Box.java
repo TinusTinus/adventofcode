@@ -37,4 +37,13 @@ record Box(List<Lens> lenses) {
                         index -> lenses.set(index, lens), // replace the lens
                         () -> lenses.add(lens)); // add the lens
     }
+    
+    /**
+     * @return total focusing power of the lenses in this box
+     */
+    int focusingPower() {
+        return IntStream.range(0, lenses.size())
+                .map(i -> lenses.get(i).focusingPower(i + 1))
+                .sum();
+    }
 }

@@ -21,4 +21,14 @@ record Lens(String label, int focalLength) {
         var focalLength = Integer.parseInt(parts[1]);
         return new Lens(label, focalLength);
     }
+    
+    /**
+     * Determines the focusing power of this lens.
+     * 
+     * @param slotNumber slot number within the box; note that numbering starts at 1
+     */
+    int focusingPower(int slotNumber) {
+        var boxNumber = HashAlgorithm.hash(label);
+        return (1 + boxNumber) * slotNumber * focalLength;
+    }
 }
