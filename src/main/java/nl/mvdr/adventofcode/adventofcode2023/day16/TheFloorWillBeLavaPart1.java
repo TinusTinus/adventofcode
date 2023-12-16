@@ -5,19 +5,19 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/16">The Floor Will Be Lava</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class TheFloorWillBeLavaPart1 implements IntSolver {
+public class TheFloorWillBeLavaPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TheFloorWillBeLavaPart1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         var contraption = Contraption.parse(lines.toList());
         return contraption.energizedTiles();
     }

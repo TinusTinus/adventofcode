@@ -22,6 +22,6 @@ public class TheFloorWillBeLavaPart1Test extends SolverTest<TheFloorWillBeLavaPa
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("46", "example-day16-2023.txt"),
-                Arguments.of("?", "input-day16-2023.txt"));
+                Arguments.of("7543", "input-day16-2023.txt"));
     }
 }
