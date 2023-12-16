@@ -1,8 +1,10 @@
 package nl.mvdr.adventofcode.point;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -469,6 +471,20 @@ public record Point(int x, int y) implements Comparable<Point> {
         }
         
         return builder.toString();
+    }
+    
+    /**
+     * Helper method to parse puzzle input representing a two-dimensional map.
+     * 
+     * @param <T> value type in the resulting map
+     * @param lines lines, where each line represents a row in a two-dimensional map
+     * @param characterMapper how to map each character to an actual value
+     * @return map
+     */
+    public static final <T> Map<Point, T> parse2DMap(List<String> lines, CharacterMapper<T> characterMapper) {
+        Map<Point, T> result = new HashMap<>();
+        Point.parse2DMap(lines, (point, character) -> result.put(point, characterMapper.map(character)));
+        return result;
     }
     
     /**

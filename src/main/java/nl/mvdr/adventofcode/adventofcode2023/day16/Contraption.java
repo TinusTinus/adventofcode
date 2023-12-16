@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2023.day16;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +28,7 @@ record Contraption(Map<Point, Tile> tiles) {
      * @return contraption
      */
     static Contraption parse(List<String> lines) {
-        Map<Point, Tile> tiles = new HashMap<>();
-        Point.parse2DMap(lines, (location, character) -> tiles.put(location, Tile.of(character)));
+        Map<Point, Tile> tiles = Point.parse2DMap(lines, Tile::of);
         return new Contraption(tiles);
     }
     
