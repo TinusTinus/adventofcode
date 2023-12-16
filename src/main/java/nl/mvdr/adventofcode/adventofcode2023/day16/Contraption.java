@@ -1,8 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2023.day16;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -35,6 +38,19 @@ record Contraption(Map<Point, Tile> tiles) {
      * @return the number of energized tiles after the beam has passed through the contraption
      */
     int energizedTiles() {
-        return 0; // TODO implement
+        Set<Point> energized = new HashSet<>();
+        Set<BeamHead> beamHeads = Set.of(BeamHead.START);
+        
+        while(!beamHeads.isEmpty()) {
+            beamHeads = beamHeads.stream()
+                    .map(beamHead -> tiles.get(beamHead.location()).passThrough(beamHead))
+                    .flatMap(Set::stream)
+                    .filter(beamHead -> tiles.containsKey(beamHead.location()))
+                    .peek(beamHead -> energized.add(beamHead.location()))
+                    .collect(Collectors.toSet());
+            System.out.println(beamHeads);
+        }
+        
+        return energized.size();
     }
 }
