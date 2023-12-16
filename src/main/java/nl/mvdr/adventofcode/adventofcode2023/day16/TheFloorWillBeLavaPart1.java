@@ -18,7 +18,8 @@ public class TheFloorWillBeLavaPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return 0; // TODO
+        var contraption = Contraption.parse(lines.toList());
+        return contraption.energizedTiles();
     }
     
     /**
