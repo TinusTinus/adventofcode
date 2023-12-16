@@ -76,7 +76,9 @@ record Contraption(Map<Point, Tile> tiles) {
                 .map(BeamHead::location)
                 .collect(Collectors.toSet());
         
-        LOGGER.debug("{} energized tiles for starting point {}:\n{}", Integer.valueOf(energized.size()), start, Point.visualize(energized));
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("{} energized tiles for starting point {}:\n{}", Integer.valueOf(energized.size()), start, Point.visualize(energized));
+        }
         
         return energized.size();
     }
