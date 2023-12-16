@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -36,11 +38,24 @@ record Contraption(Map<Point, Tile> tiles) {
     }
     
     /**
-     * @return the number of energized tiles after the beam has passed through the contraption
+     * Determines the number of energized tiles after the beam has passed through the contraption,
+     * from the top-left starting point, moving to the right.
+     * 
+     * @return number of energized tiles
      */
     long energizedTiles() {
+        return energizedTiles(BeamHead.START);
+    }
+    
+    /**
+     * Determines the number of energized tiles after the beam has passed through the contraption from the given starting point.
+     * 
+     * @param start the beam's starting point
+     * @return number of energized tiles
+     */
+    private long energizedTiles(BeamHead start) {
         Set<BeamHead> visited = new HashSet<>();
-        Set<BeamHead> beamHeads = Set.of(BeamHead.START);
+        Set<BeamHead> beamHeads = Set.of(start);
         visited.add(BeamHead.START);
         
         while(!beamHeads.isEmpty()) {
@@ -57,5 +72,25 @@ record Contraption(Map<Point, Tile> tiles) {
                 .map(BeamHead::location)
                 .distinct()
                 .count();
+    }
+    
+    /**
+     * @return the maximum number of energized tiles after the beam has passed through the contraption
+     */
+    long maxEnergizedTiles() {
+        var width = Point.maxX(tiles.keySet());
+        var height = Point.maxY(tiles.keySet());
+        Set<BeamHead> startingPoints = new HashSet<>();
+        IntStream.range(0, width)
+                .peek(x -> startingPoints.add(new BeamHead(x, 0, Direction.DOWN))) // Starting from the top
+                .forEach(x -> startingPoints.add(new BeamHead(x, height - 1, Direction.UP))); // Starting from the bottom
+        IntStream.range(0, height)
+                .peek(y -> startingPoints.add(new BeamHead(0, y, Direction.RIGHT))) // Starting from the left
+                .forEach(y -> startingPoints.add(new BeamHead(width - 1, y, Direction.LEFT))); // Starting from the right
+        
+        return startingPoints.stream()
+                .mapToLong(this::energizedTiles)
+                .max()
+                .orElse(0L);
     }
 }

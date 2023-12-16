@@ -13,5 +13,16 @@ record BeamHead(Point location, Direction direction) {
     /**
      * Start of the beam.
      */
-    static final BeamHead START = new BeamHead(new Point(0, 0), Direction.RIGHT);
+    static final BeamHead START = new BeamHead(0, 0, Direction.RIGHT);
+    
+    /**
+     * Convenience constructor.
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param direction direction
+     */
+    BeamHead(int x, int y, Direction direction) {
+        this(new Point(x, y), direction);
+    }
 }
