@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -478,13 +477,11 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @param lines lines, where each line represents a row in a two-dimensional map
      * @param handleCharacter how to handle each character
      */
-    public static final void parse2DMap(List<String> lines, BiConsumer<Point, Character> handleCharacter) {
+    public static final void parse2DMap(List<String> lines, CharacterConsumer handleCharacter) {
         for (var y = 0; y != lines.size(); y++) {
             var line = lines.get(y);
             for (var x = 0; x != line.length(); x++) {
-                var point = new Point(x, y);
-                var character = Character.valueOf(line.charAt(x));
-                handleCharacter.accept(point, character);
+                handleCharacter.accept(new Point(x, y), line.charAt(x));
             }
         }
     }

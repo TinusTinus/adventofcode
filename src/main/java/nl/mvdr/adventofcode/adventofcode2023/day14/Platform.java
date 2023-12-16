@@ -31,11 +31,11 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
         Set<Point> roundedRocks = new HashSet<>();
         Set<Point> cubeRocks = new HashSet<>();
         Point.parse2DMap(lines, (point, c) -> {
-            if (c.charValue() == 'O') {
+            if (c == 'O') {
                 roundedRocks.add(point);
-            } else if (c.charValue() == '#') {
+            } else if (c == '#') {
                 cubeRocks.add(point);
-            } else if (c.charValue() != '.') {
+            } else if (c != '.') {
                 throw new IllegalArgumentException("Unexpected character found in input: " + c);
             }
         });

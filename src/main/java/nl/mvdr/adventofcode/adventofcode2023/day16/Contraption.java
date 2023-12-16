@@ -30,7 +30,7 @@ record Contraption(Map<Point, Tile> tiles) {
      */
     static Contraption parse(List<String> lines) {
         Map<Point, Tile> tiles = new HashMap<>();
-        Point.parse2DMap(lines, (location, character) -> tiles.put(location, Tile.of(character.charValue())));
+        Point.parse2DMap(lines, (location, character) -> tiles.put(location, Tile.of(character)));
         return new Contraption(tiles);
     }
     
