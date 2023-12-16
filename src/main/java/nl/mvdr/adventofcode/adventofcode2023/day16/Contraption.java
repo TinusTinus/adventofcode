@@ -78,19 +78,36 @@ record Contraption(Map<Point, Tile> tiles) {
      * @return the maximum number of energized tiles after the beam has passed through the contraption
      */
     long maxEnergizedTiles() {
-        var width = Point.maxX(tiles.keySet());
-        var height = Point.maxY(tiles.keySet());
-        Set<BeamHead> startingPoints = new HashSet<>();
-        IntStream.range(0, width)
-                .peek(x -> startingPoints.add(new BeamHead(x, 0, Direction.DOWN))) // Starting from the top
-                .forEach(x -> startingPoints.add(new BeamHead(x, height - 1, Direction.UP))); // Starting from the bottom
-        IntStream.range(0, height)
-                .peek(y -> startingPoints.add(new BeamHead(0, y, Direction.RIGHT))) // Starting from the left
-                .forEach(y -> startingPoints.add(new BeamHead(width - 1, y, Direction.LEFT))); // Starting from the right
-        
-        return startingPoints.stream()
+        return findStartingPoints().stream()
                 .mapToLong(this::energizedTiles)
                 .max()
                 .orElse(0L);
+    }
+
+    /**
+     * @return possible startings points for the beam, at the edges of the contraption
+     */
+    private Set<BeamHead> findStartingPoints() {
+        var maxX = Point.maxX(tiles.keySet());
+        var maxY = Point.maxY(tiles.keySet());
+        return findStartingPoints(maxX, maxY);
+    }
+
+    /**
+     * Finds the possible starting points for a beam, at the edges of a contraption.
+     * 
+     * @param maxX maximum x coordinate value in the contraption
+     * @param maxY maximum y coordinate value in the contraption
+     * @return starting points
+     */
+    private static Set<BeamHead> findStartingPoints(int maxX, int maxY) {
+        Set<BeamHead> result = new HashSet<>();
+        IntStream.range(0, maxX + 1)
+                .peek(x -> result.add(new BeamHead(x, 0, Direction.DOWN))) // Starting from the top
+                .forEach(x -> result.add(new BeamHead(x, maxY, Direction.UP))); // Starting from the bottom
+        IntStream.range(0, maxY + 1)
+                .peek(y -> result.add(new BeamHead(0, y, Direction.RIGHT))) // Starting from the left
+                .forEach(y -> result.add(new BeamHead(maxX, y, Direction.LEFT))); // Starting from the right
+        return result;
     }
 }
