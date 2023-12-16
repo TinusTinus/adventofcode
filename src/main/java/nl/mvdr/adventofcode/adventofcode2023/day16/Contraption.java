@@ -7,9 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -78,7 +76,7 @@ record Contraption(Map<Point, Tile> tiles) {
      * @return the maximum number of energized tiles after the beam has passed through the contraption
      */
     long maxEnergizedTiles() {
-        return findStartingPoints().stream()
+        return findStartingPoints().parallelStream()
                 .mapToLong(this::energizedTiles)
                 .max()
                 .orElse(0L);
@@ -90,24 +88,6 @@ record Contraption(Map<Point, Tile> tiles) {
     private Set<BeamHead> findStartingPoints() {
         var maxX = Point.maxX(tiles.keySet());
         var maxY = Point.maxY(tiles.keySet());
-        return findStartingPoints(maxX, maxY);
-    }
-
-    /**
-     * Finds the possible starting points for a beam, at the edges of a contraption.
-     * 
-     * @param maxX maximum x coordinate value in the contraption
-     * @param maxY maximum y coordinate value in the contraption
-     * @return starting points
-     */
-    private static Set<BeamHead> findStartingPoints(int maxX, int maxY) {
-        Set<BeamHead> result = new HashSet<>();
-        IntStream.range(0, maxX + 1)
-                .peek(x -> result.add(new BeamHead(x, 0, Direction.DOWN))) // Starting from the top
-                .forEach(x -> result.add(new BeamHead(x, maxY, Direction.UP))); // Starting from the bottom
-        IntStream.range(0, maxY + 1)
-                .peek(y -> result.add(new BeamHead(0, y, Direction.RIGHT))) // Starting from the left
-                .forEach(y -> result.add(new BeamHead(maxX, y, Direction.LEFT))); // Starting from the right
-        return result;
+        return BeamHead.findStartingPoints(maxX, maxY);
     }
 }
