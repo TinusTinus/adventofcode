@@ -475,13 +475,13 @@ public record Point(int x, int y) implements Comparable<Point> {
      * Helper method to parse puzzle input representing a two-dimensional map.
      * 
      * @param lines lines, where each line represents a row in a two-dimensional map
-     * @param handleCharacter how to handle each character
+     * @param characterConsumer how to handle each character
      */
-    public static final void parse2DMap(List<String> lines, CharacterConsumer handleCharacter) {
+    public static final void parse2DMap(List<String> lines, CharacterConsumer characterConsumer) {
         for (var y = 0; y != lines.size(); y++) {
             var line = lines.get(y);
             for (var x = 0; x != line.length(); x++) {
-                handleCharacter.accept(new Point(x, y), line.charAt(x));
+                characterConsumer.accept(new Point(x, y), line.charAt(x));
             }
         }
     }
