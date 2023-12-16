@@ -120,20 +120,6 @@ class Screen {
     
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("Screen:\n");
-        
-        for (int y = 0; y != height; y++) {
-            for (int x = 0; x != width; x++) {
-                if (lit.contains(new Point(x, y))) {
-                    result.append("#");
-                } else {
-                    result.append(".");
-                }
-            }
-            result.append("\n");
-        }
-        
-        return result.toString();
+        return "Screen:\n" + Point.visualize(lit, 0, width - 1, 0, height - 1);
     }
 }

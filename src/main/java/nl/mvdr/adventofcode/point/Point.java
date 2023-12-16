@@ -452,13 +452,28 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @return (potentially multiline!) string
      */
     public static String visualize(Set<Point> points) {
-        StringBuilder builder = new StringBuilder();
-
         int minX = Point.minX(points);
         int maxX = Point.maxX(points);
         int minY = Point.minY(points);
         int maxY = Point.maxY(points);
-        
+
+        return visualize(points, minX, maxX, minY, maxY);
+    }
+
+    /**
+     * Helper method to create a visual two-dimensional string representation of a set of points.
+     * 
+     * As in many puzzle inputs, empty spaces are represented by '.' and elements of the given set by '#'.
+     * 
+     * @param points points to visualize
+     * @param minX minimum x coordinate value
+     * @param maxX maximum x coordinate value
+     * @param minY minimum y coordinate value
+     * @param maxY maximum y coordinate value
+     * @return
+     */
+    public static String visualize(Set<Point> points, int minX, int maxX, int minY, int maxY) {
+        StringBuilder builder = new StringBuilder();
         for (int y = minY; y != maxY + 1; y++) {
             for (int x = minX; x != maxX + 1; x++) {
                 if (points.contains(new Point(x, y))) {
@@ -469,7 +484,6 @@ public record Point(int x, int y) implements Comparable<Point> {
             }
             builder.append("\n");
         }
-        
         return builder.toString();
     }
     

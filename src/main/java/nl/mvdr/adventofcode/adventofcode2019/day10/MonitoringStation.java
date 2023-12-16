@@ -2,9 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2019.day10;
 
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -43,21 +41,16 @@ abstract class MonitoringStation implements IntSolver {
     /**
      * Parses the input into a set of asteroids.
      * 
-     * @param linesStream lines from the input text file
+     * @param lines lines from the input text file
      * @return locations of all of the asteroids from the input
      */
-    private Set<Point> parseAsteroids(Stream<String> linesStream) {
+    private Set<Point> parseAsteroids(Stream<String> lines) {
         Set<Point> asteroids = new HashSet<>();
-        List<String> lines = linesStream.collect(Collectors.toList());
-        for (int y = 0; y != lines.size(); y++) {
-            String line = lines.get(y);
-            for (int x = 0; x != line.length(); x++) {
-                char c = line.charAt(x);
-                if (c == '#') {
-                    asteroids.add(new Point(x, y));
-                }
+        Point.parse2DMap(lines.toList(), (point, c) -> {
+            if (c == '#') {
+                asteroids.add(point);
             }
-        }
+        });
         LOGGER.debug("Asteroids: {}", asteroids);
         return asteroids;
     }
