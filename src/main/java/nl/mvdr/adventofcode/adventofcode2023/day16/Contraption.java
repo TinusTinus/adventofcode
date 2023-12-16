@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day16;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -76,6 +77,11 @@ record Contraption(Map<Point, Tile> tiles) {
      * @return the maximum number of energized tiles after the beam has passed through the contraption
      */
     long maxEnergizedTiles() {
+        // TODO remove!
+        findStartingPoints().parallelStream()
+                .max(Comparator.comparing(this::energizedTiles))
+                .ifPresent(System.out::println); // BeamHead[location=3,0, direction=v] is found as the best starting point for the example, why is the answer off by one?
+        
         return findStartingPoints().parallelStream()
                 .mapToLong(this::energizedTiles)
                 .max()
