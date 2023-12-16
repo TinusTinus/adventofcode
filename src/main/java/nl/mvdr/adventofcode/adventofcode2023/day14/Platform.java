@@ -30,19 +30,15 @@ record Platform(Set<Point> roundedRocks, Set<Point> cubeRocks, int width, int he
         
         Set<Point> roundedRocks = new HashSet<>();
         Set<Point> cubeRocks = new HashSet<>();
-        for (var y = 0; y != height; y++) {
-            var line = lines.get(y);
-            for (var x = 0; x != width; x++) {
-                var c = line.charAt(x);
-                if (c == 'O') {
-                    roundedRocks.add(new Point(x, y));
-                } else if (c == '#') {
-                    cubeRocks.add(new Point(x, y));
-                } else if (c != '.') {
-                    throw new IllegalArgumentException("Unexpected character found in input: " + c);
-                }
+        Point.parse2DMap(lines, (point, c) -> {
+            if (c.charValue() == 'O') {
+                roundedRocks.add(point);
+            } else if (c.charValue() == '#') {
+                cubeRocks.add(point);
+            } else if (c.charValue() != '.') {
+                throw new IllegalArgumentException("Unexpected character found in input: " + c);
             }
-        }
+        });
         
         return new Platform(roundedRocks, cubeRocks, width, height);
     }

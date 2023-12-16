@@ -30,14 +30,7 @@ record Contraption(Map<Point, Tile> tiles) {
      */
     static Contraption parse(List<String> lines) {
         Map<Point, Tile> tiles = new HashMap<>();
-        for (var y = 0; y != lines.size(); y++) {
-            var line = lines.get(y);
-            for (var x = 0; x != line.length(); x++) {
-                var location = new Point(x, y);
-                var tile = Tile.of(line.charAt(x));
-                tiles.put(location, tile);
-            }
-        }
+        Point.parse2DMap(lines, (location, character) -> tiles.put(location, Tile.of(character.charValue())));
         return new Contraption(tiles);
     }
     
