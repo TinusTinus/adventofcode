@@ -92,7 +92,7 @@ record Contraption(Map<Point, Tile> tiles) {
     }
 
     /**
-     * @return possible startings points for the beam, at the edges of the contraption
+     * @return possible starting points for the beam, at the edges of the contraption
      */
     private Set<BeamHead> findStartingPoints() {
         var maxX = Point.maxX(tiles.keySet());
