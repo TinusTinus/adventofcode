@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
  *
  * @author Martijn van de Rijdt
  */
-class Spin implements DanceMove {
+final class Spin implements DanceMove {
     /** The number of dancers to move. */
     private final int numberOfDancers;
     

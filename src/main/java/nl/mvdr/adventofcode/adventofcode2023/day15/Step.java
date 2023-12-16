@@ -5,7 +5,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day15;
  *
  * @author Martijn van de Rijdt
  */
-interface Step {
+sealed interface Step permits RemoveLensStep, AddLensStep {
     
     /**
      * Parses the given string representation of a step.

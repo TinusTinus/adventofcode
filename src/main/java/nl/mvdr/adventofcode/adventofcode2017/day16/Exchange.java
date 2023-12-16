@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Martijn van de Rijdt
  */
-class Exchange implements DanceMove {
+final class Exchange implements DanceMove {
     /** First program. */
     private final int a;
     /** Second program. */

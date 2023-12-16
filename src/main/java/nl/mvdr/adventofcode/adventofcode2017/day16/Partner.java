@@ -9,7 +9,7 @@ import java.util.List;
  * 
  * @author Martijn van de Rijdt
  */
-class Partner implements DanceMove {
+final class Partner implements DanceMove {
     
     /** Name of the first program. */
     private final char a;
