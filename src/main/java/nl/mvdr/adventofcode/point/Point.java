@@ -443,6 +443,8 @@ public record Point(int x, int y) implements Comparable<Point> {
     /**
      * Helper method to create a visual two-dimensional string representation of a set of points.
      * 
+     * As in many puzzle inputs, empty spaces are represented by '.' and elements of the given set by '#'.
+     * 
      * @param points points to visualize
      * @return (potentially multiline!) string
      */
