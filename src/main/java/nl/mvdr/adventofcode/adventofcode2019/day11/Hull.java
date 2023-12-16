@@ -87,24 +87,6 @@ class Hull {
     
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("Hull:\n");
-
-        int minX = Point.minX(whitePanels);
-        int maxX = Point.maxX(whitePanels);
-        int minY = Point.minY(whitePanels);
-        int maxY = Point.maxY(whitePanels);
-        
-        for (int y = minY; y != maxY + 1; y++) {
-            for (int x = minX; x != maxX + 1; x++) {
-                if (whitePanels.contains(new Point(x, y))) {
-                    builder.append("#");
-                } else {
-                    builder.append(".");
-                }
-            }
-            builder.append("\n");
-        }
-        
-        return builder.toString();
+        return "Hull:\n" + Point.visualize(whitePanels);
     }
 }

@@ -269,23 +269,6 @@ record Grove(Set<Point> elves, List<Direction> directions, int rounds) {
     
     @Override
     public String toString() {
-        var minX = Point.minX(elves);
-        var maxX = Point.maxX(elves);
-        var minY = Point.minY(elves);
-        var maxY = Point.maxY(elves);
-        
-        StringBuilder builder = new StringBuilder();
-        builder.append("Grove:");
-        for (var y = minY; y != maxY + 1; y++) {
-            builder.append("\n");
-            for (var x = minX; x != maxX + 1; x++) {
-                if (elves.contains(new Point(x, y))) {
-                    builder.append(ELF);
-                } else {
-                    builder.append(EMPTY_GROUND);
-                }
-            }
-        }
-        return builder.toString();
+        return "Grove:\n" + Point.visualize(elves);
     }
 }

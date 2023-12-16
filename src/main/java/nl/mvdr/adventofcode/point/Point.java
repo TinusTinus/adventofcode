@@ -439,4 +439,32 @@ public record Point(int x, int y) implements Comparable<Point> {
                         .boxed()
                         .map(y -> new Point(x.intValue(), y.intValue())));
     }
+    
+    /**
+     * Helper method to create a visual two-dimensional string representation of a set of points.
+     * 
+     * @param points points to visualize
+     * @return (potentially multiline!) string
+     */
+    public static String visualize(Set<Point> points) {
+        StringBuilder builder = new StringBuilder();
+
+        int minX = Point.minX(points);
+        int maxX = Point.maxX(points);
+        int minY = Point.minY(points);
+        int maxY = Point.maxY(points);
+        
+        for (int y = minY; y != maxY + 1; y++) {
+            for (int x = minX; x != maxX + 1; x++) {
+                if (points.contains(new Point(x, y))) {
+                    builder.append("#");
+                } else {
+                    builder.append(".");
+                }
+            }
+            builder.append("\n");
+        }
+        
+        return builder.toString();
+    }
 }

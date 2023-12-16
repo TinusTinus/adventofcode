@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2023.day16;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -17,6 +19,9 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Contraption(Map<Point, Tile> tiles) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Contraption.class);
+    
     /**
      * Parses a string representation of a contraption.
      * 
@@ -42,7 +47,7 @@ record Contraption(Map<Point, Tile> tiles) {
      * 
      * @return number of energized tiles
      */
-    long energizedTiles() {
+    int energizedTiles() {
         return energizedTiles(BeamHead.START);
     }
     
@@ -52,7 +57,7 @@ record Contraption(Map<Point, Tile> tiles) {
      * @param start the beam's starting point
      * @return number of energized tiles
      */
-    private long energizedTiles(BeamHead start) {
+    private int energizedTiles(BeamHead start) {
         Set<BeamHead> visited = new HashSet<>();
         Set<BeamHead> beamHeads = Set.of(start);
         visited.add(BeamHead.START);
@@ -67,25 +72,23 @@ record Contraption(Map<Point, Tile> tiles) {
                     .collect(Collectors.toSet());
         }
         
-        return visited.stream()
+        var energized = visited.stream()
                 .map(BeamHead::location)
-                .distinct()
-                .count();
+                .collect(Collectors.toSet());
+        
+        LOGGER.debug("Energized tiles for starting point {}: {}", start, Point.visualize(energized));
+        
+        return energized.size();
     }
     
     /**
      * @return the maximum number of energized tiles after the beam has passed through the contraption
      */
-    long maxEnergizedTiles() {
-        // TODO remove!
-        findStartingPoints().parallelStream()
-                .max(Comparator.comparing(this::energizedTiles))
-                .ifPresent(System.out::println); // BeamHead[location=3,0, direction=v] is found as the best starting point for the example, why is the answer off by one?
-        
+    int maxEnergizedTiles() {
         return findStartingPoints().parallelStream()
-                .mapToLong(this::energizedTiles)
+                .mapToInt(this::energizedTiles)
                 .max()
-                .orElse(0L);
+                .orElse(0);
     }
 
     /**
