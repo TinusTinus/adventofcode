@@ -47,8 +47,8 @@ record Contraption(Map<Point, Tile> tiles) {
             beamHeads = beamHeads.stream()
                     .map(beamHead -> tiles.get(beamHead.location()).passThrough(beamHead))
                     .flatMap(Set::stream)
-                    .filter(beamHead -> tiles.containsKey(beamHead.location()))
-                    .filter(Predicate.not(visited::contains))
+                    .filter(beamHead -> tiles.containsKey(beamHead.location())) // Stay within bounds
+                    .filter(Predicate.not(visited::contains)) // Prevent infinite loops
                     .peek(visited::add)
                     .collect(Collectors.toSet());
         }
