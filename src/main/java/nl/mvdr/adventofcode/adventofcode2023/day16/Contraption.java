@@ -60,7 +60,7 @@ record Contraption(Map<Point, Tile> tiles) {
     private int energizedTiles(BeamHead start) {
         Set<BeamHead> visited = new HashSet<>();
         Set<BeamHead> beamHeads = Set.of(start);
-        visited.add(BeamHead.START);
+        visited.add(start);
         
         while(!beamHeads.isEmpty()) {
             beamHeads = beamHeads.stream()
@@ -76,7 +76,7 @@ record Contraption(Map<Point, Tile> tiles) {
                 .map(BeamHead::location)
                 .collect(Collectors.toSet());
         
-        LOGGER.debug("Energized tiles for starting point {}: {}", start, Point.visualize(energized));
+        LOGGER.debug("{} energized tiles for starting point {}:\n{}", Integer.valueOf(energized.size()), start, Point.visualize(energized));
         
         return energized.size();
     }
