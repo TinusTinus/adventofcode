@@ -1,11 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2019.day24;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -43,22 +41,16 @@ class Layout {
      * 
      * @param recursivelyFoldedSpace whether to apply the rules for recursively folded space;
      *      that is, whether this is part 2 of the puzzle
-     * @param linesStream lines from the puzzle input
+     * @param lines lines from the puzzle input
      * @return layout
      */
-    static Layout parse(boolean recursivelyFoldedSpace, Stream<String> linesStream) {
-        List<String> lines = linesStream.collect(Collectors.toList());
-        
+    static Layout parse(boolean recursivelyFoldedSpace, Stream<String> lines) {
         Set<Point> bugLocations = new HashSet<>();
-        for (int y = 0; y != lines.size(); y++) {
-            String line = lines.get(y);
-            for (int x = 0; x != lines.size(); x++) {
-                if (line.charAt(x) == BUG) {
-                    bugLocations.add(new Point(x, y));
-                }
+        Point.parse2DMap(lines.toList(), (point, character) -> {
+            if (character == BUG) {
+                bugLocations.add(point);
             }
-        }
-        
+        });
         return new Layout(recursivelyFoldedSpace, bugLocations);
     }
     

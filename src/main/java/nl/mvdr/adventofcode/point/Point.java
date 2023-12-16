@@ -497,7 +497,12 @@ public record Point(int x, int y) implements Comparable<Point> {
      */
     public static final <T> Map<Point, T> parse2DMap(List<String> lines, CharacterMapper<T> characterMapper) {
         Map<Point, T> result = new HashMap<>();
-        Point.parse2DMap(lines, (point, character) -> result.put(point, characterMapper.map(character)));
+        Point.parse2DMap(lines, (point, character) -> {
+            T value = characterMapper.map(character);
+            if (value != null) {
+                result.put(point, value);
+            }
+        });
         return result;
     }
     

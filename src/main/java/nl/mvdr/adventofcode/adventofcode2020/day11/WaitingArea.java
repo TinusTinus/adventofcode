@@ -31,14 +31,11 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
                 .collect(Collectors.toList());
         
         Set<Point> seats = new HashSet<>();
-        for (int y = 0; y != lines.size(); y++) {
-            String line = lines.get(y);
-            for (int x = 0; x != line.length(); x++) {
-                if (line.charAt(x) == 'L') {
-                    seats.add(new Point(x, y));
-                }
+        Point.parse2DMap(lines, (point, character) -> {
+            if (character == 'L') {
+                seats.add(point);
             }
-        }
+        });
         
         int width = Point.maxX(seats);
         

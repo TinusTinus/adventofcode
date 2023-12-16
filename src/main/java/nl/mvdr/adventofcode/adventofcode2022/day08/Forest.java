@@ -1,9 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2022.day08;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -29,15 +27,8 @@ record Forest(Map<Point, Integer> trees) {
      * @return forest represented by the given puzzle input
      */
     static Forest parse(Stream<String> linesStream) {
-        Map<Point, Integer> trees = new HashMap<>();
-        var lines = linesStream.collect(Collectors.toList());
-        for (int y = 0; y != lines.size(); y++) {
-            var line = lines.get(y);
-            for (int x = 0; x != line.length(); x++) {
-                var height = Integer.parseInt("" + line.charAt(x));
-                trees.put(new Point(x, y), Integer.valueOf(height));
-            }
-        }
+        Map<Point, Integer> trees = Point.parse2DMap(linesStream.toList(),
+                character -> Integer.valueOf("" + character));
         return new Forest(trees);
     }
 

@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2020.day17;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import nl.mvdr.adventofcode.point.Point;
 import nl.mvdr.adventofcode.point.Point3D;
 import nl.mvdr.adventofcode.point.Point4D;
 
@@ -50,19 +49,13 @@ interface PocketDimension<P> {
      */
     private static <P> PocketDimension<P> parseInitialState(Stream<String> input, BiFunction<Integer, Integer, P> pointCreator,
             Function<Set<P>, PocketDimension<P>> pocketDimensionCreator) {
-        List<String> lines = input.collect(Collectors.toList());
-        
         Set<P> activeCubes = new HashSet<>();
-        for (int y = 0; y != lines.size(); y++) {
-            String line = lines.get(y);
-            for (int x = 0; x != line.length(); x++) {
-                if (line.charAt(x) == '#') {
-                    P point = pointCreator.apply(Integer.valueOf(x), Integer.valueOf(y));
-                    activeCubes.add(point);
-                }
+        Point.parse2DMap(input.toList(), (point, character) -> {
+            if (character == '#') {
+                P activeCube = pointCreator.apply(Integer.valueOf(point.x()), Integer.valueOf(point.y()));
+                activeCubes.add(activeCube);
             }
-        }
-        
+        });
         return pocketDimensionCreator.apply(activeCubes);
     }
     
