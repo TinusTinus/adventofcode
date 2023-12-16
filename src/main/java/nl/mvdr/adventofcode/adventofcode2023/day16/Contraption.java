@@ -41,6 +41,7 @@ record Contraption(Map<Point, Tile> tiles) {
         Set<Point> energized = new HashSet<>();
         Set<BeamHead> beamHeads = Set.of(BeamHead.START);
         
+        // TODO take infnite loops into account
         while(!beamHeads.isEmpty()) {
             beamHeads = beamHeads.stream()
                     .map(beamHead -> tiles.get(beamHead.location()).passThrough(beamHead))
