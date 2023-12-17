@@ -22,7 +22,7 @@ record Crucible(Point location, Direction direction, int steps, boolean ultra) {
      * @param city the city, used to prevert the crucible from going out of bounds
      * @return the possible steps for this crucible to take
      */
-    Stream<Crucible> possibleSteps(City city) {
+    Stream<CrucibleWithHeatLoss> possibleSteps(City city) {
         Set<Direction> newDirections;
         if (Point.ORIGIN.equals(location) && direction == null) {
             // Starting point
@@ -31,9 +31,9 @@ record Crucible(Point location, Direction direction, int steps, boolean ultra) {
             newDirections = Set.of(direction, direction.turnClockwise(), direction.turnCounterClockwise());
         }
         return newDirections.stream()
-                .map(this::step)
-                .filter(crucible -> city.blocks().containsKey(crucible.location()))
-                .filter(crucible -> crucible.steps <= maximumSteps());
+                .map(newDirection -> step(newDirection, city))
+                .filter(result -> city.blocks().containsKey(result.crucible().location()))
+                .filter(result -> result.crucible().steps <= maximumSteps());
     }
     
     /**
@@ -68,7 +68,7 @@ record Crucible(Point location, Direction direction, int steps, boolean ultra) {
      * @param newDirection new direction to move in
      * @return updated step
      */
-    private Crucible step(Direction newDirection) {
+    private CrucibleWithHeatLoss step(Direction newDirection, City city) {
         int stepsToMove;
         int newSteps;
         if (newDirection == direction) {
@@ -80,7 +80,14 @@ record Crucible(Point location, Direction direction, int steps, boolean ultra) {
             stepsToMove = minimumSteps();
             newSteps = stepsToMove;
         }
-        var newLocation = newDirection.move(location, stepsToMove);
-        return new Crucible(newLocation, newDirection, newSteps, ultra);
+        
+        Point newLocation = location;
+        int heatLoss = 0;
+        for (int i = 0; i != stepsToMove; i++) {
+            newLocation = newDirection.move(newLocation);
+            heatLoss = heatLoss + city.blocks().get(newLocation).heatLoss();
+        }
+        var newCrucible = new Crucible(newLocation, newDirection, newSteps, ultra);
+        return new CrucibleWithHeatLoss(newCrucible, heatLoss);
     }
 }
