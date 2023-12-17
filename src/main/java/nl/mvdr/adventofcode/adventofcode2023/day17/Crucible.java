@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2023.day17;
 
-import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,13 +26,11 @@ record Crucible(Point location, Direction direction, int steps) {
         if (START.equals(this)) {
             newDirections = Set.of(Direction.RIGHT, Direction.DOWN);
         } else {
-            newDirections = EnumSet.of(direction.turnClockwise(), direction.turnCounterClockwise());
-            if (steps < 3) {
-                newDirections.add(direction);
-            }
+            newDirections = Set.of(direction, direction.turnClockwise(), direction.turnCounterClockwise());
         }
         return newDirections.stream()
                 .map(this::step)
+                .filter(crucible -> crucible.steps <= 3)
                 .collect(Collectors.toSet());
     }
     
