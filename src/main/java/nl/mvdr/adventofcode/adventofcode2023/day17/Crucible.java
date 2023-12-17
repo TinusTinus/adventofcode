@@ -12,11 +12,12 @@ import nl.mvdr.adventofcode.point.Point;
  * @param location current city block occupied by the crucible
  * @param direction the direction the crucible was last traveling in; initially null
  * @param steps the number of steps taken in a row in this direction; may not exceed 3
+ * @param ultra whether this is an ultra crucible
  * @author Martijn van de Rijdt
  */
-record Crucible(Point location, Direction direction, int steps) {
+record Crucible(Point location, Direction direction, int steps, boolean ultra) {
     /** Starting point, in the top-left, without any steps taken. */
-    static final Crucible START = new Crucible(Point.ORIGIN, null, 0);
+    static final Crucible START = new Crucible(Point.ORIGIN, null, 0, false); // TODO set the ultra flag correctly
     
     /**
      * Determines the next possible steps for this crucible.
@@ -26,7 +27,8 @@ record Crucible(Point location, Direction direction, int steps) {
      */
     Stream<Crucible> possibleSteps(City city) {
         Set<Direction> newDirections;
-        if (START.equals(this)) { // Special case: the only crucible without a predetermined direction
+        if (Point.ORIGIN.equals(location) && direction == null) {
+            // Starting point
             newDirections = Set.of(Direction.RIGHT, Direction.DOWN);
         } else {
             newDirections = Set.of(direction, direction.turnClockwise(), direction.turnCounterClockwise());
@@ -34,7 +36,33 @@ record Crucible(Point location, Direction direction, int steps) {
         return newDirections.stream()
                 .map(this::step)
                 .filter(crucible -> city.blocks().containsKey(crucible.location()))
-                .filter(crucible -> crucible.steps <= 3);
+                .filter(crucible -> crucible.steps <= maximumSteps());
+    }
+    
+    /**
+     * @return minimum number of steps to move in any given direction without turning
+     */
+    private int minimumSteps() {
+        int result;
+        if (ultra) {
+            result = 4;
+        } else {
+            result = 1;
+        }
+        return result;
+    }
+    
+    /**
+     * @return minimum number of steps to move in any given direction without turning
+     */
+    private int maximumSteps() {
+        int result;
+        if (ultra) {
+            result = 10;
+        } else {
+            result = 3;
+        }
+        return result;
     }
     
     /**
@@ -44,13 +72,18 @@ record Crucible(Point location, Direction direction, int steps) {
      * @return updated step
      */
     private Crucible step(Direction newDirection) {
-        var newLocation = newDirection.move(location);
+        int stepsToMove;
         int newSteps;
         if (newDirection == direction) {
+            // Move one more step in the same direction.
+            stepsToMove = 1;
             newSteps = steps + 1;
         } else {
-            newSteps = 1;
+            // We are changing direction. Move the minimum number of steps.
+            stepsToMove = minimumSteps();
+            newSteps = stepsToMove;
         }
-        return new Crucible(newLocation, newDirection, newSteps);
+        var newLocation = newDirection.move(location, stepsToMove);
+        return new Crucible(newLocation, newDirection, newSteps, ultra);
     }
 }
