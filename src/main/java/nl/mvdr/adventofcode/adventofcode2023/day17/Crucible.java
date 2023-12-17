@@ -85,7 +85,9 @@ record Crucible(Point location, Direction direction, int steps, boolean ultra) {
         int heatLoss = 0;
         for (int i = 0; i != stepsToMove; i++) {
             newLocation = newDirection.move(newLocation);
-            heatLoss = heatLoss + city.blocks().get(newLocation).heatLoss();
+            if (city.blocks().containsKey(newLocation)) {
+                heatLoss = heatLoss + city.blocks().get(newLocation).heatLoss();
+            }
         }
         var newCrucible = new Crucible(newLocation, newDirection, newSteps, ultra);
         return new CrucibleWithHeatLoss(newCrucible, heatLoss);

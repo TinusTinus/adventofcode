@@ -23,6 +23,6 @@ public class ClumsyCruciblePart2Test extends SolverTest<ClumsyCruciblePart2> {
         return Stream.of(
                 Arguments.of("94", "example-day17-2023-0.txt"),
                 Arguments.of("71", "example-day17-2023-1.txt"),
-                Arguments.of("755", "input-day17-2023.txt")); // 1354 too high
+                Arguments.of("881", "input-day17-2023.txt"));
     }
 }
