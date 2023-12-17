@@ -18,6 +18,7 @@ public class ClumsyCruciblePart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
+        var city = City.parse(lines.toList());
         return 0; // TODO
     }
     
