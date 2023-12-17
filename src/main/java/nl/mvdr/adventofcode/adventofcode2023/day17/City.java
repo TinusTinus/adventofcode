@@ -83,7 +83,7 @@ record City(Map<Point, Block> blocks) {
      * Adds a new vertext and a new edge to the graph.
      * 
      * @param graph graph
-     * @param newVertex vertext to add
+     * @param step next step to take, containing the vertex to be added
      * @param previousVertex previous vertex, that is: the source vertex for the new edge
      * @return whether the vertex was newly added to the graph
      */
