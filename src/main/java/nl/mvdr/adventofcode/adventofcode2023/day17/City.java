@@ -43,11 +43,12 @@ record City(Map<Point, Block> blocks) {
                     .flatMap(crucible -> 
                         crucible.possibleSteps()
                                 .filter(step -> blocks.containsKey(step.location()))
-                                .filter(graph::addVertex)
-                                .peek(step -> {
+                                .filter(step -> {
+                                    var result = graph.addVertex(step);
                                     var edge = graph.addEdge(crucible, step);
                                     var heatLoss = blocks.get(step.location()).heatLoss();
                                     graph.setEdgeWeight(edge, heatLoss);
+                                    return result;
                                 }) 
                     )
                     .collect(Collectors.toSet());
