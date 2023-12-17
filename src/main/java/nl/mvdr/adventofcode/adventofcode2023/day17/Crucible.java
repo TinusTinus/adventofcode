@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day17;
 
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -21,17 +21,16 @@ record Crucible(Point location, Direction direction, int steps) {
     /**
      * @return the possible steps for this crucible to take; note that these may be out-of-bounds of the city
      */
-    Set<Crucible> possibleSteps() {
+    Stream<Crucible> possibleSteps() {
         Set<Direction> newDirections;
-        if (START.equals(this)) {
+        if (START.equals(this)) { // Special case: the only crucible without a predetermined direction
             newDirections = Set.of(Direction.RIGHT, Direction.DOWN);
         } else {
             newDirections = Set.of(direction, direction.turnClockwise(), direction.turnCounterClockwise());
         }
         return newDirections.stream()
                 .map(this::step)
-                .filter(crucible -> crucible.steps <= 3)
-                .collect(Collectors.toSet());
+                .filter(crucible -> crucible.steps <= 3);
     }
     
     /**

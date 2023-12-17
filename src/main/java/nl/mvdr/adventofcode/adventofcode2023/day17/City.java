@@ -33,11 +33,10 @@ record City(Map<Point, Block> blocks) {
         // Considering we can only move three steps in a straight line, this should be a set of a pretty limited size.
         Set<Crucible> crucibles = new HashSet<>();
         crucibles.add(Crucible.START);
-        Set<Crucible> nextCrucibles = Crucible.START.possibleSteps();
+        Set<Crucible> nextCrucibles = Crucible.START.possibleSteps().collect(Collectors.toSet());
         while (crucibles.addAll(nextCrucibles)) {
-            nextCrucibles = nextCrucibles.stream()
-                    .map(Crucible::possibleSteps)
-                    .flatMap(Set::stream)
+            nextCrucibles = nextCrucibles.parallelStream()
+                    .flatMap(Crucible::possibleSteps)
                     .filter(crucible -> blocks.containsKey(crucible.location())) // Stay within city bounds
                     .collect(Collectors.toSet());
         }
