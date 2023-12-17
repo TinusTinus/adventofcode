@@ -41,8 +41,7 @@ record City(Map<Point, Block> blocks) {
         while (!latestCrucibles.isEmpty()) {
             latestCrucibles = latestCrucibles.stream()
                     .flatMap(crucible -> 
-                        crucible.possibleSteps()
-                                .filter(step -> blocks.containsKey(step.location()))
+                        crucible.possibleSteps(this)
                                 .filter(step -> {
                                     var result = graph.addVertex(step);
                                     var edge = graph.addEdge(crucible, step);

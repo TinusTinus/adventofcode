@@ -19,9 +19,12 @@ record Crucible(Point location, Direction direction, int steps) {
     static final Crucible START = new Crucible(Point.ORIGIN, null, 0);
     
     /**
-     * @return the possible steps for this crucible to take; note that these may be out-of-bounds of the city
+     * Determines the next possible steps for this crucible.
+     * 
+     * @param city the city, used to prevert the crucible from going out of bounds
+     * @return the possible steps for this crucible to take
      */
-    Stream<Crucible> possibleSteps() {
+    Stream<Crucible> possibleSteps(City city) {
         Set<Direction> newDirections;
         if (START.equals(this)) { // Special case: the only crucible without a predetermined direction
             newDirections = Set.of(Direction.RIGHT, Direction.DOWN);
@@ -30,6 +33,7 @@ record Crucible(Point location, Direction direction, int steps) {
         }
         return newDirections.stream()
                 .map(this::step)
+                .filter(crucible -> city.blocks().containsKey(crucible.location()))
                 .filter(crucible -> crucible.steps <= 3);
     }
     
