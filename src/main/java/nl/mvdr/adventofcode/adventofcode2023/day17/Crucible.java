@@ -27,7 +27,7 @@ record Crucible(Point location, Direction direction, int steps) {
         if (START.equals(this)) {
             newDirections = Set.of(Direction.RIGHT, Direction.DOWN);
         } else {
-            newDirections = EnumSet.of(direction, direction.turnClockwise(), direction.turnCounterClockwise());
+            newDirections = EnumSet.of(direction.turnClockwise(), direction.turnCounterClockwise());
             if (steps < 3) {
                 newDirections.add(direction);
             }
