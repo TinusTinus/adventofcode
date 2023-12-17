@@ -42,13 +42,7 @@ record City(Map<Point, Block> blocks) {
             latestCrucibles = latestCrucibles.stream()
                     .flatMap(crucible -> 
                         crucible.possibleSteps(this)
-                                .filter(step -> {
-                                    var result = graph.addVertex(step);
-                                    var edge = graph.addEdge(crucible, step);
-                                    var heatLoss = blocks.get(step.location()).heatLoss();
-                                    graph.setEdgeWeight(edge, heatLoss);
-                                    return result;
-                                }) 
+                                .filter(nextCrucible -> addVertexAndEdge(graph, nextCrucible, crucible)) 
                     )
                     .collect(Collectors.toSet());
         }
@@ -64,5 +58,22 @@ record City(Map<Point, Block> blocks) {
                .mapToInt(d -> (int)d)
                .min()
                .orElseThrow();
+    }
+
+    /**
+     * Adds a new vertext and a new edge to the graph.
+     * 
+     * @param graph graph
+     * @param newVertex vertext to add
+     * @param previousVertex previous vertex, that is: the source vertex for the new edge
+     * @return whether the vertext was newly added to the graph
+     */
+    private boolean addVertexAndEdge(Graph<Crucible, DefaultWeightedEdge> graph, Crucible newVertex,
+            Crucible previousVertex) {
+        var result = graph.addVertex(newVertex);
+        var edge = graph.addEdge(previousVertex, newVertex);
+        var heatLoss = blocks.get(newVertex.location()).heatLoss();
+        graph.setEdgeWeight(edge, heatLoss);
+        return result;
     }
 }
