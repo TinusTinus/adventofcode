@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.SimpleDirectedGraph;
+
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -29,15 +33,18 @@ record City(Map<Point, Block> blocks) {
      * @return minimum heat loss of a path from start to finish
      */
     int computeMinimumHeatLoss() {
-        // Determine all possible states of the crucible.
-        // Considering we can only move three steps in a straight line, this should be a set of a pretty limited size.
-        Set<Crucible> crucibles = new HashSet<>();
-        crucibles.add(Crucible.START);
+        // Build a graph out of all possible states of the crucible.
+        Graph<Crucible, DefaultWeightedEdge> graph = new SimpleDirectedGraph<>(DefaultWeightedEdge.class);
+        graph.addVertex(Crucible.START);
         Set<Crucible> nextCrucibles = Crucible.START.possibleSteps().collect(Collectors.toSet());
-        while (crucibles.addAll(nextCrucibles)) {
-            nextCrucibles = nextCrucibles.parallelStream()
-                    .flatMap(Crucible::possibleSteps)
-                    .filter(crucible -> blocks.containsKey(crucible.location())) // Stay within city bounds
+        while (!nextCrucibles.isEmpty()) {
+            nextCrucibles = nextCrucibles.stream()
+                    .flatMap(crucible -> 
+                        crucible.possibleSteps()
+                                .filter(step -> blocks.containsKey(step.location()))
+                                .filter(graph::addVertex)
+                                .peek(step -> graph.addEdge(crucible, step)) // TODO set edge weights!
+                    )
                     .collect(Collectors.toSet());
         }
         
