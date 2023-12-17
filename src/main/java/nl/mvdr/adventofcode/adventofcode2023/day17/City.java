@@ -9,7 +9,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -35,11 +35,11 @@ record City(Map<Point, Block> blocks) {
      */
     int computeMinimumHeatLoss() {
         // Build a graph out of all possible states of the crucible.
-        Graph<Crucible, DefaultWeightedEdge> graph = new SimpleDirectedGraph<>(DefaultWeightedEdge.class);
+        Graph<Crucible, DefaultWeightedEdge> graph = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
         graph.addVertex(Crucible.START);
-        Set<Crucible> nextCrucibles = Crucible.START.possibleSteps().collect(Collectors.toSet());
-        while (!nextCrucibles.isEmpty()) {
-            nextCrucibles = nextCrucibles.stream()
+        Set<Crucible> latestCrucibles = Set.of(Crucible.START);
+        while (!latestCrucibles.isEmpty()) {
+            latestCrucibles = latestCrucibles.stream()
                     .flatMap(crucible -> 
                         crucible.possibleSteps()
                                 .filter(step -> blocks.containsKey(step.location()))

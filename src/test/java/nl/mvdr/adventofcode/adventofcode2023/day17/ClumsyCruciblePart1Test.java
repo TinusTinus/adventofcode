@@ -22,6 +22,6 @@ public class ClumsyCruciblePart1Test extends SolverTest<ClumsyCruciblePart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("102", "example-day17-2023.txt"),
-                Arguments.of("?", "input-day17-2023.txt"));
+                Arguments.of("?", "input-day17-2023.txt")); // 1354 too high
     }
 }
