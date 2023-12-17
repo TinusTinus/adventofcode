@@ -34,10 +34,30 @@ record City(Map<Point, Block> blocks) {
      * @return minimum heat loss of a path from start to finish
      */
     int computeMinimumHeatLoss() {
+        return computeMinimumHeatLoss(false);
+    }
+    
+    /**
+     * @return minimum heat loss of a path from start to finish, when using ultra crucibles
+     */
+    int computeMinimumHeatLossWithUltraCrucibles() {
+        return computeMinimumHeatLoss(true);
+    }
+    
+    /**
+     * Computes the minimum heat loss of a path from start to finish.
+     * 
+     * @param ultraCrucibles whether to use ultra crucibles
+     * @return minimum heat loss
+     */
+    private int computeMinimumHeatLoss(boolean ultraCrucibles) {
+        var start = new Crucible(Point.ORIGIN, null, 0, ultraCrucibles);
+        var goal = new Point(Point.maxX(blocks.keySet()), Point.maxY(blocks.keySet()));
+        
         // Build a graph out of all possible states of the crucible.
         Graph<Crucible, DefaultWeightedEdge> graph = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
-        graph.addVertex(Crucible.START);
-        Set<Crucible> latestCrucibles = Set.of(Crucible.START);
+        graph.addVertex(start);
+        Set<Crucible> latestCrucibles = Set.of(start);
         while (!latestCrucibles.isEmpty()) {
             latestCrucibles = latestCrucibles.stream()
                     .flatMap(crucible -> 
@@ -47,10 +67,8 @@ record City(Map<Point, Block> blocks) {
                     .collect(Collectors.toSet());
         }
         
-        var goal = new Point(Point.maxX(blocks.keySet()), Point.maxY(blocks.keySet()));
-        
         ShortestPathAlgorithm<Crucible, DefaultWeightedEdge> algorithm = new DijkstraShortestPath<>(graph);
-        var paths = algorithm.getPaths(Crucible.START);
+        var paths = algorithm.getPaths(start);
         return graph.vertexSet()
                .stream()
                .filter(crucible -> crucible.location().equals(goal))

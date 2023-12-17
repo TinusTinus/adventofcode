@@ -16,9 +16,6 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record Crucible(Point location, Direction direction, int steps, boolean ultra) {
-    /** Starting point, in the top-left, without any steps taken. */
-    static final Crucible START = new Crucible(Point.ORIGIN, null, 0, false); // TODO set the ultra flag correctly
-    
     /**
      * Determines the next possible steps for this crucible.
      * 
