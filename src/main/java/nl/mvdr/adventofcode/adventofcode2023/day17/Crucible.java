@@ -50,7 +50,7 @@ record Crucible(Point location, Direction direction, int steps, boolean ultra) {
     }
     
     /**
-     * @return minimum number of steps to move in any given direction without turning
+     * @return maximum number of steps to move in any given direction without turning
      */
     private int maximumSteps() {
         int result;
@@ -63,10 +63,10 @@ record Crucible(Point location, Direction direction, int steps, boolean ultra) {
     }
     
     /**
-     * Takes a single step in the given direction.
+     * Moves in the given direction.
      * 
      * @param newDirection new direction to move in
-     * @return updated step
+     * @return next state of this crucible, with the corresponding heat loss
      */
     private CrucibleWithHeatLoss step(Direction newDirection, City city) {
         int stepsToMove;
