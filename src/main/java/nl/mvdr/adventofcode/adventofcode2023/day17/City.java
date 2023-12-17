@@ -1,12 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2023.day17;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
@@ -43,11 +44,25 @@ record City(Map<Point, Block> blocks) {
                         crucible.possibleSteps()
                                 .filter(step -> blocks.containsKey(step.location()))
                                 .filter(graph::addVertex)
-                                .peek(step -> graph.addEdge(crucible, step)) // TODO set edge weights!
+                                .peek(step -> {
+                                    var edge = graph.addEdge(crucible, step);
+                                    var heatLoss = blocks.get(step.location()).heatLoss();
+                                    graph.setEdgeWeight(edge, heatLoss);
+                                }) 
                     )
                     .collect(Collectors.toSet());
         }
         
-        return 0; // TODO implement
+        var goal = new Point(Point.maxX(blocks.keySet()), Point.maxY(blocks.keySet()));
+        
+        ShortestPathAlgorithm<Crucible, DefaultWeightedEdge> algorithm = new DijkstraShortestPath<>(graph);
+        var paths = algorithm.getPaths(Crucible.START);
+        return graph.vertexSet()
+               .stream()
+               .filter(crucible -> crucible.location().equals(goal))
+               .mapToDouble(paths::getWeight)
+               .mapToInt(d -> (int)d)
+               .min()
+               .orElseThrow();
     }
 }
