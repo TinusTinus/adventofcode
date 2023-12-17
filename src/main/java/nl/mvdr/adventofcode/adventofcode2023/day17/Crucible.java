@@ -74,7 +74,7 @@ record Crucible(Point location, Direction direction, int steps, boolean ultra) {
         if (newDirection == direction) {
             // Move one more step in the same direction.
             stepsToMove = 1;
-            newSteps = steps + 1;
+            newSteps = steps + stepsToMove;
         } else {
             // We are changing direction. Move the minimum number of steps.
             stepsToMove = minimumSteps();

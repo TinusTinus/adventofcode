@@ -84,13 +84,13 @@ record City(Map<Point, Block> blocks) {
      * @param graph graph
      * @param newVertex vertext to add
      * @param previousVertex previous vertex, that is: the source vertex for the new edge
-     * @return whether the vertext was newly added to the graph
+     * @return whether the vertex was newly added to the graph
      */
     private boolean addVertexAndEdge(Graph<Crucible, DefaultWeightedEdge> graph, Crucible newVertex,
             Crucible previousVertex) {
         var result = graph.addVertex(newVertex);
         var edge = graph.addEdge(previousVertex, newVertex);
-        var heatLoss = blocks.get(newVertex.location()).heatLoss();
+        var heatLoss = blocks.get(newVertex.location()).heatLoss(); // TODO nope, all intermediate heat losses need to be added as well
         graph.setEdgeWeight(edge, heatLoss);
         return result;
     }
