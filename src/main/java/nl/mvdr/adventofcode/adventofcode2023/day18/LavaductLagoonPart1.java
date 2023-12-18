@@ -30,7 +30,7 @@ public class LavaductLagoonPart1 implements IntSolver {
      */
     public static void main(String[] args) {
         var instance = new LavaductLagoonPart1();
-
+        
         var result = instance.solve("input-day18-2023.txt");
 
         LOGGER.info(result);

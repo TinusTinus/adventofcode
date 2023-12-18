@@ -68,7 +68,7 @@ record DigPlan(List<DigPlanInstruction> instructions) {
      * @param trench trench
      * @return hole
      */
-    private Set<Point> digHole(List<Point> trench) {
+    private static Set<Point> digHole(List<Point> trench) {
         // Find a point on the left side of the trench
         var leftSidePoint = trench.stream()
                 .filter(point -> !trench.contains(point.rightNeighbour()))
