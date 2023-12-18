@@ -88,25 +88,24 @@ public record Point(int x, int y) implements Comparable<Point> {
         );
     }
 
-
     /** @return neighbour to the left (assuming x coordinates are numbererd left-to-right) */
     public Point leftNeighbour() {
-        return new Point(Math.subtractExact(x, 1), y);
+        return Direction.LEFT.move(this);
     }
 
     /** @return neighbour to the right (assuming x coordinates are numbered left-to-right) */
     public Point rightNeighbour() {
-        return new Point(Math.addExact(x, 1), y);
+        return Direction.RIGHT.move(this);
     }
 
     /** @return above neighbour (assuming y coordinates are numbered top-down) */
     public Point aboveNeighbour() {
-        return new Point(x, Math.subtractExact(y, 1));
+        return Direction.UP.move(this);
     }
 
     /** @return below neighbour (assuming y coordinates are numbered top-down) */
     public Point belowNeighbour() {
-        return new Point(x, Math.addExact(y, 1));
+        return Direction.DOWN.move(this);
     }
     
     // Convenience methods for use in geographical maps

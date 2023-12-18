@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.point;
 
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -12,27 +11,24 @@ import java.util.stream.Stream;
  */
 public enum Direction {
     /** Up / north. */
-    UP(true, Point::aboveNeighbour, 1L, 3, '^', 'U', 'N'),
+    UP(true, 1L, 3, '^', 'U', 'N'),
     /** Down / south. */
-    DOWN(true, Point::belowNeighbour, 2L, 1, 'v', 'D', 'S'),
+    DOWN(true, 2L, 1, 'v', 'D', 'S'),
     /** Left / west. */
-    LEFT(false, Point::leftNeighbour, 3L, 2, '<', 'L', 'W'),
+    LEFT(false, 3L, 2, '<', 'L', 'W'),
     /** Right / east. */
-    RIGHT(false, Point::rightNeighbour, 4L, 0, '>', 'R', 'E'),
+    RIGHT(false, 4L, 0, '>', 'R', 'E'),
     /** Up-left 45 degree diagonal. */
-    UP_LEFT(false, point -> point.aboveNeighbour().leftNeighbour(), -1L, -1),
+    UP_LEFT(false, -1L, -1),
     /** Up-right 45 degree diagonal. */
-    UP_RIGHT(false, point -> point.aboveNeighbour().rightNeighbour(), -1L, -1),
+    UP_RIGHT(false, -1L, -1),
     /** Down-left 45 degree diagonal. */
-    DOWN_LEFT(false, point -> point.belowNeighbour().leftNeighbour(), -1L, -1),
+    DOWN_LEFT(false, -1L, -1),
     /** Down-right 45 degree diagonal. */
-    DOWN_RIGHT(false, point -> point.belowNeighbour().rightNeighbour(), -1L, -1);
+    DOWN_RIGHT(false, -1L, -1);
     
     /** Whether this direction is vertical. */
     private final boolean vertical;
-    
-    /** Function that, given a location, determines the next location. */
-    private final Function<Point, Point> next;
     
     /** Intcode representation of this direction. */
     private final long code;
@@ -47,14 +43,12 @@ public enum Direction {
      * Constructor.
      * 
      * @param vertical whether this direction is vertical
-     * @param next function that, given a location, determines the next location if a single step is taken in this direction
      * @param code Intcode representation of this direction; -1 if not applicable
      * @param passwordValue value of this direction when representing a facing in a password; -1 if not applicable
      * @param representations character representations of this direction
      */
-    Direction(boolean vertical, Function<Point, Point> next, long code, int passwordValue, char... representations) {
+    Direction(boolean vertical, long code, int passwordValue, char... representations) {
         this.vertical = vertical;
-        this.next = next;
         this.code = code;
         this.passwordValue = passwordValue;
         this.representations = representations;
@@ -96,7 +90,7 @@ public enum Direction {
      * @return next location
      */
     public Point move(Point location) {
-        return next.apply(location);
+        return move(location, 1);
     }
     
     /**
@@ -107,20 +101,17 @@ public enum Direction {
      * @return next location
      */
     public Point move(Point location, int numberOfSteps) {
-        // TODO more efficient implementation
-        
-        // Note: this could be done a lot more efficiently by just adding / subtracting the number of steps to / from the appropriate coordinate.
-        // However, performance has not been an issue up until now. Let's just reuse the existing move method.
-        Point result;
-        if (numberOfSteps < 0) {
-            result = reverse().move(location, -numberOfSteps);
-        } else {
-            result = location;
-            for (int i = 0; i != numberOfSteps; i++) {
-                result = move(result);
-            }
-        }
-        return result;
+        return switch(this) {
+            case UP -> new Point(location.x(), location.y() - numberOfSteps);
+            case DOWN -> new Point(location.x(), location.y() + numberOfSteps);
+            case LEFT -> new Point(location.x() - numberOfSteps, location.y());
+            case RIGHT -> new Point(location.x() + numberOfSteps, location.y());
+            case DOWN_LEFT -> new Point(location.x() - numberOfSteps, location.y() + numberOfSteps);
+            case DOWN_RIGHT -> new Point(location.x() + numberOfSteps, location.y() + numberOfSteps);
+            case UP_LEFT -> new Point(location.x() - numberOfSteps, location.y() - numberOfSteps);
+            case UP_RIGHT -> new Point(location.x() - numberOfSteps, location.y() + numberOfSteps);
+            default -> throw new IllegalStateException("Unexpected direction: " + this);
+        };
     }
     
     /** @return the direction counter-clockwise from this one */
