@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2023.day18;
 
-import java.util.stream.Stream;
-
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -39,15 +37,18 @@ record DigPlanInstruction(Direction direction, int distance) {
         } else {
             var poundSignIndex = text.indexOf("#");
             var closingBracketIndex = text.indexOf(")");
+            
             var distanceString = text.substring(poundSignIndex + 1, closingBracketIndex - 1);
             distance = Integer.parseInt(distanceString, HEXADECIMAL_RADIX);
+            
             var directionString = text.substring(closingBracketIndex - 1, closingBracketIndex);
-            var directionValue = Integer.parseInt(directionString, HEXADECIMAL_RADIX);
-            // Note that the direction values in the puzzle match the "password" values from 2022 day 22 exactly.
-            direction = Stream.of(Direction.values())
-                    .filter(d -> d.getPasswordValue() == directionValue)
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Value " + directionString + " is not a valid distance value."));
+            direction = switch(directionString) {
+                case "0" -> Direction.RIGHT;
+                case "1" -> Direction.DOWN;
+                case "2" -> Direction.LEFT;
+                case "3" -> Direction.UP;
+                default -> throw new IllegalArgumentException("Unknown direction: " + directionString);
+            };
         }
         
         return new DigPlanInstruction(direction, distance);
