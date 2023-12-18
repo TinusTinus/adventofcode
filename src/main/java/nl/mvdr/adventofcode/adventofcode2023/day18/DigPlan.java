@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -14,6 +18,8 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record DigPlan(List<DigPlanInstruction> instructions) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(DigPlan.class);
     
     /**
      * Parses a dig plan.
@@ -48,6 +54,10 @@ record DigPlan(List<DigPlanInstruction> instructions) {
         instructions.stream()
                 .map(instruction -> instruction.dig(result.getLast()))
                 .forEach(result::addAll);
+        if (LOGGER.isDebugEnabled()) {
+            var set = result.stream().collect(Collectors.toSet());
+            LOGGER.debug("Trench:\n{}", Point.visualize(set));
+        }
         return result;
     }
     
@@ -58,6 +68,8 @@ record DigPlan(List<DigPlanInstruction> instructions) {
      * @return hole
      */
     private Set<Point> digHole(List<Point> trench) {
-        return new HashSet<>(trench); // TODO implement!
+        Set<Point> result = new HashSet<>(trench); // TODO implement!;
+        LOGGER.debug("Hole:\n{}", Point.visualize(result));
+        return result;
     }
 }
