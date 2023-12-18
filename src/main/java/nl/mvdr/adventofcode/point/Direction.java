@@ -102,14 +102,14 @@ public enum Direction {
      */
     public Point move(Point location, int numberOfSteps) {
         return switch(this) {
-            case UP -> new Point(location.x(), location.y() - numberOfSteps);
-            case DOWN -> new Point(location.x(), location.y() + numberOfSteps);
-            case LEFT -> new Point(location.x() - numberOfSteps, location.y());
-            case RIGHT -> new Point(location.x() + numberOfSteps, location.y());
-            case DOWN_LEFT -> new Point(location.x() - numberOfSteps, location.y() + numberOfSteps);
-            case DOWN_RIGHT -> new Point(location.x() + numberOfSteps, location.y() + numberOfSteps);
-            case UP_LEFT -> new Point(location.x() - numberOfSteps, location.y() - numberOfSteps);
-            case UP_RIGHT -> new Point(location.x() - numberOfSteps, location.y() + numberOfSteps);
+            case UP -> new Point(location.x(), Math.subtractExact(location.y(), numberOfSteps));
+            case DOWN -> new Point(location.x(), Math.addExact(location.y(), numberOfSteps));
+            case LEFT -> new Point(Math.subtractExact(location.x(), numberOfSteps), location.y());
+            case RIGHT -> new Point(Math.addExact(location.x(), numberOfSteps), location.y());
+            case DOWN_LEFT -> new Point(Math.subtractExact(location.x(), numberOfSteps), Math.addExact(location.y(), numberOfSteps));
+            case DOWN_RIGHT -> new Point(Math.addExact(location.x(), numberOfSteps), Math.addExact(location.y(), numberOfSteps));
+            case UP_LEFT -> new Point(Math.subtractExact(location.x(), numberOfSteps), Math.subtractExact(location.y(), numberOfSteps));
+            case UP_RIGHT -> new Point(Math.subtractExact(location.x(), numberOfSteps), Math.addExact(location.y(), numberOfSteps));
             default -> throw new IllegalStateException("Unexpected direction: " + this);
         };
     }
