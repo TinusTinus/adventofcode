@@ -69,7 +69,7 @@ record DigPlan(List<DigPlanInstruction> instructions) {
      * @return hole
      */
     private Set<Point> digHole(List<Point> trench) {
-        // Find a point on the left side of trench
+        // Find a point on the left side of the trench
         var leftSidePoint = trench.stream()
                 .filter(point -> !trench.contains(point.rightNeighbour()))
                 .filter(point -> trench.stream().filter(p -> p.y() == point.y()).allMatch(p -> point.x() <= p.x()))
@@ -79,7 +79,7 @@ record DigPlan(List<DigPlanInstruction> instructions) {
         // Fill in the hole
         Set<Point> hole = new HashSet<>(trench);
         var holeEdge = Set.of(leftSidePoint.rightNeighbour());
-        while(hole.addAll(holeEdge)) {
+        while (hole.addAll(holeEdge)) {
             holeEdge = holeEdge.stream()
                     .map(Point::neighbours)
                     .flatMap(Set::stream)
