@@ -22,6 +22,8 @@ record DigPlanInstruction(Direction direction, int distance) {
      * @return instruction
      */
     static DigPlanInstruction parse(String text) {
+        // TODO: parse differently for part 2! Note that the numberic representation of a direction matches its "password" property exactly.
+        
         var parts = text.split(" ");
         if (parts.length != 3) {
             throw new IllegalArgumentException("Invalid instruction: " + text);
