@@ -26,10 +26,11 @@ record DigPlan(List<DigPlanInstruction> instructions) {
      * Parses a dig plan.
      * 
      * @param lines puzzle input
+     * @param hexValueAsColor whether hex values should be interpreted as colors
      * @return dig plan
      */
-    static DigPlan parse(Stream<String> lines) {
-        var instructions = lines.map(DigPlanInstruction::parse)
+    static DigPlan parse(Stream<String> lines, boolean hexValueAsColor) {
+        var instructions = lines.map(line -> DigPlanInstruction.parse(line, hexValueAsColor))
                 .toList();
         return new DigPlan(instructions);
     }
