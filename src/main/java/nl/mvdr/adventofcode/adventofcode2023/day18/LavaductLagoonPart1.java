@@ -18,6 +18,7 @@ public class LavaductLagoonPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
+        var digPlan = DigPlan.parse(lines);
         return 0; // TODO
     }
     
