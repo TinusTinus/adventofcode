@@ -109,7 +109,7 @@ public enum Direction {
             case DOWN_LEFT -> new Point(Math.subtractExact(location.x(), numberOfSteps), Math.addExact(location.y(), numberOfSteps));
             case DOWN_RIGHT -> new Point(Math.addExact(location.x(), numberOfSteps), Math.addExact(location.y(), numberOfSteps));
             case UP_LEFT -> new Point(Math.subtractExact(location.x(), numberOfSteps), Math.subtractExact(location.y(), numberOfSteps));
-            case UP_RIGHT -> new Point(Math.subtractExact(location.x(), numberOfSteps), Math.addExact(location.y(), numberOfSteps));
+            case UP_RIGHT -> new Point(Math.addExact(location.x(), numberOfSteps), Math.subtractExact(location.y(), numberOfSteps));
             default -> throw new IllegalStateException("Unexpected direction: " + this);
         };
     }
