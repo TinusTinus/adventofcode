@@ -11,13 +11,13 @@ import java.util.stream.Stream;
  */
 public enum Direction {
     /** Up / north. */
-    UP(true, 1L, 3, '^', 'U', 'N'),
+    UP(true, 1L, 3, '^', 'U', 'N', '3'),
     /** Down / south. */
-    DOWN(true, 2L, 1, 'v', 'D', 'S'),
+    DOWN(true, 2L, 1, 'v', 'D', 'S', '1'),
     /** Left / west. */
-    LEFT(false, 3L, 2, '<', 'L', 'W'),
+    LEFT(false, 3L, 2, '<', 'L', 'W', '2'),
     /** Right / east. */
-    RIGHT(false, 4L, 0, '>', 'R', 'E'),
+    RIGHT(false, 4L, 0, '>', 'R', 'E', '0'),
     /** Up-left 45 degree diagonal. */
     UP_LEFT(false, -1L, -1),
     /** Up-right 45 degree diagonal. */

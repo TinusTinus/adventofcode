@@ -42,13 +42,7 @@ record DigPlanInstruction(Direction direction, int distance) {
             distance = Integer.parseInt(distanceString, HEXADECIMAL_RADIX);
             
             var directionString = text.substring(closingBracketIndex - 1, closingBracketIndex);
-            direction = switch(directionString) {
-                case "0" -> Direction.RIGHT;
-                case "1" -> Direction.DOWN;
-                case "2" -> Direction.LEFT;
-                case "3" -> Direction.UP;
-                default -> throw new IllegalArgumentException("Unknown direction: " + directionString);
-            };
+            direction = Direction.parse(directionString);
         }
         
         return new DigPlanInstruction(direction, distance);
