@@ -47,7 +47,7 @@ record DigPlanInstruction(Direction direction, int distance, Color color) {
      * @param startingPoint starting point
      * @return points making up the newly dug trench
      */
-    List<Point> perform(Point startingPoint) {
+    List<Point> dig(Point startingPoint) {
         List<Point> result = new ArrayList<>();
         var location = startingPoint;
         for (int i = 0; i != distance; i++) {

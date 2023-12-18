@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2023.day18;
 
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -21,13 +20,9 @@ public class LavaductLagoonPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var digPlan = DigPlan.parse(lines);
-        
-        var trench = digPlan.perform()
-                .stream()
-                .collect(Collectors.toSet());
-        LOGGER.info("Trench:\n" + Point.visualize(trench)); // TODO clean up logging
-        
-        return 0; // TODO
+        var hole = digPlan.digHole();
+        LOGGER.info("Trench:\n" + Point.visualize(hole)); // TODO debug
+        return hole.size();
     }
     
     /**
