@@ -29,8 +29,6 @@ record DigPlanInstruction(Direction direction, int distance) {
      * @return instruction
      */
     static DigPlanInstruction parse(String text, boolean hexValueAsColor) {
-        // TODO: parse differently for part 2! Note that the numberic representation of a direction matches its "password" property exactly.
-        
         Direction direction;
         int distance;
         if (hexValueAsColor) {
@@ -61,15 +59,9 @@ record DigPlanInstruction(Direction direction, int distance) {
      * Digs a trench according to this instruction.
      * 
      * @param startingPoint starting point
-     * @return points making up the newly dug trench
+     * @return end point of the trench
      */
-    List<Point> dig(Point startingPoint) {
-        List<Point> result = new ArrayList<>();
-        var location = startingPoint;
-        for (int i = 0; i != distance; i++) {
-            location = direction.move(location);
-            result.add(location);
-        }
-        return result;
+    Point dig(Point startingPoint) {
+        return direction.move(startingPoint, distance);
     }
 }

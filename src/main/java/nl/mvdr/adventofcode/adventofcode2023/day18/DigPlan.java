@@ -1,15 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2023.day18;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -19,8 +12,6 @@ import nl.mvdr.adventofcode.point.Point;
  * @author Martijn van de Rijdt
  */
 record DigPlan(List<DigPlanInstruction> instructions) {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(DigPlan.class);
     
     /**
      * Parses a dig plan.
@@ -39,63 +30,47 @@ record DigPlan(List<DigPlanInstruction> instructions) {
      * @return size of the hole specified by this dig plan
      */
     long holeSize() {
-        return digHole().size();
-    }
-    
-    /**
-     * Digs a hole according to this plan.
-     * 
-     * @return points making up the hole
-     */
-    private Set<Point> digHole() {
-        var trench = digTrench();
-        return digHole(trench);
+        var nodes = digTrench(); // TODO take into account that the trench itself is one meter wide!
+        return (long) computeArea(nodes);
     }
     
     /**
      * Digs a trench according to this plan.
      * 
-     * @return points making up the newly dug trench
+     * @return nodes in the trench
      */
     private List<Point> digTrench() {
         List<Point> result = new ArrayList<>();
         result.add(Point.ORIGIN);
         instructions.stream()
                 .map(instruction -> instruction.dig(result.getLast()))
-                .forEach(result::addAll);
-        if (LOGGER.isDebugEnabled()) {
-            var set = result.stream().collect(Collectors.toSet());
-            LOGGER.debug("Trench:\n{}", Point.visualize(set));
-        }
+                .forEach(result::add);
         return result;
     }
     
     /**
-     * Digs out the inside of the given trench.
+     * Computes the area of a polygon as defined by the given list of nodes.
      * 
-     * @param trench trench
-     * @return hole
+     * Uses the so-called <a href="https://en.wikipedia.org/wiki/Shoelace_formula">shoelace formula</a>.
+     * 
+     * @param points points defining the polygon
+     * @return area of the polygon
      */
-    private static Set<Point> digHole(List<Point> trench) {
-        // Find a point on the left side of the trench
-        var leftSidePoint = trench.stream()
-                .filter(point -> !trench.contains(point.rightNeighbour()))
-                .filter(point -> trench.stream().filter(p -> p.y() == point.y()).allMatch(p -> point.x() <= p.x()))
-                .findAny()
-                .orElseThrow();
+    private static double computeArea(List<Point> points) {
+        long area = 0L;
 
-        // Fill in the hole
-        Set<Point> hole = new HashSet<>(trench);
-        var holeEdge = Set.of(leftSidePoint.rightNeighbour());
-        while (hole.addAll(holeEdge)) {
-            holeEdge = holeEdge.stream()
-                    .map(Point::neighbours)
-                    .flatMap(Set::stream)
-                    .filter(Predicate.not(hole::contains))
-                    .collect(Collectors.toSet());
+        for (var i = 0; i < points.size(); i++) {
+            var point = points.get(i);
+            var nextPoint = points.get((i + 1) % points.size());
+            
+            var pointX = (long) point.x();
+            var pointY = (long) point.y();
+            var nextPointX = (long) nextPoint.x();
+            var nextPointY = (long) nextPoint.y();
+            
+            area += pointX * nextPointY - nextPointX * pointY;
         }
-        
-        LOGGER.debug("Hole:\n{}", Point.visualize(hole));
-        return hole;
+
+        return area / 2.0;
     }
 }
