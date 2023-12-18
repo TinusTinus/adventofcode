@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2023.day18;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Direction;
