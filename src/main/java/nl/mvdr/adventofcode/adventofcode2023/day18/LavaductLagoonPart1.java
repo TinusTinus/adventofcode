@@ -5,22 +5,21 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/18"Lavaduct Lagoon?</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class LavaductLagoonPart1 implements IntSolver {
+public class LavaductLagoonPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LavaductLagoonPart1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         var digPlan = DigPlan.parse(lines, true);
-        var hole = digPlan.digHole();
-        return hole.size();
+        return digPlan.holeSize();
     }
     
     /**

@@ -36,11 +36,18 @@ record DigPlan(List<DigPlanInstruction> instructions) {
     }
     
     /**
+     * @return size of the hole specified by this dig plan
+     */
+    long holeSize() {
+        return digHole().size();
+    }
+    
+    /**
      * Digs a hole according to this plan.
      * 
      * @return points making up the hole
      */
-    Set<Point> digHole() {
+    private Set<Point> digHole() {
         var trench = digTrench();
         return digHole(trench);
     }
