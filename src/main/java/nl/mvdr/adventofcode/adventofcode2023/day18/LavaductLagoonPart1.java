@@ -1,11 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2023.day18;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/18"Lavaduct Lagoon?</a>.
@@ -19,6 +21,12 @@ public class LavaductLagoonPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var digPlan = DigPlan.parse(lines);
+        
+        var trench = digPlan.perform()
+                .stream()
+                .collect(Collectors.toSet());
+        LOGGER.info("Trench:\n" + Point.visualize(trench)); // TODO clean up logging
+        
         return 0; // TODO
     }
     
