@@ -30,8 +30,18 @@ record DigPlan(List<DigPlanInstruction> instructions) {
      * @return size of the hole specified by this dig plan
      */
     long holeSize() {
-        var nodes = digTrench(); // TODO take into account that the trench itself is one meter wide!
-        return (long) computeArea(nodes);
+        var nodes = digTrench(); 
+        
+        var area = computeArea(nodes);
+        
+        // Take into account that the trenches themselves are also 1m wide.
+        // Half of the perimeter is on the outside.
+        var perimeter = instructions.stream()
+                .mapToLong(DigPlanInstruction::distance)
+                .sum();
+        var result = area + perimeter / 2.0 + 1;
+        
+        return (long) result;
     }
     
     /**
