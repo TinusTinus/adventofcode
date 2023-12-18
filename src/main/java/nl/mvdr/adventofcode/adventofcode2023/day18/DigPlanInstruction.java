@@ -1,8 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2023.day18;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 
 import nl.mvdr.adventofcode.point.Direction;
+import nl.mvdr.adventofcode.point.Point;
 
 /**
  * A single instruction in a dig plan.
@@ -36,5 +39,21 @@ record DigPlanInstruction(Direction direction, int distance, Color color) {
         var color = Color.decode(colorString);
         
         return new DigPlanInstruction(direction, distance, color);
+    }
+    
+    /**
+     * Digs a trench according to this instruction.
+     * 
+     * @param startingPoint starting point
+     * @return points making up the newly dug trench
+     */
+    Set<Point> perform(Point startingPoint) {
+        Set<Point> result = new HashSet<>();
+        var location = startingPoint;
+        for (int i = 0; i != distance; i++) {
+            location = direction.move(location);
+            result.add(location);
+        }
+        return result;
     }
 }
