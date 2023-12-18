@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -68,8 +69,25 @@ record DigPlan(List<DigPlanInstruction> instructions) {
      * @return hole
      */
     private Set<Point> digHole(List<Point> trench) {
-        Set<Point> result = new HashSet<>(trench); // TODO implement!;
-        LOGGER.debug("Hole:\n{}", Point.visualize(result));
-        return result;
+        // Find a point on the left side of trench
+        var leftSidePoint = trench.stream()
+                .filter(point -> !trench.contains(point.rightNeighbour()))
+                .filter(point -> trench.stream().filter(p -> p.y() == point.y()).allMatch(p -> point.x() <= p.x()))
+                .findAny()
+                .orElseThrow();
+
+        // Fill in the hole
+        Set<Point> hole = new HashSet<>(trench);
+        var holeEdge = Set.of(leftSidePoint.rightNeighbour());
+        while(hole.addAll(holeEdge)) {
+            holeEdge = holeEdge.stream()
+                    .map(Point::neighbours)
+                    .flatMap(Set::stream)
+                    .filter(Predicate.not(hole::contains))
+                    .collect(Collectors.toSet());
+        }
+        
+        LOGGER.debug("Hole:\n{}", Point.visualize(hole));
+        return hole;
     }
 }
