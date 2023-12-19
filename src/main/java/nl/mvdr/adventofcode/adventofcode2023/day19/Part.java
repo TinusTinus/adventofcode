@@ -8,10 +8,6 @@ import java.util.stream.Stream;
 /**
  * A part.
  * 
- * @param x extremely cool looking
- * @param m musical (it makes a noise when you hit it)
- * @param a aerodynamic
- * @param s shiny
  * @author Martijn van de Rijdt
  */
 record Part(Map<Property, Integer> properties) {
