@@ -29,7 +29,9 @@ enum Operand {
 
         @Override
         RangeFilterResult<ValueRange> filter(ValueRange range, int value) {
-            return LESS_THAN.filter(range, value + 1).swap();
+            var applies = new ValueRange(value + 1, range.endExclusive());
+            var doesNotApply = new ValueRange(range.startInclusive(), value + 1);
+            return new RangeFilterResult<>(applies, doesNotApply);
         }
     };
     
