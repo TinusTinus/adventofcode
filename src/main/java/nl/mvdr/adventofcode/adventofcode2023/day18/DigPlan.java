@@ -38,8 +38,8 @@ record DigPlan(List<DigPlanInstruction> instructions) {
         // Half of the perimeter is on the outside.
         var perimeter = instructions.stream()
                 .mapToLong(DigPlanInstruction::distance)
-                .sum();
-        var result = area + perimeter / 2.0 + 1;
+                .sum() + 2; // +2 for the starting square
+        var result = area + perimeter / 2.0;
         
         return (long) result;
     }
