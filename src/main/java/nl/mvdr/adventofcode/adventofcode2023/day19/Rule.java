@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2023.day19;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 /**
  * A single rule.
  *
@@ -8,12 +11,25 @@ package nl.mvdr.adventofcode.adventofcode2023.day19;
 sealed interface Rule permits ConditionalRule, AbsoluteRule {
 
     /**
+     * Parses a list of rules.
+     * 
+     * @param text textual representation of a list of rules, for example: "x>10:one,m<20:two,a>30:R,A"
+     * @return rules
+     */
+    static List<Rule> parse(String text) {
+        var parts = text.split(",");
+        return Stream.of(parts)
+                .map(Rule::parseRule)
+                .toList();
+    }
+    
+    /**
      * Parses a rule.
      * 
      * @param text textual representation of a rule, for example: "x>10:one" or "A"
      * @return the rule
      */
-    static Rule parse(String text) {
+    private static Rule parseRule(String text) {
         Rule result;
         if (text.contains(":")) {
             result = ConditionalRule.parse(text);
