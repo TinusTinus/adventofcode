@@ -10,6 +10,9 @@ record ValueRange(int startInclusive, int endExclusive) {
     private static final int MINIMUM_VALUE = 1;
     private static final int MAXIMUM_VALUE = 4000;
 
+    /**
+     * Range of all possible property values.
+     */
     static final ValueRange FULL_RANGE = new ValueRange(MINIMUM_VALUE, MAXIMUM_VALUE + 1);
     
     /**
@@ -38,5 +41,12 @@ record ValueRange(int startInclusive, int endExclusive) {
      */
     boolean isEmpty() {
         return startInclusive == endExclusive;
+    }
+    
+    /**
+     * @return number of values within this range
+     */
+    int size() {
+        return endExclusive - startInclusive;
     }
 }
