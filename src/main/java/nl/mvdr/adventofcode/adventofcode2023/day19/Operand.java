@@ -16,8 +16,20 @@ enum Operand {
 
         @Override
         RangeFilterResult<ValueRange> filter(ValueRange range, int value) {
-            // TODO implement for real
-            return new RangeFilterResult<>(range, ValueRange.EMPTY_RANGE);
+            RangeFilterResult<ValueRange> result;
+            if (value <= range.startInclusive()) {
+                // All values in the range are at least the given value.
+                result = new RangeFilterResult<>(ValueRange.EMPTY_RANGE, range);
+            } else if (range.endExclusive() <= value) {
+                // All values in the range are less than the given value.
+                result = new RangeFilterResult<>(range, ValueRange.EMPTY_RANGE);
+            } else {
+                // The given value is somewhere within the range.
+                var applies = new ValueRange(range.startInclusive(), value);
+                var doesNotApply = new ValueRange(value, range.endExclusive());
+                result = new RangeFilterResult<>(applies, doesNotApply);
+            }
+            return result;
         }
     },
     GREATER_THAN(">") {
