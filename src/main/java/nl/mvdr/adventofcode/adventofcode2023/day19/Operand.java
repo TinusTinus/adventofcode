@@ -67,6 +67,11 @@ enum Operand {
     /**
      * Splits the given range into two.
      * 
+     * The filter result returned by this method contains two ranges:
+     * one represents the values which satisfy the condition,
+     * the other represents the values which do not.
+     * The two ranges together make up the given range.
+     * 
      * @param range range of values
      * @param value the value to compare to
      * @return split range

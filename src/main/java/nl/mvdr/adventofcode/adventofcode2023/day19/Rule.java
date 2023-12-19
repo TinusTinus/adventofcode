@@ -53,10 +53,15 @@ sealed interface Rule permits ConditionalRule, AbsoluteRule {
     String target();
     
     /**
-     * Determines to which subrange of the given part range this rule applies.
+     * Determines to which subranges of the given part range this rule applies.
+     * 
+     * The filter result returned by this method contains two ranges:
+     * one represents the values to which this rule does apply,
+     * the other represents the values to which it does not.
+     * The two ranges together make up the given range.
      * 
      * @param partRange part range
-     * @return subrange
+     * @return subranges
      */
     RangeFilterResult<PartRange> filter(PartRange partRange);
 }
