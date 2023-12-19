@@ -40,7 +40,7 @@ enum Operand {
 
         @Override
         RangeFilterResult<ValueRange> filter(ValueRange range, int value) {
-            return LESS_THAN.filter(range, value).swap();
+            return LESS_THAN.filter(range, value + 1).swap();
         }
     };
     
