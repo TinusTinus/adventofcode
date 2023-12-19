@@ -47,21 +47,6 @@ record Workflow(String name, List<Rule> rules) {
     }
     
     /**
-     * Applies this workflow to the given part.
-     * 
-     * @param part the part to check
-     * @return "A" for accept, or "R" for reject, or otherwise the name of the next workflow to apply
-     */
-    String apply(Part part) {
-        return rules.stream()
-                .filter(rule -> rule.apply(part))
-                .map(Rule::target)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException(
-                        "No applicable rule found for part " + part + " in workflow " + this));
-    }
-    
-    /**
      * Checks whether this workflow accepts the given part.
      * 
      * @param part part
@@ -75,5 +60,21 @@ record Workflow(String name, List<Rule> rules) {
             case "R" -> false;
             default -> workflows.get(target).accepts(part, workflows);
         };
+    }
+    
+    
+    /**
+     * Applies this workflow to the given part.
+     * 
+     * @param part the part to check
+     * @return "A" for accept, or "R" for reject, or otherwise the name of the next workflow to apply
+     */
+    private String apply(Part part) {
+        return rules.stream()
+                .filter(rule -> rule.apply(part))
+                .map(Rule::target)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException(
+                        "No applicable rule found for part " + part + " in workflow " + this));
     }
 }
