@@ -24,9 +24,7 @@ public class AplentyPart1 implements IntSolver {
         List<String> lines = linesStream.toList();
         var emptyLineIndex = lines.indexOf("");
         
-        var workflows = Workflow.parse(lines.subList(0, emptyLineIndex))
-                .stream()
-                .collect(Collectors.toMap(Workflow::name, Function.identity()));
+        var workflows = Workflow.parse(lines.subList(0, emptyLineIndex));
         
         var parts = Part.parse(lines.subList(emptyLineIndex + 1, lines.size()));
         

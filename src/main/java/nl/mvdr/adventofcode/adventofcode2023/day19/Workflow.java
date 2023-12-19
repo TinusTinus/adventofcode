@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2023.day19;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * A workflow.
@@ -14,15 +16,15 @@ import java.util.Map;
 record Workflow(String name, List<Rule> rules) {
     
     /**
-     * Parses a list of workflows.
+     * Parses workflows.
      * 
      * @param lines list of strings, where each string contains the textual representation of a workflow
-     * @return workflows
+     * @return workflows, indexed by name
      */
-    static List<Workflow> parse(List<String> lines) {
+    static Map<String, Workflow> parse(List<String> lines) {
         return lines.stream()
                 .map(Workflow::parse)
-                .toList();
+                .collect(Collectors.toMap(Workflow::name, Function.identity()));
     }
     
     /**
