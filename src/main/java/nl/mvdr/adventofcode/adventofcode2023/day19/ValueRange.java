@@ -10,7 +10,7 @@ record ValueRange(int startInclusive, int endExclusive) {
     private static final int MINIMUM_VALUE = 1;
     private static final int MAXIMUM_VALUE = 4000;
 
-    static final ValueRange FULL_RANGE = new ValueRange(MINIMUM_VALUE, MAXIMUM_VALUE);
+    static final ValueRange FULL_RANGE = new ValueRange(MINIMUM_VALUE, MAXIMUM_VALUE + 1);
     
     /**
      * Constructor.
@@ -22,7 +22,7 @@ record ValueRange(int startInclusive, int endExclusive) {
         if (startInclusive < MINIMUM_VALUE) {
             throw new IllegalArgumentException("Invalid start of range: " + startInclusive);
         }
-        if (MAXIMUM_VALUE < endExclusive) {
+        if (MAXIMUM_VALUE + 1 < endExclusive) {
             throw new IllegalArgumentException("Invalid end of range: " + endExclusive);
         }
         if (endExclusive < startInclusive) {
