@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day19;
 
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -47,5 +48,18 @@ record PartRange(Map<Property, ValueRange> valueRanges) {
                 .mapToLong(ValueRange::size)
                 .reduce(Math::multiplyExact)
                 .orElseThrow();
+    }
+    
+    /**
+     * Returns a copy of this range where the given value has been replaced.
+     * 
+     * @param property key
+     * @param valueRange new value range for the given property
+     * @return part range
+     */
+    PartRange withValueRange(Property property, ValueRange valueRange) {
+        Map<Property, ValueRange> newValueRanges = new EnumMap<>(valueRanges);
+        newValueRanges.put(property, valueRange);
+        return new PartRange(newValueRanges);
     }
 }

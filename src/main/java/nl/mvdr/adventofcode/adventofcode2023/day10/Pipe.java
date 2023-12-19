@@ -8,7 +8,7 @@ import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
- * TODO javadoc
+ * A pipe.
  *
  * @author Martijn van de Rijdt
  */

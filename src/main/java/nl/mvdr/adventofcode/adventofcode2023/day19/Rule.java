@@ -58,5 +58,5 @@ sealed interface Rule permits ConditionalRule, AbsoluteRule {
      * @param partRange part range
      * @return subrange
      */
-    RuleFilterResult filter(PartRange partRange);
+    RangeFilterResult<PartRange> filter(PartRange partRange);
 }

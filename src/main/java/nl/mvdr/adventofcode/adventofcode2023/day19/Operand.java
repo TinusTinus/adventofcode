@@ -13,11 +13,22 @@ enum Operand {
         boolean apply(int lhs, int rhs) {
             return lhs < rhs;
         }
+
+        @Override
+        RangeFilterResult<ValueRange> filter(ValueRange range, int value) {
+            // TODO implement for real
+            return new RangeFilterResult<>(range, ValueRange.EMPTY_RANGE);
+        }
     },
     GREATER_THAN(">") {
         @Override
         boolean apply(int lhs, int rhs) {
             return lhs > rhs;
+        }
+
+        @Override
+        RangeFilterResult<ValueRange> filter(ValueRange range, int value) {
+            return LESS_THAN.filter(range, value).swap();
         }
     };
     
@@ -52,4 +63,13 @@ enum Operand {
      * @return result
      */
     abstract boolean apply(int lhs, int rhs);
+    
+    /**
+     * Splits the given range into two.
+     * 
+     * @param range range of values
+     * @param value the value to compare to
+     * @return split range
+     */
+    abstract RangeFilterResult<ValueRange> filter(ValueRange range, int value);
 }

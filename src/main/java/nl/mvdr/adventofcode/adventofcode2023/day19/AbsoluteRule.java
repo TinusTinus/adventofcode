@@ -23,8 +23,8 @@ record AbsoluteRule(String target) implements Rule {
     }
 
     @Override
-    public RuleFilterResult filter(PartRange partRange) {
+    public RangeFilterResult<PartRange> filter(PartRange partRange) {
         // Applies to any part
-        return new RuleFilterResult(partRange, PartRange.EMPTY_RANGE);
+        return new RangeFilterResult<>(partRange, PartRange.EMPTY_RANGE);
     }
 }

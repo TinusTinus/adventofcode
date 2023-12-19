@@ -32,8 +32,11 @@ record ConditionalRule(Property property, Operand operand, int value, String tar
     }
 
     @Override
-    public RuleFilterResult filter(PartRange partRange) {
-        // TODO split the range according to this rule!
-        return new RuleFilterResult(partRange, PartRange.EMPTY_RANGE);
+    public RangeFilterResult<PartRange> filter(PartRange partRange) {
+        var valueRange = partRange.valueRanges().get(property);
+        var filterResult = operand.filter(valueRange, value);
+        var applies = partRange.withValueRange(property, filterResult.applies());
+        var doesNotApply = partRange.withValueRange(property, filterResult.doesNotApply());
+        return new RangeFilterResult<>(applies, doesNotApply);
     }
 }
