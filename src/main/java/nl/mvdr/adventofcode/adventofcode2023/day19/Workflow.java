@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day19;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * A workflow.
@@ -56,5 +57,21 @@ record Workflow(String name, List<Rule> rules) {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException(
                         "No applicable rule found for part " + part + " in workflow " + this));
+    }
+    
+    /**
+     * Checks whether this workflow accepts the given part.
+     * 
+     * @param part part
+     * @param workflows all workflows, indexed by name
+     * @return whether the part is accepted
+     */
+    boolean accepts(Part part, Map<String, Workflow> workflows) {
+        var target = apply(part);
+        return switch(target) {
+            case "A" -> true;
+            case "R" -> false;
+            default -> workflows.get(target).accepts(part, workflows);
+        };
     }
 }
