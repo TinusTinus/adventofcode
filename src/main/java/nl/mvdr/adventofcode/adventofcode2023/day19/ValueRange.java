@@ -37,12 +37,10 @@ record ValueRange(int startInclusive, int endExclusive) {
         if (MAXIMUM_VALUE + 1 < endExclusive) {
             throw new IllegalArgumentException("Invalid end of range: " + endExclusive);
         }
-        if (endExclusive < startInclusive) {
-            throw new IllegalArgumentException("Invalid range: " + startInclusive + ", " + endExclusive);
-        }
         
         this.startInclusive = startInclusive;
-        this.endExclusive = endExclusive;
+        // if endExclusive < startInclusive: interpret as an empty range
+        this.endExclusive = Math.max(startInclusive, endExclusive);
     }
     
     /**
