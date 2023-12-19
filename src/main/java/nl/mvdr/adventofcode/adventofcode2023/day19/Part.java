@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2023.day19;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A part.
@@ -11,8 +14,7 @@ import java.util.List;
  * @param s shiny
  * @author Martijn van de Rijdt
  */
-// TODO consider representing the properties as a Map<String, Integer> instead?
-record Part(int x, int m, int a, int s) {
+record Part(Map<Property, Integer> properties) {
     
     /**
      * Parses a list of parts.
@@ -36,31 +38,12 @@ record Part(int x, int m, int a, int s) {
         if (!text.startsWith("{") || !text.endsWith("}")) {
             throw new IllegalArgumentException("Missing braces: " + text);
         }
+        // Drop the brackets and split on commas
         var propertyStrings = text.substring(1, text.length() - 1).split(",");
-        if (propertyStrings.length != 4) {
-            throw new IllegalArgumentException("Unexpected number of properties: " + text);
-        }
-        var x = parseProperty("x", propertyStrings[0]);
-        var m = parseProperty("m", propertyStrings[1]);
-        var a = parseProperty("a", propertyStrings[2]);
-        var s = parseProperty("s", propertyStrings[3]);
-        
-        return new Part(x, m, a, s);
-    }
-    
-    /**
-     * Parses a property value.
-     * 
-     * @param expectedPropertyName expected property name: "x", "m", "a" or "s"
-     * @param text textual representation of a property, for example: "x=787"
-     * @return property value
-     */
-    private static int parseProperty(String expectedPropertyName, String text) {
-        var expectedPrefix = expectedPropertyName + "=";
-        if (!text.startsWith(expectedPrefix)) {
-            throw new IllegalArgumentException("Property does not start with '" + expectedPrefix + "': " + text);
-        }
-        var valueString = text.substring(2);
-        return Integer.parseInt(valueString);
+        // Parse each property
+        var properties = Stream.of(propertyStrings)
+                .map(propertyString -> propertyString.split("="))
+                .collect(Collectors.toMap(sides -> Property.parse(sides[0]), sides -> Integer.valueOf(sides[1])));
+        return new Part(properties);
     }
 }
