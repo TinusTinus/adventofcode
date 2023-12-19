@@ -30,4 +30,10 @@ record ConditionalRule(Property property, Operand operand, int value, String tar
         var propertyValue = part.properties().get(property).intValue();
         return operand.apply(propertyValue, value);
     }
+
+    @Override
+    public RuleFilterResult filter(PartRange partRange) {
+        // TODO split the range according to this rule!
+        return new RuleFilterResult(partRange, PartRange.EMPTY_RANGE);
+    }
 }

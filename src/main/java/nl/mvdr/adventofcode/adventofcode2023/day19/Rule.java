@@ -51,4 +51,12 @@ sealed interface Rule permits ConditionalRule, AbsoluteRule {
      * @return name of the target workflow, if this rule applies to a part
      */
     String target();
+    
+    /**
+     * Determines to which subrange of the given part range this rule applies.
+     * 
+     * @param partRange part range
+     * @return subrange
+     */
+    RuleFilterResult filter(PartRange partRange);
 }

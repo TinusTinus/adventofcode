@@ -21,4 +21,10 @@ record AbsoluteRule(String target) implements Rule {
     public boolean apply(Part part) {
         return true;
     }
+
+    @Override
+    public RuleFilterResult filter(PartRange partRange) {
+        // Applies to any part
+        return new RuleFilterResult(partRange, PartRange.EMPTY_RANGE);
+    }
 }

@@ -11,9 +11,18 @@ record ValueRange(int startInclusive, int endExclusive) {
     private static final int MAXIMUM_VALUE = 4000;
 
     /**
-     * Range of all possible property values.
+     * The range of all possible property values.
      */
     static final ValueRange FULL_RANGE = new ValueRange(MINIMUM_VALUE, MAXIMUM_VALUE + 1);
+    
+    /**
+     * An empty range.
+     * 
+     * Note that this is not necessarily unique!
+     * Do not use {@code EMPTY_RANGE.equals} to check whether a range is empty;
+     * use {@link #isEmpty()} instead.
+     */
+    static final ValueRange EMPTY_RANGE = new ValueRange(MINIMUM_VALUE, MINIMUM_VALUE);
     
     /**
      * Constructor.

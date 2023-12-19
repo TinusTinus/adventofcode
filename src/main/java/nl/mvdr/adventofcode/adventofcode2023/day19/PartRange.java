@@ -19,6 +19,17 @@ record PartRange(Map<Property, ValueRange> valueRanges) {
                 .collect(Collectors.toMap(Function.identity(), property -> ValueRange.FULL_RANGE)));
     
     /**
+     * An empty range.
+     * 
+     * Note that this is not necessarily unique.
+     * Do not use {@code EMPTY_RANGE.equals} to check whether a range is empty;
+     * use {@link #isEmpty()} instead.
+     */
+    static final PartRange EMPTY_RANGE = new PartRange(
+            Stream.of(Property.values())
+            .collect(Collectors.toMap(Function.identity(), property -> ValueRange.EMPTY_RANGE)));
+    
+    /**
      * @return whether this range is empty
      */
     boolean isEmpty() {

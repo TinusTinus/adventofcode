@@ -23,8 +23,11 @@ public class AplentyPart2 implements LongSolver {
         List<String> lines = linesStream.takeWhile(Predicate.not(String::isEmpty))
                 .toList();
         var workflows = Workflow.parse(lines);
-        
-        return 0L; // TODO implement
+        var in = workflows.get("in");
+        return in.filter(PartRange.FULL_RANGE, workflows)
+                .stream()
+                .mapToLong(PartRange::size)
+                .sum();
     }
     
     /**

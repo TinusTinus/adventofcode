@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2023.day19;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -62,7 +64,6 @@ record Workflow(String name, List<Rule> rules) {
         };
     }
     
-    
     /**
      * Applies this workflow to the given part.
      * 
@@ -76,5 +77,30 @@ record Workflow(String name, List<Rule> rules) {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException(
                         "No applicable rule found for part " + part + " in workflow " + this));
+    }
+    
+    /**
+     * Determines which subranges of the given part range are accepted by this workflow.
+     * 
+     * @param partRange range of parts
+     * @return part ranges which are accepted by this workflow
+     */
+    Set<PartRange> filter(PartRange partRange, Map<String, Workflow> workflows) {
+        Set<PartRange> result = new HashSet<>();
+        PartRange remainingPartRange = partRange;
+        var ruleIndex = 0;
+        while (!remainingPartRange.isEmpty()) {
+            var rule = rules.get(ruleIndex);
+            var filterResult = rule.filter(remainingPartRange);
+            Set<PartRange> acceptingPartRanges = switch(rule.target()) {
+                case "A" -> Set.of(filterResult.applies());
+                case "R" -> Set.of();
+                default -> workflows.get(rule.target()).filter(filterResult.applies(), workflows);
+            };
+            result.addAll(acceptingPartRanges);
+            remainingPartRange = filterResult.doesNotApply();
+            ruleIndex++;
+        }
+        return result;
     }
 }
