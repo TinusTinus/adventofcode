@@ -31,7 +31,7 @@ record Workflow(String name, List<Rule> rules) {
      * @return workflow
      */
     private static Workflow parse(String text) {
-        var parts = text.split("{");
+        var parts = text.split("\\{");
         if (parts.length != 2 || !parts[1].endsWith("}")) {
             throw new IllegalArgumentException("Invalid use of brackets: " + text);
         }

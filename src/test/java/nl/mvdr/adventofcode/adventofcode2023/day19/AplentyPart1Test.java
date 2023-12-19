@@ -22,6 +22,6 @@ public class AplentyPart1Test extends SolverTest<AplentyPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("19114", "example-day19-2023.txt"),
-                Arguments.of("?", "input-day19-2023.txt"));
+                Arguments.of("432427", "input-day19-2023.txt"));
     }
 }

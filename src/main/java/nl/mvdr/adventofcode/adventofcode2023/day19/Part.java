@@ -42,4 +42,14 @@ record Part(Map<Property, Integer> properties) {
                 .collect(Collectors.toMap(sides -> Property.parse(sides[0]), sides -> Integer.valueOf(sides[1])));
         return new Part(properties);
     }
+    
+    /**
+     * @return total ratings of this part
+     */
+    int totalRatings() {
+        return properties.values()
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
 }
