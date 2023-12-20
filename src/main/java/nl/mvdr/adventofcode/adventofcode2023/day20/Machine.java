@@ -194,9 +194,9 @@ record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
      * Keeps pressing the button until this machine has turned on.
      * @return number of button presses
      */
-    int turnOn() {
+    long turnOn() {
         var machine = this;
-        var result = 0;
+        var result = 0L;
         while (!machine.hasTurnedOn()) {
             machine = machine.pressButtonAndHandle();
             result++;
