@@ -1,13 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2023.day20;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,9 +20,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
+record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Machine.class);
+    
+    private static final Map<Machine, Machine> CACHE = new HashMap<>();
     
     /**
      * Parses a module configuration.
@@ -52,9 +53,7 @@ record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
                 .map(module -> module.init(uninitializedModules))
                 .collect(Collectors.toMap(Module::name, Function.identity()));
         
-        Queue<Pulse> pulses = new LinkedList<>();
-        
-        return new Machine(modules, pulses);
+        return new Machine(modules, List.of());
     }
     
     /**
@@ -136,13 +135,8 @@ record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
         if (!pulseQueue.isEmpty()) {
             throw new IllegalStateException("Still processing pulses.");
         }
-        
-        List<Pulse> newPulses = ButtonModule.INSTANCE.press();
-        
-        count(newPulses, pulseCounter);
-        
-        Queue<Pulse> newPulseQueue = new LinkedList<>(newPulses);
-        
+        List<Pulse> newPulseQueue = ButtonModule.INSTANCE.press();
+        count(newPulseQueue, pulseCounter);
         return new Machine(modules, newPulseQueue);
     }
     
@@ -167,9 +161,10 @@ record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
      * @return updated module configuration
      */
     private Machine handlePulse(Map<PulseType, Long> pulseCounter) {
-        Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
-        var pulse = Objects.requireNonNull(newPulseQueue.poll(), "Queue does not contain any pulses.");
+        var pulse = pulseQueue.getFirst();
         LOGGER.debug("{}", pulse);
+        
+        List<Pulse> newPulseQueue = new ArrayList<>(pulseQueue.subList(1, pulseQueue.size()));
         
         var module = Objects.requireNonNull(modules.get(pulse.destination()), "Module not found: " + pulse.destination());
         
