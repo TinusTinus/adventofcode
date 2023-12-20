@@ -190,18 +190,23 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     long turnOn() {
         // From observing the input: there is a single conjunction module which outputs to rx.
         // Find this module.
-        var secondToLastModule = modules.values()
+        var secondToLastModules = modules.values()
                 .stream()
                 .filter(value -> value.destinations().contains("rx"))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No source found for module rx"));
+                .map(Module::name)
+                .collect(Collectors.toSet());
+        if (secondToLastModules.size() != 1) {
+            // I guess this solution does not work for this input :/
+            throw new IllegalStateException("No single second-to-last module found: " + secondToLastModules);
+        }
+        var secondToLastModule = secondToLastModules.iterator().next();
         
         // From observing the input: there are four conjunction modules which output to the above one.
         // Find these modules, and check how long it takes to get a high output from each one.
         // The puzzle answer is the lcm of these four values.
         return modules.values()
                 .stream()
-                .filter(value -> value.destinations().contains(secondToLastModule.name()))
+                .filter(value -> value.destinations().contains(secondToLastModule))
                 .map(Module::name)
                 .mapToLong(this::buttonPressesUntilHighOutput)
                 .reduce(ArithmeticUtils::lcm)
