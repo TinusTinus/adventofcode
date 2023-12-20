@@ -10,9 +10,11 @@ import java.util.List;
  */
 record BroadcastModule(List<String> destinations) implements Module {
 
+    static final String NAME = "broadcaster";
+
     @Override
     public String name() {
-        return "broadcaster";
+        return NAME;
     }
     
     @Override

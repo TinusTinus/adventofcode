@@ -13,6 +13,8 @@ import java.util.List;
  */
 record FlipFlopModule(String name, List<String> destinations, FlipFlopState state) implements Module {
 
+    static final String PREFIX = "%";
+    
     @Override
     public HandlePulseResult handlePulse(PulseType pulseType) {
         return switch(pulseType) {
