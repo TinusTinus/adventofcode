@@ -12,14 +12,14 @@ import nl.mvdr.adventofcode.LongSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class PulsePropagationPart1 implements LongSolver {
+public class PulsePropagationPart2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PulsePropagationPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PulsePropagationPart2.class);
 
     @Override
     public long solve(Stream<String> lines) {
         var configuration = ModuleConfiguration.parse(lines);
-        return configuration.countPulses(1_000);
+        return 0L; // TODO
     }
     
     /**
@@ -28,7 +28,7 @@ public class PulsePropagationPart1 implements LongSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new PulsePropagationPart1();
+        var instance = new PulsePropagationPart2();
 
         var result = instance.solve("input-day20-2023.txt");
 
