@@ -24,8 +24,6 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Machine.class);
     
-    private static final Map<Machine, Machine> CACHE = new HashMap<>();
-    
     /**
      * Parses a module configuration.
      * 
