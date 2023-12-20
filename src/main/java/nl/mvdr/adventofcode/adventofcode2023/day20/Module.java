@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Martijn van de Rijdt
  */
-interface Module {
+sealed interface Module permits ButtonModule, BroadcastModule, FlipFlopModule, ConjunctionModule {
     /**
      * @return this module's name
      */
