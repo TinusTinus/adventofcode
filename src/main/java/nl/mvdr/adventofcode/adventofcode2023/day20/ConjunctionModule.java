@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  *
  * @author Martijn van de Rijdt
  */
-record ConjunctionModule(String name, Map<String, PulseType> latestInputs, List<String> destinations)
+record ConjunctionModule(String name, List<String> destinations, Map<String, PulseType> latestInputs)
         implements Module {
 
     static final String PREFIX = "&";
@@ -28,13 +28,13 @@ record ConjunctionModule(String name, Map<String, PulseType> latestInputs, List<
      * 
      * This constructor does not initiate the map of latest inputs,
      * as the source modules may not yet be known during parsing.
-     * These should be set later using the {@link #initInputs(Set)} method.
+     * These should be set later using the {@link #init(Set)} method.
      * 
      * @param name name of this conjunction module (excluding the ampersand)
      * @param destinations destinations of this conjunction module
      */
     ConjunctionModule(String name, List<String> destinations) {
-        this(name, null, destinations);
+        this(name, destinations, null);
     }
     
     /**
@@ -43,10 +43,10 @@ record ConjunctionModule(String name, Map<String, PulseType> latestInputs, List<
      * @param inputModules names of the modules which can send pulses to this one
      * @return initialized copy of this conjunction module
      */
-    ConjunctionModule initInputs(Set<String> inputModules) {
+    ConjunctionModule init(Set<String> inputModules) {
         var newLatestInputs = inputModules.stream()
                 .collect(Collectors.toMap(Function.identity(), module -> PulseType.LOW));
-        return new ConjunctionModule(name, newLatestInputs, destinations);
+        return new ConjunctionModule(name, destinations, newLatestInputs);
     }
     
     @Override
@@ -56,8 +56,16 @@ record ConjunctionModule(String name, Map<String, PulseType> latestInputs, List<
         Map<String, PulseType> newLatestInputs = new HashMap<>(latestInputs);
         newLatestInputs.put(pulse.source(), pulse.type());
         
-        // TODO complete this implementation
-        return null;
+        var updatedModule = new ConjunctionModule(name, destinations, newLatestInputs);
+        
+        PulseType outgoingPulseType;
+        if (newLatestInputs.values().stream().allMatch(PulseType.HIGH::equals)) {
+            outgoingPulseType = PulseType.LOW;
+        } else {
+            outgoingPulseType = PulseType.HIGH;
+        }
+        var outgoingPulses = createOutgoingPulses(outgoingPulseType);
+        
+        return new HandlePulseResult(updatedModule, outgoingPulses);
     }
-
 }
