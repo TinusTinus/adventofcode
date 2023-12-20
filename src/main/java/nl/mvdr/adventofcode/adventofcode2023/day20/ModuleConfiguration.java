@@ -67,12 +67,22 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
      * @return new copy of the queue with the given pulses added to it
      */
     private Queue<Pulse> addPulses(List<Pulse> pulses, Map<PulseType, Long> pulseCounter) {
+        count(pulses, pulseCounter);
         Queue<Pulse> result = new LinkedList<>(pulseQueue);
+        result.addAll(pulses);
+        return result;
+    }
+
+    /**
+     * Counts the given (new) pulses.
+     * 
+     * @param pulses new pulses, which are about to be added to the back of the queue
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     */
+    private void count(List<Pulse> pulses, Map<PulseType, Long> pulseCounter) {
         pulses.forEach(pulse -> {
             var newCount = pulseCounter.get(pulse.type()).longValue() + 1L;
             pulseCounter.put(pulse.type(), Long.valueOf(newCount));
-            result.offer(pulse);
         });
-        return result;
     }
 }
