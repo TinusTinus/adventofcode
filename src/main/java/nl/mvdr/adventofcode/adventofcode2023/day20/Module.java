@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author Martijn van de Rijdt
  */
-sealed interface Module permits ButtonModule, BroadcastModule, FlipFlopModule, ConjunctionModule {
+sealed interface Module permits ButtonModule, BroadcastModule, FlipFlopModule, ConjunctionModule, OutputModule {
     
     /**
      * Parses a module.

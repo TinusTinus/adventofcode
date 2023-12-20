@@ -2,11 +2,13 @@ package nl.mvdr.adventofcode.adventofcode2023.day20;
 
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,8 +28,20 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
      */
     static ModuleConfiguration parse(Stream<String> lines) {
         // Read modules from the input
-        var uninitializedModules = lines.map(Module::parse)
+        var modulesFromInput = lines.map(Module::parse)
                 .collect(Collectors.toSet());
+        
+        var outputModules = modulesFromInput.stream()
+                .map(module -> module.destinations())
+                .flatMap(List::stream)
+                .distinct()
+                .filter(moduleName -> !modulesFromInput.stream().anyMatch(module -> module.name().equals(moduleName)))
+                .map(OutputModule::new)
+                .collect(Collectors.toSet());
+        
+        Set<Module> uninitializedModules = new HashSet<>();
+        uninitializedModules.addAll(modulesFromInput);
+        uninitializedModules.addAll(outputModules);
         
         var modules = uninitializedModules.stream()
                 .map(module -> module.init(uninitializedModules))
@@ -46,9 +60,6 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
      * @return product
      */
     long countPulses(int buttonPresses) {
-//        Map<PulseType, Long> pulseCounter = new EnumMap<>(PulseType.class);
-//        Stream.of(PulseType.values()).forEach(null);
-        
         var pulseCounter = Stream.of(PulseType.values())
                 .collect(Collectors.toMap(Function.identity(), type -> Long.valueOf(0L)));
         pulseCounter = new EnumMap<>(pulseCounter);
@@ -130,9 +141,7 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
     private ModuleConfiguration handlePulse(Map<PulseType, Long> pulseCounter) {
         Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
         var pulse = Objects.requireNonNull(newPulseQueue.poll(), "Queue does not contain any pulses.");
-        var module = modules.get(pulse.destination());
-        
-        // TODO module may be null, in which case it is an output module
+        var module = Objects.requireNonNull(modules.get(pulse.destination()), "Module not found: " + pulse.destination());
         
         var result = module.handlePulse(pulse);
         
