@@ -92,15 +92,6 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     }
     
     /**
-     * Presses the button once, then handles all of the resulting pulses.
-     * 
-     * @return updated module configuration
-     */
-    private Machine pressButtonAndHandle() {
-        return pressButtonAndHandle(null);
-    }
-    
-    /**
      * Presses the button the given number of times and handles all of the resulting pulses.
      * 
      * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method; may be null
@@ -231,6 +222,15 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
             result++;
         }
         return result;
+    }
+
+    /**
+     * Presses the button once, then handles all of the resulting pulses.
+     * 
+     * @return updated module configuration
+     */
+    private Machine pressButtonAndHandle() {
+        return pressButtonAndHandle(null);
     }
     
     /**
