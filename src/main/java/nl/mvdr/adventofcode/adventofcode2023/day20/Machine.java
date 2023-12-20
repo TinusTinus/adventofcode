@@ -180,9 +180,9 @@ record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
 
         Map<String, Module> newModules;
         if (module.equals(result.updatedModule())) {
-            // The module remains unchanged
             newModules = modules;
         } else {
+            // The module's state has changed
             newModules = new HashMap<>(modules);
             newModules.put(module.name(), result.updatedModule());
         }
