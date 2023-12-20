@@ -130,7 +130,9 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
     private ModuleConfiguration handlePulse(Map<PulseType, Long> pulseCounter) {
         Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
         var pulse = Objects.requireNonNull(newPulseQueue.poll(), "Queue does not contain any pulses.");
-        var module = Objects.requireNonNull(modules.get(pulse.destination()), "Module not found: " + pulse.destination());
+        var module = modules.get(pulse.destination());
+        
+        // TODO module may be null, in which case it is an output module
         
         var result = module.handlePulse(pulse);
         
