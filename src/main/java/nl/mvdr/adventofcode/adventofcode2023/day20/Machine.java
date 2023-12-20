@@ -25,6 +25,8 @@ record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Machine.class);
     
+    static int maxQueueSize = 0;
+    
     /**
      * Parses a module configuration.
      * 
@@ -167,6 +169,11 @@ record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
      * @return updated module configuration
      */
     private Machine handlePulse(Map<PulseType, Long> pulseCounter) {
+        if (maxQueueSize < pulseQueue.size()) {
+            maxQueueSize = pulseQueue.size();
+            System.out.println(maxQueueSize);
+        }
+        
         Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
         var pulse = Objects.requireNonNull(newPulseQueue.poll(), "Queue does not contain any pulses.");
         LOGGER.debug("{}", pulse);
