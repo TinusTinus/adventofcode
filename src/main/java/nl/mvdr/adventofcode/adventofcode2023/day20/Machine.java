@@ -188,11 +188,28 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
      * @return number of button presses until the machine turns on
      */
     long turnOn() {
-        return Stream.of("sr", "sn", "rf", "vq") // from observing the input: these four modules output to "hp", which in turn is an inverter that outputs to rx
+        // From observing the input: there is a single conjunction module which outputs to rx.
+        // Find this module.
+        var secondToLastModule = modules.values()
+                .stream()
+                .filter(value -> value.destinations().contains("rx"))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No source found for module rx"));
+        
+        // From observing the input: there are four conjunction modules which output to the above one.
+        // Find these modules, and check how long it takes to get a high output from each one.
+        // The puzzle answer is the lcm of these four values.
+        return modules.values()
+                .stream()
+                .filter(value -> value.destinations().contains(secondToLastModule.name()))
+                .map(Module::name)
                 .mapToLong(this::buttonPressesUntilHighOutput)
                 .reduce(ArithmeticUtils::lcm)
                 .orElseThrow();
                 
+        // Note that this approach might not work for all possible inputs, but it works for mine.
+        // From reading others' approaches this does appear to be a universally correct solution.
+        // See https://www.reddit.com/r/adventofcode/comments/18mmfxb/2023_day_20_solutions/
     }
     
     /**
