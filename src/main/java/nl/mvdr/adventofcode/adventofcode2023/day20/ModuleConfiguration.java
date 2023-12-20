@@ -33,4 +33,18 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulses) {
         
         return new ModuleConfiguration(modules, pulses);
     }
+    
+    /**
+     * Presses the button once.
+     * 
+     * @return updated module configuration
+     */
+    private ModuleConfiguration pressButton() {
+        if (!pulses.isEmpty()) {
+            throw new IllegalStateException("Still processing pulses.");
+        }
+        Queue<Pulse> newPulses = new LinkedList<>();
+        newPulses.addAll(ButtonModule.INSTANCE.press());
+        return new ModuleConfiguration(modules, newPulses);
+    }
 }
