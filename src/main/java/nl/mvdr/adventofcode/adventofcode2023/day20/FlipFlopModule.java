@@ -16,8 +16,8 @@ record FlipFlopModule(String name, List<String> destinations, FlipFlopState stat
     static final String PREFIX = "%";
     
     @Override
-    public HandlePulseResult handlePulse(PulseType pulseType) {
-        return switch(pulseType) {
+    public HandlePulseResult handlePulse(Pulse pulse) {
+        return switch(pulse.type()) {
             case HIGH -> new HandlePulseResult(this, List.of());
             case LOW -> {
                 var newState = switch(state) {
@@ -33,7 +33,7 @@ record FlipFlopModule(String name, List<String> destinations, FlipFlopState stat
                 };
                 yield new HandlePulseResult(newModule, createOutgoingPulses(outgoingPulseType));
             }
-            default -> throw new IllegalArgumentException("Unexpected pulse type: " + pulseType);
+            default -> throw new IllegalArgumentException("Unexpected pulse type: " + pulse.type());
         };
     }
 

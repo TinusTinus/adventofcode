@@ -21,10 +21,10 @@ interface Module {
     /**
      * Handles a pulse.
      * 
-     * @param pulseType type of the pulse
+     * @param pulse incoming pulse
      * @return result
      */
-    HandlePulseResult handlePulse(PulseType pulseType);
+    HandlePulseResult handlePulse(Pulse pulse);
     
     /**
      * Creates outgoing pulses for this module.

@@ -50,12 +50,13 @@ record ConjunctionModule(String name, Map<String, PulseType> latestInputs, List<
     }
     
     @Override
-    public HandlePulseResult handlePulse(PulseType pulseType) {
+    public HandlePulseResult handlePulse(Pulse pulse) {
         Objects.requireNonNull(latestInputs, "Conjunction module " + name + " has not yet been initialized.");
         
         Map<String, PulseType> newLatestInputs = new HashMap<>(latestInputs);
-        newLatestInputs.put("todo", pulseType); // TODO use the source Luke
+        newLatestInputs.put(pulse.source(), pulse.type());
         
+        // TODO complete this implementation
         return null;
     }
 

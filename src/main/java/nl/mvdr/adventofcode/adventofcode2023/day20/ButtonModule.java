@@ -28,7 +28,7 @@ class ButtonModule implements Module {
     }
 
     @Override
-    public HandlePulseResult handlePulse(PulseType pulseType) {
+    public HandlePulseResult handlePulse(Pulse pulse) {
         throw new UnsupportedOperationException("The button cannot handle input.");
     }
 

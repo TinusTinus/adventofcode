@@ -18,7 +18,7 @@ record BroadcastModule(List<String> destinations) implements Module {
     }
     
     @Override
-    public HandlePulseResult handlePulse(PulseType pulseType) {
-        return new HandlePulseResult(this, createOutgoingPulses(pulseType));
+    public HandlePulseResult handlePulse(Pulse pulse) {
+        return new HandlePulseResult(this, createOutgoingPulses(pulse.type()));
     }
 }
