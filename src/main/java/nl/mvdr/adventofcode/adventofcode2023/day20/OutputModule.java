@@ -3,6 +3,9 @@ package nl.mvdr.adventofcode.adventofcode2023.day20;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * An output module, which processes all incoming pulses and does not produce any output itself.
  *
@@ -10,6 +13,8 @@ import java.util.Set;
  */
 record OutputModule(String name, boolean hasReceivedLowPulse) implements Module {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(OutputModule.class);
+    
     /**
      * Convenience constructor.
      * 
@@ -31,6 +36,8 @@ record OutputModule(String name, boolean hasReceivedLowPulse) implements Module 
 
     @Override
     public HandlePulseResult handlePulse(Pulse pulse) {
+        LOGGER.debug("Output module {} received pulse {}", name, pulse);
+        
         OutputModule newModule;
         if (pulse.type() == PulseType.LOW) {
             newModule = new OutputModule(name, true);
