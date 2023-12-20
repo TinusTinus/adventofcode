@@ -21,7 +21,8 @@ public class PulsePropagationPart1Test extends SolverTest<PulsePropagationPart1>
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("32000000", "example-day20-2023.txt"),
-                Arguments.of("?", "input-day20-2023.txt"));
+                Arguments.of("32000000", "example-day20-2023-0.txt"),
+                Arguments.of("11687500", "example-day20-2023-1.txt"),
+                Arguments.of("812609846", "input-day20-2023.txt"));
     }
 }

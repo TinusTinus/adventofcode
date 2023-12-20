@@ -13,12 +13,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The complete module configuration.
  *
  * @author Martijn van de Rijdt
  */
 record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModuleConfiguration.class);
     
     /**
      * Parses a module configuration.
@@ -50,6 +55,19 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
         Queue<Pulse> pulses = new LinkedList<>();
         
         return new ModuleConfiguration(modules, pulses);
+    }
+    
+    /**
+     * Counts the given (new) pulses.
+     * 
+     * @param pulses new pulses, which are about to be added to the back of the queue
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     */
+    private static void count(List<Pulse> pulses, Map<PulseType, Long> pulseCounter) {
+        pulses.forEach(pulse -> {
+            var newCount = pulseCounter.get(pulse.type()).longValue() + 1L;
+            pulseCounter.put(pulse.type(), Long.valueOf(newCount));
+        });
     }
 
     /**
@@ -112,8 +130,7 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
         
         count(newPulses, pulseCounter);
         
-        Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
-        newPulseQueue.addAll(newPulses);
+        Queue<Pulse> newPulseQueue = new LinkedList<>(newPulses);
         
         return new ModuleConfiguration(modules, newPulseQueue);
     }
@@ -141,6 +158,8 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
     private ModuleConfiguration handlePulse(Map<PulseType, Long> pulseCounter) {
         Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
         var pulse = Objects.requireNonNull(newPulseQueue.poll(), "Queue does not contain any pulses.");
+        LOGGER.debug("{}", pulse);
+        
         var module = Objects.requireNonNull(modules.get(pulse.destination()), "Module not found: " + pulse.destination());
         
         var result = module.handlePulse(pulse);
@@ -158,18 +177,5 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
         }
         
         return new ModuleConfiguration(newModules, newPulseQueue);
-    }
-    
-    /**
-     * Counts the given (new) pulses.
-     * 
-     * @param pulses new pulses, which are about to be added to the back of the queue
-     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
-     */
-    private static void count(List<Pulse> pulses, Map<PulseType, Long> pulseCounter) {
-        pulses.forEach(pulse -> {
-            var newCount = pulseCounter.get(pulse.type()).longValue() + 1L;
-            pulseCounter.put(pulse.type(), Long.valueOf(newCount));
-        });
     }
 }

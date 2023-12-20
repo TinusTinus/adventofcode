@@ -9,5 +9,8 @@ package nl.mvdr.adventofcode.adventofcode2023.day20;
  * @author Martijn van de Rijdt
  */
 record Pulse(PulseType type, String source, String destination) {
-
+    @Override
+    public String toString() {
+        return source + " -" + type + "-> " + destination;
+    }
 }

@@ -8,4 +8,9 @@ package nl.mvdr.adventofcode.adventofcode2023.day20;
 enum PulseType {
     LOW,
     HIGH;
+    
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase();
+    }
 }
