@@ -78,7 +78,7 @@ sealed interface Module permits ButtonModule, BroadcastModule, FlipFlopModule, C
     HandlePulseResult handlePulse(Pulse pulse);
     
     /**
-     * Creates outgoing pulses for this module.
+     * Creates outgoing pulses for this module: one for each destination.
      * 
      * @param type the outgoing pulse type
      * @return list of pulses

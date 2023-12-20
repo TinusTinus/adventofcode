@@ -1,8 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2023.day20;
 
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,6 +37,54 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
         
         return new ModuleConfiguration(modules, pulses);
     }
+
+    /**
+     * Computest the total number of low pulses sent, multiplied by the total number of high pulses sent,
+     * if the button is pressed the given number of times.
+     * 
+     * @param buttonPresses number of button presses
+     * @return product
+     */
+    long countPulses(int buttonPresses) {
+//        Map<PulseType, Long> pulseCounter = new EnumMap<>(PulseType.class);
+//        Stream.of(PulseType.values()).forEach(null);
+        
+        var pulseCounter = Stream.of(PulseType.values())
+                .collect(Collectors.toMap(Function.identity(), type -> Long.valueOf(0L)));
+        pulseCounter = new EnumMap<>(pulseCounter);
+        
+        pressButtonAndHandle(buttonPresses, pulseCounter);
+        
+        return pulseCounter.values()
+                .stream()
+                .mapToLong(Long::longValue)
+                .reduce(Math::multiplyExact)
+                .orElseThrow();
+    }
+    
+    /**
+     * Presses the button the given number of times and handles all of the resulting pulses.
+     * 
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     * @return updated module configuration
+     */
+    private ModuleConfiguration pressButtonAndHandle(int times, Map<PulseType, Long> pulseCounter) {
+        var result = this;
+        for (var i = 0; i != times; i++) {
+            result = result.pressButtonAndHandle(pulseCounter);
+        }
+        return result;
+    }
+    
+    /**
+     * Presses the button once, then handles all of the resulting pulses.
+     * 
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     * @return updated module configuration
+     */
+    private ModuleConfiguration pressButtonAndHandle(Map<PulseType, Long> pulseCounter) {
+        return pressButton(pulseCounter).handlePulseQueue(pulseCounter);
+    }
     
     /**
      * Presses the button once.
@@ -45,41 +96,66 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
         if (!pulseQueue.isEmpty()) {
             throw new IllegalStateException("Still processing pulses.");
         }
-        var newPulses = addPulses(ButtonModule.INSTANCE.press(), pulseCounter);
-        return new ModuleConfiguration(modules, newPulses);
+        
+        List<Pulse> newPulses = ButtonModule.INSTANCE.press();
+        
+        count(newPulses, pulseCounter);
+        
+        Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
+        newPulseQueue.addAll(newPulses);
+        
+        return new ModuleConfiguration(modules, newPulseQueue);
     }
     
     /**
-     * Processes all pulses currently in the queue.
+     * Processes all pulses until there are none left in the queue.
      * 
      * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
      * @return updated module configuration
      */
-    private ModuleConfiguration handleQueue(Map<PulseType, Long> pulseCounter) {
-        return this; // TODO
+    private ModuleConfiguration handlePulseQueue(Map<PulseType, Long> pulseCounter) {
+        ModuleConfiguration result = this;
+        while (!result.pulseQueue.isEmpty()) {
+            result = result.handlePulse(pulseCounter);
+        }
+        return result;
     }
     
     /**
-     * Adds the given pulses to the queue.
+     * Processes the first pulse in the queue.
      * 
-     * @param pulses pulses to add to the back of the queue
      * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
-     * @return new copy of the queue with the given pulses added to it
+     * @return updated module configuration
      */
-    private Queue<Pulse> addPulses(List<Pulse> pulses, Map<PulseType, Long> pulseCounter) {
-        count(pulses, pulseCounter);
-        Queue<Pulse> result = new LinkedList<>(pulseQueue);
-        result.addAll(pulses);
-        return result;
-    }
+    private ModuleConfiguration handlePulse(Map<PulseType, Long> pulseCounter) {
+        Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
+        var pulse = Objects.requireNonNull(newPulseQueue.poll(), "Queue does not contain any pulses.");
+        var module = Objects.requireNonNull(modules.get(pulse.destination()), "Module not found: " + pulse.destination());
+        
+        var result = module.handlePulse(pulse);
+        
+        count(result.outgoingPulses(), pulseCounter);
+        newPulseQueue.addAll(result.outgoingPulses());
 
+        Map<String, Module> newModules;
+        if (module.equals(result.updatedModule())) {
+            // The module remains unchanged
+            newModules = modules;
+        } else {
+            newModules = new HashMap<>(modules);
+            newModules.put(module.name(), result.updatedModule());
+        }
+        
+        return new ModuleConfiguration(newModules, newPulseQueue);
+    }
+    
     /**
      * Counts the given (new) pulses.
      * 
      * @param pulses new pulses, which are about to be added to the back of the queue
      * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
      */
-    private void count(List<Pulse> pulses, Map<PulseType, Long> pulseCounter) {
+    private static void count(List<Pulse> pulses, Map<PulseType, Long> pulseCounter) {
         pulses.forEach(pulse -> {
             var newCount = pulseCounter.get(pulse.type()).longValue() + 1L;
             pulseCounter.put(pulse.type(), Long.valueOf(newCount));
