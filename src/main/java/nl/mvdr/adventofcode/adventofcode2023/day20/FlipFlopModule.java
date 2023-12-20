@@ -15,27 +15,24 @@ record FlipFlopModule(String name, List<String> destinations, FlipFlopState stat
 
     @Override
     public HandlePulseResult handlePulse(PulseType pulseType) {
-        HandlePulseResult result;
-        if (pulseType == PulseType.HIGH) {
-            // Pulse is ignored and nothing happens.
-            result = new HandlePulseResult(this, List.of());
-        } else if (pulseType == PulseType.LOW) {
-            var newState = switch(state) {
-                case OFF -> FlipFlopState.ON;
-                case ON -> FlipFlopState.OFF;
-                default -> throw new IllegalStateException("Unexpected flip-flop state: " + state);
-            };
-            var newModule = new FlipFlopModule(name, destinations, newState);
-            var outgoingPulseType = switch(state) {
-                case OFF -> PulseType.HIGH;
-                case ON -> PulseType.LOW;
-                default -> throw new IllegalStateException("Unexpected flip-flop state: " + state);
-            };
-            result = new HandlePulseResult(newModule, createOutgoingPulses(outgoingPulseType));
-        } else {
-            throw new IllegalArgumentException("Unexpected pulse type: " + pulseType);
-        }
-        return result;
+        return switch(pulseType) {
+            case HIGH -> new HandlePulseResult(this, List.of());
+            case LOW -> {
+                var newState = switch(state) {
+                    case OFF -> FlipFlopState.ON;
+                    case ON -> FlipFlopState.OFF;
+                    default -> throw new IllegalStateException("Unexpected flip-flop state: " + state);
+                };
+                var newModule = new FlipFlopModule(name, destinations, newState);
+                var outgoingPulseType = switch(state) {
+                    case OFF -> PulseType.HIGH;
+                    case ON -> PulseType.LOW;
+                    default -> throw new IllegalStateException("Unexpected flip-flop state: " + state);
+                };
+                yield new HandlePulseResult(newModule, createOutgoingPulses(outgoingPulseType));
+            }
+            default -> throw new IllegalArgumentException("Unexpected pulse type: " + pulseType);
+        };
     }
 
 }
