@@ -8,8 +8,17 @@ import java.util.Set;
  *
  * @author Martijn van de Rijdt
  */
-record OutputModule(String name) implements Module {
+record OutputModule(String name, boolean hasReceivedLowPulse) implements Module {
 
+    /**
+     * Convenience constructor.
+     * 
+     * @param name name of this module
+     */
+    OutputModule(String name) {
+        this(name, false);
+    }
+    
     @Override
     public Module init(Set<Module> modules) {
         return this;
@@ -22,7 +31,12 @@ record OutputModule(String name) implements Module {
 
     @Override
     public HandlePulseResult handlePulse(Pulse pulse) {
-        return new HandlePulseResult(this, List.of());
+        OutputModule newModule;
+        if (pulse.type() == PulseType.LOW) {
+            newModule = new OutputModule(name, true);
+        } else {
+            newModule = this;
+        }
+        return new HandlePulseResult(newModule, List.of());
     }
-
 }

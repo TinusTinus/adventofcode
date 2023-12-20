@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martijn van de Rijdt
  */
-record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
+record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModuleConfiguration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Machine.class);
     
     /**
      * Parses a module configuration.
@@ -31,7 +31,7 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
      * @param lines puzzle input
      * @return initialized module configuration
      */
-    static ModuleConfiguration parse(Stream<String> lines) {
+    static Machine parse(Stream<String> lines) {
         // Read modules from the input
         var modulesFromInput = lines.map(Module::parse)
                 .collect(Collectors.toSet());
@@ -54,20 +54,22 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
         
         Queue<Pulse> pulses = new LinkedList<>();
         
-        return new ModuleConfiguration(modules, pulses);
+        return new Machine(modules, pulses);
     }
     
     /**
      * Counts the given (new) pulses.
      * 
      * @param pulses new pulses, which are about to be added to the back of the queue
-     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method; may be null
      */
     private static void count(List<Pulse> pulses, Map<PulseType, Long> pulseCounter) {
-        pulses.forEach(pulse -> {
-            var newCount = pulseCounter.get(pulse.type()).longValue() + 1L;
-            pulseCounter.put(pulse.type(), Long.valueOf(newCount));
-        });
+        if (pulseCounter != null) {
+            pulses.forEach(pulse -> {
+                var newCount = pulseCounter.get(pulse.type()).longValue() + 1L;
+                pulseCounter.put(pulse.type(), Long.valueOf(newCount));
+            });
+        }
     }
 
     /**
@@ -92,12 +94,21 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
     }
     
     /**
-     * Presses the button the given number of times and handles all of the resulting pulses.
+     * Presses the button once, then handles all of the resulting pulses.
      * 
-     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
      * @return updated module configuration
      */
-    private ModuleConfiguration pressButtonAndHandle(int times, Map<PulseType, Long> pulseCounter) {
+    private Machine pressButtonAndHandle() {
+        return pressButtonAndHandle(null);
+    }
+    
+    /**
+     * Presses the button the given number of times and handles all of the resulting pulses.
+     * 
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method; may be null
+     * @return updated module configuration
+     */
+    private Machine pressButtonAndHandle(int times, Map<PulseType, Long> pulseCounter) {
         var result = this;
         for (var i = 0; i != times; i++) {
             result = result.pressButtonAndHandle(pulseCounter);
@@ -108,20 +119,20 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
     /**
      * Presses the button once, then handles all of the resulting pulses.
      * 
-     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method; may be null
      * @return updated module configuration
      */
-    private ModuleConfiguration pressButtonAndHandle(Map<PulseType, Long> pulseCounter) {
+    private Machine pressButtonAndHandle(Map<PulseType, Long> pulseCounter) {
         return pressButton(pulseCounter).handlePulseQueue(pulseCounter);
     }
     
     /**
      * Presses the button once.
      * 
-     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method; may be null
      * @return updated module configuration
      */
-    private ModuleConfiguration pressButton(Map<PulseType, Long> pulseCounter) {
+    private Machine pressButton(Map<PulseType, Long> pulseCounter) {
         if (!pulseQueue.isEmpty()) {
             throw new IllegalStateException("Still processing pulses.");
         }
@@ -132,17 +143,17 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
         
         Queue<Pulse> newPulseQueue = new LinkedList<>(newPulses);
         
-        return new ModuleConfiguration(modules, newPulseQueue);
+        return new Machine(modules, newPulseQueue);
     }
     
     /**
      * Processes all pulses until there are none left in the queue.
      * 
-     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method; may be null
      * @return updated module configuration
      */
-    private ModuleConfiguration handlePulseQueue(Map<PulseType, Long> pulseCounter) {
-        ModuleConfiguration result = this;
+    private Machine handlePulseQueue(Map<PulseType, Long> pulseCounter) {
+        Machine result = this;
         while (!result.pulseQueue.isEmpty()) {
             result = result.handlePulse(pulseCounter);
         }
@@ -152,10 +163,10 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
     /**
      * Processes the first pulse in the queue.
      * 
-     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method
+     * @param pulseCounter mutable(!) map of pulse counters; will be updated during this method; may be null
      * @return updated module configuration
      */
-    private ModuleConfiguration handlePulse(Map<PulseType, Long> pulseCounter) {
+    private Machine handlePulse(Map<PulseType, Long> pulseCounter) {
         Queue<Pulse> newPulseQueue = new LinkedList<>(pulseQueue);
         var pulse = Objects.requireNonNull(newPulseQueue.poll(), "Queue does not contain any pulses.");
         LOGGER.debug("{}", pulse);
@@ -176,6 +187,28 @@ record ModuleConfiguration(Map<String, Module> modules, Queue<Pulse> pulseQueue)
             newModules.put(module.name(), result.updatedModule());
         }
         
-        return new ModuleConfiguration(newModules, newPulseQueue);
+        return new Machine(newModules, newPulseQueue);
+    }
+
+    /**
+     * Keeps pressing the button until this machine has turned on.
+     * @return number of button presses
+     */
+    int turnOn() {
+        var machine = this;
+        var result = 0;
+        while (!machine.hasTurnedOn()) {
+            machine = machine.pressButtonAndHandle();
+            result++;
+        }
+        return result;
+    }
+    
+    /**
+     * @return whether the machine is on
+     */
+    private boolean hasTurnedOn() {
+        var rxModule = (OutputModule)modules.get("rx");
+        return rxModule.hasReceivedLowPulse();
     }
 }

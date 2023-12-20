@@ -18,8 +18,8 @@ public class PulsePropagationPart1 implements LongSolver {
 
     @Override
     public long solve(Stream<String> lines) {
-        var configuration = ModuleConfiguration.parse(lines);
-        return configuration.countPulses(1_000);
+        var machine = Machine.parse(lines);
+        return machine.countPulses(1_000);
     }
     
     /**
