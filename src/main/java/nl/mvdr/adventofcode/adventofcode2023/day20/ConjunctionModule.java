@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
  * remembers high pulses for all inputs, it sends a low pulse; otherwise, it
  * sends a high pulse.
  *
+ * @param name the name of this module
+ * @param destinations the names of the modules to which this module sends its output pulses
+ * @parma latestInputs the latest value received for each of this module's inputs
+ * @param hasOutputHigh whether this module has, at any point, output a high pulse
  * @author Martijn van de Rijdt
  */
 record ConjunctionModule(String name, List<String> destinations, Map<String, PulseType> latestInputs, boolean hasOutputHigh)
