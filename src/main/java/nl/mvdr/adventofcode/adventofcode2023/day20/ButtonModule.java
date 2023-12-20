@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day20;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * There is a module with a single button on it called, aptly, the button module.
@@ -10,11 +11,16 @@ import java.util.List;
  */
 final class ButtonModule implements Module {
     /** Singleton instance. */
-    static ButtonModule INSTANCE = new ButtonModule();
+    static final ButtonModule INSTANCE = new ButtonModule();
     
     /** Private constructor to prevent singleton instantiation. */
     private ButtonModule() {
         super();
+    }
+    
+    @Override
+    public ButtonModule init(Set<Module> modules) {
+        return this;
     }
     
     @Override
@@ -40,5 +46,4 @@ final class ButtonModule implements Module {
     List<Pulse> press() {
         return createOutgoingPulses(PulseType.LOW);
     }
-    
 }

@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day20;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Flip-flop modules (prefix {@code %}) are either on or off; they are initially
@@ -14,6 +15,22 @@ import java.util.List;
 record FlipFlopModule(String name, List<String> destinations, FlipFlopState state) implements Module {
 
     static final String PREFIX = "%";
+    
+    /**
+     * Convenience constructor for use during input parsing,
+     * where the state is the initial state.
+     * 
+     * @param name module name
+     * @param destinations destinations
+     */
+    FlipFlopModule(String name, List<String> destinations) {
+        this(name, destinations, FlipFlopState.OFF);
+    }
+    
+    @Override
+    public Module init(Set<Module> modules) {
+        return this;
+    }
     
     @Override
     public HandlePulseResult handlePulse(Pulse pulse) {
@@ -36,5 +53,4 @@ record FlipFlopModule(String name, List<String> destinations, FlipFlopState stat
             default -> throw new IllegalArgumentException("Unexpected pulse type: " + pulse.type());
         };
     }
-
 }

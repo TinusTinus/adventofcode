@@ -17,7 +17,9 @@ public class PulsePropagationPart1 implements IntSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(PulsePropagationPart1.class);
 
     @Override
-    public int solve(Stream<String> linesStream) {
+    public int solve(Stream<String> lines) {
+        var configuration = ModuleConfiguration.parse(lines);
+        
         return 0; // TODO
     }
     

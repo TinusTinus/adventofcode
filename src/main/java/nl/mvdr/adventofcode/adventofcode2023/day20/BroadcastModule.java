@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day20;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * There is a single broadcast module (named broadcaster).
@@ -12,6 +13,11 @@ record BroadcastModule(List<String> destinations) implements Module {
 
     static final String NAME = "broadcaster";
 
+    @Override
+    public BroadcastModule init(Set<Module> modules) {
+        return this;
+    }
+    
     @Override
     public String name() {
         return NAME;

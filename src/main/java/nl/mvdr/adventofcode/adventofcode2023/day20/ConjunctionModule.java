@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -37,15 +36,11 @@ record ConjunctionModule(String name, List<String> destinations, Map<String, Pul
         this(name, destinations, null);
     }
     
-    /**
-     * Initializes this conjunction module.
-     * 
-     * @param inputModules names of the modules which can send pulses to this one
-     * @return initialized copy of this conjunction module
-     */
-    ConjunctionModule init(Set<String> inputModules) {
-        var newLatestInputs = inputModules.stream()
-                .collect(Collectors.toMap(Function.identity(), module -> PulseType.LOW));
+    @Override
+    public ConjunctionModule init(Set<Module> modules) {
+        var newLatestInputs = modules.stream()
+                .filter(module -> module.destinations().contains(name))
+                .collect(Collectors.toMap(Module::name, module -> PulseType.LOW));
         return new ConjunctionModule(name, destinations, newLatestInputs);
     }
     
