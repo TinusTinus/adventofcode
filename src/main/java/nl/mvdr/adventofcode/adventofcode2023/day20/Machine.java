@@ -218,7 +218,9 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     }
     
     /**
-     * Keeps pressing the button until this machine has turned on.
+     * Keeps pressing the button until the given conjunction module has output a high pulse.
+     * 
+     * @param moduleName name of a conjunction module
      * @return number of button presses
      */
     private long buttonPressesUntilHighOutput(String moduleName) {
@@ -232,9 +234,9 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     }
     
     /**
-     * Checks whether the given conjunction module has output a high value.
+     * Checks whether the given conjunction module has output a high pulse.
      * 
-     * @param moduleName module name
+     * @param moduleName name of a conjunction module
      * @return whether the module has output a high value yet
      */
     private boolean hasOutputHigh(String moduleName) {
