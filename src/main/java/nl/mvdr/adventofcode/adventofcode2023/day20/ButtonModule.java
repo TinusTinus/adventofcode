@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author Martijn van de Rijdt
  */
-class ButtonModule implements Module {
+final class ButtonModule implements Module {
     /** Singleton instance. */
     static ButtonModule INSTANCE = new ButtonModule();
     
