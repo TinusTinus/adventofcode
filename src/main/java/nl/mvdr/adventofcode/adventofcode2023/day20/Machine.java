@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.math3.util.ArithmeticUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,13 +185,24 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     }
 
     /**
+     * @return number of button presses until the machine turns on
+     */
+    long turnOn() {
+        return Stream.of("sr", "sn", "rf", "vq") // from observing the input: these four modules output to "hp", which in turn is an inverter that outputs to rx
+                .mapToLong(this::buttonPressesUntilHighOutput)
+                .reduce(ArithmeticUtils::lcm)
+                .orElseThrow();
+                
+    }
+    
+    /**
      * Keeps pressing the button until this machine has turned on.
      * @return number of button presses
      */
-    long turnOn() {
+    private long buttonPressesUntilHighOutput(String moduleName) {
         var machine = this;
         var result = 0L;
-        while (!machine.hasTurnedOn()) {
+        while (!machine.hasOutputHigh(moduleName)) {
             machine = machine.pressButtonAndHandle();
             result++;
         }
@@ -198,10 +210,13 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     }
     
     /**
-     * @return whether the machine is on
+     * Checks whether the given conjunction module has output a high value.
+     * 
+     * @param moduleName module name
+     * @return whether the module has output a high value yet
      */
-    private boolean hasTurnedOn() {
-        var rxModule = (OutputModule)modules.get("rx");
-        return rxModule.hasReceivedLowPulse();
+    private boolean hasOutputHigh(String moduleName) {
+        var module = (ConjunctionModule)modules.get(moduleName);
+        return module.hasOutputHigh();
     }
 }

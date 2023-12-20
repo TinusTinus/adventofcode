@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  *
  * @author Martijn van de Rijdt
  */
-record ConjunctionModule(String name, List<String> destinations, Map<String, PulseType> latestInputs)
+record ConjunctionModule(String name, List<String> destinations, Map<String, PulseType> latestInputs, boolean hasOutputHigh)
         implements Module {
 
     static final String PREFIX = "&";
@@ -33,7 +33,7 @@ record ConjunctionModule(String name, List<String> destinations, Map<String, Pul
      * @param destinations destinations of this conjunction module
      */
     ConjunctionModule(String name, List<String> destinations) {
-        this(name, destinations, null);
+        this(name, destinations, null, false);
     }
     
     @Override
@@ -41,7 +41,7 @@ record ConjunctionModule(String name, List<String> destinations, Map<String, Pul
         var newLatestInputs = modules.stream()
                 .filter(module -> module.destinations().contains(name))
                 .collect(Collectors.toMap(Module::name, module -> PulseType.LOW));
-        return new ConjunctionModule(name, destinations, newLatestInputs);
+        return new ConjunctionModule(name, destinations, newLatestInputs, hasOutputHigh);
     }
     
     @Override
@@ -51,14 +51,16 @@ record ConjunctionModule(String name, List<String> destinations, Map<String, Pul
         Map<String, PulseType> newLatestInputs = new HashMap<>(latestInputs);
         newLatestInputs.put(pulse.source(), pulse.type());
         
-        var updatedModule = new ConjunctionModule(name, destinations, newLatestInputs);
-        
         PulseType outgoingPulseType;
         if (newLatestInputs.values().stream().allMatch(PulseType.HIGH::equals)) {
             outgoingPulseType = PulseType.LOW;
         } else {
             outgoingPulseType = PulseType.HIGH;
         }
+        
+        var newHasOutputHigh = outgoingPulseType == PulseType.HIGH || hasOutputHigh;
+        var updatedModule = new ConjunctionModule(name, destinations, newLatestInputs, newHasOutputHigh);
+        
         var outgoingPulses = createOutgoingPulses(outgoingPulseType);
         
         return new HandlePulseResult(updatedModule, outgoingPulses);
