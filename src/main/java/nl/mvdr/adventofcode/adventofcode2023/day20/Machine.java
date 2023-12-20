@@ -71,7 +71,7 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
     }
 
     /**
-     * Computest the total number of low pulses sent, multiplied by the total number of high pulses sent,
+     * Computes the total number of low pulses sent, multiplied by the total number of high pulses sent,
      * if the button is pressed the given number of times.
      * 
      * @param buttonPresses number of button presses
