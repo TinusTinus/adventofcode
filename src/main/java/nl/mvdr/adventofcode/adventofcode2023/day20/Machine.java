@@ -195,13 +195,39 @@ record Machine(Map<String, Module> modules, Queue<Pulse> pulseQueue) {
      * @return number of button presses
      */
     int turnOn() {
-        var machine = this;
+        var machine = filterRx();
         var result = 0;
         while (!machine.hasTurnedOn()) {
             machine = machine.pressButtonAndHandle();
             result++;
         }
         return result;
+    }
+    
+    /**
+     * Returns a copy of this machine, where all modules that do not (directly or indirectly)
+     * result in output to rx have been removed.
+     * 
+     * @return filtered machine 
+     */
+    private Machine filterRx() {
+        Set<Module> filteredModules = new HashSet<>();
+        var newFilteredModules = Set.of(modules.get("rx"));
+        while (filteredModules.addAll(newFilteredModules)) {
+            newFilteredModules = modules.values()
+                    .stream()
+                    .filter(module -> module.destinations().stream()
+                            .anyMatch(destination ->filteredModules.stream()
+                                    .anyMatch(filteredModule -> filteredModule.name().equals(destination))))
+                    .collect(Collectors.toSet());
+        }
+        
+        var filteredModulesMap = filteredModules.stream()
+                .collect(Collectors.toMap(Module::name, Function.identity()));
+        System.out.println("Modules: " + modules.size());
+        System.out.println("Filtered modules: " + filteredModulesMap.size());
+        
+        return new Machine(filteredModulesMap, pulseQueue);
     }
     
     /**
