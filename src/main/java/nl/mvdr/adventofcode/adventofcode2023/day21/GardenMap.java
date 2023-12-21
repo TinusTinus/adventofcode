@@ -105,9 +105,11 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @return number of reachable plots
      */
     private long countReachablePlotsUsingExtrapolation(int steps) {
+        // Keep a set of visited points (to prevent investigating the same point multiple times)
         Set<Point> visited = new HashSet<>();
-        Set<Point> frontier = new HashSet<>();
-        frontier.add(startingPosition);
+        
+        // Keep track of the frontier: newly visited points
+        var frontier = Set.of(startingPosition);
  
         long[] counts = new long[3];
  
