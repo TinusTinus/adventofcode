@@ -12,7 +12,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-record GardenMap(Set<Point> gardenPlots, Point startingPosition) {
+record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int height) {
     
     private static final char ROCK_CHARACTER = '#';
     private static final char GARDEN_CHARACTER = '.';
@@ -25,6 +25,9 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition) {
      * @return garden map
      */
     static GardenMap parse(List<String> lines) {
+        var height = lines.size();
+        var width = lines.get(0).length();
+        
         Set<Point> gardenPlots = new HashSet<>();
         Set<Point> startingPoints = new HashSet<>();
         
@@ -44,16 +47,17 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition) {
         }
         var startingPoint = startingPoints.iterator().next();
         
-        return new GardenMap(gardenPlots, startingPoint);
+        return new GardenMap(gardenPlots, startingPoint, width, height);
     }
     
     /**
      * Finds the plots that are reachable in exactly the given number of steps from the starting position.
      * 
      * @param steps number of steps
+     * @param infiniteGarden whether the garden stretches out infinitely
      * @return number of reachable plots
      */
-    int countReachablePlots(int steps) {
+    int countReachablePlots(int steps, boolean infiniteGarden) {
         if (steps < 0) {
             throw new IllegalArgumentException("Negative steps not allowed: " + steps);
         }
@@ -63,10 +67,29 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition) {
             result = result.stream()
                     .map(Point::neighbours)
                     .flatMap(Set::stream)
-                    .filter(gardenPlots::contains)
+                    .filter(point -> isGardenPlot(point, infiniteGarden))
                     .collect(Collectors.toSet());
         }
         
         return result.size();
+    }
+    
+    /**
+     * Checks whether the given point is a garden plot.
+     * 
+     * @param point point
+     * @param infiniteGarden whether the garden stretches out infinitely
+     * @return whether the given point is a garden plot
+     */
+    private boolean isGardenPlot(Point point, boolean infiniteGarden) {
+        Point actualPoint;
+        if (infiniteGarden) {
+            var x = Math.floorMod(point.x(), width);
+            var y = Math.floorMod(point.y(), height);
+            actualPoint = new Point(x, y);
+        } else {
+            actualPoint = point;
+        }
+        return gardenPlots.contains(actualPoint);
     }
 }

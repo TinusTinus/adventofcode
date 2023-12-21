@@ -10,17 +10,17 @@ import nl.mvdr.adventofcode.Solver;
  *
  * @author Martijn van de Rijdt
  */
-public class StepCounterPart1 implements Solver {
+public class StepCounterPart2 implements Solver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StepCounterPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StepCounterPart2.class);
 
     private final int steps;
     
     /**
      * Default constructor.
      */
-    public StepCounterPart1() {
-        this(64);
+    public StepCounterPart2() {
+        this(26501365);
     }
     
     /**
@@ -28,14 +28,14 @@ public class StepCounterPart1 implements Solver {
      * 
      * @param steps the elf's remaining number of steps for the day
      */
-    StepCounterPart1(int steps) {
+    StepCounterPart2(int steps) {
         super();
         this.steps = steps;
     }
     
     @Override
     public String solve(String inputfile) {
-        return new StepCounter(false, steps).solve(inputfile);
+        return new StepCounter(true, steps).solve(inputfile);
     }
     
     /**
@@ -44,7 +44,7 @@ public class StepCounterPart1 implements Solver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new StepCounterPart1();
+        var instance = new StepCounterPart2();
 
         var result = instance.solve("input-day21-2023.txt");
 
