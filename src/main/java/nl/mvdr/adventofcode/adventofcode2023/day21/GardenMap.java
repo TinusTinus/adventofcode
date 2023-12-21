@@ -1,10 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2023.day21;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,7 +14,7 @@ import nl.mvdr.adventofcode.point.Point;
  * @param cache cached results of {@link #findReachablePlots(int, Point)}; note that this cache is mutable!
  * @author Martijn van de Rijdt
  */
-record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int height, Map<StartingPointAndSteps, Set<Point>> cache) {
+record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int height) {
     
     private static final char ROCK_CHARACTER = '#';
     private static final char GARDEN_CHARACTER = '.';
@@ -51,7 +49,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         }
         var startingPoint = startingPoints.iterator().next();
         
-        return new GardenMap(gardenPlots, startingPoint, width, height, new HashMap<>());
+        return new GardenMap(gardenPlots, startingPoint, width, height);
     }
     
     /**
@@ -107,8 +105,8 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @return number of reachable plots
      */
     private long countReachablePlotsUsingExtrapolation(int steps) {
-        var visited = new HashSet<Point>();
-        var frontier = new HashSet<Point>();
+        Set<Point> visited = new HashSet<>();
+        Set<Point> frontier = new HashSet<>();
         frontier.add(startingPosition);
  
         long[] counts = new long[3];
@@ -119,11 +117,11 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
  
         int step = 0;
         while (!(2 * width <= step && Arrays.stream(d2).allMatch(i -> i == 0))) {
-            var newFrontier = new HashSet<Point>();
+            Set<Point> newFrontier = new HashSet<>();
             for (var p : frontier) {
-                for (var q : p.neighbours()) {
-                    if (isGardenPlot(q) && visited.add(q)) {
-                        newFrontier.add(q);
+                for (var neighbour : p.neighbours()) {
+                    if (isGardenPlot(neighbour) && visited.add(neighbour)) {
+                        newFrontier.add(neighbour);
                     }
                 }
             }
