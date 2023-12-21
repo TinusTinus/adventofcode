@@ -37,6 +37,8 @@ public class StepCounterPart1 implements IntSolver {
     
     @Override
     public int solve(Stream<String> lines) {
+        var map = GardenMap.parse(lines.toList());
+        
         return 0; // TODO
     }
     
