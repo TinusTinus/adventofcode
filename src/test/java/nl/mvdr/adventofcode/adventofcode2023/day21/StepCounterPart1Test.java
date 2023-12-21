@@ -64,9 +64,6 @@ public class StepCounterPart1Test extends SolverTest<StepCounterPart1> {
                 Arguments.of(1, 0),
                 Arguments.of(4, 2),
                 Arguments.of(6, 3),
-                Arguments.of(16, 6),
-                Arguments.of(4, 2),
-                Arguments.of(4, 2),
-                Arguments.of(4, 2));
+                Arguments.of(16, 6));
     }
 }
