@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.function.Function;
+import java.util.stream.IntStream;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -63,46 +64,15 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         if (steps < 0) {
             throw new IllegalArgumentException("Negative steps not allowed: " + steps);
         }
-        if (100 < steps) {
-            throw new IllegalArgumentException("This solution does not perform well enough for this many steps :(");
-        }
-        var result = findReachablePlots(steps, startingPosition);
-        return result.size();
+        
+        return (int) IntStream.range(0, steps + 1)
+                .filter(i -> i % 2 == steps % 2)
+                .mapToObj(startingPosition::pointsAtManhattanDistance)
+                .flatMap(Function.identity())
+                .filter(this::isGardenPlot)
+                .count();
     }
 
-    /**
-     * Finds the reachable garden plots, starting from the given starting point.
-     * 
-     * @param steps number of steps to take; must be non-negative
-     * @param startingPoint starting garden plot
-     * @return reachable plots
-     */
-    private Set<Point> findReachablePlots(int steps, Point startingPoint) {
-        Set<Point> result = cache.get(new StartingPointAndSteps(startingPoint, steps));
-        if (result == null) {
-            var mod = startingPoint.floorMod(width, height);
-            if (!startingPoint.equals(mod)) {
-                // We are not in the "middle" (as in starting) copy of the garden.
-                // Determine the offset.
-                var offset = startingPoint.subtract(mod);
-                result = findReachablePlots(steps, mod).stream()
-                        .map(point -> point.add(offset))
-                        .collect(Collectors.toSet());
-            } else if (steps == 0) {
-                result = Set.of(startingPoint);
-            } else {
-                result = startingPoint.neighbours()
-                        .stream()
-                        .filter(this::isGardenPlot)
-                        .map(neighbour -> findReachablePlots(steps - 1, neighbour))
-                        .flatMap(Set::stream)
-                        .collect(Collectors.toSet());
-            }
-            cache.put(new StartingPointAndSteps(startingPoint, steps), result);
-        }
-        return result;
-    }
-    
     /**
      * Checks whether the given point is a garden plot.
      * 

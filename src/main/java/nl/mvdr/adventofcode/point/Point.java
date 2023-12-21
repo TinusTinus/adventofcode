@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -51,6 +52,31 @@ public record Point(int x, int y) implements Comparable<Point> {
         return points.stream()
                 .mapToInt(this::manhattanDistance)
                 .sum();
+    }
+    
+    /**
+     * Computes the set of points at exactly the given distance from this point.
+     * 
+     * @param manhattenDistance distance
+     * @return stream of points
+     */
+    public Stream<Point> pointsAtManhattanDistance(int distance) {
+        Stream<Point> result;
+        if (distance < 0) {
+            throw new IllegalArgumentException("Distance may not be negative but was: " + distance);
+        } else if (distance == 0) {
+            result = Stream.of(this);
+        } else {
+            result = IntStream.range(0, distance + 1)
+                    .mapToObj(i -> Stream.of(
+                            new Point(x + i, y + distance - i),
+                            new Point(x + i, y - distance + i),
+                            new Point(x - i, y + distance - i),
+                            new Point(x - i, y - distance + i)))
+                    .flatMap(Function.identity())
+                    .distinct();
+        }
+        return result;
     }
     
     /** @return the four neighbouring points to this one */
