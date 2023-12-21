@@ -78,17 +78,17 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @return reachable plots
      */
     private Set<Point> findReachablePlots(int steps, Point startingPoint) {
-        // TODO we can reuse the cache even more by using an offset
         Set<Point> result = cache.get(new StartingPointAndSteps(startingPoint, steps));
         if (result == null) {
-            // Determine the offset from the "middle" (as in starting) copy of the garden 
-            var offset = new Point(Math.floorDiv(startingPoint.x(), width),
-                    Math.floorDiv(startingPoint.y(), height));
-            if (!offset.equals(Point.ORIGIN)) {
-                // TODO stuff
-            }
-            
-            if (steps == 0) {
+            var mod = startingPoint.floorMod(width, height);
+            if (!startingPoint.equals(mod)) {
+                // We are not in the "middle" (as in starting) copy of the garden.
+                // Determine the offset.
+                var offset = startingPoint.subtract(mod);
+                result = findReachablePlots(steps, mod).stream()
+                        .map(point -> point.add(offset))
+                        .collect(Collectors.toSet());
+            } else if (steps == 0) {
                 result = Set.of(startingPoint);
             } else {
                 result = startingPoint.neighbours()
