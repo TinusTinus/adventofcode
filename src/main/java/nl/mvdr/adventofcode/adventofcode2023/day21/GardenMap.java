@@ -117,29 +117,25 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
  
         int step = 0;
         while (!(2 * width <= step && Arrays.stream(d2).allMatch(i -> i == 0))) {
-            Set<Point> newFrontier = new HashSet<>();
-            for (var p : frontier) {
-                for (var neighbour : p.neighbours()) {
-                    if (isGardenPlot(neighbour) && visited.add(neighbour)) {
-                        newFrontier.add(neighbour);
-                    }
-                }
-            }
+            frontier = frontier.stream()
+                    .map(Point::neighbours)
+                    .flatMap(Set::stream)
+                    .filter(this::isGardenPlot)
+                    .filter(visited::add)
+                    .collect(Collectors.toSet());
  
-            int fsize = newFrontier.size();
-            counts[2] = fsize + counts[0];
+            counts[2] = frontier.size() + counts[0];
             counts[0] = counts[1];
             counts[1] = counts[2];
  
             int ix = step % width;
-            if (step >= width) {
-                int dx = fsize - frontiers[ix];
+            if (width <= step) {
+                int dx = frontier.size() - frontiers[ix];
                 d2[ix] = dx - d1[ix];
                 d1[ix] = dx;
             }
-            frontiers[ix] = fsize;
+            frontiers[ix] = frontier.size();
  
-            frontier = newFrontier;
             step++;
         }
  
