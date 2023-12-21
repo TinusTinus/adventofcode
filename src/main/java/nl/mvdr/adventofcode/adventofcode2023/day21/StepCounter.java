@@ -2,14 +2,14 @@ package nl.mvdr.adventofcode.adventofcode2023.day21;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/21">?</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class StepCounter implements IntSolver {
+public class StepCounter implements LongSolver {
 
     private final int steps;
     
@@ -25,7 +25,7 @@ public class StepCounter implements IntSolver {
     }
     
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         var map = GardenMap.parse(lines.toList());
         return map.countReachablePlots(steps);
     }

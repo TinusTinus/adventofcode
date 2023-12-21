@@ -25,7 +25,7 @@ public class StepCounterPart2Test extends SolverTest<StepCounterPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("?", "input-day21-2023.txt"));
+                Arguments.of("608152828731262", "input-day21-2023.txt"));
     }
     
     /**

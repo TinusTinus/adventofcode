@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2023.day21;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.IntStream;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -60,17 +59,76 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @param steps number of steps
      * @return number of reachable plots
      */
-    int countReachablePlots(int steps) {
-        if (steps < 0) {
-            throw new IllegalArgumentException("Negative steps not allowed: " + steps);
-        }
+    long countReachablePlots(int steps) {
+        // I struggled with this puzzle so I ended up taking inspiration from Reddit
+        // (https://www.reddit.com/r/adventofcode/comments/18nevo3/2023_day_21_solutions/).
+        // Turns out we once again need(?) additional assumptions from observing the input data.
+        // The following part 2 implementation was adapted from the one by Smooth-Aide-1751: https://pastebin.com/DyYZVfHx
+        // Works for the actual input (but not part 1 / example puzzles)
         
-        return (int) IntStream.range(0, steps + 1)
-                .filter(i -> i % 2 == steps % 2)
-                .mapToObj(startingPosition::pointsAtManhattanDistance)
-                .flatMap(Function.identity())
-                .filter(this::isGardenPlot) // no, these points are not actually guaranteed to be reachable in the given number of steps; there may not be a direct path
-                .count();
+        var visited = new HashSet<Point>();
+        var frontier = new HashSet<Point>();
+        frontier.add(startingPosition);
+ 
+        long[] counts = new long[3];
+ 
+        int[] frontiers = new int[width];
+        int[] d1 = new int[width];
+        int[] d2 = new int[width];
+ 
+        int step = 0;
+        while (true) {
+ 
+            var newFrontier = new HashSet<Point>();
+            for (var p : frontier) {
+                for (var q : p.neighbours()) {
+                    if (isGardenPlot(q) && visited.add(q)) {
+                        newFrontier.add(q);
+                    }
+                }
+            }
+ 
+            int fsize = newFrontier.size();
+            counts[2] = fsize + counts[0];
+            counts[0] = counts[1];
+            counts[1] = counts[2];
+ 
+            int ix = step % width;
+            if (step >= width) {
+                int dx = fsize - frontiers[ix];
+                d2[ix] = dx - d1[ix];
+                d1[ix] = dx;
+            }
+            frontiers[ix] = fsize;
+ 
+            frontier = newFrontier;
+            step++;
+ 
+            if (step >= 2*width) {
+                if (Arrays.stream(d2).allMatch(i -> i == 0)) {
+                    break;
+                }
+            }
+        }
+ 
+        System.out.println("step: " + step);
+        System.out.println(counts[2]);
+        System.out.println(Arrays.toString(frontiers));
+        System.out.println(Arrays.toString(d1));
+        System.out.println(Arrays.toString(d2));
+ 
+        // extrapolate
+        for (int i = step; i < steps; i++) {
+            int ix = i % width;
+            d1[ix] += d2[ix];
+            frontiers[ix] += d1[ix];
+ 
+            counts[2] = counts[0] + frontiers[ix];
+            counts[0] = counts[1];
+            counts[1] = counts[2];
+        }
+ 
+        return counts[2];
     }
 
     /**
