@@ -63,7 +63,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         if (steps < 0) {
             throw new IllegalArgumentException("Negative steps not allowed: " + steps);
         }
-        if (64 < steps) {
+        if (100 < steps) {
             throw new IllegalArgumentException("This solution does not perform well enough for this many steps :(");
         }
         var result = findReachablePlots(steps, startingPosition);
