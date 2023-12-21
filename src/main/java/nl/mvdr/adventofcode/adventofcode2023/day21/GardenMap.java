@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2023.day21;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -10,9 +12,10 @@ import nl.mvdr.adventofcode.point.Point;
 /**
  * Map of the garden.
  *
+ * @param cache cached results of {@link #findReachablePlots(int, Point)}; note that this cache is mutable!
  * @author Martijn van de Rijdt
  */
-record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int height) {
+record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int height, Map<StartingPointAndSteps, Set<Point>> cache) {
     
     private static final char ROCK_CHARACTER = '#';
     private static final char GARDEN_CHARACTER = '.';
@@ -47,7 +50,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         }
         var startingPoint = startingPoints.iterator().next();
         
-        return new GardenMap(gardenPlots, startingPoint, width, height);
+        return new GardenMap(gardenPlots, startingPoint, width, height, new HashMap<>());
     }
     
     /**
@@ -60,7 +63,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         if (steps < 0) {
             throw new IllegalArgumentException("Negative steps not allowed: " + steps);
         }
-        if (10 < steps) {
+        if (64 < steps) {
             throw new IllegalArgumentException("This solution does not perform well enough for this many steps :(");
         }
         var result = findReachablePlots(steps, startingPosition);
@@ -75,16 +78,20 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @return reachable plots
      */
     private Set<Point> findReachablePlots(int steps, Point startingPoint) {
-        Set<Point> result;
-        if (steps == 0) {
-            result = Set.of(startingPoint);
-        } else {
-            result = startingPoint.neighbours()
-                    .stream()
-                    .filter(this::isGardenPlot)
-                    .map(neighbour -> findReachablePlots(steps - 1, neighbour))
-                    .flatMap(Set::stream)
-                    .collect(Collectors.toSet());
+        // TODO we can reuse the cache even more by using an offset
+        Set<Point> result = cache.get(new StartingPointAndSteps(startingPoint, steps));
+        if (result == null) {
+            if (steps == 0) {
+                result = Set.of(startingPoint);
+            } else {
+                result = startingPoint.neighbours()
+                        .stream()
+                        .filter(this::isGardenPlot)
+                        .map(neighbour -> findReachablePlots(steps - 1, neighbour))
+                        .flatMap(Set::stream)
+                        .collect(Collectors.toSet());
+            }
+            cache.put(new StartingPointAndSteps(startingPoint, steps), result);
         }
         return result;
     }
