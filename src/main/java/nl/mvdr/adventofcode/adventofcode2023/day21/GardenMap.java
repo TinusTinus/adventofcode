@@ -60,27 +60,30 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         if (steps < 0) {
             throw new IllegalArgumentException("Negative steps not allowed: " + steps);
         }
-        if (100 < steps) {
+        if (10 < steps) {
             throw new IllegalArgumentException("This solution does not perform well enough for this many steps :(");
         }
-        var result = findReachablePlots(steps, Set.of(startingPosition));
+        var result = findReachablePlots(steps, startingPosition);
         return result.size();
     }
 
     /**
-     * Finds the reachable garden plots, starting from any of the given starting points.
+     * Finds the reachable garden plots, starting from the given starting point.
      * 
-     * @param steps number of steps to take
-     * @param startingPoints possible starting points (should all be existing garden plots)
+     * @param steps number of steps to take; must be non-negative
+     * @param startingPoint starting garden plot
      * @return reachable plots
      */
-    private Set<Point> findReachablePlots(int steps, Set<Point> startingPoints) {
-        var result = startingPoints;
-        for (var i = 0; i != steps; i++) {
-            result = result.stream()
-                    .map(Point::neighbours)
+    private Set<Point> findReachablePlots(int steps, Point startingPoint) {
+        Set<Point> result;
+        if (steps == 0) {
+            result = Set.of(startingPoint);
+        } else {
+            result = startingPoint.neighbours()
+                    .stream()
+                    .filter(this::isGardenPlot)
+                    .map(neighbour -> findReachablePlots(steps - 1, neighbour))
                     .flatMap(Set::stream)
-                    .filter(point -> isGardenPlot(point))
                     .collect(Collectors.toSet());
         }
         return result;
