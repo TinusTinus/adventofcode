@@ -73,8 +73,8 @@ public record Point(int x, int y) implements Comparable<Point> {
                             new Point(x + i, y - distance + i),
                             new Point(x - i, y + distance - i),
                             new Point(x - i, y - distance + i)))
-                    .flatMap(Function.identity())
-                    .distinct();
+                    .map(Stream::distinct)
+                    .flatMap(Function.identity());
         }
         return result;
     }
