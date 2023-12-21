@@ -92,19 +92,21 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
     }    
 
     /**
-     * Finds the plots that are reachable in exactly the given number of steps from the starting position,
-     * using extrapolation to get the correct result for large numbers of steps.
+     * Finds the plots that are reachable in exactly the given number of steps from
+     * the starting position, using extrapolation to get the correct result for
+     * large numbers of steps.
+     * 
+     * I struggled with this puzzle, so I ended up taking inspiration from <a href=
+     * "https://www.reddit.com/r/adventofcode/comments/18nevo3/2023_day_21_solutions/">Reddit</a>.
+     * Turns out we once again need(?) additional assumptions from observing the
+     * input data. The following implementation was adapted from the
+     * <a href="https://pastebin.com/DyYZVfHx">part 2 solution</a> by
+     * <a href="https://www.reddit.com/user/Smooth-Aide-1751/">Smooth-Aide-1751</a>.
      * 
      * @param steps number of steps
      * @return number of reachable plots
      */
     private long countReachablePlotsUsingExtrapolation(int steps) {
-        // I struggled with this puzzle so I ended up taking inspiration from Reddit
-        // (https://www.reddit.com/r/adventofcode/comments/18nevo3/2023_day_21_solutions/).
-        // Turns out we once again need(?) additional assumptions from observing the input data.
-        // The following part 2 implementation was adapted from the one by Smooth-Aide-1751: https://pastebin.com/DyYZVfHx
-        // Works for the actual input (but not part 1 / example puzzles)
-        
         var visited = new HashSet<Point>();
         var frontier = new HashSet<Point>();
         frontier.add(startingPosition);
