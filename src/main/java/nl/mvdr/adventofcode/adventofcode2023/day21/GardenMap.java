@@ -77,8 +77,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         int[] d2 = new int[width];
  
         int step = 0;
-        while (true) {
- 
+        while (!(2 * width <= step && Arrays.stream(d2).allMatch(i -> i == 0))) {
             var newFrontier = new HashSet<Point>();
             for (var p : frontier) {
                 for (var q : p.neighbours()) {
@@ -103,19 +102,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
  
             frontier = newFrontier;
             step++;
- 
-            if (step >= 2*width) {
-                if (Arrays.stream(d2).allMatch(i -> i == 0)) {
-                    break;
-                }
-            }
         }
- 
-        System.out.println("step: " + step);
-        System.out.println(counts[2]);
-        System.out.println(Arrays.toString(frontiers));
-        System.out.println(Arrays.toString(d1));
-        System.out.println(Arrays.toString(d2));
  
         // extrapolate
         for (int i = step; i < steps; i++) {
