@@ -62,6 +62,7 @@ public class StepCounterPart2Test extends SolverTest<StepCounterPart2> {
     private static Stream<Arguments> testExample() {
         return Stream.of(
                 Arguments.of(1, 0),
+                Arguments.of(2, 1),
                 Arguments.of(4, 2),
                 Arguments.of(6, 3),
                 Arguments.of(16, 6),
