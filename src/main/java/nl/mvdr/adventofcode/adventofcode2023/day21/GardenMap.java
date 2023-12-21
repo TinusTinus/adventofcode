@@ -60,7 +60,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      */
     long countReachablePlots(int steps) {
         long result;
-        if (steps < 100) { // TODO determine the actual upper limit; this works for the examples, but makes no real sense
+        if (steps < 71) { // TODO this is the number for the example input; can we determine this based on the map itself?
             // Just use the straightforward, naive solution
             result = countReachablePlotsNaively(steps);
         } else {
@@ -77,7 +77,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @param steps number of steps
      * @return number of reachable plots
      */
-    private long countReachablePlotsNaively(int steps) {
+    long countReachablePlotsNaively(int steps) {
         var result = Set.of(startingPosition);
         for (var i = 0; i != steps; i++) {
             result = result.stream()
@@ -104,7 +104,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @param steps number of steps
      * @return number of reachable plots
      */
-    private long countReachablePlotsUsingExtrapolation(int steps) {
+    long countReachablePlotsUsingExtrapolation(int steps) {
         // Keep a set of visited points (to prevent investigating the same point multiple times)
         Set<Point> visited = new HashSet<>();
         
