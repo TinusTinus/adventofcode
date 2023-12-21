@@ -60,34 +60,15 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      */
     long countReachablePlots(int steps) {
         long result;
-        if (steps < 71) { // TODO this is the number for the example input; can we determine this based on the map itself?
-            // Just use the straightforward, naive solution
-            result = countReachablePlotsNaively(steps);
+        if (steps < 0) {
+            throw new IllegalArgumentException("Number of steps must be positive but was: " + steps);
+        } else if (steps == 0) {
+            result = 1L; // special case: only the starting position can be reached
         } else {
             result = countReachablePlotsUsingExtrapolation(steps);
         }
         return result;
     }
-
-    /**
-     * Finds the plots that are reachable in exactly the given number of steps from the starting position.
-     * 
-     * This is a naive solution which does not scale well to large numbers of steps.
-     * 
-     * @param steps number of steps
-     * @return number of reachable plots
-     */
-    private long countReachablePlotsNaively(int steps) {
-        var result = Set.of(startingPosition);
-        for (var i = 0; i != steps; i++) {
-            result = result.stream()
-                    .map(Point::neighbours)
-                    .flatMap(Set::stream)
-                    .filter(point -> isGardenPlot(point))
-                    .collect(Collectors.toSet());
-        }
-        return result.size();
-    }    
 
     /**
      * Finds the plots that are reachable in exactly the given number of steps from
@@ -118,7 +99,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         int[] d2 = new int[width];
  
         int step = 0;
-        while (!(2 * width <= step && Arrays.stream(d2).allMatch(i -> i == 0))) {
+        while (step < steps && !(2 * width <= step && Arrays.stream(d2).allMatch(i -> i == 0))) {
             frontier = frontier.stream()
                     .map(Point::neighbours)
                     .flatMap(Set::stream)
