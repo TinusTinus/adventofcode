@@ -92,8 +92,12 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         // Keep track of the frontier: newly visited points
         var frontier = Set.of(startingPosition);
  
+        // Counts for the latest three steps.
+        // Note that the count for step s + 2 is: the count for step s + the count of the latest frontier,
+        // because it is possible to revisit any plot by taking one step in any direction and then one step back.
         long[] counts = new long[3];
  
+        // Helper arrays for extrapolation
         int[] frontiers = new int[width];
         int[] d1 = new int[width];
         int[] d2 = new int[width];
