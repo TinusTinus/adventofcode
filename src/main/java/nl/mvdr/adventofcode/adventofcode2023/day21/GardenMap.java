@@ -64,7 +64,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         long result;
         if (steps < 100) { // TODO determine the actual upper limit; this works for the examples, but makes no real sense
             // Just use the straightforward, naive solution
-            result = findReachablePlots(steps, Set.of(startingPosition)).size();
+            result = findReachablePlots(steps).size();
         } else {
             result = countReachablePlotsUsingExtrapolation(steps);
         }
@@ -74,12 +74,13 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
     /**
      * Finds the reachable garden plots, starting from any of the given starting points.
      * 
+     * This is a naive solution which does not scale well to large numbers of steps.
+     * 
      * @param steps number of steps to take
-     * @param startingPoints possible starting points (should all be existing garden plots)
      * @return reachable plots
      */
-    private Set<Point> findReachablePlots(int steps, Set<Point> startingPoints) {
-        var result = startingPoints;
+    private Set<Point> findReachablePlots(int steps) {
+        var result = Set.of(startingPosition);
         for (var i = 0; i != steps; i++) {
             result = result.stream()
                     .map(Point::neighbours)
@@ -91,8 +92,11 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
     }    
 
     /**
-     * @param steps
-     * @return
+     * Finds the plots that are reachable in exactly the given number of steps from the starting position,
+     * using extrapolation to get the correct result for large numbers of steps.
+     * 
+     * @param steps number of steps
+     * @return number of reachable plots
      */
     private long countReachablePlotsUsingExtrapolation(int steps) {
         // I struggled with this puzzle so I ended up taking inspiration from Reddit
