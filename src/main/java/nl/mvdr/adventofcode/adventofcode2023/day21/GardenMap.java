@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -60,6 +61,40 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @return number of reachable plots
      */
     long countReachablePlots(int steps) {
+        long result;
+        if (steps < 100) { // TODO determine the actual upper limit; this works for the examples, but makes no real sense
+            // Just use the straightforward, naive solution
+            result = findReachablePlots(steps, Set.of(startingPosition)).size();
+        } else {
+            result = countReachablePlotsUsingExtrapolation(steps);
+        }
+        return result;
+    }
+
+    /**
+     * Finds the reachable garden plots, starting from any of the given starting points.
+     * 
+     * @param steps number of steps to take
+     * @param startingPoints possible starting points (should all be existing garden plots)
+     * @return reachable plots
+     */
+    private Set<Point> findReachablePlots(int steps, Set<Point> startingPoints) {
+        var result = startingPoints;
+        for (var i = 0; i != steps; i++) {
+            result = result.stream()
+                    .map(Point::neighbours)
+                    .flatMap(Set::stream)
+                    .filter(point -> isGardenPlot(point))
+                    .collect(Collectors.toSet());
+        }
+        return result;
+    }    
+
+    /**
+     * @param steps
+     * @return
+     */
+    private long countReachablePlotsUsingExtrapolation(int steps) {
         // I struggled with this puzzle so I ended up taking inspiration from Reddit
         // (https://www.reddit.com/r/adventofcode/comments/18nevo3/2023_day_21_solutions/).
         // Turns out we once again need(?) additional assumptions from observing the input data.
