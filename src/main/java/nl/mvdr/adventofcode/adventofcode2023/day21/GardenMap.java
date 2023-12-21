@@ -54,10 +54,9 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * Finds the plots that are reachable in exactly the given number of steps from the starting position.
      * 
      * @param steps number of steps
-     * @param infiniteGarden whether the garden stretches out infinitely
      * @return number of reachable plots
      */
-    int countReachablePlots(int steps, boolean infiniteGarden) {
+    int countReachablePlots(int steps) {
         if (steps < 0) {
             throw new IllegalArgumentException("Negative steps not allowed: " + steps);
         }
@@ -67,7 +66,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
             result = result.stream()
                     .map(Point::neighbours)
                     .flatMap(Set::stream)
-                    .filter(point -> isGardenPlot(point, infiniteGarden))
+                    .filter(point -> isGardenPlot(point))
                     .collect(Collectors.toSet());
         }
         
@@ -81,15 +80,10 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @param infiniteGarden whether the garden stretches out infinitely
      * @return whether the given point is a garden plot
      */
-    private boolean isGardenPlot(Point point, boolean infiniteGarden) {
-        Point actualPoint;
-        if (infiniteGarden) {
-            var x = Math.floorMod(point.x(), width);
-            var y = Math.floorMod(point.y(), height);
-            actualPoint = new Point(x, y);
-        } else {
-            actualPoint = point;
-        }
-        return gardenPlots.contains(actualPoint);
+    private boolean isGardenPlot(Point point) {
+        var x = Math.floorMod(point.x(), width);
+        var y = Math.floorMod(point.y(), height);
+        var offsetPoint = new Point(x, y);
+        return gardenPlots.contains(offsetPoint);
     }
 }

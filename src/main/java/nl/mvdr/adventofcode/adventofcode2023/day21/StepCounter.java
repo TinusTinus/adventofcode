@@ -11,7 +11,6 @@ import nl.mvdr.adventofcode.IntSolver;
  */
 public class StepCounter implements IntSolver {
 
-    private final boolean infiniteGarden;
     private final int steps;
     
     /**
@@ -20,16 +19,15 @@ public class StepCounter implements IntSolver {
      * @param infiniteGarden whether the garden stretches out infinitely
      * @param steps the elf's remaining number of steps for the day
      */
-    StepCounter(boolean infiniteGarden, int steps) {
+    StepCounter(int steps) {
         super();
-        this.infiniteGarden = infiniteGarden;
         this.steps = steps;
     }
     
     @Override
     public int solve(Stream<String> lines) {
         var map = GardenMap.parse(lines.toList());
-        return map.countReachablePlots(steps, infiniteGarden);
+        return map.countReachablePlots(steps);
     }
 }
  

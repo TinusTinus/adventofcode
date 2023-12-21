@@ -35,7 +35,7 @@ public class StepCounterPart1 implements Solver {
     
     @Override
     public String solve(String inputfile) {
-        return new StepCounter(false, steps).solve(inputfile);
+        return new StepCounter(steps).solve(inputfile);
     }
     
     /**
