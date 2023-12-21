@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day21;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.point.Point;
 
@@ -30,6 +31,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition) {
         Point.parse2DMap(lines, (point, character) -> {
             if (character == STARTING_POINT_CHARACTER) {
                 startingPoints.add(point);
+                gardenPlots.add(point);
             } else if (character == GARDEN_CHARACTER) {
                 gardenPlots.add(point);
             } else if (character != ROCK_CHARACTER) {
@@ -43,5 +45,28 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition) {
         var startingPoint = startingPoints.iterator().next();
         
         return new GardenMap(gardenPlots, startingPoint);
+    }
+    
+    /**
+     * Finds the plots that are reachable in exactly the given number of steps from the starting position.
+     * 
+     * @param steps number of steps
+     * @return plots
+     */
+    Set<Point> findReachablePlots(int steps) {
+        if (steps < 0) {
+            throw new IllegalArgumentException("Negative steps not allowed: " + steps);
+        }
+        
+        Set<Point> result = Set.of(startingPosition);
+        for (var i = 0; i != steps; i++) {
+            result = result.stream()
+                    .map(Point::neighbours)
+                    .flatMap(Set::stream)
+                    .filter(gardenPlots::contains)
+                    .collect(Collectors.toSet());
+        }
+        
+        return result;
     }
 }
