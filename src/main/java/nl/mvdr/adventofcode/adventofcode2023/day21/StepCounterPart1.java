@@ -12,10 +12,29 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class Day21Part1 implements IntSolver {
+public class StepCounterPart1 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Day21Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StepCounterPart1.class);
 
+    private final int steps;
+    
+    /**
+     * Default constructor.
+     */
+    public StepCounterPart1() {
+        this(64);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param steps the elf's remaining number of steps for the day
+     */
+    StepCounterPart1(int steps) {
+        super();
+        this.steps = steps;
+    }
+    
     @Override
     public int solve(Stream<String> lines) {
         return 0; // TODO
@@ -27,7 +46,7 @@ public class Day21Part1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new Day21Part1();
+        var instance = new StepCounterPart1();
 
         var result = instance.solve("input-day21-2023.txt");
 
