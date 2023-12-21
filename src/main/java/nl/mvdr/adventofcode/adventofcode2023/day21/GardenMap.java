@@ -62,6 +62,10 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
             throw new IllegalArgumentException("Negative steps not allowed: " + steps);
         }
         
+        if (500 < steps) {
+            throw new IllegalArgumentException("This solution does not perform well enough for this many steps :(");
+        }
+        
         Set<Point> result = Set.of(startingPosition);
         for (var i = 0; i != steps; i++) {
             result = result.stream()
