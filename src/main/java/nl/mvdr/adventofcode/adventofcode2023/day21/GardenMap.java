@@ -81,6 +81,13 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
         // TODO we can reuse the cache even more by using an offset
         Set<Point> result = cache.get(new StartingPointAndSteps(startingPoint, steps));
         if (result == null) {
+            // Determine the offset from the "middle" (as in starting) copy of the garden 
+            var offset = new Point(Math.floorDiv(startingPoint.x(), width),
+                    Math.floorDiv(startingPoint.y(), height));
+            if (!offset.equals(Point.ORIGIN)) {
+                // TODO stuff
+            }
+            
             if (steps == 0) {
                 result = Set.of(startingPoint);
             } else {
@@ -104,9 +111,6 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @return whether the given point is a garden plot
      */
     private boolean isGardenPlot(Point point) {
-        var x = Math.floorMod(point.x(), width);
-        var y = Math.floorMod(point.y(), height);
-        var offsetPoint = new Point(x, y);
-        return gardenPlots.contains(offsetPoint);
+        return gardenPlots.contains(point.floorMod(width, height));
     }
 }

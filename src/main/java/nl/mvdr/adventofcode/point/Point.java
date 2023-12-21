@@ -336,6 +336,18 @@ public record Point(int x, int y) implements Comparable<Point> {
     }
     
     /**
+     * Applies {@link Math#floorMod(int, int)} to both coordinates.
+     * 
+     * @param xDivisor divisor for the x coordinate
+     * @param yDivisor divisor for the y coordinate
+     * @return result
+     */
+    public Point floorMod(int xDivisor, int yDivisor) {
+        return new Point(Math.floorMod(x, xDivisor),
+                Math.floorMod(y, yDivisor));
+    }
+    
+    /**
      * Parses a range for a single coordinate, for example: "48" (meaning just the value 48) or "23..27" (meaning the values 23, 24, 25, 26, 27).
      * 
      * @param line text to be parsed
