@@ -39,7 +39,7 @@ public class StepCounterPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         var map = GardenMap.parse(lines.toList());
         
-        return map.findReachablePlots(steps).size();
+        return map.countReachablePlots(steps);
     }
     
     /**

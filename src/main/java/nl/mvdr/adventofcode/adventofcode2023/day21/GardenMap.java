@@ -51,9 +51,9 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition) {
      * Finds the plots that are reachable in exactly the given number of steps from the starting position.
      * 
      * @param steps number of steps
-     * @return plots
+     * @return number of reachable plots
      */
-    Set<Point> findReachablePlots(int steps) {
+    int countReachablePlots(int steps) {
         if (steps < 0) {
             throw new IllegalArgumentException("Negative steps not allowed: " + steps);
         }
@@ -67,6 +67,6 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition) {
                     .collect(Collectors.toSet());
         }
         
-        return result;
+        return result.size();
     }
 }
