@@ -69,7 +69,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
                 .filter(i -> i % 2 == steps % 2)
                 .mapToObj(startingPosition::pointsAtManhattanDistance)
                 .flatMap(Function.identity())
-                .filter(this::isGardenPlot)
+                .filter(this::isGardenPlot) // no, these points are not actually guaranteed to be reachable in the given number of steps; there may not be a direct path
                 .count();
     }
 
