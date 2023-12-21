@@ -77,7 +77,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @param steps number of steps
      * @return number of reachable plots
      */
-    long countReachablePlotsNaively(int steps) {
+    private long countReachablePlotsNaively(int steps) {
         var result = Set.of(startingPosition);
         for (var i = 0; i != steps; i++) {
             result = result.stream()
@@ -104,7 +104,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * @param steps number of steps
      * @return number of reachable plots
      */
-    long countReachablePlotsUsingExtrapolation(int steps) {
+    private long countReachablePlotsUsingExtrapolation(int steps) {
         // Keep a set of visited points (to prevent investigating the same point multiple times)
         Set<Point> visited = new HashSet<>();
         
