@@ -75,7 +75,7 @@ record GardenMap(Set<Point> gardenPlots, Point startingPosition, int width, int 
      * the starting position, using extrapolation to get the correct result for
      * large numbers of steps.
      * 
-     * I struggled with this puzzle, so I ended up taking inspiration from <a href=
+     * I struggled with part 2, so I ended up taking inspiration from <a href=
      * "https://www.reddit.com/r/adventofcode/comments/18nevo3/2023_day_21_solutions/">Reddit</a>.
      * Turns out we once again need(?) additional assumptions from observing the
      * input data. The following implementation was adapted from the
