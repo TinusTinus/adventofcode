@@ -130,6 +130,16 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @param bricks bricks
      * @return all other bricks which are supporting this one
      */
+    Set<Brick> supportingBrickSet(Set<Brick> bricks) {
+        return supportingBricks(bricks).collect(Collectors.toSet());
+    }
+    
+    /**
+     * Checks which of the given bricks is supporting this one.
+     * 
+     * @param bricks bricks
+     * @return all other bricks which are supporting this one
+     */
     private Stream<Brick> supportingBricks(Set<Brick> bricks) {
         return bricks.stream()
                 .filter(brick -> brick.supports(this));
@@ -180,7 +190,7 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
     /**
      * @return whether this brick is resting on the ground
      */
-    private boolean isOnTheGround() {
+    boolean isOnTheGround() {
         // Note that the first cube is guaranteed to be the one closest to the ground
         return cubes.getFirst().z() == 1;
     }
