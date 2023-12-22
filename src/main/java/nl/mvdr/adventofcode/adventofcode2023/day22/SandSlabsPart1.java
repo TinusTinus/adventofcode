@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day22;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -18,7 +19,9 @@ public class SandSlabsPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        var bricks = lines.map(Brick::parse).toList();
+        var bricks = lines.map(Brick::parse).collect(Collectors.toSet());
+        bricks = Brick.settle(bricks);
+        
         return 0; // TODO
     }
     

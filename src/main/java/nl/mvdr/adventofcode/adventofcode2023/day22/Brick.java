@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2023.day22;
 
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -56,9 +59,113 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
     }
     
     /**
-     * @return whether this cube is resting on the ground
+     * Lets the given bricks fall to the ground and settle.
+     * 
+     * @param bricks bricks
+     * @return end result
+     */
+    static Set<Brick> settle(Set<Brick> bricks) {
+        var result = bricks;
+        var done = false;
+        while (!done) {
+            var newResult = fall(result);
+            done = newResult.equals(result);
+            result = newResult;
+        }
+        return result;
+    }
+
+    /**
+     * Drops each of the given bricks by one unit if there is space to do so.
+     * 
+     * @param bricks set of bricks
+     * @return updated state
+     */
+    private static Set<Brick> fall(Set<Brick> bricks) {
+        return bricks.stream()
+                .map(brick -> brick.fallIfPossible(bricks))
+                .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Drops this brick by one unit if it is not resting on anything.
+     * 
+     * @param bricks bricks
+     * @return updated brick
+     */
+    private Brick fallIfPossible(Set<Brick> bricks) {
+        Brick result;
+        if (canFall(bricks)) {
+            result = fall();
+        } else {
+            result = this;
+        }
+        return result;
+    }
+    
+    /**
+     * Checks whether this brick can fall, that is, whether it is unsupported by the ground or any other bricks.
+     * 
+     * @param bricks bricks
+     * @return whether this brick can fall
+     */
+    boolean canFall(Set<Brick> bricks) {
+        return !isOnTheGround() && supportingBricks(bricks).isEmpty();
+    }
+    
+    /**
+     * Drops the brick by one unit.
+     * 
+     * @return updated brick
+     */
+    private Brick fall() {
+        var newCubes = cubes.stream()
+                .map(brick -> Axis3D.Z.move(brick, -1))
+                .collect(Collectors.toList());
+        return new Brick(newCubes, orientation);
+    }
+    
+    /**
+     * Checks which of the given bricks is supporting this one.
+     * 
+     * @param bricks bricks
+     * @return all other bricks which are supporting this one
+     */
+    private Set<Brick> supportingBricks(Set<Brick> bricks) {
+        return bricks.stream()
+                .filter(Predicate.not(this::equals)) // a brick cannot support itself
+                .filter(brick -> brick.supports(this))
+                .collect(Collectors.toSet());
+    }
+    
+    /**
+     * Checks whether this brick supports the given other brick.
+     * 
+     * @param otherBrick other brick
+     * @return whether this brick supports the given other brick
+     */
+    private boolean supports(Brick otherBrick) {
+        // TODO this could easily be implemented in a more efficient way if either brick is vertical
+        return otherBrick.cubes()
+                .stream()
+                .anyMatch(this::supports);
+    }
+    
+    /**
+     * Checks whether this brick supports the given cube of another brick.
+     * 
+     * @param cubeOfOtherBrick cube of another brick
+     * @return whether the given cube is resting on this brick
+     */
+    private boolean supports(Point3D cubeOfOtherBrick) {
+        return cubes.contains(Axis3D.Z.move(cubeOfOtherBrick, 1));
+    }
+    
+    /**
+     * @return whether this brick is resting on the ground
      */
     private boolean isOnTheGround() {
+        // Note that the first cube is guaranteed to be the one closest to the ground
         return cubes.getFirst().z() == 1;
     }
     
