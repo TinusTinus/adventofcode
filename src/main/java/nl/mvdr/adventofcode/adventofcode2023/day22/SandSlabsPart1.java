@@ -22,7 +22,7 @@ public class SandSlabsPart1 implements LongSolver {
         var bricks = lines.map(Brick::parse).collect(Collectors.toSet());
         var settledBricks = Brick.settle(bricks);
         
-        LOGGER.info("Bricks have settled: {}", settledBricks); // TODO debug
+        LOGGER.debug("Bricks have settled: {}", settledBricks);
         
         return settledBricks.stream()
                 .filter(brick -> brick.canBeDisintegrated(settledBricks))
