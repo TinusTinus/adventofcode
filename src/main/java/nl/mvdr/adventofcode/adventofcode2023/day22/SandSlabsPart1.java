@@ -18,6 +18,7 @@ public class SandSlabsPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
+        var bricks = lines.map(Brick::parse).toList();
         return 0; // TODO
     }
     

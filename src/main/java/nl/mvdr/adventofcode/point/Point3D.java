@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.point;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
@@ -14,7 +15,7 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-public record Point3D(int x, int y, int z) {
+public record Point3D(int x, int y, int z) implements Comparable<Point3D> {
 
     /**
      * Parses a string containing a set of coordinates, for example: "<1,3,1>" or "2,5,6".
@@ -156,6 +157,17 @@ public record Point3D(int x, int y, int z) {
     }
     
     /**
+     * Updates the coordinate value on the given axis.
+     * 
+     * @param axis axis
+     * @param newValue new value
+     * @return updated point
+     */
+    public Point3D withValue(Axis3D axis, int newValue) {
+        return axis.updateValue(this, newValue);
+    }
+    
+    /**
      * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and another.
      * 
      * @param other other point
@@ -252,5 +264,17 @@ public record Point3D(int x, int y, int z) {
     @Override
     public String toString() {
         return "<" + x + "," + y + "," + z + ">";
+    }
+
+    @Override
+    public int compareTo(Point3D other) {
+        // Just compare the coordinates in order.
+        // Note: this comparator was introduced for 2023's day 22 puzzle.
+        // For that puzzle, te order in which the coordinates are compared does not matter,
+        // as long as each coordinate is sorted in increasing order.
+        // If later puzzles require coordinates to be compared in a different order
+        // this can be refactored without problems.
+        var comparator = Comparator.comparing(Point3D::z).thenComparing(Point3D::y).thenComparing(Point3D::x);
+        return comparator.compare(this, other);
     }
 }

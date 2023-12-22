@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.point;
 
-import java.util.function.BiFunction;
 import java.util.function.ToIntFunction;
 
 /**
@@ -9,16 +8,29 @@ import java.util.function.ToIntFunction;
  * @author Martijn van de Rijdt
  */
 public enum Axis3D {
-    X(Point3D::x, (start, distance) -> new Point3D(start.x() + distance.intValue(), start.y(), start.z())),
-    Y(Point3D::y, (start, distance) -> new Point3D(start.x(), start.y() + distance.intValue(), start.z())),
-    Z(Point3D::z, (start, distance) -> new Point3D(start.x(), start.y(), start.z() + distance.intValue()));
+    X(Point3D::x) {
+        @Override
+        public Point3D updateValue(Point3D point, int newValue) {
+            return new Point3D(newValue, point.y(), point.z());
+        }
+    },
+    Y(Point3D::y) {
+        @Override
+        public Point3D updateValue(Point3D point, int newValue) {
+            return new Point3D(point.x(), newValue, point.z());
+        }
+    },
+    Z(Point3D::z) {
+        @Override
+        public Point3D updateValue(Point3D point, int newValue) {
+            return new Point3D(point.x(), point.y(), newValue);
+        }
+    };
     
     private final ToIntFunction<Point3D> getFunction;
-    private final BiFunction<Point3D, Integer, Point3D> movementFunction;
     
-    Axis3D(ToIntFunction<Point3D> getFunction, BiFunction<Point3D, Integer, Point3D> movementFunction) {
+    Axis3D(ToIntFunction<Point3D> getFunction) {
         this.getFunction = getFunction;
-        this.movementFunction = movementFunction;
     }
     
     /**
@@ -39,6 +51,15 @@ public enum Axis3D {
      * @return new position
      */
     public Point3D move(Point3D start, int distance) {
-        return movementFunction.apply(start, Integer.valueOf(distance));
+        return updateValue(start, getValue(start) + distance);
     }
+    
+    /**
+     * Updates the coordinate on this axis.
+     * 
+     * @param point point to update
+     * @param newValue new coordinate value
+     * @return updated point
+     */
+    public abstract Point3D updateValue(Point3D point, int newValue);
 }
