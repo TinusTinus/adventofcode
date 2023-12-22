@@ -133,7 +133,6 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      */
     private Set<Brick> supportingBricks(Set<Brick> bricks) {
         return bricks.stream()
-                .filter(Predicate.not(this::equals)) // a brick cannot support itself
                 .filter(brick -> brick.supports(this))
                 .collect(Collectors.toSet());
     }
@@ -145,10 +144,11 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @return whether this brick supports the given other brick
      */
     private boolean supports(Brick otherBrick) {
-        // TODO this could easily be implemented in a more efficient way if either brick is vertical
-        return otherBrick.cubes()
-                .stream()
-                .anyMatch(this::supports);
+        // TODO this could easily be implemented more efficiently if either brick is vertical
+        return this != otherBrick
+                && otherBrick.cubes()
+                    .stream()
+                    .anyMatch(this::supports);
     }
     
     /**
@@ -158,7 +158,7 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @return whether the given cube is resting on this brick
      */
     private boolean supports(Point3D cubeOfOtherBrick) {
-        return cubes.contains(Axis3D.Z.move(cubeOfOtherBrick, 1));
+        return cubes.contains(Axis3D.Z.move(cubeOfOtherBrick, -1));
     }
     
     /**
@@ -176,11 +176,8 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @return whether any other bricks will fall if this brick is disinitegrated
      */
     boolean canBeDisintegrated(Set<Brick> bricks) {
-        var updatedBricks = bricks.stream()
-                .filter(Predicate.not(this::equals))
-                .collect(Collectors.toSet());
-        return updatedBricks.stream()
-                .noneMatch(brick -> brick.canFall(updatedBricks));
+        return bricks.stream()
+                .noneMatch(brick -> brick.supportingBricks(bricks).equals(Set.of(this)));
     }
     
     @Override
