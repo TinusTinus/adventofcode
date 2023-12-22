@@ -43,7 +43,10 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
         // Figure out which one.
         var axis = Stream.of(Axis3D.values())
                 .filter(a -> firstCube.getValue(a) != lastCube.getValue(a))
-                .findFirst()
+                .reduce((axis0, axis1) -> {
+                    throw new IllegalArgumentException("Values of " + firstCube + " and " + lastCube
+                            + "differ in multiple axes, expected only one: " + axis0 + " and " + axis1);
+                })
                 .orElse(/* brick consists of a single cube; pick any axis */ Axis3D.X);
 
         var cubes = IntStream.range(firstCube.getValue(axis), lastCube.getValue(axis) + 1)
