@@ -195,21 +195,6 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
         return cubes.getFirst().z() == 1;
     }
     
-    /**
-     * Whether this brick can be safely disintegrated from the given set of bricks.
-     * 
-     * @param bricks bricks
-     * @return whether any other bricks will fall if this brick is disinitegrated
-     */
-    boolean canBeDisintegrated(Set<Brick> bricks) {
-        return bricks.stream()
-                .filter(brick -> !brick.isOnTheGround())
-                .allMatch(brick -> brick.supportingBricks(bricks)
-                        .filter(supportingBrick -> supportingBrick != this)
-                        .findAny()
-                        .isPresent());
-    }
-    
     @Override
     public String toString() {
         var result = cubes.getFirst() + "~" + cubes.getLast();
