@@ -142,11 +142,16 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @return whether this brick supports the given other brick
      */
     private boolean supports(Brick otherBrick) {
-        // TODO this could easily be implemented more efficiently if either brick is vertical
-        return this != otherBrick
-                && otherBrick.cubes()
+        var result = this != otherBrick; // A brick cannot support itself of course
+        
+        if (result && otherBrick.orientation() == Orientation.VERTICAL) {
+            result = supports(otherBrick.cubes().getFirst());
+        } else if (result) {
+            result = otherBrick.cubes()
                     .stream()
                     .anyMatch(this::supports);
+        }
+        return result;
     }
     
     /**
@@ -156,7 +161,17 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @return whether the given cube is resting on this brick
      */
     private boolean supports(Point3D cubeOfOtherBrick) {
-        return cubes.contains(Axis3D.Z.move(cubeOfOtherBrick, -1));
+        var cubeBelow = Axis3D.Z.move(cubeOfOtherBrick, -1);
+        
+        boolean result;
+        if (orientation == Orientation.VERTICAL) {
+            result = cubes.getLast().equals(cubeBelow);
+        } else {
+            result = cubes.getFirst().z() == cubeBelow.z() // All cubes have the same z coordinate, so if the first doesn't match, none will
+                    && cubes.contains(cubeBelow);
+        }
+        
+        return result;
     }
     
     /**
