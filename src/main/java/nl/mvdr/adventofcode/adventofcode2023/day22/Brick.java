@@ -138,16 +138,20 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
     /**
      * Checks whether this brick supports the given other brick.
      * 
-     * @param otherBrick other brick
+     * @param other other brick
      * @return whether this brick supports the given other brick
      */
-    private boolean supports(Brick otherBrick) {
-        var result = this != otherBrick; // A brick cannot support itself of course
+    private boolean supports(Brick other) {
+        // A brick cannot support itself
+        var result = this != other;
+
+        // Extra check to prevent many comparisons: can only support bricks where the lowest cube is one higher than this one
+        result = result && this.cubes.getLast().z() == other.cubes.getFirst().z() - 1;
         
-        if (result && otherBrick.orientation() == Orientation.VERTICAL) {
-            result = supports(otherBrick.cubes().getFirst());
-        } else if (result) {
-            result = otherBrick.cubes()
+        if (other.orientation() == Orientation.VERTICAL) {
+            result = result && supports(other.cubes().getFirst());
+        } else {
+            result = result && other.cubes()
                     .stream()
                     .anyMatch(this::supports);
         }
@@ -167,8 +171,7 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
         if (orientation == Orientation.VERTICAL) {
             result = cubes.getLast().equals(cubeBelow);
         } else {
-            result = cubes.getFirst().z() == cubeBelow.z() // All cubes have the same z coordinate, so if the first doesn't match, none will
-                    && cubes.contains(cubeBelow);
+            result = cubes.contains(cubeBelow);
         }
         
         return result;
