@@ -109,7 +109,7 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @return whether this brick can fall
      */
     boolean canFall(Set<Brick> bricks) {
-        return !isOnTheGround() && supportingBricks(bricks).isEmpty();
+        return !isOnTheGround() && supportingBricks(bricks).findAny().isEmpty();
     }
     
     /**
@@ -130,10 +130,9 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @param bricks bricks
      * @return all other bricks which are supporting this one
      */
-    private Set<Brick> supportingBricks(Set<Brick> bricks) {
+    private Stream<Brick> supportingBricks(Set<Brick> bricks) {
         return bricks.stream()
-                .filter(brick -> brick.supports(this))
-                .collect(Collectors.toSet());
+                .filter(brick -> brick.supports(this));
     }
     
     /**
@@ -176,7 +175,7 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      */
     boolean canBeDisintegrated(Set<Brick> bricks) {
         return bricks.stream()
-                .noneMatch(brick -> brick.supportingBricks(bricks).equals(Set.of(this)));
+                .noneMatch(brick -> brick.supportingBricks(bricks).collect(Collectors.toSet()).equals(Set.of(this)));
     }
     
     @Override
