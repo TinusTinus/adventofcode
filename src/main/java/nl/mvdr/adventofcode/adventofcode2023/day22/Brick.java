@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Axis3D;
+import nl.mvdr.adventofcode.point.Orientation;
 import nl.mvdr.adventofcode.point.Point3D;
 
 /**
@@ -16,9 +17,10 @@ import nl.mvdr.adventofcode.point.Point3D;
  * regardless of the orientation of the brick.
  *
  * @param cubes the cubes making up this brick
+ * @param orientation the orientation of this brick
  * @author Martijn van de Rijdt
  */
-public record Brick(List<Point3D> cubes) {
+public record Brick(List<Point3D> cubes, Orientation orientation) {
     
     /**
      * Parses a brick.
@@ -47,7 +49,7 @@ public record Brick(List<Point3D> cubes) {
         var cubes = IntStream.range(firstCube.getValue(axis), lastCube.getValue(axis) + 1)
                     .mapToObj(value -> firstCube.withValue(axis, value))
                     .toList();
-        return new Brick(cubes);
+        return new Brick(cubes, axis.getOrientation());
     }
     
     /**

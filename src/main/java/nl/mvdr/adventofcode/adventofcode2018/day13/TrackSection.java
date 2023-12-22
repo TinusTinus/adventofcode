@@ -71,13 +71,12 @@ enum TrackSection {
      * @return vertical or horizontal straight path, depending of the given direction
      */
     static TrackSection of(Direction direction) {
-        TrackSection result;
-        if (direction.isVertical()) {
-            result = TrackSection.VERTICAL_STRAIGHT_PATH;
-        } else {
-            result = TrackSection.HORIZONTAL_STRAIGHT_PATH;
-        }
-        return result;
+        return switch(direction.getOrientation()) {
+            case VERTICAL -> VERTICAL_STRAIGHT_PATH;
+            case HORIZONTAL -> HORIZONTAL_STRAIGHT_PATH;
+            case DIAGONAL -> throw new IllegalArgumentException("Diagonal directions are not supported: " + direction);
+            default -> throw new IllegalArgumentException("Unexpected direction: " + direction);
+        };
     }
     
     @Override

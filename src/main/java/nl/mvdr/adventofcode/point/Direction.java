@@ -11,24 +11,23 @@ import java.util.stream.Stream;
  */
 public enum Direction {
     /** Up / north. */
-    UP(true, 1L, 3, '^', 'U', 'N', '3'),
+    UP(Orientation.VERTICAL, 1L, 3, '^', 'U', 'N', '3'),
     /** Down / south. */
-    DOWN(true, 2L, 1, 'v', 'D', 'S', '1'),
+    DOWN(Orientation.VERTICAL, 2L, 1, 'v', 'D', 'S', '1'),
     /** Left / west. */
-    LEFT(false, 3L, 2, '<', 'L', 'W', '2'),
+    LEFT(Orientation.HORIZONTAL, 3L, 2, '<', 'L', 'W', '2'),
     /** Right / east. */
-    RIGHT(false, 4L, 0, '>', 'R', 'E', '0'),
+    RIGHT(Orientation.HORIZONTAL, 4L, 0, '>', 'R', 'E', '0'),
     /** Up-left 45 degree diagonal. */
-    UP_LEFT(false, -1L, -1),
+    UP_LEFT(Orientation.DIAGONAL, -1L, -1),
     /** Up-right 45 degree diagonal. */
-    UP_RIGHT(false, -1L, -1),
+    UP_RIGHT(Orientation.DIAGONAL, -1L, -1),
     /** Down-left 45 degree diagonal. */
-    DOWN_LEFT(false, -1L, -1),
+    DOWN_LEFT(Orientation.DIAGONAL, -1L, -1),
     /** Down-right 45 degree diagonal. */
-    DOWN_RIGHT(false, -1L, -1);
+    DOWN_RIGHT(Orientation.DIAGONAL, -1L, -1);
     
-    /** Whether this direction is vertical. */
-    private final boolean vertical;
+    private final Orientation orientation;
     
     /** Intcode representation of this direction. */
     private final long code;
@@ -42,13 +41,13 @@ public enum Direction {
     /**
      * Constructor.
      * 
-     * @param vertical whether this direction is vertical
+     * @param orientation of this direction
      * @param code Intcode representation of this direction; -1 if not applicable
      * @param passwordValue value of this direction when representing a facing in a password; -1 if not applicable
      * @param representations character representations of this direction
      */
-    Direction(boolean vertical, long code, int passwordValue, char... representations) {
-        this.vertical = vertical;
+    Direction(Orientation orientation, long code, int passwordValue, char... representations) {
+        this.orientation = orientation;
         this.code = code;
         this.passwordValue = passwordValue;
         this.representations = representations;
@@ -80,7 +79,14 @@ public enum Direction {
     }
     
     public boolean isVertical() {
-        return vertical;
+        return Orientation.VERTICAL == orientation;
+    }
+    
+    /**
+     * @return the orientation of this direction
+     */
+    public Orientation getOrientation() {
+        return orientation;
     }
     
     /**

@@ -8,19 +8,19 @@ import java.util.function.ToIntFunction;
  * @author Martijn van de Rijdt
  */
 public enum Axis3D {
-    X(Point3D::x) {
+    X(Orientation.HORIZONTAL, Point3D::x) {
         @Override
         public Point3D updateValue(Point3D point, int newValue) {
             return new Point3D(newValue, point.y(), point.z());
         }
     },
-    Y(Point3D::y) {
+    Y(Orientation.HORIZONTAL, Point3D::y) {
         @Override
         public Point3D updateValue(Point3D point, int newValue) {
             return new Point3D(point.x(), newValue, point.z());
         }
     },
-    Z(Point3D::z) {
+    Z(Orientation.VERTICAL, Point3D::z) {
         @Override
         public Point3D updateValue(Point3D point, int newValue) {
             return new Point3D(point.x(), point.y(), newValue);
@@ -28,8 +28,10 @@ public enum Axis3D {
     };
     
     private final ToIntFunction<Point3D> getFunction;
+    private final Orientation orientation;
     
-    Axis3D(ToIntFunction<Point3D> getFunction) {
+    Axis3D(Orientation orientation, ToIntFunction<Point3D> getFunction) {
+        this.orientation = orientation;
         this.getFunction = getFunction;
     }
     
@@ -62,4 +64,11 @@ public enum Axis3D {
      * @return updated point
      */
     public abstract Point3D updateValue(Point3D point, int newValue);
+    
+    /**
+     * @return orientation of this axis in three-dimensional space (where the z axis is considered the only vertical one)
+     */
+    public Orientation getOrientation() {
+        return orientation;
+    }
 }
