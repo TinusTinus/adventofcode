@@ -175,7 +175,11 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      */
     boolean canBeDisintegrated(Set<Brick> bricks) {
         return bricks.stream()
-                .noneMatch(brick -> brick.supportingBricks(bricks).collect(Collectors.toSet()).equals(Set.of(this)));
+                .filter(brick -> !brick.isOnTheGround())
+                .allMatch(brick -> brick.supportingBricks(bricks)
+                        .filter(supportingBrick -> supportingBrick != this)
+                        .findAny()
+                        .isPresent());
     }
     
     @Override
