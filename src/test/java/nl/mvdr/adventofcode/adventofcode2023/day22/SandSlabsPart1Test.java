@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day22;
 
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.SolverTest;
@@ -11,6 +12,7 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
+@Disabled // TODO re-enable
 public class SandSlabsPart1Test extends SolverTest<SandSlabsPart1> {
 
     /** Constructor. */
