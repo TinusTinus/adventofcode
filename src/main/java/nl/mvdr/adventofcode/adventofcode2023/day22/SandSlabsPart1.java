@@ -44,7 +44,7 @@ public class SandSlabsPart1 implements LongSolver {
      * 
      * @param brick brick to be disintegrated
      * @param supportingBricks for each brick, not resting on the ground, which other bricks it is resting on
-     * @return number of bricks which would fall
+     * @return whether any bricks would fall if the given brick were disintegrated
      */
     private static boolean canBeDisintegrated(Brick brick, Map<Brick, Set<Brick>> supportingBricks) {
         return !supportingBricks.values().contains(Set.of(brick));
