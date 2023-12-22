@@ -1,7 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2023.day22;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -87,6 +90,21 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
     }
     
     /**
+     * For each brick which is not resting on the ground: determines which other bricks it is resting on.
+     * 
+     * Note that bricks already resting on the ground can never fall.
+     * 
+     * @param settledBricks
+     * @return supporting bricks
+     */
+    static Map<Brick, Set<Brick>> findSupportingBricks(Set<Brick> settledBricks) {
+        var supportingBricks = settledBricks.stream()
+                .filter(Predicate.not(Brick::isOnTheGround))
+                .collect(Collectors.toMap(Function.identity(), brick -> brick.supportingBrickSet(settledBricks)));
+        return supportingBricks;
+    }
+    
+    /**
      * Drops this brick by one unit if it is not resting on anything.
      * 
      * @param bricks bricks
@@ -130,7 +148,7 @@ public record Brick(List<Point3D> cubes, Orientation orientation) {
      * @param bricks bricks
      * @return all other bricks which are supporting this one
      */
-    Set<Brick> supportingBrickSet(Set<Brick> bricks) {
+    private Set<Brick> supportingBrickSet(Set<Brick> bricks) {
         return supportingBricks(bricks).collect(Collectors.toSet());
     }
     

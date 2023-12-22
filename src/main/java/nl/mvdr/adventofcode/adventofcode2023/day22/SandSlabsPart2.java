@@ -3,8 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2023.day22;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,15 +24,7 @@ public class SandSlabsPart2 implements IntSolver {
     public int solve(Stream<String> lines) {
         var bricks = lines.map(Brick::parse).collect(Collectors.toSet());
         var settledBricks = Brick.settle(bricks);
-        
-        LOGGER.debug("Bricks have settled: {}", settledBricks);
-
-        // For each brick which is not resting on the ground: determine which other bricks it is resting on.
-        // (Note that bricks already resting on the ground can never fall.)
-        var supportingBricks = settledBricks.stream()
-                .filter(Predicate.not(Brick::isOnTheGround))
-                .collect(Collectors.toMap(Function.identity(), brick -> brick.supportingBrickSet(settledBricks)));
-        
+        var supportingBricks = Brick.findSupportingBricks(settledBricks);
         return settledBricks.parallelStream()
                 .mapToInt(brick -> SandSlabsPart2.countFallingBricks(brick, supportingBricks))
                 .sum();
