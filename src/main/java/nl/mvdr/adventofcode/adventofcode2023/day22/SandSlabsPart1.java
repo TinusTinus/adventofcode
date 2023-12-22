@@ -24,7 +24,7 @@ public class SandSlabsPart1 implements LongSolver {
         
         LOGGER.debug("Bricks have settled: {}", settledBricks);
         
-        return settledBricks.stream()
+        return settledBricks.parallelStream()
                 .filter(brick -> brick.canBeDisintegrated(settledBricks))
                 .count();
     }

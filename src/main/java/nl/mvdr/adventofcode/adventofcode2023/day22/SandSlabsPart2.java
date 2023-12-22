@@ -35,7 +35,7 @@ public class SandSlabsPart2 implements IntSolver {
                 .filter(Predicate.not(Brick::isOnTheGround))
                 .collect(Collectors.toMap(Function.identity(), brick -> brick.supportingBrickSet(settledBricks)));
         
-        return settledBricks.stream()
+        return settledBricks.parallelStream()
                 .mapToInt(brick -> SandSlabsPart2.countFallingBricks(brick, supportingBricks))
                 .sum();
     }
