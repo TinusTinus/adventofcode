@@ -50,6 +50,13 @@ public record Brick(List<Point3D> cubes) {
         return new Brick(cubes);
     }
     
+    /**
+     * @return whether this cube is resting on the ground
+     */
+    private boolean isOnTheGround() {
+        return cubes.getFirst().z() == 1;
+    }
+    
     @Override
     public String toString() {
         var result = cubes.getFirst() + "~" + cubes.getLast();
