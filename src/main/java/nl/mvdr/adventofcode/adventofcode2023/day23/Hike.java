@@ -31,7 +31,7 @@ record Hike(HikingTrailsMap map, List<Point> visited) {
     OptionalInt longestHikeLength() {
         OptionalInt result;
         if (isComplete()) {
-            result = OptionalInt.of(visited.size() - 1);
+            result = OptionalInt.of(length());
         } else {
             result = step()
                     .map(Hike::longestHikeLength)
@@ -40,6 +40,11 @@ record Hike(HikingTrailsMap map, List<Point> visited) {
                     .max();
         }
         return result;
+    }
+
+    /** @return length of this hike, that is, the number of steps taken */
+    private int length() {
+        return visited.size() - 1;
     }
     
     /**
