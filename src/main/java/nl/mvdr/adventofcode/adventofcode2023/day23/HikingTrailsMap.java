@@ -67,10 +67,10 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
                         path.add(firstStep);
                         while (pointsOfInterest.stream().noneMatch(p -> p.point().equals(path.getLast()))) {
                             var nextLocation = Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
-                                    .filter(direction -> !slipperySlopes || terrainMap.get(pointOfInterest.point()).canExit(direction))
+                                    .filter(direction -> !slipperySlopes || terrainMap.get(path.getLast()).canExit(direction))
                                     .map(direction -> direction.move(path.getLast()))
-                                    .filter(point -> !point.equals(path.get(path.size() - 2)))
                                     .filter(terrainMap::containsKey)
+                                    .filter(point -> !point.equals(path.get(path.size() - 2)))
                                     .reduce((point0, point1) -> {throw new IllegalStateException("Multiple exits found");})
                                     .orElseThrow();
                             path.add(nextLocation);
