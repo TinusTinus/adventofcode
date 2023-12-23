@@ -11,8 +11,10 @@ import nl.mvdr.adventofcode.point.Direction;
  * @author Martijn van de Rijdt
  */
 enum Terrain {
+    // Do not explicitly keep track of forest tiles.
+    // Forests are just tiles we cannot visit, just like out-of-bound tiles.
+    
     PATH('.', Set.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)),
-    FOREST('#', Set.of()),
     SLOPE_UP('^', Set.of(Direction.UP)),
     SLOPE_RIGHT('>', Set.of(Direction.RIGHT)),
     SLOPE_DOWN('v', Set.of(Direction.DOWN)),
@@ -45,14 +47,8 @@ enum Terrain {
                     throw new IllegalStateException(
                             "There should be no more than one matching terrain value for '" + representation
                                     + "', but found: " + terrain0 + " and " + terrain1);
-                }).orElseThrow(() -> new IllegalArgumentException("Invalid representation: " + representation));
-    }
-    
-    /**
-     * @return whether it is possible to walk on this type of terrain
-     */
-    boolean canEnter() {
-        return this != FOREST;
+                })
+                .orElse(null); // Ignore forests entirely.
     }
     
     /**
