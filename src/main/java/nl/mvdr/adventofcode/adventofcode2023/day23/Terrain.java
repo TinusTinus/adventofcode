@@ -52,7 +52,8 @@ enum Terrain {
     }
     
     /**
-     * Checks whether it is possible to exit a tile of this type in the given direction.
+     * Checks whether it is possible to exit a tile of this type in the given direction,
+     * assuming that the slopes are slippery.
      * 
      * @param direction direction
      * @return whether it is possible to travel in this direction from this terrain

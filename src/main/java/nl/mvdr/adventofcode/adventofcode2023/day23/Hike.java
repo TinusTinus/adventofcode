@@ -17,15 +17,16 @@ import nl.mvdr.adventofcode.point.Point;
  * @param visited steps taken so far
  * @author Martijn van de Rijdt
  */
-record Hike(HikingTrailsMap map, List<Point> visited) {
+record Hike(HikingTrailsMap map, List<Point> visited, boolean slipperySlopes) {
     
     /**
      * Convenienca constructor for the start of a hike.
      * 
      * @param map map
+     * @param slipperySlopes whether the slopes are slippery
      */
-    Hike(HikingTrailsMap map) {
-        this(map, List.of(map.start()));
+    Hike(HikingTrailsMap map, boolean slipperySlopes) {
+        this(map, List.of(map.start()), slipperySlopes);
     }
 
     /** @return length of the longest hike from this point to the end goal */
@@ -64,7 +65,7 @@ record Hike(HikingTrailsMap map, List<Point> visited) {
         var currentLocation = getCurrentLocation();
         var currentTerrain = map.terrainMap().get(currentLocation);
         return Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
-                .filter(currentTerrain::canExit)
+                .filter(direction -> !slipperySlopes || currentTerrain.canExit(direction))
                 .map(direction -> direction.move(currentLocation))
                 .filter(map.terrainMap()::containsKey)
                 .filter(Predicate.not(visited::contains))
@@ -80,7 +81,7 @@ record Hike(HikingTrailsMap map, List<Point> visited) {
     private Hike addStep(Point newLocation) {
         List<Point> newSteps = new ArrayList<>(visited);
         newSteps.add(newLocation);
-        return new Hike(map, newSteps);
+        return new Hike(map, newSteps, slipperySlopes);
     }
     
     /** @return current location */

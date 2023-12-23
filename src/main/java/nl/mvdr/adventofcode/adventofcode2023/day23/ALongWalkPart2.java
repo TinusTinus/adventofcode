@@ -12,14 +12,14 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class ALongWalkPart1 implements IntSolver {
+public class ALongWalkPart2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ALongWalkPart1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ALongWalkPart2.class);
 
     @Override
     public int solve(Stream<String> lines) {
         var map = HikingTrailsMap.parse(lines.toList());
-        var hike = new Hike(map, true);
+        var hike = new Hike(map, false);
         return hike.longestHikeLength();
     }
     
@@ -29,7 +29,7 @@ public class ALongWalkPart1 implements IntSolver {
      * @param args commandline arguments; these are ignored
      */
     public static void main(String[] args) {
-        var instance = new ALongWalkPart1();
+        var instance = new ALongWalkPart2();
 
         var result = instance.solve("input-day23-2023.txt");
 
