@@ -2,22 +2,17 @@ package nl.mvdr.adventofcode.adventofcode2023.day23;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import nl.mvdr.adventofcode.point.Direction;
-import nl.mvdr.adventofcode.point.Point;
 
 /**
  * Representation of a hike.
  *
- * @param map the map
- * @param visited steps taken so far
+ * @param visited points visited so far
  * @author Martijn van de Rijdt
  */
-record Hike(HikingTrailsMap map, List<Point> visited, boolean slipperySlopes) {
+record Hike(List<PointOfInterest> visited) {
     
     /**
      * Convenienca constructor for the start of a hike.
@@ -25,76 +20,51 @@ record Hike(HikingTrailsMap map, List<Point> visited, boolean slipperySlopes) {
      * @param map map
      * @param slipperySlopes whether the slopes are slippery
      */
-    Hike(HikingTrailsMap map, boolean slipperySlopes) {
-        this(map, List.of(map.start()), slipperySlopes);
-    }
-
-    /** @return length of the longest hike from this point to the end goal */
-    int longestHikeLength() {
-        Set<Hike> hikes = Set.of(this);
-        var result = 0;
-        var length = 0;
-        while (!hikes.isEmpty()) {
-            hikes = hikes.stream()
-                    .flatMap(Hike::step)
-                    .collect(Collectors.toSet());
-            length++;
-            if (hikes.stream().anyMatch(Hike::isComplete)) {
-                result = length;
-            }
-        }
-        
-        if (result == 0) {
-            throw new IllegalStateException("No path found.");
-        }
-        
-        return result;
+    Hike(PointOfInterest start) {
+        this(List.of(start));
     }
 
     /** @return length of this hike, that is, the number of steps taken */
     int length() {
-        return visited.size() - 1;
+        return IntStream.range(0, visited.size() - 1)
+                .map(i -> visited.get(i).pathLengths().get(visited.get(i + 1)).intValue())
+                .sum();
     }
     
     /**
-     * Takes a single step in any possible direction.
+     * Moves in any possible direction.
      * 
+     * @param pointsOfInterest set containing all points of interest
      * @return possible hikes
      */
-    private Stream<Hike> step() {
-        
-        // Observation: there are a lot of winding paths without any intersections.
-        // Maybe we should cache these instead of going through the maze step-by-step every time?
-        
-        var currentLocation = getCurrentLocation();
-        var currentTerrain = map.terrainMap().get(currentLocation);
-        return Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
-                .filter(direction -> !slipperySlopes || currentTerrain.canExit(direction))
-                .map(direction -> direction.move(currentLocation))
-                .filter(map.terrainMap()::containsKey)
+    Stream<Hike> step() {
+        return visited.getLast()
+                .pathLengths()
+                .keySet()
+                .stream()
                 .filter(Predicate.not(visited::contains))
                 .map(this::addStep);
     }
     
     /**
-     * Takes a single step.
+     * Moves directly to the given point of interest.
      * 
      * @param newLocation new location
      * @return updated hike
      */
-    private Hike addStep(Point newLocation) {
-        List<Point> newSteps = new ArrayList<>(visited);
-        newSteps.add(newLocation);
-        return new Hike(map, newSteps, slipperySlopes);
+    private Hike addStep(PointOfInterest newLocation) {
+        List<PointOfInterest> newVisited = new ArrayList<>(visited);
+        newVisited.add(newLocation);
+        return new Hike(newVisited);
     }
     
-    /** @return current location */
-    private Point getCurrentLocation() {
-        return visited.getLast();
-    }
-    
-    /** @return whether this hike ends at the goal */
-    private boolean isComplete() {
-        return getCurrentLocation().equals(map.goal());
+    /**
+     * Checks whether this hike ends at the given point.
+     * 
+     * @param goal the goal
+     * @return whether this hike ends at the given point
+     */
+    boolean endsAt(PointOfInterest goal) {
+        return visited.getLast().equals(goal);
     }
 }

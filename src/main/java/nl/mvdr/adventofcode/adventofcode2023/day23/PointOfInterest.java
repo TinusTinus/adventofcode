@@ -40,4 +40,9 @@ record PointOfInterest(Point point, Map<PointOfInterest, Integer> pathLengths) {
                 || (getClass() == obj.getClass()
                     && Objects.equals(this.point, ((PointOfInterest)obj).point));
     }
+    
+    @Override
+    public String toString() {
+        return point.toString();
+    }
 }

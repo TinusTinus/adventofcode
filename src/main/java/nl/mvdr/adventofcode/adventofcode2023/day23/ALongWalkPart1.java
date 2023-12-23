@@ -19,8 +19,7 @@ public class ALongWalkPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var map = HikingTrailsMap.parse(lines.toList());
-        var hike = new Hike(map, true);
-        return hike.longestHikeLength();
+        return 0; // TODO
     }
     
     /**
