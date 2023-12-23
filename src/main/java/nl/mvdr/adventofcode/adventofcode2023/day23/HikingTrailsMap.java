@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day23;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,11 +50,39 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
     Set<PointOfInterest> getPointsOfInterest(boolean slipperySlopes) {
         var pointsOfInterest = terrainMap.keySet()
                 .stream()
-                .filter(point -> isPointOfInterest(point, slipperySlopes))
+                .filter(this::isPointOfInterest)
                 .map(PointOfInterest::new)
                 .collect(Collectors.toSet());
         
-        // TODO init paths
+        // Initialize path lengths for direct paths from each point of interest to another
+        pointsOfInterest.forEach(pointOfInterest -> {
+            // Find all direct paths to other points of interest.
+            Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
+                    .filter(direction -> !slipperySlopes || terrainMap.get(pointOfInterest.point()).canExit(direction))
+                    .map(direction -> direction.move(pointOfInterest.point()))
+                    .filter(terrainMap::containsKey)
+                    .forEach(firstStep -> {
+                        List<Point> path = new ArrayList<>();
+                        path.add(pointOfInterest.point());
+                        path.add(firstStep);
+                        while (pointsOfInterest.stream().noneMatch(p -> p.point().equals(path.getLast()))) {
+                            var nextLocation = Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
+                                    .filter(direction -> !slipperySlopes || terrainMap.get(pointOfInterest.point()).canExit(direction))
+                                    .map(direction -> direction.move(path.getLast()))
+                                    .filter(point -> !point.equals(path.get(path.size() - 2)))
+                                    .filter(terrainMap::containsKey)
+                                    .reduce((point0, point1) -> {throw new IllegalStateException("Multiple exits found");})
+                                    .orElseThrow();
+                            path.add(nextLocation);
+                        }
+                        // Found a path
+                        var targetPointOfInterest = pointsOfInterest.stream()
+                                .filter(target -> target.point().equals(path.getLast()))
+                                .reduce((poi0, poi1) -> {throw new IllegalStateException();})
+                                .orElseThrow();
+                        pointOfInterest.pathLengths().put(targetPointOfInterest, Integer.valueOf(path.size() - 1));
+                    });
+        });
         
         return pointsOfInterest;
     }
@@ -67,25 +96,23 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
      * @param slipperySlopes whether slopes are slippery
      * @return whether the given point is of interest
      */
-    private boolean isPointOfInterest(Point point, boolean slipperySlopes) {
-        return start.equals(point) || goal.equals(point) || isIntersection(point, slipperySlopes);
+    private boolean isPointOfInterest(Point point) {
+        return start.equals(point) || goal.equals(point) || isIntersection(point);
     }
     
     /**
      * Checks whether the given point is an intersection.
      * 
-     * That is, whether it has more than two possible exits.
+     * That is, whether it has more than two possible entry / exit points.
      * 
      * @param point the point; must be a (non-forest) point in the terrain map
-     * @param slipperySlopes whether slopes are slippery
      * @return whether the given point is an intersection
      */
-    private boolean isIntersection(Point point, boolean slipperySlopes) {
-        var exitCount = Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
-                .filter(direction -> !slipperySlopes || terrainMap.get(point).canExit(direction))
+    private boolean isIntersection(Point point) {
+        var entryExitCount = Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
                 .map(direction -> direction.move(point))
                 .filter(terrainMap::containsKey)
                 .count();
-        return 2L < exitCount;
+        return 2L < entryExitCount;
     }
 }
