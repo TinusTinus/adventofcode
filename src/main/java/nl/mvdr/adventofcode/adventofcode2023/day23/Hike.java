@@ -62,6 +62,10 @@ record Hike(HikingTrailsMap map, List<Point> visited, boolean slipperySlopes) {
      * @return possible hikes
      */
     private Stream<Hike> step() {
+        
+        // Observation: there are a lot of winding paths without any intersections.
+        // Maybe we should cache these instead of going through the maze step-by-step every time?
+        
         var currentLocation = getCurrentLocation();
         var currentTerrain = map.terrainMap().get(currentLocation);
         return Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
