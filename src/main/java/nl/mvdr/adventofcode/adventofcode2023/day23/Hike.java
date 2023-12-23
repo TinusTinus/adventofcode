@@ -2,8 +2,9 @@ package nl.mvdr.adventofcode.adventofcode2023.day23;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalInt;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Direction;
@@ -28,22 +29,29 @@ record Hike(HikingTrailsMap map, List<Point> visited) {
     }
 
     /** @return length of the longest hike from this point to the end goal */
-    OptionalInt longestHikeLength() {
-        OptionalInt result;
-        if (isComplete()) {
-            result = OptionalInt.of(length());
-        } else {
-            result = step()
-                    .map(Hike::longestHikeLength)
-                    .filter(OptionalInt::isPresent)
-                    .mapToInt(OptionalInt::orElseThrow)
-                    .max();
+    int longestHikeLength() {
+        Set<Hike> hikes = Set.of(this);
+        var result = 0;
+        var length = 0;
+        while (!hikes.isEmpty()) {
+            hikes = hikes.stream()
+                    .flatMap(Hike::step)
+                    .collect(Collectors.toSet());
+            length++;
+            if (hikes.stream().anyMatch(Hike::isComplete)) {
+                result = length;
+            }
         }
+        
+        if (result == 0) {
+            throw new IllegalStateException("No path found.");
+        }
+        
         return result;
     }
 
     /** @return length of this hike, that is, the number of steps taken */
-    private int length() {
+    int length() {
         return visited.size() - 1;
     }
     

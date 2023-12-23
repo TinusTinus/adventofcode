@@ -20,7 +20,7 @@ public class ALongWalkPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         var map = HikingTrailsMap.parse(lines.toList());
         var hike = new Hike(map);
-        return hike.longestHikeLength().orElseThrow(() -> new IllegalArgumentException("No path found to the goal"));
+        return hike.longestHikeLength();
     }
     
     /**

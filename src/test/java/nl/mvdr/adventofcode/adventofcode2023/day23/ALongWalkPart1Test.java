@@ -22,6 +22,6 @@ public class ALongWalkPart1Test extends SolverTest<ALongWalkPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("94", "example-day23-2023.txt"),
-                Arguments.of("?", "input-day23-2023.txt"));
+                Arguments.of("2294", "input-day23-2023.txt"));
     }
 }
