@@ -3,7 +3,10 @@ package nl.mvdr.adventofcode.adventofcode2023.day23;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /**
@@ -41,5 +44,48 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
                             "Multiple points found with y = " + y + ": " + point0 + ", " + point1);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("No point found at y = " + y));
+    }
+    
+    Set<PointOfInterest> getPointsOfInterest(boolean slipperySlopes) {
+        var pointsOfInterest = terrainMap.keySet()
+                .stream()
+                .filter(point -> isPointOfInterest(point, slipperySlopes))
+                .map(PointOfInterest::new)
+                .collect(Collectors.toSet());
+        
+        // TODO init paths
+        
+        return pointsOfInterest;
+    }
+    
+    /**
+     * Checks whether the given point is of interest.
+     * 
+     * That is, whether it is the start, goal or an intersection
+     * 
+     * @param point the point; must be a (non-forest) point in the terrain map
+     * @param slipperySlopes whether slopes are slippery
+     * @return whether the given point is of interest
+     */
+    private boolean isPointOfInterest(Point point, boolean slipperySlopes) {
+        return start.equals(point) || goal.equals(point) || isIntersection(point, slipperySlopes);
+    }
+    
+    /**
+     * Checks whether the given point is an intersection.
+     * 
+     * That is, whether it has more than two possible exits.
+     * 
+     * @param point the point; must be a (non-forest) point in the terrain map
+     * @param slipperySlopes whether slopes are slippery
+     * @return whether the given point is an intersection
+     */
+    private boolean isIntersection(Point point, boolean slipperySlopes) {
+        var exitCount = Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
+                .filter(direction -> !slipperySlopes || terrainMap.get(point).canExit(direction))
+                .map(direction -> direction.move(point))
+                .filter(terrainMap::containsKey)
+                .count();
+        return 2L < exitCount;
     }
 }
