@@ -88,20 +88,6 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
     }
 
     /**
-     * Takes a single step from the given point.
-     * 
-     * @param point starting point; must be a (non-forest) point in the terrain map
-     * @param slipperySlopes whether the slopes are considered to be slippery
-     * @return possible next locations by taking a single step
-     */
-    private Stream<Point> step(Point point, boolean slipperySlopes) {
-        return Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
-                .filter(direction -> !slipperySlopes || terrainMap.get(point).canExit(direction))
-                .map(direction -> direction.move(point))
-                .filter(terrainMap::containsKey);
-    }
-    
-    /**
      * Checks whether the given point is of interest.
      * 
      * That is, whether it is the start, goal or an intersection
@@ -113,6 +99,7 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
         return start.equals(point) || goal.equals(point) || isIntersection(point);
     }
     
+    
     /**
      * Checks whether the given point is an intersection.
      * 
@@ -122,7 +109,20 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
      * @return whether the given point is an intersection
      */
     private boolean isIntersection(Point point) {
-        var entryExitCount = step(point, false).count();
-        return 2L < entryExitCount;
+        return 2L < step(point, false).count();
+    }
+    
+    /**
+     * Takes a single step from the given point.
+     * 
+     * @param point starting point; must be a (non-forest) point in the terrain map
+     * @param slipperySlopes whether the slopes are considered to be slippery
+     * @return possible next locations by taking a single step
+     */
+    private Stream<Point> step(Point point, boolean slipperySlopes) {
+        return Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
+                .filter(direction -> !slipperySlopes || terrainMap.get(point).canExit(direction))
+                .map(direction -> direction.move(point))
+                .filter(terrainMap::containsKey);
     }
 }
