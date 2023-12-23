@@ -11,7 +11,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @author Martijn van de Rijdt
  */
-public record HikingTrailsMap(Map<Point, Terrain> map, Point start, Point goal) {
+public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point goal) {
 
     /**
      * Parses a hiking trails map.
