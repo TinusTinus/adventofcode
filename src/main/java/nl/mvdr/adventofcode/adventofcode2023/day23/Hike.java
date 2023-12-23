@@ -13,10 +13,10 @@ import nl.mvdr.adventofcode.point.Point;
  * Representation of a hike.
  *
  * @param map the map
- * @param steps steps taken so far
+ * @param visited steps taken so far
  * @author Martijn van de Rijdt
  */
-record Hike(HikingTrailsMap map, List<Point> steps) {
+record Hike(HikingTrailsMap map, List<Point> visited) {
     
     /**
      * Convenienca constructor for the start of a hike.
@@ -31,7 +31,7 @@ record Hike(HikingTrailsMap map, List<Point> steps) {
     OptionalInt longestHikeLength() {
         OptionalInt result;
         if (isComplete()) {
-            result = OptionalInt.of(steps.size());
+            result = OptionalInt.of(visited.size() - 1);
         } else {
             result = step()
                     .map(Hike::longestHikeLength)
@@ -54,7 +54,7 @@ record Hike(HikingTrailsMap map, List<Point> steps) {
                 .filter(currentTerrain::canExit)
                 .map(direction -> direction.move(currentLocation))
                 .filter(map.terrainMap()::containsKey)
-                .filter(Predicate.not(steps::contains))
+                .filter(Predicate.not(visited::contains))
                 .map(this::addStep);
     }
     
@@ -65,14 +65,14 @@ record Hike(HikingTrailsMap map, List<Point> steps) {
      * @return updated hike
      */
     private Hike addStep(Point newLocation) {
-        List<Point> newSteps = new ArrayList<>(steps);
+        List<Point> newSteps = new ArrayList<>(visited);
         newSteps.add(newLocation);
         return new Hike(map, newSteps);
     }
     
     /** @return current location */
     private Point getCurrentLocation() {
-        return steps.getLast();
+        return visited.getLast();
     }
     
     /** @return whether this hike ends at the goal */
