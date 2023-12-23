@@ -47,6 +47,12 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
                 .orElseThrow(() -> new IllegalArgumentException("No point found at y = " + y));
     }
     
+    /**
+     * Creates a set of points of interest.
+     * 
+     * @param slipperySlopes whether the slopes are slippery
+     * @return points of interest
+     */
     Set<PointOfInterest> getPointsOfInterest(boolean slipperySlopes) {
         var pointsOfInterest = terrainMap.keySet()
                 .stream()
@@ -57,19 +63,13 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
         // Initialize path lengths for direct paths from each point of interest to another
         pointsOfInterest.forEach(pointOfInterest -> {
             // Find all direct paths to other points of interest.
-            Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
-                    .filter(direction -> !slipperySlopes || terrainMap.get(pointOfInterest.point()).canExit(direction))
-                    .map(direction -> direction.move(pointOfInterest.point()))
-                    .filter(terrainMap::containsKey)
+            step(pointOfInterest.point(), slipperySlopes)
                     .forEach(firstStep -> {
                         List<Point> path = new ArrayList<>();
                         path.add(pointOfInterest.point());
                         path.add(firstStep);
                         while (pointsOfInterest.stream().noneMatch(p -> p.point().equals(path.getLast()))) {
-                            var nextLocation = Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
-                                    .filter(direction -> !slipperySlopes || terrainMap.get(path.getLast()).canExit(direction))
-                                    .map(direction -> direction.move(path.getLast()))
-                                    .filter(terrainMap::containsKey)
+                            var nextLocation = step(path.getLast(), slipperySlopes)
                                     .filter(point -> !point.equals(path.get(path.size() - 2)))
                                     .reduce((point0, point1) -> {throw new IllegalStateException("Multiple exits found");})
                                     .orElseThrow();
@@ -86,6 +86,20 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
         
         return pointsOfInterest;
     }
+
+    /**
+     * Takes a single step from the given point.
+     * 
+     * @param point starting point; must be a (non-forest) point in the terrain map
+     * @param slipperySlopes whether the slopes are considered to be slippery
+     * @return possible next locations by taking a single step
+     */
+    private Stream<Point> step(Point point, boolean slipperySlopes) {
+        return Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
+                .filter(direction -> !slipperySlopes || terrainMap.get(point).canExit(direction))
+                .map(direction -> direction.move(point))
+                .filter(terrainMap::containsKey);
+    }
     
     /**
      * Checks whether the given point is of interest.
@@ -93,7 +107,6 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
      * That is, whether it is the start, goal or an intersection
      * 
      * @param point the point; must be a (non-forest) point in the terrain map
-     * @param slipperySlopes whether slopes are slippery
      * @return whether the given point is of interest
      */
     private boolean isPointOfInterest(Point point) {
@@ -109,10 +122,7 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
      * @return whether the given point is an intersection
      */
     private boolean isIntersection(Point point) {
-        var entryExitCount = Stream.of(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
-                .map(direction -> direction.move(point))
-                .filter(terrainMap::containsKey)
-                .count();
+        var entryExitCount = step(point, false).count();
         return 2L < entryExitCount;
     }
 }
