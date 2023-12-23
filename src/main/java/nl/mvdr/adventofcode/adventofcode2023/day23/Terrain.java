@@ -49,6 +49,13 @@ enum Terrain {
     }
     
     /**
+     * @return whether it is possible to walk on this type of terrain
+     */
+    boolean canEnter() {
+        return this != FOREST;
+    }
+    
+    /**
      * Checks whether it is possible to exit a tile of this type in the given direction.
      * 
      * @param direction direction
