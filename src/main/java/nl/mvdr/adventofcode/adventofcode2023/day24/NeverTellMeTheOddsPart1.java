@@ -42,9 +42,7 @@ public class NeverTellMeTheOddsPart1 implements LongSolver {
     
     @Override
     public long solve(Stream<String> lines) {
-        var hailstones = lines.map(Hailstone::parse)
-                .toList();
-        
+        var hailstones = lines.map(Hailstone::parse).toList();
         return hailstones.stream()
                 .flatMap(hailstone -> hailstones.stream()
                         .filter(otherHailstone -> otherHailstone != hailstone)
@@ -55,7 +53,7 @@ public class NeverTellMeTheOddsPart1 implements LongSolver {
                 .filter(intersection -> testAreaMin.compareTo(intersection.y()) <= 0)
                 .filter(intersection -> intersection.x().compareTo(testAreaMax) <= 0)
                 .filter(intersection -> intersection.y().compareTo(testAreaMax) <= 0)
-                .count() / 2;
+                .count() / 2; // Divide by 2 because we inspected each pair twice
     }
     
     /**
