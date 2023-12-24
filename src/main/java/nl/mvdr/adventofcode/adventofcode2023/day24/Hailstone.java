@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -9,7 +10,7 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-public record Hailstone(BigPoint location, BigPoint velocity) {
+record Hailstone(BigPoint location, BigPoint velocity) {
     /**
      * Parses a hailstone.
      * 
@@ -24,6 +25,16 @@ public record Hailstone(BigPoint location, BigPoint velocity) {
             throw new IllegalArgumentException("Unable to parse as a hailstone: " + text);
         }
         return new Hailstone(points.getFirst(), points.getLast());
+    }
+    
+    /**
+     * Given another hailstone, determines where the paths of these hailstones will cross.
+     * 
+     * @param other other hailstone
+     * @return intersection of the paths of the two hailstones; empty if they are equal or falling along parallel paths
+     */
+    Optional<BigPoint> findPathIntersection(Hailstone other) {
+        return null; // TODO implement
     }
     
     @Override
