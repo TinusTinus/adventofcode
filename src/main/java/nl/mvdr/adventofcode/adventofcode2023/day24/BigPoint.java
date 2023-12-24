@@ -41,7 +41,6 @@ record BigPoint(BigDecimal x, BigDecimal y) {
     
     @Override
     public String toString() {
-        x.
         return x + "," + y;
     }
 }
