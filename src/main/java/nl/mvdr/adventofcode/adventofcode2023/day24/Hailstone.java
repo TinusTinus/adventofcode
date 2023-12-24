@@ -35,7 +35,12 @@ record Hailstone(BigPoint location, BigPoint velocity) {
      * @return intersection of the paths of the two hailstones; empty if they are equal or falling along parallel paths
      */
     Optional<BigPoint> findPathIntersection(Hailstone other) {
-        return null; // TODO implement
+        return this.getPath().findPathIntersection(other.getPath());
+    }
+    
+    /** @return the path of this hailstone */
+    private Line getPath() {
+        return new Line(location, location.add(velocity));
     }
     
     @Override

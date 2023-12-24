@@ -39,6 +39,18 @@ record BigPoint(BigDecimal x, BigDecimal y) {
         this(new BigDecimal(x), new BigDecimal(y));
     }
     
+    /**
+     * Adds the given other point by adding the coordinate values together.
+     * 
+     * @param other other point
+     * @return sum
+     */
+    BigPoint add(BigPoint other) {
+        var newX = x.add(other.x());
+        var newY = y.add(other.y());
+        return new BigPoint(newX, newY);
+    }
+    
     @Override
     public String toString() {
         return x + "," + y;
