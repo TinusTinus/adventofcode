@@ -29,6 +29,7 @@
         -->
         <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
         <slf4j.version>2.0.9</slf4j.version>
+        <z3.version>4.11.2</z3.version>
     </properties>
 
     <dependencies>
@@ -62,10 +63,17 @@
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec.version}</version>
         </dependency>
-          <dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>${commons-math.version}</version>
+        </dependency>
+        
+        <!-- mathematical equation solver-->
+        <dependency>
+            <groupId>com.microsoft.z3</groupId>
+            <artifactId>java-jar</artifactId>
+            <version>${z3.version}</version>
         </dependency>
 
         <!-- unit testing -->
@@ -82,6 +90,19 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <repositories>
+		<repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>itemis</id>
+            <name>Itemis</name>
+            <url>https://artifacts.itemis.cloud/repository/maven-mps/</url>
+        </repository>
+    </repositories>
 
     <build>
 	    <pluginManagement>
