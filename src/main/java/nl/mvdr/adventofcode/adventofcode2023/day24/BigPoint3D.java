@@ -48,17 +48,6 @@ record BigPoint3D(BigDecimal x, BigDecimal y, BigDecimal z) {
     }
     
     /**
-     * Constructor.
-     * 
-     * @param x first coordinate value
-     * @param y second coordinate value
-     * @param z third coordinate value
-     */
-    BigPoint3D(double x, double y, double z) {
-        this(new BigDecimal(x), new BigDecimal(y), new BigDecimal(z));
-    }
-    
-    /**
      * @return this point in two dimensions, where the z axis is ignored entirely
      */
     BigPoint2D ignoreZAxis() {

@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.stream.Stream;
 
 /**
  * A point in two dimensions, where each coordinate is a {@link BigDecimal}.
@@ -15,23 +14,6 @@ import java.util.stream.Stream;
 record BigPoint2D(BigDecimal x, BigDecimal y) {
     
     static final int SCALE = 3;
-    
-    /**
-     * Parses the string representation of a position or velocity of a hailstone.
-     * 
-     * If a three-dimensional value is passed into this method, the z axis is ignored entirely.
-     * 
-     * @param text a point in at least two dimensions, for example: "19, 13, 30"
-     * @return the first two coordinates of the point
-     */
-    static BigPoint2D parse(String text) {
-        var values = Stream.of(text.split(", +"))
-                .map(BigDecimal::new)
-                .map(value -> value.setScale(SCALE))
-                .limit(2L)
-                .toList();
-        return new BigPoint2D(values.getFirst(), values.getLast());
-    }
     
     /**
      * Constructor.
