@@ -18,6 +18,11 @@ public class NeverTellMeTheOddsPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
+        var hailstones = lines.map(Hailstone::parse)
+                .toList();
+        
+        LOGGER.info("hailstones: {}", hailstones);
+        
         return 0; // TODO
     }
     
