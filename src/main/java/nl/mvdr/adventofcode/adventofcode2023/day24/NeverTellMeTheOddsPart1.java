@@ -29,8 +29,8 @@ public class NeverTellMeTheOddsPart1 implements LongSolver {
      */
     NeverTellMeTheOddsPart1(long testAreaMin, long testAreaMax) {
         super();
-        this.testAreaMin = new BigDecimal(testAreaMin).setScale(BigPoint.SCALE);
-        this.testAreaMax = new BigDecimal(testAreaMax).setScale(BigPoint.SCALE);
+        this.testAreaMin = new BigDecimal(testAreaMin).setScale(BigPoint2D.SCALE);
+        this.testAreaMax = new BigDecimal(testAreaMax).setScale(BigPoint2D.SCALE);
     }
     
     /**
@@ -42,7 +42,9 @@ public class NeverTellMeTheOddsPart1 implements LongSolver {
     
     @Override
     public long solve(Stream<String> lines) {
-        var hailstones = lines.map(Hailstone::parse).toList();
+        var hailstones = lines.map(Hailstone::parse)
+                .map(Hailstone::to2D)
+                .toList();
         return hailstones.stream()
                 .flatMap(hailstone -> hailstones.stream()
                         .filter(otherHailstone -> otherHailstone != hailstone)

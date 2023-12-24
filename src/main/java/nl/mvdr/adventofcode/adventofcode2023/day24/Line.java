@@ -6,13 +6,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A line between two points.
+ * A line between two two-dimensional points.
  *
  * @author Martijn van de Rijdt
  */
-record Line(BigPoint firstPoint, BigPoint secondPoint) {
+record Line(BigPoint2D firstPoint, BigPoint2D secondPoint) {
     
-    Line(BigPoint firstPoint, BigPoint secondPoint) {
+    Line(BigPoint2D firstPoint, BigPoint2D secondPoint) {
         this.firstPoint = Objects.requireNonNull(firstPoint);
         if (firstPoint.equals(secondPoint)) {
             throw new IllegalArgumentException("Points must be different to form a line: " + firstPoint + ", " + secondPoint);
@@ -29,8 +29,8 @@ record Line(BigPoint firstPoint, BigPoint secondPoint) {
      * @param other other line
      * @return intersection; empty if they are equal or parallel
      */
-    Optional<BigPoint> findPathIntersection(Line other) {
-        Optional<BigPoint> result;
+    Optional<BigPoint2D> findPathIntersection(Line other) {
+        Optional<BigPoint2D> result;
         
         var x1 = firstPoint.x();
         var x2 = secondPoint.x();
@@ -52,14 +52,14 @@ record Line(BigPoint firstPoint, BigPoint secondPoint) {
             var numeratorXLhs = x1.multiply(y2).subtract(y1.multiply(x2)).multiply(x3.subtract(x4));
             var numeratorXRhs = x1.subtract(x2).multiply(x3.multiply(y4).subtract(y3.multiply(x4)));
             var numeratorX = numeratorXLhs.subtract(numeratorXRhs);
-            var intersectionX = numeratorX.divide(divisor, BigPoint.SCALE, RoundingMode.HALF_UP);
+            var intersectionX = numeratorX.divide(divisor, BigPoint2D.SCALE, RoundingMode.HALF_UP);
             
             var numeratorYLhs = x1.multiply(y2).subtract(y1.multiply(x2)).multiply(y3.subtract(y4));
             var numeratorYRhs = y1.subtract(y2).multiply(x3.multiply(y4).subtract(y3.multiply(x4)));
             var numeratorY = numeratorYLhs.subtract(numeratorYRhs);
-            var intersectionY = numeratorY.divide(divisor, BigPoint.SCALE, RoundingMode.HALF_UP);
+            var intersectionY = numeratorY.divide(divisor, BigPoint2D.SCALE, RoundingMode.HALF_UP);
             
-            result = Optional.of(new BigPoint(intersectionX, intersectionY));
+            result = Optional.of(new BigPoint2D(intersectionX, intersectionY));
         }
         return result;
     }

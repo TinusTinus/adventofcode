@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-record Hailstone(BigPoint location, BigPoint velocity) {
+record Hailstone(BigPoint3D location, BigPoint3D velocity) {
     
     /**
      * Parses a hailstone.
@@ -21,40 +21,19 @@ record Hailstone(BigPoint location, BigPoint velocity) {
      */
     static Hailstone parse(String text) {
         var points = Stream.of(text.split(" +@ +"))
-                .map(BigPoint::parse)
+                .map(BigPoint3D::parse)
                 .toList();
         if (points.size() != 2) {
             throw new IllegalArgumentException("Unable to parse as a hailstone: " + text);
         }
         return new Hailstone(points.getFirst(), points.getLast());
     }
-    
+
     /**
-     * Given another hailstone, determines where the paths of these hailstones will cross.
-     * 
-     * @param other other hailstone
-     * @return intersection of the paths of the two hailstones; empty if they are equal or falling along parallel paths
+     * @return a two-dimensional view of this hailstone, without taking the z axis into consideration
      */
-    Optional<BigPoint> findPathIntersection(Hailstone other) {
-        return this.getPath().findPathIntersection(other.getPath())
-                .filter(Predicate.not(this::isInPast))
-                .filter(Predicate.not(other::isInPast));
-    }
-    
-    /**
-     * Checks whether the given point was visited in the past.
-     * 
-     * @param point a point; must be on this hailstone's path!
-     * @return whether the point was visited in the past
-     */
-    private boolean isInPast(BigPoint point) {
-        var difference = point.subtract(this.location);
-        return velocity.x().signum() != difference.x().signum();
-    }
-    
-    /** @return the path of this hailstone */
-    private Line getPath() {
-        return new Line(location, location.add(velocity));
+    Hailstone2D to2D() {
+        return new Hailstone2D(location.ignoreZAxis(), velocity.ignoreZAxis());
     }
     
     @Override

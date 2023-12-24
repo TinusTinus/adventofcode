@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-record BigPoint(BigDecimal x, BigDecimal y) {
+record BigPoint2D(BigDecimal x, BigDecimal y) {
     
     static final int SCALE = 3;
     
@@ -24,13 +24,13 @@ record BigPoint(BigDecimal x, BigDecimal y) {
      * @param text a point in at least two dimensions, for example: "19, 13, 30"
      * @return the first two coordinates of the point
      */
-    static BigPoint parse(String text) {
+    static BigPoint2D parse(String text) {
         var values = Stream.of(text.split(", +"))
                 .map(BigDecimal::new)
                 .map(value -> value.setScale(SCALE))
                 .limit(2L)
                 .toList();
-        return new BigPoint(values.getFirst(), values.getLast());
+        return new BigPoint2D(values.getFirst(), values.getLast());
     }
     
     /**
@@ -39,7 +39,7 @@ record BigPoint(BigDecimal x, BigDecimal y) {
      * @param x first coordinate value
      * @param y second coordinate value
      */
-    BigPoint(BigDecimal x, BigDecimal y) {
+    BigPoint2D(BigDecimal x, BigDecimal y) {
         this.x = x.setScale(SCALE, RoundingMode.HALF_UP);
         this.y = y.setScale(SCALE, RoundingMode.HALF_UP);
     }
@@ -50,7 +50,7 @@ record BigPoint(BigDecimal x, BigDecimal y) {
      * @param x first coordinate value
      * @param y second coordinate value
      */
-    BigPoint(double x, double y) {
+    BigPoint2D(double x, double y) {
         this(new BigDecimal(x), new BigDecimal(y));
     }
     
@@ -60,10 +60,10 @@ record BigPoint(BigDecimal x, BigDecimal y) {
      * @param other other point
      * @return sum
      */
-    BigPoint add(BigPoint other) {
+    BigPoint2D add(BigPoint2D other) {
         var newX = x.add(other.x());
         var newY = y.add(other.y());
-        return new BigPoint(newX, newY);
+        return new BigPoint2D(newX, newY);
     }
     
     /**
@@ -72,8 +72,8 @@ record BigPoint(BigDecimal x, BigDecimal y) {
      * @param other other point
      * @return result of subtraction
      */
-    BigPoint subtract(BigPoint other) {
-        return add(new BigPoint(other.x().negate(), other.y.negate()));
+    BigPoint2D subtract(BigPoint2D other) {
+        return add(new BigPoint2D(other.x().negate(), other.y.negate()));
     }
     
     @Override
