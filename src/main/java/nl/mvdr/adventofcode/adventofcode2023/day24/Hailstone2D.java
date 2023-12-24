@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * A hailstone in two dimensions.

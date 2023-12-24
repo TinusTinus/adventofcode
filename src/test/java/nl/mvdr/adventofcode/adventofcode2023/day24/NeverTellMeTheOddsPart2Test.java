@@ -22,6 +22,6 @@ public class NeverTellMeTheOddsPart2Test extends SolverTest<NeverTellMeTheOddsPa
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("47", "example-day24-2023.txt"),
-                Arguments.of("?", "input-day24-2023.txt"));
+                Arguments.of("843888100572888", "input-day24-2023.txt"));
     }
 }
