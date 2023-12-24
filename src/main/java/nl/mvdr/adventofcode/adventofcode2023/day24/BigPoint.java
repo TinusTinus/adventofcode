@@ -1,17 +1,17 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 /**
- * A point in two dimensions, where each coordinate is a {@link BigInteger}.
+ * A point in two dimensions, where each coordinate is a {@link BigDecimal}.
  * 
  * Could represent a position in two-dimensional space,
  * or a velocity vector in two-dimensional space.
  *
  * @author Martijn van de Rijdt
  */
-record BigPoint(BigInteger x, BigInteger y) {
+record BigPoint(BigDecimal x, BigDecimal y) {
     
     /**
      * Parses the string representation of a position or velocity of a hailstone.
@@ -23,14 +23,25 @@ record BigPoint(BigInteger x, BigInteger y) {
      */
     static BigPoint parse(String text) {
         var values = Stream.of(text.split(", "))
-                .map(BigInteger::new)
+                .map(BigDecimal::new)
                 .limit(2L)
                 .toList();
         return new BigPoint(values.getFirst(), values.getLast());
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param x first coordinate value
+     * @param y second coordinate value
+     */
+    BigPoint(double x, double y) {
+        this(new BigDecimal(x), new BigDecimal(y));
+    }
+    
     @Override
     public String toString() {
+        x.
         return x + "," + y;
     }
 }

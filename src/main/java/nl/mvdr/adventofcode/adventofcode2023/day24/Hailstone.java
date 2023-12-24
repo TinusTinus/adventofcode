@@ -11,6 +11,7 @@ import java.util.stream.Stream;
  * @author Martijn van de Rijdt
  */
 record Hailstone(BigPoint location, BigPoint velocity) {
+    
     /**
      * Parses a hailstone.
      * 
