@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -35,7 +36,20 @@ record Hailstone(BigPoint location, BigPoint velocity) {
      * @return intersection of the paths of the two hailstones; empty if they are equal or falling along parallel paths
      */
     Optional<BigPoint> findPathIntersection(Hailstone other) {
-        return this.getPath().findPathIntersection(other.getPath());
+        return this.getPath().findPathIntersection(other.getPath())
+                .filter(Predicate.not(this::isInPast))
+                .filter(Predicate.not(other::isInPast));
+    }
+    
+    /**
+     * Checks whether the given point was visited in the past.
+     * 
+     * @param point a point; must be on this hailstone's path!
+     * @return whether the point was visited in the past
+     */
+    private boolean isInPast(BigPoint point) {
+        var difference = point.subtract(this.location);
+        return velocity.x().signum() != difference.x().signum();
     }
     
     /** @return the path of this hailstone */

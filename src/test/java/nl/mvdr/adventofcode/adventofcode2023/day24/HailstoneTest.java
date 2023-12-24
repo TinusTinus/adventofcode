@@ -39,7 +39,7 @@ public class HailstoneTest {
         return Stream.of(
                 Arguments.of("18, 19, 22 @ -1, -1, -2",
                         "18, 19, 22 @ -1, -1, -2",
-                        Optional.empty()),
+                        Optional.empty()), // equal
                 Arguments.of("19, 13, 30 @ -2, 1, -2",
                         "18, 19, 22 @ -1, -1, -2",
                         Optional.of(new BigPoint(14.333, 15.333))),
@@ -49,15 +49,26 @@ public class HailstoneTest {
                 Arguments.of("19, 13, 30 @ -2, 1, -2",
                         "12, 31, 28 @ -1, -2, -1",
                         Optional.of(new BigPoint(6.2, 19.4))),
+                Arguments.of("19, 13, 30 @ -2, 1, -2",
+                        "20, 19, 15 @ 1, -5, -3",
+                        Optional.empty()), // crosses in the past
                 Arguments.of("18, 19, 22 @ -1, -1, -2",
                         "20, 25, 34 @ -2, -2, -4",
-                        Optional.empty()),
+                        Optional.empty()), // parallel
                 Arguments.of("18, 19, 22 @ -1, -1, -2",
                         "12, 31, 28 @ -1, -2, -1",
                         Optional.of(new BigPoint(-6, -5))),
+                Arguments.of("18, 19, 22 @ -1, -1, -2",
+                        "20, 19, 15 @ 1, -5, -3",
+                        Optional.empty()), // crosses in the past
                 Arguments.of("20, 25, 34 @ -2, -2, -4",
                         "12, 31, 28 @ -1, -2, -1",
-                        Optional.of(new BigPoint(-2, 3)))
-                );
+                        Optional.of(new BigPoint(-2, 3))),
+                Arguments.of("20, 25, 34 @ -2, -2, -4",
+                        "20, 19, 15 @ 1, -5, -3",
+                        Optional.empty()), // crosses in the past
+                Arguments.of("12, 31, 28 @ -1, -2, -1",
+                        "20, 19, 15 @ 1, -5, -3",
+                        Optional.empty())); // crosses in the past
     }
 }

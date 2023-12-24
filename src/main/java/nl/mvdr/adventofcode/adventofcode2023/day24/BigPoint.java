@@ -66,6 +66,16 @@ record BigPoint(BigDecimal x, BigDecimal y) {
         return new BigPoint(newX, newY);
     }
     
+    /**
+     * Subtracts the given other point from this one.
+     * 
+     * @param other other point
+     * @return result of subtraction
+     */
+    BigPoint subtract(BigPoint other) {
+        return add(new BigPoint(other.x().negate(), other.y.negate()));
+    }
+    
     @Override
     public String toString() {
         return x + "," + y;

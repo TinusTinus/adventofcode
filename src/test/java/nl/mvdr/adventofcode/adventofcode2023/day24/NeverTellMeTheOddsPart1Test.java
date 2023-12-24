@@ -22,7 +22,7 @@ public class NeverTellMeTheOddsPart1Test extends SolverTest<NeverTellMeTheOddsPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("?", "input-day24-2023.txt"));
+                Arguments.of("13892", "input-day24-2023.txt"));
     }
     
     @Test

@@ -55,7 +55,6 @@ public class NeverTellMeTheOddsPart1 implements LongSolver {
                 .filter(intersection -> testAreaMin.compareTo(intersection.y()) <= 0)
                 .filter(intersection -> intersection.x().compareTo(testAreaMax) <= 0)
                 .filter(intersection -> intersection.y().compareTo(testAreaMax) <= 0)
-                // TODO filter out matches in the past!
                 .count() / 2;
     }
     
