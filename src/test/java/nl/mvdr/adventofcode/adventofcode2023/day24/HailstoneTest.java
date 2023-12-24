@@ -57,7 +57,7 @@ public class HailstoneTest {
                         Optional.of(new BigPoint(-6, -5))),
                 Arguments.of("20, 25, 34 @ -2, -2, -4",
                         "12, 31, 28 @ -1, -2, -1",
-                        Optional.of(new BigPoint(-2, -3)))
+                        Optional.of(new BigPoint(-2, 3)))
                 );
     }
     

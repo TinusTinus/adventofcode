@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,6 +22,9 @@ record Line(BigPoint firstPoint, BigPoint secondPoint) {
     
     /**
      * Given another line, determines where they intersect.
+     * 
+     * See also the explanation on <a href=
+     * "https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection">Wikipedia</a>.
      * 
      * @param other other line
      * @return intersection; empty if they are equal or parallel
@@ -45,7 +49,17 @@ record Line(BigPoint firstPoint, BigPoint secondPoint) {
         if (divisor.compareTo(BigDecimal.ZERO) == 0) {
             result = Optional.empty();
         } else {
-            result = null; // TODO
+            var numeratorXLhs = x1.multiply(y2).subtract(y1.multiply(x2)).multiply(x3.subtract(x4));
+            var numeratorXRhs = x1.subtract(x2).multiply(x3.multiply(y4).subtract(y3.multiply(x4)));
+            var numeratorX = numeratorXLhs.subtract(numeratorXRhs);
+            var intersectionX = numeratorX.divide(divisor, BigPoint.SCALE, RoundingMode.HALF_UP);
+            
+            var numeratorYLhs = x1.multiply(y2).subtract(y1.multiply(x2)).multiply(y3.subtract(y4));
+            var numeratorYRhs = y1.subtract(y2).multiply(x3.multiply(y4).subtract(y3.multiply(x4)));
+            var numeratorY = numeratorYLhs.subtract(numeratorYRhs);
+            var intersectionY = numeratorY.divide(divisor, BigPoint.SCALE, RoundingMode.HALF_UP);
+            
+            result = Optional.of(new BigPoint(intersectionX, intersectionY));
         }
         return result;
     }

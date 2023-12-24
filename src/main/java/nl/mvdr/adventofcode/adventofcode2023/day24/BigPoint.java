@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.stream.Stream;
 
 /**
@@ -13,6 +14,8 @@ import java.util.stream.Stream;
  */
 record BigPoint(BigDecimal x, BigDecimal y) {
     
+    static final int SCALE = 3;
+    
     /**
      * Parses the string representation of a position or velocity of a hailstone.
      * 
@@ -24,9 +27,21 @@ record BigPoint(BigDecimal x, BigDecimal y) {
     static BigPoint parse(String text) {
         var values = Stream.of(text.split(", "))
                 .map(BigDecimal::new)
+                .map(value -> value.setScale(SCALE))
                 .limit(2L)
                 .toList();
         return new BigPoint(values.getFirst(), values.getLast());
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param x first coordinate value
+     * @param y second coordinate value
+     */
+    BigPoint(BigDecimal x, BigDecimal y) {
+        this.x = x.setScale(SCALE, RoundingMode.HALF_UP);
+        this.y = y.setScale(SCALE, RoundingMode.HALF_UP);
     }
     
     /**
