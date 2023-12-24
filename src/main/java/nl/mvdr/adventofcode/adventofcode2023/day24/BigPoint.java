@@ -25,7 +25,7 @@ record BigPoint(BigDecimal x, BigDecimal y) {
      * @return the first two coordinates of the point
      */
     static BigPoint parse(String text) {
-        var values = Stream.of(text.split(", "))
+        var values = Stream.of(text.split(", +"))
                 .map(BigDecimal::new)
                 .map(value -> value.setScale(SCALE))
                 .limit(2L)

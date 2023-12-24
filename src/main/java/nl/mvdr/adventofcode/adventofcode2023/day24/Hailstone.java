@@ -19,7 +19,7 @@ record Hailstone(BigPoint location, BigPoint velocity) {
      * @return hailstone
      */
     static Hailstone parse(String text) {
-        var points = Stream.of(text.split(" @ "))
+        var points = Stream.of(text.split(" +@ +"))
                 .map(BigPoint::parse)
                 .toList();
         if (points.size() != 2) {

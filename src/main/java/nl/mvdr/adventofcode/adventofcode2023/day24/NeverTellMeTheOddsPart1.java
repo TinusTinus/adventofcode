@@ -1,29 +1,62 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
+import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/24">Never Tell Me The Odds</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class NeverTellMeTheOddsPart1 implements IntSolver {
+public class NeverTellMeTheOddsPart1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NeverTellMeTheOddsPart1.class);
 
+    private final BigDecimal testAreaMin;
+    private final BigDecimal testAreaMax;
+    
+    /**
+     * Constructor.
+     *     
+     * @param testAreaMin minimum value for both coordinates for the test area
+     * @param testAreaMax maximum value for both coordinates for the test area
+     */
+    NeverTellMeTheOddsPart1(long testAreaMin, long testAreaMax) {
+        super();
+        this.testAreaMin = new BigDecimal(testAreaMin).setScale(BigPoint.SCALE);
+        this.testAreaMax = new BigDecimal(testAreaMax).setScale(BigPoint.SCALE);
+    }
+    
+    /**
+     * Constructor.
+     */
+    public NeverTellMeTheOddsPart1() {
+        this(200000000000000L, 400000000000000L);
+    }
+    
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         var hailstones = lines.map(Hailstone::parse)
                 .toList();
         
-        LOGGER.info("hailstones: {}", hailstones);
-        
-        return 0; // TODO
+        return hailstones.stream()
+                .flatMap(hailstone -> hailstones.stream()
+                        .filter(otherHailstone -> otherHailstone != hailstone)
+                        .map(otherHailstone -> hailstone.findPathIntersection(otherHailstone)))
+                .filter(Optional::isPresent)
+                .map(Optional::orElseThrow)
+                .filter(intersection -> testAreaMin.compareTo(intersection.x()) <= 0)
+                .filter(intersection -> testAreaMin.compareTo(intersection.y()) <= 0)
+                .filter(intersection -> intersection.x().compareTo(testAreaMax) <= 0)
+                .filter(intersection -> intersection.y().compareTo(testAreaMax) <= 0)
+                // TODO filter out matches in the past!
+                .count() / 2;
     }
     
     /**

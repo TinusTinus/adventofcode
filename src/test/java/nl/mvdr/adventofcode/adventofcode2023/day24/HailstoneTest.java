@@ -60,5 +60,4 @@ public class HailstoneTest {
                         Optional.of(new BigPoint(-2, 3)))
                 );
     }
-    
 }
