@@ -27,7 +27,7 @@ public class SnowverloadPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         Graph<String, DefaultEdge> graph = parseGraph(lines);
         
-        return graph.edgeSet().stream()
+        return graph.edgeSet().parallelStream()
                 .flatMap(firstEdge -> graph.edgeSet().stream()
                         .filter(secondEdge -> secondEdge != firstEdge)
                         .flatMap(secondEdge -> graph.edgeSet().stream()
@@ -40,7 +40,7 @@ public class SnowverloadPart1 implements IntSolver {
                                     updatedEdgeSet.remove(thirdEdge);
                                     return updatedEdgeSet;
                                 })))
-                .map(updatedEdgeSet -> new AsSubgraph<>(graph, graph.vertexSet(), updatedEdgeSet))
+                .map(updatedEdgeSet -> new AsSubgraph<>(graph, null, updatedEdgeSet))
                 .map(ConnectivityInspector::new)
                 .map(ConnectivityInspector::connectedSets)
                 .filter(connectedSets -> connectedSets.size() == 2)
