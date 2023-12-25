@@ -1,7 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2023.day25;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +21,40 @@ public class SnowverloadPart1 implements IntSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(SnowverloadPart1.class);
 
     @Override
-    public int solve(Stream<String> linesStream) {
+    public int solve(Stream<String> lines) {
+        Graph<String, DefaultEdge> graph = parseGraph(lines);
+        
         return 0; // TODO
+    }
+
+    /**
+     * Builds a graph based on the given puzzle input.
+     * 
+     * @param lines puzzle input
+     * @return graph
+     */
+    private static Graph<String, DefaultEdge> parseGraph(Stream<String> lines) {
+        Graph<String, DefaultEdge> graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
+        lines.forEach(line -> addNodesAndEdges(graph, line));
+        return graph;
+    }
+
+    /**
+     * Adds nodes and edges to the given graph based on the given line from the puzzle input.
+     * 
+     * @param graph result graph
+     * @param line a line from the wiring diagram, for example: "jqt: rhn xhk nvd"
+     */
+    private static void addNodesAndEdges(Graph<String, DefaultEdge> graph, String line) {
+        var parts = line.split(": ");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Unable to parse: " + line);
+        }
+        var node = parts[0];
+        graph.addVertex(node);
+        Stream.of(parts[1].split(" "))
+                .peek(graph::addVertex)
+                .forEach(connectedNode -> graph.addEdge(node, connectedNode));
     }
     
     /**
