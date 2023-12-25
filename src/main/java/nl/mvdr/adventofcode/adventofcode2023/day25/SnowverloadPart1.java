@@ -27,6 +27,7 @@ public class SnowverloadPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         Graph<String, DefaultEdge> graph = parseGraph(lines);
         
+        // The following brute force solution is correct for the example input, but not very efficient
         return graph.edgeSet().parallelStream()
                 .flatMap(firstEdge -> graph.edgeSet().stream()
                         .filter(secondEdge -> secondEdge != firstEdge)
