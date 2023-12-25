@@ -98,6 +98,7 @@
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
         <repository>
+            <!-- for Z3 artifacts -->
             <id>itemis</id>
             <name>Itemis</name>
             <url>https://artifacts.itemis.cloud/repository/maven-mps/</url>
@@ -123,6 +124,32 @@
                     <configuration>
                         <release>${java.version}</release>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>unpack</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>com.microsoft.z3</groupId>
+                                        <artifactId>libz3.java.win</artifactId>
+                                        <version>${z3.version}</version>
+                                        <!--classifier>${build.type}<classifier-->
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
