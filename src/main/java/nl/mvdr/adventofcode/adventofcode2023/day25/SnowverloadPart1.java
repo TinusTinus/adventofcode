@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2023.day25;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
@@ -34,14 +35,9 @@ public class SnowverloadPart1 implements IntSolver {
                         .flatMap(secondEdge -> graph.edgeSet().stream()
                                 .filter(thirdEdge -> thirdEdge != firstEdge)
                                 .filter(thirdEdge -> thirdEdge != secondEdge)
-                                .map(thirdEdge -> {
-                                    Set<DefaultEdge> updatedEdgeSet = new HashSet<>(graph.edgeSet());
-                                    updatedEdgeSet.remove(firstEdge);
-                                    updatedEdgeSet.remove(secondEdge);
-                                    updatedEdgeSet.remove(thirdEdge);
-                                    return updatedEdgeSet;
-                                })))
-                .map(updatedEdgeSet -> new AsSubgraph<>(graph, null, updatedEdgeSet))
+                                .map(thirdEdge -> Set.of(firstEdge, secondEdge, thirdEdge))))
+                .map(edgesToRemove -> graph.edgeSet().stream().filter(Predicate.not(edgesToRemove::contains)).collect(Collectors.toSet()))
+                .map(remainingEdges -> new AsSubgraph<>(graph, null, remainingEdges))
                 .map(ConnectivityInspector::new)
                 .map(ConnectivityInspector::connectedSets)
                 .filter(connectedSets -> connectedSets.size() == 2)
