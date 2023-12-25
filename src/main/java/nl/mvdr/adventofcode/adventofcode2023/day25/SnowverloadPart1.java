@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day25;
 
-import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
@@ -23,6 +23,14 @@ public class SnowverloadPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         Graph<String, DefaultEdge> graph = parseGraph(lines);
+        
+        graph.edgeSet().stream()
+                .flatMap(firstEdge -> graph.edgeSet().stream()
+                        .filter(secondEdge -> secondEdge != firstEdge)
+                        .flatMap(secondEdge -> graph.edgeSet().stream()
+                                .filter(thirdEdge -> thirdEdge != firstEdge)
+                                .filter(thirdEdge -> thirdEdge != secondEdge)
+                                .map(thirdEdge -> Set.of(firstEdge, secondEdge, thirdEdge))));
         
         return 0; // TODO
     }
