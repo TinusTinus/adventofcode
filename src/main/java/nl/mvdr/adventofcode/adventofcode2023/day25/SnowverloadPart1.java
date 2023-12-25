@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.AsSubgraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultUndirectedGraph;
@@ -26,7 +27,7 @@ public class SnowverloadPart1 implements IntSolver {
     public int solve(Stream<String> lines) {
         Graph<String, DefaultEdge> graph = parseGraph(lines);
         
-        graph.edgeSet().stream()
+        return graph.edgeSet().stream()
                 .flatMap(firstEdge -> graph.edgeSet().stream()
                         .filter(secondEdge -> secondEdge != firstEdge)
                         .flatMap(secondEdge -> graph.edgeSet().stream()
@@ -39,9 +40,14 @@ public class SnowverloadPart1 implements IntSolver {
                                     updatedEdgeSet.remove(thirdEdge);
                                     return updatedEdgeSet;
                                 })))
-                .map(updatedEdgeSet -> new AsSubgraph<>(graph, graph.vertexSet(), updatedEdgeSet));
-        
-        return 0; // TODO
+                .map(updatedEdgeSet -> new AsSubgraph<>(graph, graph.vertexSet(), updatedEdgeSet))
+                .map(ConnectivityInspector::new)
+                .map(ConnectivityInspector::connectedSets)
+                .filter(connectedSets -> connectedSets.size() == 2)
+                .distinct()
+                .mapToInt(connectedSets -> connectedSets.stream().mapToInt(Set::size).sum())
+                .reduce((result0, result1) -> {throw new IllegalStateException("Found multiple possible splits");})
+                .orElseThrow(() -> new IllegalStateException("No result found"));
     }
 
     /**
