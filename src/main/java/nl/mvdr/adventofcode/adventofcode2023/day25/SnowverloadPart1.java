@@ -1,17 +1,17 @@
 package nl.mvdr.adventofcode.adventofcode2023.day25;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
+import org.jgrapht.Graph;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.graph.AsSubgraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import guru.nidi.graphviz.engine.Format;
-import guru.nidi.graphviz.engine.Graphviz;
-import guru.nidi.graphviz.model.Factory;
-import guru.nidi.graphviz.model.Node;
 import nl.mvdr.adventofcode.IntSolver;
 
 /**
@@ -25,37 +25,61 @@ public class SnowverloadPart1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        var nodes = lines.map(SnowverloadPart1::toNode).toList();
-        var graph = Factory.graph()
-                .with(nodes);
+        Graph<String, DefaultEdge> graph = parseGraph(lines);
         
-        try {
-            File file = new File("C:\\temp\\graph.png"); // TODO use an actual temp file
-            Graphviz.fromGraph(graph).render(Format.PNG).toFile(file);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-        
-        return 0; // TODO
-    }
-    
-    /**
-     * Creates a node and its edges, based on a single line from the wiring diagram.
-     * 
-     * @param line a line from the wiring diagram, for example: "jqt: rhn xhk nvd"
-     */
-    private static Node toNode(String text) {
-        var parts = text.split(": ");
-        if (parts.length != 2) {
-            throw new IllegalArgumentException("Unable to parse: " + text);
-        }
-        var result = Factory.node(parts[0]);
-        for (String connectedNode : parts[1].split(" ")) {
-            result = result.link(Factory.node(connectedNode));
-        }
-        return result;
+        // The following brute force solution is correct for the example input, but not very efficient
+        return graph.edgeSet().parallelStream()
+                .flatMap(firstEdge -> graph.edgeSet().stream()
+                        .filter(secondEdge -> secondEdge != firstEdge)
+                        .flatMap(secondEdge -> graph.edgeSet().stream()
+                                .filter(thirdEdge -> thirdEdge != firstEdge)
+                                .filter(thirdEdge -> thirdEdge != secondEdge)
+                                .map(thirdEdge -> {
+                                    Set<DefaultEdge> updatedEdgeSet = new HashSet<>(graph.edgeSet());
+                                    updatedEdgeSet.remove(firstEdge);
+                                    updatedEdgeSet.remove(secondEdge);
+                                    updatedEdgeSet.remove(thirdEdge);
+                                    return updatedEdgeSet;
+                                })))
+                .map(updatedEdgeSet -> new AsSubgraph<>(graph, null, updatedEdgeSet))
+                .map(ConnectivityInspector::new)
+                .map(ConnectivityInspector::connectedSets)
+                .filter(connectedSets -> connectedSets.size() == 2)
+                .mapToInt(connectedSets -> connectedSets.stream().mapToInt(Set::size).reduce(1, Math::multiplyExact))
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("No result found"));
     }
 
+    /**
+     * Builds a graph based on the given puzzle input.
+     * 
+     * @param lines puzzle input
+     * @return graph
+     */
+    private static Graph<String, DefaultEdge> parseGraph(Stream<String> lines) {
+        Graph<String, DefaultEdge> graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
+        lines.forEach(line -> addNodesAndEdges(graph, line));
+        return graph;
+    }
+
+    /**
+     * Adds nodes and edges to the given graph based on the given line from the puzzle input.
+     * 
+     * @param graph result graph
+     * @param line a line from the wiring diagram, for example: "jqt: rhn xhk nvd"
+     */
+    private static void addNodesAndEdges(Graph<String, DefaultEdge> graph, String line) {
+        var parts = line.split(": ");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Unable to parse: " + line);
+        }
+        var node = parts[0];
+        graph.addVertex(node);
+        Stream.of(parts[1].split(" "))
+                .peek(graph::addVertex)
+                .forEach(connectedNode -> graph.addEdge(node, connectedNode));
+    }
+    
     /**
      * Main method.
      * 
