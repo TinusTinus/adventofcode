@@ -45,7 +45,7 @@ public class SnowverloadPart1 implements IntSolver {
                 .map(ConnectivityInspector::connectedSets)
                 .filter(connectedSets -> connectedSets.size() == 2)
                 .distinct()
-                .mapToInt(connectedSets -> connectedSets.stream().mapToInt(Set::size).sum())
+                .mapToInt(connectedSets -> connectedSets.stream().mapToInt(Set::size).reduce(1, Math::multiplyExact))
                 .reduce((result0, result1) -> {throw new IllegalStateException("Found multiple possible splits");})
                 .orElseThrow(() -> new IllegalStateException("No result found"));
     }
