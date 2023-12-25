@@ -1,9 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2023.day25;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
+import org.jgrapht.graph.AsSubgraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.slf4j.Logger;
@@ -30,7 +32,14 @@ public class SnowverloadPart1 implements IntSolver {
                         .flatMap(secondEdge -> graph.edgeSet().stream()
                                 .filter(thirdEdge -> thirdEdge != firstEdge)
                                 .filter(thirdEdge -> thirdEdge != secondEdge)
-                                .map(thirdEdge -> Set.of(firstEdge, secondEdge, thirdEdge))));
+                                .map(thirdEdge -> {
+                                    Set<DefaultEdge> updatedEdgeSet = new HashSet<>(graph.edgeSet());
+                                    updatedEdgeSet.remove(firstEdge);
+                                    updatedEdgeSet.remove(secondEdge);
+                                    updatedEdgeSet.remove(thirdEdge);
+                                    return updatedEdgeSet;
+                                })))
+                .map(updatedEdgeSet -> new AsSubgraph<>(graph, graph.vertexSet(), updatedEdgeSet));
         
         return 0; // TODO
     }
