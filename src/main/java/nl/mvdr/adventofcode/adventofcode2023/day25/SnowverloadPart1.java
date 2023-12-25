@@ -1,13 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2023.day25;
 
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
-import org.jgrapht.alg.connectivity.ConnectivityInspector;
-import org.jgrapht.graph.AsSubgraph;
+import org.jgrapht.alg.flow.GusfieldGomoryHuCutTree;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.slf4j.Logger;
@@ -27,23 +23,9 @@ public class SnowverloadPart1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         Graph<String, DefaultEdge> graph = parseGraph(lines);
-        
-        // The following brute force solution is correct for the example input, but not very efficient
-        return graph.edgeSet().parallelStream()
-                .flatMap(firstEdge -> graph.edgeSet().stream()
-                        .filter(secondEdge -> secondEdge != firstEdge)
-                        .flatMap(secondEdge -> graph.edgeSet().stream()
-                                .filter(thirdEdge -> thirdEdge != firstEdge)
-                                .filter(thirdEdge -> thirdEdge != secondEdge)
-                                .map(thirdEdge -> Set.of(firstEdge, secondEdge, thirdEdge))))
-                .map(edgesToRemove -> graph.edgeSet().stream().filter(Predicate.not(edgesToRemove::contains)).collect(Collectors.toSet()))
-                .map(remainingEdges -> new AsSubgraph<>(graph, null, remainingEdges))
-                .map(ConnectivityInspector::new)
-                .map(ConnectivityInspector::connectedSets)
-                .filter(connectedSets -> connectedSets.size() == 2)
-                .mapToInt(connectedSets -> connectedSets.stream().mapToInt(Set::size).reduce(1, Math::multiplyExact))
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("No result found"));
+        GusfieldGomoryHuCutTree<String, DefaultEdge> algorithm = new GusfieldGomoryHuCutTree<>(graph);
+        algorithm.calculateMinCut();
+        return algorithm.getSourcePartition().size() * algorithm.getSinkPartition().size();
     }
 
     /**

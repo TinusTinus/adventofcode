@@ -22,6 +22,6 @@ public class SnowverloadPart1Test extends SolverTest<SnowverloadPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("54", "example-day25-2023.txt"),
-                Arguments.of("?", "input-day25-2023.txt"));
+                Arguments.of("568214", "input-day25-2023.txt"));
     }
 }
