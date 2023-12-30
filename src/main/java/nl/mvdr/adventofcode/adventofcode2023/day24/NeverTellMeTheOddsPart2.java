@@ -21,10 +21,19 @@ public class NeverTellMeTheOddsPart2 implements LongSolver {
     @Override
     public long solve(Stream<String> lines) {
         try (var context = new Context()) {
-            var rx = context.mkIntConst("rx");
-            var ry = context.mkIntConst("ry");
-            var rz = context.mkIntConst("rz");
+            var rockPositionX = context.mkIntConst("rockPositionX");
+            var rockPositionY = context.mkIntConst("rockPositionY");
+            var rockPositionZ = context.mkIntConst("rockPositionZ");
+            var rockVelocityX = context.mkIntConst("rockVelocityX");
+            var rockVelocityY = context.mkIntConst("rockVelocityY");
+            var rockVelocityZ = context.mkIntConst("rockVelocityZ");
+            var time0 = context.mkIntConst("time0");
+            var time1 = context.mkIntConst("time1");
+            var time2 = context.mkIntConst("time2");
             
+            // rx + t0 * rvx == 277903024391745 + t0 * -118
+            var lhs = context.mkAdd(rockPositionX, context.mkMul(time0, rockVelocityX));
+            var rhs = context.mkAdd(context.mkInt(277903024391745L), context.mkMul(time0, context.mkInt(-118)));
             
 //            var solver = context.mkSolver();
             

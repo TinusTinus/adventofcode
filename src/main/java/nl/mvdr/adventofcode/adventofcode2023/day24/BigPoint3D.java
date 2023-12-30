@@ -1,10 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
-import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 /**
- * A point in three dimensions, where each coordinate is a {@link BigDecimal}.
+ * A point in three dimensions, where each coordinate is a {@link long}.
  * 
  * Could represent a position or a velocity vector.
  *
