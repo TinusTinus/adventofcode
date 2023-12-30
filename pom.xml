@@ -141,7 +141,14 @@
                                         <groupId>com.microsoft.z3</groupId>
                                         <artifactId>libz3.java.win</artifactId>
                                         <version>${z3.version}</version>
-                                        <!--classifier>${build.type}<classifier-->
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>com.microsoft.z3</groupId>
+                                        <artifactId>libz3.win</artifactId>
+                                        <version>${z3.version}</version>
                                         <type>zip</type>
                                         <overWrite>true</overWrite>
                                         <outputDirectory>${project.build.directory}/lib</outputDirectory>
