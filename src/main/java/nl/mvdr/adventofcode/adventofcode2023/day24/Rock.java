@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import com.microsoft.z3.Context;
+import com.microsoft.z3.IntExpr;
 
 /**
  * Representation of the rock.
@@ -20,10 +21,10 @@ record Rock(IntExpr3D position, IntExpr3D velocity) {
         return new Rock(position, velocity);
     }
     
-//    IntExpr3D createLhs(Context context, IntExpr time) {
-//        var lhsX = context.mkAdd(position.x(), context.mkMul(time, velocity.x()));
-//        var lhsY = context.mkAdd(position.y(), context.mkMul(time, velocity.y()));
-//        var lhsZ = context.mkAdd(position.z(), context.mkMul(time, velocity.z()));
-//        return new IntExpr3D(lhsX, lhsY, lhsZ);
-//    }
+    IntExpr3D createLhs(Context context, IntExpr time) {
+        var lhsX = context.mkAdd(position.x(), context.mkMul(time, velocity.x()));
+        var lhsY = context.mkAdd(position.y(), context.mkMul(time, velocity.y()));
+        var lhsZ = context.mkAdd(position.z(), context.mkMul(time, velocity.z()));
+        return new IntExpr3D(lhsX, lhsY, lhsZ);
+    }
 }

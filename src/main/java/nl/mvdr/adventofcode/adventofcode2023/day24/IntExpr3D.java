@@ -1,17 +1,18 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
+import com.microsoft.z3.ArithExpr;
 import com.microsoft.z3.Context;
-import com.microsoft.z3.IntExpr;
+import com.microsoft.z3.IntSort;
 
 import nl.mvdr.adventofcode.point.Axis3D;
 
 /**
  * A point or vector in three dimensions,
- * where each coordinate is represented by a Z3 {@link IntExpr}.
+ * where each coordinate is represented by a Z3 integer expression.
  *
  * @author Martijn van de Rijdt
  */
-record IntExpr3D(IntExpr x, IntExpr y, IntExpr z) {
+record IntExpr3D(ArithExpr<IntSort> x, ArithExpr<IntSort> y, ArithExpr<IntSort> z) {
     
     /**
      * Creates a constant.
@@ -35,7 +36,7 @@ record IntExpr3D(IntExpr x, IntExpr y, IntExpr z) {
      * @param axis 3D axis
      * @return coordinate value
      */
-    IntExpr get(Axis3D axis) {
+    ArithExpr<IntSort> get(Axis3D axis) {
         return switch(axis) {
             case X -> x;
             case Y -> y;
