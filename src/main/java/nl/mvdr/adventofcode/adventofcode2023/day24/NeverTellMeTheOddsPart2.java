@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -20,24 +21,33 @@ public class NeverTellMeTheOddsPart2 implements LongSolver {
 
     @Override
     public long solve(Stream<String> lines) {
+        
+        var hailstones = lines.map(Hailstone::parse)
+                .limit(3L) // three hailstones are enough to determine the solution
+                .toList();
+        
+        long result;
+        
         try (var context = new Context()) {
             var rock = Rock.create(context);
-            var time0 = context.mkIntConst("time0");
-            var time1 = context.mkIntConst("time1");
-            var time2 = context.mkIntConst("time2");
             
-            // rx + t0 * rvx == 277903024391745 + t0 * -118
-            var lhs = context.mkAdd(rock.position().x(), context.mkMul(time0, rock.velocity().x()));
-            var rhs = context.mkAdd(context.mkInt(277903024391745L), context.mkMul(time0, context.mkInt(-118)));
+            var expression = IntStream.range(0, hailstones.size())
+                    .mapToObj(i -> rock.createEquation(hailstones.get(i), context, "time" + i))
+                    .reduce(context.mkTrue(), context::mkAnd);
             
-//            var solver = context.mkSolver();
+            var solver = context.mkSolver();
+            solver.add(expression);
+            solver.check();
             
-//            context.getIntSort()
-//            context.mkEq(null, null)
-            // TODO implement!
+            var model = solver.getModel();
+            System.out.println(model.evaluate(rock.position().x(), false));
+            System.out.println(model.evaluate(rock.position().y(), false));
+            System.out.println(model.evaluate(rock.position().z(), false));
+            
+            result = 0L; // TODO
         }
         
-        return 843888100572888L; // TODO
+        return result;
     }
     
     /**

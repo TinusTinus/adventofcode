@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import java.util.stream.Stream;
 
+import nl.mvdr.adventofcode.point.Axis3D;
+
 /**
  * A point in three dimensions, where each coordinate is a {@link long}.
  * 
@@ -36,6 +38,21 @@ record BigPoint3D(long x, long y, long z) {
      */
     BigPoint2D ignoreZAxis() {
         return new BigPoint2D(x, y);
+    }
+    
+    /**
+     * Gets the value for the given axis.
+     * 
+     * @param axis 3D axis
+     * @return coordinate value
+     */
+    long get(Axis3D axis) {
+        return switch(axis) {
+            case X -> x;
+            case Y -> y;
+            case Z -> z;
+            default -> throw new IllegalArgumentException("Unexpected axis: " + axis);
+        };
     }
     
     @Override
