@@ -29,7 +29,7 @@
         -->
         <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
         <slf4j.version>2.0.9</slf4j.version>
-        <z3.version>4.11.2</z3.version>
+        <z3-turnkey.version>4.12.2.1</z3-turnkey.version>
     </properties>
 
     <dependencies>
@@ -71,9 +71,9 @@
         
         <!-- mathematical equation solver-->
         <dependency>
-            <groupId>com.microsoft.z3</groupId>
-            <artifactId>java-jar</artifactId>
-            <version>${z3.version}</version>
+            <groupId>tools.aqua</groupId>
+            <artifactId>z3-turnkey</artifactId>
+            <version>${z3-turnkey.version}</version>
         </dependency>
 
         <!-- unit testing -->
@@ -97,12 +97,6 @@
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
-        <repository>
-            <!-- for Z3 artifacts -->
-            <id>itemis</id>
-            <name>Itemis</name>
-            <url>https://artifacts.itemis.cloud/repository/maven-mps/</url>
-        </repository>
     </repositories>
 
     <build>
@@ -124,39 +118,6 @@
                     <configuration>
                         <release>${java.version}</release>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <!--executions>
-                        <execution>
-                            <id>unpack</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>unpack</goal>
-                            </goals-->
-                            <configuration>
-                                <artifactItems>
-                                    <artifactItem>
-                                        <groupId>com.microsoft.z3</groupId>
-                                        <artifactId>libz3.java.win</artifactId>
-                                        <version>${z3.version}</version>
-                                        <type>zip</type>
-                                        <overWrite>true</overWrite>
-                                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                                    </artifactItem>
-                                    <artifactItem>
-                                        <groupId>com.microsoft.z3</groupId>
-                                        <artifactId>libz3.win</artifactId>
-                                        <version>${z3.version}</version>
-                                        <type>zip</type>
-                                        <overWrite>true</overWrite>
-                                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                                    </artifactItem>
-                                </artifactItems>
-                            </configuration>
-                        <!--/execution>
-                    </executions-->
                 </plugin>
             </plugins>
         </pluginManagement>
