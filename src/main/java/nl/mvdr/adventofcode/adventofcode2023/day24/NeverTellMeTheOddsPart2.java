@@ -9,25 +9,23 @@ import org.slf4j.LoggerFactory;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Status;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/24">Never Tell Me The Odds</a>.
  *
  * @author Martijn van de Rijdt
  */
-public class NeverTellMeTheOddsPart2 implements LongSolver {
+public class NeverTellMeTheOddsPart2 implements LinesSolver<String> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NeverTellMeTheOddsPart2.class);
 
     @Override
-    public long solve(Stream<String> lines) {
+    public String solve(Stream<String> lines) {
         
         var hailstones = lines.map(Hailstone::parse)
                 .limit(3L) // three hailstones are enough to determine the solution
                 .toList();
-        
-        long result;
         
         try (var context = new Context()) {
             var rock = Rock.create(context);
@@ -36,18 +34,14 @@ public class NeverTellMeTheOddsPart2 implements LongSolver {
             IntStream.range(0, hailstones.size())
                     .mapToObj(i -> rock.createEquation(hailstones.get(i), context, "time" + i))
                     .forEach(solver::add);
-            
-            if (solver.check() == Status.SATISFIABLE) {
-                var model = solver.getModel();
-                System.out.println(model.evaluate(rock.sumLocationCoordinates(context), false));
-                
-                result = 0L; // TODO
-            } else {
+            LOGGER.info("{}", solver);
+            if (solver.check() != Status.SATISFIABLE) {
                 throw new IllegalStateException("Failed to solve.");
             }
+            var model = solver.getModel();
+            var result = model.evaluate(rock.sumLocationCoordinates(context), false);
+            return result.toString();
         }
-        
-        return result;
     }
     
     /**
