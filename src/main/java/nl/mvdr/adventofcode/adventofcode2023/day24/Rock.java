@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import com.microsoft.z3.ArithExpr;
@@ -37,11 +38,10 @@ record Rock(IntExpr3D position, IntExpr3D velocity) {
      * 
      * @param hailstone the hailstone to compare to
      * @param context context
-     * @param timeExprName name for the time expression; must be unique per hailstone 
      * @return equation
      */
-    BoolExpr createEquation(Hailstone hailstone, Context context, String timeExprName) {
-        var time = context.mkIntConst(timeExprName);
+    BoolExpr createEquation(Hailstone hailstone, Context context) {
+        var time = context.mkIntConst("time" + UUID.randomUUID());
         return Stream.of(Axis3D.values())
             .map(axis -> createEquation(hailstone, context, time, axis))
             .reduce(context.mkTrue(), context::mkAnd);

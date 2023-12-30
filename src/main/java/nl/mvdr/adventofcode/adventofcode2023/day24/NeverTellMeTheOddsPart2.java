@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -22,21 +21,16 @@ public class NeverTellMeTheOddsPart2 implements LinesSolver<String> {
 
     @Override
     public String solve(Stream<String> lines) {
-        
-        var hailstones = lines.map(Hailstone::parse)
-                .limit(3L) // three hailstones are enough to determine the solution
-                .toList();
-        
         try (var context = new Context()) {
             var rock = Rock.create(context);
-            
             var solver = context.mkSolver();
-            IntStream.range(0, hailstones.size())
-                    .mapToObj(i -> rock.createEquation(hailstones.get(i), context, "time" + i))
+            lines.map(Hailstone::parse)
+                    .limit(3L) // three hailstones are enough to determine the solution
+                    .map(hailstone -> rock.createEquation(hailstone, context))
                     .forEach(solver::add);
-            LOGGER.info("{}", solver);
+            LOGGER.debug("{}", solver);
             if (solver.check() != Status.SATISFIABLE) {
-                throw new IllegalStateException("Failed to solve.");
+                throw new IllegalStateException("Failed to solve: " + solver);
             }
             var model = solver.getModel();
             var result = model.evaluate(rock.sumLocationCoordinates(context), false);
