@@ -47,6 +47,8 @@ record Line(BigPoint2D firstPoint, BigPoint2D secondPoint) {
         var divisor = divisorLhs.subtract(divisorRhs);
         
         if (divisor.compareTo(BigDecimal.ZERO) == 0) {
+            // Lines are parallel. They have no intersection.
+            // (Technically, the two lines could be equal, in which case they would intersect everywhere.)
             result = Optional.empty();
         } else {
             var numeratorXLhs = x1.multiply(y2).subtract(y1.multiply(x2)).multiply(x3.subtract(x4));
