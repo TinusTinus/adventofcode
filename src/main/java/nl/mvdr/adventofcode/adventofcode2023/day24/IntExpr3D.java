@@ -3,6 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2023.day24;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.IntExpr;
 
+import nl.mvdr.adventofcode.point.Axis3D;
+
 /**
  * A point or vector in three dimensions,
  * where each coordinate is represented by a Z3 {@link IntExpr}.
@@ -25,5 +27,20 @@ record IntExpr3D(IntExpr x, IntExpr y, IntExpr z) {
         var y = context.mkIntConst(name + "Y");
         var z = context.mkIntConst(name + "Z");
         return new IntExpr3D(x, y, z);
+    }
+    
+    /**
+     * Gets the value for the given axis.
+     * 
+     * @param axis 3D axis
+     * @return coordinate value
+     */
+    IntExpr get(Axis3D axis) {
+        return switch(axis) {
+            case X -> x;
+            case Y -> y;
+            case Z -> z;
+            default -> throw new IllegalArgumentException("Unexpected axis: " + axis);
+        };
     }
 }
