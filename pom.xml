@@ -128,13 +128,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <executions>
+                    <!--executions>
                         <execution>
                             <id>unpack</id>
-                            <phase>compile</phase>
+                            <phase>package</phase>
                             <goals>
                                 <goal>unpack</goal>
-                            </goals>
+                            </goals-->
                             <configuration>
                                 <artifactItems>
                                     <artifactItem>
@@ -148,8 +148,8 @@
                                     </artifactItem>
                                 </artifactItems>
                             </configuration>
-                        </execution>
-                    </executions>
+                        <!--/execution>
+                    </executions-->
                 </plugin>
             </plugins>
         </pluginManagement>
