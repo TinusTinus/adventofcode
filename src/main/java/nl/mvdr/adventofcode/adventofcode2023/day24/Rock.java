@@ -36,6 +36,8 @@ record Rock(IntExpr3D location, IntExpr3D velocity) {
      * rock position + time * rock velocity == hailstone position + time * hailstone velocity
      * </pre>
      * 
+     * This means that, at some timestamp, the rock and the hailstone must be at the same position.
+     * 
      * @param hailstone the hailstone to compare to
      * @param context context
      * @return equation
@@ -44,7 +46,8 @@ record Rock(IntExpr3D location, IntExpr3D velocity) {
         var time = context.mkIntConst("time" + UUID.randomUUID());
         return Stream.of(Axis3D.values())
             .map(axis -> createEquation(hailstone, context, time, axis))
-            .reduce(context.mkTrue(), context::mkAnd);
+            .reduce(context::mkAnd)
+            .orElseThrow();
     }
 
     /**
