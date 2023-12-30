@@ -25,7 +25,6 @@ public class NeverTellMeTheOddsPart2 implements LinesSolver<String> {
             var rock = Rock.create(context);
             var solver = context.mkSolver();
             lines.map(Hailstone::parse)
-                    .limit(3L) // three hailstones are enough to determine the solution
                     .map(hailstone -> rock.createEquation(hailstone, context))
                     .forEach(solver::add);
             LOGGER.debug("{}", solver);

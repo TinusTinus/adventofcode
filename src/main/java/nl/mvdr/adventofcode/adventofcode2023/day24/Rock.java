@@ -16,7 +16,7 @@ import nl.mvdr.adventofcode.point.Axis3D;
  *
  * @author Martijn van de Rijdt
  */
-record Rock(IntExpr3D position, IntExpr3D velocity) {
+record Rock(IntExpr3D location, IntExpr3D velocity) {
     /**
      * Creates a new rock.
      * 
@@ -62,7 +62,7 @@ record Rock(IntExpr3D position, IntExpr3D velocity) {
      */
     private BoolExpr createEquation(Hailstone hailstone, Context context, IntExpr time, Axis3D axis) {
         // position + time * velocity
-        var lhs = context.mkAdd(position.get(axis), context.mkMul(time, velocity.get(axis)));
+        var lhs = context.mkAdd(location.get(axis), context.mkMul(time, velocity.get(axis)));
         var rhs = context.mkAdd(context.mkInt(hailstone.location().get(axis)), context.mkMul(time, context.mkInt(hailstone.velocity().get(axis))));
         return context.mkEq(lhs, rhs);
     }
@@ -74,6 +74,6 @@ record Rock(IntExpr3D position, IntExpr3D velocity) {
      * @return sum of the position's coordinate values
      */
     ArithExpr<IntSort> sumLocationCoordinates(Context context) {
-        return position.addCoordinates(context);
+        return location.addCoordinates(context);
     }
 }
