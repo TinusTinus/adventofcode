@@ -21,6 +21,15 @@ public class NeverTellMeTheOddsPart2 implements LongSolver {
     @Override
     public long solve(Stream<String> lines) {
         try (var context = new Context()) {
+            var rx = context.mkIntConst("rx");
+            var ry = context.mkIntConst("ry");
+            var rz = context.mkIntConst("rz");
+            
+            
+//            var solver = context.mkSolver();
+            
+//            context.getIntSort()
+//            context.mkEq(null, null)
             // TODO implement!
         }
         
