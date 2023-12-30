@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.stream.Stream;
 
 /**
@@ -11,7 +10,7 @@ import java.util.stream.Stream;
  *
  * @author Martijn van de Rijdt
  */
-record BigPoint3D(BigDecimal x, BigDecimal y, BigDecimal z) {
+record BigPoint3D(long x, long y, long z) {
     
     static final int SCALE = 3;
     
@@ -25,26 +24,12 @@ record BigPoint3D(BigDecimal x, BigDecimal y, BigDecimal z) {
      */
     static BigPoint3D parse(String text) {
         var values = Stream.of(text.split(", +"))
-                .map(BigDecimal::new)
-                .map(value -> value.setScale(SCALE))
+                .map(Long::valueOf)
                 .toList();
         if (values.size() != 3) {
             throw new IllegalArgumentException("Unable to parse: " + text);
         }
-        return new BigPoint3D(values.getFirst(), values.get(1), values.getLast());
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param x first coordinate value
-     * @param y second coordinate value
-     * @param z third coordinate value
-     */
-    BigPoint3D(BigDecimal x, BigDecimal y, BigDecimal z) {
-        this.x = x.setScale(SCALE, RoundingMode.HALF_UP);
-        this.y = y.setScale(SCALE, RoundingMode.HALF_UP);
-        this.z = z.setScale(SCALE, RoundingMode.HALF_UP);
+        return new BigPoint3D(values.getFirst().longValue(), values.get(1).longValue(), values.getLast().longValue());
     }
     
     /**
