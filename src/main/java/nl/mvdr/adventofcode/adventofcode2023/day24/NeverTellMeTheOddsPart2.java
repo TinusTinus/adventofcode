@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.microsoft.z3.Context;
+import com.microsoft.z3.Status;
 
 import nl.mvdr.adventofcode.LongSolver;
 
@@ -31,20 +32,19 @@ public class NeverTellMeTheOddsPart2 implements LongSolver {
         try (var context = new Context()) {
             var rock = Rock.create(context);
             
-            var expression = IntStream.range(0, hailstones.size())
-                    .mapToObj(i -> rock.createEquation(hailstones.get(i), context, "time" + i))
-                    .reduce(context.mkTrue(), context::mkAnd);
-            
             var solver = context.mkSolver();
-            solver.add(expression);
-            solver.check();
+            IntStream.range(0, hailstones.size())
+                    .mapToObj(i -> rock.createEquation(hailstones.get(i), context, "time" + i))
+                    .forEach(solver::add);
             
-            var model = solver.getModel();
-            System.out.println(model.evaluate(rock.position().x(), false));
-            System.out.println(model.evaluate(rock.position().y(), false));
-            System.out.println(model.evaluate(rock.position().z(), false));
-            
-            result = 0L; // TODO
+            if (solver.check() == Status.SATISFIABLE) {
+                var model = solver.getModel();
+                System.out.println(model.evaluate(rock.sumLocationCoordinates(context), false));
+                
+                result = 0L; // TODO
+            } else {
+                throw new IllegalStateException("Failed to solve.");
+            }
         }
         
         return result;

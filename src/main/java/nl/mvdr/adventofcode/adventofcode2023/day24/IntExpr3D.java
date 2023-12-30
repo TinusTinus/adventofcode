@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import com.microsoft.z3.ArithExpr;
 import com.microsoft.z3.Context;
+import com.microsoft.z3.IntExpr;
 import com.microsoft.z3.IntSort;
 
 import nl.mvdr.adventofcode.point.Axis3D;
@@ -12,7 +13,7 @@ import nl.mvdr.adventofcode.point.Axis3D;
  *
  * @author Martijn van de Rijdt
  */
-record IntExpr3D(ArithExpr<IntSort> x, ArithExpr<IntSort> y, ArithExpr<IntSort> z) {
+record IntExpr3D(IntExpr x, IntExpr y, IntExpr z) {
     
     /**
      * Creates a constant.
@@ -36,12 +37,22 @@ record IntExpr3D(ArithExpr<IntSort> x, ArithExpr<IntSort> y, ArithExpr<IntSort> 
      * @param axis 3D axis
      * @return coordinate value
      */
-    ArithExpr<IntSort> get(Axis3D axis) {
+    IntExpr get(Axis3D axis) {
         return switch(axis) {
             case X -> x;
             case Y -> y;
             case Z -> z;
             default -> throw new IllegalArgumentException("Unexpected axis: " + axis);
         };
+    }
+    
+    /**
+     * Returns an expression for the sum of the coordinate values.
+     * 
+     * @param context context
+     * @return sum of the coordinate values
+     */
+    ArithExpr<IntSort> addCoordinates(Context context) {
+        return context.mkAdd(x, y, z);
     }
 }

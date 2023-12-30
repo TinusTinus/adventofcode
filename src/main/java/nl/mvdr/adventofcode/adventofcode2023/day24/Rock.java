@@ -2,9 +2,11 @@ package nl.mvdr.adventofcode.adventofcode2023.day24;
 
 import java.util.stream.Stream;
 
+import com.microsoft.z3.ArithExpr;
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.IntExpr;
+import com.microsoft.z3.IntSort;
 
 import nl.mvdr.adventofcode.point.Axis3D;
 
@@ -63,5 +65,15 @@ record Rock(IntExpr3D position, IntExpr3D velocity) {
         var lhs = context.mkAdd(position.get(axis), context.mkMul(time, velocity.get(axis)));
         var rhs = context.mkAdd(context.mkInt(hailstone.location().get(axis)), context.mkMul(time, context.mkInt(hailstone.velocity().get(axis))));
         return context.mkEq(lhs, rhs);
+    }
+    
+    /**
+     * Returns an expression for the sum of the rock position's coordinate values.
+     * 
+     * @param context context
+     * @return sum of the position's coordinate values
+     */
+    ArithExpr<IntSort> sumLocationCoordinates(Context context) {
+        return position.addCoordinates(context);
     }
 }
