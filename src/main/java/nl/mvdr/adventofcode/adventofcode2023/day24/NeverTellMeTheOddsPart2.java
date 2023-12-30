@@ -21,6 +21,11 @@ public class NeverTellMeTheOddsPart2 implements LinesSolver<String> {
 
     @Override
     public String solve(Stream<String> lines) {
+        // We know that, for each hailstone, some timestamp t must exist so that:
+        //   hailstone.position + t * hailstone.velocity = rock.position + t * rock.velocity
+        // By using multiple hailstones, we can set up a system of equations,
+        // and then solve for the rock's position.
+        // Let's use Z3 to solve this system of equations.
         try (var context = new Context()) {
             var rock = Rock.create(context);
             var solver = context.mkSolver();
