@@ -13,8 +13,6 @@ import nl.mvdr.adventofcode.point.Axis3D;
  */
 record BigPoint3D(long x, long y, long z) {
     
-    static final int SCALE = 3;
-    
     /**
      * Parses the string representation of a position or velocity of a hailstone.
      * 
