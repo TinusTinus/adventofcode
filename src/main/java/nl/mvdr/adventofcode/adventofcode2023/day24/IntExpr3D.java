@@ -49,7 +49,7 @@ record IntExpr3D(IntExpr x, IntExpr y, IntExpr z) {
     /**
      * Returns an expression for the sum of the coordinate values.
      * 
-     * @param context context
+     * @param context Z3 context
      * @return sum of the coordinate values
      */
     ArithExpr<IntSort> addCoordinates(Context context) {

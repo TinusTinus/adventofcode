@@ -39,7 +39,7 @@ record Rock(IntExpr3D location, IntExpr3D velocity) {
      * This means that, at some timestamp, the rock and the hailstone must be at the same position.
      * 
      * @param hailstone the hailstone to compare to
-     * @param context context
+     * @param context Z3 context
      * @return equation
      */
     BoolExpr createEquation(Hailstone hailstone, Context context) {
@@ -67,32 +67,39 @@ record Rock(IntExpr3D location, IntExpr3D velocity) {
      * @return equation
      */
     private BoolExpr createEquation(Hailstone hailstone, Context context, IntExpr time, Axis3D axis) {
-        var lhs = makeExpression(context, location.get(axis), time, velocity.get(axis));
-        var rhs = makeExpression(context, context.mkInt(hailstone.location().get(axis)), time, context.mkInt(hailstone.velocity().get(axis)));
+        var rockLocation = location.get(axis);
+        var rockVelocity = velocity.get(axis);
+        var lhs = createExpression(context, rockLocation, time, rockVelocity);
+        
+        var hailstoneLocation = context.mkInt(hailstone.location().get(axis));
+        var hailstoneVelocity = context.mkInt(hailstone.velocity().get(axis));
+        var rhs = createExpression(context, hailstoneLocation, time, hailstoneVelocity);
+        
         return context.mkEq(lhs, rhs);
     }
     
     /**
-     * Creates an expression of the following form:
+     * Creates an expression for the location of an object at the given timestamp.
      * 
+     * That is, this method returns the following expression:
      * <pre>
      * location + time * velocity
      * </pre>
      * 
      * @param context Z3 context
-     * @param location a single coordinate of an object's location
+     * @param location coordinate value of an object's starting location (x, y, or z)
      * @param time the timestamp
-     * @param velocity a single coordinate of an object's velocity (same coordinate as the one given for {@code location})
-     * @return <pre>location + time * velocity</pre>
+     * @param velocity coordinate value (corresponding to {@code location}) of an object's velocity
+     * @return coordinate value (corresponding to {@code location} and {@code velocity}) of the object at the given timestamp
      */
-    private static ArithExpr<IntSort> makeExpression(Context context, IntExpr location, IntExpr time, IntExpr velocity) {
+    private static ArithExpr<IntSort> createExpression(Context context, IntExpr location, IntExpr time, IntExpr velocity) {
         return context.mkAdd(location, context.mkMul(time, velocity));
     }
     
     /**
      * Returns an expression for the sum of the rock position's coordinate values.
      * 
-     * @param context context
+     * @param context Z3 context
      * @return sum of the position's coordinate values
      */
     ArithExpr<IntSort> sumLocationCoordinates(Context context) {
