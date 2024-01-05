@@ -43,7 +43,10 @@ record Rock(IntExpr3D location, IntExpr3D velocity) {
      * @return equation
      */
     BoolExpr createEquation(Hailstone hailstone, Context context) {
+        // Make an int constant for the timestamp at which this rock collides with the given hailstone.
+        // The UUID is used to ensure that the timestamp constant name is unique for each hailstone.
         var time = context.mkIntConst("time" + UUID.randomUUID());
+        
         return Stream.of(Axis3D.values())
             .map(axis -> createEquation(hailstone, context, time, axis))
             .reduce(context::mkAnd)
