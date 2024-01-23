@@ -48,7 +48,7 @@ public class NeverTellMeTheOddsPart1 implements LongSolver {
         return hailstones.stream()
                 .flatMap(hailstone -> hailstones.stream()
                         .filter(otherHailstone -> otherHailstone != hailstone)
-                        .map(otherHailstone -> hailstone.findPathIntersection(otherHailstone)))
+                        .map(hailstone::findPathIntersection))
                 .filter(Optional::isPresent)
                 .map(Optional::orElseThrow)
                 .filter(intersection -> testAreaMin.compareTo(intersection.x()) <= 0)
