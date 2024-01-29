@@ -11,7 +11,7 @@ import nl.mvdr.adventofcode.point.Point;
  *
  * @param location current city block occupied by the crucible
  * @param direction the direction the crucible was last traveling in; initially null
- * @param steps the number of steps taken in a row in this direction; may not exceed 3
+ * @param steps the number of steps taken in a row in this direction
  * @param ultra whether this is an ultra crucible
  * @author Martijn van de Rijdt
  */
