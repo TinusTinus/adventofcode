@@ -76,7 +76,7 @@ record City(Map<Point, Block> blocks) {
                .mapToDouble(paths::getWeight)
                .mapToInt(d -> (int)d)
                .min()
-               .orElseThrow();
+               .orElseThrow(() -> new IllegalStateException("Unable to find a path to the goal."));
     }
 
     /**
