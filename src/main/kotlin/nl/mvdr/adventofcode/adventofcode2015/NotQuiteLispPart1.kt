@@ -1,8 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2015
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.LinesSolver
-import java.util.stream.Stream
+import nl.mvdr.adventofcode.ListSolver
 
 private val logger = KotlinLogging.logger{}
 
@@ -12,16 +11,14 @@ private val logger = KotlinLogging.logger{}
  *
  * @author Martijn van de Rijdt
  */
-class NotQuiteLispPart1: LinesSolver<Int> {
-    override fun solve(lines: Stream<String>?): Int = solve(lines!!.toList())
-
+class NotQuiteLispPart1: ListSolver<Int> {
     /**
      * Solver method.
      *
      * @param lines list of strings, each of which corresponds to a line from the input
      * @return solution to the puzzle for the given input
      */
-    private fun solve(lines: List<String>): Int = countInstructions(lines.first())
+    override fun solve(lines: List<String>): Int = countInstructions(lines.first())
 
     /**
      * Counts the instructions in the given text, determining the end floor.
