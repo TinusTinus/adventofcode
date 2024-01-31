@@ -1,12 +1,18 @@
 package nl.mvdr.adventofcode.adventofcode2015
 
-import nl.mvdr.adventofcode.point.Point
-import nl.mvdr.adventofcode.point.plus
+import java.io.File
 
 fun main() {
-    val point0 = Point(0, 1)
-    val point1 = Point(2, 3)
-
-    val sum = point0 + point1
-    println("$point0 + $point1 = $sum")
+    val lines = File("/input-day01-2015.txt").readLines()
+    val text = lines.first()
+    val result = text.toCharArray()
+        .map {
+            when (it) {
+                '(' -> 1
+                ')' -> -1
+                else -> throw IllegalArgumentException("Unexpected character found in input: $it")
+            }
+        }
+        .sum()
+    println(result)
 }
