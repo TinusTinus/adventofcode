@@ -1,11 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2015
 
-import java.io.File
-
 fun main() {
-    val lines = File("/input-day01-2015.txt").readLines()
-    val text = lines.first()
-    val result = text.toCharArray()
+    val lines = object {}.javaClass.getResourceAsStream("input-day01-2015.txt")!!.bufferedReader().readLines()
+    println(solve(lines))
+}
+
+fun solve(lines: List<String>): Int = solve(lines.first())
+
+fun solve(text: String): Int {
+    return text.toCharArray()
         .map {
             when (it) {
                 '(' -> 1
@@ -14,5 +17,4 @@ fun main() {
             }
         }
         .sum()
-    println(result)
 }
