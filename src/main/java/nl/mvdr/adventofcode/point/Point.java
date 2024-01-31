@@ -35,7 +35,6 @@ public record Point(int x, int y) implements Comparable<Point> {
     /**
      * Computes the <a href="https://en.wikipedia.org/wiki/Taxicab_geometry">Manhattan distance</a> between this point and <0, 0>.
      * 
-     * @param other other point
      * @return Manhattan distance
      */
     public int manhattanDistanceToOrigin() {
@@ -57,7 +56,7 @@ public record Point(int x, int y) implements Comparable<Point> {
     /**
      * Computes the set of points at exactly the given distance from this point.
      * 
-     * @param manhattenDistance distance
+     * @param distance the Manhattan distance
      * @return stream of points
      */
     public Stream<Point> pointsAtManhattanDistance(int distance) {
@@ -191,7 +190,7 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @param i number to multiply by
      * @return new point
      */
-    public Point times(int i) {
+    public Point multiply(int i) {
         return new Point(x * i, y * i);
     }
 
@@ -388,7 +387,7 @@ public record Point(int x, int y) implements Comparable<Point> {
     /**
      * Parses a range for a single coordinate, for example: "48" (meaning just the value 48) or "23..27" (meaning the values 23, 24, 25, 26, 27).
      * 
-     * @param line text to be parsed
+     * @param input text to be parsed
      * @return coordinates within the range
      */
     private static Set<Integer> parseCoordinateRange(String input) {

@@ -23,7 +23,7 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
     /**
      * Parses the textual representation of a waiting area.
      * 
-     * @param lines puzzle input
+     * @param linesStream puzzle input
      * @return initial state of the waiting area
      */
     static WaitingArea parse(Stream<String> linesStream) {
@@ -132,7 +132,7 @@ record WaitingArea(int width, int height, Set<Point> seats, Set<Point> people) {
      */
     private Optional<Point> getClosestVisibleSeat(Point viewpoint, Point direction) {
         return IntStream.range(1, Math.min(width, height))
-                .mapToObj(i -> viewpoint.translate(direction.times(i)))
+                .mapToObj(i -> viewpoint.translate(direction.multiply(i)))
                 .filter(seats::contains)
                 .min(Comparator.comparing(viewpoint::manhattanDistance));
     }

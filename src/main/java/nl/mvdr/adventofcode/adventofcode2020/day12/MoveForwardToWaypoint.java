@@ -31,7 +31,7 @@ record MoveForwardToWaypoint(int distance) implements Instruction {
     /** {@inheritDoc} */
     @Override
     public Ship execute(Ship startingPoint) {
-        Point location = startingPoint.location().translate(startingPoint.waypoint().times(distance));
+        Point location = startingPoint.location().translate(startingPoint.waypoint().multiply(distance));
         return new Ship(location, startingPoint.direction(), startingPoint.waypoint());
     }
 
