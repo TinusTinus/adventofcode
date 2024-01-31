@@ -12,16 +12,8 @@ private val logger = KotlinLogging.logger{}
  * @author Martijn van de Rijdt
  */
 class NotQuiteLispPart2: ListSolver<Int> {
-    override fun solve(lines: List<String>): Int = findCharacter(lines.first())
-
-    /**
-     * Finds the position of the first character which will send Santa to the basement.
-     *
-     * @param text instructions, where '(' means: go up a floor and ')' means: go down a floor
-     * @return position of the instruction
-     */
-    private fun findCharacter(text: String): Int {
-        val characters = text.toCharArray()
+    override fun solve(lines: List<String>): Int {
+        val characters = lines.first().toCharArray()
         var floor = 0
         var position = 0
 

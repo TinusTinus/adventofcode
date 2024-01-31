@@ -12,16 +12,9 @@ private val logger = KotlinLogging.logger{}
  * @author Martijn van de Rijdt
  */
 class NotQuiteLispPart1: ListSolver<Int> {
-    override fun solve(lines: List<String>): Int = findEndFloor(lines.first())
-
-    /**
-     * Counts the instructions in the given text, determining the end floor.
-     *
-     * @param text instructions, where '(' means: go up a floor and ')' means: go down a floor
-     * @return end floor
-     */
-    private fun findEndFloor(text: String): Int {
-        return text.toCharArray()
+    override fun solve(lines: List<String>): Int {
+        return lines.first()
+            .toCharArray()
             .map {
                 when (it) {
                     '(' -> 1
