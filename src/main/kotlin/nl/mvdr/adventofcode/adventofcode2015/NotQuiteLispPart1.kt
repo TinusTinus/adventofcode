@@ -1,7 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2015
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.LinesSolver
 import java.util.stream.Stream
+
+private val logger = KotlinLogging.logger{}
 
 class NotQuiteLispPart1: LinesSolver<Int> {
     override fun solve(lines: Stream<String>?): Int = solve(lines!!.toList())
@@ -23,5 +26,6 @@ class NotQuiteLispPart1: LinesSolver<Int> {
 
 fun main() {
     val result = NotQuiteLispPart1().solve("input-day01-2015.txt")
-    println(result) // TODO use a logger instead?
+
+    logger.info { result }
 }

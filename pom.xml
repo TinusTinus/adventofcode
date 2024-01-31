@@ -22,6 +22,7 @@
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>5.10.0</junit.version>
         <kotlin.version>1.9.22</kotlin.version>
+        <kotlin-logging.version>6.0.3</kotlin-logging.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <!--
           Note: the Maven Surefire plug-in version should be at least 2.22.0.
@@ -45,6 +46,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.oshai</groupId>
+            <artifactId>kotlin-logging-jvm</artifactId>
+            <version>${kotlin-logging.version}</version>
         </dependency>
 
         <!-- graph algorithms -->
