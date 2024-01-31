@@ -1,14 +1,11 @@
 import nl.mvdr.adventofcode.point.Point
 
+import nl.mvdr.adventofcode.point.plus
+import nl.mvdr.adventofcode.point.times
+import nl.mvdr.adventofcode.point.unaryMinus
+
 fun main() {
     println("Hello world, this is a Kotlin function")
-
-    // Add some Kotlin operators to the Point class
-    operator fun Point.plus(other: Point) = this.add(other)
-    operator fun Point.minus(other: Point) = this.subtract(other)
-    operator fun Point.unaryMinus() = this.negate()
-    operator fun Point.times(i: Int) = this.multiply(i)
-    operator fun Int.times(point: Point) = point.multiply(this)
 
     val point0 = Point(0, 1)
     val point1 = Point(2, 3)
