@@ -53,31 +53,6 @@ public record Point(int x, int y) implements Comparable<Point> {
                 .sum();
     }
     
-    /**
-     * Computes the set of points at exactly the given distance from this point.
-     * 
-     * @param distance the Manhattan distance
-     * @return stream of points
-     */
-    public Stream<Point> pointsAtManhattanDistance(int distance) {
-        Stream<Point> result;
-        if (distance < 0) {
-            throw new IllegalArgumentException("Distance may not be negative but was: " + distance);
-        } else if (distance == 0) {
-            result = Stream.of(this);
-        } else {
-            result = IntStream.range(0, distance + 1)
-                    .mapToObj(i -> Stream.of(
-                            new Point(x + i, y + distance - i),
-                            new Point(x + i, y - distance + i),
-                            new Point(x - i, y + distance - i),
-                            new Point(x - i, y - distance + i)))
-                    .map(Stream::distinct)
-                    .flatMap(Function.identity());
-        }
-        return result;
-    }
-    
     /** @return the four neighbouring points to this one */
     public Set<Point> neighbours() {
         return Set.of(
@@ -208,38 +183,6 @@ public record Point(int x, int y) implements Comparable<Point> {
         }
         
         return angle;
-    }
-    
-    /**
-     * Returns a set containing all points at the given distance of this point.
-     * 
-     * @param maxDistance Manhattan distance (see {@link #manhattanDistance(Point)})
-     * @return points within the given range
-     */
-    public Set<Point> pointsAtDistance(int maxDistance, int minX, int maxX, int minY, int maxY) {
-        if (maxDistance < 0) {
-            throw new IllegalArgumentException("Distance must be non-negative but was: " + maxDistance);
-        }
-        Set<Point> visited = new HashSet<>();
-        visited.add(this);
-        
-        var d = 0;
-        Set<Point> pointsAtDistance = Set.of(this);
-        while (d < maxDistance) {
-            pointsAtDistance = pointsAtDistance.stream()
-                    .map(Point::neighbours)
-                    .flatMap(Set::stream)
-                    .filter(position -> minX <= position.x())
-                    .filter(position -> position.x() <= maxX)
-                    .filter(position -> minY <= position.y())
-                    .filter(position -> position.y() <= maxY)
-                    .filter(Predicate.not(visited::contains))
-                    .collect(Collectors.toSet());
-            visited.addAll(pointsAtDistance);
-            d++;
-        }
-        
-        return pointsAtDistance;
     }
     
     @Override
@@ -543,7 +486,7 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @param characterMapper how to map each character to an actual value
      * @return map
      */
-    public static final <T> Map<Point, T> parse2DMap(List<String> lines, CharacterMapper<T> characterMapper) {
+    public static <T> Map<Point, T> parse2DMap(List<String> lines, CharacterMapper<T> characterMapper) {
         Map<Point, T> result = new HashMap<>();
         Point.parse2DMap(lines, (point, character) -> {
             T value = characterMapper.map(character);
@@ -560,7 +503,7 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @param lines lines, where each line represents a row in a two-dimensional map
      * @param characterConsumer how to handle each character
      */
-    public static final void parse2DMap(List<String> lines, CharacterConsumer characterConsumer) {
+    public static void parse2DMap(List<String> lines, CharacterConsumer characterConsumer) {
         for (var y = 0; y != lines.size(); y++) {
             var line = lines.get(y);
             for (var x = 0; x != line.length(); x++) {
