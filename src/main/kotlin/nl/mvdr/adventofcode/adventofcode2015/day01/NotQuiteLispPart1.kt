@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2015
+package nl.mvdr.adventofcode.adventofcode2015.day01
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.ListSolver
