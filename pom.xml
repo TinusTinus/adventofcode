@@ -23,7 +23,6 @@
         <junit.version>5.10.0</junit.version>
         <kotlin.version>1.9.22</kotlin.version>
         <kotlin-logging.version>6.0.3</kotlin-logging.version>
-        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <!--
           Note: the Maven Surefire plug-in version should be at least 2.22.0.
           This ensures it respects JUnit 5's @Disabled annotations.
@@ -128,14 +127,6 @@
                     <configuration>
                         <forkCount>4</forkCount>
                         <reuseForks>true</reuseForks>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
-                    <configuration>
-                        <release>${java.version}</release>
                     </configuration>
                 </plugin>
             </plugins>
