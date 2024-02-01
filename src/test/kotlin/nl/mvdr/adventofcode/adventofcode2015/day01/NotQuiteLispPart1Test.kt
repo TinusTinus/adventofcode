@@ -18,7 +18,7 @@ class NotQuiteLispPart1Test: SolverTest<NotQuiteLispPart1>(NotQuiteLispPart1::cl
                 Arguments.of("-1", "example-day01-2015-6.txt"),
                 Arguments.of("-3", "example-day01-2015-7.txt"),
                 Arguments.of("-3", "example-day01-2015-8.txt"),
-                Arguments.of("281", "input-day01-2015.txt") // TODO 280
+                Arguments.of("280", "input-day01-2015.txt")
             )
         }
     }
