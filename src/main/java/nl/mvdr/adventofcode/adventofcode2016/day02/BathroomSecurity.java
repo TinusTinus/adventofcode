@@ -47,16 +47,16 @@ abstract class BathroomSecurity implements LinesSolver<String> {
     public String solve(Stream<String> lines) {
         List<List<Direction>> instructions = lines.filter(Predicate.not(String::isEmpty))
                 .map(this::parse)
-                .collect(Collectors.toList());
+                .toList();
         
         // Start at "5"
         Point currentKey = keypad.entrySet().stream()
                 .filter(entry -> "5".equals(entry.getValue()))
                 .map(Entry::getKey)
                 .findFirst()
-                .get();
+                .orElseThrow();
         
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (List<Direction> instruction : instructions) {
             for (Direction direction : instruction) {
                 Point next = direction.move(currentKey);
@@ -69,16 +69,16 @@ abstract class BathroomSecurity implements LinesSolver<String> {
             }
             String value = keypad.get(currentKey);
             LOGGER.debug("Pressed key {}", value);
-            result = result + value;
+            result.append(value);
         }
         
-        return result;
+        return result.toString();
     }
     
     private List<Direction> parse(String line) {
         return line.chars()
                 .mapToObj(c -> Direction.of((char)c))
-                .map(Optional::get)
+                .map(Optional::orElseThrow)
                 .collect(Collectors.toList());
     }
 }

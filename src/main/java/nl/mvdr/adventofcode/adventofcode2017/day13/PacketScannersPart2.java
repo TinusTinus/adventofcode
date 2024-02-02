@@ -48,7 +48,7 @@ public class PacketScannersPart2 implements IntSolver {
         int maxLayer = layers.stream()
                 .mapToInt(Layer::getDepth)
                 .max()
-                .getAsInt();
+                .orElseThrow();
         
         boolean caught = false;
         
@@ -59,9 +59,7 @@ public class PacketScannersPart2 implements IntSolver {
             
             caught = layers.stream()
                     .filter(layer -> layer.getDepth() == currentPacketLayer)
-                    .filter(layer -> layer.getScannerPosition() == 0)
-                    .findAny()
-                    .isPresent();
+                    .anyMatch(layer -> layer.getScannerPosition() == 0);
             
             layers = tick(layers);
             

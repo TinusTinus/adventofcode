@@ -37,7 +37,7 @@ abstract class DiskDefragmentation implements IntSolver {
                 .mapToObj(i -> input + "-" + i)
                 .map(hasher::knotHash)
                 .map(this::toBinary)
-                .collect(Collectors.toList());
+                .toList();
         
         Set<Point> squares = IntStream.range(0, binaryStrings.size())
                 .parallel()

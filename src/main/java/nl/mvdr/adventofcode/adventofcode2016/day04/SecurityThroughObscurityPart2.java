@@ -31,7 +31,7 @@ public class SecurityThroughObscurityPart2 implements IntSolver {
                 .filter(room -> "northpole object storage".equals(room.decryptName()))
                 .mapToInt(Room::getSectorId)
                 .findFirst()
-                .getAsInt();
+                .orElseThrow();
     }
     
     /**

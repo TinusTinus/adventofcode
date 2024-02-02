@@ -29,7 +29,7 @@ public class ElectromagneticMoatPart2 implements IntSolver {
         Set<Component> components = Component.parse(lines);
         return Bridge.validBridges(components).stream()
                 .max(Comparator.comparing(Bridge::length).thenComparing(Bridge::strength))
-                .get()
+                .orElseThrow()
                 .strength();
     }
     

@@ -70,7 +70,7 @@ public class KnotHashPart2 extends KnotHash<String> implements KnotHasher {
         int xord = block.stream()
                 .mapToInt(Integer::intValue)
                 .reduce((i, j) -> i ^ j)
-                .getAsInt();
+                .orElseThrow();
         
         String result = Integer.toHexString(xord);
         if (result.length() == 1) {

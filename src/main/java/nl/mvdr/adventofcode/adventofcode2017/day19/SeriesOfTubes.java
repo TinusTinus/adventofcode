@@ -24,14 +24,14 @@ abstract class SeriesOfTubes<R> implements LinesSolver<R> {
     public R solve(Stream<String> lines) {
         List<String> map = lines.collect(Collectors.toList());
         
-        String topLine = map.get(0);
+        String topLine = map.getFirst();
         int startX = IntStream.range(0, topLine.length())
                 .filter(i -> topLine.charAt(i) == '|')
                 .findFirst()
-                .getAsInt();
+                .orElseThrow();
         
         Packet packet = new Packet(new Point(startX, 0), Direction.DOWN);
-        String letters = "";
+        StringBuilder letters = new StringBuilder();
         int steps = 0;
         
         boolean stopped = false;
@@ -40,7 +40,7 @@ abstract class SeriesOfTubes<R> implements LinesSolver<R> {
             char currentChar = getCharacterAt(map, location);
             
             if (Character.isLetter(currentChar)) {
-                letters = letters + currentChar;
+                letters.append(currentChar);
             }
             
             List<Direction> potentialNextDirections;
@@ -66,14 +66,14 @@ abstract class SeriesOfTubes<R> implements LinesSolver<R> {
             steps++;
         }
         
-        return solve(letters, steps);
+        return solve(letters.toString(), steps);
     }
 
     /**
      * Solver method.
      * 
-     * @param the letters the packet sees on its path
-     * @param the number of steps taken by the packet
+     * @param letters the letters the packet sees on its path
+     * @param steps the number of steps taken by the packet
      * @return solution to the puzzle for the given input
      */
     abstract R solve(String letters, int steps);

@@ -45,14 +45,14 @@ public class CorruptionChecksumPart1 implements IntSolver {
         return numbers.stream()
                 .mapToInt(Integer::intValue)
                 .max()
-                .getAsInt();
+                .orElseThrow();
     }
     
     private int min(List<Integer> numbers) {
         return numbers.stream()
                 .mapToInt(Integer::intValue)
                 .min()
-                .getAsInt();
+                .orElseThrow();
     }
 
     /**

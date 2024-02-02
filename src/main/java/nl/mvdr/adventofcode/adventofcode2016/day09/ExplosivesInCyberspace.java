@@ -27,7 +27,7 @@ abstract class ExplosivesInCyberspace implements LongSolver {
      * Keys: compressed sequences.
      * Values: for each sequence, the length of its expanded version.
      */
-    private Map<String, Long> cache;
+    private final Map<String, Long> cache;
     
     /**
      * Constructor.
@@ -61,7 +61,7 @@ abstract class ExplosivesInCyberspace implements LongSolver {
         String remainingText = text;
         long result = 0;
         
-        while (0 < remainingText.length()) {
+        while (!remainingText.isEmpty()) {
             int index = remainingText.indexOf("(");
             if (index == -1) {
                 // No more compressed sequences.

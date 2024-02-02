@@ -28,7 +28,7 @@ public class DigitalPlumberPart1 implements IntSolver {
                 .stream()
                 .filter(group -> group.contains(Integer.valueOf(0)))
                 .findFirst()
-                .get()
+                .orElseThrow()
                 .size();
     }
     

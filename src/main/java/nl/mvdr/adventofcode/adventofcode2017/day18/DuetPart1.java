@@ -36,7 +36,7 @@ public class DuetPart1 implements LongSolver {
         
         LOGGER.debug("After program execution: {}", program);
         
-        return program.getState().getRecoveredFrequency().getAsLong();
+        return program.getState().getRecoveredFrequency().orElseThrow();
     }
     
     /**

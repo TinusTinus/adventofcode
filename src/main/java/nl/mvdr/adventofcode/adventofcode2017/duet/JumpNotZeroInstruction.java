@@ -15,7 +15,7 @@ class JumpNotZeroInstruction extends JumpInstruction {
     /**
      * Constructor.
      * 
-     * @param firstValue first value, which determines whether or not to jump; can be a register name or numeric
+     * @param firstValue first value, which determines whether to jump; can be a register name or numeric
      * @param secondValue second value, which determines the jump offset; can be a register name or numeric
      */
     JumpNotZeroInstruction(String firstValue, String secondValue) {

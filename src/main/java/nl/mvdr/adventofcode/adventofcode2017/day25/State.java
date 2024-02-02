@@ -15,7 +15,7 @@ class State {
     private final Step step1;
     
     /**
-     * Parses lines of text representing a state (exlcluding the line containing the name of the state).
+     * Parses lines of text representing a state (excluding the line containing the name of the state).
      * 
      * For example:
      * <pre>
@@ -29,8 +29,8 @@ class State {
      *     - Continue with state B.
      * </pre>
      * 
-     * @param lines
-     * @return
+     * @param lines puzzle input
+     * @return state
      */
     static State parse(List<String> lines) {
         if (lines.size() != 8

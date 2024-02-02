@@ -42,7 +42,7 @@ abstract class Signals implements LinesSolver<String> {
         List<String> corruptedMessages = lines.filter(Predicate.not(String::isEmpty))
                 .collect(Collectors.toList());
         
-        return IntStream.range(0, corruptedMessages.get(0).length())
+        return IntStream.range(0, corruptedMessages.getFirst().length())
                 .mapToObj(index -> findCharacterAt(index, corruptedMessages))
                 .map(Object::toString)
                 .collect(Collectors.joining());
@@ -61,14 +61,14 @@ abstract class Signals implements LinesSolver<String> {
                 // count occurrences of each letter
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        Comparator<Entry<Character, Long>> comparator = Comparator.comparing(Entry::getValue);
+        Comparator<Entry<Character, Long>> comparator = Entry.comparingByValue();
         if (min) {
             comparator = comparator.reversed();
         }
-        
+
         return counters.entrySet().stream()
                 .max(comparator)
                 .map(Entry::getKey)
-                .get();
+                .orElseThrow();
     }
 }

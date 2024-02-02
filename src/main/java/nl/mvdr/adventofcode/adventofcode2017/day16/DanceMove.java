@@ -15,7 +15,7 @@ sealed interface DanceMove permits Spin, Exchange, Partner {
     /**
      * Parses the given input to a list of dance moves.
      * 
-     * @param input input
+     * @param text input
      * @return list of moves
      */
     static List<DanceMove> parse(String text) {

@@ -33,6 +33,6 @@ public enum ScannerDirection {
         return Stream.of(values())
                 .filter(value -> this != value)
                 .findAny()
-                .get();
+                .orElseThrow();
     }
 }

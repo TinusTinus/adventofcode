@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2016.day03;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -26,7 +25,7 @@ public class SquaresPart2 implements IntSolver {
      */
     @Override
     public int solve(Stream<String> input) {
-        List<String> lines = input.collect(Collectors.toList());
+        List<String> lines = input.toList();
         
         int result = 0;
         

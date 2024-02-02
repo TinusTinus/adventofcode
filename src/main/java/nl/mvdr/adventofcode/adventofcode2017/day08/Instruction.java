@@ -23,7 +23,6 @@ class Instruction implements Consumer<Map<String, Integer>> {
      * 
      * @param lines puzzle input
      * @return list of instructions
-     * @throws IOException problem reading the file
      */
     static List<Instruction> parse(Stream<String> lines) {
         return lines

@@ -17,7 +17,7 @@ class Screen {
     private final int width;
     private final int height;
     
-    private Set<Point> lit;
+    private final Set<Point> lit;
 
     /**
      * Constructor for a blank screen.

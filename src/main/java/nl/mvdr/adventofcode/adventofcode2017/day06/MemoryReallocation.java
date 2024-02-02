@@ -1,19 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2017.day06;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
+import nl.mvdr.adventofcode.IntSolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Solution to the day 6 puzzle of 2017's Advent of Code:
@@ -40,7 +34,7 @@ abstract class MemoryReallocation implements IntSolver {
             int index = IntStream.range(0, banks.size())
                     .boxed()
                     .max(Comparator.comparing(banks::get))
-                    .get()
+                    .orElseThrow()
                     .intValue();
             
             int remainingBanks = banks.get(index).intValue();
@@ -61,7 +55,6 @@ abstract class MemoryReallocation implements IntSolver {
      * 
      * @param line puzzle input
      * @return memory banks
-     * @throws IOException unexpected I/O exception when reading the input
      */
     private List<Integer> parseInput(String line) {
         return Stream.of(line.split("\\s"))

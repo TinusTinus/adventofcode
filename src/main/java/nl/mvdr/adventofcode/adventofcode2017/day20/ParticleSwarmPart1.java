@@ -50,7 +50,7 @@ public class ParticleSwarmPart1 implements IntSolver {
         return IntStream.range(0, particles.size())
                 .boxed()
                 .min(Comparator.comparing(i -> Integer.valueOf(particles.get(i.intValue()).getPosition().manhattanDistanceToOrigin())))
-                .get()
+                .orElseThrow()
                 .intValue();
     }
     

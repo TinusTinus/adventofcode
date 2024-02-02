@@ -14,7 +14,7 @@ enum ConditionOperator implements BiPredicate<Integer, Integer> {
     /** At most, also know as "less than or equal to" (&le;).*/
     AT_MOST("<=", (i, j) -> i.intValue() <= j.intValue()),
     /** Equals (=). */
-    EQUAL("==", (i, j) -> i.equals(j)),
+    EQUAL("==", Integer::equals),
     /** At least, also known as greater than or equal to (&ge;). */
     AT_LEAST(">=", (i, j) -> i.intValue() >= j.intValue()),
     /** Greater than (&gt;). */
@@ -36,7 +36,7 @@ enum ConditionOperator implements BiPredicate<Integer, Integer> {
         return Stream.of(ConditionOperator.values())
                 .filter(value -> value.toString().equals(string))
                 .findAny()
-                .get();
+                .orElseThrow();
     }
     
     /**

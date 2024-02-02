@@ -109,13 +109,13 @@ class IPAddress {
     
     @Override
     public String toString() {
-        String result = supernetSequences.get(0);
+        StringBuilder result = new StringBuilder(supernetSequences.getFirst());
         for (int i = 0; i != hypernetSequences.size(); i++) {
-            result = result + "[";
-            result = result + hypernetSequences.get(i);
-            result = result + "]";
-            result = result + supernetSequences.get(i + 1);
+            result.append("[");
+            result.append(hypernetSequences.get(i));
+            result.append("]");
+            result.append(supernetSequences.get(i + 1));
         }
-        return result;
+        return result.toString();
     }
 }

@@ -32,11 +32,11 @@ public class DiskDefragmentationPart2 extends DiskDefragmentation {
             newRegion.add(square);
             
             Set<Set<Point>> matchingRegions = new HashSet<>();
-            square.neighbours().forEach(neighbour -> {
+            square.neighbours().forEach(neighbour ->
                 regions.stream()
                     .filter(region -> region.contains(neighbour))
-                    .forEach(matchingRegions::add);
-            });
+                    .forEach(matchingRegions::add)
+            );
             regions.removeAll(matchingRegions);
             matchingRegions.forEach(newRegion::addAll);
             

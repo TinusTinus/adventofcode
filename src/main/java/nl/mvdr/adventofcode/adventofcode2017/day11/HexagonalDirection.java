@@ -25,10 +25,9 @@ enum HexagonalDirection {
      * 
      * @param lines puzzle input
      * @return list of directions
-     * @throws IOException in case the input file could not be read
      */
     static List<HexagonalDirection> parse(Stream<String> lines) {
-        String inputText = lines.findFirst().get();
+        String inputText = lines.findFirst().orElseThrow();
         return Stream.of(inputText.split(","))
                 .map(HexagonalDirection::parseDirection)
                 .collect(Collectors.toList());
@@ -44,7 +43,7 @@ enum HexagonalDirection {
         return Stream.of(values())
                 .filter(direction -> direction.representation.equals(string))
                 .findFirst()
-                .get();
+                .orElseThrow();
     }
     
     /**

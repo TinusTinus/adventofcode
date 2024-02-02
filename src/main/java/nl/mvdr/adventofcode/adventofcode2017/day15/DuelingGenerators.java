@@ -1,12 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2017.day15;
 
+import nl.mvdr.adventofcode.LongSolver;
+
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import nl.mvdr.adventofcode.LongSolver;
 
 /**
  * Solution to the day 15 puzzle of 2017's Advent of Code:
@@ -43,7 +42,7 @@ abstract class DuelingGenerators implements LongSolver {
             // Drop the prefix
             .map(line -> line.substring("Generator X starts with ".length()))
             .map(Long::valueOf)
-            .collect(Collectors.toList());
+            .toList();
         long startValueA = startValues.get(0).longValue();
         long startValueB = startValues.get(1).longValue();
         

@@ -41,7 +41,7 @@ public class Tower {
      */
     private static Tower getTower(Program base, Collection<Program> programs) {
         Set<Tower> subtowers = base.getNamesHeldUp().stream()
-                .map(name -> programs.stream().filter(program -> program.getName().equals(name)).findAny().get())
+                .map(name -> programs.stream().filter(program -> program.getName().equals(name)).findAny().orElseThrow())
                 .map(program -> Tower.getTower(program, programs))
                 .collect(Collectors.toSet());
         
@@ -58,7 +58,7 @@ public class Tower {
         return programs.stream()
                 .filter(program -> programs.stream().noneMatch(otherProgram -> otherProgram.isHoldingUp(program.getName())))
                 .findAny()
-                .get();
+                .orElseThrow();
     }
     
     /**

@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2017.day25;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,6 @@ class Blueprint {
      * 
      * @param linesStream puzzle input
      * @return Turing machine represented by this text file
-     * @throws IOException in case the text file could not be read
      */
     static Blueprint parse(Stream<String> linesStream) {
         List<String> lines = linesStream.collect(Collectors.toList());

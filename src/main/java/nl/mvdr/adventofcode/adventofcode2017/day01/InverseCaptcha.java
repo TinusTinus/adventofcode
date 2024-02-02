@@ -1,11 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2017.day01;
 
+import nl.mvdr.adventofcode.IntSolver;
+
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import nl.mvdr.adventofcode.IntSolver;
 
 /**
  * Solution to the day 1 puzzle of 2017's Advent of Code:
@@ -22,7 +21,7 @@ abstract class InverseCaptcha implements IntSolver {
                 .chars()
                 .mapToObj(c -> "" + (char)c)
                 .map(Integer::valueOf)
-                .collect(Collectors.toList());
+                .toList();
         
         return IntStream.range(0, digits.size())
                 .filter(i -> digits.get(i).equals(digits.get(compareToIndex(i, digits.size()))))

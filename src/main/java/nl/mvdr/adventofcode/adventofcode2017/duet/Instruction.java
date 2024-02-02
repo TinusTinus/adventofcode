@@ -20,7 +20,7 @@ public interface Instruction {
      *      if false, messaging operations (send and receive) are used instead
      * @return instructions
      */
-    public static List<Instruction> parseInstructions(Stream<String> lines, boolean sound) {
+    static List<Instruction> parseInstructions(Stream<String> lines, boolean sound) {
         return lines
                 // ignore empty lines (the last line in the file)
                 .filter(Objects::nonNull)

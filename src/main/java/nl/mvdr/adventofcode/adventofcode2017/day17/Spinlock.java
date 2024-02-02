@@ -16,7 +16,7 @@ abstract class Spinlock implements IntSolver {
     public int solve(Stream<String> lines) {
         int stepSize = lines.mapToInt(Integer::parseInt)
                 .findFirst()
-                .getAsInt();
+                .orElseThrow();
         
         return solve(stepSize);
     }

@@ -61,7 +61,7 @@ abstract class KnotHash<R> implements LinesSolver<R> {
     /**
      * Converts the given text into a list of input lengths, for computing the sparse hash.
      * 
-     * @param inputText
+     * @param inputText text
      * @return input lengths
      */
     abstract List<Integer> inputLengths(String inputText);

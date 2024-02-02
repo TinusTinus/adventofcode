@@ -41,7 +41,7 @@ public class PacketScannersPart1 implements IntSolver {
         int maxLayer = layers.stream()
                 .mapToInt(Layer::getDepth)
                 .max()
-                .getAsInt();
+                .orElseThrow();
         
         int severity = 0;
         for (int packetLayer = 0; packetLayer <= maxLayer; packetLayer++) {

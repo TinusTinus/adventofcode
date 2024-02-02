@@ -30,7 +30,7 @@ public class ElectromagneticMoatPart1 implements IntSolver {
                 .stream()
                 .mapToInt(Bridge::strength)
                 .max()
-                .getAsInt();
+                .orElseThrow();
     }
     
     /**

@@ -49,7 +49,7 @@ public class TwoFactorAuthentication implements IntSolver {
     public int solve(Stream<String> lines) {
         List<Instruction> instructions = lines.filter(Predicate.not(String::isBlank))
                 .map(Instruction::parse)
-                .collect(Collectors.toList());
+                .toList();
         
         Screen screen = new Screen(width, height);
         

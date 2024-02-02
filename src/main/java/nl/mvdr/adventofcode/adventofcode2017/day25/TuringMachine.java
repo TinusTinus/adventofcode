@@ -27,9 +27,6 @@ class TuringMachine {
      * Constructor.
      * 
      * @param definition definition of the Turing machine
-     * @param tape representation of the tape
-     * @param cursor cursor
-     * @param nextState name of the next state
      */
     TuringMachine(TuringMachineDefinition definition, String initialState) {
         super();
@@ -50,10 +47,6 @@ class TuringMachine {
         return tape.size();
     }
     
-    TuringMachineDefinition getDefinition() {
-        return definition;
-    }
-    
     Set<Integer> getTape() {
         return tape;
     }
@@ -61,11 +54,7 @@ class TuringMachine {
     int getCursor() {
         return cursor;
     }
-    
-    String getNextState() {
-        return nextState;
-    }
-    
+
     void setCursor(int cursor) {
         this.cursor = cursor;
     }

@@ -43,7 +43,7 @@ class Grid {
      */
     static Grid parse(Stream<String> linesStream) {
         List<String> lines = linesStream.filter(line -> !"".equals(line))
-                .collect(Collectors.toList());
+                .toList();
 
         int startingX = lines.size() / 2;
         int startingY = lines.get(startingX).length() / 2;
