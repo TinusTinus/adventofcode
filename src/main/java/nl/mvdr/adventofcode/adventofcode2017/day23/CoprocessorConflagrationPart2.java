@@ -28,10 +28,8 @@ public class CoprocessorConflagrationPart2 implements IntSolver {
         //   https://www.reddit.com/r/adventofcode/comments/7lms6p/2017_day_23_solutions/drngj9r/
         // Assembly code translated into Java.
         int b = 65 * 100 + 100000; // Note: the 65 depends on the puzzle input
-        int c = b + 17000;
-        int g;
         int result = 0;
-        do {
+        for (int i = 0; i != 1001; i++) {
             int f = 1;
             for (int d = 2; d * d <= b; d++) { // check if b is a prime
                 if ((b % d == 0)) {
@@ -39,11 +37,11 @@ public class CoprocessorConflagrationPart2 implements IntSolver {
                     break;
                 }
             }
-            if (f == 0) // not a prime
+            if (f == 0) {// not a prime
                 result++;
-            g = b - c;
+            }
             b += 17;
-        } while (g != 0); // stop when b==c (1000 iterations)
+        }
 
         return result;
     }
