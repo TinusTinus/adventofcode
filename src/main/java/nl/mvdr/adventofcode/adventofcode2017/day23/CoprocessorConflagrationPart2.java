@@ -1,12 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2017.day23;
 
-import java.util.stream.Stream;
-
+import nl.mvdr.adventofcode.LongSolver;
 import org.apache.commons.math3.primes.Primes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Solution to the day 23 puzzle of 2017's Advent of Code:
@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.IntSolver;
  *
  * @author Martijn van de Rijdt
  */
-public class CoprocessorConflagrationPart2 implements IntSolver {
+public class CoprocessorConflagrationPart2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CoprocessorConflagrationPart2.class);
     
@@ -24,19 +24,12 @@ public class CoprocessorConflagrationPart2 implements IntSolver {
      * @return the value in register h after execution
      */
     @Override
-    public int solve(Stream<String> lines) {
-        // Solution inspired by (a.k.a. ripped off from):
-        //   https://www.reddit.com/r/adventofcode/comments/7lms6p/2017_day_23_solutions/drngj9r/
-        // Assembly code translated into Java.
-        int b = 65 * 100 + 100000; // Note: the value of 65 was determined by analyzing the specific puzzle input
-        int result = 0;
-        for (int i = 0; i != 1001; i++) {
-            if (!Primes.isPrime(b)) {
-                result++;
-            }
-            b += 17;
-        }
-        return result;
+    public long solve(Stream<String> lines) {
+        int b = 65; // determined by analyzing the specific puzzle input!
+        return IntStream.range(0, 1001)
+                .map(i -> b * 100 + 100000 + i * 17)
+                .filter(i -> !Primes.isPrime(i))
+                .count();
     }
     
     /**
