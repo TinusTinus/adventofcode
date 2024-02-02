@@ -2,6 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2017.day23;
 
 import java.util.stream.Stream;
 
+import org.apache.commons.math3.primes.Primes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,22 +28,14 @@ public class CoprocessorConflagrationPart2 implements IntSolver {
         // Solution inspired by (a.k.a. ripped off from):
         //   https://www.reddit.com/r/adventofcode/comments/7lms6p/2017_day_23_solutions/drngj9r/
         // Assembly code translated into Java.
-        int b = 65 * 100 + 100000; // Note: the 65 depends on the puzzle input
+        int b = 65 * 100 + 100000; // Note: the value of 65 was determined by analyzing the specific puzzle input
         int result = 0;
         for (int i = 0; i != 1001; i++) {
-            int f = 1;
-            for (int d = 2; d * d <= b; d++) { // check if b is a prime
-                if ((b % d == 0)) {
-                    f = 0;
-                    break;
-                }
-            }
-            if (f == 0) {// not a prime
+            if (!Primes.isPrime(b)) {
                 result++;
             }
             b += 17;
         }
-
         return result;
     }
     
