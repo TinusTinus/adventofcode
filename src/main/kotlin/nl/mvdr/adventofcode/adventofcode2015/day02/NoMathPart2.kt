@@ -11,10 +11,10 @@ private val logger = KotlinLogging.logger{}
  *
  * @author Martijn van de Rijdt
  */
-class NoMathPart1: ListSolver<Int> {
+class NoMathPart2: ListSolver<Int> {
     override fun solve(lines: List<String>): Int {
         return lines.map { line -> parse(line) }
-            .sumOf { box -> box.computeWrappingPaper() }
+            .sumOf { box -> box.computeRibbonLength() }
     }
 }
 
@@ -22,6 +22,6 @@ class NoMathPart1: ListSolver<Int> {
  * Main method. Solves the puzzle for the given input.
  */
 fun main() {
-    val result = NoMathPart1().solve("input-day02-2015.txt")
+    val result = NoMathPart2().solve("input-day02-2015.txt")
     logger.info { result }
 }
