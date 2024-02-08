@@ -3,7 +3,6 @@ package nl.mvdr.adventofcode.adventofcode2015.day03
 import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.ListSolver
 import nl.mvdr.adventofcode.point.Direction
-import nl.mvdr.adventofcode.point.Point
 
 private val logger = KotlinLogging.logger{}
 
@@ -18,15 +17,14 @@ class SphericalHousesPart2: ListSolver<Int> {
         val directions = lines.first()
             .toCharArray()
             .map(Direction::parse)
-        var santaLocation = Point.ORIGIN
-        var roboSantaLocation = Point.ORIGIN
-        val visited = mutableSetOf(Point.ORIGIN)
-        for (i in (0 until directions.count()) step 2) {
-            santaLocation = directions[i].move(santaLocation)
-            visited.add(santaLocation)
-            roboSantaLocation = directions[i + 1].move(roboSantaLocation)
-            visited.add(roboSantaLocation)
-        }
+
+        val santaDirections = directions.filterIndexed { index, _ ->  index % 2 == 0 } // even instructions
+        val visitedBySanta = visitHouses(santaDirections)
+
+        val roboSantaDirections = directions.filterIndexed { index, _ ->  index % 2 != 0 } // odd instructions
+        val visitedByRoboSanta = visitHouses(roboSantaDirections)
+
+        val visited = visitedBySanta union visitedByRoboSanta
         return visited.count()
     }
 }
