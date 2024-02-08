@@ -64,6 +64,16 @@ public enum Direction {
                 .filter(direction -> IntStream.range(0, direction.representations.length).map(i -> direction.representations[i]).anyMatch(c -> c == representation))
                 .findFirst();
     }
+
+    /**
+     * Gives the direction represented by the given character.
+     *
+     * @param representation character representation
+     * @return direction
+     */
+    public static Direction parse(char representation) {
+        return of(representation).orElseThrow(() -> new IllegalArgumentException("Unknown direction: " + representation));
+    }
     
     /**
      * Gives the direction represented by the given string.
@@ -75,7 +85,7 @@ public enum Direction {
         if (representation.length() != 1) {
             throw new IllegalArgumentException("Direction representation must be a single character but was: " + representation);
         }
-        return of(representation.charAt(0)).orElseThrow(() -> new IllegalArgumentException("Unknown direction: " + representation));
+        return parse(representation.charAt(0));
     }
     
     public boolean isVertical() {
