@@ -20,11 +20,16 @@ class InternElvesPart1: ListSolver<Int> {
 val VOWELS = setOf('a', 'e', 'i', 'o', 'u')
 val FORBIDDEN = setOf("ab", "cd", "pq", "xy")
 
-private fun isNice(string: String): Boolean {
-    return 3 <= countVowels(string) && !containsForbiddenSubstring(string) // TODO implement the second rule as well
-}
+private fun isNice(string: String): Boolean = 3 <= countVowels(string)
+            && hasLetterTwiceInARow(string)
+            && !containsForbiddenSubstring(string)
 
 private fun countVowels(string: String) = string.toCharArray().count(VOWELS::contains)
+
+private fun hasLetterTwiceInARow(string: String): Boolean {
+    val charArray = string.toCharArray()
+    return charArray.withIndex().any { (index, char) -> index < string.length - 1 && char == charArray[index + 1] }
+}
 
 private fun containsForbiddenSubstring(string: String): Boolean = FORBIDDEN.any(string::contains)
 
