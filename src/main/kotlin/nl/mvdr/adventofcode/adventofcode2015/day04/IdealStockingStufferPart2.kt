@@ -11,9 +11,9 @@ private val logger = KotlinLogging.logger{}
  *
  * @author Martijn van de Rijdt
  */
-class IdealStockingStufferPart1: ListSolver<Int> {
+class IdealStockingStufferPart2: ListSolver<Int> {
     override fun solve(lines: List<String>): Int {
-        return mine(lines, "00000")
+        return mine(lines, "000000")
     }
 }
 
@@ -21,6 +21,6 @@ class IdealStockingStufferPart1: ListSolver<Int> {
  * Main method. Solves the puzzle for the given input.
  */
 fun main() {
-    val result = IdealStockingStufferPart1().solve("input-day04-2015.txt")
+    val result = IdealStockingStufferPart2().solve("input-day04-2015.txt")
     logger.info { result }
 }
