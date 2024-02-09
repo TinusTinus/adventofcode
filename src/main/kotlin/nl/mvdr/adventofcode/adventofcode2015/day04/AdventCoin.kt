@@ -7,9 +7,7 @@ import org.apache.commons.codec.digest.DigestUtils
  */
 fun mine(input: List<String>, prefix: String): Int {
     val secretKey = input.first()
-    var result = 0
-    while (!DigestUtils.md5Hex(secretKey + result).startsWith(prefix)) {
-        result++
-    }
-    return result
+    return generateSequence(0, Int::inc)
+        .filter { DigestUtils.md5Hex(secretKey + it).startsWith(prefix) }
+        .first()
 }
