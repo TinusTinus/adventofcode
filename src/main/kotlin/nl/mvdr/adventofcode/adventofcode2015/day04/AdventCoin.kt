@@ -3,10 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2015.day04
 import org.apache.commons.codec.digest.DigestUtils
 
 /**
- * Mines a coin.
- *
- * @param input the puzzle input, where the first line is the secret key
- * @param prefix the prefix to search for (five or six zeroes)
+ * Mines a coin. Searches for an MD5 hash with the given [prefix], based on the puzzle [input].
  */
 fun mine(input: List<String>, prefix: String): Int {
     val secretKey = input.first()

@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2015.day03
 
-import nl.mvdr.adventofcode.SolverTest
+import nl.mvdr.adventofcode.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class SphericalHousesPart1Test: SolverTest<SphericalHousesPart1>(SphericalHousesPart1::class.java) {
+class SphericalHousesPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     companion object {
         /** @return arguments for {@link SolverTest#testSolution(String, String)} */
         @JvmStatic

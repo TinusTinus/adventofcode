@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2015.day02
 
-import nl.mvdr.adventofcode.SolverTest
+import nl.mvdr.adventofcode.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class NoMathPart1Test: SolverTest<NoMathPart1>(NoMathPart1::class.java) {
+class NoMathPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     companion object {
         /** @return arguments for {@link SolverTest#testSolution(String, String)} */
         @JvmStatic

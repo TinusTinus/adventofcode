@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2015.day04
 
-import nl.mvdr.adventofcode.SolverTest
+import nl.mvdr.adventofcode.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class IdealStockingStufferPart1Test: SolverTest<IdealStockingStufferPart1>(IdealStockingStufferPart1::class.java) {
+class IdealStockingStufferPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     companion object {
         /** @return arguments for {@link SolverTest#testSolution(String, String)} */
         @JvmStatic
