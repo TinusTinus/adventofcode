@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,8 +14,27 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @param <S> specific solver class; must have a default constructor
  */
 public abstract class SolverTest<S extends Solver> {
-    /** Specific solver class; must have a default constructor. */
-    private final Class<S> solverClass;
+    /** Supplies the solver. */
+    private final Supplier<S> solverSupplier;
+
+    /**
+     * Constructor.
+     *
+     * @param solverSupplier supplier for obtaining a solver instance
+     */
+    private SolverTest(Supplier<S> solverSupplier) {
+        super();
+        this.solverSupplier = solverSupplier;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param solver the solver to test
+     */
+    protected SolverTest(S solver) {
+        this(() -> solver);
+    }
 
     /**
      * Constructor.
@@ -23,28 +42,23 @@ public abstract class SolverTest<S extends Solver> {
      * @param solverClass specific solver class; must have a default constructor
      */
     protected SolverTest(Class<S> solverClass) {
-        super();
-
-        this.solverClass = solverClass;
+        this(() -> instantiateSolver(solverClass));
     }
 
     /**
      * Creates a new solver instance, using the default constructor.
-     * 
+     *
+     * @param <S> specific solver class; must have a default constructor
+     * @param solverClass specific solver class
      * @return new solver instance
      */
-    private S instantiateSolver() {
-        S result;
-        
+    private static <S> S instantiateSolver(Class<S> solverClass) {
         try {
-            Constructor<S> constructor = this.solverClass.getConstructor();
-            result = constructor.newInstance();
+            return solverClass.getConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
-                | SecurityException e) {
-            throw new IllegalStateException("Unable to instantiate solver: " + solverClass, e);
+                 | SecurityException e) {
+            throw new IllegalArgumentException("Unable to instantiate solver: " + solverClass, e);
         }
-
-        return result;
     }
 
     /**
@@ -56,7 +70,7 @@ public abstract class SolverTest<S extends Solver> {
     @ParameterizedTest
     @MethodSource
     public void testSolution(String expectedSolution, String inputfile) {
-        S solver = instantiateSolver();
+        S solver = solverSupplier.get();
 
         assertSolution(solver, expectedSolution, inputfile);
     }

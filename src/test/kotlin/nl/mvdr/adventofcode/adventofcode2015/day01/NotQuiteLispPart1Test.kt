@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2015.day01
 
-import nl.mvdr.adventofcode.SolverTest
+import nl.mvdr.adventofcode.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class NotQuiteLispPart1Test: SolverTest<NotQuiteLispPart1>(NotQuiteLispPart1::class.java) {
+class NotQuiteLispPart1Test: FunctionSolverTest<Int>(::solve) {
     companion object {
         /** @return arguments for {@link SolverTest#testSolution(String, String)} */
         @JvmStatic
