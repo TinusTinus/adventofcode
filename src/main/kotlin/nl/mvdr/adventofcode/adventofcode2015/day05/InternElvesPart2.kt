@@ -9,9 +9,9 @@ fun solvePart2(lines: List<String>): Int {
     return lines.count { line -> isNice(line) }
 }
 
-private fun isNice(string: String): Boolean = containsTwoPairs(string) && containsRepeatingLetter(string)
+private fun isNice(string: String): Boolean = containsPairTwice(string) && containsRepeatingLetter(string)
 
-private fun containsTwoPairs(string: String): Boolean {
+private fun containsPairTwice(string: String): Boolean {
     return string.toCharArray()
         .withIndex()
         .any {
