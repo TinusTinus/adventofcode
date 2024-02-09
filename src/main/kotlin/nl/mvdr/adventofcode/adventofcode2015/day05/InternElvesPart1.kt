@@ -8,20 +8,18 @@ private val FORBIDDEN = setOf("ab", "cd", "pq", "xy")
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int {
-    return lines.count { line -> isNice(line) }
-}
+fun solvePart1(lines: List<String>): Int = lines.count { line -> isNice(line) }
 
-private fun isNice(string: String): Boolean = 3 <= countVowels(string)
+private fun isNice(string: String): Boolean =
+    3 <= countVowels(string)
             && containsRepeatingLetter(string)
             && !containsForbiddenSubstring(string)
 
 private fun countVowels(string: String) = string.toCharArray().count(VOWELS::contains)
 
-private fun containsRepeatingLetter(string: String): Boolean {
-    val charArray = string.toCharArray()
-    return charArray.withIndex().any { (index, char) -> index < string.length - 1 && char == charArray[index + 1] }
-}
+private fun containsRepeatingLetter(string: String) =
+    string.withIndex().any { (index, char) -> index < string.length - 1 && char == string[index + 1] }
+
 
 private fun containsForbiddenSubstring(string: String): Boolean = FORBIDDEN.any(string::contains)
 

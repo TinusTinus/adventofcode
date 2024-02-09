@@ -12,7 +12,7 @@ class InternElvesPart2Test: FunctionSolverTest<Int>(::solvePart2) {
         fun testSolution(): List<Arguments> {
             return listOf(
                 Arguments.of("2", "example-day05-2015-3.txt"),
-                Arguments.of("?", "input-day05-2015.txt") // 126 is too high!
+                Arguments.of("51", "input-day05-2015.txt")
             )
         }
     }
