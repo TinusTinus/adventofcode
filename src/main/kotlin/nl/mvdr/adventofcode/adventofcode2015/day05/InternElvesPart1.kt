@@ -13,12 +13,12 @@ fun solvePart1(lines: List<String>): Int {
 }
 
 private fun isNice(string: String): Boolean = 3 <= countVowels(string)
-            && hasLetterTwiceInARow(string)
+            && containsRepeatingLetter(string)
             && !containsForbiddenSubstring(string)
 
 private fun countVowels(string: String) = string.toCharArray().count(VOWELS::contains)
 
-private fun hasLetterTwiceInARow(string: String): Boolean {
+private fun containsRepeatingLetter(string: String): Boolean {
     val charArray = string.toCharArray()
     return charArray.withIndex().any { (index, char) -> index < string.length - 1 && char == charArray[index + 1] }
 }
