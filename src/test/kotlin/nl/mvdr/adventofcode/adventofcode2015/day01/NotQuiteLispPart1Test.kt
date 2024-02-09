@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2015.day01
 import nl.mvdr.adventofcode.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class NotQuiteLispPart1Test: FunctionSolverTest<Int>(::solve) {
+class NotQuiteLispPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     companion object {
         /** @return arguments for {@link SolverTest#testSolution(String, String)} */
         @JvmStatic
