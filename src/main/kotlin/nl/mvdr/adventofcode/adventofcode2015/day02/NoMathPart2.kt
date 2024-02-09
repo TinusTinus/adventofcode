@@ -5,10 +5,9 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: List<String>): Int {
-    return lines.map { line -> parse(line) }
+fun solvePart2(lines: List<String>): Int =
+    lines.map { line -> parse(line) }
         .sumOf { box -> box.computeRibbonLength() }
-}
 
 fun main() {
     val result = FunctionSolver(::solvePart2).solve("input-day02-2015.txt")

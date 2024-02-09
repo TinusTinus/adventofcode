@@ -9,8 +9,8 @@ private val logger = KotlinLogging.logger{}
  * Solution to the day 1 puzzle of 2015's Advent of Code:
  * <a href="https://adventofcode.com/2015/day/1">Not Quite Lisp</a>.
  */
-fun solvePart1(lines: List<String>): Int {
-    return lines.first()
+fun solvePart1(lines: List<String>): Int =
+    lines.first()
         .toCharArray()
         .map {
             when (it) {
@@ -20,7 +20,7 @@ fun solvePart1(lines: List<String>): Int {
             }
         }
         .sum()
-}
+
 
 /**
  * Main method. Solves the puzzle for the given input.
