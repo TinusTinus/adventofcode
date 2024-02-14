@@ -36,8 +36,7 @@ private enum class Operator(val representation: String, val brightnessDelta: Int
     fun applyPart2(brightness: MutableMap<Point, Int>, lights: PointRange) {
         for (point in lights.points()) {
             val currentValue = brightness.getOrDefault(point, 0)
-            val newValue = maxOf(currentValue + brightnessDelta, 0)
-            brightness.put(point, newValue)
+            brightness[point] = maxOf(currentValue + brightnessDelta, 0)
         }
     }
 }
