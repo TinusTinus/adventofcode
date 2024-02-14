@@ -13,23 +13,29 @@ class Instruction(text: String) {
         this.pointRange = PointRange(lowerLeft, upperRight)
     }
 
-    fun apply(burningLights: Set<Point>): Set<Point> = operator.apply(burningLights, pointRange)
+    fun applyPart1(burningLights: Set<Point>): Set<Point> = operator.applyPart1(burningLights, pointRange)
+
+    fun applyPart2(brightness: MutableMap<Point, Int>) = operator.applyPart2(brightness, pointRange)
 }
 
-private enum class Operator(val representation: String) {
-    TURN_ON("turn on") {
-        override fun apply(burningLights: Set<Point>, lights: Set<Point>): Set<Point> = burningLights union lights
+private enum class Operator(val representation: String, val brightnessDelta: Int) {
+    TURN_ON("turn on", 1) {
+        override fun applyPart1(burningLights: Set<Point>, lights: Set<Point>): Set<Point> = burningLights union lights
     },
-    TURN_OFF("turn off") {
-        override fun apply(burningLights: Set<Point>, lights: Set<Point>): Set<Point> = burningLights subtract lights
+    TURN_OFF("turn off", -1) {
+        override fun applyPart1(burningLights: Set<Point>, lights: Set<Point>): Set<Point> = burningLights subtract lights
     },
-    TOGGLE("toggle") {
-        override fun apply(burningLights: Set<Point>, lights: Set<Point>): Set<Point> = (burningLights union lights) subtract (burningLights intersect lights)
+    TOGGLE("toggle", 2) {
+        override fun applyPart1(burningLights: Set<Point>, lights: Set<Point>): Set<Point> = (burningLights union lights) subtract (burningLights intersect lights)
     };
 
-    fun apply(burningLights: Set<Point>, lights: PointRange): Set<Point> = apply(burningLights, lights.points())
+    fun applyPart1(burningLights: Set<Point>, lights: PointRange): Set<Point> = applyPart1(burningLights, lights.points())
 
-    abstract fun apply(burningLights: Set<Point>, lights: Set<Point>): Set<Point>
+    abstract fun applyPart1(burningLights: Set<Point>, lights: Set<Point>): Set<Point>
+
+    fun applyPart2(brightness: MutableMap<Point, Int>, lights: PointRange) {
+        // TODO implement!
+    }
 }
 
 private class PointRange(val lowerLeft: Point, val upperRight: Point) {

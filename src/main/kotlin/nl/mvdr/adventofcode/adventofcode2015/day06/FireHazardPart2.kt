@@ -6,15 +6,15 @@ import nl.mvdr.adventofcode.point.Point
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int {
-    var burningLights = setOf<Point>()
+fun solvePart2(lines: List<String>): Int {
+    val brightness = mutableMapOf<Point, Int>()
     for (instruction in lines.map(::Instruction)) {
-        burningLights = instruction.applyPart1(burningLights)
+        instruction.applyPart2(brightness)
     }
-    return burningLights.size
+    return brightness.values.sum()
 }
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day06-2015.txt")
+    val result = FunctionSolver(::solvePart2).solve("input-day06-2015.txt")
     logger.info { result }
 }
