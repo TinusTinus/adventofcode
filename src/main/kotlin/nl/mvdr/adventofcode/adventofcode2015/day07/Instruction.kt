@@ -1,6 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2015.day07
 
-fun parseInstruction(text: String, instructions: MutableMap<String, Expression>) {
+fun parseInstructions(lines: List<String>): MutableMap<String, Expression> {
+    val instructions = mutableMapOf<String, Expression>()
+    lines.forEach { parseInstruction(it, instructions) }
+    return instructions
+}
+private fun parseInstruction(text: String, instructions: MutableMap<String, Expression>) {
     val (expressionString, wire) = text.split(" -> ")
     val expression = parseExpression(expressionString)
     instructions[wire] = expression

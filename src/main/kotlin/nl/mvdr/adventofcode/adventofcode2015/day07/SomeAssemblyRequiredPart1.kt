@@ -6,8 +6,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: List<String>): Int {
-    val instructions = mutableMapOf<String, Expression>()
-    lines.forEach { parseInstruction(it, instructions) }
+    val instructions = parseInstructions(lines)
     return evaluate(instructions, "a")
 }
 
