@@ -9,7 +9,7 @@ class SomeAssemblyRequiredPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         @JvmStatic
         fun testSolution(): List<Arguments> {
             return listOf(
-                Arguments.of("?", "input-day07-2015.txt")
+                Arguments.of("3176", "input-day07-2015.txt")
             )
         }
     }
