@@ -35,7 +35,9 @@ class SomeAssemblyRequiredPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         assertEquals(507, evaluate(instructions, "e"))
         assertEquals(492, evaluate(instructions, "f"))
         assertEquals(114, evaluate(instructions, "g"))
-        // Minimum and maximum values (0 and 65535) are not handled correctly yet
+        // Minimum and maximum values (0 and 65535) are not handled correctly.
+        // Apparently this does not matter for the (my) actual input.
+        // But it does matter for h and i in this example.
         // assertEquals(65412, evaluate(instructions, "h"))
         // assertEquals(65079, evaluate(instructions, "i"))
         assertEquals(123, evaluate(instructions, "x"))

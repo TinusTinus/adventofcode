@@ -50,7 +50,7 @@ interface Expression {
     fun evaluate(instructions: MutableMap<String, Expression>): Int
 }
 
-private class SignalExpression(val signalValue: Int): Expression {
+class SignalExpression(private val signalValue: Int): Expression {
     override fun evaluate(instructions: MutableMap<String, Expression>): Int = signalValue
 }
 
