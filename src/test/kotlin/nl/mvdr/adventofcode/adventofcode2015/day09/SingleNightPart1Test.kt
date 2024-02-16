@@ -10,7 +10,7 @@ class SingleNightPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         fun testSolution(): List<Arguments> {
             return listOf(
                 Arguments.of("605", "example-day09-2015.txt"),
-                Arguments.of("?", "input-day09-2015.txt")
+                Arguments.of("207", "input-day09-2015.txt")
             )
         }
     }
