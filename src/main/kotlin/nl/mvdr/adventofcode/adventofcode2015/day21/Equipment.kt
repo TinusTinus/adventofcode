@@ -1,12 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2015.day21
 
-interface Equipment {
+interface EquipmentPiece {
     val cost: Int
     val damage: Int
     val armor: Int
 }
 
-enum class Weapon(override val cost: Int, override val damage: Int): Equipment {
+enum class Weapon(override val cost: Int, override val damage: Int): EquipmentPiece {
     DAGGER(8, 4),
     SHORTSWORD(10, 5),
     WARHAMMER(25, 6),
@@ -16,7 +16,7 @@ enum class Weapon(override val cost: Int, override val damage: Int): Equipment {
     override val armor: Int get() = 0
 }
 
-enum class Armor(override val cost: Int, override val armor: Int): Equipment {
+enum class Armor(override val cost: Int, override val armor: Int): EquipmentPiece {
     LEATHER(13, 1),
     CHAINMAIL(31, 2),
     SPLINTMAIN(53, 3),
@@ -26,7 +26,7 @@ enum class Armor(override val cost: Int, override val armor: Int): Equipment {
     override val damage: Int get() = 0
 }
 
-enum class Ring(override val cost: Int, override val damage: Int, override val armor: Int): Equipment {
+enum class Ring(override val cost: Int, override val damage: Int, override val armor: Int): EquipmentPiece {
     DAMAGE_PLUS_ONE(25, 1, 0),
     DAMAGE_PLUS_TWO(50, 2, 0),
     DAMAGE_PLUS_THREE(100, 3, 0),
