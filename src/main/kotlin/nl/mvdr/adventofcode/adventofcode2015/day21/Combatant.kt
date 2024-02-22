@@ -2,15 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2015.day21
 
 import kotlin.math.ceil
 
-interface Combatant {
-    val hitPoints: Int
-    val damage: Int
-    val armor: Int
-
-    /** Calculates how many turns it would take for this combatant to kill the given [opponent]. */
-    fun turnsToKill(opponent: Combatant): Int = ceil(opponent.hitPoints.toDouble() / (damage - opponent.armor).toDouble()).toInt()
-}
-
 fun parseBoss(lines: List<String>): Boss {
     val hitPoints = parseStat(lines[0], "Hit Points: ")
     val damage = parseStat(lines[1], "Damage: ")
@@ -23,6 +14,32 @@ private fun parseStat(text: String, expectedPrefix: String): Int {
         throw IllegalArgumentException("Input '$text' is expected to start with prefix '$expectedPrefix'")
     }
     return text.filter(Character::isDigit).toInt()
+}
+
+/** Returns all possible equipment combinations a player can use. */
+fun getAllPossiblePlayers(): Set<Player> {
+    val result = mutableSetOf<Player>()
+    for (weapon in Weapon.entries) {
+        for (armor in Armor.entries union setOf(null)) {
+            result.add(Player(weapon = weapon, armor = armor, rings = setOf()))
+            for (firstRing in Ring.entries) {
+                result.add(Player(weapon = weapon, armor = armor, rings = setOf(firstRing)))
+                for (secondRing in Ring.entries.filter { firstRing.ordinal < it.ordinal }) {
+                    result.add(Player(weapon = weapon, armor = armor, rings = setOf(firstRing, secondRing)))
+                }
+            }
+        }
+    }
+    return result
+}
+
+interface Combatant {
+    val hitPoints: Int
+    val damage: Int
+    val armor: Int
+
+    /** Calculates how many turns it would take for this combatant to kill the given [opponent]. */
+    fun turnsToKill(opponent: Combatant): Int = ceil(opponent.hitPoints.toDouble() / (damage - opponent.armor).toDouble()).toInt()
 }
 
 class Boss(override val hitPoints: Int, override val damage: Int, override val armor: Int) : Combatant { }
