@@ -3,17 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2015.day21
 import kotlin.math.ceil
 
 fun parseBoss(lines: List<String>): Boss {
-    val hitPoints = parseStat(lines[0], "Hit Points: ")
-    val damage = parseStat(lines[1], "Damage: ")
-    val armor = parseStat(lines[2], "Armor: ")
+    val (hitPoints, damage, armor) = lines.map { it.filter(Character::isDigit).toInt() }
     return Boss(hitPoints, damage, armor)
-}
-
-private fun parseStat(text: String, expectedPrefix: String): Int {
-    if (!text.startsWith(expectedPrefix)) {
-        throw IllegalArgumentException("Input '$text' is expected to start with prefix '$expectedPrefix'")
-    }
-    return text.filter(Character::isDigit).toInt()
 }
 
 /** Returns all possible equipment combinations a player can use. */
