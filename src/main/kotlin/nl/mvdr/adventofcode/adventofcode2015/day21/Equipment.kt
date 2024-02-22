@@ -6,20 +6,24 @@ interface Equipment {
     val armor: Int
 }
 
-enum class Weapon(override val cost: Int, override val damage: Int, override val armor: Int): Equipment {
-    DAGGER(8, 4, 0),
-    SHORTSWORD(10, 5, 0),
-    WARHAMMER(25, 6, 0),
-    LONGSWORD(40, 7, 0),
-    GREATAXE(74, 8, 0)
+enum class Weapon(override val cost: Int, override val damage: Int): Equipment {
+    DAGGER(8, 4),
+    SHORTSWORD(10, 5),
+    WARHAMMER(25, 6),
+    LONGSWORD(40, 7),
+    GREATAXE(74, 8);
+
+    override val armor: Int get() = 0
 }
 
-enum class Armor(override val cost: Int, override val damage: Int, override val armor: Int): Equipment {
-    LEATHER(13, 0, 1),
-    CHAINMAIL(31, 0, 2),
-    SPLINTMAIN(53, 0, 3),
-    BANDEDMAIL(75, 0, 4),
-    PLATEMAIL(102, 0, 5)
+enum class Armor(override val cost: Int, override val armor: Int): Equipment {
+    LEATHER(13, 1),
+    CHAINMAIL(31, 2),
+    SPLINTMAIN(53, 3),
+    BANDEDMAIL(75, 4),
+    PLATEMAIL(102, 5);
+
+    override val damage: Int get() = 0
 }
 
 enum class Ring(override val cost: Int, override val damage: Int, override val armor: Int): Equipment {
