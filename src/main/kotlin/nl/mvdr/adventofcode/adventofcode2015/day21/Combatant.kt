@@ -39,12 +39,15 @@ interface Combatant {
     val armor: Int
 
     /** Calculates how many turns it would take for this combatant to kill the given [opponent]. */
-    fun turnsToKill(opponent: Combatant): Int = ceil(opponent.hitPoints.toDouble() / (damage - opponent.armor).toDouble()).toInt()
+    fun turnsToKill(opponent: Combatant): Int = when {
+        damage <= opponent.armor -> Int.MAX_VALUE // effectively infinity: the opponent will never take damage
+        else -> ceil(opponent.hitPoints.toDouble() / (damage - opponent.armor).toDouble()).toInt()
+    }
 }
 
-class Boss(override val hitPoints: Int, override val damage: Int, override val armor: Int) : Combatant { }
+data class Boss(override val hitPoints: Int, override val damage: Int, override val armor: Int) : Combatant { }
 
-class Player(override val hitPoints: Int, override val damage: Int, override val armor: Int, val equipmentCost: Int = 0): Combatant {
+data class Player(override val hitPoints: Int, override val damage: Int, override val armor: Int, val equipmentCost: Int = 0): Combatant {
     private constructor(hitPoints: Int, equipment: Set<Equipment>):
             this(hitPoints, equipment.sumOf(Equipment::damage), equipment.sumOf(Equipment::armor), equipment.sumOf(Equipment::cost))
 

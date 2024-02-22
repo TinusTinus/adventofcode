@@ -7,7 +7,7 @@ class RpgSimulatorPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("?", "input-day21-2015.txt") // 296 is too high!
+            Arguments.of("148", "input-day21-2015.txt")
         )
     }
 }
