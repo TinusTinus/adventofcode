@@ -23,9 +23,11 @@ private fun parseStat(text: String, expectedPrefix: String): Int {
 class Boss(override val hitPoints: Int, override val damage: Int, override val armor: Int) : Combatant { }
 
 class Player(override val hitPoints: Int, override val damage: Int, override val armor: Int): Combatant {
-    constructor(hitPoints: Int = 100, weapon: Weapon, armor: Armor?, rings: Set<Ring>) : this(hitPoints,
-                weapon.damage + rings.sumOf(Ring::damage),
-                (armor?.armor ?: 0) + rings.sumOf(Ring::armor)) {
+    private constructor(hitPoints: Int, equipment: Set<Equipment>):
+            this(hitPoints, equipment.sumOf(Equipment::damage), equipment.sumOf(Equipment::armor))
+
+    constructor(hitPoints: Int = 100, weapon: Weapon, armor: Armor?, rings: Set<Ring>) :
+            this(hitPoints, setOfNotNull(weapon, armor) union rings) {
         if (2 < rings.size) {
             throw IllegalArgumentException("Too many rings: $rings")
         }
