@@ -7,10 +7,12 @@ private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: List<String>): Int = lookAndSay(lines.first(), 40).length
 
-fun lookAndSay(input: String, times: Int): String = when {
-    times < 0 -> throw IllegalArgumentException("times was $times, must be positive")
-    times == 0 -> input
-    else -> lookAndSay(lookAndSay(input), times - 1)
+fun lookAndSay(input: String, times: Int): String {
+    var result = input
+    for (i in 0 until times) {
+        result = lookAndSay(result)
+    }
+    return result
 }
 
 fun lookAndSay(input: String): String = when {
