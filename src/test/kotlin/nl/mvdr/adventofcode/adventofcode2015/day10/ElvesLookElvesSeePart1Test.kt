@@ -1,24 +1,17 @@
 package nl.mvdr.adventofcode.adventofcode2015.day10
 
 import nl.mvdr.adventofcode.FunctionSolverTest
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 
 class ElvesLookElvesSeePart1Test: FunctionSolverTest<Int>(::solvePart1) {
-
-    @ParameterizedTest
-    @MethodSource
-    fun testLookAndSay(input: String, expectedOutput: String) {
-        val actualOutput = lookAndSay(input)
-        assertEquals(expectedOutput, actualOutput)
-    }
-
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("?", "input-day10-2015.txt")
+            Arguments.of("329356", "input-day10-2015.txt")
         )
 
         @JvmStatic
@@ -31,6 +24,19 @@ class ElvesLookElvesSeePart1Test: FunctionSolverTest<Int>(::solvePart1) {
         )
     }
 
+    @ParameterizedTest
+    @MethodSource
+    fun testLookAndSay(input: String, expectedOutput: String) {
+        val actualOutput = lookAndSay(input)
+        assertEquals(expectedOutput, actualOutput)
+    }
 
+    @Test
+    fun testRepeatedLookAndSay() {
+        val input = "1"
 
+        val result = lookAndSay(input, 5)
+
+        assertEquals("312211", result)
+    }
 }

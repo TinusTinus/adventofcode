@@ -15,16 +15,22 @@ fun lookAndSay(input: String, times: Int): String {
     return result
 }
 
-fun lookAndSay(input: String): String = when {
-    input.isEmpty() -> input
-    else -> {
-        val firstCharacter = input.first()
-        var count = input.indexOfFirst { firstCharacter != it }
-        if (count < 0) {
-            count = input.length
+fun lookAndSay(input: String): String {
+    var result = ""
+    var currentCharacter = input.first()
+    var count = 1
+    for (character in input.substring(1)) {
+        if (character == currentCharacter) {
+            count++
+        } else {
+            result += "$count$currentCharacter"
+            count = 1
+            currentCharacter = character
         }
-        "$count$firstCharacter" + lookAndSay(input.substring(count))
     }
+    result += "$count$currentCharacter"
+    logger.debug { "$input becomes $result" }
+    return result
 }
 
 fun main() {
