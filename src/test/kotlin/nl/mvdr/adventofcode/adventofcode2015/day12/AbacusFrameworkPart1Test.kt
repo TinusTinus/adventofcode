@@ -15,7 +15,7 @@ class AbacusFrameworkPart1Test: FunctionSolverTest<Int>(::solvePart1) {
             Arguments.of("0", "example-day12-2015-5.txt"),
             Arguments.of("0", "example-day12-2015-6.txt"),
             Arguments.of("0", "example-day12-2015-7.txt"),
-            Arguments.of("?", "input-day12-2015.txt")
+            Arguments.of("156366", "input-day12-2015.txt")
         )
     }
 }

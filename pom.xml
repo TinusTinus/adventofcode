@@ -18,6 +18,7 @@
         <commons-collections.version>4.4</commons-collections.version>
         <commons-lang.version>3.13.0</commons-lang.version>
         <commons-math.version>3.6.1</commons-math.version>
+        <jackson.version>2.16.1</jackson.version>
         <java.version>21</java.version>
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>5.10.0</junit.version>
@@ -80,7 +81,12 @@
             <artifactId>commons-math3</artifactId>
             <version>${commons-math.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
         <!-- mathematical equation solver-->
         <dependency>
             <groupId>tools.aqua</groupId>
