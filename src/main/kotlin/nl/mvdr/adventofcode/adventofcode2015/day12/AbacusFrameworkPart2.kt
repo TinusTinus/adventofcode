@@ -18,7 +18,7 @@ private fun sum(node: JsonNode): Int = when(node) {
     is IntNode -> node.intValue()
     is ArrayNode -> node.map(::sum).sum()
     is ObjectNode -> when {
-        node.any { it is TextNode && it.textValue() == "red" } -> 0
+        node.any { it.textValue() == "red" } -> 0
         else -> node.map(::sum).sum()
     }
     else -> 0
