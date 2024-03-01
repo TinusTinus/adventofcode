@@ -69,19 +69,20 @@ class CorporatePolicyPart1Test: FunctionSolverTest<String>(::solvePart1) {
             Arguments.of(false, "abbceffg"),
             Arguments.of(false, "abbcegjk"),
             Arguments.of(true, "abcdffaa"),
-            Arguments.of(true, "ghjaabcc")
+            Arguments.of(true, "ghjaabcc"),
+            Arguments.of(true, "cqjxxyzz"),
         )
 
         @JvmStatic
         fun testFindNextPassword(): List<Arguments> = listOf(
             Arguments.of("abcdffaa", "abcdefgh"),
             Arguments.of("ghjaabcc", "ghijklmn"),
-            Arguments.of("?", "cqjxjnds")
+            Arguments.of("cqjxxyzz", "cqjxjnds")
         )
 
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("?", "input-day11-2015.txt")
+            Arguments.of("cqjxxyzz", "input-day11-2015.txt")
         )
     }
 }
