@@ -19,9 +19,9 @@ fun findNextPassword(currentPassword: String): String {
  * Increase the rightmost letter one step; if it was z, it wraps around to a,
  * and repeat with the next letter to the left until one doesn't wrap around.
  */
-fun increment(password: String, index: Int = password.length - 1): String = when(password.last()) {
-    'z' -> increment(password.substring(0 until password.length - 1)) + "a" // wrap around
-    else -> password.substring(0 until password.length - 1) + (password.last() + 1)
+fun increment(password: String): String = when(password.last()) {
+    'z' -> increment(password.dropLast(1)) + "a" // wrap around
+    else -> password.dropLast(1) + (password.last() + 1)
 }
 
 /**
