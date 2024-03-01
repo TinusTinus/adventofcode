@@ -36,7 +36,7 @@ class CorporatePolicyPart1Test: FunctionSolverTest<String>(::solvePart1) {
         fun testIncrement(): List<Arguments> = listOf(
             Arguments.of("xy", "xx"),
             Arguments.of("xz", "xy"),
-            Arguments.of("ya", "xy"),
+            Arguments.of("ya", "xz"),
             Arguments.of("yb", "ya")
         )
 

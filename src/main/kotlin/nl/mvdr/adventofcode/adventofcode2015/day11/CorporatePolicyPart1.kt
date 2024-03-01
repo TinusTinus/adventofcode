@@ -23,7 +23,10 @@ fun findNextPassword(currentPassword: String): String {
  * Increase the rightmost letter one step; if it was z, it wraps around to a,
  * and repeat with the next letter to the left until one doesn't wrap around.
  */
-fun increment(password: String, index: Int = password.length - 1): String = password.replaceRange(index, index + 1, (password[index] + 1).toString())
+fun increment(password: String, index: Int = password.length - 1): String = when(password[index]) {
+    'z' -> "derp" // TODO implement the rollover
+    else -> password.replaceRange(index, index + 1, (password[index] + 1).toString())
+}
 
 /**
  * Checks whether the given [password] meets all password requirements.
