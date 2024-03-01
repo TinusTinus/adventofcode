@@ -38,7 +38,8 @@ fun isValidPassword(password: String) = meetsFirstRequirement(password)
  * Passwords must include one increasing straight of at least three letters, like abc, bcd, cde, and so on, up to xyz.
  * They cannot skip letters; abd doesn't count.
  */
-fun meetsFirstRequirement(password: String): Boolean = true // TODO implement
+fun meetsFirstRequirement(password: String): Boolean = (0 until password.length - 2)
+    .any { password[it] + 1 == password[it + 1] && password[it + 1] + 1 == password[it + 2] }
 
 /**
  * Checks whether the given [password] meets the following requirement.
