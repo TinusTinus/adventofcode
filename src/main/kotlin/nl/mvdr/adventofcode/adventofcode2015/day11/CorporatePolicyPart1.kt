@@ -45,7 +45,9 @@ fun meetsFirstRequirement(password: String): Boolean = true // TODO implement
  *
  * Passwords may not contain the letters i, o, or l, as these letters can be mistaken for other characters and are therefore confusing.
  */
-fun meetsSecondRequirement(password: String): Boolean = true // TODO implement
+fun meetsSecondRequirement(password: String): Boolean = !password.contains("i")
+        && !password.contains("o")
+        && !password.contains("l")
 
 /**
  * Checks whether the given [password] meets the following requirement.
