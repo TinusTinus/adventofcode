@@ -55,7 +55,11 @@ fun meetsSecondRequirement(password: String): Boolean = !password.contains("i")
  *
  * Passwords must contain at least two different, non-overlapping pairs of letters, like aa, bb, or zz.
  */
-fun meetsThirdRequirement(password: String): Boolean = true // TODO implement
+fun meetsThirdRequirement(password: String): Boolean {
+    val pairs = (0 until password.length - 1)
+        .count { password[it] == password[it + 1] && (it == 0 || password[it - 1] != password[it]) }
+    return 2 <= pairs
+}
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day11-2015.txt")
