@@ -13,14 +13,25 @@ class CorporatePolicyPart1Test: FunctionSolverTest<String>(::solvePart1) {
 
     @ParameterizedTest
     @MethodSource
+    fun testFirstRequirement(expected: Boolean, currentPassword: String) = assertEquals(expected, meetsFirstRequirement(currentPassword))
+
+    @ParameterizedTest
+    @MethodSource
+    fun testSecondRequirement(expected: Boolean, currentPassword: String) = assertEquals(expected, meetsSecondRequirement(currentPassword))
+
+    @ParameterizedTest
+    @MethodSource
+    fun testThirdRequirement(expected: Boolean, currentPassword: String) = assertEquals(expected, meetsThirdRequirement(currentPassword))
+
+    @ParameterizedTest
+    @MethodSource
+    fun testIsValid(expected: Boolean, currentPassword: String) = assertEquals(expected, isValidPassword(currentPassword))
+
+    @ParameterizedTest
+    @MethodSource
     fun testFindNextPassword(expected: String, currentPassword: String) = assertEquals(expected, findNextPassword(currentPassword))
 
     companion object {
-        @JvmStatic
-        fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("?", "input-day11-2015.txt")
-        )
-
         @JvmStatic
         fun testIncrement(): List<Arguments> = listOf(
             Arguments.of("xy", "xx"),
@@ -30,10 +41,47 @@ class CorporatePolicyPart1Test: FunctionSolverTest<String>(::solvePart1) {
         )
 
         @JvmStatic
+        fun testFirstRequirement(): List<Arguments> = listOf(
+            Arguments.of(true, "hijklmmn"),
+            Arguments.of(false, "abbceffg"),
+            Arguments.of(true, "abcdffaa"),
+            Arguments.of(true, "ghjaabcc")
+        )
+
+        @JvmStatic
+        fun testSecondRequirement(): List<Arguments> = listOf(
+            Arguments.of(false, "hijklmmn"),
+            Arguments.of(true, "abcdffaa"),
+            Arguments.of(true, "ghjaabcc")
+        )
+
+        @JvmStatic
+        fun testThirdRequirement(): List<Arguments> = listOf(
+            Arguments.of(true, "abbceffg"),
+            Arguments.of(false, "abbcegjk"),
+            Arguments.of(true, "abcdffaa"),
+            Arguments.of(true, "ghjaabcc")
+        )
+
+        @JvmStatic
+        fun testIsValid(): List<Arguments> = listOf(
+            Arguments.of(false, "hijklmmn"),
+            Arguments.of(false, "abbceffg"),
+            Arguments.of(false, "abbcegjk"),
+            Arguments.of(true, "abcdffaa"),
+            Arguments.of(true, "ghjaabcc")
+        )
+
+        @JvmStatic
         fun testFindNextPassword(): List<Arguments> = listOf(
             Arguments.of("abcdffaa", "abcdefgh"),
             Arguments.of("ghjaabcc", "ghijklmn"),
             Arguments.of("?", "cqjxjnds")
+        )
+
+        @JvmStatic
+        fun testSolution(): List<Arguments> = listOf(
+            Arguments.of("?", "input-day11-2015.txt")
         )
     }
 }
