@@ -9,11 +9,15 @@ import kotlin.streams.asSequence
  * (as in part 2 of the puzzle).
  */
 fun solve(lines: List<String>, includeSelf: Boolean = false): Int {
-    val happiness = parseHappiness(lines, includeSelf)
+    val happiness = parseHappiness(lines)
 
     val names = happiness.keys
         .map { it.first }
-        .toSet()
+        .toSet() union
+            when {
+                includeSelf -> setOf("me")
+                else -> setOf()
+            }
 
     return Permutations.generatePermutations(names)
         .asSequence()
@@ -33,7 +37,7 @@ fun solve(lines: List<String>, includeSelf: Boolean = false): Int {
  * translates to
  *   happiness[(Alice, Carol)] = -79
  */
-private fun parseHappiness(lines: List<String>, includeSelf: Boolean): Map<Pair<String, String>, Int> {
+private fun parseHappiness(lines: List<String>): Map<Pair<String, String>, Int> {
     val result = mutableMapOf<Pair<String, String>, Int>()
     for (line in lines) {
         val (name, happinessModifier, neighbour) = line.split(" would ", " happiness units by sitting next to ", ".")
@@ -46,16 +50,6 @@ private fun parseHappiness(lines: List<String>, includeSelf: Boolean): Map<Pair<
         result[Pair(name, neighbour)] = signum * happinessValueString.toInt()
     }
 
-    if (includeSelf) {
-        result.keys
-            .map { it.first }
-            .toSet()
-            .forEach {
-                result[Pair("Me", it)] = 0
-                result[Pair(it, "Me")] = 0
-            }
-    }
-
     return result
 }
 
@@ -66,8 +60,8 @@ private fun parseHappiness(lines: List<String>, includeSelf: Boolean): Map<Pair<
 private fun calculateTotalHappinessChange(seating: List<String>, happiness: Map<Pair<String, String>, Int>): Int =
     seating.mapIndexed { index, name ->
         val rightNeighbour = seating[(index + 1) % seating.size]
-        val rightNeighbourHappiness = happiness[Pair(name, rightNeighbour)]!!
+        val rightNeighbourHappiness = happiness[Pair(name, rightNeighbour)] ?: 0
         val leftNeighbour = seating[Math.floorMod(index - 1, seating.size)]
-        val leftNeighbourHappiness = happiness[Pair(name, leftNeighbour)]!!
+        val leftNeighbourHappiness = happiness[Pair(name, leftNeighbour)] ?: 0
         leftNeighbourHappiness + rightNeighbourHappiness
     }.sum()
