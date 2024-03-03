@@ -4,11 +4,11 @@ import nl.mvdr.adventofcode.permutations.Permutations
 import kotlin.streams.asSequence
 
 /**
- * Solves the puzzle for the given [lines] from the input text file.
+ * Computes the maximum total happiness, for the given [lines] from the puzzle input text file.
  * Any additional guests, not specified in the puzzle input,
  * can be passed in using the [extraGuests] parameter.
  */
-fun solve(lines: List<String>, extraGuests: Set<String> = emptySet()): Int {
+fun maxTotalHappiness(lines: List<String>, extraGuests: Set<String> = emptySet()): Int {
     val happiness = parseHappiness(lines)
 
     val names = happiness.keys

@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: List<String>) = solve(lines, setOf("Me"))
+fun solvePart2(lines: List<String>) = maxTotalHappiness(lines, setOf("Me"))
 
 fun main() {
     val result = FunctionSolver(::solvePart2).solve("input-day13-2015.txt")
