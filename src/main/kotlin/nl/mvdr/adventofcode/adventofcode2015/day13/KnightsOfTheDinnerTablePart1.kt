@@ -35,7 +35,7 @@ fun solvePart1(lines: List<String>): Int {
 private fun parseHappiness(lines: List<String>): Map<Pair<String, String>, Int> {
     val result = mutableMapOf<Pair<String, String>, Int>()
     for (line in lines) {
-        val (name, happinessModifier, neighbour) = line.split(" would ", " happiness units by sitting next to ")
+        val (name, happinessModifier, neighbour) = line.split(" would ", " happiness units by sitting next to ", ".")
         val (signumString, happinessValueString) = happinessModifier.split(" ")
         val signum = when(signumString) {
             "gain" -> 1
@@ -44,10 +44,22 @@ private fun parseHappiness(lines: List<String>): Map<Pair<String, String>, Int> 
         }
         result[Pair(name, neighbour)] = signum * happinessValueString.toInt()
     }
+    logger.debug { "Happiness: $result" }
     return result
 }
 
-private fun calculateTotalHappinessChange(seating: List<String>, happiness: Map<Pair<String, String>, Int>) = 0 // TODO implement!
+/**
+ * Calculates the total change in happiness for the given [seating] arrangement,
+ * using the given [happiness] mapping.
+ */
+private fun calculateTotalHappinessChange(seating: List<String>, happiness: Map<Pair<String, String>, Int>): Int =
+    seating.mapIndexed { index, name ->
+            val rightNeighbour = seating[(index + 1) % seating.size]
+            val rightNeighbourHappiness = happiness[Pair(name, rightNeighbour)]!!
+            val leftNeighbour = seating[Math.floorMod(index - 1, seating.size)]
+            val leftNeighbourHappiness = happiness[Pair(name, leftNeighbour)]!!
+            leftNeighbourHappiness + rightNeighbourHappiness
+        }.sum()
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day13-2015.txt")
