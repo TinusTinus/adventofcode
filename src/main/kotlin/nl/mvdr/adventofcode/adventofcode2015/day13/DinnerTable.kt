@@ -5,19 +5,15 @@ import kotlin.streams.asSequence
 
 /**
  * Solves the puzzle for the given [lines] from the input text file.
- * The parameter [includeSelf] indicates whether to include ourselves in the seating arrangement
- * (as in part 2 of the puzzle).
+ * Any additional guests, not specified in the puzzle input,
+ * can be passed in using the [extraGuests] parameter.
  */
-fun solve(lines: List<String>, includeSelf: Boolean = false): Int {
+fun solve(lines: List<String>, extraGuests: Set<String> = emptySet()): Int {
     val happiness = parseHappiness(lines)
 
     val names = happiness.keys
         .map { it.first }
-        .toSet() union
-            when {
-                includeSelf -> setOf("me")
-                else -> setOf()
-            }
+        .toSet() union extraGuests
 
     return Permutations.generatePermutations(names)
         .asSequence()
