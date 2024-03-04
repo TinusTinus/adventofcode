@@ -12,17 +12,13 @@ data class Cookie(val ingredients: Map<Ingredient, Int>) {
     /**
      * Determines the score for this cookie.
      */
-    fun score(): Int = ingredients.keys
-        .first()
-        .properties
-        .keys
-        .filter { it != "calories" }
+    fun score(): Int = Property.entries
+        .filter { it != Property.CALORIES }
         .map(::score)
         .reduce(Int::times)
 
     /**
-     * Determines the score for the property with the given [propertyName].
-     * For example: "capacity" or "durability".
+     * Determines the score for the given [property].
      */
-    fun score(propertyName: String) = max(0, ingredients.map { it.value * it.key.properties[propertyName]!! }.sum())
+    fun score(property: Property) = max(0, ingredients.map { it.value * it.key.properties[property]!! }.sum())
 }

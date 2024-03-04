@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2015.day15
 
-data class Ingredient(val name: String, val properties: Map<String, Int>) {
+data class Ingredient(val name: String, val properties: Map<Property, Int>) {
 }
 
 /**
@@ -11,10 +11,11 @@ data class Ingredient(val name: String, val properties: Map<String, Int>) {
 fun parseIngredient(text: String): Ingredient {
         val (name, propertiesString) = text.split(": ")
         val propertyStrings = propertiesString.split(", ")
-        val properties = mutableMapOf<String, Int>()
+        val properties = mutableMapOf<Property, Int>()
         propertyStrings.forEach {
                 val (propertyName, propertyValue) = it.split(" ")
-                properties[propertyName] = propertyValue.toInt()
+                val property = parseProperty(propertyName)
+                properties[property] = propertyValue.toInt()
         }
         return Ingredient(name, properties)
 }
