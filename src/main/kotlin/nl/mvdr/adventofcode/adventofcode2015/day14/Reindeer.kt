@@ -55,8 +55,20 @@ fun raceForPoints(lines: List<String>): Int = raceForPoints(lines.map(::parseRei
  * This function returns the number of points accumulated by the winning reindeer.
  */
 fun raceForPoints(reindeer: List<Reindeer>, raceDuration: Int): Int {
-    // TODO implement
-    return 3
+    val points = reindeer.associateWith { 0 }.toMutableMap()
+
+    for (timestamp: Int in 1 until raceDuration) {
+        for (reindeerInTheLead in inTheLeadAfter(reindeer, timestamp)) {
+            points[reindeerInTheLead] = points[reindeerInTheLead]!! + 1
+        }
+    }
+    return points.values.max()
+}
+
+private fun inTheLeadAfter(reindeer: List<Reindeer>, raceDuration: Int): Set<Reindeer> {
+    val distances = reindeer.associateWith { it.distanceAfter(raceDuration) }
+    val maxDistance = distances.values.max()
+    return distances.filterValues { it == maxDistance }.keys
 }
 
 /**
