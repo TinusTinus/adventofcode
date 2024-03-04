@@ -6,9 +6,7 @@ data class Player(override val hitPoints: Int, override val damage: Int, overrid
 
     constructor(hitPoints: Int = 100, weapon: Weapon, armor: Armor?, rings: Set<Ring>) :
             this(hitPoints, setOfNotNull(weapon, armor) union rings) {
-        if (2 < rings.size) {
-            throw IllegalArgumentException("Too many rings: $rings")
-        }
+        require(rings.size <= 2) { "Too many rings: $rings" }
     }
 }
 

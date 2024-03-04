@@ -9,9 +9,7 @@ private const val TEASPOONS_PER_COOKIE = 100
 
 data class Cookie(val ingredients: Map<Ingredient, Int>) {
     init {
-        if (ingredients.values.sum() != TEASPOONS_PER_COOKIE) {
-            throw IllegalArgumentException("Invalid ingredients: $ingredients. A cookie requires exactly 100 teaspoons of ingredients.")
-        }
+        require(ingredients.values.sum() == TEASPOONS_PER_COOKIE) { "Exactly $TEASPOONS_PER_COOKIE teaspoons of ingredients are required." }
     }
 
     val calories: Int get() = ingredients.map { it.key.calories * it.value }.sum()
@@ -40,15 +38,15 @@ fun getPossibleCookies(lines: List<String>) = partition(lines.map(::parseIngredi
  * Returns a map containing, per ingredient, the number of teaspoons to use when making a cookie.
  * The totals add up to the given [targetValue].
  */
-private fun partition(ingredients: List<Ingredient>, targetValue: Int = TEASPOONS_PER_COOKIE): Sequence<Map<Ingredient, Int>> = when {
+private fun partition(ingredients: List<Ingredient>, targetValue: Int = TEASPOONS_PER_COOKIE): List<Map<Ingredient, Int>> = when {
     ingredients.isEmpty() -> throw IllegalArgumentException("Ingredients are required!")
-    ingredients.size == 1 -> sequenceOf(mapOf(Pair(ingredients.first(), targetValue)))
+    ingredients.size == 1 -> listOf(mapOf(Pair(ingredients.first(), targetValue)))
     else -> {
         val ingredient = ingredients.first()
         val remainingIngredients = ingredients.drop(1)
         (0..targetValue).flatMap { teaspoons ->
             partition(remainingIngredients, targetValue - teaspoons)
                 .map { it + mapOf(Pair(ingredient, teaspoons)) }
-        }.asSequence()
+        }
     }
 }
