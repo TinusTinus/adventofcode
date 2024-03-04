@@ -22,4 +22,23 @@ class ReindeerTest {
 
         assertEquals(1056, distance)
     }
+
+    @Test
+    fun test1Second() {
+        val comet = Reindeer("Comet", 14, 10, 127)
+
+        val distance = comet.distanceAfter(1)
+
+        assertEquals(14, distance)
+    }
+
+    @Test
+    fun test0Seconds() {
+        val comet = Reindeer("Comet", 14, 10, 127)
+
+        val distance = comet.distanceAfter(0)
+
+        assertEquals(0, distance)
+    }
+
 }
