@@ -62,6 +62,7 @@ fun raceForPoints(reindeer: List<Reindeer>, raceDuration: Int): Int {
             points[reindeerInTheLead] = points[reindeerInTheLead]!! + 1
         }
     }
+
     return points.values.max()
 }
 
