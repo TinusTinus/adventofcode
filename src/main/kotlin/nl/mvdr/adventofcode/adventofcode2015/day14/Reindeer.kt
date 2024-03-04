@@ -65,6 +65,10 @@ fun raceForPoints(reindeer: List<Reindeer>, raceDuration: Int): Int {
     return points.values.max()
 }
 
+/**
+ * Determines which of the given [reindeer] is in the lead after the given [raceDuration] in seconds.
+ * Returns a set containing at least one reindeer (multiple if they tie for the leading position).
+ */
 private fun inTheLeadAfter(reindeer: List<Reindeer>, raceDuration: Int): Set<Reindeer> {
     val distances = reindeer.associateWith { it.distanceAfter(raceDuration) }
     val maxDistance = distances.values.max()
