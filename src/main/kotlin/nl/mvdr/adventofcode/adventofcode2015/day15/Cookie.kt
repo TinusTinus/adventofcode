@@ -40,15 +40,15 @@ fun getPossibleCookies(lines: List<String>) = partition(lines.map(::parseIngredi
  * Returns a map containing, per ingredient, the number of teaspoons to use when making a cookie.
  * The totals add up to the given [targetValue].
  */
-private fun partition(ingredients: List<Ingredient>, targetValue: Int = TEASPOONS_PER_COOKIE): Set<Map<Ingredient, Int>> = when {
+private fun partition(ingredients: List<Ingredient>, targetValue: Int = TEASPOONS_PER_COOKIE): Sequence<Map<Ingredient, Int>> = when {
     ingredients.isEmpty() -> throw IllegalArgumentException("Ingredients are required!")
-    ingredients.size == 1 -> setOf(mapOf(Pair(ingredients.first(), targetValue)))
+    ingredients.size == 1 -> sequenceOf(mapOf(Pair(ingredients.first(), targetValue)))
     else -> {
         val ingredient = ingredients.first()
         val remainingIngredients = ingredients.drop(1)
         (0..targetValue).flatMap { teaspoons ->
             partition(remainingIngredients, targetValue - teaspoons)
                 .map { it + mapOf(Pair(ingredient, teaspoons)) }
-        }.toSet()
+        }.asSequence()
     }
 }
