@@ -6,7 +6,15 @@ package nl.mvdr.adventofcode.adventofcode2015.day14
  * The durations ([flightDuration] and [restDuration]) are in seconds.
  */
 data class Reindeer(val name: String, val speed: Int, val flightDuration: Int, val restDuration: Int) {
-    fun distanceAfter(raceDuration: Int): Int = 3 // TODO implement!
+    /**
+     * Computes the distance traveled in kilometers, after the given [raceDuration] in seconds.
+     */
+    fun distanceAfter(raceDuration: Int): Int {
+        val cycleDuration = flightDuration + restDuration
+        val distancePerCycle = speed * flightDuration
+        val completeCycles = raceDuration / cycleDuration
+        return completeCycles * distancePerCycle + distancePerCycle // TODO adding the distancePerCycle is only correct if the reindeer ends up resting!
+    }
 }
 
 /**
