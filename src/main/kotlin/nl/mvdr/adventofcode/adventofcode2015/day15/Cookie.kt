@@ -31,7 +31,7 @@ data class Cookie(val ingredients: Map<Ingredient, Int>) {
 }
 
 /**
- * determines the possible cookies which can be made using the ingredients as specified in the given [lines].
+ * Determines the possible cookies which can be made using the ingredients as specified in the given [lines].
  */
 fun getPossibleCookies(lines: List<String>) = partition(lines.map(::parseIngredient)).map(::Cookie)
 
