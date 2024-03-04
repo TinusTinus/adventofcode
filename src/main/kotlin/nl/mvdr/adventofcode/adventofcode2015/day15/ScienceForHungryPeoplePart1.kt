@@ -7,8 +7,13 @@ private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: List<String>): Int {
     val ingredients = lines.map(::parseIngredient)
-    return partition(ingredients).map(::Cookie).maxOf(Cookie::score)
+    return getPossibleCookies(ingredients).maxOf(Cookie::score)
 }
+
+/**
+ * Determines the possible cookies which can be made using the given [ingredients].
+ */
+private fun getPossibleCookies(ingredients: List<Ingredient>) = partition(ingredients).map(::Cookie)
 
 /**
  * Partitions the given [ingredients].
