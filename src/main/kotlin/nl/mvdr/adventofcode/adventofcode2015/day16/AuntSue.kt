@@ -10,8 +10,6 @@ data class AuntSue(val number: Int, private val compounds: Map<Compound, Int>) {
     }
 }
 
-
-
 /**
  * Parses the given [text] as the string representation of an Aunt Sue.
  * For example:
