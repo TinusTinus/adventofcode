@@ -7,9 +7,14 @@ private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: List<String>): Int {
     val ingredients = lines.map(::parseIngredient)
-    return partition(ingredients).map { Cookie(it) }.maxOf(Cookie::score)
+    return partition(ingredients).map(::Cookie).maxOf(Cookie::score)
 }
 
+/**
+ * Partitions the given [ingredients].
+ * Returns a map containing, per ingredient, the number of teaspoons to use when making a cookie.
+ * The totals add up to the given [targetValue].
+ */
 private fun partition(ingredients: List<Ingredient>, targetValue: Int = 100): Set<Map<Ingredient, Int>> = when {
     ingredients.isEmpty() -> throw IllegalArgumentException("Ingredients are required!")
     ingredients.size == 1 -> setOf(mapOf(Pair(ingredients.first(), targetValue)))
