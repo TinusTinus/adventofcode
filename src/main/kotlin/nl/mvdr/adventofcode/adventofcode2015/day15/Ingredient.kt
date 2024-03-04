@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2015.day15
 
 data class Ingredient(val name: String, val properties: Map<Property, Int>) {
+    val calories: Int get() = properties[Property.CALORIES]!!
 }
 
 /**

@@ -5,9 +5,11 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int = getPossibleCookies(lines).maxOf(Cookie::score)
+fun solvePart2(lines: List<String>): Int = getPossibleCookies(lines)
+    .filter { it.calories == 500 }
+    .maxOf(Cookie::score)
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day15-2015.txt")
+    val result = FunctionSolver(::solvePart2).solve("input-day15-2015.txt")
     logger.info { result }
 }
