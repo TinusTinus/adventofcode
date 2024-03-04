@@ -1,13 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2015.day16
 
 data class AuntSue(val number: Int, private val compounds: Map<Compound, Int>) {
-    fun matches(outdatedRetroencabulator: Boolean = false) = compounds.keys.all { matches(it, outdatedRetroencabulator) }
-
-    private fun matches(compound: Compound, outdatedRetroencabulator: Boolean) = when {
-        outdatedRetroencabulator && (compound == Compound.CATS || compound == Compound.TREES) -> compound.requiredNumber < compounds[compound]!!
-        outdatedRetroencabulator && (compound == Compound.POMERANIANS || compound == Compound.GOLDFISH) -> compounds[compound]!! < compound.requiredNumber
-        else -> compounds[compound] == compound.requiredNumber
-    }
+    fun matches(outdatedRetroencabulator: Boolean = false) = compounds.all { it.key.matches(it.value, outdatedRetroencabulator) }
 }
 
 /**
