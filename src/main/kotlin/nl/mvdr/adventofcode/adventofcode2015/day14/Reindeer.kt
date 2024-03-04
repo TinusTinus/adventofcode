@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2015.day14
 
+import kotlin.math.min
+
 /**
  * Representation of a reindeer.
  * The reindeer's [speed] is in km/s.
@@ -10,10 +12,17 @@ data class Reindeer(val name: String, val speed: Int, val flightDuration: Int, v
      * Computes the distance traveled in kilometers, after the given [raceDuration] in seconds.
      */
     fun distanceAfter(raceDuration: Int): Int {
+        // "cycle": the reindeer flies at top speed for as long as possible, then rests until it is ready to start flying again.
         val cycleDuration = flightDuration + restDuration
-        val distancePerCycle = speed * flightDuration
+
         val completeCycles = raceDuration / cycleDuration
-        return completeCycles * distancePerCycle + distancePerCycle // TODO adding the distancePerCycle is only correct if the reindeer ends up resting!
+        val distancePerCycle = speed * flightDuration
+        val completeCycleDistance = completeCycles * distancePerCycle
+
+        val remainingTime = raceDuration % cycleDuration
+        val remainingFlightTime = min(remainingTime, flightDuration)
+
+        return completeCycleDistance + remainingFlightTime * speed
     }
 }
 

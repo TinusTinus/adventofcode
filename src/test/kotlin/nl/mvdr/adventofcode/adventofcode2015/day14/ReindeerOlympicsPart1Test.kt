@@ -7,7 +7,7 @@ class ReindeerOlympicsPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("?", "input-day14-2015.txt") // 2660 is too high
+            Arguments.of("2640", "input-day14-2015.txt")
         )
     }
 }
