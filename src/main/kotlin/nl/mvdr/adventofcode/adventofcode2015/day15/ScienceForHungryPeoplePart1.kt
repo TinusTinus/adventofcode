@@ -5,7 +5,23 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>) = 3 // TODO
+fun solvePart1(lines: List<String>): Int {
+    val ingredients = lines.map(::parseIngredient)
+    return partition(ingredients).map { Cookie(it) }.maxOf(Cookie::score)
+}
+
+private fun partition(ingredients: List<Ingredient>, targetValue: Int = 100): Set<Map<Ingredient, Int>> = when {
+    ingredients.isEmpty() -> throw IllegalArgumentException("Ingredients are required!")
+    ingredients.size == 1 -> setOf(mapOf(Pair(ingredients.first(), targetValue)))
+    else -> {
+        val ingredient = ingredients.first()
+        val remainingIngredients = ingredients.drop(1)
+        (0..targetValue).flatMap { teaspoons ->
+            partition(remainingIngredients, targetValue - teaspoons)
+                .map { it + mapOf(Pair(ingredient, teaspoons)) }
+        }.toSet()
+    }
+}
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day15-2015.txt")
