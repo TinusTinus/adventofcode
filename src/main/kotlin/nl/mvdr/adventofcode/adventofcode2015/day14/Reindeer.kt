@@ -26,11 +26,44 @@ data class Reindeer(val name: String, val speed: Int, val flightDuration: Int, v
     }
 }
 
+private const val RACE_DURATION = 2503
+
+/**
+ * Performs a race for the reindeer represented by the [lines] from the puzzle input.
+ * The winning reindeer is determined by the greatest distance traveled.
+ * This function returns the distance traveled, in km, by the winning reindeer.
+ */
+fun raceForDistance(lines: List<String>): Int = raceForDistance(lines.map(::parseReindeer), RACE_DURATION)
+
+/**
+ * Performs a race for the given [reindeer], for the given [raceDuration].
+ * The winning reindeer is determined by the greatest distance traveled.
+ * This function returns the distance traveled, in km, by the winning reindeer.
+ */
+fun raceForDistance(reindeer: List<Reindeer>, raceDuration: Int) = reindeer.maxOf { it.distanceAfter(raceDuration) }
+
+/**
+ * Performs a race for the reindeer represented by the [lines] from the puzzle input.
+ * The winning reindeer is determined by points, which are given out for being in the lead at the end of each second.
+ * This function returns the number of points accumulated by the winning reindeer.
+ */
+fun raceForPoints(lines: List<String>): Int = raceForPoints(lines.map(::parseReindeer), RACE_DURATION)
+
+/**
+ * Performs a race for the given [reindeer], for the given [raceDuration].
+ * The winning reindeer is determined by points, which are given out for being in the lead at the end of each second.
+ * This function returns the number of points accumulated by the winning reindeer.
+ */
+fun raceForPoints(reindeer: List<Reindeer>, raceDuration: Int): Int {
+    // TODO implement
+    return 3
+}
+
 /**
  * Parses the given [text] as the string representation of a [Reindeer].
  * For example: "Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds."
  */
-fun parseReindeer(text: String): Reindeer {
+private fun parseReindeer(text: String): Reindeer {
     val (name, speed, flightDuration, restDuration) = text.split(" can fly ", " km/s for ", " seconds, but then must rest for ", " seconds.")
     return Reindeer(name, speed.toInt(), flightDuration.toInt(), restDuration.toInt())
 }

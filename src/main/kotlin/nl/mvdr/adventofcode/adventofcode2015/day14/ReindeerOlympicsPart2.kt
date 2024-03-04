@@ -5,9 +5,9 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>) = raceForDistance(lines)
+fun solvePart2(lines: List<String>) = raceForPoints(lines)
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day14-2015.txt")
+    val result = FunctionSolver(::solvePart2).solve("input-day14-2015.txt")
     logger.info { result }
 }

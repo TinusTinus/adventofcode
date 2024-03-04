@@ -5,40 +5,24 @@ import kotlin.test.assertEquals
 
 class ReindeerTest {
 
-    @Test
-    fun testComet() {
-        val comet = Reindeer("Comet", 14, 10, 127)
-
-        val distance = comet.distanceAfter(1000)
-
-        assertEquals(1120, distance)
-    }
+    private val comet = Reindeer("Comet", 14, 10, 127)
+    private val dancer = Reindeer("Dancer", 16, 11, 162)
 
     @Test
-    fun testDancer() {
-        val dancer = Reindeer("Dancer", 16, 11, 162)
-
-        val distance = dancer.distanceAfter(1000)
-
-        assertEquals(1056, distance)
-    }
+    fun testComet() = assertEquals(1120, comet.distanceAfter(1000))
 
     @Test
-    fun test1Second() {
-        val comet = Reindeer("Comet", 14, 10, 127)
-
-        val distance = comet.distanceAfter(1)
-
-        assertEquals(14, distance)
-    }
+    fun testDancer() = assertEquals(1056, dancer.distanceAfter(1000))
 
     @Test
-    fun test0Seconds() {
-        val comet = Reindeer("Comet", 14, 10, 127)
+    fun test0Seconds() = assertEquals(0, comet.distanceAfter(0))
 
-        val distance = comet.distanceAfter(0)
+    @Test
+    fun test1Second() = assertEquals(14, comet.distanceAfter(1))
 
-        assertEquals(0, distance)
-    }
+    @Test
+    fun testRaceForDistance() = assertEquals(1120, raceForDistance(listOf(comet, dancer), 1000))
 
+    @Test
+    fun testRaceForPoints() = assertEquals(689, raceForPoints(listOf(comet, dancer), 1000))
 }
