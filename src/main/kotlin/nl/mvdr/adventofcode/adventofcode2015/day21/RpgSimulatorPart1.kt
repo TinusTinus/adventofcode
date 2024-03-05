@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int = getAllPossibleMatchups(parseBoss(lines))
+fun solvePart1(lines: Sequence<String>): Int = getAllPossibleMatchups(parseBoss(lines))
     .filter(Matchup::playerWins)
     .map(Matchup::player)
     .minOf(Player::equipmentCost)
