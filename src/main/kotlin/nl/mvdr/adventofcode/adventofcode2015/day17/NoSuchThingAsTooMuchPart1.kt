@@ -19,15 +19,12 @@ class Container(val size: Int) {
     override fun toString(): String = size.toString()
 }
 
-fun solvePart1(lines: List<String>, eggnogVolume: Int = 150): Int {
-    val containers = lines.map { Container(it) }.toSet()
+fun solvePart1(lines: List<String>, eggnogVolume: Int = 150): Int = countWaysToFitInContainers(lines.map(::Container).toSet(), eggnogVolume)
 
-    return Permutations.generatePermutations(containers)
-        .asSequence()
-        .map { fitInContainers(it, eggnogVolume) }
-        .filterNotNull()
-        .distinct()
-        .count()
+private fun countWaysToFitInContainers(containers: Set<Container>, eggnogVolume: Int): Int = when {
+    eggnogVolume < 0 -> 0
+    eggnogVolume == 0 -> 1
+    else -> containers.sumOf { countWaysToFitInContainers(containers - it, eggnogVolume - it.size) }
 }
 
 private fun fitInContainers(containers: List<Container>, volume: Int): Set<Container>? = when {
