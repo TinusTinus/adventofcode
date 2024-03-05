@@ -2,8 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2015.day17
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.FunctionSolver
-import nl.mvdr.adventofcode.permutations.Permutations
-import kotlin.streams.asSequence
 
 private val logger = KotlinLogging.logger{}
 
@@ -25,17 +23,6 @@ private fun countWaysToFitInContainers(containers: Set<Container>, eggnogVolume:
     eggnogVolume < 0 -> 0
     eggnogVolume == 0 -> 1
     else -> containers.sumOf { countWaysToFitInContainers(containers - it, eggnogVolume - it.size) }
-}
-
-private fun fitInContainers(containers: List<Container>, volume: Int): Set<Container>? = when {
-    volume == 0 -> setOf()
-    containers.isNotEmpty() && containers.first().size <= volume -> {
-        when (val tail = fitInContainers(containers.subList(1, containers.size), volume - containers.first().size)) {
-            null -> null
-            else -> setOf(containers.first()) union tail
-        }
-    }
-    else -> null
 }
 
 fun main() {
