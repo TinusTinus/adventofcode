@@ -6,10 +6,13 @@ import nl.mvdr.adventofcode.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart2(lines: Sequence<String>): Int {
-    val part1Result = solvePart1(lines)
     val instructions = parseInstructions(lines)
-    instructions["b"] = SignalExpression(part1Result)
-    return evaluate(instructions, "a")
+    val instructionsCopy = instructions.toMutableMap()
+
+    val part1Result = evaluate(instructions, "a")
+
+    instructionsCopy["b"] = SignalExpression(part1Result)
+    return evaluate(instructionsCopy, "a")
 }
 
 fun main() {
