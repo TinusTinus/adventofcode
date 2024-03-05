@@ -5,15 +5,19 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>, eggnogVolume: Int = 150): Int = countWaysToFitInContainers(lines.map(String::toInt), eggnogVolume)
+fun solvePart1(lines: List<String>, eggnog: Int = 150): Int = countWaysToFitInContainers(lines.map(String::toInt), eggnog)
 
-private fun countWaysToFitInContainers(containers: List<Int>, eggnogVolume: Int): Int = when {
-    eggnogVolume < 0 -> 0 // does not fit
-    eggnogVolume == 0 -> 1 // first exactly in the containers already used
-    containers.isEmpty() -> 0 // no more remaining containers
+/**
+ * Counts the number of ways in which the given [eggnog] can fit exactly in the containers with the given [containerVolumes].
+ * All volumes are in liters.
+ */
+private fun countWaysToFitInContainers(containerVolumes: List<Int>, eggnog: Int): Int = when {
+    eggnog < 0 -> 0 // does not fit
+    eggnog == 0 -> 1 // first exactly in the containers already used
+    containerVolumes.isEmpty() -> 0 // no more remaining containers
     else -> // either use the next container, or don't
-        countWaysToFitInContainers(containers.subList(1, containers.size), eggnogVolume - containers.first()) +
-                countWaysToFitInContainers(containers.subList(1, containers.size), eggnogVolume)
+        countWaysToFitInContainers(containerVolumes.subList(1, containerVolumes.size), eggnog - containerVolumes.first()) +
+                countWaysToFitInContainers(containerVolumes.subList(1, containerVolumes.size), eggnog)
 }
 
 fun main() {
