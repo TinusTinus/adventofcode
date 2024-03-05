@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2015.day18
 import nl.mvdr.adventofcode.point.Point
 
 /**
- * A grid of [lights].
+ * A grid of [lights]. The lights at the [stuck] positions always remain on.
  */
 data class Grid(val lights: Map<Point, Light>, val stuck: Set<Point>) {
     /**
@@ -57,15 +57,20 @@ data class Grid(val lights: Map<Point, Light>, val stuck: Set<Point>) {
 fun parseGrid(lines: Sequence<String>, cornersStuck: Boolean = false): Grid {
     val lights = Point.parse2DMap(lines.toList(), ::parseLight)
     val stuck: Set<Point> = when {
-        cornersStuck -> {
-            val maxX = Point.maxX(lights.keys.toSet())
-            val maxY = Point.maxY(lights.keys.toSet())
-            setOf(Point(0, 0),
-                Point(0, maxY),
-                Point(maxX, 0),
-                Point(maxX, maxY))
-        }
+        cornersStuck -> findCorners(lights)
         else -> setOf()
     }
+    stuck.forEach { lights[it] = Light.ON }
     return Grid(lights, stuck)
+}
+
+private fun findCorners(lights: MutableMap<Point, Light>): Set<Point> {
+    val maxX = Point.maxX(lights.keys.toSet())
+    val maxY = Point.maxY(lights.keys.toSet())
+    return setOf(
+        Point(0, 0),
+        Point(0, maxY),
+        Point(maxX, 0),
+        Point(maxX, maxY)
+    )
 }

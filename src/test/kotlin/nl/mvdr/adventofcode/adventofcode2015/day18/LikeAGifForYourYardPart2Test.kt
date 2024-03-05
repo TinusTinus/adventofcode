@@ -11,15 +11,15 @@ class LikeAGifForYourYardPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("?", "input-day18-2015.txt")
+            Arguments.of("1006", "input-day18-2015.txt")
         )
 
         @JvmStatic
         fun testExample(): List<Arguments> = listOf(
-            Arguments.of(0, "15"),
+            Arguments.of(0, "17"),
             Arguments.of(1, "18"),
             Arguments.of(2, "18"),
-            Arguments.of(3, "17"),
+            Arguments.of(3, "18"),
             Arguments.of(4, "14"),
             Arguments.of(5, "17"),
         )
