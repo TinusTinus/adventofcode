@@ -15,25 +15,27 @@ private val logger = KotlinLogging.logger{}
  */
 class Container(val size: Int) {
     constructor(size: String) : this(size.toInt())
+
+    override fun toString(): String = size.toString()
 }
 
 fun solvePart1(lines: List<String>, eggnogVolume: Int = 150): Int {
-        val containers = lines.map { Container(it) }.toSet()
-        return Permutations.generatePermutations(containers)
-            .asSequence()
-            .map { fitInContainers(it, eggnogVolume) }
-            .filterNotNull()
-            .distinct()
-            .count()
+    val containers = lines.map { Container(it) }.toSet()
+
+    return Permutations.generatePermutations(containers)
+        .asSequence()
+        .map { fitInContainers(it, eggnogVolume) }
+        .filterNotNull()
+        .distinct()
+        .count()
 }
 
-private fun fitInContainers(containers: List<Container>, volume: Int): List<Container>? = when {
-    volume < 0 -> null
-    volume == 0 -> listOf()
+private fun fitInContainers(containers: List<Container>, volume: Int): Set<Container>? = when {
+    volume == 0 -> setOf()
     containers.isNotEmpty() && containers.first().size <= volume -> {
-        when (val tail = fitInContainers(containers, volume - containers.first().size)) {
+        when (val tail = fitInContainers(containers.subList(1, containers.size), volume - containers.first().size)) {
             null -> null
-            else -> listOf(containers.first()) + tail
+            else -> setOf(containers.first()) union tail
         }
     }
     else -> null
