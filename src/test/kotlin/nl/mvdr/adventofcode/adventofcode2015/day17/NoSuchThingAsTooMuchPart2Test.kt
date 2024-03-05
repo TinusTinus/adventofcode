@@ -9,7 +9,7 @@ class NoSuchThingAsTooMuchPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("?", "input-day17-2015.txt")
+            Arguments.of("17", "input-day17-2015.txt")
         )
     }
 
