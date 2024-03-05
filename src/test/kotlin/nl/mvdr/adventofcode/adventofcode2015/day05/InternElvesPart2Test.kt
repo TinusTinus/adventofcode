@@ -19,21 +19,21 @@ class InternElvesPart2Test: FunctionSolverTest<Int>(::solvePart2) {
 
     @Test
     fun qjhvhtzxzqqjkmpb() {
-        assertEquals(1, solvePart2(listOf("qjhvhtzxzqqjkmpb")))
+        assertEquals(1, solvePart2(sequenceOf("qjhvhtzxzqqjkmpb")))
     }
 
     @Test
     fun xxyxx() {
-        assertEquals(1, solvePart2(listOf("xxyxx")))
+        assertEquals(1, solvePart2(sequenceOf("xxyxx")))
     }
 
     @Test
     fun uurcxstgmygtbstg() {
-        assertEquals(0, solvePart2(listOf("uurcxstgmygtbstg")))
+        assertEquals(0, solvePart2(sequenceOf("uurcxstgmygtbstg")))
     }
 
     @Test
     fun ieodomkazucvgmuy() {
-        assertEquals(0, solvePart2(listOf("ieodomkazucvgmuy")))
+        assertEquals(0, solvePart2(sequenceOf("ieodomkazucvgmuy")))
     }
 }

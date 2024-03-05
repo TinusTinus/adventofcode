@@ -19,7 +19,7 @@ class SomeAssemblyRequiredPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     @Test
     fun testExample() {
         val instructions = parseInstructions(
-            listOf(
+            sequenceOf(
                 "123 -> x",
                 "456 -> y",
                 "x AND y -> d",
