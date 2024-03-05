@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int =
+fun solvePart1(lines: Sequence<String>): Int =
     lines.map { line -> parse(line) }
         .sumOf { box -> box.computeWrappingPaper() }
 

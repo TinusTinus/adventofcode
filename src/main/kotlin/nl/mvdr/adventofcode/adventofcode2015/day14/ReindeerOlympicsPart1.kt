@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>) = raceForDistance(lines)
+fun solvePart1(lines: Sequence<String>) = raceForDistance(lines)
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day14-2015.txt")

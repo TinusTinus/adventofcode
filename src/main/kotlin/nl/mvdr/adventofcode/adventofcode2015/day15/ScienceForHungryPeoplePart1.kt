@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int = getPossibleCookies(lines).maxOf(Cookie::score)
+fun solvePart1(lines: Sequence<String>): Int = getPossibleCookies(lines).maxOf(Cookie::score)
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day15-2015.txt")

@@ -6,7 +6,7 @@ import nl.mvdr.adventofcode.point.Point
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: List<String>): Int {
+fun solvePart2(lines: Sequence<String>): Int {
     val brightness = mutableMapOf<Point, Int>()
     for (instruction in lines.map(::Instruction)) {
         instruction.applyPart2(brightness)

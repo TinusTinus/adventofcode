@@ -5,7 +5,8 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>, eggnog: Int = 150): Int = countWaysToFitInContainers(lines.map(String::toInt), eggnog)
+fun solvePart1(lines: Sequence<String>, eggnog: Int = 150): Int =
+    countWaysToFitInContainers(lines.map(String::toInt).toList(), eggnog)
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day17-2015.txt")

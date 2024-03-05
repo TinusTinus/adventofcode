@@ -6,7 +6,7 @@ import nl.mvdr.adventofcode.point.Direction
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int {
+fun solvePart1(lines: Sequence<String>): Int {
     val directions = lines.first()
         .toCharArray()
         .map(Direction::parse)

@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int = getRouteWeights(lines).minOrNull()!!
+fun solvePart1(lines: Sequence<String>): Int = getRouteWeights(lines).minOrNull()!!
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day09-2015.txt")

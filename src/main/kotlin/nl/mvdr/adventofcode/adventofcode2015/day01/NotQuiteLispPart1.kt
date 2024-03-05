@@ -9,7 +9,7 @@ private val logger = KotlinLogging.logger{}
  * Solution to the day 1 puzzle of 2015's Advent of Code:
  * <a href="https://adventofcode.com/2015/day/1">Not Quite Lisp</a>.
  */
-fun solvePart1(lines: List<String>): Int =
+fun solvePart1(lines: Sequence<String>): Int =
     lines.first()
         .toCharArray()
         .map {

@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: List<String>): Int {
+fun solvePart2(lines: Sequence<String>): Int {
     val part1Result = solvePart1(lines)
     val instructions = parseInstructions(lines)
     instructions["b"] = SignalExpression(part1Result)

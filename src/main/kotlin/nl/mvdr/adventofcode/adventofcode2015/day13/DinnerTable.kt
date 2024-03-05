@@ -8,7 +8,7 @@ import kotlin.streams.asSequence
  * Any additional guests, not specified in the puzzle input,
  * can be passed in using the [extraGuests] parameter.
  */
-fun maxTotalHappiness(lines: List<String>, vararg extraGuests: String): Int {
+fun maxTotalHappiness(lines: Sequence<String>, vararg extraGuests: String): Int {
     val happiness = parseHappiness(lines)
 
     val names = happiness.keys
@@ -32,7 +32,7 @@ fun maxTotalHappiness(lines: List<String>, vararg extraGuests: String): Int {
  * translates to
  *   happiness[(Alice, Carol)] = -79
  */
-private fun parseHappiness(lines: List<String>): Map<Pair<String, String>, Int> {
+private fun parseHappiness(lines: Sequence<String>): Map<Pair<String, String>, Int> {
     val result = mutableMapOf<Pair<String, String>, Int>()
     for (line in lines) {
         val (name, happinessModifier, neighbour) = line.split(" would ", " happiness units by sitting next to ", ".")

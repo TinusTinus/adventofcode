@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2015.day07
 
-fun parseInstructions(lines: List<String>): MutableMap<String, Expression> {
+fun parseInstructions(lines: Sequence<String>): MutableMap<String, Expression> {
     val instructions = mutableMapOf<String, Expression>()
     lines.forEach { parseInstruction(it, instructions) }
     return instructions

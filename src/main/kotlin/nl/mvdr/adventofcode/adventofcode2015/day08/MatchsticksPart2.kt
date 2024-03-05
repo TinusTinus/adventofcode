@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: List<String>): Int = lines.sumOf(::encodedStringLength) - lines.sumOf(String::length)
+fun solvePart2(lines: Sequence<String>): Int = lines.sumOf(::encodedStringLength) - lines.sumOf(String::length)
 
 fun encodedStringLength(string: String): Int = string.length + 2 + string.count { it == '"' || it == '\\' }
 

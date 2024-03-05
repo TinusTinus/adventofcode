@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2015.day12
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 
-fun sum(lines: List<String>, filterRed: Boolean = false): Int {
+fun sum(lines: Sequence<String>, filterRed: Boolean = false): Int {
     val json = lines.first()
     val tree = ObjectMapper().readTree(json)
     return sum(tree, filterRed)

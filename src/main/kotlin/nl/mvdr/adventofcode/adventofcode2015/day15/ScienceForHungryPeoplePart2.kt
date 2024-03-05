@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: List<String>): Int = getPossibleCookies(lines)
+fun solvePart2(lines: Sequence<String>): Int = getPossibleCookies(lines)
     .filter { it.calories == 500 }
     .maxOf(Cookie::score)
 

@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int = mine(lines, "00000")
+fun solvePart1(lines: Sequence<String>): Int = mine(lines, "00000")
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day04-2015.txt")

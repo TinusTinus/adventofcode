@@ -8,7 +8,7 @@ private val FORBIDDEN = setOf("ab", "cd", "pq", "xy")
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): Int = lines.count { line -> isNice(line) }
+fun solvePart1(lines: Sequence<String>): Int = lines.count { isNice(it) }
 
 private fun isNice(string: String): Boolean =
     3 <= countVowels(string)

@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>): String = findNextPassword(lines.first())
+fun solvePart1(lines: Sequence<String>): String = findNextPassword(lines.first())
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day11-2015.txt")

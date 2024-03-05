@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: List<String>): Int = lines.count { line -> isNice(line) }
+fun solvePart2(lines: Sequence<String>): Int = lines.count { isNice(it) }
 
 private fun isNice(string: String): Boolean = containsPairTwice(string) && containsRepeatingLetter(string)
 

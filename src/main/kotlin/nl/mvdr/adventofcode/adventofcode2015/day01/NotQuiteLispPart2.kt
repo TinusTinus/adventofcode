@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: List<String>): Int {
+fun solvePart2(lines: Sequence<String>): Int {
     val characters = lines.first().toCharArray()
     var floor = 0
     var position = 0

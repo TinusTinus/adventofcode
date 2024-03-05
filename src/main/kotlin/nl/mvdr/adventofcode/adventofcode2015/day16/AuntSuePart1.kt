@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: List<String>) = lines.map(::parseSue).find { it.matches() }!!.number
+fun solvePart1(lines: Sequence<String>) = lines.map(::parseSue).find { it.matches() }!!.number
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day16-2015.txt")
