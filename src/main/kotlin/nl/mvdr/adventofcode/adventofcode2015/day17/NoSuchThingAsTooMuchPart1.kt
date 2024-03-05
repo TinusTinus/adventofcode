@@ -5,24 +5,20 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
+fun solvePart1(lines: List<String>, eggnogVolume: Int = 150): Int = countWaysToFitInContainers(parseContainers(lines), eggnogVolume)
+
 /**
- * A container.
- *
- * Note that this is not a data class.
- * Two different container instances with the same size are purposefully NOT considered equal.
+ * Returns a list of the containers, ordered small-to-large, as specified in the given [lines] from the puzzle input.
  */
-class Container(val size: Int) {
-    constructor(size: String) : this(size.toInt())
+private fun parseContainers(lines: List<String>): List<Int> = lines.map(String::toInt).sorted()
 
-    override fun toString(): String = size.toString()
-}
-
-fun solvePart1(lines: List<String>, eggnogVolume: Int = 150): Int = countWaysToFitInContainers(lines.map(::Container).toSet(), eggnogVolume)
-
-private fun countWaysToFitInContainers(containers: Set<Container>, eggnogVolume: Int): Int = when {
-    eggnogVolume < 0 -> 0
-    eggnogVolume == 0 -> 1
-    else -> containers.sumOf { countWaysToFitInContainers(containers - it, eggnogVolume - it.size) }
+private fun countWaysToFitInContainers(containers: List<Int>, eggnogVolume: Int): Int = when {
+    eggnogVolume < 0 -> 0 // does not fit
+    eggnogVolume == 0 -> 1 // first exactly in the containers already used
+    containers.isEmpty() -> 0 // no more remaining containers
+    else -> // either use the next container, or don't
+        countWaysToFitInContainers(containers.subList(1, containers.size), eggnogVolume - containers.first()) +
+                countWaysToFitInContainers(containers.subList(1, containers.size), eggnogVolume)
 }
 
 fun main() {
