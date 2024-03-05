@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2015.day17
 /**
  * Counts the number of ways in which the given [eggnog] can fit exactly in the containers with the given [containerVolumes].
  * All volumes are in liters.
- * The [containersToUse] parameter can be used to limit the number of containers to be used.
+ * The [containersToUse] parameter limits the number of containers which can be used.
  */
 fun countWaysToFitInContainers(containerVolumes: List<Int>, eggnog: Int, containersToUse: Int = containerVolumes.size): Int = when {
     eggnog < 0 -> 0 // does not fit
