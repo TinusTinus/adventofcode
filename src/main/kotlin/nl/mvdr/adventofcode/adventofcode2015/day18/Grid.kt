@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.point.Point
 /**
  * A grid of [lights].
  */
-data class Grid(val lights: Map<Point, Light>) {
+data class Grid(val lights: Map<Point, Light>, val stuck: Set<Point>) {
     /**
      * Performs the requested number of [steps] in the animation.
      */
@@ -18,21 +18,24 @@ data class Grid(val lights: Map<Point, Light>) {
     /**
      * Performs a single step in the animation.
      */
-    private fun step(): Grid = Grid(lights.keys.associateWith(this::nextState))
+    private fun step(): Grid = Grid(lights.keys.associateWith(this::nextState), stuck)
 
     /**
      * Determines the next state for the light at the given [location].
      * A light which is on stays on when 2 or 3 neighbors are on, and turns off otherwise.
      * A light which is off turns on if exactly 3 neighbors are on, and stays off otherwise.
      */
-    private fun nextState(location: Point): Light = when(lights[location]!!) {
-        Light.ON -> when(countLitNeighbours(location)) {
-            2, 3 -> Light.ON
-            else -> Light.OFF
-        }
-        Light.OFF -> when(countLitNeighbours(location)) {
-            3 -> Light.ON
-            else -> Light.OFF
+    private fun nextState(location: Point): Light = when {
+        stuck.contains(location) -> Light.ON
+        else -> when(lights[location]!!) {
+            Light.ON -> when(countLitNeighbours(location)) {
+                2, 3 -> Light.ON
+                else -> Light.OFF
+            }
+            Light.OFF -> when(countLitNeighbours(location)) {
+                3 -> Light.ON
+                else -> Light.OFF
+            }
         }
     }
 
@@ -49,5 +52,20 @@ data class Grid(val lights: Map<Point, Light>) {
 
 /**
  * Parses the [lines] of the puzzle input as a grid of lights.
+ * The parameter [cornersStuck] can be used to indicate whether the lights in the corner are stuck always being lit.
  */
-fun parseGrid(lines: Sequence<String>) = Grid(Point.parse2DMap(lines.toList(), ::parseLight))
+fun parseGrid(lines: Sequence<String>, cornersStuck: Boolean = false): Grid {
+    val lights = Point.parse2DMap(lines.toList(), ::parseLight)
+    val stuck: Set<Point> = when {
+        cornersStuck -> {
+            val maxX = Point.maxX(lights.keys.toSet())
+            val maxY = Point.maxY(lights.keys.toSet())
+            setOf(Point(0, 0),
+                Point(0, maxY),
+                Point(maxX, 0),
+                Point(maxX, maxY))
+        }
+        else -> setOf()
+    }
+    return Grid(lights, stuck)
+}
