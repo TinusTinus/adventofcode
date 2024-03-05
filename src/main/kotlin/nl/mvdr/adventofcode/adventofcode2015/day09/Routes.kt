@@ -10,12 +10,12 @@ import kotlin.streams.asSequence
  * Returns a sequence of the weights of all possible routes through the cities given in the [lines] of the input text file,
  * where each city is visited exactly once.
  */
-fun getRouteWeights(lines: List<String>): Sequence<Int> = getRouteWeights(createGraph(lines))
+fun getRouteWeights(lines: Sequence<String>): Sequence<Int> = getRouteWeights(createGraph(lines))
 
 /**
  * Creates a weighted graph of the cities given in the [lines] of the input text file.
  */
-private fun createGraph(lines: List<String>): Graph<String, String> {
+private fun createGraph(lines: Sequence<String>): Graph<String, String> {
     val graph: Graph<String, String> = SimpleWeightedGraph(String::class.java)
     for (line in lines) {
         val (edgeString, distanceString) = line.split(" = ")

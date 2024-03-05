@@ -33,7 +33,7 @@ private const val RACE_DURATION = 2503
  * The winning reindeer is determined by the greatest distance traveled.
  * This function returns the distance traveled, in km, by the winning reindeer.
  */
-fun raceForDistance(lines: List<String>): Int = raceForDistance(lines.map(::parseReindeer), RACE_DURATION)
+fun raceForDistance(lines: Sequence<String>): Int = raceForDistance(lines.map(::parseReindeer).toList(), RACE_DURATION)
 
 /**
  * Performs a race for the given [reindeer], for the given [raceDuration].
@@ -47,7 +47,7 @@ fun raceForDistance(reindeer: List<Reindeer>, raceDuration: Int) = reindeer.maxO
  * The winning reindeer is determined by points, which are given out for being in the lead at the end of each second.
  * This function returns the number of points accumulated by the winning reindeer.
  */
-fun raceForPoints(lines: List<String>): Int = raceForPoints(lines.map(::parseReindeer), RACE_DURATION)
+fun raceForPoints(lines: Sequence<String>): Int = raceForPoints(lines.map(::parseReindeer).toList(), RACE_DURATION)
 
 /**
  * Performs a race for the given [reindeer], for the given [raceDuration].
