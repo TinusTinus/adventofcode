@@ -6,8 +6,6 @@ package nl.mvdr.adventofcode.adventofcode2015.day19
 data class Replacement(val from: String, val to: String) {
     override fun toString(): String = "$from => $to"
 
-    fun apply(molecules: Set<String>) = molecules.map { apply(it) }.reduce(Set<String>::union)
-
     /**
      * Applies this replacement to the given [molecule].
      * Returns all molecules which can be obtained by performing the replacement.
@@ -18,7 +16,21 @@ data class Replacement(val from: String, val to: String) {
         else -> tailApply(molecule)
     }
 
+    /**
+     * Helper function which applies this replacement to the tail of the given [molecule].
+     * That is, everything except the first character.
+     */
     private fun tailApply(molecule: String) = apply(molecule.drop(1)).map { molecule[0] + it }.toSet()
+
+    /**
+     * Reverses this replacement: to becomes from and vice versa.
+     */
+    fun reverse() = Replacement(to, from)
+
+    /**
+     * Applies this replacement to each molecule in the given set of [molecules].
+     */
+    fun apply(molecules: Set<String>) = molecules.map { apply(it) }.reduce(Set<String>::union)
 }
 
 /**
