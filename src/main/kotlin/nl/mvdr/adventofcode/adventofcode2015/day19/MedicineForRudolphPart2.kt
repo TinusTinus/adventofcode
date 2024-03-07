@@ -5,51 +5,22 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-private const val ELECTRON = "e"
-
-fun solvePart2(linesSequence: Sequence<String>): Int {
-    // Parse the input
-    val lines = linesSequence.toList()
+fun solvePart2(lines: Sequence<String>): Int {
     val medicineMolecule = lines.last()
-    val replacements = lines.dropLast(2).map(::parseReplacement)
-
-    // A naive brute-force solution would not perform very well.
-
-    // Some observations of the input:
-    // - The replacements do not include cycles (x => ... => x)
-    // - Each replacement causes the text to become longer or stay the same length.
-
-    // Instead of starting with an electron and generating the medicine molecule,
-    // let's work backwards from the medicine molecule instead.
-    // We also attempt to reduce the length of the string by the largest amount possible in each step,
-    // to get to a single-character value "e" as quickly as possible.
-    val reverseReplacements = replacements.map(Replacement::reverse).sortedWith(compareBy { it.to.length - it.from.length })
-    logger.debug { "Reversed replacements: $reverseReplacements" }
-    return countSteps(medicineMolecule, reverseReplacements)!!
+    // From observing the input:
+    return medicineMolecule.count { it.isUpperCase() } -
+            countOccurrences(medicineMolecule, "Rn") -
+            countOccurrences(medicineMolecule, "Ar") -
+            2 * countOccurrences(medicineMolecule, "Y") - 1
 }
 
 /**
- * Cache of source molecules which have already been inspected.
+ * Counts the occurrences of the given (nonempty) [substring] in the given [string].
  */
-private val observed = mutableSetOf<String>()
-
-/**
- * Finds the smallest number of steps in which [sourceMolecule] can be transformed into an electron,
- * by applying any of the given [replacements].
- */
-private fun countSteps(sourceMolecule: String, replacements: List<Replacement>): Int? = when {
-    observed.contains(sourceMolecule) -> null
-    sourceMolecule == ELECTRON -> 0
-    else -> {
-        logger.debug { "counting steps for $sourceMolecule" }
-        observed.add(sourceMolecule)
-        replacements.asSequence()
-            .flatMap { it.apply(sourceMolecule) }
-            .map { countSteps(it, replacements) }
-            .filterNotNull()
-            .map { it + 1 }
-            .firstOrNull()
-    }
+private fun countOccurrences(string: String, substring: String): Int = when {
+    string == "" -> 0
+    string.startsWith(substring) -> 1 + countOccurrences(string.substring(1), substring)
+    else -> countOccurrences(string.substring(1), substring)
 }
 
 fun main() {

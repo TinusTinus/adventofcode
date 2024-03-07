@@ -21,11 +21,6 @@ data class Replacement(val from: String, val to: String) {
      * That is, everything except the first character.
      */
     private fun tailApply(molecule: String) = apply(molecule.drop(1)).map { molecule[0] + it }
-
-    /**
-     * Reverses this replacement: to becomes from and vice versa.
-     */
-    fun reverse() = Replacement(to, from)
 }
 
 /**

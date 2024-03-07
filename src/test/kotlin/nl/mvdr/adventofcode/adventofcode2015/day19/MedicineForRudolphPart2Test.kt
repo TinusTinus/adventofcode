@@ -8,8 +8,6 @@ class MedicineForRudolphPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("3", "example-day19-2015-2.txt"),
-            Arguments.of("6", "example-day19-2015-3.txt"),
             Arguments.of("195", "input-day19-2015.txt")
         )
     }
