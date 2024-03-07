@@ -32,17 +32,16 @@ fun solvePart2(linesSequence: Sequence<String>): Int {
  * by applying any of the given [replacements].
  */
 private fun countSteps(sourceMolecule: String, targetMolecule: String, replacements: List<Replacement>): Int {
+    // TODO revise this method
     var molecules = setOf(sourceMolecule)
     var steps = 0
+    while (!molecules.contains(targetMolecule)) {
+        molecules = replacements.map { it.apply(molecules) }.reduce(Set<String>::union)
+        steps++
+        logger.info { steps }
+    }
 
-    while (!molecules.contains(medicineMolecule)) {
-        while (!molecules.contains(targetMolecule)) {
-            molecules = replacements.map { it.apply(molecules) }.reduce(Set<String>::union)
-            steps++
-            logger.info { steps }
-        }
-
-        return steps
+    return steps
     }
 
 fun main() {
