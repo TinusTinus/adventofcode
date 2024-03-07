@@ -32,10 +32,9 @@ data class Replacement(val from: String, val to: String) {
      */
     fun apply(molecules: Set<String>) = molecules.map { apply(it) }.reduce(Set<String>::union)
 
-    fun applyOnce(molecule: String): String? = when (val result = molecule.replaceFirst(from, to)) {
-        molecule -> null
-        else -> result
-    }
+    fun canApply(molecule: String) = 0 <=  molecule.indexOf(from)
+
+    fun applyOnce(molecule: String): String = molecule.replaceFirst(from, to)
 }
 
 /**
