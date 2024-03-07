@@ -12,7 +12,7 @@ data class Replacement(val from: String, val to: String) {
      */
     fun apply(molecule: String): Set<String> = when {
         molecule == "" -> setOf()
-        molecule.startsWith(from) -> setOf(to + molecule.drop(1)) union apply(molecule.drop(1)).map { molecule[0] + it }
+        molecule.startsWith(from) -> setOf(to + molecule.drop(from.length)) union apply(molecule.drop(1)).map { molecule[0] + it }
         else -> apply(molecule.drop(1)).map { molecule[0] + it }.toSet()
     }
 }
