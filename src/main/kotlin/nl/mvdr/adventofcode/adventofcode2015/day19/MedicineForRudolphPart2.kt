@@ -41,7 +41,6 @@ private fun countSteps(sourceMolecule: String, replacements: List<Replacement>):
     observed.contains(sourceMolecule) -> null
     sourceMolecule == ELECTRON -> 0
     else -> {
-        logger.debug { "counting steps for $sourceMolecule" }
         observed.add(sourceMolecule)
         replacements.asSequence()
             .flatMap { it.apply(sourceMolecule) }
