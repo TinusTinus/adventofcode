@@ -10,9 +10,9 @@ data class Replacement(val from: String, val to: String) {
      * Applies this replacement to the given [molecule].
      * Returns all molecules which can be obtained by performing the replacement.
      */
-    fun apply(molecule: String): List<String> = when {
-        molecule == "" -> listOf()
-        molecule.startsWith(from) -> (listOf(to + molecule.drop(from.length)) + sequenceOf(molecule).flatMap(::tailApply)).shuffled()
+    fun apply(molecule: String): Sequence<String> = when {
+        molecule == "" -> sequenceOf()
+        molecule.startsWith(from) -> sequenceOf(to + molecule.drop(from.length)) + sequenceOf(molecule).flatMap(::tailApply)
         else -> tailApply(molecule)
     }
 
