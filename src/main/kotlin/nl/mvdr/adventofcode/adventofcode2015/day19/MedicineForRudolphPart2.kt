@@ -11,23 +11,12 @@ fun solvePart2(linesSequence: Sequence<String>): Int {
     val lines = linesSequence.toList()
     val medicineMolecule = lines.last()
     val replacements = lines.dropLast(2).map(::parseReplacement)
-
-    // instead of starting with an electron and generating the medicine molecule,
-    // let's work backwards from the medicine molecule instead.
-
     val reverseReplacements = replacements.map(Replacement::reverse)
-    return countSteps(medicineMolecule, ELECTRON, reverseReplacements)
-}
 
-/**
- * Finds the smallest number of steps in which [sourceMolecule] can be transformed into [targetMolecule],
- * by applying any of the given [replacements].
- */
-private fun countSteps(sourceMolecule: String, targetMolecule: String, replacements: List<Replacement>): Int {
-    var molecules = setOf(sourceMolecule)
+    var molecule = medicineMolecule
     var steps = 0
-    while (!molecules.contains(targetMolecule)) {
-        molecules = replacements.map { it.apply(molecules) }.reduce(Set<String>::union)
+    while (molecule != ELECTRON) {
+        // TODO apply the matching reverse replacement which loses the largest number of characters
         steps++
         logger.info { steps }
     }

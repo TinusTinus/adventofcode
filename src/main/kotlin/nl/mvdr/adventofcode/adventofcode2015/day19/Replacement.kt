@@ -31,6 +31,11 @@ data class Replacement(val from: String, val to: String) {
      * Applies this replacement to each molecule in the given set of [molecules].
      */
     fun apply(molecules: Set<String>) = molecules.map { apply(it) }.reduce(Set<String>::union)
+
+    fun applyOnce(molecule: String): String? = when (val result = molecule.replaceFirst(from, to)) {
+        molecule -> null
+        else -> result
+    }
 }
 
 /**
