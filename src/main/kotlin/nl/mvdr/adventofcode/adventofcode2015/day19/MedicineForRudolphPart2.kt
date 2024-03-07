@@ -19,6 +19,7 @@ fun solvePart2(linesSequence: Sequence<String>): Int {
     while (molecule != ELECTRON) {
         molecule = reverseReplacements.first { it.canApply(molecule) }.applyOnce(molecule)
         steps++
+        logger.info { "$steps: $molecule" } // TODO reduce visibility to debug
     }
     return steps
 }
