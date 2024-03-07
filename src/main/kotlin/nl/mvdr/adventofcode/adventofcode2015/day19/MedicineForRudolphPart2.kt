@@ -34,7 +34,7 @@ fun solvePart2(linesSequence: Sequence<String>): Int {
 private val observed = mutableSetOf<String>()
 
 /**
- * Finds the smallest number of steps in which [sourceMolecule] can be transformed into [targetMolecule],
+ * Finds the smallest number of steps in which [sourceMolecule] can be transformed into an electron,
  * by applying any of the given [replacements].
  */
 private fun countSteps(sourceMolecule: String, replacements: List<Replacement>): Int? = when {
