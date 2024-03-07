@@ -19,8 +19,10 @@ fun solvePart2(lines: Sequence<String>): Int {
  */
 private fun countOccurrences(string: String, substring: String): Int = when {
     string == "" -> 0
-    string.startsWith(substring) -> 1 + countOccurrences(string.substring(1), substring)
-    else -> countOccurrences(string.substring(1), substring)
+    else -> countOccurrences(string.substring(1), substring) + when {
+        string.startsWith(substring) -> 1
+        else -> 0
+    }
 }
 
 fun main() {
