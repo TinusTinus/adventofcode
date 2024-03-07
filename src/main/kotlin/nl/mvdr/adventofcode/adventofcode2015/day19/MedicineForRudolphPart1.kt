@@ -10,8 +10,8 @@ fun solvePart1(linesSequence: Sequence<String>): Int {
     val molecule = lines.last()
     return lines.dropLast(2)
         .map(::parseReplacement)
-        .map { it.apply(molecule) }
-        .reduce(Set<String>::union)
+        .flatMap { it.apply(molecule) }
+        .distinct()
         .count()
 }
 
