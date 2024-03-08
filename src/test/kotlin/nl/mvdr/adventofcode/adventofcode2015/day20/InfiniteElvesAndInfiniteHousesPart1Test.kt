@@ -23,7 +23,9 @@ class InfiniteElvesAndInfiniteHousesPart1Test: FunctionSolverTest<Int>(::solvePa
             Arguments.of(120, 6),
             Arguments.of(80, 7),
             Arguments.of(150, 8),
-            Arguments.of(130, 9)
+            Arguments.of(130, 9),
+            Arguments.of(180, 10),
+            Arguments.of(420, 20)
         )
 
 
