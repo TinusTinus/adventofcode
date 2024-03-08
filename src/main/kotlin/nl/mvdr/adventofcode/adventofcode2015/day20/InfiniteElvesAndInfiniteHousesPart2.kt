@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2015.day20
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.FunctionSolver
-import kotlin.math.sqrt
 
 private val logger = KotlinLogging.logger{}
 

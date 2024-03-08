@@ -1,10 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2015.day20
 
 import nl.mvdr.adventofcode.FunctionSolverTest
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
 
 class InfiniteElvesAndInfiniteHousesPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     companion object {
