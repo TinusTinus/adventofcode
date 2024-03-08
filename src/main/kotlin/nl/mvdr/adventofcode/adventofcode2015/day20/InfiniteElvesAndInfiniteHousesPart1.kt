@@ -2,6 +2,10 @@ package nl.mvdr.adventofcode.adventofcode2015.day20
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.FunctionSolver
+import org.apache.commons.math3.primes.Primes
+import javax.swing.text.html.HTML.Attribute.N
+
+
 
 private val logger = KotlinLogging.logger{}
 
@@ -14,9 +18,26 @@ private fun lowestHouseNumber(numberOfPresents: Int) = generateSequence(1, Int::
 
 /**
  * Returns the number of presents delivered to the given [house].
- * That is, the sum of the divisors of [house], multiplied by 10.
  */
-fun presentsDeliveredAt(house: Int): Int = (1 .. house).filter { house % it == 0 }.sum() * 10
+fun presentsDeliveredAt(house: Int): Int = sumDivisors(house) * 10
+
+private fun sumDivisors(n: Int) = when {
+    n < 1 -> throw IllegalArgumentException("n must be positive but was $n")
+    n == 1 -> 1
+    else -> {
+        val primeFactorization = Primes.primeFactors(n)
+        var total = 1
+        for (prime in primeFactorization) {
+            var factor = 1
+            for (i in 0 until n / prime ) { // TODO this is incorrect
+                factor *= prime
+                factor += 1
+            }
+            total *= factor
+        }
+        total
+    }
+}
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day20-2015.txt")
