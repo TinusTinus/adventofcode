@@ -22,11 +22,11 @@ private fun sumDivisors(n: Int, max: Int?): Int {
     var sum = 1
     for (i in 2..maxDivisor) {
         if (n % i == 0) {
-            val d: Int = n / i
-            if (max == null || d <= max) {
+            if (true) { // TODO only if elf i delivers to house n
                 sum += i
             }
-            if (d != i && (max == null || i <= max)) {
+            val d: Int = n / i
+            if (d != i && true) { // TODO only if elf i delivers to house n
                 sum += d
             }
         }
