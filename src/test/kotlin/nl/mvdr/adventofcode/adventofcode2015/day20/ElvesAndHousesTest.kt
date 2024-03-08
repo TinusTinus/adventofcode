@@ -9,7 +9,7 @@ class ElvesAndHousesTest {
     @ParameterizedTest
     @MethodSource
     fun testPresentsDeliveredAt(expected: Int, house: Int) =
-        Assertions.assertEquals(expected, presentsDeliveredAt(house, 10))
+        Assertions.assertEquals(expected, presentsDeliveredAt(house, 10, null))
 
     companion object {
         @JvmStatic
