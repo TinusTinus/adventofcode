@@ -26,7 +26,7 @@ private fun sumDivisors(n: Int, max: Int?): Int {
                 sum += i
             }
             val d: Int = n / i
-            if (d != i && true) { // TODO only if elf i delivers to house n
+            if (d != i && true) { // TODO only if elf d delivers to house n
                 sum += d
             }
         }
