@@ -5,18 +5,18 @@ import kotlin.math.sqrt
 /**
  * Returns the lowest house number where at least the given [numberOfPresents] is delivered.
  */
-fun lowestHouseNumber(numberOfPresents: Int, presentsPerHouse: Int = 10) = generateSequence(1, Int::inc)
-    .first{ numberOfPresents <= presentsDeliveredAt(it, presentsPerHouse) }
+fun lowestHouseNumber(numberOfPresents: Int, presentsPerHouse: Int = 10, housesPerElf: Int? = null) = generateSequence(1, Int::inc)
+    .first{ numberOfPresents <= presentsDeliveredAt(it, presentsPerHouse, housesPerElf) }
 
 /**
  * Returns the number of presents delivered to the given [house].
  */
-fun presentsDeliveredAt(house: Int, presentsPerHouse: Int): Int = when(house) {
+fun presentsDeliveredAt(house: Int, presentsPerHouse: Int, housesPerElf: Int?): Int = when(house) {
     1 -> presentsPerHouse
-    else -> sumDivisors(house) * presentsPerHouse
+    else -> sumDivisors(house, housesPerElf) * presentsPerHouse
 }
 
-private fun sumDivisors(n: Int): Int {
+private fun sumDivisors(n: Int, max: Int?): Int {
     require(1 < n)
     val maxDivisor = sqrt(n.toDouble()).toInt()
     var sum = 1
@@ -24,7 +24,9 @@ private fun sumDivisors(n: Int): Int {
         if (n % i == 0) {
             sum += i
             val d: Int = n / i
-            if (d != i) sum += d
+            if (d != i) {
+                sum += d
+            }
         }
     }
     return sum + n
