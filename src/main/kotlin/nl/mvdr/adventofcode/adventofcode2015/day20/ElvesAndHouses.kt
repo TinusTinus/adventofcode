@@ -13,17 +13,13 @@ fun lowestHouseNumber(numberOfPresents: Int, presentsPerHouse: Int, housesPerElf
 /**
  * Returns the number of presents delivered to the given [house].
  */
-fun presentsDeliveredAt(house: Int, presentsPerHouse: Int, housesPerElf: Int?): Int = when(house) {
-    1 -> presentsPerHouse
-    else -> sumDivisors(house, housesPerElf) * presentsPerHouse
-}
+fun presentsDeliveredAt(house: Int, presentsPerHouse: Int, housesPerElf: Int?): Int = sumDivisors(house, housesPerElf) * presentsPerHouse
 
 /**
  * Computes the sum of the divisors of the given number [n].
  * A divisor x is only included if n / x <= [max], if a maximum is provided.
  */
 private fun sumDivisors(n: Int, max: Int?): Int {
-    require(1 < n)
     val maxDivisor = sqrt(n.toDouble()).toInt()
     var sum = 0
     for (i in 1..maxDivisor) {
