@@ -20,10 +20,7 @@ private fun sumDivisors(n: Int, max: Int?): Int {
     require(1 < n)
     val maxDivisor = sqrt(n.toDouble()).toInt()
     var sum = 0
-    if (max == null || n <= max) {
-        sum += 1
-    }
-    for (i in 2..maxDivisor) {
+    for (i in 1..maxDivisor) {
         if (n % i == 0) {
             val d: Int = n / i
             if (max == null || d <= max) {
@@ -34,6 +31,5 @@ private fun sumDivisors(n: Int, max: Int?): Int {
             }
         }
     }
-    sum += n
     return sum
 }
