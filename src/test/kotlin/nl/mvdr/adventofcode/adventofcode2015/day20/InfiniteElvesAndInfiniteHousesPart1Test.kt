@@ -35,7 +35,7 @@ class InfiniteElvesAndInfiniteHousesPart1Test: FunctionSolverTest<Int>(::solvePa
             Arguments.of("1", "example-day20-2015-1.txt"),
             Arguments.of("3", "example-day20-2015-2.txt"),
             Arguments.of("8", "example-day20-2015-3.txt"),
-            Arguments.of("?", "input-day20-2015.txt")
+            Arguments.of("831600", "input-day20-2015.txt")
         )
     }
 }
