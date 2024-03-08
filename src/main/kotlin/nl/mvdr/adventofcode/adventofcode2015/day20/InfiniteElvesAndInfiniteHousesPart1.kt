@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>): Int = lowestHouseNumber(lines.first().toInt())
+fun solvePart1(lines: Sequence<String>): Int = lowestHouseNumber(lines.first().toInt(), 10)
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day20-2015.txt")
