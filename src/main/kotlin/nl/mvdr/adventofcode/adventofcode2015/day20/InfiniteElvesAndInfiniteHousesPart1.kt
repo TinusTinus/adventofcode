@@ -21,23 +21,7 @@ private fun lowestHouseNumber(numberOfPresents: Int) = generateSequence(1, Int::
  */
 fun presentsDeliveredAt(house: Int): Int = sumDivisors(house) * 10
 
-private fun sumDivisors(n: Int) = when {
-    n < 1 -> throw IllegalArgumentException("n must be positive but was $n")
-    n == 1 -> 1
-    else -> {
-        val primeFactorization = Primes.primeFactors(n)
-        var total = 1
-        for (prime in primeFactorization) {
-            var factor = 1
-            for (i in 0 until n / prime ) { // TODO this is incorrect
-                factor *= prime
-                factor += 1
-            }
-            total *= factor
-        }
-        total
-    }
-}
+private fun sumDivisors(n: Int) = (1 .. n).filter { n % it == 0 }.sum()
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day20-2015.txt")
