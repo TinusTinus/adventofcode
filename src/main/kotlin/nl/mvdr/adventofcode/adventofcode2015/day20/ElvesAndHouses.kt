@@ -22,12 +22,17 @@ private fun sumDivisors(n: Int, max: Int?): Int {
     var sum = 1
     for (i in 2..maxDivisor) {
         if (n % i == 0) {
-            sum += i
             val d: Int = n / i
-            if (d != i) {
+            if (max == null || d <= max) {
+                sum += i
+            }
+            if (d != i && (max == null || i <= max)) {
                 sum += d
             }
         }
     }
-    return sum + n
+    if (max == null || n <= max) {
+        sum += n
+    }
+    return sum
 }
