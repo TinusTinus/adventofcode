@@ -31,7 +31,7 @@ class CombatantTest {
     @ParameterizedTest
     @MethodSource
     fun testTurnsToKill(attacker: Combatant, defender: Combatant, expectedTurns: Int) {
-        val result = attacker.turnsToKill(defender)
+        val result = attacker.turnsToDefeat(defender)
         assertEquals(expectedTurns, result)
     }
 }

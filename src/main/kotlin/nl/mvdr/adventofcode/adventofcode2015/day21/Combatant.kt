@@ -7,8 +7,8 @@ interface Combatant {
     val damage: Int
     val armor: Int
 
-    /** Calculates how many turns it would take for this combatant to kill the given [opponent]. */
-    fun turnsToKill(opponent: Combatant): Int =
+    /** Calculates how many turns it would take for this combatant to defeat the given [opponent]. */
+    fun turnsToDefeat(opponent: Combatant): Int =
         ceil(opponent.hitPoints.toDouble() / damagePerTurn(opponent).toDouble()).toInt()
 
     /**
