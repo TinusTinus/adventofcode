@@ -15,7 +15,8 @@ data class GameState(private val boss: Boss,
         private val player: Player = Player(),
         private val activeEffects: Map<Effect, Int> = mapOf(),
         private val nextTurn: Turn = Turn.PLAYER,
-        private val manaSpent: Int = 0) {
+        private val manaSpent: Int = 0,
+        private val hardMode: Boolean = false) {
 
     /**
      * Returns the minimum amount of mana needed to win the game.
@@ -26,6 +27,7 @@ data class GameState(private val boss: Boss,
         max < manaSpent -> null // more mana spent than the given maximum
         player.hitPoints <= 0 && boss.hitPoints <= 0 -> throw IllegalStateException("No winner")
         player.hitPoints <= 0 -> null // we lose
+        hardMode && nextTurn == Turn.PLAYER && player.hitPoints == 1 -> null // we die due to losing the hit point at the start of the turn
         boss.hitPoints <= 0 -> manaSpent // we win!
         boss.hitPoints <= poisonDamage() -> manaSpent // boss dies to poison at the start of the turn, so we win!
         nextTurn == Turn.BOSS -> performBossAttack().manaToWin(max)
@@ -65,7 +67,8 @@ data class GameState(private val boss: Boss,
             Player(updatedPlayerHitPoints, updatedPlayerMana),
             activeEffects.mapValues { it.value - 1 }.filterValues { 0 < it },
             Turn.PLAYER,
-            manaSpent)
+            manaSpent,
+            hardMode)
     }
 
     /**
@@ -75,7 +78,10 @@ data class GameState(private val boss: Boss,
                 (activeEffects[spell.effect] == null || activeEffects[spell.effect] == 1)
 
     private fun cast(spell: Spell): GameState {
-        val updatedPlayerHitPoints = player.hitPoints + spell.healing
+        val updatedPlayerHitPoints = player.hitPoints + spell.healing - when {
+            hardMode -> 1
+            else -> 0
+        }
         val updatedPlayerMana = player.manaPoints + rechargeBonus() - spell.cost
         val updatedBossHitPoints = boss.hitPoints - poisonDamage() - spell.damage
 
@@ -88,7 +94,8 @@ data class GameState(private val boss: Boss,
             Player(updatedPlayerHitPoints, updatedPlayerMana),
             updatedEffects,
             Turn.BOSS,
-            manaSpent + spell.cost)
+            manaSpent + spell.cost,
+            hardMode)
     }
 
     /**
