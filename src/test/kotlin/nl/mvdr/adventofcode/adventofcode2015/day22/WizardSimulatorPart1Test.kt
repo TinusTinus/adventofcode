@@ -7,7 +7,7 @@ class WizardSimulatorPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("?", "input-day22-2015.txt") // 2445 is too high, 1700 seems too low
+            Arguments.of("953", "input-day22-2015.txt")
         )
     }
 }
