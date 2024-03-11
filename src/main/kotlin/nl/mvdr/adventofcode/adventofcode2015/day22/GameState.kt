@@ -58,7 +58,7 @@ data class GameState(private val boss: Boss,
 
         // Process boss' attack
         val damage = (boss.damage - armor).coerceAtLeast(1)
-        val updatedPlayerHitPoints = (player.hitPoints - damage).coerceAtLeast(0)
+        val updatedPlayerHitPoints = player.hitPoints - damage
 
         return GameState(Boss(updatedBossHitPoints, boss.damage),
             Player(updatedPlayerHitPoints, updatedPlayerMana),

@@ -7,8 +7,8 @@ enum class Spell(val cost: Int, val damage: Int, val healing: Int, val effect: E
     MAGIC_MISSILE(53, 4, 0, null),
     /** Starts an effect that lasts for 5 turns. At the start of each turn while it is active, it gives 101 new mana. */
     RECHARGE(229, 0, 0, Effect.RECHARGE),
-    /** Instantly does 2 damage and heals for 2 hit points. */
-    DRAIN(73, 2, 2, null),
     /** Starts an effect that lasts for 6 turns. While it is active, armor is increased by 7. */
     SHIELD(113, 0, 0, Effect.SHIELD),
+    /** Instantly does 2 damage and heals for 2 hit points. */
+    DRAIN(73, 2, 2, null)
 }
