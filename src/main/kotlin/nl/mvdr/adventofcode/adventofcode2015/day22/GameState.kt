@@ -1,8 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2015.day22
 
+import io.github.oshai.kotlinlogging.KotlinLogging
+
 private const val POISON_DAMAGE = 3
 private const val RECHARGE_BONUS = 101
 private const val SHIELD_BONUS = 7
+
+private val logger = KotlinLogging.logger{}
 
 /**
  * State of the game.
@@ -26,11 +30,13 @@ data class GameState(private val boss: Boss,
         boss.hitPoints <= poisonDamage() -> manaSpent // boss dies to poison at the start of the turn, so we win!
         nextTurn == Turn.BOSS -> performBossAttack().manaToWin(max)
         else -> {
-            var result = null
-            for (spell in Spell.entries) {
+            // Player's turn
+            var result: Int? = null
+            for (spell in Spell.entries)  {
                 if (canCast(spell)) {
-                    val resultForSpell = cast(spell).manaToWin(max)
-                    if (resultForSpell != null && result == null || resultForSpell < result) {
+                    val resultForSpell = cast(spell).manaToWin(result ?: max)
+                    if (resultForSpell != null && (result == null || resultForSpell < result)) {
+                        logger.info { "The boss can be defeated using $result mana points" } // TODO remove log statement
                         result = resultForSpell
                     }
                 }
