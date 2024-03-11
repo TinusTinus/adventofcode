@@ -29,7 +29,7 @@ data class GameState(private val boss: Boss,
         boss.hitPoints <= 0 -> manaSpent // we win!
         boss.hitPoints <= poisonDamage() -> manaSpent // boss dies to poison at the start of the turn, so we win!
         nextTurn == Turn.BOSS -> performBossAttack().manaToWin(max)
-        else -> {
+        nextTurn == Turn.PLAYER -> {
             // Player's turn
             var result: Int? = null
             for (spell in Spell.entries)  {
@@ -43,6 +43,7 @@ data class GameState(private val boss: Boss,
             }
             result
         }
+        else -> throw IllegalStateException()
     }
 
     /**
