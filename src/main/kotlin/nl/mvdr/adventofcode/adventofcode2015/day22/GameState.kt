@@ -14,45 +14,6 @@ data class GameState(private val boss: Boss,
         private val manaSpent: Int = 0) {
 
     /**
-     * Returns an updated game state, after the boss takes his turn.
-     */
-    private fun performBossAttack(): GameState {
-        if (nextTurn != Turn.BOSS) {
-            throw IllegalStateException("It is not the boss's turn.")
-        }
-
-        // Process any spell effects.
-        // Poison
-        val updatedBossHitPoints = boss.hitPoints - when {
-                    activeEffects.keys.contains(Effect.POISON) -> POISON_DAMAGE
-                    else -> 0
-                }
-        if (updatedBossHitPoints <= 0) {
-            throw IllegalArgumentException("Boss dies at the start of the turn and does not get to act.")
-        }
-        // Recharge
-        val updatedPlayerMana = player.manaPoints + when {
-            activeEffects.keys.contains(Effect.RECHARGE) -> RECHARGE_BONUS
-            else -> 0
-        }
-        // Shield
-        val playerArmor = when {
-            activeEffects.keys.contains(Effect.SHIELD) -> SHIELD_BONUS
-            else -> 0
-        }
-        val damage = (boss.damage - playerArmor).coerceAtLeast(1)
-        val updatedPlayerHitPoints = (player.hitPoints - damage).coerceAtLeast(0)
-
-        val updatedActiveEffects = activeEffects.mapValues { it.value - 1 }.filterValues { 0 < it }
-
-        return GameState(Boss(updatedBossHitPoints, boss.damage),
-            Player(updatedPlayerHitPoints, updatedPlayerMana),
-            updatedActiveEffects,
-            Turn.PLAYER,
-            manaSpent)
-    }
-
-    /**
      * Returns the minimum amount of mana needed to win the game.
      * Returns null if the game cannot be won,
      * within the given [max] amount of mana.
@@ -62,8 +23,89 @@ data class GameState(private val boss: Boss,
         player.hitPoints <= 0 && boss.hitPoints <= 0 -> throw IllegalStateException("No winner")
         player.hitPoints <= 0 -> null // we lose
         boss.hitPoints <= 0 -> manaSpent // we win!
-        boss.hitPoints <= POISON_DAMAGE && activeEffects.keys.contains(Effect.POISON) -> manaSpent // boss dies to poison at the start of the turn
-        else -> null // TODO
+        boss.hitPoints <= poisonDamage() -> manaSpent // boss dies to poison at the start of the turn, so we win!
+        nextTurn == Turn.BOSS -> performBossAttack().manaToWin(max)
+        else -> {
+            var result = null
+            for (spell in Spell.entries) {
+                if (canCast(spell)) {
+                    val resultForSpell = cast(spell).manaToWin(max)
+                    if (resultForSpell != null && result == null || resultForSpell < result) {
+                        result = resultForSpell
+                    }
+                }
+            }
+            result
+        }
+    }
+
+    /**
+     * Returns an updated game state, after the boss takes his turn.
+     *
+     * This method assumes it is currently the boss' turn!
+     */
+    private fun performBossAttack(): GameState {
+        // Process any spell effects.
+        val updatedBossHitPoints = boss.hitPoints - poisonDamage()
+        val updatedPlayerMana = player.manaPoints + rechargeBonus()
+        val armor = getPlayerArmor()
+
+        // Process boss' attack
+        val damage = (boss.damage - armor).coerceAtLeast(1)
+        val updatedPlayerHitPoints = (player.hitPoints - damage).coerceAtLeast(0)
+
+        return GameState(Boss(updatedBossHitPoints, boss.damage),
+            Player(updatedPlayerHitPoints, updatedPlayerMana),
+            activeEffects.mapValues { it.value - 1 }.filterValues { 0 < it },
+            Turn.PLAYER,
+            manaSpent)
+    }
+
+    /**
+     * Determines whether it is possible to cast the given spell.
+     */
+    private fun canCast(spell: Spell): Boolean = spell.cost <= player.manaPoints + rechargeBonus() &&
+                (activeEffects[spell.effect] == null || activeEffects[spell.effect] == 1)
+
+    private fun cast(spell: Spell): GameState {
+        val updatedPlayerHitPoints = player.hitPoints + spell.healing
+        val updatedPlayerMana = player.manaPoints + rechargeBonus() - spell.cost
+        val updatedBossHitPoints = boss.hitPoints - poisonDamage() - spell.damage
+
+        val updatedEffects = activeEffects.mapValues { it.value - 1 }.filterValues { 0 < it }.toMutableMap()
+        if (spell.effect != null) {
+            updatedEffects[spell.effect] = spell.effect.duration
+        }
+
+        return GameState(Boss(updatedBossHitPoints, boss.damage),
+            Player(updatedPlayerHitPoints, updatedPlayerMana),
+            updatedEffects,
+            Turn.BOSS,
+            manaSpent + spell.cost)
+    }
+
+    /**
+     * Determines poison damage to apply to the boss this turn.
+     */
+    private fun poisonDamage() = when {
+        activeEffects.keys.contains(Effect.POISON) -> POISON_DAMAGE
+        else -> 0
+    }
+
+    /**
+     * Determines the mana bonus points to award to the player this turn.
+     */
+    private fun rechargeBonus() = when {
+        activeEffects.keys.contains(Effect.RECHARGE) -> RECHARGE_BONUS
+        else -> 0
+    }
+
+    /**
+     * Determines the amount of armor for the player this turn.
+     */
+    private fun getPlayerArmor() = when {
+        activeEffects.keys.contains(Effect.SHIELD) -> SHIELD_BONUS
+        else -> 0
     }
 }
 
