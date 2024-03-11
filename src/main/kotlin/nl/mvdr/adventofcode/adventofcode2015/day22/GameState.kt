@@ -14,6 +14,45 @@ data class GameState(private val boss: Boss,
         private val manaSpent: Int = 0) {
 
     /**
+     * Returns an updated game state, after the boss takes his turn.
+     */
+    private fun performBossAttack(): GameState {
+        if (nextTurn != Turn.BOSS) {
+            throw IllegalStateException("It is not the boss's turn.")
+        }
+
+        // Process any spell effects.
+        // Poison
+        val updatedBossHitPoints = boss.hitPoints - when {
+                    activeEffects.keys.contains(Effect.POISON) -> POISON_DAMAGE
+                    else -> 0
+                }
+        if (updatedBossHitPoints <= 0) {
+            throw IllegalArgumentException("Boss dies at the start of the turn and does not get to act.")
+        }
+        // Recharge
+        val updatedPlayerMana = player.manaPoints + when {
+            activeEffects.keys.contains(Effect.RECHARGE) -> RECHARGE_BONUS
+            else -> 0
+        }
+        // Shield
+        val playerArmor = when {
+            activeEffects.keys.contains(Effect.SHIELD) -> SHIELD_BONUS
+            else -> 0
+        }
+        val damage = (boss.damage - playerArmor).coerceAtLeast(1)
+        val updatedPlayerHitPoints = (player.hitPoints - damage).coerceAtLeast(0)
+
+        val updatedActiveEffects = activeEffects.mapValues { it.value - 1 }.filterValues { 0 < it }
+
+        return GameState(Boss(updatedBossHitPoints, boss.damage),
+            Player(updatedPlayerHitPoints, updatedPlayerMana),
+            updatedActiveEffects,
+            Turn.PLAYER,
+            manaSpent)
+    }
+
+    /**
      * Returns the minimum amount of mana needed to win the game.
      * Returns null if the game cannot be won,
      * within the given [max] amount of mana.
@@ -24,23 +63,7 @@ data class GameState(private val boss: Boss,
         player.hitPoints <= 0 -> null // we lose
         boss.hitPoints <= 0 -> manaSpent // we win!
         boss.hitPoints <= POISON_DAMAGE && activeEffects.keys.contains(Effect.POISON) -> manaSpent // boss dies to poison at the start of the turn
-        else -> {
-            // Process spell effects.
-            var updatedBossHitPoints = boss.hitPoints
-            if (activeEffects.keys.contains(Effect.POISON)) {
-                // Apply poison. Note that due to earlier guards, this cannot be enough to take out the boss.
-                updatedBossHitPoints -= POISON_DAMAGE
-            }
-            var updatedPlayerMana = player.manaPoints
-            if (activeEffects.keys.contains(Effect.RECHARGE)) {
-                updatedPlayerMana += RECHARGE_BONUS
-            }
-
-            when(nextTurn) {
-                Turn.BOSS -> null // TODO
-                Turn.PLAYER -> null // TODO
-            }
-        }
+        else -> null // TODO
     }
 }
 
