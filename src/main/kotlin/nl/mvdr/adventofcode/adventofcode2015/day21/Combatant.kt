@@ -8,9 +8,12 @@ interface Combatant {
     val armor: Int
 
     /** Calculates how many turns it would take for this combatant to kill the given [opponent]. */
-    fun turnsToKill(opponent: Combatant): Int = when {
-        opponent.armor < damage -> ceil(opponent.hitPoints.toDouble() / (damage - opponent.armor).toDouble()).toInt()
-        else -> Int.MAX_VALUE // the opponent has too much armor and will never take damage
-    }
+    fun turnsToKill(opponent: Combatant): Int =
+        ceil(opponent.hitPoints.toDouble() / damagePerTurn(opponent).toDouble()).toInt()
+
+    /**
+     * Determines the amount of damage this combatant does to the given [opponent] per turn.
+     */
+    private fun damagePerTurn(opponent: Combatant) = (damage - opponent.armor).coerceAtLeast(1)
 }
 
