@@ -36,7 +36,7 @@ data class GameState(private val boss: Boss,
                 if (canCast(spell)) {
                     val resultForSpell = cast(spell).manaToWin(result ?: max)
                     if (resultForSpell != null && (result == null || resultForSpell < result)) {
-                        logger.info { "The boss can be defeated using $result mana points" } // TODO remove log statement
+                        logger.info { "The boss can be defeated using $resultForSpell mana points" } // TODO remove log statement
                         result = resultForSpell
                     }
                 }
