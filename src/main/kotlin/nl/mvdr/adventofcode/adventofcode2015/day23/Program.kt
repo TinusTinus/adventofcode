@@ -6,8 +6,8 @@ data class Program(private val instructions: List<Instruction>) {
     /**
      * Executes this program, starting with the initial state.
      */
-    fun execute(): State {
-        var state = State()
+    fun execute(initialState: State = State()): State {
+        var state = initialState
         while (0 <= state.instructionPointer && state.instructionPointer < instructions.size) {
             state = instructions[state.instructionPointer].execute(state)
         }

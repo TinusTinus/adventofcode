@@ -40,7 +40,7 @@ data class State(val registers: Map<Register, Int> = Register.entries.associateW
     fun jumpIfOne(register: Register, offset: Int) = conditionalJump(register, offset) { it == 1 }
 
     /**
-     * Updated the value of [register] with the given [operation], then continues with the next instruction.
+     * Updates the value of [register] with the given [operation], then continues with the next instruction.
      */
     private fun updateRegister(register: Register, operation: IntUnaryOperator): State {
         val updatedRegisters = registers.toMutableMap()

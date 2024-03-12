@@ -5,9 +5,11 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>): Int = Program(lines).execute().registers[Register.B]!!
+fun solvePart1(lines: Sequence<String>): Int = Program(lines)
+    .execute()
+    .registers[Register.B]!!
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day22-2015.txt")
+    val result = FunctionSolver(::solvePart1).solve("input-day23-2015.txt")
     logger.info { result }
 }
