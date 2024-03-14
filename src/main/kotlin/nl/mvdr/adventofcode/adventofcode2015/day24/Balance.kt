@@ -31,8 +31,13 @@ private fun createGroups(packages: List<Long>, targetWeight: Long, groupSize: In
         // Either include the first package in the group, or don't.
         val firstPackage = packages.first()
         val remainingPackages = packages.drop(1)
-        createGroups(remainingPackages, targetWeight, groupSize) union
-                createGroups(remainingPackages, targetWeight - firstPackage, groupSize - 1).map { it union setOf(firstPackage) }.toSet()
+
+        val groupsWithFirstPackage =
+            createGroups(remainingPackages, targetWeight - firstPackage, groupSize - 1).map { it union setOf(firstPackage) }.toSet()
+        val groupsWithoutFirstPackage =
+            createGroups(remainingPackages, targetWeight, groupSize)
+
+        groupsWithFirstPackage union groupsWithoutFirstPackage
     }
 }
 
