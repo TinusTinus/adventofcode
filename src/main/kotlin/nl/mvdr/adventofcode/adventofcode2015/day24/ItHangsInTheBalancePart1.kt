@@ -5,8 +5,8 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>): Int {
-    val packages = lines.map(String::toInt).toList()
+fun solvePart1(lines: Sequence<String>): Long {
+    val packages = lines.map(String::toLong).toList()
 
     val weightPerGroup = packages.sum() / 3
 
@@ -21,7 +21,7 @@ fun solvePart1(lines: Sequence<String>): Int {
  * where the group's total weight equals the given [targetWeight].
  * Note that the given packages must be sorted in increasing weight!
  */
-fun createGroups(packages: List<Int>, targetWeight: Int, groupSize: Int): Set<Set<Int>> = when {
+fun createGroups(packages: List<Long>, targetWeight: Long, groupSize: Int): Set<Set<Long>> = when {
     groupSize <= 0 -> throw IllegalArgumentException("Invalid group size: $groupSize")
     groupSize == 1 -> when {
         packages.contains(targetWeight) -> setOf(setOf(targetWeight))
@@ -38,7 +38,7 @@ fun createGroups(packages: List<Int>, targetWeight: Int, groupSize: Int): Set<Se
     }
 }
 
-private fun quantumEntanglement(group: Set<Int>) = group.reduce { package0, package1 -> package0 * package1 }
+private fun quantumEntanglement(group: Set<Long>) = group.reduce { package0, package1 -> package0 * package1 }
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day24-2015.txt")
