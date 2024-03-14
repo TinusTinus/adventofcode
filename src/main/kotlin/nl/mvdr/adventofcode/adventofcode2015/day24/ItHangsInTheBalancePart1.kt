@@ -10,31 +10,31 @@ fun solvePart1(lines: Sequence<String>): Int {
 
     val weightPerGroup = packages.sum() / 3
 
-    val groups = createGroups(packages, weightPerGroup)
-
-    val firstGroup = groups.sortedWith(
-        compareBy { group: Set<Int> -> group.size }
-            .thenComparing(compareBy { quantumEntanglement(it) } ))
-        .first()
-
-    return quantumEntanglement(firstGroup)
+    return generateSequence(1, Int::inc)
+        .map { createGroups(packages, weightPerGroup, it) }
+        .first { it.isNotEmpty() }
+        .minOf(::quantumEntanglement)
 }
 
 /**
- * Determines all possible groups out of the given [packages],
+ * Determines all possible groups out of the given [packages], with the given [groupSize]
  * where the group's total weight equals the given [targetWeight].
- * Note that the given packages must be sorted in increasing weight.
+ * Note that the given packages must be sorted in increasing weight!
  */
-fun createGroups(packages: List<Int>, targetWeight: Int): Set<Set<Int>> = when {
-    targetWeight == 0 -> setOf(emptySet())
-    packages.isEmpty() || targetWeight < packages.first() -> emptySet()
+fun createGroups(packages: List<Int>, targetWeight: Int, groupSize: Int): Set<Set<Int>> = when {
+    groupSize <= 0 -> throw IllegalArgumentException("Invalid group size: $groupSize")
+    groupSize == 1 -> when {
+        packages.contains(targetWeight) -> setOf(setOf(targetWeight))
+        else -> emptySet()
+    }
+    packages.isEmpty() -> emptySet()
+    targetWeight < packages.first() -> emptySet()
     else -> {
+        // Either include the first package in the group, or don't.
         val firstPackage = packages.first()
         val remainingPackages = packages.drop(1)
-
-        // Either include the first package in the group, or don't.
-        createGroups(remainingPackages, targetWeight) union
-        createGroups(remainingPackages, targetWeight - firstPackage).map { it union setOf(firstPackage) }.toSet()
+        createGroups(remainingPackages, targetWeight, groupSize) union
+                createGroups(remainingPackages, targetWeight - firstPackage, groupSize - 1).map { it union setOf(firstPackage) }.toSet()
     }
 }
 
