@@ -20,13 +20,12 @@ fun selectFirstGroup(lines: Sequence<String>, groups: Int): Long {
  * Note that the given packages must be sorted in increasing weight!
  */
 private fun createGroups(packages: List<Long>, targetWeight: Long, groupSize: Int): Set<Set<Long>> = when {
-    groupSize <= 0 -> throw IllegalArgumentException("Invalid group size: $groupSize")
-    groupSize == 1 -> when {
-        packages.contains(targetWeight) -> setOf(setOf(targetWeight))
-        else -> emptySet()
-    }
+    targetWeight < 0 -> throw IllegalArgumentException("Invalid target weight: $targetWeight")
+    groupSize < 0 -> throw IllegalArgumentException("Invalid group size: $groupSize")
+    targetWeight == 0L && groupSize == 0 -> setOf(emptySet()) // empty group has weight 0
+    groupSize == 0 -> emptySet()
     packages.isEmpty() -> emptySet()
-    targetWeight < packages.first() -> emptySet()
+    targetWeight < packages.first() -> emptySet() // packages are sorted: if the first package is too heavy, so is the rest
     else -> {
         // Either include the first package in the group, or don't.
         val firstPackage = packages.first()
