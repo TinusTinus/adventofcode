@@ -23,13 +23,11 @@ fun solvePart1(lines: Sequence<String>): Int {
 /**
  * Determines all possible groups out of the given [packages],
  * where the group's total weight equals the given [targetWeight].
+ * Note that the given packages must be sorted in increasing weight.
  */
 fun createGroups(packages: List<Int>, targetWeight: Int): Set<Set<Int>> = when {
-    // Note: this function does not assume anything about the order of the packages.
-    // The input is actually sorted by increasing package weight.
-    // This can be used to cut the computation short in order to improve performance.
     targetWeight == 0 -> setOf(emptySet())
-    targetWeight < 0 || packages.isEmpty() -> emptySet()
+    packages.isEmpty() || targetWeight < packages.first() -> emptySet()
     else -> {
         val firstPackage = packages.first()
         val remainingPackages = packages.drop(1)
