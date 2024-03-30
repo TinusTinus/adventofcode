@@ -8,7 +8,7 @@ private const val MAX_TIMER = 8
  * The given list [fish] keeps track, per timer value, how many fish there are with that particular timer value.
  * For example, if fish[3] equals 2, that means there are two fish whose timer has the value 3.
  */
-data class School(private val fish: List<Int>) {
+data class School(private val fish: List<Long>) {
     /**
      * Constructor which parses the [lines] from the puzzle input file.
      */
@@ -30,19 +30,19 @@ data class School(private val fish: List<Int>) {
     /**
      * Simulates the given number of [days].
      */
-    fun simulateDays(days: Int = 80): School = when (days) {
+    fun simulateDays(days: Int): School = when (days) {
         0 -> this
         else -> simulateDay().simulateDays(days - 1)
     }
 
     /**
-     * Returns the number for fish.
+     * Returns the number of fish in this school.
      */
     fun countFish() = fish.sum()
 }
 
-private fun parseFish(lines: Sequence<String>): List<Int> {
-    val fish = MutableList(MAX_TIMER + 1) { 0 }
+private fun parseFish(lines: Sequence<String>): List<Long> {
+    val fish = MutableList(MAX_TIMER + 1) { 0L }
     lines.first()
         .split(",")
         .map(String::toInt)
