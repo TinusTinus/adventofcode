@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2021.day07
 
-import io.github.oshai.kotlinlogging.KotlinLogging
-
 /**
  * Solves the puzzle, given the [lines] from the puzzle input.
  * The [fuelFunction] specifies how to compute the fuel cost when moving from one position to another.
