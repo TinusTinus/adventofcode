@@ -12,7 +12,7 @@ fun solvePart2(lines: Sequence<String>) = lines.sumOf(::decodeOutputValue)
  */
 private fun decodeOutputValue(entry: String): Int {
     val (uniqueSignalPatterns, outputValue) = entry.split(" | ")
-        .map { it.split(" ").map(::parseSignalPattern) }
+        .map { it.split(" ").map(::SignalPattern) }
 
     val decoder = createDecoder(uniqueSignalPatterns)
 
@@ -22,7 +22,8 @@ private fun decodeOutputValue(entry: String): Int {
 
 /**
  * Creates a decoder, based on the given [uniqueSignalPatterns].
- * The decoder maps a signal pattern to the corresponding digit.
+ * The given list must contain ten patterns: one unique pattern for each digit.
+ * The resulting decoder maps each signal pattern to the corresponding digit.
  */
 private fun createDecoder(uniqueSignalPatterns: List<SignalPattern>): Map<SignalPattern, Int> =
     findPatterns(uniqueSignalPatterns).entries.associate { (digit, pattern) -> pattern to digit }
@@ -33,27 +34,18 @@ private fun createDecoder(uniqueSignalPatterns: List<SignalPattern>): Map<Signal
 private fun findPatterns(uniqueSignalPatterns: List<SignalPattern>): Map<Int, SignalPattern> {
     val result = mutableMapOf<Int, SignalPattern>()
 
-    // Two segments: must be a one
-    result[1] = uniqueSignalPatterns.first { it.size == 2 }
+    result[1] = uniqueSignalPatterns.first(SignalPattern::representsOne)
+    result[4] = uniqueSignalPatterns.first(SignalPattern::representsFour)
+    result[7] = uniqueSignalPatterns.first(SignalPattern::representsSeven)
+    result[8] = uniqueSignalPatterns.first(SignalPattern::representsEight)
 
-    // Four segments: must be a four
-    result[4] = uniqueSignalPatterns.first { it.size == 4 }
+    result[9] = uniqueSignalPatterns.first { it.representsNine(result[4]!!) }
+    result[0] = uniqueSignalPatterns.first { it.representsZero(result[1]!!, result[9]!!) }
+    result[6] = uniqueSignalPatterns.first { it.representsSix(result[0]!!, result[9]!!) }
 
-    // Three segments: must be a seven
-    result[7] = uniqueSignalPatterns.first { it.size == 3 }
-
-    // Seven segments: must be an eight
-    result[8] = uniqueSignalPatterns.first { it.size == 7 }
-
-    // Six segments: could be a zero, a six or a nine
-    result[9] = uniqueSignalPatterns.first { it.size == 6 && it.containsAllSegments(result[4]!!) }
-    result[0] = uniqueSignalPatterns.first { it.size == 6 && it != result[9] && it.containsAllSegments(result[1]!!) }
-    result[6] = uniqueSignalPatterns.first { it.size == 6 && it != result[9] && it != result[0] }
-
-    // Five segments: could be a two, a three or a five
-    result[3] = uniqueSignalPatterns.first { it.size == 5 && it.containsAllSegments(result[1]!!) }
-    result[5] = uniqueSignalPatterns.first { it.size == 5 && it != result[3] && result[6]!!.containsAllSegments(it) }
-    result[2] = uniqueSignalPatterns.first { it.size == 5 && it != result[3] && it != result[5] }
+    result[3] = uniqueSignalPatterns.first { it.representsThree(result[1]!!) }
+    result[5] = uniqueSignalPatterns.first { it.representsFive(result[3]!!, result[6]!!) }
+    result[2] = uniqueSignalPatterns.first { it.representsTwo(result[3]!!, result[5]!!) }
 
     return result
 }
