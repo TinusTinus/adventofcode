@@ -1,10 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2021.day07
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.FunctionSolver
-import kotlin.math.abs
-
-private val logger = KotlinLogging.logger{}
 
 /**
  * Solves the puzzle, given the [lines] from the puzzle input.
