@@ -11,17 +11,19 @@ fun solvePart2(lines: Sequence<String>) = lines.sumOf(::decodeOutputValue)
  * Decodes the output value in the given [entry].
  */
 private fun decodeOutputValue(entry: String): Int {
-    // Parse the entry.
-    // Each digit is represented as a set of characters,
-    // where each character represents a segment of the display.
-    val (uniqueSignalPatterns, outputValue) = entry.split(" | ")
-        .map { it.split(" ").map { pattern -> pattern.toCharArray().toSet() } }
+    val (uniqueSignalPatterns, outputValue) = entry.split(" | ").map { it.split(" ").map(::toSegments) }
 
     val decoder = createDecoder(uniqueSignalPatterns)
 
     val outputValueDigits = outputValue.map { decoder[it]!! }
     return outputValueDigits.joinToString("").toInt()
 }
+
+/**
+ * Converts the given [signalPattern], such as "acedgfb", to a set of characters.
+ * Each character represents a segment of the display.
+  */
+private fun toSegments(signalPattern: String) = signalPattern.toCharArray().toSet()
 
 /**
  * Creates a decoder, based on the given [uniqueSignalPatterns].
