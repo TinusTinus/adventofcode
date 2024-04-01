@@ -6,16 +6,12 @@ import kotlin.math.abs
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>): Int {
-    val initialPositions = lines.first().split(",").map(String::toInt)
-    return (initialPositions.min() .. initialPositions.max()).minOf { computeFuelCost(initialPositions, it) }
-}
+fun solvePart1(lines: Sequence<String>) = solve(lines, ::computeFuelCost)
 
 /**
- * Computes the fuel cost for the crabs to move from their given [initialPositions] to the given [targetPosition].
+ * Computes the fuel cost for a crab to move from its given [initialPosition] to the given [targetPosition].
  */
-private fun computeFuelCost(initialPositions: List<Int>, targetPosition: Int) =
-    initialPositions.sumOf { abs(targetPosition - it) }
+private fun computeFuelCost(initialPosition: Int, targetPosition: Int) = abs(initialPosition - targetPosition)
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day07-2021.txt")
