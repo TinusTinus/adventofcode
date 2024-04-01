@@ -13,29 +13,33 @@ fun solvePart2(lines: Sequence<String>) = lines.sumOf(::decodeOutputValue)
 private fun decodeOutputValue(entry: String): Int {
     val (uniqueSignalPatterns, outputValue) = entry.split(" | ").map { it.split(" ") }
 
-    // Two segments: must be a one
-    val onePattern = uniqueSignalPatterns.first { it.length == 2 }
+    val patterns = mutableMapOf<Int, String>()
 
-    // Three segments: must be a seven
-    val sevenPattern = uniqueSignalPatterns.first { it.length == 3 }
+    // Two segments: must be a one
+    patterns[1] = uniqueSignalPatterns.first { it.length == 2 }
 
     // Four segments: must be a four
-    val fourPattern = uniqueSignalPatterns.first { it.length == 4 }
+    patterns[4] = uniqueSignalPatterns.first { it.length == 4 }
 
-    // Five segments: could be a two, a three or a five
-    val threePattern = uniqueSignalPatterns.first { it.length == 5 && containsAll(it, onePattern) }
-    val twoPattern = "herp" // TODO
-    val fivePattern = "derp" // TODO
+    // Three segments: must be a seven
+    patterns[7] = uniqueSignalPatterns.first { it.length == 3 }
+
+    // Seven segments: must be an eight
+    patterns[8] = uniqueSignalPatterns.first { it.length == 7 }
 
     // Six segments: could be a zero, a six or a nine
-    val ninePattern = uniqueSignalPatterns.first { it.length == 6 && containsAll(it, fourPattern) }
-    val zeroPattern = uniqueSignalPatterns.first { it.length == 6 && it != ninePattern && containsAll(it, onePattern) }
-    val sixPattern = uniqueSignalPatterns.first { it.length == 6 && it != ninePattern && it != zeroPattern }
+    patterns[9] = uniqueSignalPatterns.first { it.length == 6 && containsAll(it, patterns[4]!!) }
+    patterns[0] = uniqueSignalPatterns.first { it.length == 6 && it != patterns[9] && containsAll(it, patterns[1]!!) }
+    patterns[6] = uniqueSignalPatterns.first { it.length == 6 && it != patterns[9] && it != patterns[0] }
 
-    // Seven segments: must be a seven
-    val eightPattern = uniqueSignalPatterns.first { it.length == 7 }
+    // Five segments: could be a two, a three or a five
+    patterns[3] = uniqueSignalPatterns.first { it.length == 5 && containsAll(it, patterns[1]!!) }
+    patterns[5] = uniqueSignalPatterns.first { it.length == 5 && it != patterns[3] && containsAll(patterns[6]!!, it) }
+    patterns[2] = uniqueSignalPatterns.first { it.length == 5 && it != patterns[3] && it != patterns[5] }
 
-    return 3 // TODO fix
+    val decoder = patterns.entries.associate { (digit, pattern) -> pattern to digit }
+
+    return outputValue.map { decoder[it]!! }.joinToString("").toInt()
 }
 
 /**
