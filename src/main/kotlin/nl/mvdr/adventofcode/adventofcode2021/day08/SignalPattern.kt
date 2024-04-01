@@ -12,6 +12,12 @@ data class SignalPattern(private val segments: Set<Segment>) {
      */
     constructor(stringRepresentation: String) : this(stringRepresentation.map(::parseSegment).toSet())
 
+    /**
+     * Checks whether this pattern is relatively easy to identify.
+     * That is, whether this pattern has a number of segments which uniquely corresponds to a digit.
+     */
+    fun isEasy() = representsOne() || representsFour() || representsSeven() || representsEight()
+
     fun representsZero(one: SignalPattern, nine: SignalPattern) =
         segments.size == 6 && this != nine && segments.containsAll(one.segments)
 
