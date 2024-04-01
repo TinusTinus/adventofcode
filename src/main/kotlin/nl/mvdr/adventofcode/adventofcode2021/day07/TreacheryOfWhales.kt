@@ -4,7 +4,7 @@ import kotlin.math.abs
 
 /**
  * Solves the puzzle, given the [lines] from the puzzle input.
- * The [fuelFunction] specifies how to compute the fuel cost when moving a given distance.
+ * The [fuelFunction] specifies how to compute the fuel cost when a crab moves the given distance.
  */
 fun solve(lines: Sequence<String>, fuelFunction: (Int) -> Int) = solve(parse(lines), fuelFunction)
 

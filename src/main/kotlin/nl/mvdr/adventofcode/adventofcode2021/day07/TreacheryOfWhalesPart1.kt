@@ -9,6 +9,7 @@ fun solvePart1(lines: Sequence<String>) = solve(lines, ::computeFuelCost)
 
 /**
  * Computes the fuel cost for a crab to move the given [distance].
+ * Each change of 1 step in horizontal position of a single crab costs 1 fuel.
  */
 private fun computeFuelCost(distance: Int) = distance
 
