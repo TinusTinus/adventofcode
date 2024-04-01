@@ -22,7 +22,7 @@ private fun decodeOutputValue(entry: String): Int {
 /**
  * Converts the given [signalPattern], such as "acedgfb", to a set of characters.
  * Each character represents a segment of the display.
-  */
+ */
 private fun toSegments(signalPattern: String) = signalPattern.toCharArray().toSet()
 
 /**
