@@ -8,7 +8,7 @@ class TreacheryOfWhalesPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
             Arguments.of("37", "example-day07-2021.txt"),
-            Arguments.of("?", "input-day07-2021.txt")
+            Arguments.of("335330", "input-day07-2021.txt")
         )
     }
 }
