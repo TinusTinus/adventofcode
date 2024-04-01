@@ -15,7 +15,12 @@ data class Decoder(private val mapping: Map<SignalPattern, Int>) {
     /**
      * Decodes the given output [value].
      */
-    fun decode(value: List<SignalPattern>) = value.map { mapping[it]!! }.joinToString("").toInt()
+    fun decode(value: List<SignalPattern>) = value.map { decode(it) }.joinToString("").toInt()
+
+    /**
+     * Decodes the given [signalPattern] as a single digit.
+     */
+    private fun decode(signalPattern: SignalPattern) = mapping[signalPattern]!!
 }
 
 /**
