@@ -7,7 +7,8 @@ data class HeightMap(private val heights: Map<Point, Int>) {
 
     fun sumLowPointRiskLevels() = findLowPoints().sumOf(this::riskValue)
 
-    fun multiplyThreeLargestBasinSizes() = findLowPoints().map(this::basinSize)
+    fun multiplyThreeLargestBasinSizes() = findLowPoints()
+        .map(this::basinSize)
         .sorted()
         .takeLast(3)
         .reduce(Int::times)
