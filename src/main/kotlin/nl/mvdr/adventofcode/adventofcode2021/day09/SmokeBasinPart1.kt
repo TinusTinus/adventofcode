@@ -6,15 +6,15 @@ import nl.mvdr.adventofcode.point.Point
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>): Int {
-    val heightMap = Point.parse2DMap(lines.toList(), ::parseHeight)
+fun solvePart1(lines: Sequence<String>) = sumLowPointRiskLevels(parseHeightMap(lines))
 
-    return heightMap.entries
-        .filter { isLowPoint(it.key, heightMap) }
-        .sumOf { it.value + 1 }
-}
+private fun parseHeightMap(lines: Sequence<String>): MutableMap<Point, Int> = Point.parse2DMap(lines.toList(), ::parseHeight)
 
 private fun parseHeight(c: Char) = c.toString().toInt()
+
+private fun sumLowPointRiskLevels(heightMap: MutableMap<Point, Int>) = heightMap.entries
+        .filter { isLowPoint(it.key, heightMap) }
+        .sumOf { it.value + 1 }
 
 /**
  * Checks whether the given [point] is a low point in the given [heightMap].
