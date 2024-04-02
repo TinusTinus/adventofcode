@@ -7,6 +7,11 @@ data class HeightMap(private val heights: Map<Point, Int>) {
 
     fun sumLowPointRiskLevels() = findLowPoints().sumOf(this::riskValue)
 
+    fun multiplyThreeLargestBasinSizes() = findLowPoints().map(this::basinSize)
+        .sorted()
+        .takeLast(3)
+        .reduce(Int::times)
+
     private fun findLowPoints(): List<Point> = heights.keys.filter(this::isLowPoint)
 
     private fun isLowPoint(point: Point) = point.neighbours()
@@ -14,4 +19,9 @@ data class HeightMap(private val heights: Map<Point, Int>) {
         .all { it == null || heights[point]!! < it }
 
     private fun riskValue(point: Point) = heights[point]!! + 1
+
+    private fun basinSize(lowPoint: Point): Int {
+        // TODO implement
+        return 3
+    }
 }
