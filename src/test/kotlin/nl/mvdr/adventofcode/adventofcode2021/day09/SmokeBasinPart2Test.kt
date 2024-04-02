@@ -8,7 +8,7 @@ class SmokeBasinPart2Test: FunctionSolverTest<Int>(::solvePart2) {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
             Arguments.of("1134", "example-day09-2021.txt"),
-            Arguments.of("?", "input-day09-2021.txt")
+            Arguments.of("1263735", "input-day09-2021.txt")
         )
     }
 }

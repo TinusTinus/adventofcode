@@ -21,7 +21,19 @@ data class HeightMap(private val heights: Map<Point, Int>) {
     private fun riskValue(point: Point) = heights[point]!! + 1
 
     private fun basinSize(lowPoint: Point): Int {
-        // TODO implement
-        return 3
+        var latest = setOf(lowPoint)
+        val basin = latest.toMutableSet()
+
+        while (latest.isNotEmpty()) {
+            latest = latest.asSequence()
+                .flatMap(Point::neighbours)
+                .filter { !basin.contains(it) }
+                .filter { heights.containsKey(it) }
+                .filter { heights[it]!! < 9 }
+                .toSet()
+            basin.addAll(latest)
+        }
+
+        return basin.size
     }
 }
