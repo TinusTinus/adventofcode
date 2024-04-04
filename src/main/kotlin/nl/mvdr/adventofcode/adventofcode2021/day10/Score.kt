@@ -9,19 +9,21 @@ fun syntaxErrorScore(line: String) = score(line, ChunkType::syntaxErrorScore, { 
 
 fun containsSyntaxError(line: String) = syntaxErrorScore(line) != 0
 
-fun completionScore(line: String) = score(line, { _ -> 0 }, ChunkType::completionScore )
+fun completionScore(line: String): Int = score(line, { _ -> 0 }, ::completionScore )
+
+private fun completionScore(unclosedChunks: List<ChunkType>): Int = when {
+    unclosedChunks.isEmpty() -> 0
+    else -> unclosedChunks.first().completionScore + 5 * completionScore(unclosedChunks.drop(1))
+}
 
 /**
  * Scores the given [suffix] of a line.
  * The given [syntaxErrorScore] function determines how to score a syntax error, given the mismatching closing bracket's type.
- * The given [completionScore] function determines how to score an autocomplete character.
+ * The given [completionScore] function determines how to score incomplete line, given the unclosed chunks.
  * The preceding part of the line must not contain any syntax errors, and result in the given list of [openChunks].
  */
-private fun score(suffix: String, syntaxErrorScore: (ChunkType) -> Int, completionScore: (ChunkType) -> Int, openChunks: List<ChunkType> = emptyList()): Int = when {
-    suffix.isEmpty() -> when {
-        openChunks.isEmpty() -> 0
-        else -> completionScore.invoke(openChunks.first()) + 5 * score("", syntaxErrorScore, completionScore, openChunks.drop(1))
-    }
+private fun score(suffix: String, syntaxErrorScore: (ChunkType) -> Int, completionScore: (List<ChunkType>) -> Int, openChunks: List<ChunkType> = emptyList()): Int = when {
+    suffix.isEmpty() -> completionScore.invoke(openChunks)
     else -> {
         val character = suffix.first()
         val chunkType = getType(character)
