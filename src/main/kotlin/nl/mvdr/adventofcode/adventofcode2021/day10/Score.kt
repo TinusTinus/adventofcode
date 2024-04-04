@@ -22,6 +22,10 @@ fun score(line: String, openChunks: List<ChunkType> = emptyList()): Score = when
     }
 }
 
+/**
+ * Calculates the completion score for an incomplete line.
+ * The list of [unclosedChunks] contains all chunks which were opened but not closed, in order.
+ */
 private fun completionScore(unclosedChunks: List<ChunkType>): Long = when {
     unclosedChunks.isEmpty() -> 0L
     else -> unclosedChunks.first().completionScore + 5 * completionScore(unclosedChunks.drop(1))
