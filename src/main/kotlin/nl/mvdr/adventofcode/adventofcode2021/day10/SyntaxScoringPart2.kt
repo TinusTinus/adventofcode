@@ -6,8 +6,8 @@ import nl.mvdr.adventofcode.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart2(lines: Sequence<String>): Int {
-    val scores = lines.map(::completionScore)
-        .filter { it != 0 }
+    val scores = lines.filter { !containsSyntaxError(it) }
+        .map(::completionScore)
         .sorted()
         .toList()
     return scores[scores.size / 2]

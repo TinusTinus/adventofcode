@@ -7,6 +7,8 @@ package nl.mvdr.adventofcode.adventofcode2021.day10
  */
 fun syntaxErrorScore(line: String) = score(line, ChunkType::syntaxErrorScore, { _ -> 0 } )
 
+fun containsSyntaxError(line: String) = syntaxErrorScore(line) != 0
+
 fun completionScore(line: String) = score(line, { _ -> 0 }, ChunkType::completionScore )
 
 /**
@@ -15,7 +17,7 @@ fun completionScore(line: String) = score(line, { _ -> 0 }, ChunkType::completio
  * The given [completionScore] function determines how to score an autocomplete character.
  * The preceding part of the line must not contain any syntax errors, and result in the given list of [openChunks].
  */
-fun score(suffix: String, syntaxErrorScore: (ChunkType) -> Int, completionScore: (ChunkType) -> Int, openChunks: List<ChunkType> = emptyList()): Int = when {
+private fun score(suffix: String, syntaxErrorScore: (ChunkType) -> Int, completionScore: (ChunkType) -> Int, openChunks: List<ChunkType> = emptyList()): Int = when {
     suffix.isEmpty() -> when {
         openChunks.isEmpty() -> 0
         else -> completionScore.invoke(openChunks.first()) + 5 * score("", syntaxErrorScore, completionScore, openChunks.drop(1))
