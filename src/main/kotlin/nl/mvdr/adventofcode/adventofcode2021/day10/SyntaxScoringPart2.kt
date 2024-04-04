@@ -7,6 +7,7 @@ private val logger = KotlinLogging.logger{}
 
 fun solvePart2(lines: Sequence<String>): Int {
     val scores = lines.map(::completionScore)
+        .filter { it != 0 }
         .sorted()
         .toList()
     return scores[scores.size / 2]
