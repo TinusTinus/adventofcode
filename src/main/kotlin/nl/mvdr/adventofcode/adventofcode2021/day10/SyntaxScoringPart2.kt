@@ -6,11 +6,12 @@ import nl.mvdr.adventofcode.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart2(lines: Sequence<String>): Long {
-    val scores = lines.filter { !containsSyntaxError(it) }
-        .map(::completionScore)
+    val scores = lines.map(::score)
+        .filter { it.syntaxErrorScore == 0 }
+        .map(Score::completionScore)
         .sorted()
         .toList()
-    logger.debug { "Scores: $scores" }
+    logger.debug { "Completion scores: $scores" }
     return scores[scores.size / 2]
 }
 

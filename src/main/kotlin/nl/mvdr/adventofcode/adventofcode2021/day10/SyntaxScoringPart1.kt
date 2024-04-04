@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>) = lines.sumOf(::syntaxErrorScore)
+fun solvePart1(lines: Sequence<String>) = lines.map(::score).sumOf(Score::syntaxErrorScore)
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day09-2021.txt")
