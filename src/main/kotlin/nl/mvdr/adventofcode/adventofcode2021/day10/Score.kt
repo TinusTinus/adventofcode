@@ -5,13 +5,16 @@ package nl.mvdr.adventofcode.adventofcode2021.day10
  * Determines the syntax error score of the given [line].
  * Returns 0 if the line does not contain a syntax error.
  */
-fun syntaxErrorScore(line: String): Int = score(line, ChunkType::syntaxErrorScore)
+fun syntaxErrorScore(line: String) = score(line, ChunkType::syntaxErrorScore)
+
+fun completionScore(line: String) = 0 // TODO
 
 /**
  * Scores the given [suffix] of a line.
+ * The given [syntaxErrorScore] function determines how to score a syntax error, given the mismatching closing bracket's type.
  * The preceding part of the line must not contain any syntax errors, and result in the given list of [openChunks].
  */
-fun score(suffix: String, syntaxErrorScore: (ChunkType) -> Int, openChunks: List<ChunkType> = emptyList(),): Int = when {
+fun score(suffix: String, syntaxErrorScore: (ChunkType) -> Int, openChunks: List<ChunkType> = emptyList()): Int = when {
     suffix.isEmpty() -> 0
     else -> {
         val character = suffix.first()
