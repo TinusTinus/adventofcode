@@ -8,6 +8,6 @@ private val logger = KotlinLogging.logger{}
 fun solvePart1(lines: Sequence<String>) = lines.map(::score).sumOf(Score::syntaxErrorScore)
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day09-2021.txt")
+    val result = FunctionSolver(::solvePart1).solve("input-day10-2021.txt")
     logger.info { result }
 }

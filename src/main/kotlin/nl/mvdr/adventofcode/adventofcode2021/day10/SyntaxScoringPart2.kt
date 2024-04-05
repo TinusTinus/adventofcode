@@ -16,6 +16,6 @@ fun solvePart2(lines: Sequence<String>): Long {
 }
 
 fun main() {
-    val result = FunctionSolver(::solvePart2).solve("input-day09-2021.txt")
+    val result = FunctionSolver(::solvePart2).solve("input-day10-2021.txt")
     logger.info { result }
 }
