@@ -10,6 +10,7 @@ fun parse(lines: Sequence<String>): Map<Point, Int> = Point.parse2DMap(lines.toL
 /**
  * Counts the number of flashes which occur in the given number of [steps],
  * given the starting [energyLevels] of the octopi.
+ * Note that this solution assumes that no octopus has a starting energy level of 0.
  */
 fun countFlashes(energyLevels: Map<Point, Int>, steps: Int = 100): Int = when (steps) {
     0 -> 0
@@ -61,7 +62,7 @@ private fun step(energyLevels: Map<Point, Int>): Map<Point, Int> {
     }
 
     // Finally, any octopus that flashed during this step has its energy level set to 0
-    val flashed = result.entries.filter { 9 < it.value }
+    result.entries.filter { 9 < it.value }
         .forEach { it.setValue(0) }
 
     return result
