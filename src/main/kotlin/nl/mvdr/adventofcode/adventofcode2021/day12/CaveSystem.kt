@@ -8,11 +8,18 @@ import org.jgrapht.graph.SimpleGraph
 data class CaveSystem(val caves: Graph<Cave, DefaultEdge>) {
     constructor(lines: Sequence<String>) : this(buildGraph(lines))
 
-    fun countPathsToEnd(startingCave: Cave = Cave("start"), visited: List<Cave> = listOf(startingCave)): Int = when (startingCave) {
+    /**
+     * Counts the number of paths to the end cave.
+     * The [canVisit] function determines, given a cave and a list of previously visited caves, whether it is allowed to visit the cave.
+     */
+    fun countPathsToEnd(canVisit: (Cave, List<Cave>) -> Boolean,
+                        startingCave: Cave = Cave("start"),
+                        visited: List<Cave> = listOf(startingCave)
+                        ): Int = when (startingCave) {
         Cave("end") -> 1
         else -> Graphs.neighborSetOf(caves, startingCave)
-            .filter { neighbour -> neighbour.big || !visited.contains(neighbour) }
-            .sumOf { countPathsToEnd(it, visited + it) }
+            .filter { canVisit.invoke(it, visited) }
+            .sumOf { countPathsToEnd(canVisit, it, visited + it) }
     }
 }
 
