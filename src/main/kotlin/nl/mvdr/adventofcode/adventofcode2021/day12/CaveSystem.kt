@@ -6,8 +6,6 @@ import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 
-private val logger = KotlinLogging.logger{}
-
 data class CaveSystem(val caves: Graph<Cave, DefaultEdge>) {
     constructor(lines: Sequence<String>) : this(buildGraph(lines))
 
