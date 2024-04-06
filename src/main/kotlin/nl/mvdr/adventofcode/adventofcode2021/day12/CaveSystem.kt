@@ -17,7 +17,7 @@ data class CaveSystem(val caves: Graph<Cave, DefaultEdge>) {
             1
         }
         else -> Graphs.neighborSetOf(caves, startingCave)
-            .filter { neighbour -> visited.count { it == neighbour } < neighbour.size.maxVisits }
+            .filter { neighbour -> neighbour.size == CaveSize.BIG || !visited.contains(neighbour) }
             .sumOf { countPathsToEnd(it, visited + it) }
     }
 }
