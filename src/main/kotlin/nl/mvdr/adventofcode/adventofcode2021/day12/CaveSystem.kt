@@ -1,22 +1,28 @@
 package nl.mvdr.adventofcode.adventofcode2021.day12
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 
+private val logger = KotlinLogging.logger{}
+
 data class CaveSystem(val caves: Graph<Cave, DefaultEdge>) {
     constructor(lines: Sequence<String>) : this(buildGraph(lines))
 
     /**
-     * Counts the number of paths to the end cave.
+     * Counts the number of paths from the [startingCave] to the end cave, given that the [visited] caves have already been visited.
      * The [canVisit] function determines, given a cave and a list of previously visited caves, whether it is allowed to visit the cave.
      */
     fun countPathsToEnd(canVisit: (Cave, List<Cave>) -> Boolean,
                         startingCave: Cave = Cave("start"),
                         visited: List<Cave> = listOf(startingCave)
-                        ): Int = when (startingCave) {
-        Cave("end") -> 1
+                        ): Int = when (startingCave.name) {
+        "end" -> {
+            logger.debug { "Path found: $visited" }
+            1
+        }
         else -> Graphs.neighborSetOf(caves, startingCave)
             .filter { canVisit.invoke(it, visited) }
             .sumOf { countPathsToEnd(canVisit, it, visited + it) }
