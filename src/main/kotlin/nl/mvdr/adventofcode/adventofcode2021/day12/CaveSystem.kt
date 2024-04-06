@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2021.day12
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jgrapht.Graph
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
