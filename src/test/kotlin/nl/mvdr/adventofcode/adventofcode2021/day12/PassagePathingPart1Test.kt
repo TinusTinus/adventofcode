@@ -10,7 +10,7 @@ class PassagePathingPart1Test: FunctionSolverTest<Int>(::solvePart1) {
             Arguments.of("10", "example-day12-2021-0.txt"),
             Arguments.of("19", "example-day12-2021-1.txt"),
             Arguments.of("226", "example-day12-2021-2.txt"),
-            Arguments.of("?", "input-day12-2021.txt")
+            Arguments.of("4411", "input-day12-2021.txt")
         )
     }
 }

@@ -13,7 +13,7 @@ data class CaveSystem(val caves: Graph<Cave, DefaultEdge>) {
 
     fun countPathsToEnd(startingCave: Cave = Cave("start"), visited: List<Cave> = listOf(startingCave)): Int = when (startingCave) {
         Cave("end") -> {
-            logger.info { "Path found: $visited" } // TODO reduce log level
+            logger.debug { "Path found: $visited" }
             1
         }
         else -> Graphs.neighborSetOf(caves, startingCave)
