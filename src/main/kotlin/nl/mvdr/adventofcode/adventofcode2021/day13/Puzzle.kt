@@ -13,11 +13,19 @@ data class Puzzle(private val dots: Set<Point>, private val instructions: List<F
     fun performInstruction(): Puzzle = Puzzle(instructions.first().perform(dots), instructions.drop(1))
 
     /**
+     * Performs all instructions.
+     */
+    fun solve(): Puzzle = when {
+        instructions.isEmpty() -> this
+        else -> performInstruction().solve()
+    }
+
+    /**
      * Counts the number of visible dots.
      */
     fun countDots() = dots.size
 
-    override fun toString(): String = Point.visualize(dots)
+    override fun toString(): String = "Puzzle:\n" + Point.visualize(dots)
 }
 
 /**
