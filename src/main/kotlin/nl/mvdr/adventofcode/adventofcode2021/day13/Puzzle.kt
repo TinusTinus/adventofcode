@@ -7,6 +7,14 @@ import nl.mvdr.adventofcode.point.Point
  * with [dots] and folding [instructions].
  */
 data class Puzzle(private val dots: Set<Point>, private val instructions: List<FoldInstruction>) {
+    /**
+     * Performs only the first fold instruction.
+     */
+    fun performInstruction(): Puzzle = Puzzle(instructions.first().perform(dots), instructions.drop(1))
+
+    /**
+     * Counts the number of visible dots.
+     */
     fun countDots() = dots.size
 
     override fun toString(): String = Point.visualize(dots)
