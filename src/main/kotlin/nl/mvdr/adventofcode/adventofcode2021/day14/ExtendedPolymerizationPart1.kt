@@ -19,15 +19,6 @@ fun solvePart1(linesSequence: Sequence<String>): Int {
     return occurrenceCounts.max() - occurrenceCounts.min()
 }
 
-private fun countElementOccurrences(polymer: String): Map<Char, Int> {
-    val result = mutableMapOf<Char, Int>()
-    for (element in polymer) {
-        result.putIfAbsent(element, 0)
-        result[element] = result[element]!! + 1
-    }
-    return result
-}
-
 private fun parseInsertionRules(lines: List<String>): Map<String, String> {
     val insertionRules = mutableMapOf<String, String>()
     for (insertionRuleString in lines) {
@@ -54,6 +45,15 @@ private fun pairInsertion(polymer: String, insertionRules: Map<String, String>):
     else -> polymer.first() +
             (insertionRules[polymer.substring(0 until 2)] ?: "") +
             pairInsertion(polymer.substring(1), insertionRules)
+}
+
+private fun countElementOccurrences(polymer: String): Map<Char, Int> {
+    val result = mutableMapOf<Char, Int>()
+    for (element in polymer) {
+        result.putIfAbsent(element, 0)
+        result[element] = result[element]!! + 1
+    }
+    return result
 }
 
 fun main() {
