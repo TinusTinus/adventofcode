@@ -1,6 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2021.day14
 
+/**
+ * Representation of the polymerization instructions in the submarine manual.
+ */
 data class Manual(private val polymerTemplate: String, private val insertionRules: Map<Pair<Char, Char>, Char>) {
+
+    constructor(lines: List<String>) : this(lines[0], parseInsertionRules(lines.drop(2)))
 
     /**
      * Solves the puzzle for the given number of pair insertion [steps].
@@ -42,8 +47,6 @@ data class Manual(private val polymerTemplate: String, private val insertionRule
         return result
     }
 }
-
-fun parseManual(lines: List<String>) = Manual(lines[0], parseInsertionRules(lines.drop(2)))
 
 private fun parseInsertionRules(lines: List<String>): Map<Pair<Char, Char>, Char> {
     val insertionRules = mutableMapOf<Pair<Char, Char>, Char>()
