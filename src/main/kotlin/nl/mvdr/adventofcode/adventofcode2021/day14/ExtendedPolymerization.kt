@@ -1,10 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2021.day14
 
-import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.FunctionSolver
-
-private val logger = KotlinLogging.logger{}
-
 fun solve(linesSequence: Sequence<String>, steps: Int = 10): Long {
     val lines = linesSequence.toList()
     val polymerTemplate = lines[0]
@@ -13,45 +8,50 @@ fun solve(linesSequence: Sequence<String>, steps: Int = 10): Long {
     }
     val insertionRules = parseInsertionRules(lines.drop(2))
 
-    val polymer = polymerize(polymerTemplate, insertionRules, steps)
-
-    val elements = elementSetOf(polymer)
+    val elements = countInsertedElements(polymerTemplate, insertionRules, steps) union elementSetOf(polymerTemplate)
     return elements.mostCommonElementCount() - elements.leastCommonElementCount()
 }
 
-private fun parseInsertionRules(lines: List<String>): Map<String, String> {
-    val insertionRules = mutableMapOf<String, String>()
+private fun parseInsertionRules(lines: List<String>): Map<Pair<Char, Char>, Char> {
+    val insertionRules = mutableMapOf<Pair<Char, Char>, Char>()
     for (insertionRuleString in lines) {
-        val (pair, insertion) = insertionRuleString.split(" -> ")
-        insertionRules[pair] = insertion
+        val (pairString, insertionString) = insertionRuleString.split(" -> ")
+        if (pairString.length != 2 || insertionString.length != 1) {
+            throw IllegalArgumentException("Unable to parse insertion rule: $insertionRuleString")
+        }
+        insertionRules[Pair(pairString.first(), pairString.last())] = insertionString.first()
     }
     return insertionRules
 }
 
-private fun polymerize(polymer: String, insertionRules: Map<String, String>, steps: Int): String = when (steps) {
-    0 -> polymer
-    else -> polymerize(pairInsertion(polymer, insertionRules), insertionRules, steps - 1)
-}
-
 /**
- * Performs a single pair insertion step.
- * The [polymer] parameter is a string representation of the current form of the polymer.
- * For example: "NNCB" or "NBBBCNCCNBBNBNBBCHBHHBCHB".
- * The [insertionRules] map contains as its key the pair of elements (for example "AB"),
- * and as its value the element to be inserted (for example, "C").
+ * Returns a multiset of the elements which are inserted into the given [polymerTemplate],
+ * by applying the given [insertionRules] the given number of [steps].
  */
-private fun pairInsertion(polymer: String, insertionRules: Map<String, String>): String {
-    var result = ""
-    for (i in 0 until polymer.length - 1) {
-        result += polymer[i]
-        result += insertionRules[polymer.substring(i until i + 2)] ?: ""
+private fun countInsertedElements(polymerTemplate: String, insertionRules: Map<Pair<Char, Char>, Char>, steps: Int): ElementMultiSet {
+    val insertedElementsPerRule = countInsertedElements(insertionRules, steps)
+
+    var result = emptyElementSet()
+    for (i in 0 until polymerTemplate.length - 1) {
+        val pair = Pair(polymerTemplate[i], polymerTemplate[i + 1])
+        val inserted = insertedElementsPerRule[pair] ?: emptyElementSet()
+        result = result union inserted
     }
-    result += polymer.last()
-    logger.debug { "$polymer -> $result" }
     return result
 }
 
-fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day14-2021.txt")
-    logger.info { result }
+/**
+ * Returns, per insertion rule, a multiset of the elements which are inserted for each occurrence of the pair,
+ * if the number of given pair insertion [steps] are performed.
+ */
+private fun countInsertedElements(insertionRules: Map<Pair<Char, Char>, Char>, steps: Int): Map<Pair<Char, Char>, ElementMultiSet> {
+    var result = insertionRules.mapValues { elementSetOf(it.value) }
+
+    for (step in 1 until steps) {
+        result = insertionRules.mapValues { elementSetOf(it.value) union
+                (result[Pair(it.key.first, it.value)] ?: emptyElementSet()) union
+                (result[Pair(it.value, it.key.second)] ?: emptyElementSet()) }
+    }
+
+    return result
 }

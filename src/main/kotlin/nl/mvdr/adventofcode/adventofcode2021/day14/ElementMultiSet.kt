@@ -19,4 +19,6 @@ data class ElementMultiSet(private val counts: Map<Char, Long>) {
 
 fun elementSetOf(element: Char) = ElementMultiSet(mapOf(Pair(element, 1L)))
 
-fun elementSetOf(polymer: String): ElementMultiSet = polymer.map(::elementSetOf).reduce { set0, set1 -> set0 union set1 }
+fun elementSetOf(polymerTemplate: String): ElementMultiSet = polymerTemplate.map(::elementSetOf).reduce { set0, set1 -> set0 union set1 }
+
+fun emptyElementSet() = ElementMultiSet(emptyMap())
