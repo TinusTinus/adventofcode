@@ -5,7 +5,11 @@ package nl.mvdr.adventofcode.adventofcode2021.day14
  */
 data class Manual(private val polymerTemplate: String, private val insertionRules: Map<Pair<Char, Char>, Char>) {
 
-    constructor(lines: List<String>) : this(lines[0], parseInsertionRules(lines.drop(2)))
+    constructor(lines: List<String>) : this(lines[0], parseInsertionRules(lines.drop(2))) {
+        if (lines[1].isNotEmpty()) {
+            throw IllegalArgumentException("Second line is expected to be empty, but was: " + lines[1])
+        }
+    }
 
     /**
      * Solves the puzzle for the given number of pair insertion [steps].
