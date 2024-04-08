@@ -51,15 +51,6 @@ private fun pairInsertion(polymer: String, insertionRules: Map<String, String>):
     return result
 }
 
-private fun countElementOccurrences(polymer: String): Map<Char, Int> {
-    val result = mutableMapOf<Char, Int>()
-    for (element in polymer) {
-        result.putIfAbsent(element, 0)
-        result[element] = result[element]!! + 1
-    }
-    return result
-}
-
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day14-2021.txt")
     logger.info { result }
