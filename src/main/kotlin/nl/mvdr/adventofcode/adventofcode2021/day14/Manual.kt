@@ -22,13 +22,11 @@ data class Manual(private val polymerTemplate: String, private val insertionRule
     private fun countInsertedElements(steps: Int): ElementMultiSet {
         val insertedElementsPerRule = countInsertedElementsPerRule(steps)
 
-        var result = emptyElementSet()
-        for (i in 0 until polymerTemplate.length - 1) {
-            val pair = Pair(polymerTemplate[i], polymerTemplate[i + 1])
-            val inserted = insertedElementsPerRule[pair] ?: emptyElementSet()
-            result = result union inserted
-        }
-        return result
+        return (0 until polymerTemplate.length - 1)
+            .map { Pair(polymerTemplate[it], polymerTemplate[it + 1]) }
+            .map { insertedElementsPerRule[it] }
+            .map { it ?: emptyElementSet() }
+            .reduce(ElementMultiSet::union)
     }
 
     /**
