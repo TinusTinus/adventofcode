@@ -1,14 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2021.day14
 
-fun solve(linesSequence: Sequence<String>, steps: Int = 10): Long {
-    val lines = linesSequence.toList()
+/**
+ * Solves the puzzle, given the [lines] from the puzzle input and the number of pair insertion [steps] to perform.
+ */
+fun solve(lines: List<String>, steps: Int): Long {
     val polymerTemplate = lines[0]
     if (lines[1].isNotEmpty()) {
         throw IllegalArgumentException("Expected second line to be empty in the input, but was: " + lines[1])
     }
     val insertionRules = parseInsertionRules(lines.drop(2))
 
-    val elements = countInsertedElements(polymerTemplate, insertionRules, steps) union elementSetOf(polymerTemplate)
+    val elements = elementSetOf(polymerTemplate) union countInsertedElements(polymerTemplate, insertionRules, steps)
     return elements.mostCommonElementCount() - elements.leastCommonElementCount()
 }
 
@@ -29,7 +31,7 @@ private fun parseInsertionRules(lines: List<String>): Map<Pair<Char, Char>, Char
  * by applying the given [insertionRules] the given number of [steps].
  */
 private fun countInsertedElements(polymerTemplate: String, insertionRules: Map<Pair<Char, Char>, Char>, steps: Int): ElementMultiSet {
-    val insertedElementsPerRule = countInsertedElements(insertionRules, steps)
+    val insertedElementsPerRule = countInsertedElementsPerRule(insertionRules, steps)
 
     var result = emptyElementSet()
     for (i in 0 until polymerTemplate.length - 1) {
@@ -44,7 +46,7 @@ private fun countInsertedElements(polymerTemplate: String, insertionRules: Map<P
  * Returns, per insertion rule, a multiset of the elements which are inserted for each occurrence of the pair,
  * if the number of given pair insertion [steps] are performed.
  */
-private fun countInsertedElements(insertionRules: Map<Pair<Char, Char>, Char>, steps: Int): Map<Pair<Char, Char>, ElementMultiSet> {
+private fun countInsertedElementsPerRule(insertionRules: Map<Pair<Char, Char>, Char>, steps: Int): Map<Pair<Char, Char>, ElementMultiSet> {
     var result = insertionRules.mapValues { elementSetOf(it.value) }
 
     for (step in 1 until steps) {
