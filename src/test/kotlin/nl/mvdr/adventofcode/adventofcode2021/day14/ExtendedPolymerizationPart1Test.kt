@@ -8,7 +8,7 @@ class ExtendedPolymerizationPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
             Arguments.of("1588", "example-day14-2021.txt"),
-            Arguments.of("?", "input-day14-2021.txt")
+            Arguments.of("2915", "input-day14-2021.txt")
         )
     }
 }

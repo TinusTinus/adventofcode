@@ -40,11 +40,15 @@ private fun polymerize(polymer: String, insertionRules: Map<String, String>, ste
  * The [insertionRules] map contains as its key the pair of elements (for example "AB"),
  * and as its value the element to be inserted (for example, "C").
  */
-private fun pairInsertion(polymer: String, insertionRules: Map<String, String>): String = when {
-    polymer.length == 1 || polymer.isEmpty() -> polymer
-    else -> polymer.first() +
-            (insertionRules[polymer.substring(0 until 2)] ?: "") +
-            pairInsertion(polymer.substring(1), insertionRules)
+private fun pairInsertion(polymer: String, insertionRules: Map<String, String>): String {
+    var result = ""
+    for (i in 0 until polymer.length - 1) {
+        result += polymer[i]
+        result += insertionRules[polymer.substring(i until i + 2)] ?: ""
+    }
+    result += polymer.last()
+    logger.debug { "$polymer -> $result" }
+    return result
 }
 
 private fun countElementOccurrences(polymer: String): Map<Char, Int> {
@@ -57,6 +61,6 @@ private fun countElementOccurrences(polymer: String): Map<Char, Int> {
 }
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day13-2021.txt")
+    val result = FunctionSolver(::solvePart1).solve("input-day14-2021.txt")
     logger.info { result }
 }
