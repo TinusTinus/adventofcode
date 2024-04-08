@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day14
 import nl.mvdr.adventofcode.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class ExtendedPolymerizationPart1Test: FunctionSolverTest<Int>(::solvePart1) {
+class ExtendedPolymerizationPart1Test: FunctionSolverTest<Long>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(

@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solve(linesSequence: Sequence<String>, steps: Int = 10): Int {
+fun solve(linesSequence: Sequence<String>, steps: Int = 10): Long {
     val lines = linesSequence.toList()
     val polymerTemplate = lines[0]
     if (lines[1].isNotEmpty()) {
@@ -15,8 +15,8 @@ fun solve(linesSequence: Sequence<String>, steps: Int = 10): Int {
 
     val polymer = polymerize(polymerTemplate, insertionRules, steps)
 
-    val occurrenceCounts = countElementOccurrences(polymer).values
-    return occurrenceCounts.max() - occurrenceCounts.min()
+    val elements = elementSetOf(polymer)
+    return elements.mostCommonElementCount() - elements.leastCommonElementCount()
 }
 
 private fun parseInsertionRules(lines: List<String>): Map<String, String> {
