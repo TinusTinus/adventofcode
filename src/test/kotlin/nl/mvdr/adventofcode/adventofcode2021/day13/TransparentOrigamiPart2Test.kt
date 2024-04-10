@@ -11,9 +11,9 @@ private val logger = KotlinLogging.logger{}
 class TransparentOrigamiPart2Test {
 
     /**
-     * Invokes the [solvePart2] function.
+     * Invokes the [solvePart2] function for the given [inputFile]: a text file on the classpath containing puzzle input.
      * Note that this test does not contain any assertions; it only checks that the function completes without exceptions.
-     * The resulting output (ASCII art) can be inspected visually in the console.
+     * The resulting output ASCII art can be inspected visually in the console.
      */
     @ParameterizedTest
     @MethodSource
