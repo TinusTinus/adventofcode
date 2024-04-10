@@ -16,7 +16,7 @@ fun parseRisks(lines: Sequence<String>): MutableMap<Point, Int> =
 /**
  * Finds the total risk of the least risky path, for the given [risks].
  */
-fun solve(risks: MutableMap<Point, Int>): Int {
+fun solve(risks: Map<Point, Int>): Int {
     val graph = createGraph(risks)
 
     val start = Point(0, 0)
@@ -27,7 +27,7 @@ fun solve(risks: MutableMap<Point, Int>): Int {
     return path.weight.toInt()
 }
 
-private fun createGraph(risks: MutableMap<Point, Int>): Graph<Point, DefaultEdge> {
+private fun createGraph(risks: Map<Point, Int>): Graph<Point, DefaultEdge> {
     val graph = SimpleDirectedWeightedGraph<Point, DefaultEdge>(DefaultEdge::class.java)
 
     // Add vertices
