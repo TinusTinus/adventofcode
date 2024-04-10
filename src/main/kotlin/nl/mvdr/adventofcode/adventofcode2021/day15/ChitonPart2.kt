@@ -16,9 +16,20 @@ private fun expand(risks: Map<Point, Int>): Map<Point, Int> {
         for (yOffset in 0 until 5) {
             val pointOffset = Point(xOffset, yOffset)
             val valueOffset = xOffset + yOffset
-            risks.entries.forEach { result[it.key + pointOffset] = (it.value + valueOffset) % 10 } // TODO this risk offset calculation is incorrect
+            risks.entries.forEach { result[it.key + pointOffset] = calculateRiskValue(it.value, valueOffset) }
         }
     }
+
+    return result
+}
+
+private fun calculateRiskValue(risk: Int, offset: Int): Int {
+    var result = risk + offset
+    while (9 < result) {
+        result -= 9
+    }
+
+    logger.info { "Original risk: $risk, offset: $offset, result: $result"}
 
     return result
 }
