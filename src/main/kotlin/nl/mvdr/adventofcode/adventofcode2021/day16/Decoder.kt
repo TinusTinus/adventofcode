@@ -20,7 +20,7 @@ fun toBinary(hexadecimal: String): String = hexadecimal.map { it.toString().toIn
     .joinToString(separator = "") { it.padStart(4, '0') }
 
 /**
- * Decodes a packet based on the given string represenation of a [binary] value.
+ * Decodes a packet based on the given string representation of a [binary] value.
  * Returns a pair containing the decoded packet and the remaining contents of the string.
  */
 private fun decodePacket(binary: String): Pair<Packet, String> {
@@ -34,20 +34,25 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
 
     val typeId = decodeNumber(remaining.substring(0 until 3))
     remaining = remaining.substring(3)
+    val packetType = PacketType.entries.first { it.id == typeId }
     logger.debug { "Type id: $typeId, remaining binary string: $remaining" }
 
-    val result = when (typeId) {
-        4 -> {
+    val result = when (packetType) {
+        PacketType.LITERAL_VALUE -> {
             var keepReading = true
+            var valueString = ""
             while (keepReading) {
                 keepReading = when(val keepReadingValue = decodeNumber(remaining.substring(0 until 1))) {
                     0 -> false
                     1 -> true
                     else -> throw IllegalStateException("Unexpected keep reading value: $keepReadingValue")
                 }
-                remaining = remaining.substring(5)
+                remaining = remaining.substring(1)
+
+                valueString += remaining.substring(0 until 4)
+                remaining = remaining.substring(4)
             }
-            LiteralValuePacket(version)
+            LiteralValuePacket(version, decodeNumber(valueString))
         }
         else -> {
             val lengthTypeId = decodeNumber(remaining.substring(0 until 1))
@@ -76,7 +81,7 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
                 }
                 else -> throw IllegalStateException("Unexpected length type id: $lengthTypeId")
             }
-            OperatorPacket(version, subPackets)
+            OperatorPacket(version, subPackets, packetType)
         }
     }
 
@@ -87,6 +92,12 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
 
 private fun decodeNumber(binary: String) = binary.toInt(2)
 
+/**
+ * Decodes a list of sub-packets, based on the string representation of a [binary] value.
+ * If the [numberOfPackets] is specified, exactly that number of packets is decoded.
+ * Otherwise, the entirety of the given string is decoded.
+ * Returns a pair containing the decoded packets and the remaining contents of the string.
+ */
 private fun decodeSubPackets(binary: String, numberOfPackets: Int?): Pair<List<Packet>, String> {
     var remaining = binary
     val packets = mutableListOf<Packet>()
