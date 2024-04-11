@@ -34,7 +34,7 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
     val packetType = decodePacketType(remaining.substring(0 until 3))
     remaining = remaining.substring(3)
 
-    val result = when (packetType) {
+    val packet = when (packetType) {
         PacketType.LITERAL_VALUE -> {
             var keepReading = true
             var valueString = ""
@@ -45,7 +45,8 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
                 valueString += remaining.substring(0 until 4)
                 remaining = remaining.substring(4)
             }
-            LiteralValuePacket(version, decodeLong(valueString))
+            val value = decodeLong(valueString)
+            LiteralValuePacket(version, value)
         }
         else -> {
             val lengthType = decodeLengthType(remaining.substring(0 until 1))
@@ -75,9 +76,9 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
         }
     }
 
-    logger.debug { "Decoded packet: $result" }
+    logger.debug { "Decoded packet: $packet" }
 
-    return Pair(result, remaining)
+    return Pair(packet, remaining)
 }
 
 private fun decodeInt(binary: String) = binary.toInt(2)
