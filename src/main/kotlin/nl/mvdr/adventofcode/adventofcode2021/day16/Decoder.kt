@@ -28,42 +28,33 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
 
     var remaining = binary
 
-    val version = decodeNumber(remaining.substring(0 until 3))
+    val version = decodeInt(remaining.substring(0 until 3))
     remaining = remaining.substring(3)
-    logger.debug { "Version: $version, remaining binary string: $remaining" }
 
-    val typeId = decodeNumber(remaining.substring(0 until 3))
+    val packetType = decodePacketType(remaining.substring(0 until 3))
     remaining = remaining.substring(3)
-    val packetType = PacketType.entries.first { it.id == typeId }
-    logger.debug { "Type id: $typeId, remaining binary string: $remaining" }
 
     val result = when (packetType) {
         PacketType.LITERAL_VALUE -> {
             var keepReading = true
             var valueString = ""
             while (keepReading) {
-                keepReading = when(val keepReadingValue = decodeNumber(remaining.substring(0 until 1))) {
-                    0 -> false
-                    1 -> true
-                    else -> throw IllegalStateException("Unexpected keep reading value: $keepReadingValue")
-                }
+                keepReading = decodeBoolean(remaining.substring(0 until 1))
                 remaining = remaining.substring(1)
 
                 valueString += remaining.substring(0 until 4)
                 remaining = remaining.substring(4)
             }
-            LiteralValuePacket(version, decodeLongNumber(valueString))
+            LiteralValuePacket(version, decodeLong(valueString))
         }
         else -> {
-            val lengthTypeId = decodeNumber(remaining.substring(0 until 1))
+            val lengthTypeId = decodeInt(remaining.substring(0 until 1))
             remaining = remaining.substring(1)
-            logger.debug { "Length type id: $lengthTypeId, remaining binary string: $remaining" }
 
             val subPackets = when(lengthTypeId) {
                 0 -> {
-                    val totalLength = decodeNumber(remaining.substring(0 until 15))
+                    val totalLength = decodeInt(remaining.substring(0 until 15))
                     remaining = remaining.substring(15)
-                    logger.debug { "Total length: $totalLength, remaining binary string: $remaining" }
 
                     val decodedSubPackets = decodeSubPackets(remaining.substring(0 until totalLength), null)
                     remaining = remaining.substring(totalLength)
@@ -71,7 +62,7 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
                     decodedSubPackets.first
                 }
                 1 -> {
-                    val totalPackets = decodeNumber(remaining.substring(0 until 11))
+                    val totalPackets = decodeInt(remaining.substring(0 until 11))
                     remaining = remaining.substring(11)
 
                     val decodedSubPackets = decodeSubPackets(remaining, totalPackets)
@@ -90,9 +81,20 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
     return Pair(result, remaining)
 }
 
-private fun decodeNumber(binary: String) = binary.toInt(2)
+private fun decodeInt(binary: String) = binary.toInt(2)
 
-private fun decodeLongNumber(binary: String) = binary.toLong(2)
+private fun decodeLong(binary: String) = binary.toLong(2)
+
+private fun decodeBoolean(binary: String) = when (val intValue = decodeInt(binary)) {
+    0 -> false
+    1 -> true
+    else -> throw IllegalStateException("Unexpected value: $intValue")
+}
+
+private fun decodePacketType(binary: String): PacketType {
+    val typeId = decodeInt(binary)
+    return PacketType.entries.first { it.id == typeId }
+}
 
 /**
  * Decodes a list of sub-packets, based on the string representation of a [binary] value.
