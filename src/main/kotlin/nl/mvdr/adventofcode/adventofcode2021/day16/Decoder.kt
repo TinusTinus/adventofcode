@@ -85,12 +85,6 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
     return Pair(result, remaining)
 }
 
-/**
- * Decodes the first [length] characters of the given [binary] string representation as a number.
- * Returns a pair containing the decoded number and the remaining contents of the string.
- */
-private fun decodeNumber(binary: String, length: Int) = Pair(binary.substring(0 until length).toInt(2), binary.substring(length))
-
 private fun decodeNumber(binary: String) = binary.toInt(2)
 
 private fun decodeSubPackets(binary: String, numberOfPackets: Int?): Pair<List<Packet>, String> {
