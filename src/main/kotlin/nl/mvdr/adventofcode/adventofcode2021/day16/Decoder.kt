@@ -52,7 +52,7 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
                 valueString += remaining.substring(0 until 4)
                 remaining = remaining.substring(4)
             }
-            LiteralValuePacket(version, decodeNumber(valueString))
+            LiteralValuePacket(version, decodeLongNumber(valueString))
         }
         else -> {
             val lengthTypeId = decodeNumber(remaining.substring(0 until 1))
@@ -91,6 +91,8 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
 }
 
 private fun decodeNumber(binary: String) = binary.toInt(2)
+
+private fun decodeLongNumber(binary: String) = binary.toLong(2)
 
 /**
  * Decodes a list of sub-packets, based on the string representation of a [binary] value.
