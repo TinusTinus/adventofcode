@@ -4,5 +4,5 @@ interface Packet {
     val version: Int
     val subPackets: List<Packet>
 
-    fun totalVersionNumber(): Int = version + subPackets.sumOf(Packet::version)
+    fun totalVersionNumber(): Int = version + subPackets.sumOf(Packet::totalVersionNumber)
 }
