@@ -15,7 +15,7 @@ class PacketDecoderPart2Test: FunctionSolverTest<Long>(::solvePart2) {
             Arguments.of("0", "example-day16-2021-9.txt"),
             Arguments.of("0", "example-day16-2021-10.txt"),
             Arguments.of("1", "example-day16-2021-11.txt"),
-            Arguments.of("?", "input-day16-2021.txt")
+            Arguments.of("6802496672062", "input-day16-2021.txt")
         )
     }
 }
