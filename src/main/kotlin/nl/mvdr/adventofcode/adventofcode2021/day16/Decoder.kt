@@ -48,11 +48,11 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
             LiteralValuePacket(version, decodeLong(valueString))
         }
         else -> {
-            val lengthTypeId = decodeInt(remaining.substring(0 until 1))
+            val lengthType = decodeLengthType(remaining.substring(0 until 1))
             remaining = remaining.substring(1)
 
-            val subPackets = when(lengthTypeId) {
-                0 -> {
+            val subPackets = when(lengthType) {
+                LengthType.TOTAL_LENGTH -> {
                     val totalLength = decodeInt(remaining.substring(0 until 15))
                     remaining = remaining.substring(15)
 
@@ -61,7 +61,7 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
 
                     decodedSubPackets.first
                 }
-                1 -> {
+                LengthType.NUMBER_OF_SUB_PACKETS -> {
                     val totalPackets = decodeInt(remaining.substring(0 until 11))
                     remaining = remaining.substring(11)
 
@@ -70,7 +70,6 @@ private fun decodePacket(binary: String): Pair<Packet, String> {
 
                     decodedSubPackets.first
                 }
-                else -> throw IllegalStateException("Unexpected length type id: $lengthTypeId")
             }
             OperatorPacket(version, subPackets, packetType)
         }
@@ -94,6 +93,11 @@ private fun decodeBoolean(binary: String) = when (val intValue = decodeInt(binar
 private fun decodePacketType(binary: String): PacketType {
     val typeId = decodeInt(binary)
     return PacketType.entries.first { it.id == typeId }
+}
+
+private fun decodeLengthType(binary: String): LengthType {
+    val lengthTypeId = decodeInt(binary)
+    return LengthType.entries.first { it.id == lengthTypeId }
 }
 
 /**
