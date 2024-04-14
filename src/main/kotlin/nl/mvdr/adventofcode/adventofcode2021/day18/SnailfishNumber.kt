@@ -14,6 +14,18 @@ data class SnailfishNumber(private val left: SnailfishElement, private val right
      */
     override fun magnitude() = 3 * left.magnitude() + 2 * right.magnitude()
 
+    override fun split(): SnailfishNumber? {
+        return when (val leftSplit = left.split()) {
+            null -> {
+                when (val rightSplit = right.split()) {
+                    null -> null
+                    else -> SnailfishNumber(left, rightSplit)
+                }
+            }
+            else -> SnailfishNumber(leftSplit, right)
+        }
+    }
+
     override fun toString() = "[$left,$right]"
 }
 

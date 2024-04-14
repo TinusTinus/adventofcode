@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2021.day18
 
+import kotlin.math.ceil
+
 /**
  * Representation of a regular number within a snailfish number.
  * If the snailfish number is regular, the [value] must be single-digit,
@@ -10,6 +12,11 @@ data class RegularNumber(val value: Int): SnailfishElement {
      * The magnitude of a regular number is just that number.
      */
     override fun magnitude() = value
+
+    override fun split() = when {
+        10 <= value -> SnailfishNumber(RegularNumber(value / 2), RegularNumber(ceil(value.toDouble() / 2.0).toInt()))
+        else -> null
+    }
 
     override fun toString() = value.toString()
 }

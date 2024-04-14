@@ -5,6 +5,13 @@ package nl.mvdr.adventofcode.adventofcode2021.day18
  */
 interface SnailfishElement {
     fun magnitude(): Int
+
+    /**
+     * Attempts to perform a single split step, as part of a reduction.
+     * If successful, this function returns the updated element.
+     * Otherwise, it returns null.
+     */
+    fun split(): SnailfishElement?
 }
 
 /**
