@@ -37,3 +37,16 @@ data class Probe(val position: Point, val velocity: Point) {
         else -> step().willReachTargetArea(targetArea)
     }
 }
+
+/**
+ * Returns all possible initial probes which will eventually reach the given [targetArea].
+ */
+fun getProbes(targetArea: TargetArea): Sequence<Probe> {
+    val xVelocityRange = 1..targetArea.x.last
+    val yVelocityRange = targetArea.y.first..1000 // Note that the max y velocity was pretty much pulled from thin air
+
+    return xVelocityRange.asSequence()
+        .flatMap { xVelocity -> yVelocityRange.map { yVelocity -> Point(xVelocity, yVelocity) } }
+        .map(::Probe)
+        .filter { it.willReachTargetArea(targetArea) }
+}

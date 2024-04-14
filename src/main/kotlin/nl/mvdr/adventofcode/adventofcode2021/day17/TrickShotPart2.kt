@@ -2,19 +2,12 @@ package nl.mvdr.adventofcode.adventofcode2021.day17
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.FunctionSolver
-import nl.mvdr.adventofcode.point.Point
 
 private val logger = KotlinLogging.logger{}
 
 fun solvePart2(lines: Sequence<String>): Int {
     val targetArea = parseTargetArea(lines.first())
-
-    val xVelocityRange = 1 .. targetArea.x.last
-    val yVelocityRange = targetArea.y.first .. 1000 // Note that this max y velocity was pretty much pulled from thin air
-
-    return xVelocityRange.flatMap { xVelocity -> yVelocityRange.map { yVelocity -> Point(xVelocity, yVelocity) } }
-        .map(::Probe)
-        .count { it.willReachTargetArea(targetArea) }
+    return getProbes(targetArea).count { it.willReachTargetArea(targetArea) }
 }
 
 fun main() {
