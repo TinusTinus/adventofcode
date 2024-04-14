@@ -21,7 +21,21 @@ data class SnailfishNumber(private val left: SnailfishElement, private val right
      */
     private fun reduceAction() = explode() ?: split()
 
-    private fun explode(): SnailfishNumber? = null // TODO implement!
+    private fun explode(): SnailfishNumber? = when (val exploded = explode(0)) {
+        null -> null
+        else -> exploded.element as SnailfishNumber
+    }
+
+    override fun explode(depth: Int): ExplosionResult? = when (depth) {
+        4 -> {
+            val leftValue = (left as RegularNumber).value
+            val rightValue = (right as RegularNumber).value
+            ExplosionResult(leftValue, RegularNumber(0), rightValue)
+        }
+        else -> {
+            null // TODO implement
+        }
+    }
 
     override fun split(): SnailfishNumber? {
         return when (val leftSplit = left.split()) {
