@@ -10,7 +10,7 @@ fun solvePart1(lines: Sequence<String>): Int {
     val targetArea = parseTargetArea(lines.first())
 
     val xVelocityRange = 1 .. targetArea.x.last + 1
-    val yVelocityRange = 0 .. 1000 // Note that the max y value was pretty much pulled from thin air
+    val yVelocityRange = 0 .. 1000 // Note that this max y velocity was pretty much pulled from thin air
 
     return xVelocityRange.flatMap { xVelocity -> yVelocityRange.map { yVelocity -> Point(xVelocity, yVelocity) } }
         .map { Probe(Point.ORIGIN, it) }
