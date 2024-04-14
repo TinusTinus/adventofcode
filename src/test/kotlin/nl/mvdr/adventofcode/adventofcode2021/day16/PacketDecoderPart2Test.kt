@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.Arguments
 class PacketDecoderPart2Test: FunctionSolverTest<Long>(::solvePart2) {
     companion object {
         @JvmStatic
-        fun testSolution(): List<Arguments> = listOf(
+        fun testSolution() = listOf(
             Arguments.of("3", "example-day16-2021-4.txt"),
             Arguments.of("54", "example-day16-2021-5.txt"),
             Arguments.of("7", "example-day16-2021-6.txt"),

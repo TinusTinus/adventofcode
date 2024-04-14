@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.Arguments
 class TrickShotPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     companion object {
         @JvmStatic
-        fun testSolution(): List<Arguments> = listOf(
+        fun testSolution() = listOf(
             Arguments.of("45", "example-day17-2021.txt"),
             Arguments.of("7875", "input-day17-2021.txt")
         )

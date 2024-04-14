@@ -28,9 +28,20 @@ class SnailfishNumberTest {
         assertEquals(sum, result)
     }
 
+    @ParameterizedTest
+    @MethodSource
+    fun testExplode(expectedResultText: String, numberText: String) {
+        val number = parseSnailfishNumber(numberText)
+        val expectedResult = parseSnailfishNumber(expectedResultText)
+
+        val result = number.explode()
+
+        assertEquals(expectedResult, result)
+    }
+
     companion object {
         @JvmStatic
-        fun testMagnitude(): List<Arguments> = listOf(
+        fun testMagnitude() = listOf(
             Arguments.of(29, "[9,1]"),
             Arguments.of(21, "[1,9]"),
             Arguments.of(129, "[[9,1],[1,9]]"),
@@ -44,7 +55,7 @@ class SnailfishNumberTest {
         )
 
         @JvmStatic
-        fun testPlus(): List<Arguments> = listOf(
+        fun testPlus() = listOf(
             Arguments.of("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]", arrayOf("[[[[4,3],4],4],[7,[[8,4],9]]]", "[1,1]")),
             Arguments.of("[[[[1,1],[2,2]],[3,3]],[4,4]]", arrayOf("[1,1]", "[2,2]", "[3,3]", "[4,4]")),
             Arguments.of("[[[[3,0],[5,3]],[4,4]],[5,5]]", arrayOf("[1,1]", "[2,2]", "[3,3]", "[4,4]", "[5,5]")),
@@ -59,5 +70,6 @@ class SnailfishNumberTest {
             Arguments.of("[[[[7,7],[7,7]],[[8,7],[8,7]]],[[[7,0],[7,7]],9]]", arrayOf("[[[[7,8],[6,7]],[[6,8],[0,8]]],[[[7,7],[5,0]],[[5,5],[5,6]]]]", "[[[5,[7,4]],7],1]")),
             Arguments.of("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]", arrayOf("[[[[7,7],[7,7]],[[8,7],[8,7]]],[[[7,0],[7,7]],9]]", "[[[[4,2],2],6],[8,7]]"))
         )
+
     }
 }

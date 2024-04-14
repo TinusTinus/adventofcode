@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.Arguments
 class ExtendedPolymerizationPart1Test: FunctionSolverTest<Long>(::solvePart1) {
     companion object {
         @JvmStatic
-        fun testSolution(): List<Arguments> = listOf(
+        fun testSolution() = listOf(
             Arguments.of("1588", "example-day14-2021.txt"),
             Arguments.of("2915", "input-day14-2021.txt")
         )
