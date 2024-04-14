@@ -2,8 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day17
 
 import nl.mvdr.adventofcode.point.Point
 
-data class TargetArea(private val x: IntRange, private val y: IntRange) {
-// data class TargetArea(val minX: Int, val maxX: Int, val minY: Int, val maxY: Int) {
+data class TargetArea(val x: IntRange, val y: IntRange) {
     fun contains(point: Point) = point.x in x && point.y in y
 }
 
