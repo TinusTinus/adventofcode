@@ -8,7 +8,7 @@ class TrickShotPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
             Arguments.of("45", "example-day17-2021.txt"),
-            Arguments.of("?", "input-day17-2021.txt")
+            Arguments.of("7875", "input-day17-2021.txt")
         )
     }
 }
