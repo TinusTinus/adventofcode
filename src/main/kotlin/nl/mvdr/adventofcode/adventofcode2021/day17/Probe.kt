@@ -5,6 +5,12 @@ import nl.mvdr.adventofcode.point.plus
 import kotlin.math.sign
 
 data class Probe(val position: Point, val velocity: Point) {
+
+    /**
+     * Constructor for a probe at the initial position with the given [initialVelocity].
+     */
+    constructor(initialVelocity: Point) : this(Point.ORIGIN, initialVelocity)
+
     private fun step(): Probe {
         val newPosition = position + velocity
         val newVelocity = Point(velocity.x + (velocity.x.sign * -1), velocity.y - 1)
@@ -12,7 +18,7 @@ data class Probe(val position: Point, val velocity: Point) {
     }
 
     /**
-     * Returns the highest y position which will be reached by this probe.
+     * Returns the highest y position which will be reached during this probe's trajectory.
      */
     fun maxY(): Int = when {
         velocity.y == 0 -> position.y
@@ -26,8 +32,8 @@ data class Probe(val position: Point, val velocity: Point) {
      */
     fun willReachTargetArea(targetArea: TargetArea): Boolean = when {
         targetArea.contains(position) -> true
-        position.y < targetArea.y.first && velocity.y < 0 -> false
-        velocity.x == 0 && position.x !in targetArea.x -> false
+        position.y < targetArea.y.first && velocity.y < 0 -> false // probe is below the target area and falling
+        velocity.x == 0 && position.x !in targetArea.x -> false // probe is falling straight down, but not directly above the target area
         else -> step().willReachTargetArea(targetArea)
     }
 }

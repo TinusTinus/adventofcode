@@ -13,7 +13,7 @@ fun solvePart1(lines: Sequence<String>): Int {
     val yVelocityRange = 0 .. 1000 // Note that this max y velocity was pretty much pulled from thin air
 
     return xVelocityRange.flatMap { xVelocity -> yVelocityRange.map { yVelocity -> Point(xVelocity, yVelocity) } }
-        .map { Probe(Point.ORIGIN, it) }
+        .map (::Probe)
         .filter { it.willReachTargetArea(targetArea) }
         .maxOf(Probe::maxY)
 }
