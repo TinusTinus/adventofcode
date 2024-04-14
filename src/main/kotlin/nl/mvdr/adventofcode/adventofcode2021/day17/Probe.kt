@@ -26,7 +26,7 @@ data class Probe(val position: Point, val velocity: Point) {
      */
     fun willReachTargetArea(targetArea: TargetArea): Boolean = when {
         targetArea.contains(position) -> true
-        position.y < targetArea.y.min() && velocity.y < 0 -> false
+        position.y < targetArea.y.first && velocity.y < 0 -> false
         else -> step().willReachTargetArea(targetArea)
     }
 }
