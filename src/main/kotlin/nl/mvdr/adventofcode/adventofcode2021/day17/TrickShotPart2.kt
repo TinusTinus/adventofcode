@@ -9,12 +9,14 @@ private val logger = KotlinLogging.logger{}
 fun solvePart2(lines: Sequence<String>): Int {
     val targetArea = parseTargetArea(lines.first())
 
-    val xVelocityRange = 1 .. targetArea.x.max() + 1
-    val yVelocityRange = targetArea.y.min() - 1 .. 1000 // Note that this max y velocity was pretty much pulled from thin air
+    val xVelocityRange = 1 .. targetArea.x.max()
+    val yVelocityRange = targetArea.y.min() .. 1000 // Note that this max y velocity was pretty much pulled from thin air
 
     return xVelocityRange.flatMap { xVelocity -> yVelocityRange.map { yVelocity -> Point(xVelocity, yVelocity) } }
         .map { Probe(Point.ORIGIN, it) }
-        .count { it.willReachTargetArea(targetArea) }
+        .filter { it.willReachTargetArea(targetArea) }
+        .onEach { logger.info { "Initial velocity: " + it.velocity } }
+        .count()
 }
 
 fun main() {
