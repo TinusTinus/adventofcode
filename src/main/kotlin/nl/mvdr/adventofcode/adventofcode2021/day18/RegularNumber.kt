@@ -15,6 +15,12 @@ data class RegularNumber(val value: Int): SnailfishElement {
 
     override fun explode(depth: Int) = null
 
+    override fun addToLeftmostRegularNumber(toAdd: Int): SnailfishElement = add(toAdd)
+
+    override fun addToRightmostRegularNumber(toAdd: Int): SnailfishElement = add(toAdd)
+
+    private fun add(toAdd: Int) = RegularNumber(value + toAdd)
+
     override fun split() = when {
         10 <= value -> SnailfishNumber(RegularNumber(value / 2), RegularNumber(ceil(value.toDouble() / 2.0).toInt()))
         else -> null

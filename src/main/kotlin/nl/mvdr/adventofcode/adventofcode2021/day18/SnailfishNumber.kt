@@ -21,21 +21,45 @@ data class SnailfishNumber(private val left: SnailfishElement, private val right
      */
     private fun reduceAction() = explode() ?: split()
 
-    private fun explode(): SnailfishNumber? = when (val exploded = explode(0)) {
+    fun explode(): SnailfishNumber? = when (val exploded = explode(0)) {
         null -> null
         else -> exploded.element as SnailfishNumber
     }
 
-    override fun explode(depth: Int): ExplosionResult? = when (depth) {
+    override fun explode(depth: Int) = when (depth) {
         4 -> {
             val leftValue = (left as RegularNumber).value
             val rightValue = (right as RegularNumber).value
             ExplosionResult(leftValue, RegularNumber(0), rightValue)
         }
+        else -> explodeLeft(depth) ?: explodeRight(depth)
+    }
+
+    private fun explodeLeft(depth: Int) = when (val exploded = left.explode(depth + 1)) {
+        null -> null
         else -> {
-            null // TODO implement
+            val newRight = when (exploded.toAddRight) {
+                null -> right
+                else -> right.addToLeftmostRegularNumber(exploded.toAddRight)
+            }
+            ExplosionResult(exploded.toAddLeft, SnailfishNumber(exploded.element, newRight), null)
         }
     }
+
+    private fun explodeRight(depth: Int) = when (val exploded = right.explode(depth + 1)) {
+        null -> null
+        else -> {
+            val newLeft = when (exploded.toAddLeft) {
+                null -> left
+                else -> left.addToRightmostRegularNumber(exploded.toAddLeft)
+            }
+            ExplosionResult(null, SnailfishNumber(newLeft, exploded.element), exploded.toAddRight)
+        }
+    }
+
+    override fun addToLeftmostRegularNumber(toAdd: Int) = left.addToLeftmostRegularNumber(toAdd)
+
+    override fun addToRightmostRegularNumber(toAdd: Int) = right.addToRightmostRegularNumber(toAdd)
 
     override fun split(): SnailfishNumber? {
         return when (val leftSplit = left.split()) {
@@ -79,7 +103,7 @@ fun parsePrefixAsSnailfishNumber(text: String): Pair<SnailfishNumber, String> {
 
     val (left, remaining0) = parsePrefixAsElement(text.substring(1))
     if (remaining0.first() != ',') {
-        throw IllegalArgumentException("Snailfih number must be separated by ','. Unable to parse: '$text'")
+        throw IllegalArgumentException("Snailfish number must be separated by ','. Unable to parse: '$text'")
     }
 
     val (right, remaining1) = parsePrefixAsElement(remaining0.substring(1))

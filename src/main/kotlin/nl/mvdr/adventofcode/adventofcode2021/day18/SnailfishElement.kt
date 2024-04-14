@@ -14,6 +14,16 @@ interface SnailfishElement {
     fun explode(depth: Int): ExplosionResult?
 
     /**
+     * Adds the given [toAdd] value to the leftmost regular number within this snailfish element.
+     */
+    fun addToLeftmostRegularNumber(toAdd: Int): SnailfishElement
+
+    /**
+     * Adds the given [toAdd] value to the rightmost regular number within this snailfish element.
+     */
+    fun addToRightmostRegularNumber(toAdd: Int): SnailfishElement
+
+    /**
      * Attempts to perform a single split action, as part of a reduction.
      * If successful, this function returns the updated element.
      * Otherwise, it returns null.
