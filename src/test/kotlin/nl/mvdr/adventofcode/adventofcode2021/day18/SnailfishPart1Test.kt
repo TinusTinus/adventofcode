@@ -8,7 +8,7 @@ class SnailfishPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         @JvmStatic
         fun testSolution() = listOf(
             Arguments.of("4140", "example-day18-2021.txt"),
-            Arguments.of("?", "input-day18-2021.txt")
+            Arguments.of("4289", "input-day18-2021.txt")
         )
     }
 }

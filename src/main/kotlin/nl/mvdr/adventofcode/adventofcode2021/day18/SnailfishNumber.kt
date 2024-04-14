@@ -57,9 +57,9 @@ data class SnailfishNumber(private val left: SnailfishElement, private val right
         }
     }
 
-    override fun addToLeftmostRegularNumber(toAdd: Int) = left.addToLeftmostRegularNumber(toAdd)
+    override fun addToLeftmostRegularNumber(toAdd: Int) = SnailfishNumber(left.addToLeftmostRegularNumber(toAdd), right)
 
-    override fun addToRightmostRegularNumber(toAdd: Int) = right.addToRightmostRegularNumber(toAdd)
+    override fun addToRightmostRegularNumber(toAdd: Int) = SnailfishNumber(left, right.addToRightmostRegularNumber(toAdd))
 
     override fun split(): SnailfishNumber? {
         return when (val leftSplit = left.split()) {
