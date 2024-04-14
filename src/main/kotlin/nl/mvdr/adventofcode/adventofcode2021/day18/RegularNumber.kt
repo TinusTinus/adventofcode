@@ -10,6 +10,8 @@ data class RegularNumber(val value: Int): SnailfishElement {
      * The magnitude of a regular number is just that number.
      */
     override fun magnitude() = value
+
+    override fun toString() = value.toString()
 }
 
 /**

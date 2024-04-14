@@ -13,6 +13,8 @@ data class SnailfishNumber(private val left: SnailfishElement, private val right
      * The magnitude of a pair is 3 times the magnitude of its left element plus 2 times the magnitude of its right element.
      */
     override fun magnitude() = 3 * left.magnitude() + 2 * right.magnitude()
+
+    override fun toString() = "[$left,$right]"
 }
 
 /**
