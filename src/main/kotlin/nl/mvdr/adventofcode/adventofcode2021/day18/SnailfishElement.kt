@@ -7,7 +7,7 @@ interface SnailfishElement {
     fun magnitude(): Int
 
     /**
-     * Attempts to perform a single split step, as part of a reduction.
+     * Attempts to perform a single split action, as part of a reduction.
      * If successful, this function returns the updated element.
      * Otherwise, it returns null.
      */

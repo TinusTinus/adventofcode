@@ -7,12 +7,21 @@ package nl.mvdr.adventofcode.adventofcode2021.day18
 data class SnailfishNumber(private val left: SnailfishElement, private val right: SnailfishElement): SnailfishElement {
     infix operator fun plus(other: SnailfishElement) = SnailfishNumber(this, other).reduce()
 
-    private fun reduce(): SnailfishNumber = this // TODO implement!
+    /**
+     * Reduces this snailfish number.
+     */
+    private fun reduce(): SnailfishNumber = when (val reduced = reduceAction()) {
+        null -> this
+        else -> reduced.reduce()
+    }
 
     /**
-     * The magnitude of a pair is 3 times the magnitude of its left element plus 2 times the magnitude of its right element.
+     * Performs a single reduction action: either explode or split, if possible.
+     * Returns null if no more actions are possible.
      */
-    override fun magnitude() = 3 * left.magnitude() + 2 * right.magnitude()
+    private fun reduceAction() = explode() ?: split()
+
+    private fun explode(): SnailfishNumber? = null // TODO implement!
 
     override fun split(): SnailfishNumber? {
         return when (val leftSplit = left.split()) {
@@ -25,6 +34,11 @@ data class SnailfishNumber(private val left: SnailfishElement, private val right
             else -> SnailfishNumber(leftSplit, right)
         }
     }
+
+    /**
+     * The magnitude of a pair is 3 times the magnitude of its left element plus 2 times the magnitude of its right element.
+     */
+    override fun magnitude() = 3 * left.magnitude() + 2 * right.magnitude()
 
     override fun toString() = "[$left,$right]"
 }
