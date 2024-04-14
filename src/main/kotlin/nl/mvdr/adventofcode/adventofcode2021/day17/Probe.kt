@@ -17,6 +17,7 @@ data class Probe(val position: Point, val velocity: Point) {
     fun maxY(): Int = when {
         velocity.y == 0 -> position.y
         0 < velocity.y -> step().maxY()
+        position == Point.ORIGIN -> 0 // Probe was fired from 0,0 at a downward angle.
         else -> throw IllegalStateException("Probe is already on the way down!")
     }
 
