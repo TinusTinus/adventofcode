@@ -9,22 +9,21 @@ class SnailfishNumberTest {
 
     @ParameterizedTest
     @MethodSource
-    fun testMagnitude(snailfishNumberText: String, magnitude: Int) {
+    fun testMagnitude(expectedMagnitude: Int, snailfishNumberText: String) {
         val number = parseSnailfishNumber(snailfishNumberText)
 
         val result = number.magnitude()
 
-        assertEquals(magnitude, result)
+        assertEquals(expectedMagnitude, result)
     }
 
     @ParameterizedTest
     @MethodSource
-    fun testPlus(leftText: String, rightText: String, sumText: String) {
-        val left = parseSnailfishNumber(leftText)
-        val right = parseSnailfishNumber(rightText)
-        val sum = parseSnailfishNumber(sumText)
+    fun testPlus(expectedSumText: String, vararg snailfishNumberText: String) {
+        val sum = parseSnailfishNumber(expectedSumText)
+        val numbers = snailfishNumberText.map(::parseSnailfishNumber)
 
-        val result = left + right
+        val result = numbers.reduce(SnailfishNumber::plus)
 
         assertEquals(sum, result)
     }
@@ -32,33 +31,33 @@ class SnailfishNumberTest {
     companion object {
         @JvmStatic
         fun testMagnitude(): List<Arguments> = listOf(
-            Arguments.of("[9,1]", 29),
-            Arguments.of("[1,9]", 21),
-            Arguments.of("[[9,1],[1,9]]", 129),
-            Arguments.of("[[1,2],[[3,4],5]]", 143),
-            Arguments.of("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]", 1384),
-            Arguments.of("[[[[1,1],[2,2]],[3,3]],[4,4]]", 445),
-            Arguments.of("[[[[3,0],[5,3]],[4,4]],[5,5]]", 791),
-            Arguments.of("[[[[5,0],[7,4]],[5,5]],[6,6]]", 1137),
-            Arguments.of("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]", 3488),
-            Arguments.of("[[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]", 4140)
+            Arguments.of(29, "[9,1]"),
+            Arguments.of(21, "[1,9]"),
+            Arguments.of(129, "[[9,1],[1,9]]"),
+            Arguments.of(143, "[[1,2],[[3,4],5]]"),
+            Arguments.of(1384, "[[[[0,7],4],[[7,8],[6,0]]],[8,1]]"),
+            Arguments.of(445, "[[[[1,1],[2,2]],[3,3]],[4,4]]"),
+            Arguments.of(791, "[[[[3,0],[5,3]],[4,4]],[5,5]]"),
+            Arguments.of(1137, "[[[[5,0],[7,4]],[5,5]],[6,6]]"),
+            Arguments.of(3488, "[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]"),
+            Arguments.of(4140, "[[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]")
         )
 
         @JvmStatic
         fun testPlus(): List<Arguments> = listOf(
-            Arguments.of("[[[[4,3],4],4],[7,[[8,4],9]]]", "[1,1]", "[[[[0,7],4],[[7,8],[6,0]]],[8,1]]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-            Arguments.of("[]", "[]", "[]"),
-
+            Arguments.of("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]", arrayOf("[[[[4,3],4],4],[7,[[8,4],9]]]", "[1,1]")),
+            Arguments.of("[[[[1,1],[2,2]],[3,3]],[4,4]]", arrayOf("[1,1]", "[2,2]", "[3,3]", "[4,4]")),
+            Arguments.of("[[[[3,0],[5,3]],[4,4]],[5,5]]", arrayOf("[1,1]", "[2,2]", "[3,3]", "[4,4]", "[5,5]")),
+            Arguments.of("[[[[5,0],[7,4]],[5,5]],[6,6]]", arrayOf("[1,1]", "[2,2]", "[3,3]", "[4,4]", "[5,5]", "[6,6]")),
+            Arguments.of("[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]]", arrayOf("[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]", "[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]")),
+            Arguments.of("[[[[6,7],[6,7]],[[7,7],[0,7]]],[[[8,7],[7,7]],[[8,8],[8,0]]]]", arrayOf("[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]]", "[[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]")),
+            Arguments.of("[[[[7,0],[7,7]],[[7,7],[7,8]]],[[[7,7],[8,8]],[[7,7],[8,7]]]]", arrayOf("[[[[6,7],[6,7]],[[7,7],[0,7]]],[[[8,7],[7,7]],[[8,8],[8,0]]]]", "[[[[2,4],7],[6,[0,5]]],[[[6,8],[2,8]],[[2,1],[4,5]]]]")),
+            Arguments.of("[[[[7,7],[7,8]],[[9,5],[8,7]]],[[[6,8],[0,8]],[[9,9],[9,0]]]]", arrayOf("[[[[7,0],[7,7]],[[7,7],[7,8]]],[[[7,7],[8,8]],[[7,7],[8,7]]]]", "[7,[5,[[3,8],[1,4]]]]")),
+            Arguments.of("[[[[6,6],[6,6]],[[6,0],[6,7]]],[[[7,7],[8,9]],[8,[8,1]]]]", arrayOf("[[[[7,7],[7,8]],[[9,5],[8,7]]],[[[6,8],[0,8]],[[9,9],[9,0]]]]", "[[2,[2,2]],[8,[8,1]]]")),
+            Arguments.of("[[[[6,6],[7,7]],[[0,7],[7,7]]],[[[5,5],[5,6]],9]]", arrayOf("[[[[6,6],[6,6]],[[6,0],[6,7]]],[[[7,7],[8,9]],[8,[8,1]]]]", "[2,9]")),
+            Arguments.of("[[[[7,8],[6,7]],[[6,8],[0,8]]],[[[7,7],[5,0]],[[5,5],[5,6]]]]", arrayOf("[[[[6,6],[7,7]],[[0,7],[7,7]]],[[[5,5],[5,6]],9]]", "[1,[[[9,3],9],[[9,0],[0,7]]]]")),
+            Arguments.of("[[[[7,7],[7,7]],[[8,7],[8,7]]],[[[7,0],[7,7]],9]]", arrayOf("[[[[7,8],[6,7]],[[6,8],[0,8]]],[[[7,7],[5,0]],[[5,5],[5,6]]]]", "[[[5,[7,4]],7],1]")),
+            Arguments.of("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]", arrayOf("[[[[7,7],[7,7]],[[8,7],[8,7]]],[[[7,0],[7,7]],9]]", "[[[[4,2],2],6],[8,7]]"))
         )
     }
 }
