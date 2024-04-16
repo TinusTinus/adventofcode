@@ -5,17 +5,19 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(linesSequence: Sequence<String>): Int {
-    val lines = linesSequence.toList()
+fun solvePart1(lines: Sequence<String>): Int {
+    val (algorithm, image) = parse(lines.toList())
+    val enhanced = algorithm.enhance(image, 2)
+    return enhanced.countLightPixels()
+}
 
+private fun parse(lines: List<String>): Pair<ImageEnhancementAlgorithm, Image> {
     val algorithm = ImageEnhancementAlgorithm(lines.first())
     if (lines[1].isNotEmpty()) {
         throw IllegalArgumentException("Second line is expected to be empty, but was: " + lines[1])
     }
     val image = Image(lines.drop(2))
-
-    val enhanced = algorithm.enhance(image, 2)
-    return enhanced.countLightPixels()
+    return Pair(algorithm, image)
 }
 
 fun main() {
