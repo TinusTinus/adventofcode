@@ -28,6 +28,21 @@ data class ImageEnhancementAlgorithm(val pixels: List<Pixel>) {
         return Image(imageMap, defaultColour)
     }
 
-    private fun enhance(image: Image, point: Point): Pixel = Pixel.DARK // TODO implement
-
+    private fun enhance(image: Image, point: Point): Pixel {
+        val index = listOf(point.aboveNeighbour().leftNeighbour(),
+            point.aboveNeighbour(),
+            point.aboveNeighbour().rightNeighbour(),
+            point.leftNeighbour(),
+            point,
+            point.rightNeighbour(),
+            point.belowNeighbour().leftNeighbour(),
+            point.belowNeighbour(),
+            point.belowNeighbour().rightNeighbour()
+            )
+            .map { image.get(it) }
+            .map(Pixel::value)
+            .joinToString(separator = "")
+            .toInt(2)
+        return pixels[index]
+    }
 }
