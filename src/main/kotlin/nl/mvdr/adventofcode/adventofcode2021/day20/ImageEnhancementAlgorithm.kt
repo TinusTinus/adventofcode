@@ -18,10 +18,8 @@ data class ImageEnhancementAlgorithm(val pixels: List<Pixel>) {
     }
 
     private fun enhance(image: Image): Image {
-        val imageMap = mutableMapOf<Point, Pixel>()
-
-        (image.minX() - 1 .. image.maxX() + 1).flatMap { x -> (image.minY() - 1 .. image.maxY() + 1).map { y -> Point(x, y) }}
-            .forEach { imageMap[it] = enhance(image, it) }
+        val imageMap = (image.minX() - 1 .. image.maxX() + 1).flatMap { x -> (image.minY() - 1 .. image.maxY() + 1).map { y -> Point(x, y) }}
+            .associateWith { enhance(image, it) }
 
         val defaultColour = enhance(image, Point(image.minX() - 2, image.minY() - 2))
 
