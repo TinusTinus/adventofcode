@@ -5,9 +5,9 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>) = solve(lines, 2)
+fun solvePart2(lines: Sequence<String>) = solve(lines, 50)
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day20-2021.txt")
+    val result = FunctionSolver(::solvePart2).solve("input-day20-2021.txt")
     logger.info { result }
 }
