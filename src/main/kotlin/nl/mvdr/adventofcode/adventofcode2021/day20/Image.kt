@@ -12,6 +12,26 @@ data class Image(private val image: Map<Point, Pixel>, private val defaultColour
 
     fun get(point: Point) = image[point] ?: defaultColour
 
+    /**
+     * Returns the minimum x value where a non-default colour pixel may occur.
+     */
+    fun minX() = Point.minX(image.keys)
+
+    /**
+     * Returns the maximum x value where a non-default colour pixel may occur.
+     */
+    fun maxX() = Point.maxX(image.keys)
+
+    /**
+     * Returns the minimum y value where a non-default colour pixel may occur.
+     */
+    fun minY() = Point.minY(image.keys)
+
+    /**
+     * Returns the maximum y value where a non-default colour pixel may occur.
+     */
+    fun maxY() = Point.maxY(image.keys)
+
     fun countLightPixels() = when (defaultColour) {
         Pixel.DARK -> image.values.count { it == Pixel.LIGHT }
         Pixel.LIGHT -> throw IllegalStateException("The number of light pixels is infinite.")
