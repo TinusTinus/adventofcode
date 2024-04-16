@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2021.day20
 
 import nl.mvdr.adventofcode.point.Point
+import kotlin.streams.asSequence
 
 data class ImageEnhancementAlgorithm(val pixels: List<Pixel>) {
 
@@ -18,7 +19,8 @@ data class ImageEnhancementAlgorithm(val pixels: List<Pixel>) {
     }
 
     private fun enhance(image: Image): Image {
-        val imageMap = (image.minX() - 1 .. image.maxX() + 1).flatMap { x -> (image.minY() - 1 .. image.maxY() + 1).map { y -> Point(x, y) }}
+        val imageMap = Point.points(image.minX() - 1, image.maxX() + 1, image.minY() - 1, image.maxY() + 1)
+            .asSequence()
             .associateWith { enhance(image, it) }
 
         val defaultColour = enhance(image, Point(image.minX() - 2, image.minY() - 2))
