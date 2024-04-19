@@ -12,6 +12,24 @@ data class DiracGame(val players: Pair<Player, Player>) {
      */
     fun play(): Map<String, Long> = when {
         21 <= players.second.score -> mapOf(Pair(players.first.name, 0L), Pair(players.second.name, 1L))
-        else -> emptyMap() // TODO roll the dice and play a turn for each universe
+        else -> {
+            val result = players.toList().map(Player::name).associateWith { 0L }.toMutableMap()
+
+            for (game in turn()) {
+                val outcome = game.play() // TODO cache outcomes
+                result.entries.forEach { entry -> entry.setValue(entry.value + outcome[entry.key]!!) }
+            }
+
+            result
+        }
     }
+
+    private fun turn() = (1 .. 3)
+        .flatMap { firstRoll -> (1 .. 3)
+            .flatMap { secondRoll -> (1 .. 3)
+                .map { thirdRoll -> firstRoll + secondRoll + thirdRoll } } }
+        .map(this::move)
+
+
+    private fun move(spaces: Int) = DiracGame(Pair(players.second, players.first.move(spaces)))
 }
