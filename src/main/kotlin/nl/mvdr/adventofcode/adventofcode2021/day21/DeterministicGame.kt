@@ -13,7 +13,7 @@ class DeterministicGame(private var players: Pair<Player, Player>) {
      * Returns the losing player's final score, multiplied by the number of dice rolls.
      */
     fun play(): Int {
-        while (players.second.score < 1000) {
+        while (players.second.score <= 1000) {
             turn()
         }
         return players.first.score * die.rolls

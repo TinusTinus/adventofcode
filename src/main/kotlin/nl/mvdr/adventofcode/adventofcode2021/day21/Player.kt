@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day21
 /**
  * Representation of a player in the game.
  */
-data class Player(private val name: String, val position: Int, val score: Int = 0) {
+data class Player(val name: String, val position: Int, val score: Int = 0) {
     fun move(spaces: Int): Player {
         val newPosition = (position + spaces - 1) % 10 + 1
         val newScore = score + newPosition
