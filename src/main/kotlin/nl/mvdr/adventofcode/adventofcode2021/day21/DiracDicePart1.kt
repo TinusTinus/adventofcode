@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>) = 3
+fun solvePart1(lines: Sequence<String>) = parseGame(lines).play()
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day21-2021.txt")

@@ -6,18 +6,12 @@ private val logger = KotlinLogging.logger{}
 
 /**
  * Representation of a player in the game.
- * Note that this class is mutable.
  */
-class Player(private val name: String, position: Int, score: Int = 0) {
-    var position: Int = position
-        private set
-    var score: Int = score
-        private set
-
-    fun move(spaces: Int) {
-        position = (position + spaces - 1) % 10 + 1
-        score += position
-        logger.debug { "$name moved $spaces spaces to position $position. New score: $score"}
+data class Player(private val name: String, val position: Int, val score: Int = 0) {
+    fun move(spaces: Int): Player {
+        val newPosition = (position + spaces - 1) % 10 + 1
+        val newScore = score + newPosition
+        return Player(name, newPosition, newScore)
     }
 }
 

@@ -11,10 +11,10 @@ class PlayerTest {
     fun testMove(startingPosition: Int, startingScore: Int, spacesToMove: Int, expectedPosition: Int, expectedScore: Int) {
         val player = Player("Test Player", startingPosition, startingScore)
 
-        player.move(spacesToMove)
+        val result = player.move(spacesToMove)
 
-        assertEquals(expectedPosition, player.position)
-        assertEquals(expectedScore, player.score)
+        assertEquals(expectedPosition, result.position)
+        assertEquals(expectedScore, result.score)
     }
 
     companion object {

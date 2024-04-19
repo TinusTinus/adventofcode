@@ -7,8 +7,8 @@ class DiracDicePart1Test: FunctionSolverTest<Any>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("?", "example-day21-2021.txt"),
-            Arguments.of("?", "input-day21-2021.txt")
+            Arguments.of("739785", "example-day21-2021.txt"),
+            Arguments.of("1002474", "input-day21-2021.txt")
         )
     }
 }
