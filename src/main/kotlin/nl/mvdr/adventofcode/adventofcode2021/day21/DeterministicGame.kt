@@ -5,7 +5,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day21
  * Note that this class is mutable.
  */
 // The players are kept in the order: (just went, up next).
-class Game(private var players: Pair<Player, Player>) {
+class DeterministicGame(private var players: Pair<Player, Player>) {
     private val die = DeterministicDie()
 
     /**
@@ -24,8 +24,3 @@ class Game(private var players: Pair<Player, Player>) {
         players = Pair(players.second, players.first.move(spaces))
     }
 }
-
-/**
- * Parses the [lines] from an input file as the initial state of a game.
- */
-fun parseGame(lines: Sequence<String>) = Game(lines.map(::parsePlayer).zipWithNext().first())
