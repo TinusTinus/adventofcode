@@ -2,8 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2021.day21
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 
-private val logger = KotlinLogging.logger{}
-
 /**
  * Representation of a player in the game.
  */
