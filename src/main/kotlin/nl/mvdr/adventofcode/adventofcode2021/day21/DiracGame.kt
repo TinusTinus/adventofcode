@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2021.day21
 
+private val cache = mutableMapOf<DiracGame, Map<String, Long>>()
+
 /**
  * Representation of a game between two [players].
  */
@@ -16,7 +18,7 @@ data class DiracGame(val players: Pair<Player, Player>) {
             val result = players.toList().map(Player::name).associateWith { 0L }.toMutableMap()
 
             for (game in turn()) {
-                val outcome = game.play() // TODO cache outcomes
+                val outcome = cache.getOrPut(game, game::play)
                 result.entries.forEach { entry -> entry.setValue(entry.value + outcome[entry.key]!!) }
             }
 
