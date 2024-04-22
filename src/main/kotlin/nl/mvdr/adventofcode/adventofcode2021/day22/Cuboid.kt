@@ -33,8 +33,6 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
         limitToInitializationProcedureArea(x),
         limitToInitializationProcedureArea(y),
         limitToInitializationProcedureArea(z))
-
-    private fun limitToInitializationProcedureArea(range: IntRange) = max(range.first, -50) .. min(range.last, 50)
 }
 
 private fun parseCoordinateRanges(text: String) = text.split(",").associate(::parseCoordinateRange)
@@ -56,3 +54,5 @@ private fun parseRange(text: String): IntRange {
     val (min, max) = text.split("..")
     return min.toInt() .. max.toInt()
 }
+
+private fun limitToInitializationProcedureArea(range: IntRange) = max(range.first, -50) .. min(range.last, 50)
