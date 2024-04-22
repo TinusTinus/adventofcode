@@ -1,6 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2021.day22
 
-data class RebootStep(val operation: RebootStepOperation, val cuboid: Cuboid)
+import nl.mvdr.adventofcode.point.Point3D
+
+data class RebootStep(val operation: RebootStepOperation, val cuboid: Cuboid) {
+    fun limitToInitializationProcedureArea() = RebootStep(operation, cuboid.limitToInitializationProcedureArea())
+
+    fun perform(turnedOnCubes: Set<Point3D>): Set<Point3D> = operation.perform(turnedOnCubes, cuboid)
+}
 
 /**
  * Parses the [text] representation of a reboot step.

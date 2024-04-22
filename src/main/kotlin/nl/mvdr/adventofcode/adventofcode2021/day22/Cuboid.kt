@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2021.day22
 
 import nl.mvdr.adventofcode.point.Axis3D
 import nl.mvdr.adventofcode.point.Point3D
+import kotlin.math.max
+import kotlin.math.min
 
 data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
     constructor(ranges: Map<Axis3D, IntRange>) : this(
@@ -22,6 +24,17 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
         Axis3D.Y -> y
         Axis3D.Z -> z
     }
+
+    /**
+     * Limits this cuboid to the initialization procedure area: x=-50..50,y=-50..50,z=-50..50.
+     * Note that the resulting cuboid may be empty.
+     */
+    fun limitToInitializationProcedureArea() = Cuboid(
+        limitToInitializationProcedureArea(x),
+        limitToInitializationProcedureArea(y),
+        limitToInitializationProcedureArea(z))
+
+    private fun limitToInitializationProcedureArea(range: IntRange) = max(range.first, -50) .. min(range.last, 50)
 }
 
 private fun parseCoordinateRanges(text: String) = text.split(",").associate(::parseCoordinateRange)
