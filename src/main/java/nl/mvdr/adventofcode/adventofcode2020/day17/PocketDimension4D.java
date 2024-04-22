@@ -5,7 +5,7 @@ import java.util.Set;
 import nl.mvdr.adventofcode.point.Point4D;
 
 /**
- * Representation of the state of a pocket dimension in three-dimensional space.
+ * Representation of the state of a pocket dimension in four-dimensional space.
  *
  * @author Martijn van de Rijdt
  */
