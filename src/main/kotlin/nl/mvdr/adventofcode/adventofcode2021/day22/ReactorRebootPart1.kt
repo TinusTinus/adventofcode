@@ -5,7 +5,11 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>) = 3
+fun solvePart1(lines: Sequence<String>): Int {
+    val rebootSteps = lines.map(::parseRebootStep).toList()
+
+    return 3 // TODO
+}
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day22-2021.txt")
