@@ -2,14 +2,16 @@ package nl.mvdr.adventofcode.adventofcode2021.day22
 
 import nl.mvdr.adventofcode.point.Point3D
 
-fun solve(lines: Sequence<String>, limitToInitializationProcedureArea: Boolean): Int {
+fun solve(lines: Sequence<String>, limitToInitializationProcedureArea: Boolean): Long {
     val rebootSteps = lines.map { parseRebootStep(it, limitToInitializationProcedureArea) }.toList()
 
-    var turnedOnCubes = emptySet<Point3D>()
+    // Note that the cuboids in the following steps must not overlap:
+    // there must not be two or more cuboids containing the same point.
+    var turnedOn = emptySet<Cuboid>()
 
     for (rebootStep in rebootSteps) {
-        turnedOnCubes = rebootStep.perform(turnedOnCubes)
+        turnedOn = rebootStep.perform(turnedOn)
     }
 
-    return turnedOnCubes.size
+    return turnedOn.sumOf(Cuboid::countCubes)
 }

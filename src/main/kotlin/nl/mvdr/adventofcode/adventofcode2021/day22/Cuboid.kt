@@ -21,6 +21,8 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
 
     val cubes get() = x.flatMap { xValue -> y.flatMap { yValue -> z.map { zValue -> Point3D(xValue, yValue, zValue) } } }.toSet()
 
+    fun countCubes() = x.count().toLong() * y.count().toLong() * z.count().toLong()
+
     fun getRange(axis: Axis3D) = when(axis) {
         Axis3D.X -> x
         Axis3D.Y -> y
