@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2021.day22
 
 import nl.mvdr.adventofcode.point.Axis3D
-import nl.mvdr.adventofcode.point.Point3D
 import kotlin.math.max
 import kotlin.math.min
 
@@ -18,8 +17,6 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
      * to the initialization procedure area: x=-50..50,y=-50..50,z=-50..50.
      */
     constructor(text: String, limitToInitializationProcedureArea: Boolean) : this(parseCoordinateRanges(text, limitToInitializationProcedureArea))
-
-    private val cubes get() = x.flatMap { xValue -> y.flatMap { yValue -> z.map { zValue -> Point3D(xValue, yValue, zValue) } } }.toSet()
 
     fun countCubes() = x.count().toLong() * y.count().toLong() * z.count().toLong()
 
@@ -51,12 +48,6 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
      * The resulting cuboid may be empty.
      */
     private fun overlap(other: Cuboid): Cuboid = Cuboid(overlap(this.x, other.x), overlap(this.y, other.y), overlap(this.z, other.z))
-
-    fun getRange(axis: Axis3D) = when(axis) {
-        Axis3D.X -> x
-        Axis3D.Y -> y
-        Axis3D.Z -> z
-    }
 }
 
 private fun parseCoordinateRanges(text: String, limitToInitializationProcedureArea: Boolean) =
