@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day22
 import nl.mvdr.adventofcode.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class ReactorRebootPart1Test: FunctionSolverTest<Any>(::solvePart1) {
+class ReactorRebootPart2Test: FunctionSolverTest<Any>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
@@ -12,10 +12,8 @@ class ReactorRebootPart1Test: FunctionSolverTest<Any>(::solvePart1) {
             Arguments.of("38", "example-day22-2021-2.txt"),
             Arguments.of("39", "example-day22-2021-3.txt"),
             Arguments.of("590784", "example-day22-2021-4.txt"),
-            Arguments.of("0", "example-day22-2021-5.txt"),
-            Arguments.of("590784", "example-day22-2021-6.txt"),
-            Arguments.of("474140", "example-day22-2021-7.txt"),
-            Arguments.of("648023", "input-day22-2021.txt")
+            Arguments.of("2758514936282235", "example-day22-2021-7.txt"),
+            Arguments.of("?", "input-day22-2021.txt")
         )
     }
 }

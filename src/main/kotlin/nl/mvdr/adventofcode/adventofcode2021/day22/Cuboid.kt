@@ -14,8 +14,10 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
     /**
      * Parses the [text] representation of a cuboid.
      * For example: "x=11..13,y=11..13,z=11..13"
+     * The boolean parameter [limitToInitializationProcedureArea] indicates whether the cuboid should be limited
+     * to the initialization procedure area: x=-50..50,y=-50..50,z=-50..50.
      */
-    constructor(text: String) : this(parseCoordinateRanges(text))
+    constructor(text: String, limitToInitializationProcedureArea: Boolean) : this(parseCoordinateRanges(text, limitToInitializationProcedureArea))
 
     val cubes get() = x.flatMap { xValue -> y.flatMap { yValue -> z.map { zValue -> Point3D(xValue, yValue, zValue) } } }.toSet()
 
@@ -24,26 +26,26 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
         Axis3D.Y -> y
         Axis3D.Z -> z
     }
-
-    /**
-     * Limits this cuboid to the initialization procedure area: x=-50..50,y=-50..50,z=-50..50.
-     * Note that the resulting cuboid may be empty.
-     */
-    fun limitToInitializationProcedureArea() = Cuboid(
-        limitToInitializationProcedureArea(x),
-        limitToInitializationProcedureArea(y),
-        limitToInitializationProcedureArea(z))
 }
 
-private fun parseCoordinateRanges(text: String) = text.split(",").associate(::parseCoordinateRange)
+private fun parseCoordinateRanges(text: String, limitToInitializationProcedureArea: Boolean) =
+    text.split(",").associate { parseCoordinateRange(it, limitToInitializationProcedureArea) }
 
 /**
  * Parses the given [text] as a range for a specific coordinate axis.
  * For example: "x=3..4".
  */
-private fun parseCoordinateRange(text: String): Pair<Axis3D, IntRange> {
-    val (axis, range) = text.split("=")
-    return Pair(Axis3D.parse(axis), parseRange(range))
+private fun parseCoordinateRange(text: String, limitToInitializationProcedureArea: Boolean): Pair<Axis3D, IntRange> {
+    val (axisString, rangeString) = text.split("=")
+
+    val axis = Axis3D.parse(axisString)
+
+    var range = parseRange(rangeString)
+    if (limitToInitializationProcedureArea) {
+        range = limitToInitializationProcedureArea(range)
+    }
+
+    return Pair(axis, range)
 }
 
 /**
@@ -55,4 +57,8 @@ private fun parseRange(text: String): IntRange {
     return min.toInt() .. max.toInt()
 }
 
+/**
+ * Limits the given [range] to the initialization procedure area: -50..50.
+ * Note that the resulting range may be empty.
+ */
 private fun limitToInitializationProcedureArea(range: IntRange) = max(range.first, -50) .. min(range.last, 50)
