@@ -27,20 +27,17 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
      */
     fun minus(other: Cuboid): Set<Cuboid> {
         val overlap = overlap(other)
-
-        val result: Set<Cuboid>
-        if (overlap.isEmpty()) {
-            result = setOf(this)
-        } else {
-            result = split(x, overlap.x)
+        return when {
+            overlap.isEmpty() -> setOf(this)
+            else -> split(x, overlap.x)
                 .flatMap { xRange -> split(y, overlap.y)
                     .flatMap { yRange -> split(z, overlap.z)
-                        .map { zRange -> Cuboid(xRange, yRange, zRange) } } }
+                        .map { zRange -> Cuboid(xRange, yRange, zRange) }
+                    }
+                }
                 .filter { it != overlap }
                 .toSet()
         }
-
-        return result
     }
 
     /**
