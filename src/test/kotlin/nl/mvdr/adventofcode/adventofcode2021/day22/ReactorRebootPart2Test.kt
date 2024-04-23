@@ -13,7 +13,7 @@ class ReactorRebootPart2Test: FunctionSolverTest<Any>(::solvePart2) {
             Arguments.of("39", "example-day22-2021-3.txt"),
             Arguments.of("590784", "example-day22-2021-4.txt"),
             Arguments.of("2758514936282235", "example-day22-2021-7.txt"),
-            Arguments.of("?", "input-day22-2021.txt")
+            Arguments.of("1285677377848549", "input-day22-2021.txt")
         )
     }
 }

@@ -35,9 +35,11 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
         if (overlap.isEmpty()) {
             result = setOf(this)
         } else {
-            // TODO split up into larger cuboids
-            result = (cubes - overlap.cubes)
-                .map { Cuboid(it.x .. it.x, it.y .. it.y, it.z .. it.z) }
+            result = split(x, overlap.x)
+                .flatMap { xRange -> split(y, overlap.y)
+                    .flatMap { yRange -> split(z, overlap.z)
+                        .map { zRange -> Cuboid(xRange, yRange, zRange) } } }
+                .filter { it != overlap }
                 .toSet()
         }
 
@@ -97,3 +99,13 @@ private fun limitToInitializationProcedureArea(range: IntRange) = max(range.firs
  * Note that the overlap can be empty.
  */
 private fun overlap(range0: IntRange, range1: IntRange) = max(range0.first, range1.first) .. min(range0.last, range1.last)
+
+/**
+ * Splits the given [range] into three subranges: before the [overlap], the [overlap] itself and after the [overlap].
+ * Any empty ranges are filtered from the result.
+ */
+private fun split(range: IntRange, overlap: IntRange) = listOf(
+    range.first until overlap.first,
+    overlap,
+    overlap.last + 1 .. range.last
+).filter { !it.isEmpty() }
