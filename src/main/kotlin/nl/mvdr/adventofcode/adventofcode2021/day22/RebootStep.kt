@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2021.day22
 
-import nl.mvdr.adventofcode.point.Point3D
-
 data class RebootStep(val operation: RebootStepOperation, val cuboid: Cuboid) {
     fun perform(turnedOn: Set<Cuboid>): Set<Cuboid> {
         // TODO split up into larger non-overlapping cuboids than 1x1x1!
