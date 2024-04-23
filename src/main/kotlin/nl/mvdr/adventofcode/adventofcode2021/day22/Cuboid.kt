@@ -20,8 +20,6 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
 
     fun countCubes() = x.count().toLong() * y.count().toLong() * z.count().toLong()
 
-    fun isEmpty() = x.isEmpty() || y.isEmpty() || z.isEmpty()
-
     /**
      * Returns a set of cuboids, containing all points within this cuboid, except the points in the given other cuboid.
      */
@@ -45,6 +43,8 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
      * The resulting cuboid may be empty.
      */
     private fun overlap(other: Cuboid): Cuboid = Cuboid(overlap(this.x, other.x), overlap(this.y, other.y), overlap(this.z, other.z))
+
+    private fun isEmpty() = x.isEmpty() || y.isEmpty() || z.isEmpty()
 }
 
 private fun parseCoordinateRanges(text: String, limitToInitializationProcedureArea: Boolean) =

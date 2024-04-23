@@ -1,6 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2021.day22
 
 data class RebootStep(val operation: RebootStepOperation, val cuboid: Cuboid) {
+    /**
+     * Performs this step.
+     * The given [turnedOn] set should contain the points which have been turned on,
+     * represented by _non-overlapping_ cuboids.
+     * The resulting set also represents the points using non-overlapping cuboids.
+     */
     fun perform(turnedOn: Set<Cuboid>): Set<Cuboid> {
         val difference = turnedOn.flatMap { it.minus(cuboid) }
         return when (operation) {
