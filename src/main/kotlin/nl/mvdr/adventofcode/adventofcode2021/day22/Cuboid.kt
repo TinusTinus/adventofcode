@@ -23,6 +23,12 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
 
     fun countCubes() = x.count().toLong() * y.count().toLong() * z.count().toLong()
 
+    /**
+     * Determines the cuboid consisting of all points contained within both this and the given [other] cuboid.
+     * The resulting cuboid may be empty.
+     */
+    fun overlap(other: Cuboid): Cuboid = Cuboid(overlap(this.x, other.x), overlap(this.y, other.y), overlap(this.z, other.z))
+
     fun getRange(axis: Axis3D) = when(axis) {
         Axis3D.X -> x
         Axis3D.Y -> y
@@ -64,3 +70,9 @@ private fun parseRange(text: String): IntRange {
  * Note that the resulting range may be empty.
  */
 private fun limitToInitializationProcedureArea(range: IntRange) = max(range.first, -50) .. min(range.last, 50)
+
+/**
+ * Determines the overlap between the given ranges.
+ * Note that the overlap can be empty.
+ */
+private fun overlap(range0: IntRange, range1: IntRange) = max(range0.first, range1.first) .. min(range0.last, range1.last)
