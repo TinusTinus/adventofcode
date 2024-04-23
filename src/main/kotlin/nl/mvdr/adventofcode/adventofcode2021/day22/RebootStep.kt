@@ -2,12 +2,11 @@ package nl.mvdr.adventofcode.adventofcode2021.day22
 
 data class RebootStep(val operation: RebootStepOperation, val cuboid: Cuboid) {
     fun perform(turnedOn: Set<Cuboid>): Set<Cuboid> {
-        // TODO split up into larger non-overlapping cuboids than 1x1x1!
-        val points = turnedOn.asSequence().flatMap { it.cubes }.toSet()
-        return operation.perform(points, cuboid)
-            .asSequence()
-            .map { Cuboid(it.x .. it.x, it.y .. it.y, it.z .. it.z) }
-            .toSet()
+        val difference = turnedOn.flatMap { it.minus(cuboid) }
+        return when (operation) {
+            RebootStepOperation.TURN_OFF -> difference.toSet()
+            RebootStepOperation.TURN_ON -> difference union setOf(cuboid)
+        }
     }
 }
 

@@ -19,15 +19,36 @@ data class Cuboid(val x: IntRange, val y: IntRange, val z: IntRange) {
      */
     constructor(text: String, limitToInitializationProcedureArea: Boolean) : this(parseCoordinateRanges(text, limitToInitializationProcedureArea))
 
-    val cubes get() = x.flatMap { xValue -> y.flatMap { yValue -> z.map { zValue -> Point3D(xValue, yValue, zValue) } } }.toSet()
+    private val cubes get() = x.flatMap { xValue -> y.flatMap { yValue -> z.map { zValue -> Point3D(xValue, yValue, zValue) } } }.toSet()
 
     fun countCubes() = x.count().toLong() * y.count().toLong() * z.count().toLong()
+
+    fun isEmpty() = x.isEmpty() || y.isEmpty() || z.isEmpty()
+
+    /**
+     * Returns a set of cuboids, containing all points within this cuboid, except the points in the given other cuboid.
+     */
+    fun minus(other: Cuboid): Set<Cuboid> {
+        val overlap = overlap(other)
+
+        val result: Set<Cuboid>
+        if (overlap.isEmpty()) {
+            result = setOf(this)
+        } else {
+            // TODO split up into larger cuboids
+            result = (cubes - overlap.cubes)
+                .map { Cuboid(it.x .. it.x, it.y .. it.y, it.z .. it.z) }
+                .toSet()
+        }
+
+        return result
+    }
 
     /**
      * Determines the cuboid consisting of all points contained within both this and the given [other] cuboid.
      * The resulting cuboid may be empty.
      */
-    fun overlap(other: Cuboid): Cuboid = Cuboid(overlap(this.x, other.x), overlap(this.y, other.y), overlap(this.z, other.z))
+    private fun overlap(other: Cuboid): Cuboid = Cuboid(overlap(this.x, other.x), overlap(this.y, other.y), overlap(this.z, other.z))
 
     fun getRange(axis: Axis3D) = when(axis) {
         Axis3D.X -> x
