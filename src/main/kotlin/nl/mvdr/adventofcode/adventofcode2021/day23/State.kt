@@ -21,8 +21,7 @@ data class State(val amphipods: Set<Amphipod>) {
     /**
      * Determines possible moves, based on this starting state.
      */
-    private val moves: Set<Move> get() = amphipods.filter { !it.isAtDestination() }
-            .flatMap { a -> Burrow.spaces.map { space -> Move(a, space.location) } }
+    private val moves: Set<Move> get() = amphipods.flatMap { a -> Burrow.spaces.map { space -> Move(a, space) } }
             .filter(this::isValid)
             .toSet()
 
@@ -52,12 +51,14 @@ data class State(val amphipods: Set<Amphipod>) {
             val state = latestStates.first()
             latestStates.remove(state)
             for (nextState in state.nextStates) {
-                graph.addVertex(nextState.first)
+                if (graph.addVertex(nextState.first)) {
+                    latestStates.add(nextState.first)
+                }
                 if (!graph.containsEdge(state, nextState.first)) {
                     val edge = graph.addEdge(state, nextState.first)
                     graph.setEdgeWeight(edge, nextState.second.toDouble())
                 }
-                latestStates.add(nextState.first)
+
             }
         }
         return graph
@@ -70,25 +71,30 @@ data class State(val amphipods: Set<Amphipod>) {
     private fun nextState(move: Move): Pair<State, Int> {
         val newAmphipods = amphipods.toMutableSet()
         newAmphipods.remove(move.amphipod)
-        newAmphipods.add(Amphipod(move.amphipod.type, move.target))
+        newAmphipods.add(Amphipod(move.amphipod.type, move.target.location))
         val newState = State(newAmphipods)
         return Pair(newState, move.energyCost)
     }
 
     private fun isValid(move: Move): Boolean {
-        return pathIsUnobstructed(move.amphipod, move.target) &&
-                (move.isMovingOutOfSideRoom() ||
-                        move.isMovingToDestination() && destinationIsAvailable(move))
+        return ((move.isMovingOutOfSideRoom() && !isValidDestination(move.amphipod.location, move.amphipod.type)) ||
+                (move.isMovingToDestination() && destinationIsAvailable(move))) &&
+                        !pathIsObstructed(move)
     }
+
+    /**
+     * Checks whether the path for the given [move] is not occupied by any other amphipods.
+     */
+    private fun pathIsObstructed(move: Move) = pathIsObstructed(move.amphipod, move.target.location)
 
     /**
      * Checks whether the path for the given [amphipod] to the given [target] is not occupied by any other amphipods.
      */
-    private fun pathIsUnobstructed(amphipod: Amphipod, target: Point): Boolean {
+    private fun pathIsObstructed(amphipod: Amphipod, target: Point): Boolean {
         val intermediateSpaces = (1 until amphipod.location.y).map { Point(amphipod.location.x, it) } + // spaces north of the starting point
                 (min(amphipod.location.x, target.x) + 1 until max(amphipod.location.x, target.x)).map { Point(it, 1) } + // hallway spaces in-between
                 (1 .. target.y).map { Point(target.x, it) } // target and any spaces north of the target
-        return intermediateSpaces.all { location -> amphipods.none { a -> a.location == location } }
+        return intermediateSpaces.any { location -> amphipods.any { a -> a.location == location } }
     }
 
     /**
@@ -97,12 +103,22 @@ data class State(val amphipods: Set<Amphipod>) {
      * or if the south side already contains another amphipod of the same type.
      */
     private fun destinationIsAvailable(move: Move) =
-        (2 until move.target.y).all { y ->
+        (2 until move.target.location.y).all { y ->
             amphipods.any { a ->
-                a.location == Point(
-                    move.target.x,
-                    y
-                ) && a.type == move.amphipod.type
+                a.location == Point(move.target.location.x, y) && a.type == move.amphipod.type
+            }
+        }
+
+    /**
+     * Checks whether the given [location], which must be in a side room,
+     * is currently a valid destination for an amphipod of the given [type].
+     * This is only the case if it is the south side of the side room,
+     * or if the south side already contains another amphipod of the same type.
+     */
+    private fun isValidDestination(location: Point, type: AmphipodType) =
+        (2 until location.y).all { y ->
+            amphipods.any { a ->
+                a.location == Point(location.x, y) && a.type == type
             }
         }
 
