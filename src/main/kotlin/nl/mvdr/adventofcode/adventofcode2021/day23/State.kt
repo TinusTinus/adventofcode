@@ -24,19 +24,23 @@ data class State(val amphipods: Set<Amphipod>) {
     /**
      * Determines possible moves, based on this starting state.
      */
-    private val moves: Set<Move> get(){
-        val result = amphipods.flatMap { a -> Burrow.spaces.map { space -> Move(a, space) } }
-            .filter(this::isValid)
-
-        // If an amphipod can move to one of its destination spaces, that is always the best thing to do.
+    private val moves: Set<Move> get() {
+        // Note: if an amphipod can move to one of its destination spaces, that is always the best thing to do.
         // It will need to do this eventually anyway, and this gets it out of the way for other moves.
         // If there are multiple moves to destination: just pick one.
-        return when (val moveToDestination = result.find(Move::isMovingToDestination)) {
-            null -> result.toSet()
-            else -> setOf(moveToDestination)
+        val moveToDestination = amphipods.asSequence()
+            .flatMap { a -> Burrow.sideRooms.map { space -> Move(a, space) } }
+            .firstOrNull()
+
+        val result: Set<Move>
+        if (moveToDestination == null) {
+            result = amphipods.flatMap { a -> Burrow.hallway.map { space -> Move(a, space) } }
+                .filter(this::isValid).toSet()
+        } else {
+            result = setOf(moveToDestination)
         }
 
-
+        return result
     }
 
     fun isEndState() = amphipods.all(Amphipod::isAtDestination)

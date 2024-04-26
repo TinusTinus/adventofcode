@@ -27,7 +27,7 @@ object Burrow {
 
     // Note that the hallway spaces in this collection only include the ones where an amphipod may stop.
     // That is, the spaces right in front of a side room are not included.
-    private val hallway = setOf(
+    val hallway = setOf(
         HallwaySpace(1),
         HallwaySpace(2),
         HallwaySpace(4),
