@@ -14,7 +14,7 @@ import nl.mvdr.adventofcode.point.Point
  */
 object Burrow {
 
-    private val sideRooms = setOf(
+    val sideRooms = setOf(
         RoomSpace(3, 2, AmphipodType.AMBER),
         RoomSpace(3, 3, AmphipodType.AMBER),
         RoomSpace(5, 2, AmphipodType.BRONZE),
