@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2021.day23
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.point.Point
 import org.jgrapht.Graph
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
@@ -8,6 +9,8 @@ import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleDirectedWeightedGraph
 import kotlin.math.max
 import kotlin.math.min
+
+private val logger = KotlinLogging.logger{}
 
 data class State(val amphipods: Set<Amphipod>) {
     constructor(lines: Sequence<String>) : this(parseAmphipods(lines.toList()))
@@ -57,6 +60,11 @@ data class State(val amphipods: Set<Amphipod>) {
                 if (!graph.containsEdge(state, nextState.first)) {
                     val edge = graph.addEdge(state, nextState.first)
                     graph.setEdgeWeight(edge, nextState.second.toDouble())
+
+                    // TODO clean up this logging!
+//                    logger.info { "Added an edge;" }
+//                    logger.info { "from: $state,"}
+//                    logger.info { "to: " + nextState.first }
                 }
 
             }
@@ -77,9 +85,16 @@ data class State(val amphipods: Set<Amphipod>) {
     }
 
     private fun isValid(move: Move): Boolean {
-        return ((move.isMovingOutOfSideRoom() && !isValidDestination(move.amphipod.location, move.amphipod.type)) ||
+        val result = ((move.isMovingOutOfSideRoom() && !isValidDestination(Burrow.getSpace(move.amphipod.location) as RoomSpace, move.amphipod.type)) ||
                 (move.isMovingToDestination() && destinationIsAvailable(move))) &&
                         !pathIsObstructed(move)
+
+        // TODO clean up this logging and this method
+//        if (result) {
+//            logger.info { "$move from state $this is valid" }
+//        }
+
+        return result
     }
 
     /**
@@ -102,20 +117,20 @@ data class State(val amphipods: Set<Amphipod>) {
      * This is only allowed if it is the south side of the side room,
      * or if the south side already contains another amphipod of the same type.
      */
-    private fun destinationIsAvailable(move: Move) = isValidDestination(move.target.location, move.amphipod.type)
+    private fun destinationIsAvailable(move: Move) = isValidDestination(move.target as RoomSpace, move.amphipod.type)
 
     /**
-     * Checks whether the given [location], which must be in a side room,
-     * is currently a valid destination for an amphipod of the given [type].
+     * Checks whether the given [roomSpace] is currently a valid destination for an amphipod of the given [type].
      * This is only the case if it is the south side of the side room,
      * or if the south side already contains another amphipod of the same type.
      */
-    private fun isValidDestination(location: Point, type: AmphipodType) =
-        (2 until location.y).all { y ->
-            amphipods.any { a ->
-                a.location == Point(location.x, y) && a.type == type
+    private fun isValidDestination(roomSpace: RoomSpace, type: AmphipodType) =
+        roomSpace.type == type &&
+            (2 until roomSpace.location.y).all { y ->
+                amphipods.any { a ->
+                    a.location == Point(roomSpace.location.x, y) && a.type == type
+                }
             }
-        }
 
 }
 
