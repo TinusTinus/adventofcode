@@ -6,5 +6,3 @@ enum class AmphipodType(val representation: Char, val energyPerStep: Int) {
     COPPER('C', 100),
     DESERT('D', 1000);
 }
-
-fun parseAmphipodType(representation: Char) = AmphipodType.entries.first { it.representation == representation }

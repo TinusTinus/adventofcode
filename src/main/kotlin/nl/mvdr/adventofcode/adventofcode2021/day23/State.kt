@@ -70,3 +70,5 @@ private fun parseAmphipods(lines: List<String>) = lines.indices.flatMap { y -> l
     .filter { lines[it.y][it.x].isLetter() }
     .map { Amphipod(parseAmphipodType(lines[it.y][it.x]), it) }
     .toSet()
+
+private fun parseAmphipodType(representation: Char) = AmphipodType.entries.first { it.representation == representation }
