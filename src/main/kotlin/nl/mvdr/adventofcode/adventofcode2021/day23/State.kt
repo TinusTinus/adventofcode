@@ -50,13 +50,16 @@ data class State(val amphipods: Set<Amphipod>) {
      * Determines the minimum amount of energy needed to organize the amphipods from this (start) state.
      */
     fun computeEnergyCost(): Int {
-        logger.info { "start state: $this" } // TODO clean up logs
         val graph = createGraph()
         logger.info { "graph contains " + graph.vertexSet().size + " vertices, " + graph.edgeSet().size + " edges" } // TODO clean up logs
         val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
         val endState = State(Burrow.sideRooms.map { Amphipod(it.type, it.location) }.toSet())
-        logger.info { "end state: $endState" } // TODO clean up logs
         val path = algorithm.getPath(this, endState)
+
+        // TODO clean up logging
+        logger.info { "Path:" }
+        path.vertexList.forEach { logger.info { "$it" } }
+
         return path.weight.toInt()
     }
 
