@@ -37,7 +37,7 @@ object Burrow {
         HallwaySpace(11)
     )
 
-    private val spaces get() = hallway + sideRooms
+    val spaces get() = hallway + sideRooms
 
     fun getSpace(location: Point) = spaces.first { it.location == location }
 

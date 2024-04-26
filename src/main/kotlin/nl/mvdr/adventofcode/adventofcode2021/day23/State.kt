@@ -21,7 +21,10 @@ data class State(val amphipods: Set<Amphipod>) {
     /**
      * Determines possible moves, based on this starting state.
      */
-    private val moves: Set<Move> get() = setOf() // TODO implement
+    private val moves: Set<Move> get() = amphipods.filter { !it.isAtDestination() }
+            .flatMap { a -> Burrow.spaces.map { space -> Move(a, space.location) } }
+            .filter(this::isValid)
+            .toSet()
 
     /**
      * Determines the minimum amount of energy needed to organize the amphipods from this (start) state.
@@ -72,6 +75,12 @@ data class State(val amphipods: Set<Amphipod>) {
         return Pair(newState, move.energyCost)
     }
 
+    private fun isValid(move: Move): Boolean {
+        return pathIsUnobstructed(move.amphipod, move.target) &&
+                (move.isMovingOutOfSideRoom() ||
+                        move.isMovingToDestination() && destinationIsAvailable(move))
+    }
+
     /**
      * Checks whether the path for the given [amphipod] to the given [target] is not occupied by any other amphipods.
      */
@@ -81,6 +90,22 @@ data class State(val amphipods: Set<Amphipod>) {
                 (1 .. target.y).map { Point(target.x, it) } // target and any spaces north of the target
         return intermediateSpaces.all { location -> amphipods.none { a -> a.location == location } }
     }
+
+    /**
+     * Checks that it is allowed to move to a side room as specified in [move].
+     * This is only allowed if it is the south side of the side room,
+     * or if the south side already contains another amphipod of the same type.
+     */
+    private fun destinationIsAvailable(move: Move) =
+        (2 until move.target.y).all { y ->
+            amphipods.any { a ->
+                a.location == Point(
+                    move.target.x,
+                    y
+                ) && a.type == move.amphipod.type
+            }
+        }
+
 }
 
 private fun parseAmphipods(lines: List<String>) = lines.indices.flatMap { y -> lines[y].indices.map { x -> Point(x, y) } }
