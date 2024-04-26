@@ -8,7 +8,7 @@ class AmphipodPart1Test: FunctionSolverTest<Any>(::solvePart1) {
         @JvmStatic
         fun testSolution() = listOf(
             Arguments.of("12521", "example-day23-2021.txt"),
-            Arguments.of("?", "input-day23-2021.txt") // 10466 is too low
+            Arguments.of("16506", "input-day23-2021.txt")
         )
     }
 }
