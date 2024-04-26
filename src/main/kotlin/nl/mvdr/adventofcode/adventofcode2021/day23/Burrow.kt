@@ -1,7 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2021.day23
 
+import nl.mvdr.adventofcode.point.Point
+
 object Burrow {
-    val hallwaySpaces = setOf(
+    private val hallwaySpaces = setOf(
         HallwaySpace(1),
         HallwaySpace(2),
         HallwaySpace(4),
@@ -11,7 +13,7 @@ object Burrow {
         HallwaySpace(11)
     )
 
-    val roomSpaces = setOf(
+    private val roomSpaces = setOf(
         RoomSpace(3, 2, AmphipodType.AMBER),
         RoomSpace(3, 3, AmphipodType.AMBER),
         RoomSpace(5, 2, AmphipodType.BRONZE),
@@ -21,4 +23,8 @@ object Burrow {
         RoomSpace(9, 2, AmphipodType.DESERT),
         RoomSpace(9, 3, AmphipodType.DESERT),
     )
+
+    private val spaces get() = hallwaySpaces + roomSpaces
+
+    fun getSpace(location: Point) = spaces.first { it.location == location }
 }
