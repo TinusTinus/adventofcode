@@ -6,6 +6,8 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleDirectedWeightedGraph
+import kotlin.math.max
+import kotlin.math.min
 
 data class State(val amphipods: Set<Amphipod>) {
     constructor(lines: Sequence<String>) : this(parseAmphipods(lines.toList()))
@@ -52,6 +54,13 @@ data class State(val amphipods: Set<Amphipod>) {
      * Returns pairs of the next state and the corresponding energy cost.
      */
     private fun nextStates(): Set<Pair<State, Int>> = setOf() // TODO implement!
+
+    private fun pathIsUnobstructed(amphipod: Amphipod, target: Point): Boolean {
+        val intermediateSpaces = (1 until amphipod.location.y).map { Point(amphipod.location.x, it) } + // spaces north of the starting point
+                (min(amphipod.location.x, target.x) + 1 until max(amphipod.location.x, target.x)).map { Point(it, 1) } + // hallway spaces in-between
+                (1 .. target.y).map { Point(target.x, it) } // target and any spaces north of the target
+        return intermediateSpaces.all { location -> amphipods.none { a -> a.location == location } }
+    }
 }
 
 private fun parseAmphipods(lines: List<String>) = lines.indices.flatMap { y -> lines[y].indices.map { x -> Point(x, y) } }
