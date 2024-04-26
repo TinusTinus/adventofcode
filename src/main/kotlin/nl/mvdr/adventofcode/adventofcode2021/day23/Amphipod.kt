@@ -9,4 +9,9 @@ data class Amphipod(val type: AmphipodType, val location: Point) {
     fun isInSideRoom() = !isInHallway()
 
     fun isAtDestination() = isInSideRoom() && (Burrow.getSpace(location) as RoomSpace).type == type
+
+    /**
+     * Computes how much energy it would cost to move to [target].
+     */
+    fun computeMoveCost(target: Space) = location.manhattanDistance(target.location) * type.energyPerStep
 }

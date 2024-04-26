@@ -6,7 +6,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: Sequence<String>): Int {
-    val state = State(lines)
+    val startState = State(lines)
 
     return 3
 }

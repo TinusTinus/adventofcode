@@ -4,6 +4,8 @@ import nl.mvdr.adventofcode.point.Point
 
 data class State(val amphipods: Set<Amphipod>) {
     constructor(lines: Sequence<String>) : this(parseAmphipods(lines.toList()))
+
+    fun isEndState() = amphipods.all(Amphipod::isAtDestination)
 }
 
 private fun parseAmphipods(lines: List<String>) = lines.indices.flatMap { y -> lines[y].indices.map { x -> Point(x, y) } }
