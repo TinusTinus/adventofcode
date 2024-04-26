@@ -102,12 +102,7 @@ data class State(val amphipods: Set<Amphipod>) {
      * This is only allowed if it is the south side of the side room,
      * or if the south side already contains another amphipod of the same type.
      */
-    private fun destinationIsAvailable(move: Move) =
-        (2 until move.target.location.y).all { y ->
-            amphipods.any { a ->
-                a.location == Point(move.target.location.x, y) && a.type == move.amphipod.type
-            }
-        }
+    private fun destinationIsAvailable(move: Move) = isValidDestination(move.target.location, move.amphipod.type)
 
     /**
      * Checks whether the given [location], which must be in a side room,
