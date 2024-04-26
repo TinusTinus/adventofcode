@@ -55,6 +55,9 @@ data class State(val amphipods: Set<Amphipod>) {
      */
     private fun nextStates(): Set<Pair<State, Int>> = setOf() // TODO implement!
 
+    /**
+     * Checks whether the path for the given [amphipod] to the given [target] is not occupied by any other amphipods.
+     */
     private fun pathIsUnobstructed(amphipod: Amphipod, target: Point): Boolean {
         val intermediateSpaces = (1 until amphipod.location.y).map { Point(amphipod.location.x, it) } + // spaces north of the starting point
                 (min(amphipod.location.x, target.x) + 1 until max(amphipod.location.x, target.x)).map { Point(it, 1) } + // hallway spaces in-between

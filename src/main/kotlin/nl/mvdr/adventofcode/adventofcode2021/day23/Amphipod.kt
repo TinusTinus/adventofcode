@@ -4,11 +4,7 @@ import nl.mvdr.adventofcode.point.Point
 
 data class Amphipod(val type: AmphipodType, val location: Point) {
 
-    fun isInHallway() = location.y == 1
-
-    fun isInSideRoom() = !isInHallway()
-
-    fun isAtDestination() = isInSideRoom() && (Burrow.getSpace(location) as RoomSpace).type == type
+    fun isAtDestination() = Burrow.isInSideRoom(location) && (Burrow.getSpace(location) as RoomSpace).type == type
 
     /**
      * Computes how much energy it would cost to move to [target].

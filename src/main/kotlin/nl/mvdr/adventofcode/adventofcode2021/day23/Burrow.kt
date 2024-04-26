@@ -40,4 +40,16 @@ object Burrow {
     private val spaces get() = hallway + sideRooms
 
     fun getSpace(location: Point) = spaces.first { it.location == location }
+
+    /**
+     * Checks whether the given [location] is in a hallway space.
+     * Note that the given location must be a valid space, within either the hallway or a side room.
+     */
+    fun isInHallway(location: Point) = location.y == 1
+
+    /**
+     * Checks whether the given [location] is in a side room space.
+     * Note that the given location must be a valid space, within either the hallway or a side room.
+     */
+    fun isInSideRoom(location: Point) = !isInHallway(location)
 }
