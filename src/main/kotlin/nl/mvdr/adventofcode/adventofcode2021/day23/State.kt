@@ -13,6 +13,17 @@ data class State(val amphipods: Set<Amphipod>) {
     constructor(lines: Sequence<String>) : this(parseAmphipods(lines.toList()))
 
     /**
+     * Determines possible next states, after moving a single amphipod.
+     * Returns pairs of the next state and the corresponding energy cost.
+     */
+    private val nextStates get() = moves.map(this::nextState).toSet()
+
+    /**
+     * Determines possible moves, based on this starting state.
+     */
+    private val moves: Set<Move> get() = setOf() // TODO implement
+
+    /**
      * Determines the minimum amount of energy needed to organize the amphipods from this (start) state.
      */
     fun computeEnergyCost(): Int {
@@ -37,7 +48,7 @@ data class State(val amphipods: Set<Amphipod>) {
         while (latestStates.isNotEmpty()) {
             val state = latestStates.first()
             latestStates.remove(state)
-            for (nextState in state.nextStates()) {
+            for (nextState in state.nextStates) {
                 graph.addVertex(nextState.first)
                 if (!graph.containsEdge(state, nextState.first)) {
                     val edge = graph.addEdge(state, nextState.first)
@@ -49,11 +60,17 @@ data class State(val amphipods: Set<Amphipod>) {
         return graph
     }
 
+
     /**
-     * Determines possible next states, after moving a single amphipod.
-     * Returns pairs of the next state and the corresponding energy cost.
+     * Returns a pair consisting of the next state after executing the given [move], and the associated energy cost.
      */
-    private fun nextStates(): Set<Pair<State, Int>> = setOf() // TODO implement!
+    private fun nextState(move: Move): Pair<State, Int> {
+        val newAmphipods = amphipods.toMutableSet()
+        newAmphipods.remove(move.amphipod)
+        newAmphipods.add(Amphipod(move.amphipod.type, move.target))
+        val newState = State(newAmphipods)
+        return Pair(newState, move.energyCost)
+    }
 
     /**
      * Checks whether the path for the given [amphipod] to the given [target] is not occupied by any other amphipods.
