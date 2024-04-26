@@ -24,10 +24,20 @@ data class State(val amphipods: Set<Amphipod>) {
     /**
      * Determines possible moves, based on this starting state.
      */
-    private val moves: Set<Move> get() = amphipods.flatMap { a -> Burrow.spaces.map { space -> Move(a, space) } }
+    private val moves: Set<Move> get(){
+        val result = amphipods.flatMap { a -> Burrow.spaces.map { space -> Move(a, space) } }
             .filter(this::isValid)
-            .toSet()
 
+        // If an amphipod can move to one of its destination spaces, that is always the best thing to do.
+        // It will need to do this eventually anyway, and this gets it out of the way for other moves.
+        // If there are multiple moves to destination: just pick one.
+        return when (val moveToDestination = result.find(Move::isMovingToDestination)) {
+            null -> result.toSet()
+            else -> setOf(moveToDestination)
+        }
+
+
+    }
 
     fun isEndState() = amphipods.all(Amphipod::isAtDestination)
 
@@ -88,7 +98,7 @@ data class State(val amphipods: Set<Amphipod>) {
         newAmphipods.add(Amphipod(move.amphipod.type, move.target.location))
         val newState = State(newAmphipods)
         if (newState.isEndState()) {
-            logger.info { "End state found: $newState" } // TODO clean up logging
+            // logger.info { "End state found: $newState" } // TODO clean up logging
         }
         return Pair(newState, move.energyCost)
     }
@@ -101,7 +111,7 @@ data class State(val amphipods: Set<Amphipod>) {
 //            logger.info { "Moving to destination: $move" } // TODO clean up logging
         }
         if (isValidMoveToDestination && !pathIsObstructed(move) && move.target.location.y == 3) {
-            logger.info { "Moving to southern end of a room: $move" } // TODO clean up logging
+//            logger.info { "Moving to southern end of a room: $move" } // TODO clean up logging
         }
         return (isValidMoveOutOfSideRoom || isValidMoveToDestination) && !pathIsObstructed(move)
     }
@@ -135,7 +145,7 @@ data class State(val amphipods: Set<Amphipod>) {
      */
     private fun isValidDestination(roomSpace: RoomSpace, type: AmphipodType) =
         roomSpace.type == type &&
-            (2 until roomSpace.location.y).all { y ->
+            (roomSpace.location.y + 1 .. 3).all { y ->
                 amphipods.any { a ->
                     a.location == Point(roomSpace.location.x, y) && a.type == type
                 }
