@@ -30,13 +30,14 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
         // If there are multiple moves to destination: just pick one.
         val moveToDestination = amphipods.asSequence()
             .flatMap { a -> burrow.sideRooms.map { space -> Move(a, space) } }
-            .filter(this::isValid)
-            .firstOrNull()
+            .firstOrNull(this::isValid)
 
         val result: Set<Move>
         if (moveToDestination == null) {
-            result = amphipods.flatMap { a -> burrow.hallway.map { space -> Move(a, space) } }
-                .filter(this::isValid).toSet()
+            result = amphipods.asSequence()
+                .flatMap { a -> burrow.hallway.map { space -> Move(a, space) } }
+                .filter(this::isValid)
+                .toSet()
         } else {
             result = setOf(moveToDestination)
         }
