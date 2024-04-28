@@ -13,7 +13,7 @@ import kotlin.math.min
 private val logger = KotlinLogging.logger{}
 
 data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
-    constructor(lines: Sequence<String>, burrow: Burrow) : this(parseAmphipods(lines.toList()), burrow)
+    constructor(lines: List<String>, burrow: Burrow) : this(parseAmphipods(lines), burrow)
 
     /**
      * Determines possible next states, after moving a single amphipod.
