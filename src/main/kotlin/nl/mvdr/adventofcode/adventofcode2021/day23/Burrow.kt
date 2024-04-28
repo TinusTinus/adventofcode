@@ -15,23 +15,17 @@ import nl.mvdr.adventofcode.point.Point
 object Burrow {
     val sideRoomSize = 2
 
+    // Note that the hallway spaces in this collection only include the ones where an amphipod may stop.
+    // That is, the spaces right in front of a side room are excluded.
+    val hallway = (1 until 12)
+        .filter { x -> AmphipodType.entries.none { it.x == x } }
+        .map(::HallwaySpace).toSet()
+
     val sideRooms =
         (2 until 2 + sideRoomSize).flatMap { y -> AmphipodType.entries.map { type -> RoomSpace(type.x, y, type) } }
             .toSet()
 
-    // Note that the hallway spaces in this collection only include the ones where an amphipod may stop.
-    // That is, the spaces right in front of a side room are not included.
-    val hallway = setOf(
-        HallwaySpace(1),
-        HallwaySpace(2),
-        HallwaySpace(4),
-        HallwaySpace(6),
-        HallwaySpace(8),
-        HallwaySpace(10),
-        HallwaySpace(11)
-    )
-
-    val spaces get() = hallway + sideRooms
+    private val spaces get() = hallway + sideRooms
 
     fun getSpace(location: Point) = spaces.first { it.location == location }
 
