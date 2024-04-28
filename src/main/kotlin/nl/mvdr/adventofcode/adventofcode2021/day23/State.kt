@@ -151,6 +151,7 @@ data class State(val amphipods: Set<Amphipod>) {
      * This is only the case if it is the south side of the side room,
      * or if the south side already contains another amphipod of the same type.
      */
+    // TODO this method does not take into account that this amphipod itself may be occupying the south side of the room.
     private fun isValidDestination(roomSpace: RoomSpace, type: AmphipodType) =
         roomSpace.type == type &&
             (roomSpace.location.y + 1 .. 3).all { y ->
@@ -195,7 +196,6 @@ data class State(val amphipods: Set<Amphipod>) {
      */
     private fun printSpace(space: Point) =
         amphipods.filter { it.location == space }.map { it.type.representation }.firstOrNull() ?: '.'
-
 }
 
 private fun parseAmphipods(lines: List<String>) = lines.indices.flatMap { y -> lines[y].indices.map { x -> Point(x, y) } }
