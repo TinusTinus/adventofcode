@@ -40,7 +40,6 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
         } else {
             result = setOf(moveToDestination)
         }
-
         return result
     }
 
@@ -137,7 +136,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
      */
     private fun isValidDestination(roomSpace: RoomSpace, type: AmphipodType) =
         roomSpace.type == type &&
-            (roomSpace.location.y + 1 .. 3).all { y ->
+            (roomSpace.location.y + 1 until 2 + burrow.sideRoomSize).all { y ->
                 amphipods.any { a ->
                     a.location == Point(roomSpace.location.x, y) && a.type == type
                 }

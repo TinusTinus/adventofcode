@@ -8,7 +8,7 @@ class AmphipodPart2Test: FunctionSolverTest<Any>(::solvePart2) {
         @JvmStatic
         fun testSolution() = listOf(
             Arguments.of("44169", "example-day23-2021.txt"),
-            Arguments.of("?", "input-day23-2021.txt")
+            Arguments.of("48304", "input-day23-2021.txt")
         )
     }
 }
