@@ -159,6 +159,43 @@ data class State(val amphipods: Set<Amphipod>) {
                 }
             }
 
+    override fun toString(): String {
+        val result = StringBuilder("State:\n")
+
+        // North wall
+        result.append("#############\n")
+
+        // Hallway
+        result.append("#")
+        (1 until 12).map { Point(it, 1) }
+            .map { hallwayLocation -> printSpace(hallwayLocation) }
+            .forEach(result::append)
+        result.append("#\n")
+
+        // Side rooms
+        for (y in 2 until 4) {
+            result.append("###")
+            result.append(printSpace(Point(3, y)))
+            result.append("#")
+            result.append(printSpace(Point(5, y)))
+            result.append("#")
+            result.append(printSpace(Point(7, y)))
+            result.append("#")
+            result.append(printSpace(Point(9, y)))
+            result.append("###\n")
+        }
+        result.append("  #########  ")
+        return result.toString()
+    }
+
+    /**
+     * Returns a single-character representation of the given [space] for inclusion in the result of [toString].
+     * If the location is occupied by an amphipod, this method returns the single-letter representation of its type.
+     * Otherwise it returns '.' to indicate an empty space.
+     */
+    private fun printSpace(space: Point) =
+        amphipods.filter { it.location == space }.map { it.type.representation }.firstOrNull() ?: '.'
+
 }
 
 private fun parseAmphipods(lines: List<String>) = lines.indices.flatMap { y -> lines[y].indices.map { x -> Point(x, y) } }
