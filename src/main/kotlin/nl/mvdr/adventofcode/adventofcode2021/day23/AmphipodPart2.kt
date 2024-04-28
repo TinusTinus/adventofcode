@@ -5,14 +5,14 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(linesSequence: Sequence<String>): Int {
+fun solvePart2(lines: Sequence<String>) = State(addExtraLines(lines)).computeEnergyCost()
+
+private fun addExtraLines(linesSequence: Sequence<String>): MutableList<String> {
     val lines = linesSequence.toMutableList()
     lines.add(3, "  #D#C#B#A#")
     lines.add(4, "  #D#B#A#C#")
-    val state = State(lines, Burrow(4))
-    return state.computeEnergyCost()
+    return lines
 }
-
 
 
 fun main() {
