@@ -47,8 +47,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
     /**
      * Determines the minimum amount of energy needed to organize the amphipods from this (start) state.
      */
-    fun computeEnergyCost(): Int {
-        val graph = createGraph()
+    val energyCost: Int get() {
         val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
         logger.debug { "Start state: $this" }
         val endState = State(burrow.sideRooms.map { Amphipod(it.type, it.location) }.toSet(), burrow)
@@ -66,7 +65,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
      * Vertices in the resulting graph are states which can be reached from this one by moving the amphipods.
      * Edges are single movements, with the corresponding edge weight being the movement's energy cost.
      */
-    private fun createGraph(): Graph<State, DefaultEdge> {
+    private val graph: Graph<State, DefaultEdge> get() {
         val graph = SimpleDirectedWeightedGraph<State, DefaultEdge>(DefaultEdge::class.java)
         graph.addVertex(this)
 
