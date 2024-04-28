@@ -9,7 +9,7 @@ data class Move(val amphipod: Amphipod, val target: Space) {
 
     val energyCost: Int get() = distance * amphipod.type.energyPerStep
 
-    fun isMovingOutOfSideRoom() = Burrow.isInSideRoom(amphipod.location) && target is HallwaySpace
+    fun isMovingOutOfSideRoom(burrow: Burrow) = burrow.isInSideRoom(amphipod.location) && target is HallwaySpace
 
     fun isMovingToDestination() = target is RoomSpace && target.type == amphipod.type
 }

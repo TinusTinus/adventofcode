@@ -12,8 +12,8 @@ import kotlin.math.min
 
 private val logger = KotlinLogging.logger{}
 
-data class State(val amphipods: Set<Amphipod>) {
-    constructor(lines: Sequence<String>) : this(parseAmphipods(lines.toList()))
+data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
+    constructor(lines: Sequence<String>, burrow: Burrow) : this(parseAmphipods(lines.toList()), burrow)
 
     /**
      * Determines possible next states, after moving a single amphipod.
@@ -29,13 +29,13 @@ data class State(val amphipods: Set<Amphipod>) {
         // It will need to do this eventually anyway, and this gets it out of the way for other moves.
         // If there are multiple moves to destination: just pick one.
         val moveToDestination = amphipods.asSequence()
-            .flatMap { a -> Burrow.sideRooms.map { space -> Move(a, space) } }
+            .flatMap { a -> burrow.sideRooms.map { space -> Move(a, space) } }
             .filter(this::isValid)
             .firstOrNull()
 
         val result: Set<Move>
         if (moveToDestination == null) {
-            result = amphipods.flatMap { a -> Burrow.hallway.map { space -> Move(a, space) } }
+            result = amphipods.flatMap { a -> burrow.hallway.map { space -> Move(a, space) } }
                 .filter(this::isValid).toSet()
         } else {
             result = setOf(moveToDestination)
@@ -50,7 +50,7 @@ data class State(val amphipods: Set<Amphipod>) {
     fun computeEnergyCost(): Int {
         val graph = createGraph()
         val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
-        val endState = State(Burrow.sideRooms.map { Amphipod(it.type, it.location) }.toSet())
+        val endState = State(burrow.sideRooms.map { Amphipod(it.type, it.location) }.toSet(), burrow)
         val path = algorithm.getPath(this, endState)
 
         logger.debug { "Path:" }
@@ -95,13 +95,13 @@ data class State(val amphipods: Set<Amphipod>) {
         val newAmphipods = amphipods.toMutableSet()
         newAmphipods.remove(move.amphipod)
         newAmphipods.add(Amphipod(move.amphipod.type, move.target.location))
-        val newState = State(newAmphipods)
+        val newState = State(newAmphipods, burrow)
         return Pair(newState, move.energyCost)
     }
 
     private fun isValid(move: Move): Boolean {
-        val isValidMoveOutOfSideRoom = move.isMovingOutOfSideRoom() &&
-                !isValidDestination(Burrow.getSpace(move.amphipod.location) as RoomSpace, move.amphipod.type)
+        val isValidMoveOutOfSideRoom = move.isMovingOutOfSideRoom(burrow) &&
+                !isValidDestination(burrow.getSpace(move.amphipod.location) as RoomSpace, move.amphipod.type)
         val isValidMoveToDestination = move.isMovingToDestination() && destinationIsAvailable(move)
         return (isValidMoveOutOfSideRoom || isValidMoveToDestination) && !pathIsObstructed(move)
     }
@@ -126,7 +126,7 @@ data class State(val amphipods: Set<Amphipod>) {
      * This is only allowed if it is the south side of the side room,
      * or if the south side already contains another amphipod of the same type.
      */
-    private fun destinationIsAvailable(move: Move) = !move.amphipod.isAtDestination() && isValidDestination(move.target as RoomSpace, move.amphipod.type)
+    private fun destinationIsAvailable(move: Move) = !move.amphipod.isAtDestination(burrow) && isValidDestination(move.target as RoomSpace, move.amphipod.type)
 
     /**
      * Checks whether the given [roomSpace] is currently a valid destination for an amphipod of the given [type].

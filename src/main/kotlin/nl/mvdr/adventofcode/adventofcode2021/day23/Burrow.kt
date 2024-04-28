@@ -12,8 +12,7 @@ import nl.mvdr.adventofcode.point.Point
  *   #########
  * ```
  */
-object Burrow {
-    val sideRoomSize = 2
+data class Burrow(val sideRoomSize: Int = 2) {
 
     // Note that the hallway spaces in this collection only include the ones where an amphipod may stop.
     // That is, the spaces right in front of a side room are excluded.

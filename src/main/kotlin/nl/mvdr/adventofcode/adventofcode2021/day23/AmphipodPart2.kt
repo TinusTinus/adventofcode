@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: Sequence<String>) = State(lines).computeEnergyCost() // TODO
+fun solvePart2(lines: Sequence<String>) = State(lines, Burrow(4)).computeEnergyCost() // TODO
 
 fun main() {
     val result = FunctionSolver(::solvePart2).solve("input-day23-2021.txt")
