@@ -50,7 +50,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
     fun computeEnergyCost(): Int {
         val graph = createGraph()
         val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
-        logger.info{burrow.sideRooms} // TODO remove
+        logger.info{ "Start state: $this" } // TODO remove
         val endState = State(burrow.sideRooms.map { Amphipod(it.type, it.location) }.toSet(), burrow)
         logger.info{ "End state: $endState" } // TODO remove
         val path = algorithm.getPath(this, endState)
