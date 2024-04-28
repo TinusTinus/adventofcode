@@ -44,21 +44,17 @@ data class State(val amphipods: Set<Amphipod>) {
         return result
     }
 
-    fun isEndState() = amphipods.all(Amphipod::isAtDestination)
-
     /**
      * Determines the minimum amount of energy needed to organize the amphipods from this (start) state.
      */
     fun computeEnergyCost(): Int {
         val graph = createGraph()
-        logger.info { "graph contains " + graph.vertexSet().size + " vertices, " + graph.edgeSet().size + " edges" } // TODO clean up logs
         val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
         val endState = State(Burrow.sideRooms.map { Amphipod(it.type, it.location) }.toSet())
         val path = algorithm.getPath(this, endState)
 
-        // TODO clean up logging
-        logger.info { "Path:" }
-        path.vertexList.forEach { logger.info { "$it" } }
+        logger.debug { "Path:" }
+        path.vertexList.forEach { logger.debug { "$it" } }
 
         return path.weight.toInt()
     }
@@ -84,11 +80,6 @@ data class State(val amphipods: Set<Amphipod>) {
                 if (!graph.containsEdge(state, nextState.first)) {
                     val edge = graph.addEdge(state, nextState.first)
                     graph.setEdgeWeight(edge, nextState.second.toDouble())
-
-                    // TODO clean up this logging!
-//                    logger.info { "Added an edge;" }
-//                    logger.info { "from: $state,"}
-//                    logger.info { "to: " + nextState.first }
                 }
 
             }
@@ -105,9 +96,6 @@ data class State(val amphipods: Set<Amphipod>) {
         newAmphipods.remove(move.amphipod)
         newAmphipods.add(Amphipod(move.amphipod.type, move.target.location))
         val newState = State(newAmphipods)
-        if (newState.isEndState()) {
-            // logger.info { "End state found: $newState" } // TODO clean up logging
-        }
         return Pair(newState, move.energyCost)
     }
 
@@ -115,12 +103,6 @@ data class State(val amphipods: Set<Amphipod>) {
         val isValidMoveOutOfSideRoom = move.isMovingOutOfSideRoom() &&
                 !isValidDestination(Burrow.getSpace(move.amphipod.location) as RoomSpace, move.amphipod.type)
         val isValidMoveToDestination = move.isMovingToDestination() && destinationIsAvailable(move)
-        if (isValidMoveToDestination && !pathIsObstructed(move)) {
-//            logger.info { "Moving to destination: $move" } // TODO clean up logging
-        }
-        if (isValidMoveToDestination && !pathIsObstructed(move) && move.target.location.y == 3) {
-//            logger.info { "Moving to southern end of a room: $move" } // TODO clean up logging
-        }
         return (isValidMoveOutOfSideRoom || isValidMoveToDestination) && !pathIsObstructed(move)
     }
 
