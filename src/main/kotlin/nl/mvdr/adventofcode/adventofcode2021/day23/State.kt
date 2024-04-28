@@ -7,11 +7,8 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleDirectedWeightedGraph
-import java.util.stream.Collectors
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.streams.asSequence
-import kotlin.streams.asStream
 
 private val logger = KotlinLogging.logger{}
 
@@ -32,21 +29,14 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
         // It will need to do this eventually anyway, and this gets it out of the way for other moves.
         // If there are multiple moves to destination: just pick one.
         val moveToDestination = amphipods.asSequence()
-            .asStream()
-            .parallel()
-            .flatMap { a -> burrow.sideRooms.stream().map { space -> Move(a, space) } }
+            .flatMap { a -> burrow.sideRooms.map { space -> Move(a, space) } }
             .filter(this::isValid)
-            .findAny()
-            .orElse(null)
+            .firstOrNull()
 
         val result: Set<Move>
         if (moveToDestination == null) {
-            result = amphipods.asSequence()
-                .asStream()
-                .parallel()
-                .flatMap { a -> burrow.hallway.stream().map { space -> Move(a, space) } }
-                .filter(this::isValid)
-                .collect(Collectors.toSet())
+            result = amphipods.flatMap { a -> burrow.hallway.map { space -> Move(a, space) } }
+                .filter(this::isValid).toSet()
         } else {
             result = setOf(moveToDestination)
         }
