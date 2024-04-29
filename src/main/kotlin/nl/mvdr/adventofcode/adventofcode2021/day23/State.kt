@@ -54,11 +54,8 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
                 if (result.addVertex(nextState)) {
                     latestStates.add(nextState)
                 }
-                if (!result.containsEdge(state, nextState)) {
-                    val edge = result.addEdge(state, nextState)
-                    result.setEdgeWeight(edge, move.energyCost.toDouble())
-                }
-
+                val edge = result.addEdge(state, nextState)
+                result.setEdgeWeight(edge, move.energyCost.toDouble())
             }
         }
         return result
