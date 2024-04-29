@@ -7,42 +7,11 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleDirectedWeightedGraph
-import kotlin.math.max
-import kotlin.math.min
 
 private val logger = KotlinLogging.logger{}
 
 data class State(private val amphipods: Set<Amphipod>, private val burrow: Burrow) {
     constructor(lines: List<String>) : this(parseAmphipods(lines), Burrow(lines.size - 3))
-
-    /**
-     * Determines possible next states, after moving a single amphipod.
-     * Returns pairs of the next state and the corresponding energy cost.
-     */
-    private val nextStates get() = moves.map(this::nextState).toSet()
-
-    /**
-     * Determines possible moves, based on this starting state.
-     */
-    private val moves: Set<Move> get() {
-        // Note: if an amphipod can move to one of its destination spaces, that is always the best thing to do.
-        // It will need to do this eventually anyway, and this gets it out of the way for other moves.
-        // If there are multiple moves to destination: just pick one.
-        val moveToDestination = amphipods.asSequence()
-            .flatMap { a -> burrow.sideRooms.map { space -> Move(a, space) } }
-            .firstOrNull(this::isValid)
-
-        val result: Set<Move>
-        if (moveToDestination == null) {
-            result = amphipods.asSequence()
-                .flatMap { a -> burrow.hallway.map { space -> Move(a, space) } }
-                .filter(this::isValid)
-                .toSet()
-        } else {
-            result = setOf(moveToDestination)
-        }
-        return result
-    }
 
     /**
      * Determines the minimum amount of energy needed to organize the amphipods from this (start) state.
@@ -88,6 +57,34 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
         return graph
     }
 
+    /**
+     * Determines possible next states, after moving a single amphipod.
+     * Returns pairs of the next state and the corresponding energy cost.
+     */
+    private val nextStates get() = moves.map(this::nextState).toSet()
+
+    /**
+     * Determines possible moves, based on this starting state.
+     */
+    private val moves: Set<Move> get() {
+        // Note: if an amphipod can move to one of its destination spaces, that is always the best thing to do.
+        // It will need to do this eventually anyway, and this gets it out of the way for other moves.
+        // If there are multiple moves to destination: just pick one.
+        val moveToDestination = amphipods.asSequence()
+            .flatMap { a -> burrow.sideRooms.map { space -> Move(a, space) } }
+            .firstOrNull { it.isValid(amphipods, burrow.sideRoomSize) }
+
+        val result: Set<Move>
+        if (moveToDestination == null) {
+            result = amphipods.asSequence()
+                .flatMap { a -> burrow.hallway.map { space -> Move(a, space) } }
+                .filter{ it.isValid(amphipods, burrow.sideRoomSize) }
+                .toSet()
+        } else {
+            result = setOf(moveToDestination)
+        }
+        return result
+    }
 
     /**
      * Returns a pair consisting of the next state after executing the given [move], and the associated energy cost.
@@ -99,48 +96,6 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
         val newState = State(newAmphipods, burrow)
         return Pair(newState, move.energyCost)
     }
-
-    private fun isValid(move: Move): Boolean {
-        val isValidMoveOutOfSideRoom = move.isMovingOutOfSideRoom() &&
-                !isValidDestination(move.amphipod.space as RoomSpace, move.amphipod.type)
-        val isValidMoveToDestination = move.isMovingToDestination() && destinationIsAvailable(move)
-        return (isValidMoveOutOfSideRoom || isValidMoveToDestination) && !pathIsObstructed(move)
-    }
-
-    /**
-     * Checks whether the path for the given [move] is not occupied by any other amphipods.
-     */
-    private fun pathIsObstructed(move: Move) = pathIsObstructed(move.amphipod, move.target.location)
-
-    /**
-     * Checks whether the path for the given [amphipod] to the given [target] is not occupied by any amphipods (including itself!).
-     */
-    private fun pathIsObstructed(amphipod: Amphipod, target: Point): Boolean {
-        val intermediateSpaces = (1 until amphipod.location.y).map { Point(amphipod.location.x, it) } + // spaces north of the starting point
-                (min(amphipod.location.x, target.x) + 1 until max(amphipod.location.x, target.x)).map { Point(it, 1) } + // hallway spaces in-between
-                (1 .. target.y).map { Point(target.x, it) } // target and any spaces north of the target
-        return intermediateSpaces.any { location -> amphipods.any { a -> a.location == location } }
-    }
-
-    /**
-     * Checks that it is allowed to move to a side room as specified in [move].
-     * This is only allowed if it is the south side of the side room,
-     * or if the south side already contains another amphipod of the same type.
-     */
-    private fun destinationIsAvailable(move: Move) = !move.amphipod.isAtDestination() && isValidDestination(move.target as RoomSpace, move.amphipod.type)
-
-    /**
-     * Checks whether the given [roomSpace] is currently a valid destination for an amphipod of the given [type].
-     * This is only the case if it is the south side of the side room,
-     * or if the south side already contains another amphipod of the same type.
-     */
-    private fun isValidDestination(roomSpace: RoomSpace, type: AmphipodType) =
-        roomSpace.type == type &&
-            (roomSpace.location.y + 1 until 2 + burrow.sideRoomSize).all { y ->
-                amphipods.any { a ->
-                    a.space == RoomSpace(roomSpace.location.x, y, a.type)
-                }
-            }
 
     override fun toString(): String {
         val result = StringBuilder("State:\n")
