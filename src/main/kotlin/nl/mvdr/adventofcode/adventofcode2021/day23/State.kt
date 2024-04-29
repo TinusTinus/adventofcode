@@ -11,6 +11,10 @@ import org.jgrapht.graph.SimpleDirectedWeightedGraph
 private val logger = KotlinLogging.logger{}
 
 data class State(private val amphipods: Set<Amphipod>, private val burrow: Burrow) {
+
+    /**
+     * Parses the initial state, based on the [lines] from the puzzle input.
+     */
     constructor(lines: List<String>) : this(parseAmphipods(lines), Burrow(lines.size - 3))
 
     /**
