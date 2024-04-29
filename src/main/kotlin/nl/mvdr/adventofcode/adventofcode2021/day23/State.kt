@@ -12,7 +12,7 @@ import kotlin.math.min
 
 private val logger = KotlinLogging.logger{}
 
-data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
+data class State(private val amphipods: Set<Amphipod>, private val burrow: Burrow) {
     constructor(lines: List<String>) : this(parseAmphipods(lines), Burrow(lines.size - 3))
 
     /**
@@ -101,8 +101,8 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
     }
 
     private fun isValid(move: Move): Boolean {
-        val isValidMoveOutOfSideRoom = move.isMovingOutOfSideRoom(burrow) &&
-                !isValidDestination(burrow.getSpace(move.amphipod.location) as RoomSpace, move.amphipod.type)
+        val isValidMoveOutOfSideRoom = move.isMovingOutOfSideRoom() &&
+                !isValidDestination(move.amphipod.space as RoomSpace, move.amphipod.type)
         val isValidMoveToDestination = move.isMovingToDestination() && destinationIsAvailable(move)
         return (isValidMoveOutOfSideRoom || isValidMoveToDestination) && !pathIsObstructed(move)
     }
@@ -138,7 +138,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
         roomSpace.type == type &&
             (roomSpace.location.y + 1 until 2 + burrow.sideRoomSize).all { y ->
                 amphipods.any { a ->
-                    a.location == Point(roomSpace.location.x, y) && a.type == type
+                    a.space == RoomSpace(roomSpace.location.x, y, a.type)
                 }
             }
 

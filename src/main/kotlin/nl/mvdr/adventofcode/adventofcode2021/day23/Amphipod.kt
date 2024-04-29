@@ -4,7 +4,7 @@ import nl.mvdr.adventofcode.point.Point
 
 data class Amphipod(val type: AmphipodType, val space: Space) {
 
-    val location: Point get() = space.location // TODO remove?
+    val location: Point get() = space.location
 
     fun isAtDestination() = space is RoomSpace && space.type == type
 }
