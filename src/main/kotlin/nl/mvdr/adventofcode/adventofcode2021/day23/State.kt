@@ -64,27 +64,24 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
     private val nextStates get() = moves.map(this::nextState).toSet()
 
     /**
-     * Determines possible moves, based on this starting state.
+     * Determines possible next moves to take, starting from this state.
      */
-    private val moves: Set<Move> get() {
+
+    private val moves: Set<Move> get() =
         // Note: if any amphipod can move into its destination in a side room, that is always the optimal thing to do.
         // It will need to do this eventually anyway, and this gets it out of the way for other moves.
         // There is no need to investigate other moves if such a move is available.
-        val moveToDestination = amphipods.asSequence()
-            .flatMap { a -> burrow.sideRooms.map { space -> Move(a, space) } }
-            .firstOrNull { it.isValid(amphipods, burrow.sideRoomSize) }
+        getMovesTo(burrow.sideRooms)
+            .take(1)
+            .ifEmpty { getMovesTo(burrow.hallway) }
+            .toSet()
 
-        val result: Set<Move>
-        if (moveToDestination == null) {
-            result = amphipods.asSequence()
-                .flatMap { a -> burrow.hallway.map { space -> Move(a, space) } }
-                .filter { it.isValid(amphipods, burrow.sideRoomSize) }
-                .toSet()
-        } else {
-            result = setOf(moveToDestination)
-        }
-        return result
-    }
+    /**
+     * Returns a sequence of all valid moves to one of the given [spaces].
+     */
+    private fun getMovesTo(spaces: Set<Space>) = amphipods.asSequence()
+        .flatMap { a -> spaces.map { space -> Move(a, space) } }
+        .filter { it.isValid(amphipods, burrow.sideRoomSize) }
 
     /**
      * Returns a pair consisting of the next state after executing the given [move], and the associated energy cost.
