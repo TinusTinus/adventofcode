@@ -8,7 +8,7 @@ import nl.mvdr.adventofcode.point.Point
  */
 data class RoomSpace(override val location: Point, val type: AmphipodType = AmphipodType.entries.first { it.x == location.x }): Space {
 
-    constructor(x: Int, y: Int, type: AmphipodType) : this(Point(x, y), type)
+    constructor(type: AmphipodType, y: Int) : this(Point(type.x, y), type)
 
     /**
      * Checks whether this is currently a valid destination for an amphipod of the given [amphipodType],

@@ -20,6 +20,6 @@ data class Burrow(val sideRoomSize: Int = 2) {
         .map(::HallwaySpace).toSet()
 
     val sideRooms =
-        (2 until 2 + sideRoomSize).flatMap { y -> AmphipodType.entries.map { type -> RoomSpace(type.x, y, type) } }
+        (2 until 2 + sideRoomSize).flatMap { y -> AmphipodType.entries.map { type -> RoomSpace(type, y) } }
             .toSet()
 }
