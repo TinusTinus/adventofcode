@@ -50,7 +50,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
     val energyCost: Int get() {
         val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
         logger.debug { "Start state: $this" }
-        val endState = State(burrow.sideRooms.map { Amphipod(it.type, it.location) }.toSet(), burrow)
+        val endState = State(burrow.sideRooms.map { Amphipod(it.type, it) }.toSet(), burrow)
         logger.debug { "End state: $endState" }
         val path = algorithm.getPath(this, endState)
 
@@ -95,7 +95,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
     private fun nextState(move: Move): Pair<State, Int> {
         val newAmphipods = amphipods.toMutableSet()
         newAmphipods.remove(move.amphipod)
-        newAmphipods.add(Amphipod(move.amphipod.type, move.target.location))
+        newAmphipods.add(Amphipod(move.amphipod.type, move.target))
         val newState = State(newAmphipods, burrow)
         return Pair(newState, move.energyCost)
     }
@@ -127,7 +127,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
      * This is only allowed if it is the south side of the side room,
      * or if the south side already contains another amphipod of the same type.
      */
-    private fun destinationIsAvailable(move: Move) = !move.amphipod.isAtDestination(burrow) && isValidDestination(move.target as RoomSpace, move.amphipod.type)
+    private fun destinationIsAvailable(move: Move) = !move.amphipod.isAtDestination() && isValidDestination(move.target as RoomSpace, move.amphipod.type)
 
     /**
      * Checks whether the given [roomSpace] is currently a valid destination for an amphipod of the given [type].
@@ -182,7 +182,7 @@ data class State(val amphipods: Set<Amphipod>, val burrow: Burrow) {
 
 private fun parseAmphipods(lines: List<String>) = lines.indices.flatMap { y -> lines[y].indices.map { x -> Point(x, y) } }
     .filter { lines[it.y][it.x].isLetter() }
-    .map { Amphipod(parseAmphipodType(lines[it.y][it.x]), it) }
+    .map { Amphipod(parseAmphipodType(lines[it.y][it.x]), RoomSpace(it)) }
     .toSet()
 
 private fun parseAmphipodType(representation: Char) = AmphipodType.entries.first { it.representation == representation }

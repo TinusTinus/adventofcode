@@ -7,5 +7,8 @@ import nl.mvdr.adventofcode.point.Point
  * The [type] indicates which type of amphipod has this side room as its destination.
  */
 data class RoomSpace(override val location: Point, val type: AmphipodType): Space {
+
+    constructor(location: Point) : this(location, AmphipodType.entries.first { it.x == location.x })
+
     constructor(x: Int, y: Int, type: AmphipodType) : this(Point(x, y), type)
 }
