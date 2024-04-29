@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2021.day23
 
-import nl.mvdr.adventofcode.point.Point
-
 /**
  * Representation of a burrow, of the following form:
  * ```
