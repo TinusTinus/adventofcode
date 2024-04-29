@@ -41,8 +41,8 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
      * Each edge corresponds to a single movement, with the corresponding edge weight being the movement's energy cost.
      */
     private val graph: Graph<State, DefaultEdge> get() {
-        val graph = SimpleDirectedWeightedGraph<State, DefaultEdge>(DefaultEdge::class.java)
-        graph.addVertex(this)
+        val result = SimpleDirectedWeightedGraph<State, DefaultEdge>(DefaultEdge::class.java)
+        result.addVertex(this)
 
         val latestStates = mutableSetOf(this)
 
@@ -51,17 +51,17 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
             latestStates.remove(state)
             for (move in state.moves) {
                 val nextState = state.nextState(move)
-                if (graph.addVertex(nextState)) {
+                if (result.addVertex(nextState)) {
                     latestStates.add(nextState)
                 }
-                if (!graph.containsEdge(state, nextState)) {
-                    val edge = graph.addEdge(state, nextState)
-                    graph.setEdgeWeight(edge, move.energyCost.toDouble())
+                if (!result.containsEdge(state, nextState)) {
+                    val edge = result.addEdge(state, nextState)
+                    result.setEdgeWeight(edge, move.energyCost.toDouble())
                 }
 
             }
         }
-        return graph
+        return result
     }
 
     /**
