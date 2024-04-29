@@ -61,9 +61,9 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
     }
 
     /**
-     * Creates a directed, weighted graph based on this state.
+     * A directed, weighted graph based on this state.
      * Vertices in the resulting graph are states which can be reached from this one by moving the amphipods.
-     * Edges are single movements, with the corresponding edge weight being the movement's energy cost.
+     * Each edge corresponds to a single movement, with the corresponding edge weight being the movement's energy cost.
      */
     private val graph: Graph<State, DefaultEdge> get() {
         val graph = SimpleDirectedWeightedGraph<State, DefaultEdge>(DefaultEdge::class.java)
