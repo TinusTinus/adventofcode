@@ -14,15 +14,17 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
     constructor(lines: List<String>) : this(parseAmphipods(lines), Burrow(lines.size - 3))
 
     /**
-     * Determines the minimum amount of energy needed to organize the amphipods from this (start) state.
+     * The minimum amount of energy needed to organize the amphipods from this (start) state.
      */
     val energyCost: Int get() {
-        val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
         logger.debug { "Start state: $this" }
+
         val endState = State(burrow.sideRooms.map { Amphipod(it.type, it) }.toSet(), burrow)
         logger.debug { "End state: $endState" }
-        val path = algorithm.getPath(this, endState)
 
+        val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
+
+        val path = algorithm.getPath(this, endState)
         logger.debug { "Path:" }
         path.vertexList.forEach { logger.debug { "$it" } }
 
@@ -43,13 +45,14 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
         while (latestStates.isNotEmpty()) {
             val state = latestStates.first()
             latestStates.remove(state)
-            for (nextState in state.nextStates) {
-                if (graph.addVertex(nextState.first)) {
-                    latestStates.add(nextState.first)
+            for (move in state.moves) {
+                val nextState = state.nextState(move)
+                if (graph.addVertex(nextState)) {
+                    latestStates.add(nextState)
                 }
-                if (!graph.containsEdge(state, nextState.first)) {
-                    val edge = graph.addEdge(state, nextState.first)
-                    graph.setEdgeWeight(edge, nextState.second.toDouble())
+                if (!graph.containsEdge(state, nextState)) {
+                    val edge = graph.addEdge(state, nextState)
+                    graph.setEdgeWeight(edge, move.energyCost.toDouble())
                 }
 
             }
@@ -58,15 +61,8 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
     }
 
     /**
-     * Determines possible next states, after moving a single amphipod.
-     * Returns pairs of the next state and the corresponding energy cost.
+     * Possible next moves to take, starting from this state.
      */
-    private val nextStates get() = moves.map(this::nextState).toSet()
-
-    /**
-     * Determines possible next moves to take, starting from this state.
-     */
-
     private val moves: Set<Move> get() =
         // Note: if any amphipod can move into its destination in a side room, that is always the optimal thing to do.
         // It will need to do this eventually anyway, and this gets it out of the way for other moves.
@@ -86,12 +82,11 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
     /**
      * Returns a pair consisting of the next state after executing the given [move], and the associated energy cost.
      */
-    private fun nextState(move: Move): Pair<State, Int> {
+    private fun nextState(move: Move): State {
         val newAmphipods = amphipods.toMutableSet()
         newAmphipods.remove(move.amphipod)
         newAmphipods.add(Amphipod(move.amphipod.type, move.target))
-        val newState = State(newAmphipods, burrow)
-        return Pair(newState, move.energyCost)
+        return State(newAmphipods, burrow)
     }
 
     override fun toString(): String {
