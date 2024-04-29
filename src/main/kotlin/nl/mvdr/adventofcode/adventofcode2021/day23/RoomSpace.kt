@@ -19,8 +19,9 @@ data class RoomSpace(override val location: Point, val type: AmphipodType = Amph
     fun isValidDestination(amphipodType: AmphipodType, amphipods: Set<Amphipod>, sideRoomSize: Int) =
         type == amphipodType &&
                 (location.y + 1 until 2 + sideRoomSize).all { y ->
-                    amphipods.any { a ->
-                        a.space == RoomSpace(location.x, y, a.type)
+                    amphipods.any { a -> a.location.x == location.x &&
+                            a.location.y == y &&
+                            a.type == type
                     }
                 }
 }
