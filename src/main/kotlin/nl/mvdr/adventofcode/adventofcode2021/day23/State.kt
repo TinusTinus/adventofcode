@@ -67,9 +67,9 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
      * Determines possible moves, based on this starting state.
      */
     private val moves: Set<Move> get() {
-        // Note: if an amphipod can move to one of its destination spaces, that is always the best thing to do.
+        // Note: if any amphipod can move into its destination in a side room, that is always the optimal thing to do.
         // It will need to do this eventually anyway, and this gets it out of the way for other moves.
-        // If there are multiple moves to destination: just pick one.
+        // There is no need to investigate other moves if such a move is available.
         val moveToDestination = amphipods.asSequence()
             .flatMap { a -> burrow.sideRooms.map { space -> Move(a, space) } }
             .firstOrNull { it.isValid(amphipods, burrow.sideRoomSize) }
@@ -78,7 +78,7 @@ data class State(private val amphipods: Set<Amphipod>, private val burrow: Burro
         if (moveToDestination == null) {
             result = amphipods.asSequence()
                 .flatMap { a -> burrow.hallway.map { space -> Move(a, space) } }
-                .filter{ it.isValid(amphipods, burrow.sideRoomSize) }
+                .filter { it.isValid(amphipods, burrow.sideRoomSize) }
                 .toSet()
         } else {
             result = setOf(moveToDestination)
