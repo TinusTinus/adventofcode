@@ -6,13 +6,17 @@ data class Monad(private val program: Program) {
 
     constructor(lines: Sequence<String>) : this(Program(lines))
 
-    fun findMaxModelNumber(): String = Context().use(::findMaxModelNumber)
+    fun findModelNumber(findMinimum: Boolean = false): String = Context().use { findModelNumber(it, findMinimum) }
 
-    private fun findMaxModelNumber(context: Context): String {
+    private fun findModelNumber(context: Context, findMinimum: Boolean): String {
         val optimize = context.mkOptimize()
 
         val modelNumber = context.mkBVConst("modelNumber",  64)
-        optimize.MkMaximize(modelNumber)
+        if (findMinimum) {
+            optimize.MkMinimize(modelNumber)
+        } else {
+            optimize.MkMaximize(modelNumber)
+        }
 
         val digits = (0 until 14).map { context.mkBVConst("d_$it", 64) }
         digits.forEach { optimize.Add(context.mkBVSLE(context.mkBV(1, 64), it)) }
