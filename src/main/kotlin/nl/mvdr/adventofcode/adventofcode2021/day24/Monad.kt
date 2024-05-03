@@ -21,7 +21,9 @@ data class Monad(private val program: Program) {
         val sum = context.mkAdd(*(digits.mapIndexed { index, value -> context.mkMul(value, context.mkPower(context.mkInt(10), context.mkInt(13 - index))) }.toTypedArray()))
         optimize.Add(context.mkEq(modelNumber, sum))
 
-        // TODO add program constraints
+        val endState = program.execute(digits, optimize, context)
+
+        optimize.Add(context.mkEq(endState.variables[Variable.Z], context.mkInt(0)))
 
         check(optimize.Check() == Status.SATISFIABLE) { "Failed to solve: $optimize" }
         return optimize.model.evaluate(modelNumber, false).toString()

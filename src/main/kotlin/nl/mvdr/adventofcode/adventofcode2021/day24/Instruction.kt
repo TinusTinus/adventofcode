@@ -1,7 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2021.day24
 
+import com.microsoft.z3.Context
+import com.microsoft.z3.Optimize
+
 data class Instruction(val operation: Operation, val a: Variable, val b: Expression?) {
-    fun perform(state: State): State = operation.perform(state, a, b)
+    fun perform(state: State, optimize: Optimize, context: Context) = operation.perform(state, a, b, optimize, context)
 }
 
 

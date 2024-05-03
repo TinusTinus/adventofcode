@@ -1,5 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2021.day24
 
+import com.microsoft.z3.Context
+import com.microsoft.z3.IntExpr
+
 /**
  * An expression, to be used as the second argument for an instruction.
  */
@@ -7,7 +10,7 @@ interface Expression {
     /**
      * Returns the value of this expression, given a state.
      */
-    fun getValue(state: State): Int
+    fun getValue(state: State, context: Context): IntExpr
 }
 
 /**
