@@ -1,8 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2021.day24
 
 data class Monad(val program: Program) {
-    fun isValid(serialNumber: Long): Boolean {
-        val input = toDigits(serialNumber)
+    fun isValid(modelNumber: Long): Boolean {
+        val input = toDigits(modelNumber)
         return !input.contains(0) && isValid(input)
     }
 
