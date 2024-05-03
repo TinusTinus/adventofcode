@@ -1,30 +1,29 @@
 package nl.mvdr.adventofcode.adventofcode2021.day24
 
+import com.microsoft.z3.Context
+import com.microsoft.z3.Status
+
 data class Monad(private val program: Program) {
 
     constructor(lines: Sequence<String>) : this(Program(lines))
 
-    fun findMaxModelNumber(): Long {
-        var modelNumber = 99999999999999L
-        while (!isValid(modelNumber)) {
-            modelNumber--
-        }
-        return modelNumber
-    }
+    fun findMaxModelNumber(): String = Context().use(::findMaxModelNumber)
 
-    private fun isValid(modelNumber: Long): Boolean {
-        val input = toDigits(modelNumber)
-        return !input.contains(0) && isValid(input)
-    }
+    private fun findMaxModelNumber(context: Context): String {
+        val optimize = context.mkOptimize()
 
-    /**
-     * Checks whether the given [input] represents a valid serial number.
-     * Note that the given input must not contain any zero values.
-     */
-    private fun isValid(input: List<Int>): Boolean {
-        val endState = program.execute(input)
-        return endState.variables[Variable.Z] == 0
+        val digits = (0 until 14).map { context.mkIntConst("d_$it") }
+        digits.forEach { context.mkLe(context.mkInt(1), it) }
+        digits.forEach { context.mkLe(it, context.mkInt(9)) }
+
+        val modelNumber = context.mkIntConst("modelNumber")
+        val sum = context.mkAdd(*(digits.mapIndexed { index, value -> context.mkMul(value, context.mkPower(context.mkInt(10), context.mkInt(14 - index))) }.toTypedArray()))
+        optimize.Add(context.mkEq(modelNumber, sum))
+
+        // TODO add constraints based on the program!
+
+        check(optimize.Check() == Status.SATISFIABLE) { "Failed to solve: $optimize" }
+        val result = optimize.model.evaluate(modelNumber, false)
+        return optimize.MkMaximize(modelNumber).toString()
     }
 }
-
-private fun toDigits(serialNumber: Long) = serialNumber.toString().map { it.toString().toInt() }
