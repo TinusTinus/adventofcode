@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2021.day24
 
 import com.microsoft.z3.BitVecExpr
 import com.microsoft.z3.Context
-import com.microsoft.z3.IntExpr
 import com.microsoft.z3.Optimize
 
 data class Program(private val instructions: List<Instruction>) {
