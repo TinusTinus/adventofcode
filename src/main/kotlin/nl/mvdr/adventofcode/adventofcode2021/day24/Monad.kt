@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2021.day24
 
-data class Monad(val program: Program) {
+data class Monad(private val program: Program) {
+
+    constructor(lines: Sequence<String>) : this(Program(lines))
 
     fun findMaxModelNumber(): Long {
         var modelNumber = 99999999999999L
@@ -23,6 +25,6 @@ data class Monad(val program: Program) {
         val endState = program.execute(input)
         return endState.variables[Variable.Z] == 0
     }
-
-    private fun toDigits(serialNumber: Long) = serialNumber.toString().map { it.toString().toInt() }
 }
+
+private fun toDigits(serialNumber: Long) = serialNumber.toString().map { it.toString().toInt() }
