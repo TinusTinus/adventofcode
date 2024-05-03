@@ -1,7 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2021.day24
 
 data class Monad(val program: Program) {
-    fun isValid(modelNumber: Long): Boolean {
+
+    fun findMaxModelNumber(): Long {
+        var modelNumber = 99999999999999L
+        while (!isValid(modelNumber)) {
+            modelNumber--
+        }
+        return modelNumber
+    }
+
+    private fun isValid(modelNumber: Long): Boolean {
         val input = toDigits(modelNumber)
         return !input.contains(0) && isValid(input)
     }

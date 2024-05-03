@@ -5,14 +5,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>): Long {
-    val monad = Monad(parseProgram(lines))
-    var modelNumber = 99999999999999L
-    while (!monad.isValid(modelNumber)) {
-        modelNumber--
-    }
-    return modelNumber
-}
+fun solvePart1(lines: Sequence<String>) = Monad(Program(lines)).findMaxModelNumber()
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day24-2021.txt")
