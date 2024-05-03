@@ -6,9 +6,12 @@ import nl.mvdr.adventofcode.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: Sequence<String>): Long {
-    val monad = parseProgram(lines)
-
-    return 3 // TODO
+    val monad = Monad(parseProgram(lines))
+    var serialNumber = 99999999999999L
+    while (!monad.isValid(serialNumber)) {
+        serialNumber--
+    }
+    return serialNumber
 }
 
 fun main() {

@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2021.day24
 
 data class Program(val instructions: List<Instruction>) {
-    private fun execute(input: List<Int>) = execute(State(input))
+    fun execute(input: List<Int>) = execute(State(input))
 
     private fun execute(state: State): State = when {
         instructions.isEmpty() -> state
