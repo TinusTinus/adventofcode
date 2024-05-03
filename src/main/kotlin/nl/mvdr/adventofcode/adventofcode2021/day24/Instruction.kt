@@ -1,6 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2021.day24
 
-data class Instruction(val operation: Operation, val a: Variable, val b: Expression?)
+data class Instruction(val operation: Operation, val a: Variable, val b: Expression?) {
+    fun perform(state: State): State = operation.perform(state, a, b)
+}
+
 
 /**
  * Parses the string [representation] of a single instruction.
