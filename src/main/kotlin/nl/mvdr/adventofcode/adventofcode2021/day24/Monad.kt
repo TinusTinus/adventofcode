@@ -8,11 +8,11 @@ data class Monad(val program: Program) {
 
     /**
      * Checks whether the given [input] represents a valid serial number.
-     * Note that the given input must  not contain any zero values.
+     * Note that the given input must not contain any zero values.
      */
     private fun isValid(input: List<Int>): Boolean {
         val endState = program.execute(input)
-        return endState.variables[Variable.Z] == 1
+        return endState.variables[Variable.Z] == 0
     }
 
     private fun toDigits(serialNumber: Long) = serialNumber.toString().map { it.toString().toInt() }
