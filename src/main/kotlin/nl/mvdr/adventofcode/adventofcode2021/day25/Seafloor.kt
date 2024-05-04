@@ -15,12 +15,11 @@ data class Seafloor(val width: Int, val height: Int, val eastMovingHerd: Set<Poi
     /**
      * The next state, after taking a single step.
      */
-    private val next: Seafloor get() {
+    val next: Seafloor get() {
         val newEastMovingHerd = eastMovingHerd.map(this::moveEast).toSet()
         val newSouthMovingHerd = southMovingHerd.map(this::moveSouth).toSet()
         return copy(eastMovingHerd = newEastMovingHerd, southMovingHerd = newSouthMovingHerd)
     }
-
 
     private fun moveEast(point: Point) = moveIfPossible(point, Point((point.x + 1) % width, point.y))
 

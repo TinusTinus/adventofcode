@@ -4,7 +4,6 @@ import nl.mvdr.adventofcode.FunctionSolverTest
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.provider.Arguments
 
-@Disabled // Test case takes a pretty long time to run
 class SeaCucumberPart1Test: FunctionSolverTest<Any>(::solvePart1) {
     companion object {
         @JvmStatic
