@@ -7,9 +7,12 @@ data class Seafloor(val width: Int, val height: Int, val eastMovingHerd: Set<Poi
     /**
      * The number of steps until the sea cucumbers on the floor stop moving.
      */
-    val stepsToStopMoving: Int get() = when (val nextState = next) {
-        this -> 0
-        else -> 1 + nextState.stepsToStopMoving
+    val stepsToStopMoving: Int get() {
+        val nextState = next
+        return when {
+            nextState == this -> 0
+            else -> 1 + nextState.stepsToStopMoving
+        }
     }
 
     /**
