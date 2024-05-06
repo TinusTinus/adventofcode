@@ -8,11 +8,11 @@ import org.jgrapht.graph.SimpleGraph
 data class Vault(private val openPassages: Set<Point>, private val doors: Map<Point, Door>, val keys: Map<Key, Point>) {
 
     /**
-     * Creates a graph for traversing this vault, if the given [keys] are in the traveler's possession.
+     * Creates a graph for traversing this vault, if the given [ownedKeys] are in the traveler's possession.
      */
-    fun createGraph(keys: Set<Key>): Graph<Point, DefaultEdge> {
-        val openDoors = doors.filter { entry -> keys.any { key -> key.opens(entry.value) } }.keys
-        val accessiblePassages = openPassages + openDoors
+    fun createGraph(ownedKeys: Set<Key>): Graph<Point, DefaultEdge> {
+        val openDoors = doors.filter { entry -> ownedKeys.any { key -> key.opens(entry.value) } }.keys
+        val accessiblePassages = openPassages + openDoors + keys.values
 
         val result = SimpleGraph<Point, DefaultEdge>(DefaultEdge::class.java)
         accessiblePassages.forEach(result::addVertex)
