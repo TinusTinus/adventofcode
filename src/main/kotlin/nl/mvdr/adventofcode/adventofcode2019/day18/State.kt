@@ -25,7 +25,7 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
      * with the associated number of steps to get to the key.
      */
     private fun pickUpKey(vault: Vault): Set<Pair<State, Int>> {
-        val algorithm = vault.createShortestPathAlgorithm(keyring)
+        val algorithm = vault.getShortestPathAlgorithm(keyring)
         val result = mutableSetOf<Pair<State, Int>>()
         for (key in vault.keys.keys - keyring) {
             val keyPosition = vault.keys[key]!!
