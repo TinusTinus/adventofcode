@@ -21,7 +21,8 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
     private fun isEndState(vault: Vault) = keyring.containsAll(vault.keys.keys)
 
     /**
-     * Returns a set of states reachable from this state by picking up a key from the [vault].
+     * Returns a set of states reachable from this state by picking up a key from the [vault],
+     * with the associated number of steps to get to the key.
      */
     private fun pickUpKey(vault: Vault): Set<Pair<State, Int>> {
         val algorithm: ShortestPathAlgorithm<Point, DefaultEdge> = DijkstraShortestPath(vault.createGraph(keyring))
