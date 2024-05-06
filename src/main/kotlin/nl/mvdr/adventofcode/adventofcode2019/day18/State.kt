@@ -2,13 +2,10 @@ package nl.mvdr.adventofcode.adventofcode2019.day18
 
 import nl.mvdr.adventofcode.point.Point
 import org.jgrapht.Graph
-import org.jgrapht.alg.interfaces.MultiObjectiveShortestPathAlgorithm
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
-import org.jgrapht.alg.shortestpath.MartinShortestPath
 import org.jgrapht.graph.DefaultEdge
-import org.jgrapht.graph.EdgeReversedGraph
-import org.jgrapht.graph.SimpleDirectedGraph
+
 import org.jgrapht.graph.SimpleDirectedWeightedGraph
 
 /**
@@ -52,19 +49,21 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
             states.remove(state)
 
             for ((nextState, steps) in state.pickUpKey(vault)) {
-                graph.addVertex(nextState)
-
+                if (graph.addVertex(nextState)) {
+                    states.add(nextState)
+                }
                 graph.addEdge(state, nextState)
                 graph.setEdgeWeight(state, nextState, steps.toDouble())
             }
         }
 
-        // We have multiple possible end states (any state where all keys have been picked up)
-        // and only one start state (this one).
-        // In order to use a shortest path algorithm, let's reverse the graph, so that we can use exactly one sink.
-        val reversedGraph: Graph<State, DefaultEdge> = EdgeReversedGraph(graph)
-        val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(reversedGraph)
+        val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(graph)
+        val paths = algorithm.getPaths(this)
 
-        return 0 // TODO implement
+        return graph.vertexSet()
+            .filter { it.isEndState(vault) }
+            .map(paths::getPath)
+            .minOf { it.weight }
+            .toInt()
     }
 }
