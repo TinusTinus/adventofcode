@@ -1,7 +1,6 @@
-package nl.mvdr.adventofcode.adventofcode2019.day18;
+package nl.mvdr.adventofcode.adventofcode2019.day18
 
 import nl.mvdr.adventofcode.FunctionSolverTest
-import nl.mvdr.adventofcode.SolverTest
 import org.junit.jupiter.params.provider.Arguments
 
 class ManyWorldsInterpretationPart1Test: FunctionSolverTest<Any>(::solvePart1) {

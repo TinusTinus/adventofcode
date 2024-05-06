@@ -14,7 +14,7 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
     fun isEndState(vault: Vault) = keyring.containsAll(vault.keys.keys)
 
     /**
-     * Determines how many steps it takes to collect all (remaining) keys from the given vault.
+     * Determines how many steps it takes to collect all (remaining) keys from the given [vault].
      */
     fun collectAllKeys(vault: Vault): Int {
         return 0 // TODO implement

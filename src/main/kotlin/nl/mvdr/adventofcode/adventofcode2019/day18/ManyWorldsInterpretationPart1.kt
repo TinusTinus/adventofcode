@@ -1,9 +1,8 @@
-package nl.mvdr.adventofcode.adventofcode2019.day18;
+package nl.mvdr.adventofcode.adventofcode2019.day18
 
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.FunctionSolver
-import kotlin.streams.asStream
 
 private val logger = KotlinLogging.logger{}
 
