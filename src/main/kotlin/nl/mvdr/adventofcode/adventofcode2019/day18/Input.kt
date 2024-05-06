@@ -86,14 +86,17 @@ data class Input(val vault: Vault, val initialState: State) {
      * with the associated number of steps to get to the key.
      */
     private fun pickUpKey(state: State): Map<State, Int> {
-        val algorithm = createShortestPathAlgorithm(state.keyring)
-        val paths = algorithm.getPaths(state.positions.first()) // TODO explore all positions, not just the first
         val result = mutableMapOf<State, Int>()
-        for (key in vault.keys.keys - state.keyring) {
-            val keyPosition = vault.keys[key]!!
-            val path = paths.getPath(keyPosition)
-            if (path != null) {
-                result[State(setOf(keyPosition), state.keyring + setOf(key))] = path.length
+        val algorithm = createShortestPathAlgorithm(state.keyring)
+        for (position in state.positions) {
+            val remainingPositions = state.positions - setOf(position)
+            val paths = algorithm.getPaths(position)
+            for (key in vault.keys.keys - state.keyring) {
+                val keyPosition = vault.keys[key]!!
+                val path = paths.getPath(keyPosition)
+                if (path != null) {
+                    result[State(setOf(keyPosition) + remainingPositions, state.keyring + setOf(key))] = path.length
+                }
             }
         }
         return result

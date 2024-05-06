@@ -11,7 +11,7 @@ class ManyWorldsInterpretationPart2Test: FunctionSolverTest<Any>(::solvePart2) {
             Arguments.of("24", "example-day18-2019-8.txt"),
             Arguments.of("32", "example-day18-2019-9.txt"),
             Arguments.of("72", "example-day18-2019-10.txt"),
-            Arguments.of("?", "input-day18-2019.txt")
+            Arguments.of("2282", "input-day18-2019.txt")
         )
     }
 }

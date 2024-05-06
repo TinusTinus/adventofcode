@@ -11,11 +11,11 @@ fun solvePart2(linesSequence: Sequence<String>): Int {
     val lines = linesSequence.toMutableList()
 
     val point = (0 until lines.size).flatMap { y -> (0 until lines[y].length).map { x -> Point(x, y) } }
-        .first { lines[it.x][it.y] == '@' }
+        .first { lines[it.y][it.x] == '@' }
 
-    lines[point.y - 1] = lines[point.y - 1].replaceRange(point.x - 1 .. point.y + 1, "@#@")
-    lines[point.y] = lines[point.y].replaceRange(point.x - 1 .. point.y + 1, "###")
-    lines[point.y + 1] = lines[point.y + 1].replaceRange(point.x - 1 .. point.y + 1, "@#@")
+    lines[point.y - 1] = lines[point.y - 1].replaceRange(point.x - 1 .. point.x + 1, "@#@")
+    lines[point.y] = lines[point.y].replaceRange(point.x - 1 .. point.x + 1, "###")
+    lines[point.y + 1] = lines[point.y + 1].replaceRange(point.x - 1 .. point.x + 1, "@#@")
 
     return parseInput(lines).solve()
 }
