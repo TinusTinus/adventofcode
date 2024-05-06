@@ -1,15 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2019.day18
 
 import nl.mvdr.adventofcode.point.Point
-import java.util.*
-import java.util.stream.Collectors
-import java.util.stream.Stream
 
 /**
  * Representation of the puzzle input.
  */
 data class Input(val vault: Vault, val initialState: State)
-
 
 /**
  * Parses the [lines] from the input file.
