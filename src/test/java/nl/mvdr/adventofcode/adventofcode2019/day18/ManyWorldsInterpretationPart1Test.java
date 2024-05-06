@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2019.day18;
 
-import org.junit.jupiter.api.Test;
-
 import nl.mvdr.adventofcode.SolverTest;
 import org.junit.jupiter.params.provider.Arguments;
 
