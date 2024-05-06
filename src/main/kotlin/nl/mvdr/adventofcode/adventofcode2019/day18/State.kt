@@ -26,10 +26,11 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
      */
     private fun pickUpKey(vault: Vault): Map<State, Int> {
         val algorithm = vault.getShortestPathAlgorithm(keyring)
+        val paths = algorithm.getPaths(position)
         val result = mutableMapOf<State, Int>()
         for (key in vault.keys.keys - keyring) {
             val keyPosition = vault.keys[key]!!
-            val path = algorithm.getPath(position, vault.keys[key])
+            val path = paths.getPath(keyPosition)
             if (path != null) {
                 result[State(keyPosition, keyring + setOf(key))] = path.length
             }
