@@ -87,13 +87,13 @@ data class Input(val vault: Vault, val initialState: State) {
      */
     private fun pickUpKey(state: State): Map<State, Int> {
         val algorithm = createShortestPathAlgorithm(state.keyring)
-        val paths = algorithm.getPaths(state.position)
+        val paths = algorithm.getPaths(state.positions.first()) // TODO explore all positions, not just the first
         val result = mutableMapOf<State, Int>()
         for (key in vault.keys.keys - state.keyring) {
             val keyPosition = vault.keys[key]!!
             val path = paths.getPath(keyPosition)
             if (path != null) {
-                result[State(keyPosition, state.keyring + setOf(key))] = path.length
+                result[State(setOf(keyPosition), state.keyring + setOf(key))] = path.length
             }
         }
         return result
@@ -104,7 +104,7 @@ data class Input(val vault: Vault, val initialState: State) {
  * Parses the [lines] from the input file.
  */
 fun parseInput(lines: List<String>): Input {
-    var startingPoint: Point? = null
+    var startingPoints = mutableSetOf<Point>()
     val openPassages = mutableSetOf<Point>()
     val doors = mutableMapOf<Point, Door>()
     val keys = mutableMapOf<Key, Point>()
@@ -114,7 +114,7 @@ fun parseInput(lines: List<String>): Input {
             val point = Point(x, y)
             val c = line[x]
             if (c == '@') {
-                startingPoint = point
+                startingPoints.add(point)
                 openPassages.add(point)
             } else if (c == '.') {
                 openPassages.add(point)
@@ -127,6 +127,6 @@ fun parseInput(lines: List<String>): Input {
     }
 
     val vault = Vault(openPassages, doors, keys)
-    val initialState = State(startingPoint!!)
+    val initialState = State(startingPoints)
     return Input(vault, initialState)
 }
