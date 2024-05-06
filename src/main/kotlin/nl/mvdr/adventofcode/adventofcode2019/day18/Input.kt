@@ -5,7 +5,9 @@ import nl.mvdr.adventofcode.point.Point
 /**
  * Representation of the puzzle input.
  */
-data class Input(val vault: Vault, val initialState: State)
+data class Input(val vault: Vault, val initialState: State) {
+    fun solve() = initialState.collectAllKeys(vault)
+}
 
 /**
  * Parses the [lines] from the input file.
