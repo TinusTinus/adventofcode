@@ -6,16 +6,21 @@ import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 
 data class Vault(private val openPassages: Set<Point>, private val doors: Map<Point, Door>, val keys: Map<Key, Point>) {
-    /**
-     * A graph representing this vault, assuming that all doors are closed.
-     */
-    private val graph: Graph<Point, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
 
-    init {
-        openPassages.forEach(graph::addVertex)
-        openPassages.forEach { passage ->
+    /**
+     * Creates a graph for traversing this vault, if the given [keys] are in the traveler's possession.
+     */
+    fun createGraph(keys: Set<Key>): Graph<Point, DefaultEdge> {
+        val openDoors = doors.filter { entry -> keys.any { key -> key.opens(entry.value) } }.keys
+        val accessiblePassages = openPassages + openDoors
+
+        val result = SimpleGraph<Point, DefaultEdge>(DefaultEdge::class.java)
+        accessiblePassages.forEach(result::addVertex)
+        accessiblePassages.forEach { passage ->
             passage.neighbours()
-                .filter(openPassages::contains)
-                .forEach { neighbour -> graph.addEdge(passage, neighbour) } }
+                .filter(accessiblePassages::contains)
+                .forEach { neighbour -> result.addEdge(passage, neighbour) } }
+
+        return result
     }
 }

@@ -6,5 +6,7 @@ package nl.mvdr.adventofcode.adventofcode2019.day18
  */
 data class Key(private val name: Char) {
     override fun toString() = name.toString()
+
+    fun opens(door: Door) = name.uppercaseChar() == door.name
 }
 

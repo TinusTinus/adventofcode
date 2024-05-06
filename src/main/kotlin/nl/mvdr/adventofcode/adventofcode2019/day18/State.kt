@@ -8,6 +8,7 @@ import nl.mvdr.adventofcode.point.Point
  * and a [keyring] containing all the keys which have been picked up so far.
  */
 data class State(private val position: Point, private val keyring: Set<Key> = emptySet()) {
+
     /**
      * Determines whether all keys have been collected from the given [vault].
      */
@@ -17,6 +18,10 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
      * Determines how many steps it takes to collect all (remaining) keys from the given [vault].
      */
     fun collectAllKeys(vault: Vault): Int {
+        val vaultGraph = vault.createGraph(keyring)
+
+
+
         return 0 // TODO implement
     }
 }
