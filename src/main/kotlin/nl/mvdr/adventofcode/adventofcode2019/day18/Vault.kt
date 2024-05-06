@@ -7,16 +7,10 @@ import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 
 data class Vault(private val openPassages: Set<Point>, private val doors: Map<Point, Door>, val keys: Map<Key, Point>) {
-    private val algorithmCache: MutableMap<Set<Key>, ShortestPathAlgorithm<Point, DefaultEdge>> = mutableMapOf()
-
     /**
      * Returns a shortest path algorithm for traversing this vault, if the given [ownedKeys] are in the traveler's possession.
      */
-    fun getShortestPathAlgorithm(ownedKeys: Set<Key>): ShortestPathAlgorithm<Point, DefaultEdge> {
-        return algorithmCache.getOrPut(ownedKeys) { createShortestPathAlgorithm(ownedKeys) }
-    }
-
-    private fun createShortestPathAlgorithm(ownedKeys: Set<Key>): ShortestPathAlgorithm<Point, DefaultEdge> {
+    fun createShortestPathAlgorithm(ownedKeys: Set<Key>): ShortestPathAlgorithm<Point, DefaultEdge> {
         val openDoors = doors.filter { entry -> ownedKeys.any { key -> key.opens(entry.value) } }.keys
         val accessiblePassages = openPassages + openDoors + keys.values
 
