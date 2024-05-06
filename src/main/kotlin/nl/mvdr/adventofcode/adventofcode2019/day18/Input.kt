@@ -24,6 +24,7 @@ fun parseInput(lines: List<String>): Input {
             val c = line[x]
             if (c == '@') {
                 startingPoint = point
+                openPassages.add(point)
             } else if (c == '.') {
                 openPassages.add(point)
             } else if (Character.isLowerCase(c)) {

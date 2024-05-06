@@ -28,9 +28,13 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
         val result = mutableSetOf<Pair<State, Int>>()
         for (key in vault.keys.keys - keyring) {
             val keyPosition = vault.keys[key]!!
-            val path = algorithm.getPath(position, vault.keys[key])
-            if (path != null) {
-                result.add(Pair(State(keyPosition, keyring + setOf(key)), path.length))
+            try {
+                val path = algorithm.getPath(position, vault.keys[key])
+                if (path != null) {
+                    result.add(Pair(State(keyPosition, keyring + setOf(key)), path.length))
+                }
+            } catch (e: IllegalArgumentException) {
+                throw IllegalStateException("Unable to find a path from $position to key $key.", e)
             }
         }
         return result
