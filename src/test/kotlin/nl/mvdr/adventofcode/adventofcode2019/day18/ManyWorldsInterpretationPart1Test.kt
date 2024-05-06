@@ -4,7 +4,7 @@ import nl.mvdr.adventofcode.FunctionSolverTest
 import nl.mvdr.adventofcode.SolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class LanternFishPart1Test: SolverTest<ManyWorldsInterpretationPart1>(ManyWorldsInterpretationPart1()) { // TODO FunctionSolverTest<Long>(::solvePart1) {
+class ManyWorldsInterpretationPart1Test: SolverTest<ManyWorldsInterpretationPart1>(ManyWorldsInterpretationPart1()) { // TODO FunctionSolverTest<Long>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
