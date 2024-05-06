@@ -6,11 +6,47 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleDirectedWeightedGraph
+import org.jgrapht.graph.SimpleGraph
 
 /**
  * Representation of the puzzle input.
  */
 data class Input(val vault: Vault, val initialState: State) {
+
+    private val accessiblePassages = vault.openPassages + vault.keys.values
+
+    private val vaultGraph: Graph<Point, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
+
+    init {
+        accessiblePassages.forEach(vaultGraph::addVertex)
+        accessiblePassages.forEach { passage ->
+            passage.neighbours()
+                .filter(accessiblePassages::contains)
+                .forEach { neighbour -> vaultGraph.addEdge(passage, neighbour) } }
+
+        // Also add vertices for each door.
+        // Do not add any edges for now: we cannot travel through a door until its key has been collected.
+        vault.doors.keys.forEach(vaultGraph::addVertex)
+    }
+
+    /**
+     * Returns a shortest path algorithm for traversing the vault, if the given [ownedKeys] are in the traveler's possession.
+     * Note: the returned algorithm can only be used until this method is called again,
+     * as this method modifies the backing graph.
+     */
+    private fun createShortestPathAlgorithm(ownedKeys: Set<Key>): ShortestPathAlgorithm<Point, DefaultEdge> {
+        for ((doorLocation, door) in vault.doors) {
+            for (neighbour in doorLocation.neighbours()) {
+                vaultGraph.removeEdge(doorLocation, neighbour)
+                if (ownedKeys.any { it.opens(door) } &&
+                    (accessiblePassages.contains(neighbour) || vault.doors.keys.contains(neighbour))) {
+                    vaultGraph.addEdge(doorLocation, neighbour)
+                }
+            }
+        }
+        return DijkstraShortestPath(vaultGraph)
+    }
+
     /**
      * Determines how many steps it takes to collect all (remaining) keys.
      */
@@ -50,7 +86,7 @@ data class Input(val vault: Vault, val initialState: State) {
      * with the associated number of steps to get to the key.
      */
     private fun pickUpKey(state: State): Map<State, Int> {
-        val algorithm = vault.createShortestPathAlgorithm(state.keyring)
+        val algorithm = createShortestPathAlgorithm(state.keyring)
         val paths = algorithm.getPaths(state.position)
         val result = mutableMapOf<State, Int>()
         for (key in vault.keys.keys - state.keyring) {

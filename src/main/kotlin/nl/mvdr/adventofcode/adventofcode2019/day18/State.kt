@@ -1,12 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2019.day18
 
 import nl.mvdr.adventofcode.point.Point
-import org.jgrapht.Graph
-import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath
-import org.jgrapht.graph.DefaultEdge
-
-import org.jgrapht.graph.SimpleDirectedWeightedGraph
 
 /**
  * Representation of a possible state while traversing a maze.
