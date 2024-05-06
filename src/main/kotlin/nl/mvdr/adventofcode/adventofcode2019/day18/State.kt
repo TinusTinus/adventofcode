@@ -1,8 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2019.day18
 
 import nl.mvdr.adventofcode.point.Point
+import org.jgrapht.Graph
+import org.jgrapht.alg.interfaces.MultiObjectiveShortestPathAlgorithm
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath
+import org.jgrapht.alg.shortestpath.MartinShortestPath
 import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.EdgeReversedGraph
 import org.jgrapht.graph.SimpleDirectedGraph
 import org.jgrapht.graph.SimpleDirectedWeightedGraph
 
@@ -16,13 +21,13 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
     /**
      * Determines whether all keys have been collected from the given [vault].
      */
-    fun isEndState(vault: Vault) = keyring.containsAll(vault.keys.keys)
+    private fun isEndState(vault: Vault) = keyring.containsAll(vault.keys.keys)
 
     /**
      * Returns a set of states reachable from this state by picking up a key from the [vault].
      */
     private fun pickUpKey(vault: Vault): Set<Pair<State, Int>> {
-        val algorithm = DijkstraShortestPath(vault.createGraph(keyring))
+        val algorithm: ShortestPathAlgorithm<Point, DefaultEdge> = DijkstraShortestPath(vault.createGraph(keyring))
         val result = mutableSetOf<Pair<State, Int>>()
         for (key in vault.keys.keys - keyring) {
             val keyPosition = vault.keys[key]!!
@@ -38,7 +43,7 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
      * Determines how many steps it takes to collect all (remaining) keys from the given [vault].
      */
     fun collectAllKeys(vault: Vault): Int {
-        val graph = SimpleDirectedWeightedGraph<State, DefaultEdge>(DefaultEdge::class.java)
+        val graph: Graph<State, DefaultEdge> = SimpleDirectedWeightedGraph(DefaultEdge::class.java)
         graph.addVertex(this)
 
         val states = mutableSetOf(this)
@@ -53,6 +58,12 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
                 graph.setEdgeWeight(state, nextState, steps.toDouble())
             }
         }
+
+        // We have multiple possible end states (any state where all keys have been picked up)
+        // and only one start state (this one).
+        // In order to use a shortest path algorithm, let's reverse the graph, so that we can use exactly one sink.
+        val reversedGraph: Graph<State, DefaultEdge> = EdgeReversedGraph(graph)
+        val algorithm: ShortestPathAlgorithm<State, DefaultEdge> = DijkstraShortestPath(reversedGraph)
 
         return 0 // TODO implement
     }
