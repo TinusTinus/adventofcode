@@ -24,14 +24,14 @@ data class State(private val position: Point, private val keyring: Set<Key> = em
      * Returns a set of states reachable from this state by picking up a key from the [vault],
      * with the associated number of steps to get to the key.
      */
-    private fun pickUpKey(vault: Vault): Set<Pair<State, Int>> {
+    private fun pickUpKey(vault: Vault): Map<State, Int> {
         val algorithm = vault.getShortestPathAlgorithm(keyring)
-        val result = mutableSetOf<Pair<State, Int>>()
+        val result = mutableMapOf<State, Int>()
         for (key in vault.keys.keys - keyring) {
             val keyPosition = vault.keys[key]!!
             val path = algorithm.getPath(position, vault.keys[key])
             if (path != null) {
-                result.add(Pair(State(keyPosition, keyring + setOf(key)), path.length))
+                result[State(keyPosition, keyring + setOf(key))] = path.length
             }
         }
         return result
