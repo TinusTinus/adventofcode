@@ -20,6 +20,8 @@ data class Vault(private val openPassages: Set<Point>, private val doors: Map<Po
                 .filter(accessiblePassages::contains)
                 .forEach { neighbour -> graph.addEdge(passage, neighbour) } }
 
+        // Also add vertices for each door.
+        // Do not add any edges for now: we cannot travel through the door until its key has been collected.
         doors.keys.forEach(graph::addVertex)
     }
 
