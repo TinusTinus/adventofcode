@@ -107,7 +107,7 @@ data class Input(val vault: Vault, val initialState: State) {
  * Parses the [lines] from the input file.
  */
 fun parseInput(lines: List<String>): Input {
-    var startingPoints = mutableSetOf<Point>()
+    val startingPoints = mutableSetOf<Point>()
     val openPassages = mutableSetOf<Point>()
     val doors = mutableMapOf<Point, Door>()
     val keys = mutableMapOf<Key, Point>()
