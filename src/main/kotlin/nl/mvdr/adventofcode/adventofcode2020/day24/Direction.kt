@@ -13,5 +13,5 @@ enum class Direction(val representation: String, private val movement: (Point) -
     NORTHWEST("nw", { point -> Point(point.x - 1, point.y - 1) }),
     NORTHEAST("ne", { point -> Point(point.x + 1, point.y - 1) });
 
-    fun move(startingPoint: Point) = movement.invoke(startingPoint)
+    fun move(tile: Tile) = Tile(movement.invoke(tile.location))
 }

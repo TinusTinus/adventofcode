@@ -9,7 +9,7 @@ data class Path(private val steps: List<Direction>) {
      */
     constructor(text: String) : this(parseSteps(text))
 
-    fun move(startingPoint: Point = Point.ORIGIN) = steps.fold(startingPoint) { point, step -> step.move(point)}
+    fun move(startingTile: Tile = Tile(Point.ORIGIN)) = steps.fold(startingTile) { tile, step -> step.move(tile)}
 }
 
 /**

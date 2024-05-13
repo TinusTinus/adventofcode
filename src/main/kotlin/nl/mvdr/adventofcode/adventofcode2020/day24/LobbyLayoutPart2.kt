@@ -5,9 +5,9 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>) = Lobby(lines).blackTileCount
+fun solvePart2(lines: Sequence<String>) = Lobby(lines).simulateDays().blackTileCount
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day24-2020.txt")
+    val result = FunctionSolver(::solvePart2).solve("input-day24-2020.txt")
     logger.info { result }
 }
