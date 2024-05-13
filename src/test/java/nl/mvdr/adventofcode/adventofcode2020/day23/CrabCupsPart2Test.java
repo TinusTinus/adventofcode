@@ -1,21 +1,22 @@
 package nl.mvdr.adventofcode.adventofcode2020.day23;
 
+import nl.mvdr.adventofcode.FunctionSolver;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import nl.mvdr.adventofcode.SolverTest;
 
 /**
- * Unit test cases for {@link CrabCupsPart2}.
+ * Unit test cases for {@link CrabCupsPart2Kt}.
  *
  * @author Martijn van de Rijdt
  */
 @Disabled // solution is very inefficient
-public class CrabCupsPart2Test extends SolverTest<CrabCupsPart2> {
+public class CrabCupsPart2Test extends SolverTest<FunctionSolver<Integer>> {
 
     /** Constructor. */
     public CrabCupsPart2Test() {
-        super(CrabCupsPart2.class);
+        super(new FunctionSolver<>(CrabCupsPart2Kt::solvePart2));
     }
     
     /** Test case based on an example from the puzzle text. */
