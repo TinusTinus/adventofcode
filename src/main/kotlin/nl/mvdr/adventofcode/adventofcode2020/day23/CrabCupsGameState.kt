@@ -4,6 +4,12 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val logger = KotlinLogging.logger{}
 
+/**
+ * Representation of the game state in a game of Crab Cups.
+ *
+ * @param text textual representation of the initial labeling; for example: "389125467"
+ * @param numberOfCups total number of cups; can be used to add additional cups after the ones in the initial labeling
+ */
 class CrabCupsGameState(text: String, numberOfCups: Int = text.length) {
 
     /** Label of the first cup in the list. */
@@ -13,6 +19,16 @@ class CrabCupsGameState(text: String, numberOfCups: Int = text.length) {
      * Cups, represented as a map.
      * Keys in the map are cup labels.
      * Values are the label of the next cup when going clockwise.
+     * For example, the starting cup labeling "389125467" is represented as follows:
+     * - 3 -> 8
+     * - 8 -> 9
+     * - 9 -> 1
+     * - 1 -> 2
+     * - 2 -> 5
+     * - 5 -> 4
+     * - 4 -> 6
+     * - 6 -> 7
+     * - 7 -> 3
      */
     private val cups: MutableMap<Int, Int>
 
