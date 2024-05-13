@@ -1,16 +1,10 @@
 package nl.mvdr.adventofcode.adventofcode2020.day23
 
-class CrabCupsGameState {
-    constructor(lines: Sequence<String>) {
-        val cupNumbers = lines.first().map { it.toString().toInt() }
+import io.github.oshai.kotlinlogging.KotlinLogging
 
-        current = cupNumbers[0]
+private val logger = KotlinLogging.logger{}
 
-        cups = mutableMapOf()
-        for (i in cupNumbers.indices) {
-            cups[cupNumbers[i]] = cupNumbers[(i + 1) % cupNumbers.size]
-        }
-    }
+class CrabCupsGameState(lines: List<String>, numberOfCups: Int = lines.first().length) {
 
     /** Label of the first cup in the list. */
     private var current: Int
@@ -22,20 +16,42 @@ class CrabCupsGameState {
      */
     private val cups: MutableMap<Int, Int>
 
+    init {
+        val cupNumbers = lines.first().map { it.toString().toInt() }
+
+        current = cupNumbers[0]
+
+        cups = mutableMapOf()
+        var latest: Int? = null
+        for (i in 0 until cupNumbers.size - 1) {
+            cups[cupNumbers[i]] = cupNumbers[i + 1]
+            latest = cupNumbers[i + 1]
+        }
+
+        for (i in cupNumbers.size + 1 .. numberOfCups) {
+            cups[latest!!] = i
+            latest = i
+        }
+
+        cups[latest!!] = cupNumbers[0]
+    }
+
     fun perform(turns: Int) {
         for (i in 0 until turns) {
             move()
         }
     }
 
-
     private fun move() {
+        logger.debug { this }
+
         // Pick up cups
         val pickedUpCups = mutableSetOf(cups[current]!!)
         while (pickedUpCups.size < 3) {
             pickedUpCups.add(cups[pickedUpCups.last()]!!)
         }
         cups[current] = cups[pickedUpCups.last()]!!
+        logger.debug { "pick up: $pickedUpCups" }
 
         // Select destination
         var destination = current
@@ -45,6 +61,7 @@ class CrabCupsGameState {
                 else -> destination - 1
             }
         }
+        logger.debug { "destination: $destination" }
 
         // Place the picked up cups
         cups[pickedUpCups.last()] = cups[destination]!!
@@ -66,13 +83,20 @@ class CrabCupsGameState {
         return result.toString()
     }
 
+    fun productOfCupsClockwiseFrom1(): Long {
+        val lhs = cups[1]!!
+        val rhs = cups[lhs]!!
+        return lhs.toLong() * rhs.toLong()
+    }
+
     override fun toString(): String {
         val result = StringBuilder("cups: ($current)")
         var cup = cups[current]!!
         while (cup != current) {
-            result.append(" $current ")
+            result.append(" $cup ")
             cup = cups[cup]!!
         }
         return result.toString()
     }
+
 }

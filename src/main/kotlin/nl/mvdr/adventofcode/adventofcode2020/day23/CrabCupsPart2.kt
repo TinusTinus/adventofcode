@@ -6,7 +6,11 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: Sequence<String>) = 3 // TODO
+fun solvePart2(lines: Sequence<String>): Long {
+    val state = CrabCupsGameState(lines.toList(), 1_000_000)
+    state.perform(10_000_000)
+    return state.productOfCupsClockwiseFrom1()
+}
 
 fun main() {
     val result = FunctionSolver(::solvePart2).solve("input-day23-2020.txt")
