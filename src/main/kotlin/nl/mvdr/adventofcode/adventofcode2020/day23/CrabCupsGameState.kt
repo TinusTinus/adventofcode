@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 
 private val logger = KotlinLogging.logger{}
 
-class CrabCupsGameState(lines: List<String>, numberOfCups: Int = lines.first().length) {
+class CrabCupsGameState(text: String, numberOfCups: Int = text.length) {
 
     /** Label of the first cup in the list. */
     private var current: Int
@@ -17,7 +17,7 @@ class CrabCupsGameState(lines: List<String>, numberOfCups: Int = lines.first().l
     private val cups: MutableMap<Int, Int>
 
     init {
-        val cupNumbers = lines.first().map { it.toString().toInt() }
+        val cupNumbers = text.map { it.toString().toInt() }
 
         current = cupNumbers[0]
 
@@ -43,7 +43,7 @@ class CrabCupsGameState(lines: List<String>, numberOfCups: Int = lines.first().l
     }
 
     private fun move() {
-        logger.debug { this }
+        logger.debug { "cups: $this" }
 
         // Pick up cups
         val pickedUpCups = mutableSetOf(cups[current]!!)
@@ -71,6 +71,9 @@ class CrabCupsGameState(lines: List<String>, numberOfCups: Int = lines.first().l
         current = cups[current]!!
     }
 
+    /**
+     * Returns a string representation of the labels of the cups after cup 1.
+     */
     fun cupsClockwiseFrom1(): String {
         val result = StringBuilder()
         var cup = cups[1]!!
@@ -83,6 +86,9 @@ class CrabCupsGameState(lines: List<String>, numberOfCups: Int = lines.first().l
         return result.toString()
     }
 
+    /**
+     * Returns the product of the labels of the two cups immediately clockwise of cup 1.
+     */
     fun productOfCupsClockwiseFrom1(): Long {
         val lhs = cups[1]!!
         val rhs = cups[lhs]!!
@@ -90,7 +96,7 @@ class CrabCupsGameState(lines: List<String>, numberOfCups: Int = lines.first().l
     }
 
     override fun toString(): String {
-        val result = StringBuilder("cups: ($current)")
+        val result = StringBuilder("($current)")
         var cup = cups[current]!!
         while (cup != current) {
             result.append(" $cup ")

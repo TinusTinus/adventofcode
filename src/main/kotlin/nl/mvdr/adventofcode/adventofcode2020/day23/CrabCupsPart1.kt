@@ -7,7 +7,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: Sequence<String>, turns: Int = 100): String {
-    val state = CrabCupsGameState(lines.toList())
+    val state = CrabCupsGameState(lines.first())
     state.perform(turns)
     return state.cupsClockwiseFrom1()
 }
