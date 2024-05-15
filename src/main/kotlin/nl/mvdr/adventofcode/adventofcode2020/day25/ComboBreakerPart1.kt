@@ -5,25 +5,25 @@ import nl.mvdr.adventofcode.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>): Int {
-    val (cardPublicKey, doorPublicKey) = lines.map(String::toInt).toList()
+fun solvePart1(lines: Sequence<String>): Long {
+    val (cardPublicKey, doorPublicKey) = lines.map(String::toLong).toList()
 
     val cardLoopSize = findLoopSize(cardPublicKey)
-    logger.info { "Card loop size: $cardLoopSize" } // TODO reduce log level
+    logger.debug { "Card loop size: $cardLoopSize" }
     val cardEncryptionKey = transform(doorPublicKey, cardLoopSize)
-    logger.info { "Encryption key: $cardEncryptionKey" } // TODO reduce log level
+    logger.debug { "Encryption key: $cardEncryptionKey" }
 
     // validate the result
     val doorLoopSize = findLoopSize(doorPublicKey)
-    logger.info { "Door loop size: $doorLoopSize" } // TODO reduce log level
+    logger.debug { "Door loop size: $doorLoopSize" }
     val doorEncryptionKey = transform(cardPublicKey, doorLoopSize)
     require(cardEncryptionKey == doorEncryptionKey) { "Encryption keys do not match: $cardEncryptionKey, $doorEncryptionKey" }
 
     return cardEncryptionKey
 }
 
-private fun findLoopSize(publicKey: Int): Int {
-    var value = 1
+private fun findLoopSize(publicKey: Long): Int {
+    var value = 1L
     var result = 0
 
     while (value != publicKey) {
@@ -34,8 +34,8 @@ private fun findLoopSize(publicKey: Int): Int {
     return result
 }
 
-private fun transform(subjectNumber: Int, loopSize: Int): Int {
-    var value = 1
+private fun transform(subjectNumber: Long, loopSize: Int): Long {
+    var value = 1L
 
     for (i in 0 until loopSize) {
         value = step(value, subjectNumber)
@@ -44,7 +44,7 @@ private fun transform(subjectNumber: Int, loopSize: Int): Int {
     return value
 }
 
-private fun step(value: Int, subjectNumber: Int = 7) = (value * subjectNumber % 20201227)
+private fun step(value: Long, subjectNumber: Long = 7L) = (value * subjectNumber % 20201227)
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day25-2020.txt")
