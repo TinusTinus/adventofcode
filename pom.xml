@@ -9,6 +9,8 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
         <!-- Java version -->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -19,11 +21,12 @@
         <commons-lang.version>3.17.0</commons-lang.version>
         <commons-math.version>3.6.1</commons-math.version>
         <jackson.version>2.18.2</jackson.version>
-        <java.version>21</java.version>
+        <java.version>23</java.version>
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>5.11.3</junit.version>
-        <kotlin.version>1.9.25</kotlin.version>
+        <kotlin.version>2.1.0</kotlin.version>
         <kotlin-logging.version>7.0.3</kotlin-logging.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <!--
           Note: the Maven Surefire plug-in version should be at least 2.22.0.
           This ensures it respects JUnit 5's @Disabled annotations.
@@ -177,6 +180,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>
