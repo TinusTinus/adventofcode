@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2024.day02;
 
 import java.util.List;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 record Report(List<Integer> levels) {
@@ -13,19 +12,46 @@ record Report(List<Integer> levels) {
         return new Report(levels);
     }
     
-    boolean isSafe() {
-        return isIncreasingGradually() || isDecreasingGradually();
+    boolean isSafe(boolean problemDampener) {
+        return isIncreasingGradually(levels.getFirst().intValue(), 1, problemDampener)
+                || isDecreasingGradually(levels.getFirst().intValue(), 1, problemDampener);
     }
     
-    private boolean isIncreasingGradually() {
-        return IntStream.range(0, levels.size() - 1)
-                .map(i -> levels.get(i + 1).intValue() - levels.get(i).intValue())
-                .allMatch(difference -> 1 <= difference && difference <= 3);
+    private boolean isIncreasingGradually(int previousLevel, int index, boolean badLevelTolerated) {
+        boolean result;
+        if (index == levels.size()) {
+            result = true;
+        } else {
+            int currentLevel = levels.get(index).intValue();
+            int difference = currentLevel - previousLevel;
+            if (1 <= difference && difference <= 3) {
+                result = isIncreasingGradually(currentLevel, index + 1, badLevelTolerated);
+            } else if (badLevelTolerated) {
+                // remove current level
+                result = isIncreasingGradually(previousLevel, index + 1, false);
+            } else {
+                result = false;
+            }
+        }
+        return result;
     }
     
-    private boolean isDecreasingGradually() {
-        return IntStream.range(0, levels.size() - 1)
-                .map(i -> levels.get(i).intValue() - levels.get(i + 1).intValue())
-                .allMatch(difference -> 1 <= difference && difference <= 3);
+    private boolean isDecreasingGradually(int previousLevel, int index, boolean badLevelTolerated) {
+        boolean result;
+        if (index == levels.size()) {
+            result = true;
+        } else {
+            int currentLevel = levels.get(index).intValue();
+            int difference = previousLevel - currentLevel;
+            if (1 <= difference && difference <= 3) {
+                result = isDecreasingGradually(currentLevel, index + 1, badLevelTolerated);
+            } else if (badLevelTolerated) {
+                // remove current level
+                result = isDecreasingGradually(previousLevel, index + 1, false);
+            } else {
+                result = false;
+            }
+        }
+        return result;
     }
 }
