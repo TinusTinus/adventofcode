@@ -14,7 +14,10 @@ record Report(List<Integer> levels) {
     
     boolean isSafe(boolean problemDampener) {
         return isIncreasingGradually(levels.getFirst().intValue(), 1, problemDampener)
-                || isDecreasingGradually(levels.getFirst().intValue(), 1, problemDampener);
+                || isDecreasingGradually(levels.getFirst().intValue(), 1, problemDampener)
+                // If the problem dampener is enabled, we could also remove the first element
+                || (problemDampener && isIncreasingGradually(levels.get(1).intValue(), 2, false))
+                || (problemDampener && isDecreasingGradually(levels.get(1).intValue(), 2, false));
     }
     
     private boolean isIncreasingGradually(int previousLevel, int index, boolean badLevelTolerated) {
