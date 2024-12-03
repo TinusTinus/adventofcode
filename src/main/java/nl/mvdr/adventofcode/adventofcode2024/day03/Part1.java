@@ -13,7 +13,11 @@ public class Part1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        String remainingInput = lines.findFirst().orElseThrow();
+        return lines.mapToInt(this::solveLine).sum();
+    }
+
+    private int solveLine(String line) {
+        String remainingInput = line;
         
         int result = 0;
         

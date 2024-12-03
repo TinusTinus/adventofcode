@@ -15,6 +15,6 @@ public class Part1Test extends SolverTest<Part1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("161", "example-day03-2024.txt"),
-                Arguments.of("?", "input-day03-2024.txt")); // 25326102 is too low
+                Arguments.of("161085926", "input-day03-2024.txt"));
     }
 }
