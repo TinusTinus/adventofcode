@@ -22,20 +22,22 @@ public class MullItOverSolver implements IntSolver {
         
         while (!"".equals(remainingInput)) {
             
-            if (remainingInput.startsWith("do()")) {
+            if (remainingInput.startsWith("do()") && processConditionals) {
                 mulEnabled = true;
                 remainingInput = remainingInput.substring(4);
-            } else if (remainingInput.startsWith("don't()")) {
-                mulEnabled = !processConditionals;
+            } else if (remainingInput.startsWith("don't()") && processConditionals) {
+                mulEnabled = false;
                 remainingInput = remainingInput.substring(7);
             } else if (mulEnabled && remainingInput.startsWith("mul(")) {
+                remainingInput = remainingInput.substring(4);
+                
                 int indexOfEnd = remainingInput.indexOf(")");
                 
                 if (indexOfEnd < 0) {
                     // No more matches
                     remainingInput = "";
                 } else {
-                    String parametersString = remainingInput.substring(4, indexOfEnd);
+                    String parametersString = remainingInput.substring(0, indexOfEnd);
                     String[] parts = parametersString.split(",");
                     if (parts.length == 2 && Stream.of(parts).allMatch(part -> part.matches("\\d{1,3}"))) {
                         // Found a mul instruction
@@ -43,8 +45,6 @@ public class MullItOverSolver implements IntSolver {
                         int rhs = Integer.parseInt(parts[1]);
                         result = result + lhs * rhs;
                         remainingInput = remainingInput.substring(indexOfEnd + 1);
-                    } else {
-                        remainingInput = remainingInput.substring(4);
                     }
                 }
             } else {
