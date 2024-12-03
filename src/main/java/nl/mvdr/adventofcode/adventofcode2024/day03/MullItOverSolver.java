@@ -3,9 +3,14 @@ package nl.mvdr.adventofcode.adventofcode2024.day03;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.mvdr.adventofcode.IntSolver;
 
 public class MullItOverSolver implements IntSolver {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(MullItOverSolver.class);
 
     private final boolean processConditionals;
     
@@ -22,13 +27,7 @@ public class MullItOverSolver implements IntSolver {
         
         while (!"".equals(remainingInput)) {
             
-            if (remainingInput.startsWith("do()") && processConditionals) {
-                mulEnabled = true;
-                remainingInput = remainingInput.substring(4);
-            } else if (remainingInput.startsWith("don't()") && processConditionals) {
-                mulEnabled = false;
-                remainingInput = remainingInput.substring(7);
-            } else if (mulEnabled && remainingInput.startsWith("mul(")) {
+            if (mulEnabled && remainingInput.startsWith("mul(")) {
                 remainingInput = remainingInput.substring(4);
                 
                 int indexOfEnd = remainingInput.indexOf(")");
@@ -43,10 +42,19 @@ public class MullItOverSolver implements IntSolver {
                         // Found a mul instruction
                         int lhs = Integer.parseInt(parts[0]);
                         int rhs = Integer.parseInt(parts[1]);
+                        LOGGER.debug("mul! {} * {}", Integer.valueOf(lhs), Integer.valueOf(rhs));
                         result = result + lhs * rhs;
                         remainingInput = remainingInput.substring(indexOfEnd + 1);
                     }
                 }
+            } else if (processConditionals && remainingInput.startsWith("do()")) {
+                LOGGER.debug("do!");
+                mulEnabled = true;
+                remainingInput = remainingInput.substring(4);
+            } else if (processConditionals && remainingInput.startsWith("don't()")) {
+                LOGGER.debug("don't!");
+                mulEnabled = false;
+                remainingInput = remainingInput.substring(7);
             } else {
                 remainingInput = remainingInput.substring(1);
             }
