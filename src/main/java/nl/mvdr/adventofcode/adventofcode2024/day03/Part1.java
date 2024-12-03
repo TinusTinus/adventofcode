@@ -50,7 +50,7 @@ public class Part1 implements IntSolver {
     public static void main(String[] args) {
         var instance = new Part1();
 
-        var result = instance.solve("input-day02-2024.txt");
+        var result = instance.solve("input-day03-2024.txt");
 
         LOGGER.info(result);
     }
