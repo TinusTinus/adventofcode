@@ -25,7 +25,6 @@ public class ChocolateChartsPart1Test extends SolverTest<ChocolateChartsPart1> {
                 Arguments.of("9251071085", "example-day14-2018-2.txt"),
                 Arguments.of("5941429882", "example-day14-2018-3.txt"),
                 Arguments.of("1589167792", "example-day14-2018-4.txt"),
-                Arguments.of("3710101245", "example-day14-2018-5.txt"),
-                Arguments.of("1474315445", "input-day14-2018.txt"));
+                Arguments.of("3710101245", "example-day14-2018-5.txt"));
     }
 }

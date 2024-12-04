@@ -1,19 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2019.intcode;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.LongConsumer;
 import java.util.function.LongSupplier;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import nl.mvdr.adventofcode.LinesSolver;
 
 /**
  * Unit tests for {@link Program}.
@@ -82,40 +76,6 @@ public class ProgramTest {
         Assertions.assertEquals(List.of(30L, 1L, 1L, 4L, 2L, 5L, 6L, 0L, 99L), result.getMemory());
     }
     
-    /** Test case for {@link Program#execute()} based on day 2, part 1. */
-    @Test
-    public void testDay2Part1() throws IOException {
-        String programText;
-        Path path = LinesSolver.toPath(getClass(), "input-day02-2019.txt");
-        try (Stream<String> lines = Files.lines(path)) {
-            programText = lines.findFirst().orElseThrow();
-        }
-        Program program = Program.parse(programText);
-        program = program.set(1, 12L);
-        program = program.set(2, 2L);
-            
-        Program result = program.execute();
-            
-        Assertions.assertEquals(9581917L, result.getMemory().get(0).longValue());
-    }
-    
-    /** Test case for {@link Program#execute()} based on day 2, part 2. */
-    @Test
-    public void testDay2Part2() throws IOException {
-        String programText;
-        Path path = LinesSolver.toPath(getClass(), "input-day02-2019.txt");
-        try (Stream<String> lines = Files.lines(path)) {
-            programText = lines.findFirst().orElseThrow();
-        }
-        Program program = Program.parse(programText);
-        program = program.set(1, 25L);
-        program = program.set(2, 5L);
-            
-        Program result = program.execute();
-            
-        Assertions.assertEquals(19690720L, result.getMemory().get(0).longValue());
-    }
-
     /**
      * Test case for {@link Program#execute()} including input / output handling.
      * 
@@ -164,27 +124,6 @@ public class ProgramTest {
         Program result = program.execute();
 
         Assertions.assertEquals(List.of(1101L, 100L, -1L, 4L, 99L), result.getMemory());
-    }
-    
-    /** Test case for {@link Program#execute()}. */
-    @Test
-    public void testDay5Part1() throws IOException {
-        String programText;
-        Path path = LinesSolver.toPath(getClass(), "input-day05-2019.txt");
-        try (Stream<String> lines = Files.lines(path)) {
-            programText = lines.findFirst().orElseThrow();
-        }
-        LongSupplier input = () -> 1L;
-        List<Long> outputValues = new ArrayList<>();
-        LongConsumer output = outputValues::add;
-        Program program = Program.parse(programText, input, output);
-        
-        program.execute();
-        
-        outputValues.stream()
-                .limit(outputValues.size() - 1)
-                .forEach(outputValue -> Assertions.assertEquals(0L, outputValue.longValue()));
-        Assertions.assertEquals(15508323L, outputValues.get(outputValues.size() - 1).longValue());
     }
     
     /**
@@ -568,37 +507,5 @@ public class ProgramTest {
         program.execute();
         
         Assertions.assertEquals(List.of(1125899906842624L), outputValues);
-    }
-    
-    /** Test case for {@link Program#execute()}. */
-    @Test
-    public void testExecuteBoost1() throws IOException {
-        String programText;
-        Path path = LinesSolver.toPath(getClass(), "input-day09-2019.txt");
-        try (Stream<String> lines = Files.lines(path)) {
-            programText = lines.findFirst().orElseThrow();
-        }
-        List<Long> outputValues = new ArrayList<>();
-        Program program = Program.parse(programText, () -> 1L, outputValues::add);
-        
-        program.execute();
-        
-        Assertions.assertEquals(List.of(3638931938L), outputValues, "BOOST output: " + outputValues);
-    }
-    
-    /** Test case for {@link Program#execute()}. */
-    @Test
-    public void testExecuteBoost2() throws IOException {
-        String programText;
-        Path path = LinesSolver.toPath(getClass(), "input-day09-2019.txt");
-        try (Stream<String> lines = Files.lines(path)) {
-            programText = lines.findFirst().orElseThrow();
-        }
-        List<Long> outputValues = new ArrayList<>();
-        Program program = Program.parse(programText, () -> 2L, outputValues::add);
-        
-        program.execute();
-        
-        Assertions.assertEquals(List.of(86025L), outputValues, "BOOST output: " + outputValues);
     }
 }

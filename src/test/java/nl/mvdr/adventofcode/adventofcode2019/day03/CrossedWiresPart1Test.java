@@ -23,7 +23,6 @@ public class CrossedWiresPart1Test extends SolverTest<CrossedWiresPart1> {
         return Stream.of(
                 Arguments.of("6", "example-day03-2019-0.txt"),
                 Arguments.of("159", "example-day03-2019-1.txt"),
-                Arguments.of("135", "example-day03-2019-2.txt"),
-                Arguments.of("399", "input-day03-2019.txt"));
+                Arguments.of("135", "example-day03-2019-2.txt"));
     }
 }
