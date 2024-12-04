@@ -4,6 +4,7 @@ import nl.mvdr.adventofcode.FunctionSolver
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import kotlin.test.assertEquals
 
 class LikeAGifForYourYardPart2Test {
 
@@ -25,7 +26,9 @@ class LikeAGifForYourYardPart2Test {
     fun testExample(steps: Int, expectedSolution: String) {
         val solver = FunctionSolver { solvePart2(it, steps) }
         val inputFile = "example-day18-2015.txt"
-
-        assertSolution(solver, expectedSolution, inputFile)
+        
+        val result = solver.solve(inputFile)
+        
+        assertEquals(expectedSolution, result)
     }
 }
