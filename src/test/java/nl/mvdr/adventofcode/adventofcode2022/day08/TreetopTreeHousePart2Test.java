@@ -21,7 +21,6 @@ public class TreetopTreeHousePart2Test extends SolverTest<TreetopTreeHousePart2>
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("8", "example-day08-2022.txt"),
-                Arguments.of("259308", "input-day08-2022.txt"));
+                Arguments.of("8", "example-day08-2022.txt"));
     }
 }

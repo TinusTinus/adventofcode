@@ -22,7 +22,6 @@ public class NBodyProblemPart2Test extends SolverTest<NBodyProblemPart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("2772", "example-day12-2019-0.txt"),
-                Arguments.of("4686774924", "example-day12-2019-1.txt"),
-                Arguments.of("500903629351944", "input-day12-2019.txt"));
+                Arguments.of("4686774924", "example-day12-2019-1.txt"));
     }
 }

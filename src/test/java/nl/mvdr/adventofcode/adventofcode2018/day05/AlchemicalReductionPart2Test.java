@@ -20,7 +20,6 @@ public class AlchemicalReductionPart2Test extends SolverTest<AlchemicalReduction
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("4", "example-day05-2018-0.txt"),
-                Arguments.of("5534", "input-day05-2018.txt"));
+                Arguments.of("4", "example-day05-2018-0.txt"));
     }
 }

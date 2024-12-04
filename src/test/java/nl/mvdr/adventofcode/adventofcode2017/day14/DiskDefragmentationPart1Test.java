@@ -21,7 +21,6 @@ public class DiskDefragmentationPart1Test extends SolverTest<DiskDefragmentation
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("8108", "example-day14-2017.txt"),
-                Arguments.of("8226", "input-day14-2017.txt"));
+                Arguments.of("8108", "example-day14-2017.txt"));
     }
 }

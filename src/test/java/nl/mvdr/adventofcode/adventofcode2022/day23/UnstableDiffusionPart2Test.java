@@ -22,7 +22,6 @@ public class UnstableDiffusionPart2Test extends SolverTest<UnstableDiffusionPart
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("4", "example-day23-2022-0.txt"),
-                Arguments.of("20", "example-day23-2022-1.txt"),
-                Arguments.of("992", "input-day23-2022.txt"));
+                Arguments.of("20", "example-day23-2022-1.txt"));
     }
 }

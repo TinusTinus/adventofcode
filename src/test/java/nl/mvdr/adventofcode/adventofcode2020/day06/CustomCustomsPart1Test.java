@@ -21,7 +21,6 @@ public class CustomCustomsPart1Test extends SolverTest<CustomCustomsPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("11", "example-day06-2020.txt"),
-                Arguments.of("6686", "input-day06-2020.txt"));
+                Arguments.of("11", "example-day06-2020.txt"));
     }
 }

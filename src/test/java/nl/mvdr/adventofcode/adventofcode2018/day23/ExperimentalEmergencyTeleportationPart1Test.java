@@ -20,7 +20,6 @@ public class ExperimentalEmergencyTeleportationPart1Test extends SolverTest<Expe
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("7", "example-day23-2018-0.txt"),
-                Arguments.of("248", "input-day23-2018.txt"));
+                Arguments.of("7", "example-day23-2018-0.txt"));
     }
 }

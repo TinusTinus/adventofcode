@@ -21,7 +21,6 @@ public class RegistersPart1Test extends SolverTest<RegistersPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1", "example-day08-2017.txt"),
-                Arguments.of("4647", "input-day08-2017.txt"));
+                Arguments.of("1", "example-day08-2017.txt"));
     }
 }

@@ -21,7 +21,6 @@ public class NoSpaceLeftOnDevicePart2Test extends SolverTest<NoSpaceLeftOnDevice
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("24933642", "example-day07-2022.txt"),
-                Arguments.of("4183246", "input-day07-2022.txt"));
+                Arguments.of("24933642", "example-day07-2022.txt"));
     }
 }

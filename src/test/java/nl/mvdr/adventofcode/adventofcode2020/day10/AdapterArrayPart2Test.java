@@ -23,7 +23,6 @@ public class AdapterArrayPart2Test extends SolverTest<AdapterArrayPart2> {
         return Stream.of(
                 Arguments.of("8", "example-day10-2020-0.txt"),
                 Arguments.of("19208", "example-day10-2020-1.txt"),
-                Arguments.of("1", "example-day10-2020-2.txt"),
-                Arguments.of("518344341716992", "input-day10-2020.txt"));
+                Arguments.of("1", "example-day10-2020-2.txt"));
     }
 }

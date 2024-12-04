@@ -21,7 +21,6 @@ public class ReposeRecordPart2Test extends SolverTest<ReposeRecordPart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("4455", "example-day04-2018.txt"),
-                Arguments.of("4455", "example-day04-2018-jumbled.txt"),
-                Arguments.of("96951", "input-day04-2018.txt"));
+                Arguments.of("4455", "example-day04-2018-jumbled.txt"));
     }
 }

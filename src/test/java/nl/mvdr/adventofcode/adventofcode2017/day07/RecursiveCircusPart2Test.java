@@ -21,7 +21,6 @@ public class RecursiveCircusPart2Test extends SolverTest<RecursiveCircusPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("60", "example-day07-2017.txt"),
-                Arguments.of("362", "input-day07-2017.txt"));
+                Arguments.of("60", "example-day07-2017.txt"));
     }
 }

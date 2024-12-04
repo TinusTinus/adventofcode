@@ -24,7 +24,6 @@ public class SpiralMemoryPart2Test extends SolverTest<SpiralMemoryPart2> {
                 Arguments.of("2", "example-day03-2017-4.txt"),
                 Arguments.of("4", "example-day03-2017-5.txt"),
                 Arguments.of("4", "example-day03-2017-6.txt"),
-                Arguments.of("5", "example-day03-2017-7.txt"),
-                Arguments.of("369601", "input-day03-2017.txt"));
+                Arguments.of("5", "example-day03-2017-7.txt"));
     }
 }

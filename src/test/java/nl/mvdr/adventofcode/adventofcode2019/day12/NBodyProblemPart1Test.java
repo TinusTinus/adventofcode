@@ -22,7 +22,8 @@ public class NBodyProblemPart1Test extends SolverTest<NBodyProblemPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("12070", "input-day12-2019.txt"));
+                Arguments.of("183", "example-day12-2019-0.txt"),
+                Arguments.of("14645", "example-day12-2019-1.txt"));
     }
     
     /** Test case based on an example from the puzzle text. */

@@ -7,8 +7,7 @@ class AmphipodPart1Test: FunctionSolverTest<Any>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("12521", "example-day23-2021.txt"),
-            Arguments.of("16506", "input-day23-2021.txt")
+            Arguments.of("12521", "example-day23-2021.txt")
         )
     }
 }

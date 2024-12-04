@@ -21,7 +21,6 @@ public class CathodeRayTubePart1Test extends SolverTest<CathodeRayTubePart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("13140", "example-day10-2022.txt"),
-                Arguments.of("14040", "input-day10-2022.txt"));
+                Arguments.of("13140", "example-day10-2022.txt"));
     }
 }

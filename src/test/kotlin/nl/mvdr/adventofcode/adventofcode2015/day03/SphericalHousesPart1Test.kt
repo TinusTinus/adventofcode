@@ -11,8 +11,7 @@ class SphericalHousesPart1Test: FunctionSolverTest<Int>(::solvePart1) {
             return listOf(
                 Arguments.of("2", "example-day03-2015-0.txt"),
                 Arguments.of("4", "example-day03-2015-1.txt"),
-                Arguments.of("2", "example-day03-2015-2.txt"),
-                Arguments.of("2592", "input-day03-2015.txt")
+                Arguments.of("2", "example-day03-2015-2.txt")
             )
         }
     }

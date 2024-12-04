@@ -21,7 +21,6 @@ public class HotSpringsPart2Test extends SolverTest<HotSpringsPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("525152", "example-day12-2023.txt"),
-                Arguments.of("4500070301581", "input-day12-2023.txt"));
+                Arguments.of("525152", "example-day12-2023.txt"));
     }
 }

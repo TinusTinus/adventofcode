@@ -21,7 +21,6 @@ public class ParticleSwarmPart1Test extends SolverTest<ParticleSwarmPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("0", "example-day20-2017-0.txt"),
-                Arguments.of("119", "input-day20-2017.txt"));
+                Arguments.of("0", "example-day20-2017-0.txt"));
     }
 }

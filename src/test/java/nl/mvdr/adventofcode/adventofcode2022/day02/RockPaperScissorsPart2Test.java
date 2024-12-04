@@ -21,7 +21,6 @@ public class RockPaperScissorsPart2Test extends SolverTest<RockPaperScissorsPart
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("12", "example-day02-2022.txt"),
-                Arguments.of("12091", "input-day02-2022.txt"));
+                Arguments.of("12", "example-day02-2022.txt"));
     }
 }

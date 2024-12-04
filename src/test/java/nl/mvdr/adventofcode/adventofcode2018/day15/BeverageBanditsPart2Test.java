@@ -24,7 +24,6 @@ public class BeverageBanditsPart2Test extends SolverTest<BeverageBanditsPart2> {
                 Arguments.of("31284", "example-day15-2018-2.txt"),
                 Arguments.of("3478", "example-day15-2018-3.txt"),
                 Arguments.of("6474", "example-day15-2018-4.txt"),
-                Arguments.of("1140", "example-day15-2018-5.txt"),
-                Arguments.of("66510", "input-day15-2018.txt"));
+                Arguments.of("1140", "example-day15-2018-5.txt"));
     }
 }

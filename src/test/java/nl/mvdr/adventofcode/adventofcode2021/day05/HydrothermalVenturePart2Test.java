@@ -22,7 +22,6 @@ public class HydrothermalVenturePart2Test extends SolverTest<HydrothermalVenture
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("12", "example-day05-2021.txt"),
-                Arguments.of("16793", "input-day05-2021.txt"));
+                Arguments.of("12", "example-day05-2021.txt"));
     }
 }

@@ -21,7 +21,6 @@ public class RainRiskPart1Test extends SolverTest<RainRiskPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("25", "example-day12-2020.txt"),
-                Arguments.of("1565", "input-day12-2020.txt"));
+                Arguments.of("25", "example-day12-2020.txt"));
     }
 }

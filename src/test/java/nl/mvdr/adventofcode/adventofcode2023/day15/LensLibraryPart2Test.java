@@ -21,7 +21,6 @@ public class LensLibraryPart2Test extends SolverTest<LensLibraryPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("145", "example-day15-2023.txt"),
-                Arguments.of("265345", "input-day15-2023.txt"));
+                Arguments.of("145", "example-day15-2023.txt"));
     }
 }

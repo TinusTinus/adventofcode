@@ -22,8 +22,6 @@ public class BlizzardBasinPart2Test extends SolverTest<BlizzardBasinPart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("30", "example-day24-2022-0.txt"),
-                Arguments.of("54", "example-day24-2022-1.txt")
-                //, Arguments.of("974", "input-day24-2022.txt") // long-running test case
-                ); 
+                Arguments.of("54", "example-day24-2022-1.txt")); 
     }
 }

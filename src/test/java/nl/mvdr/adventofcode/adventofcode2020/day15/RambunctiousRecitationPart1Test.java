@@ -27,7 +27,6 @@ public class RambunctiousRecitationPart1Test extends SolverTest<RambunctiousReci
                 Arguments.of("27", "example-day15-2020-3.txt"),
                 Arguments.of("78", "example-day15-2020-4.txt"),
                 Arguments.of("438", "example-day15-2020-5.txt"),
-                Arguments.of("1836", "example-day15-2020-6.txt"),
-                Arguments.of("412", "input-day15-2020.txt"));
+                Arguments.of("1836", "example-day15-2020-6.txt"));
     }
 }

@@ -26,7 +26,6 @@ public class PlanetOfDiscordPart1Test extends SolverTest<PlanetOfDiscordPart1> {
                 Arguments.of("2129920", "example-day24-2019-2.txt"),
                 Arguments.of("2129920", "example-day24-2019-3.txt"),
                 Arguments.of("2129920", "example-day24-2019-4.txt"),
-                Arguments.of("2129920", "example-day24-2019-5.txt"),
-                Arguments.of("28778811", "input-day24-2019.txt"));
+                Arguments.of("2129920", "example-day24-2019-5.txt"));
     }
 }

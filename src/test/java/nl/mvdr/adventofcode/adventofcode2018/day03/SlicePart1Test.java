@@ -24,7 +24,6 @@ public class SlicePart1Test extends SolverTest<SlicePart1> {
                 Arguments.of("4", "example-day03-2018-1.txt"),
                 Arguments.of("4", "example-day03-2018-2.txt"),
                 Arguments.of("0", "example-day03-2018-3.txt"),
-                Arguments.of("0", "example-day03-2018-4.txt"),
-                Arguments.of("124850", "input-day03-2018.txt"));
+                Arguments.of("0", "example-day03-2018-4.txt"));
     }
 }

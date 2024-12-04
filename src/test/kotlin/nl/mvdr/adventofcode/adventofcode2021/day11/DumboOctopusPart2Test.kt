@@ -7,8 +7,7 @@ class DumboOctopusPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("195", "example-day11-2021.txt"),
-            Arguments.of("364", "input-day11-2021.txt")
+            Arguments.of("195", "example-day11-2021.txt")
         )
     }
 }

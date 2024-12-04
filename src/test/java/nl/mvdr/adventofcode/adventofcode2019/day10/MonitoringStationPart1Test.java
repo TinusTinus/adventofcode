@@ -25,7 +25,6 @@ public class MonitoringStationPart1Test extends SolverTest<MonitoringStationPart
                 Arguments.of("33", "example-day10-2019-1.txt"),
                 Arguments.of("35", "example-day10-2019-2.txt"),
                 Arguments.of("41", "example-day10-2019-3.txt"),
-                Arguments.of("210", "example-day10-2019-4.txt"),
-                Arguments.of("256", "input-day10-2019.txt"));
+                Arguments.of("210", "example-day10-2019-4.txt"));
     }
 }

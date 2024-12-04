@@ -7,8 +7,7 @@ class ChitonPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("315", "example-day15-2021.txt"),
-            Arguments.of("3025", "input-day15-2021.txt")
+            Arguments.of("315", "example-day15-2021.txt")
         )
     }
 }

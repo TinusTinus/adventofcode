@@ -23,7 +23,6 @@ public class AlchemicalReductionPart1Test extends SolverTest<AlchemicalReduction
                 Arguments.of("10", "example-day05-2018-0.txt"),
                 Arguments.of("10", "example-day05-2018-1.txt"),
                 Arguments.of("10", "example-day05-2018-2.txt"),
-                Arguments.of("10", "example-day05-2018-3.txt"),
-                Arguments.of("9296", "input-day05-2018.txt"));
+                Arguments.of("10", "example-day05-2018-3.txt"));
     }
 }

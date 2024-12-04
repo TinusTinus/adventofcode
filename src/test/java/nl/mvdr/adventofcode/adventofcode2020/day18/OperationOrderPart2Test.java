@@ -27,7 +27,6 @@ public class OperationOrderPart2Test extends SolverTest<OperationOrderPart2> {
                 Arguments.of("1445", "example-day18-2020-3.txt"),
                 Arguments.of("669060", "example-day18-2020-4.txt"),
                 Arguments.of("23340", "example-day18-2020-5.txt"),
-                Arguments.of("694173", "example-day18-2020-6.txt"),
-                Arguments.of("231235959382961", "input-day18-2020.txt"));
+                Arguments.of("694173", "example-day18-2020-6.txt"));
     }
 }

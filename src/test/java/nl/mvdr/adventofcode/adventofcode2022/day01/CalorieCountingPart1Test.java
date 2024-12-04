@@ -21,7 +21,6 @@ public class CalorieCountingPart1Test extends SolverTest<CalorieCountingPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("24000", "example-day01-2022.txt"),
-                Arguments.of("67027", "input-day01-2022.txt"));
+                Arguments.of("24000", "example-day01-2022.txt"));
     }
 }

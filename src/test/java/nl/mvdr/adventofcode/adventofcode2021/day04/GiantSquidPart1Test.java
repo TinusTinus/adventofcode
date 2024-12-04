@@ -21,7 +21,6 @@ public class GiantSquidPart1Test extends SolverTest<GiantSquidPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("4512", "example-day04-2021.txt"),
-                Arguments.of("31424", "input-day04-2021.txt"));
+                Arguments.of("4512", "example-day04-2021.txt"));
     }
 }

@@ -21,7 +21,6 @@ public class PacketScannersPart1Test extends SolverTest<PacketScannersPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("24", "example-day13-2017.txt"),
-                Arguments.of("1844", "input-day13-2017.txt"));
+                Arguments.of("24", "example-day13-2017.txt"));
     }
 }

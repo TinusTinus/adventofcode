@@ -20,7 +20,6 @@ public class SettlersPart1Test extends SolverTest<SettlersPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1147", "example-day18-2018.txt"),
-                Arguments.of("531417", "input-day18-2018.txt"));
+                Arguments.of("1147", "example-day18-2018.txt"));
     }
 }

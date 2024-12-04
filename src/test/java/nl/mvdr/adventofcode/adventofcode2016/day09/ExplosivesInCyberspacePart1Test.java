@@ -26,7 +26,6 @@ public class ExplosivesInCyberspacePart1Test extends SolverTest<ExplosivesInCybe
                 Arguments.of("9", "example-day09-2016-2.txt"),
                 Arguments.of("11", "example-day09-2016-3.txt"),
                 Arguments.of("6", "example-day09-2016-4.txt"),
-                Arguments.of("18", "example-day09-2016-5.txt"),
-                Arguments.of("183269", "input-day09-2016.txt"));
+                Arguments.of("18", "example-day09-2016-5.txt"));
     }
 }

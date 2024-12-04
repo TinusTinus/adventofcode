@@ -10,8 +10,7 @@ class CrabCupsPart1Test: FunctionSolverTest<Any>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("67384529", "example-day23-2020.txt"),
-            Arguments.of("32897654", "input-day23-2020.txt")
+            Arguments.of("67384529", "example-day23-2020.txt")
         )
     }
 

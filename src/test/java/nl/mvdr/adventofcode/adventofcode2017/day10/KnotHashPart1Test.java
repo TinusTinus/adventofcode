@@ -22,7 +22,7 @@ public class KnotHashPart1Test extends SolverTest<KnotHashPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1980", "input-day10-2017.txt"));
+                Arguments.of("2", "example-day10-2017-0.txt"));
     }
     
     /** Test case based on an example from the puzzle text. */

@@ -21,7 +21,6 @@ public class HighEntropyPassphrasesPart2Test extends SolverTest<HighEntropyPassp
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("3", "example-day04-2017-4.txt"),
-                Arguments.of("208", "input-day04-2017.txt"));
+                Arguments.of("3", "example-day04-2017-4.txt"));
     }
 }

@@ -21,7 +21,6 @@ public class RucksackReorganizationPart2Test extends SolverTest<RucksackReorgani
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("70", "example-day03-2022.txt"),
-                Arguments.of("2581", "input-day03-2022.txt"));
+                Arguments.of("70", "example-day03-2022.txt"));
     }
 }

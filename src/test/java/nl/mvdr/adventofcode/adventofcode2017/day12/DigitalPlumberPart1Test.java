@@ -21,7 +21,6 @@ public class DigitalPlumberPart1Test extends SolverTest<DigitalPlumberPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("6", "example-day12-2017.txt"),
-                Arguments.of("141", "input-day12-2017.txt"));
+                Arguments.of("6", "example-day12-2017.txt"));
     }
 }

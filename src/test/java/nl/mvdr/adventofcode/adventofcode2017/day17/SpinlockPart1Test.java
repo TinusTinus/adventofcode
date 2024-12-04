@@ -21,7 +21,6 @@ public class SpinlockPart1Test extends SolverTest<SpinlockPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("638", "example-day17-2017.txt"),
-                Arguments.of("725", "input-day17-2017.txt"));
+                Arguments.of("638", "example-day17-2017.txt"));
     }
 }

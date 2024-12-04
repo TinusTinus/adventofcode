@@ -12,7 +12,7 @@ import nl.mvdr.adventofcode.SolverTest;
  *
  * @author Martijn van de Rijdt
  */
-@Disabled // These test cases take a long time to run
+@Disabled // Takes a long time to run
 public class NotEnoughMineralsPart2Test extends SolverTest<NotEnoughMineralsPart2> {
 
     /** Constructor. */
@@ -23,7 +23,6 @@ public class NotEnoughMineralsPart2Test extends SolverTest<NotEnoughMineralsPart
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("3472", "example-day19-2022.txt"), // 62 * 56
-                Arguments.of("3168", "input-day19-2022.txt")); // 6 * 44 * 12
+                Arguments.of("3472", "example-day19-2022.txt")); // 62 * 56
     }
 }

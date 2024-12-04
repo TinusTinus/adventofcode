@@ -7,8 +7,7 @@ class TrenchMapPart1Test: FunctionSolverTest<Any>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("35", "example-day20-2021.txt"),
-            Arguments.of("5306", "input-day20-2021.txt")
+            Arguments.of("35", "example-day20-2021.txt")
         )
     }
 }

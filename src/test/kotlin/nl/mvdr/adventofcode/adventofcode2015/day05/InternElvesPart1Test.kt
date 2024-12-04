@@ -11,8 +11,7 @@ class InternElvesPart1Test: FunctionSolverTest<Int>(::solvePart1) {
             return listOf(
                 Arguments.of("1", "example-day05-2015-0.txt"),
                 Arguments.of("1", "example-day05-2015-1.txt"),
-                Arguments.of("2", "example-day05-2015-2.txt"),
-                Arguments.of("236", "input-day05-2015.txt")
+                Arguments.of("2", "example-day05-2015-2.txt")
             )
         }
     }

@@ -20,7 +20,6 @@ public class ChronalClassificationPart1Test extends SolverTest<ChronalClassifica
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1", "example-day16-2018.txt"),
-                Arguments.of("646", "input-day16-2018.txt"));
+                Arguments.of("1", "example-day16-2018.txt"));
     }
 }

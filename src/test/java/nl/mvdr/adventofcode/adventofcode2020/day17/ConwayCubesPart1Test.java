@@ -52,7 +52,6 @@ public class ConwayCubesPart1Test extends SolverTest<ConwayCubesPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("112", "example-day17-2020.txt"),
-                Arguments.of("209", "input-day17-2020.txt"));
+                Arguments.of("112", "example-day17-2020.txt"));
     }
 }

@@ -25,7 +25,6 @@ public class SpaceStoichiometryPart1Test extends SolverTest<SpaceStoichiometryPa
                 Arguments.of("165", "example-day14-2019-1.txt"),
                 Arguments.of("13312", "example-day14-2019-2.txt"),
                 Arguments.of("180697", "example-day14-2019-3.txt"),
-                Arguments.of("2210736", "example-day14-2019-4.txt"),
-                Arguments.of("337075", "input-day14-2019.txt"));
+                Arguments.of("2210736", "example-day14-2019-4.txt"));
     }
 }

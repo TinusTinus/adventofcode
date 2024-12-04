@@ -20,7 +20,6 @@ public class MineCartMadnessPart2Test extends SolverTest<MineCartMadnessPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("6,4", "example-day13-2018-4.txt"),
-                Arguments.of("143,123", "input-day13-2018.txt"));
+                Arguments.of("6,4", "example-day13-2018-4.txt"));
     }
 }

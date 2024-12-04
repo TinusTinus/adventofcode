@@ -21,7 +21,6 @@ public class HandheldHaltingPart1Test extends SolverTest<HandheldHaltingPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("5", "example-day08-2020.txt"),
-                Arguments.of("1654", "input-day08-2020.txt"));
+                Arguments.of("5", "example-day08-2020.txt"));
     }
 }

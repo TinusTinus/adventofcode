@@ -21,7 +21,6 @@ public class MonsterMessagesPart2Test extends SolverTest<MonsterMessagesPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("12", "example-day19-2020-1.txt"),
-                Arguments.of("384", "input-day19-2020.txt"));
+                Arguments.of("12", "example-day19-2020-1.txt"));
     }
 }

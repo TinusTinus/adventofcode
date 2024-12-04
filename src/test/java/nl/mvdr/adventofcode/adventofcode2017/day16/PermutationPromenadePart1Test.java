@@ -28,6 +28,6 @@ public class PermutationPromenadePart1Test extends SolverTest<PermutationPromena
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("ebjpfdgmihonackl", "input-day16-2017.txt"));
+                Arguments.of("paedcbfghijklmno", "example-day16-2017.txt"));
     }
 }

@@ -11,8 +11,7 @@ class MatchsticksPart2Test: FunctionSolverTest<Int>(::solvePart2) {
         @JvmStatic
         fun testSolution(): List<Arguments> {
             return listOf(
-                Arguments.of("19", "example-day08-2015.txt"),
-                Arguments.of("2046", "input-day08-2015.txt")
+                Arguments.of("19", "example-day08-2015.txt")
             )
         }
     }

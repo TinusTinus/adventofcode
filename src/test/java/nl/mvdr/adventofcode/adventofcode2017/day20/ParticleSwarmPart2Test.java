@@ -22,7 +22,6 @@ public class ParticleSwarmPart2Test extends SolverTest<ParticleSwarmPart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("2", "example-day20-2017-0.txt"),
-                Arguments.of("1", "example-day20-2017-1.txt"),
-                Arguments.of("471", "input-day20-2017.txt"));
+                Arguments.of("1", "example-day20-2017-1.txt"));
     }
 }

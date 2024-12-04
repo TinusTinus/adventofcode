@@ -24,7 +24,6 @@ public class HexEdPart1Test extends SolverTest<HexEdPart1> {
                 Arguments.of("3", "example-day11-2017-0.txt"),
                 Arguments.of("0", "example-day11-2017-1.txt"),
                 Arguments.of("2", "example-day11-2017-2.txt"),
-                Arguments.of("3", "example-day11-2017-3.txt"),
-                Arguments.of("794", "input-day11-2017.txt"));
+                Arguments.of("3", "example-day11-2017-3.txt"));
     }
 }

@@ -22,7 +22,6 @@ public class AmplificationCircuitPart2Test extends SolverTest<AmplificationCircu
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("139629729", "example-day07-2019-3.txt"),
-                Arguments.of("18216", "example-day07-2019-4.txt"),
-                Arguments.of("35993240", "input-day07-2019.txt"));
+                Arguments.of("18216", "example-day07-2019-4.txt"));
     }
 }

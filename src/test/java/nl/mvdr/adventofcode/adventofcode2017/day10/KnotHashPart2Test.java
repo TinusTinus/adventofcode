@@ -39,7 +39,6 @@ public class KnotHashPart2Test extends SolverTest<KnotHashPart2> {
                 Arguments.of("a2582a3a0e66e6e86e3812dcb672a272", "example-day10-2017-1.txt"),
                 Arguments.of("33efeb34ea91902bb2f59c9920caa6cd", "example-day10-2017-2.txt"),
                 Arguments.of("3efbe78a8d82f29979031a4aa0b16a9d", "example-day10-2017-3.txt"),
-                Arguments.of("63960835bcdc130f0b66d7ff4f6a5a8e", "example-day10-2017-4.txt"),
-                Arguments.of("899124dac21012ebc32e2f4d11eaec55", "input-day10-2017.txt"));
+                Arguments.of("63960835bcdc130f0b66d7ff4f6a5a8e", "example-day10-2017-4.txt"));
     }
 }

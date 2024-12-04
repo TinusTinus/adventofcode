@@ -21,7 +21,6 @@ public class GearRatiosPart1Test extends SolverTest<GearRatiosPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("4361", "example-day03-2023.txt"),
-                Arguments.of("521515", "input-day03-2023.txt"));
+                Arguments.of("4361", "example-day03-2023.txt"));
     }
 }

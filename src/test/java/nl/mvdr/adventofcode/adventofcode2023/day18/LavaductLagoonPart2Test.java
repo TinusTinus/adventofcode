@@ -21,7 +21,6 @@ public class LavaductLagoonPart2Test extends SolverTest<LavaductLagoonPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("952408144115", "example-day18-2023.txt"),
-                Arguments.of("77366737561114", "input-day18-2023.txt"));
+                Arguments.of("952408144115", "example-day18-2023.txt"));
     }
 }

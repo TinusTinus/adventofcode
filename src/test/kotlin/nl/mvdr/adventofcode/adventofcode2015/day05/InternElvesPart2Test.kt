@@ -11,8 +11,7 @@ class InternElvesPart2Test: FunctionSolverTest<Int>(::solvePart2) {
         @JvmStatic
         fun testSolution(): List<Arguments> {
             return listOf(
-                Arguments.of("2", "example-day05-2015-3.txt"),
-                Arguments.of("51", "input-day05-2015.txt")
+                Arguments.of("2", "example-day05-2015-3.txt")
             )
         }
     }

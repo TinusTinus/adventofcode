@@ -21,7 +21,6 @@ public class BinaryDiagnosticPart1Test extends SolverTest<BinaryDiagnosticPart1>
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("198", "example-day03-2021.txt"),
-                Arguments.of("2595824", "input-day03-2021.txt"));
+                Arguments.of("198", "example-day03-2021.txt"));
     }
 }

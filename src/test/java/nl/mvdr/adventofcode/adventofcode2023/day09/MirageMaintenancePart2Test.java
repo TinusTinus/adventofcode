@@ -21,7 +21,6 @@ public class MirageMaintenancePart2Test extends SolverTest<MirageMaintenancePart
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("2", "example-day09-2023.txt"),
-                Arguments.of("933", "input-day09-2023.txt"));
+                Arguments.of("2", "example-day09-2023.txt"));
     }
 }

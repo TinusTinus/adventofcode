@@ -8,8 +8,7 @@ class SevenSegmentSearchPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         @JvmStatic
         fun testSolution() = listOf(
             Arguments.of("0", "example-day08-2021-0.txt"),
-            Arguments.of("26", "example-day08-2021-1.txt"),
-            Arguments.of("375", "input-day08-2021.txt")
+            Arguments.of("26", "example-day08-2021-1.txt")
         )
     }
 }

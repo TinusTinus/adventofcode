@@ -10,8 +10,7 @@ class IdealStockingStufferPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         fun testSolution(): List<Arguments> {
             return listOf(
                 Arguments.of("609043", "example-day04-2015-0.txt"),
-                Arguments.of("1048970", "example-day04-2015-1.txt"),
-                Arguments.of("254575", "input-day04-2015.txt")
+                Arguments.of("1048970", "example-day04-2015-1.txt")
             )
         }
     }

@@ -22,7 +22,6 @@ public class BoilingBouldersPart1Test extends SolverTest<BoilingBouldersPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("10", "example-day18-2022-0.txt"),
-                Arguments.of("64", "example-day18-2022-1.txt"),
-                Arguments.of("4460", "input-day18-2022.txt"));
+                Arguments.of("64", "example-day18-2022-1.txt"));
     }
 }

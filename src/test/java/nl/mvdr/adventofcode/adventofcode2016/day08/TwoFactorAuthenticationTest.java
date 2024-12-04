@@ -22,8 +22,7 @@ public class TwoFactorAuthenticationTest extends SolverTest<TwoFactorAuthenticat
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("0", "example-day08-2016-0.txt"),
-                Arguments.of("116", "input-day08-2016.txt"));
+                Arguments.of("0", "example-day08-2016-0.txt"));
     }
     
     /** Test case based on an example from the puzzle text. */

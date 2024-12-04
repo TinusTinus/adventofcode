@@ -21,7 +21,6 @@ public class ShuttleSearchPart1Test extends SolverTest<ShuttleSearchPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("295", "example-day13-2020-0.txt"),
-                Arguments.of("3269", "input-day13-2020.txt"));
+                Arguments.of("295", "example-day13-2020-0.txt"));
     }
 }

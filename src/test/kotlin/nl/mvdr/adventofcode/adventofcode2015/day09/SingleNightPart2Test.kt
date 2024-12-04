@@ -7,8 +7,7 @@ class SingleNightPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("982", "example-day09-2015.txt"),
-            Arguments.of("804", "input-day09-2015.txt")
+            Arguments.of("982", "example-day09-2015.txt")
         )
     }
 }

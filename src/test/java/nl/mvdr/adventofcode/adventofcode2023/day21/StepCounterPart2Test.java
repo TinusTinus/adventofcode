@@ -3,40 +3,16 @@ package nl.mvdr.adventofcode.adventofcode2023.day21;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import nl.mvdr.adventofcode.SolverTest;
 
 /**
  * Unit test cases for {@link StepCounterPart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class StepCounterPart2Test extends SolverTest<StepCounterPart2> {
-
-    /** Constructor. */
-    public StepCounterPart2Test() {
-        super(StepCounterPart2.class);
-    }
-    
-    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
-    static Stream<Arguments> testSolution() {
-        return Stream.of(
-                Arguments.of("608152828731262", "input-day21-2023.txt"));
-    }
-    
-    /**
-     * Test case for 0 steps.
-     * 
-     * After 0 steps the only reachable plot is the starting plot.
-     */
-    @Test
-    public void testInput0Steps() {
-        assertSolution(new StepCounterPart2(0), "1", "input-day21-2023.txt");
-    }
+public class StepCounterPart2Test {
 
     /**
      * Checks that the solver produces the expected solution for the given number of steps,

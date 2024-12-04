@@ -21,7 +21,6 @@ public class ElectromagneticMoatPart1Test extends SolverTest<ElectromagneticMoat
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("31", "example-day24-2017.txt"),
-                Arguments.of("1940", "input-day24-2017.txt"));
+                Arguments.of("31", "example-day24-2017.txt"));
     }
 }

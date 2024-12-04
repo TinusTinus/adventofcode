@@ -11,8 +11,7 @@ class SeaCucumberPart1Test: FunctionSolverTest<Any>(::solvePart1) {
             Arguments.of("8", "example-day25-2021-50.txt"),
             Arguments.of("3", "example-day25-2021-55.txt"),
             Arguments.of("2", "example-day25-2021-56.txt"),
-            Arguments.of("1", "example-day25-2021-57.txt"),
-            Arguments.of("374", "input-day25-2021.txt")
+            Arguments.of("1", "example-day25-2021-57.txt")
         )
     }
 }

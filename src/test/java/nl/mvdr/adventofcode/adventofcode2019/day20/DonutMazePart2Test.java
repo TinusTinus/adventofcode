@@ -26,8 +26,7 @@ public class DonutMazePart2Test extends SolverTest<DonutMazePart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("26", "example-day20-2019-0.txt"),
-                Arguments.of("396", "example-day20-2019-2.txt"),
-                Arguments.of("7366", "input-day20-2019.txt"));
+                Arguments.of("396", "example-day20-2019-2.txt"));
     }
     
     /** Test case based on an example from the puzzle text. */

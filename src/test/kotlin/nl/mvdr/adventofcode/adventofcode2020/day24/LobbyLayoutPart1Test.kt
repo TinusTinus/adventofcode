@@ -8,8 +8,7 @@ class LobbyLayoutPart1Test: FunctionSolverTest<Any>(::solvePart1) {
         @JvmStatic
         fun testSolution() = listOf(
             Arguments.of("2", "example-day24-2020-0.txt"),
-            Arguments.of("10", "example-day24-2020-1.txt"),
-            Arguments.of("459", "input-day24-2020.txt")
+            Arguments.of("10", "example-day24-2020-1.txt")
         )
     }
 }

@@ -37,7 +37,6 @@ public class BeverageBanditsPart1Test extends SolverTest<BeverageBanditsPart1> {
                 // (Note that the last round is completed.)
                 // The remaining unit is expected to have 200 % 3 = 2 hit points remaining.
                 // Expected result: 67 * 2 = 134.
-                Arguments.of("134", "example-day15-2018-7.txt"),
-                Arguments.of("198744", "input-day15-2018.txt"));
+                Arguments.of("134", "example-day15-2018-7.txt"));
     }
 }

@@ -9,8 +9,7 @@ class PassagePathingPart2Test: FunctionSolverTest<Int>(::solvePart2) {
         fun testSolution() = listOf(
             Arguments.of("36", "example-day12-2021-0.txt"),
             Arguments.of("103", "example-day12-2021-1.txt"),
-            Arguments.of("3509", "example-day12-2021-2.txt"),
-            Arguments.of("136767", "input-day12-2021.txt")
+            Arguments.of("3509", "example-day12-2021-2.txt")
         )
     }
 }

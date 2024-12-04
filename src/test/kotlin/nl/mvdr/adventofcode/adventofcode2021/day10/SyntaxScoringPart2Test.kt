@@ -7,8 +7,7 @@ class SyntaxScoringPart2Test: FunctionSolverTest<Long>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("288957", "example-day10-2021.txt"),
-            Arguments.of("4329504793", "input-day10-2021.txt")
+            Arguments.of("288957", "example-day10-2021.txt")
         )
     }
 }

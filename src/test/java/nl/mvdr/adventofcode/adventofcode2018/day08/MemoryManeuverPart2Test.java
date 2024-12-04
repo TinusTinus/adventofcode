@@ -20,7 +20,6 @@ public class MemoryManeuverPart2Test extends SolverTest<MemoryManeuverPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("66", "example-day08-2018.txt"),
-                Arguments.of("37067", "input-day08-2018.txt"));
+                Arguments.of("66", "example-day08-2018.txt"));
     }
 }

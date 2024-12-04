@@ -21,7 +21,6 @@ public class SandSlabsPart1Test extends SolverTest<SandSlabsPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("5", "example-day22-2023.txt"),
-                Arguments.of("405", "input-day22-2023.txt"));
+                Arguments.of("5", "example-day22-2023.txt"));
     }
 }

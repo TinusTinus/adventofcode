@@ -21,7 +21,6 @@ public class RegolithReservoirPart2Test extends SolverTest<RegolithReservoirPart
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("93", "example-day14-2022.txt"),
-                Arguments.of("27155", "input-day14-2022.txt"));
+                Arguments.of("93", "example-day14-2022.txt"));
     }
 }

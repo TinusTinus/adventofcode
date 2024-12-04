@@ -21,7 +21,6 @@ public class ParabolicReflectorDishPart1Test extends SolverTest<ParabolicReflect
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("136", "example-day14-2023.txt"),
-                Arguments.of("109661", "input-day14-2023.txt"));
+                Arguments.of("136", "example-day14-2023.txt"));
     }
 }

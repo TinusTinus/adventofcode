@@ -20,7 +20,6 @@ public class SubterraneanSustainabilityTest extends SolverTest<SubterraneanSusta
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("325", "example-day12-2018.txt"),
-                Arguments.of("2166", "input-day12-2018.txt"));
+                Arguments.of("325", "example-day12-2018.txt"));
     }
 }

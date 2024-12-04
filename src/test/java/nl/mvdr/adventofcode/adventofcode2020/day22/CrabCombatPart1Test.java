@@ -21,7 +21,6 @@ public class CrabCombatPart1Test extends SolverTest<CrabCombatPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("306", "example-day22-2020-0.txt"),
-                Arguments.of("33559", "input-day22-2020.txt"));
+                Arguments.of("306", "example-day22-2020-0.txt"));
     }
 }

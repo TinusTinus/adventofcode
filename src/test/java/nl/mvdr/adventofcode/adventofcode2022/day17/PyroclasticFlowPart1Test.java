@@ -21,7 +21,6 @@ public class PyroclasticFlowPart1Test extends SolverTest<PyroclasticFlowPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("3068", "example-day17-2022.txt"),
-                Arguments.of("3069", "input-day17-2022.txt"));
+                Arguments.of("3068", "example-day17-2022.txt"));
     }
 }

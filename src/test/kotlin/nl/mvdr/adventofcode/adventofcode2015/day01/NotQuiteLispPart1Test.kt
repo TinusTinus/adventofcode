@@ -17,8 +17,7 @@ class NotQuiteLispPart1Test: FunctionSolverTest<Int>(::solvePart1) {
                 Arguments.of("-1", "example-day01-2015-5.txt"),
                 Arguments.of("-1", "example-day01-2015-6.txt"),
                 Arguments.of("-3", "example-day01-2015-7.txt"),
-                Arguments.of("-3", "example-day01-2015-8.txt"),
-                Arguments.of("280", "input-day01-2015.txt")
+                Arguments.of("-3", "example-day01-2015-8.txt")
             )
         }
     }

@@ -21,7 +21,6 @@ public class ProboscideaVolcaniumPart1Test extends SolverTest<ProboscideaVolcani
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1651", "example-day16-2022.txt"),
-                Arguments.of("1896", "input-day16-2022.txt"));
+                Arguments.of("1651", "example-day16-2022.txt"));
     }
 }

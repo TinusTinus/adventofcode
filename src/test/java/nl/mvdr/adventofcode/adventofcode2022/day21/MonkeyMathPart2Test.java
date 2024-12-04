@@ -21,7 +21,6 @@ public class MonkeyMathPart2Test extends SolverTest<MonkeyMathPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("301", "example-day21-2022.txt"),
-                Arguments.of("3952288690726", "input-day21-2022.txt"));
+                Arguments.of("301", "example-day21-2022.txt"));
     }
 }

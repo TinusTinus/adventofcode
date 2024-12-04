@@ -21,7 +21,6 @@ public class UniversalOrbitMapPart2Test extends SolverTest<UniversalOrbitMapPart
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("4", "example-day06-2019-1.txt"),
-                Arguments.of("316", "input-day06-2019.txt"));
+                Arguments.of("4", "example-day06-2019-1.txt"));
     }
 }

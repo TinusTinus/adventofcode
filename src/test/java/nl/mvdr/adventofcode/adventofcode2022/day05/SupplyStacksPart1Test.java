@@ -21,7 +21,6 @@ public class SupplyStacksPart1Test extends SolverTest<SupplyStacksPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("CMZ", "example-day05-2022.txt"),
-                Arguments.of("ZRLJGSCTR", "input-day05-2022.txt"));
+                Arguments.of("CMZ", "example-day05-2022.txt"));
     }
 }

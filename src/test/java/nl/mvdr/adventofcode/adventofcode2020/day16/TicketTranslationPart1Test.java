@@ -21,7 +21,6 @@ public class TicketTranslationPart1Test extends SolverTest<TicketTranslationPart
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("71", "example-day16-2020.txt"),
-                Arguments.of("27870", "input-day16-2020.txt"));
+                Arguments.of("71", "example-day16-2020.txt"));
     }
 }

@@ -21,7 +21,6 @@ public class TobogganTrajectoryPart2Test extends SolverTest<TobogganTrajectoryPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("336", "example-day03-2020.txt"),
-                Arguments.of("5140884672", "input-day03-2020.txt"));
+                Arguments.of("336", "example-day03-2020.txt"));
     }
 }

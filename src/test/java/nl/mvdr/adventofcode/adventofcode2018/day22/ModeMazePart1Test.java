@@ -20,7 +20,6 @@ public class ModeMazePart1Test extends SolverTest<ModeMazePart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("114", "example-day22-2018.txt"),
-                Arguments.of("9899", "input-day22-2018.txt"));
+                Arguments.of("114", "example-day22-2018.txt"));
     }
 }

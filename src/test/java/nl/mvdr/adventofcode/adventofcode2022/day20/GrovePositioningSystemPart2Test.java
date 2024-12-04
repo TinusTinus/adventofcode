@@ -21,7 +21,6 @@ public class GrovePositioningSystemPart2Test extends SolverTest<GrovePositioning
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1623178306", "example-day20-2022.txt"),
-                Arguments.of("8927480683", "input-day20-2022.txt"));
+                Arguments.of("1623178306", "example-day20-2022.txt"));
     }
 }

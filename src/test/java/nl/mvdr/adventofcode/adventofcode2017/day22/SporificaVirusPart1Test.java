@@ -82,7 +82,6 @@ public class SporificaVirusPart1Test extends SolverTest<SporificaVirusPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("5587", "example-day22-2017.txt"),
-                Arguments.of("5330", "input-day22-2017.txt"));
+                Arguments.of("5587", "example-day22-2017.txt"));
     }
 }

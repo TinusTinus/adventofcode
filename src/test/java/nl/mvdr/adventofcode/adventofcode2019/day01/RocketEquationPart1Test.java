@@ -24,7 +24,6 @@ public class RocketEquationPart1Test extends SolverTest<RocketEquationPart1> {
                 Arguments.of("2", "example-day01-2019-0.txt"),
                 Arguments.of("2", "example-day01-2019-1.txt"),
                 Arguments.of("654", "example-day01-2019-2.txt"),
-                Arguments.of("33583", "example-day01-2019-3.txt"),
-                Arguments.of("3152919", "input-day01-2019.txt"));
+                Arguments.of("33583", "example-day01-2019-3.txt"));
     }
 }

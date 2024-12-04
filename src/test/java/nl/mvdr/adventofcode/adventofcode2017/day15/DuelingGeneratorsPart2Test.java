@@ -21,7 +21,6 @@ public class DuelingGeneratorsPart2Test extends SolverTest<DuelingGeneratorsPart
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("309", "example-day15-2017.txt"),
-                Arguments.of("303", "input-day15-2017.txt"));
+                Arguments.of("309", "example-day15-2017.txt"));
     }
 }

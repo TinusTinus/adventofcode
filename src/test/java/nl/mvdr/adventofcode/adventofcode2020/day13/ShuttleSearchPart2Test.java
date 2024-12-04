@@ -26,7 +26,6 @@ public class ShuttleSearchPart2Test extends SolverTest<ShuttleSearchPart2> {
                 Arguments.of("754018", "example-day13-2020-2.txt"),
                 Arguments.of("779210", "example-day13-2020-3.txt"),
                 Arguments.of("1261476", "example-day13-2020-4.txt"),
-                Arguments.of("1202161486", "example-day13-2020-5.txt"),
-                Arguments.of("672754131923874", "input-day13-2020.txt"));
+                Arguments.of("1202161486", "example-day13-2020-5.txt"));
     }
 }

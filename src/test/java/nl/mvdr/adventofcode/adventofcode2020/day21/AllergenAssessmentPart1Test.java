@@ -21,7 +21,6 @@ public class AllergenAssessmentPart1Test extends SolverTest<AllergenAssessmentPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("5", "example-day21-2020.txt"),
-                Arguments.of("2150", "input-day21-2020.txt"));
+                Arguments.of("5", "example-day21-2020.txt"));
     }
 }

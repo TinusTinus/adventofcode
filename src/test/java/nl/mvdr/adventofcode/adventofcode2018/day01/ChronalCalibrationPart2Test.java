@@ -25,7 +25,6 @@ public class ChronalCalibrationPart2Test extends SolverTest<ChronalCalibrationPa
                 Arguments.of("0", "example-day01-2018-4.txt"),
                 Arguments.of("10", "example-day01-2018-5.txt"),
                 Arguments.of("5", "example-day01-2018-6.txt"),
-                Arguments.of("14", "example-day01-2018-7.txt"),
-                Arguments.of("57538", "input-day01-2018.txt"));
+                Arguments.of("14", "example-day01-2018-7.txt"));
     }
 }

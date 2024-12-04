@@ -21,7 +21,6 @@ public class ChessPart2Test extends SolverTest<ChessPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("05ace8e3", "example-day05-2016.txt"),
-                Arguments.of("863dde27", "input-day05-2016.txt"));
+                Arguments.of("05ace8e3", "example-day05-2016.txt"));
     }
 }

@@ -21,7 +21,6 @@ public class SignalsPart1Test extends SolverTest<SignalsPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("easter", "example-day06-2016.txt"),
-                Arguments.of("zcreqgiv", "input-day06-2016.txt"));
+                Arguments.of("easter", "example-day06-2016.txt"));
     }
 }

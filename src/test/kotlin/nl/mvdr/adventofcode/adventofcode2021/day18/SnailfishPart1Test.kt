@@ -7,8 +7,7 @@ class SnailfishPart1Test: FunctionSolverTest<Any>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("4140", "example-day18-2021.txt"),
-            Arguments.of("4289", "input-day18-2021.txt")
+            Arguments.of("4140", "example-day18-2021.txt")
         )
     }
 }

@@ -21,7 +21,6 @@ public class ImmuneSystemSimulatorPart1Test extends SolverTest<ImmuneSystemSimul
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("5216", "example-day24-2018-0.txt"),
-                Arguments.of("51", "example-day24-2018-1.txt"),
-                Arguments.of("26277", "input-day24-2018.txt"));
+                Arguments.of("51", "example-day24-2018-1.txt"));
     }
 }

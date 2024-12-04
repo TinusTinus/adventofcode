@@ -22,8 +22,7 @@ public class InventoryManagementSystemPart1Test extends SolverTest<InventoryMana
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("12", "example-day02-2018.txt"),
-                Arguments.of("6696", "input-day02-2018.txt"));
+                Arguments.of("12", "example-day02-2018.txt"));
     }
 	
 	/** Test method for {@link InventoryManagementSystemPart1#containsExactlyNOfAnyLetter(String, int)}. */

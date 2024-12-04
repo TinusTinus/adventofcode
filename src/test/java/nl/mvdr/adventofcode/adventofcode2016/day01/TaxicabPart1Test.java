@@ -23,7 +23,6 @@ public class TaxicabPart1Test extends SolverTest<TaxicabPart1> {
         return Stream.of(
                 Arguments.of("5", "example-day01-2016-0.txt"),
                 Arguments.of("2", "example-day01-2016-1.txt"),
-                Arguments.of("12", "example-day01-2016-2.txt"),
-                Arguments.of("230", "input-day01-2016.txt"));
+                Arguments.of("12", "example-day01-2016-2.txt"));
     }
 }

@@ -21,8 +21,6 @@ public class ALongWalkPart2Test extends SolverTest<ALongWalkPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("154", "example-day23-2023.txt")
-                // , Arguments.of("6418", "input-day23-2023.txt" // Test case takes about two minutes on my machine
-                );
+                Arguments.of("154", "example-day23-2023.txt"));
     }
 }

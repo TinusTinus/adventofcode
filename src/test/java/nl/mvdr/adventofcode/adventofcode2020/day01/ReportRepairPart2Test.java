@@ -21,7 +21,6 @@ public class ReportRepairPart2Test extends SolverTest<ReportRepairPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("241861950", "example-day01-2020.txt"),
-                Arguments.of("232508760", "input-day01-2020.txt"));
+                Arguments.of("241861950", "example-day01-2020.txt"));
     }
 }

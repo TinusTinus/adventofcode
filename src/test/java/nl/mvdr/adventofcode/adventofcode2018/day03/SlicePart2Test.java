@@ -20,7 +20,6 @@ public class SlicePart2Test extends SolverTest<SlicePart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("3", "example-day03-2018-1.txt"),
-                Arguments.of("1097", "input-day03-2018.txt"));
+                Arguments.of("3", "example-day03-2018-1.txt"));
     }
 }

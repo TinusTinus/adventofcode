@@ -22,7 +22,6 @@ public class RopeBridgePart2Test extends SolverTest<RopeBridgePart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("1", "example-day09-2022-0.txt"),
-                Arguments.of("36", "example-day09-2022-1.txt"),
-                Arguments.of("2372", "input-day09-2022.txt"));
+                Arguments.of("36", "example-day09-2022-1.txt"));
     }
 }

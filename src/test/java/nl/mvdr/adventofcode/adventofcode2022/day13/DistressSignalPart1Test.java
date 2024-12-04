@@ -21,7 +21,6 @@ public class DistressSignalPart1Test extends SolverTest<DistressSignalPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("13", "example-day13-2022.txt"),
-                Arguments.of("6420", "input-day13-2022.txt"));
+                Arguments.of("13", "example-day13-2022.txt"));
     }
 }

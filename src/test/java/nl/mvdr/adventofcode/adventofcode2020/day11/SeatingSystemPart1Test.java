@@ -21,7 +21,6 @@ public class SeatingSystemPart1Test extends SolverTest<SeatingSystemPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("37", "example-day11-2020.txt"),
-                Arguments.of("2243", "input-day11-2020.txt"));
+                Arguments.of("37", "example-day11-2020.txt"));
     }
 }

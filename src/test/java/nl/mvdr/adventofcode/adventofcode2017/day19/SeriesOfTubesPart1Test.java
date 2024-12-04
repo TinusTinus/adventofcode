@@ -21,7 +21,6 @@ public class SeriesOfTubesPart1Test extends SolverTest<SeriesOfTubesPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("ABCDEF", "example-day19-2017.txt"),
-                Arguments.of("SXWAIBUZY", "input-day19-2017.txt"));
+                Arguments.of("ABCDEF", "example-day19-2017.txt"));
     }
 }

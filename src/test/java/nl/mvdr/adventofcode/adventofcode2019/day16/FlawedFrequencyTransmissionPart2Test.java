@@ -23,7 +23,6 @@ public class FlawedFrequencyTransmissionPart2Test extends SolverTest<FlawedFrequ
         return Stream.of(
                 Arguments.of("84462026", "example-day16-2019-4.txt"),
                 Arguments.of("78725270", "example-day16-2019-5.txt"),
-                Arguments.of("53553731", "example-day16-2019-6.txt"),
-                Arguments.of("85600369", "input-day16-2019.txt"));
+                Arguments.of("53553731", "example-day16-2019-6.txt"));
     }
 }

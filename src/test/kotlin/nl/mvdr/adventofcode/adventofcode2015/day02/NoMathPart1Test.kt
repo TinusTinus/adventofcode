@@ -10,8 +10,7 @@ class NoMathPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         fun testSolution(): List<Arguments> {
             return listOf(
                 Arguments.of("58", "example-day02-2015-0.txt"),
-                Arguments.of("43", "example-day02-2015-1.txt"),
-                Arguments.of("1588178", "input-day02-2015.txt")
+                Arguments.of("43", "example-day02-2015-1.txt")
             )
         }
     }

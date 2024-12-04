@@ -21,7 +21,6 @@ public class ChronalChargePart1Test extends SolverTest<ChronalChargePart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("33,45", "example-day11-2018-0.txt"),
-                Arguments.of("21,61", "example-day11-2018-1.txt"),
-                Arguments.of("216,12", "input-day11-2018.txt"));
+                Arguments.of("21,61", "example-day11-2018-1.txt"));
     }
 }

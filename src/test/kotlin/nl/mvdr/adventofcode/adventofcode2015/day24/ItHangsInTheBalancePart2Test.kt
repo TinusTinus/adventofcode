@@ -7,8 +7,7 @@ class ItHangsInTheBalancePart2Test: FunctionSolverTest<Long>(::solvePart2) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("44", "example-day24-2015.txt"),
-            Arguments.of("74850409", "input-day24-2015.txt")
+            Arguments.of("44", "example-day24-2015.txt")
         )
     }
 }

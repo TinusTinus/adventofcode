@@ -22,7 +22,6 @@ public class CorruptionChecksumPart2Test extends SolverTest<CorruptionChecksumPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("9", "example-day02-2017-1.txt"),
-                Arguments.of("265", "input-day02-2017.txt"));
+                Arguments.of("9", "example-day02-2017-1.txt"));
     }
 }

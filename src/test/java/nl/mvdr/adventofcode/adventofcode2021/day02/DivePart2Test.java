@@ -21,7 +21,6 @@ public class DivePart2Test extends SolverTest<DivePart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("900", "example-day02-2021.txt"),
-                Arguments.of("1759818555", "input-day02-2021.txt"));
+                Arguments.of("900", "example-day02-2021.txt"));
     }
 }

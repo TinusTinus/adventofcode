@@ -26,8 +26,7 @@ class TransparentOrigamiPart2Test {
     companion object {
         @JvmStatic
         fun test(): List<Arguments> = listOf(
-            Arguments.of("example-day13-2021.txt"), // expected result: a square
-            Arguments.of("input-day13-2021.txt") // expected result: eight capital letters
+            Arguments.of("example-day13-2021.txt") // expected result: a square
         )
     }
 

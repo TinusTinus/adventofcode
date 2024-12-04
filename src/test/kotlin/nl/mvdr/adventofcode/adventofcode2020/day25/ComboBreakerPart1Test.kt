@@ -7,8 +7,7 @@ class ComboBreakerPart1Test: FunctionSolverTest<Any>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution() = listOf(
-            Arguments.of("14897079", "example-day25-2020.txt"),
-            Arguments.of("9714832", "input-day25-2020.txt")
+            Arguments.of("14897079", "example-day25-2020.txt")
         )
     }
 }

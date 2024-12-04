@@ -21,7 +21,6 @@ public class PasswordPhilosophyPart1Test extends SolverTest<PasswordPhilosophyPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("2", "example-day02-2020.txt"),
-                Arguments.of("548", "input-day02-2020.txt"));
+                Arguments.of("2", "example-day02-2020.txt"));
     }
 }

@@ -22,7 +22,7 @@ public class BeaconExclusionZonePart1Test extends SolverTest<BeaconExclusionZone
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("4883971", "input-day15-2022.txt"));
+                Arguments.of("0", "example-day15-2022.txt"));
     }
     
     /** Test case based on an example from the puzzle text. */

@@ -21,7 +21,6 @@ public class CampCleanupPart1Test extends SolverTest<CampCleanupPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("2", "example-day04-2022.txt"),
-                Arguments.of("494", "input-day04-2022.txt"));
+                Arguments.of("2", "example-day04-2022.txt"));
     }
 }

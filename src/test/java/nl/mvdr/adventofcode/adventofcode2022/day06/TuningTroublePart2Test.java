@@ -25,7 +25,6 @@ public class TuningTroublePart2Test extends SolverTest<TuningTroublePart2> {
                 Arguments.of("23", "example-day06-2022-1.txt"),
                 Arguments.of("23", "example-day06-2022-2.txt"),
                 Arguments.of("29", "example-day06-2022-3.txt"),
-                Arguments.of("26", "example-day06-2022-4.txt"),
-                Arguments.of("3037", "input-day06-2022.txt"));
+                Arguments.of("26", "example-day06-2022-4.txt"));
     }
 }

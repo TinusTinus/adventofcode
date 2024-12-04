@@ -20,7 +20,6 @@ public class SumOfItsPartsPart1Test extends SolverTest<SumOfItsPartsPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("CABDFE", "example-day07-2018.txt"),
-                Arguments.of("PFKQWJSVUXEMNIHGTYDOZACRLB", "input-day07-2018.txt"));
+                Arguments.of("CABDFE", "example-day07-2018.txt"));
     }
 }

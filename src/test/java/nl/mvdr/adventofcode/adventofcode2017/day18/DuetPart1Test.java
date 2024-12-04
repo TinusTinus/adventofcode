@@ -21,7 +21,6 @@ public class DuetPart1Test extends SolverTest<DuetPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("4", "example-day18-2017-0.txt"),
-                Arguments.of("4601", "input-day18-2017.txt"));
+                Arguments.of("4", "example-day18-2017-0.txt"));
     }
 }

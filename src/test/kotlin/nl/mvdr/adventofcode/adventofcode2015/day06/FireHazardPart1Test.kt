@@ -13,7 +13,6 @@ class FireHazardPart1Test: FunctionSolverTest<Int>(::solvePart1) {
                 Arguments.of("1000", "example-day06-2015-1.txt"),
                 Arguments.of("0", "example-day06-2015-2.txt"),
                 Arguments.of("998996", "example-day06-2015-3.txt")
-                // Arguments.of("569999", "input-day06-2015.txt") // disabled because this takes about a minute to compute
             )
         }
     }

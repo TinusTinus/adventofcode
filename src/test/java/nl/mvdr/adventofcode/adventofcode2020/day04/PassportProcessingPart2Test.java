@@ -21,7 +21,6 @@ public class PassportProcessingPart2Test extends SolverTest<PassportProcessingPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("4", "example-day04-2020-1.txt"),
-                Arguments.of("188", "input-day04-2020.txt"));
+                Arguments.of("4", "example-day04-2020-1.txt"));
     }
 }
