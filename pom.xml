@@ -26,6 +26,7 @@
         <junit.version>5.11.3</junit.version>
         <kotlin.version>2.1.0</kotlin.version>
         <kotlin-logging.version>7.0.3</kotlin-logging.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <!--
           Note: the Maven Surefire plug-in version should be at least 2.22.0.
           This ensures it respects JUnit 5's @Disabled annotations.
@@ -172,6 +173,15 @@
                 </executions>
                 <configuration>
                     <jvmTarget>${java.version}</jvmTarget>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <compilerVersion>${java.version}</compilerVersion>
+                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
