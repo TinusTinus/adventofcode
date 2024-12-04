@@ -181,7 +181,6 @@
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <compilerVersion>${java.version}</compilerVersion>
-                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
