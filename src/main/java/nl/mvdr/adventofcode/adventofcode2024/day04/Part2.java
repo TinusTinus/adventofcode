@@ -7,17 +7,17 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.LongSolver;
 
-public class Part1 implements LongSolver {
+public class Part2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
     public long solve(Stream<String> lines) {
-        return WordSearch.parse(lines.toList()).countXmasMatches();
+        return WordSearch.parse(lines.toList()).countCrossMasMatches();
     }
 
     public static void main(String[] args) {
-        var instance = new Part1();
+        var instance = new Part2();
 
         var result = instance.solve("input-day04-2024.txt");
 
