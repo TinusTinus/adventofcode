@@ -1,7 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2024.day05;
 
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 record Update(List<Integer> pages) {
@@ -16,7 +17,7 @@ record Update(List<Integer> pages) {
 		return new Update(pages);
 	}
 
-	boolean satisfies(Collection<Rule> rules) {
+	boolean satisfies(Set<Rule> rules) {
 	    return rules.stream().allMatch(this::satisfies);
 	}
 	
@@ -29,5 +30,10 @@ record Update(List<Integer> pages) {
 	
 	int middlePage() {
 	    return pages.get(pages.size() / 2).intValue();
+	}
+	
+	Update sort(Comparator<Integer> pageComparator) {
+	    List<Integer> sortedPages = pages.stream().sorted(pageComparator).toList();
+	    return new Update(sortedPages);
 	}
 }

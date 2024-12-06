@@ -1,10 +1,12 @@
 package nl.mvdr.adventofcode.adventofcode2024.day05;
 
-import nl.mvdr.adventofcode.LongSolver;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.stream.Stream;
+import nl.mvdr.adventofcode.LongSolver;
 
 public class Part1 implements LongSolver {
 
@@ -21,7 +23,7 @@ public class Part1 implements LongSolver {
     	var rules = lines.subList(0, indexOfEmptyLine)
     			.stream()
     			.map(Rule::parse)
-    			.toList();
+    			.collect(Collectors.toSet());
     	
         return lines.subList(indexOfEmptyLine + 1, lines.size())
                 .stream()
