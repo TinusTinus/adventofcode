@@ -14,17 +14,21 @@ public class Part1 implements LongSolver {
     public long solve(Stream<String> linesStream) {
     	var lines = linesStream.toList();
     	var indexOfEmptyLine = lines.indexOf("");
+    	if (indexOfEmptyLine < 0) {
+    	    throw new IllegalArgumentException("Empty line not found in input: " + lines);
+    	}
     	
     	var rules = lines.subList(0, indexOfEmptyLine)
     			.stream()
     			.map(Rule::parse)
     			.toList();
-    	var patches = lines.subList(indexOfEmptyLine + 1, lines.size())
-    			.stream()
-    			.map(Patch::parse)
-    			.toList();
     	
-        return 0; // TODO
+        return lines.subList(indexOfEmptyLine + 1, lines.size())
+                .stream()
+                .map(Patch::parse)
+                .filter(patch -> patch.satisfies(rules))
+                .mapToInt(Patch::middlePage)
+                .sum();
     }
 
     public static void main(String[] args) {
@@ -32,7 +36,7 @@ public class Part1 implements LongSolver {
 
         var result = instance.solve("input-day05-2024.txt");
 
-        LOGGER.info(result);
+        LOGGER.info(result);  // 4569 is too low
     }
 }
  
