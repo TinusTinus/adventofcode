@@ -30,7 +30,7 @@ public class Part2 implements LongSolver {
     			.map(Rule::parse)
     			.collect(Collectors.toSet());
     	
-    	Comparator<Integer> pageComparator = pageComparator(rules);
+    	Comparator<Integer> pageComparator = createPageComparator(rules);
     	
         return lines.subList(indexOfEmptyLine + 1, lines.size())
                 .stream()
@@ -41,29 +41,20 @@ public class Part2 implements LongSolver {
                 .sum();// TODO
     }
     
-    private static Comparator<Integer> pageComparator(Set<Rule> rules) {
-        
+    private static Comparator<Integer> createPageComparator(Set<Rule> rules) {
         // Find all page numbers in the rules
-        Set<Integer> remainingPageNumbers = rules.stream()
+        Set<Integer> remainingPages = rules.stream()
                 .flatMap(rule -> Stream.of(Integer.valueOf(rule.lhs()), Integer.valueOf(rule.rhs())))
                 .collect(Collectors.toCollection(HashSet::new));
-        
+
+        // Sort these according to the rules
         List<Integer> sortedPages = new ArrayList<>();
-        
-        // The first page is the (only) one which never appears as the right-hand side of any rule.
-        Integer firstPage = remainingPageNumbers.stream()
-                .filter(page -> rules.stream().noneMatch(rule -> rule.rhs() == page.intValue()))
-                .findFirst()
-                .orElseThrow();
-        remainingPageNumbers.remove(firstPage);
-        sortedPages.add(firstPage);
-        
-        while (!remainingPageNumbers.isEmpty()) {
-            Integer nextPage = remainingPageNumbers.stream()
+        while (!remainingPages.isEmpty()) {
+            Integer nextPage = remainingPages.stream()
                     .filter(page -> rules.stream().noneMatch(rule -> rule.rhs() == page.intValue() && !sortedPages.contains(Integer.valueOf(rule.lhs()))))
                     .findFirst()
-                    .orElseThrow();
-            remainingPageNumbers.remove(nextPage);
+                    .orElseThrow(() -> new IllegalStateException("Unable to find next page. Sorted: " + sortedPages + ", remaining: " + remainingPages));
+            remainingPages.remove(nextPage);
             sortedPages.add(nextPage);
         }
         
