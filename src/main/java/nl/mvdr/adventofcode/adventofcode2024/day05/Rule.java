@@ -11,9 +11,4 @@ record Rule(int lhs, int rhs) {
 		int rhs = Integer.parseInt(parts[1]);
 		return new Rule(lhs, rhs);
 	}
-	
-	@Override
-	public final String toString() {
-		return lhs + "|" + rhs;
-	}
 }

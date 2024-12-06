@@ -6,14 +6,14 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.IntSolver;
 
-public class Part1 implements LongSolver {
+public class Part1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
 
     @Override
-    public long solve(Stream<String> linesStream) {
+    public int solve(Stream<String> linesStream) {
     	var lines = linesStream.toList();
     	var indexOfEmptyLine = lines.indexOf("");
     	if (indexOfEmptyLine < 0) {
