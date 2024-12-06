@@ -36,7 +36,7 @@ public class Part1 implements LongSolver {
 
         var result = instance.solve("input-day05-2024.txt");
 
-        LOGGER.info(result);  // 4569 is too low
+        LOGGER.info(result);
     }
 }
  
