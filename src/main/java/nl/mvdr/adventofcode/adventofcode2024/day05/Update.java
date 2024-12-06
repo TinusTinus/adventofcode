@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2024.day05;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,12 +13,13 @@ record Update(List<Integer> pages) {
 		var pages = Stream.of(line.split(","))
 				.map(Integer::valueOf)
 				.toList();
-		if (pages.size() % 2 != 1) {
-		    throw new IllegalArgumentException("Number of pages is expected to be odd but was " + pages.size());
-		}
 		return new Update(pages);
 	}
-
+	
+	Update(Integer... pages) {
+        this(Arrays.asList(pages));
+    }
+	
 	boolean satisfies(Set<Rule> rules) {
 	    return rules.stream().allMatch(this::satisfies);
 	}
@@ -30,19 +32,20 @@ record Update(List<Integer> pages) {
 	}
 	
 	int middlePage() {
+	       if (pages.size() % 2 != 1) {
+	            throw new IllegalStateException("Number of pages is expected to be odd but was " + pages.size());
+	        }
 	    return pages.get(pages.size() / 2).intValue();
 	}
 	
 	Update sort(Set<Rule> rules) {
-        Set<Integer> remainingPages = new HashSet<>(pages);
-
-        // Sort these according to the rules
         List<Integer> sortedPages = new ArrayList<>();
+        
+        Set<Integer> remainingPages = new HashSet<>(pages);
+        
         while (!remainingPages.isEmpty()) {
             Integer nextPage = remainingPages.stream()
-                    .filter(page -> rules.stream().noneMatch(rule -> 
-                        rule.rhs() == page.intValue() 
-                            && !sortedPages.contains(Integer.valueOf(rule.lhs()))))
+                    .filter(page -> remainingPages.stream().allMatch(otherPage -> new Update(page, otherPage).satisfies(rules)))
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException("Unable to find next page. Sorted: " + sortedPages + ", remaining: " + remainingPages));
             remainingPages.remove(nextPage);
