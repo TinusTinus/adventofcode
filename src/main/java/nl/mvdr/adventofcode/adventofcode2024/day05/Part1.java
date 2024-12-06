@@ -25,9 +25,9 @@ public class Part1 implements LongSolver {
     	
         return lines.subList(indexOfEmptyLine + 1, lines.size())
                 .stream()
-                .map(Patch::parse)
-                .filter(patch -> patch.satisfies(rules))
-                .mapToInt(Patch::middlePage)
+                .map(Update::parse)
+                .filter(update -> update.satisfies(rules))
+                .mapToInt(Update::middlePage)
                 .sum();
     }
 

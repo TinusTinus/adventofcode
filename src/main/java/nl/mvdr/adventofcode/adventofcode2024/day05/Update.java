@@ -4,16 +4,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-record Patch(List<Integer> pages) {
+record Update(List<Integer> pages) {
 	
-	static Patch parse(String line) {
+	static Update parse(String line) {
 		var pages = Stream.of(line.split(","))
 				.map(Integer::valueOf)
 				.toList();
 		if (pages.size() % 2 != 1) {
 		    throw new IllegalArgumentException("Number of pages is expected to be odd but was " + pages.size());
 		}
-		return new Patch(pages);
+		return new Update(pages);
 	}
 
 	boolean satisfies(Collection<Rule> rules) {
