@@ -1,14 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2024.day06;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
-record State(Area area, Optional<Guard> guard, Set<Point> visited) {
+record State(Area area, Optional<GuardPosition> guard, List<GuardPosition> visited) {
     
     static State parse(List<String> lines) {
         
@@ -16,13 +18,13 @@ record State(Area area, Optional<Guard> guard, Set<Point> visited) {
         int width = lines.getFirst().length();
         
         Set<Point> obstructions = new HashSet<>();
-        Set<Guard> guards = new HashSet<>();
+        Set<GuardPosition> guards = new HashSet<>();
         
         Point.parse2DMap(lines, (point, c) -> {
             if (c == '#') {
                 obstructions.add(point);
             } else if (c != '.') {
-                guards.add(new Guard(point, Direction.parse(c)));
+                guards.add(new GuardPosition(point, Direction.parse(c)));
             }
         });
         
@@ -33,39 +35,49 @@ record State(Area area, Optional<Guard> guard, Set<Point> visited) {
         }
         var guard = guards.iterator().next();
         
-        return new State(area, Optional.of(guard), Set.of(guard.position()));
+        return new State(area, Optional.of(guard), List.of());
     }
     
-    int predictPath() {
+    /// Predicts the path of the guard, until she either leaves the area or starts to loop.
+    State predictPath() {
         var state = this;
-        while (state.guard().isPresent()) {
+        while (state.guard().isPresent() && !state.isGuardInLoop()) {
             state = state.move();
         }
-        return state.visited().size();
+        return state;
+    }
+
+    boolean isGuardInLoop() {
+        return guard.isPresent() && visited.contains(guard.orElseThrow());
     }
     
     private State move() {
-        State result;
         
         Point position = guard.orElseThrow().position();
         Direction direction = guard.orElseThrow().direction();
+        
+        Optional<GuardPosition> newGuard;
         
         Point nextPosition = direction.move(position);
         if (area.obstructions().contains(nextPosition)) {
             // Turn instead
             Direction nextDirection = direction.turnClockwise();
-            var newGuard = new Guard(position, nextDirection);
-            result = new State(area, Optional.of(newGuard), visited);
+            newGuard = Optional.of(new GuardPosition(position, nextDirection));
         } else if (area.contains(nextPosition)) {
             // Move
-            var newGuard = new Guard(nextPosition, direction);
-            Set<Point> newVisited = new HashSet<>(visited);
-            newVisited.add(nextPosition);
-            result = new State(area, Optional.of(newGuard), newVisited);
+            newGuard = Optional.of(new GuardPosition(nextPosition, direction));
         } else {
-            // Guard walks out of bounds
-            result = new State(area, Optional.empty(), visited);
+            newGuard = Optional.empty();
         }
-        return result;
+        
+        List<GuardPosition> newVisited = new ArrayList<>(visited);
+        newVisited.add(guard.orElseThrow());
+        
+        return new State(area, newGuard, newVisited);
+    }
+    
+    Stream<State> addObstruction() {
+        return area.addObstruction()
+                .map(newArea -> new State(newArea, guard, visited));
     }
 }
