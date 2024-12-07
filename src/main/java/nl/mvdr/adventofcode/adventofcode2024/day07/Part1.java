@@ -5,17 +5,17 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.LongSolver;
 
-public class Part1 implements IntSolver {
+public class Part1 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         return lines.map(Equation::parse)
                 .filter(Equation::couldBeTrue)
-                .mapToInt(Equation::testValue)
+                .mapToLong(Equation::testValue)
                 .sum();
     }
 
