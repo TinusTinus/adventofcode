@@ -25,10 +25,8 @@ record Equation(long testValue, List<Long> operands) {
     
     boolean couldBeTrue(boolean allowConcatenation) {
         boolean result;
-        if (operands.size() == 1 && testValue == operands.getFirst().longValue()) {
-            result = true;
-        } else if (operands.size() == 1) {
-            result = false;
+        if (operands.size() == 1) {
+            result = testValue == operands.getFirst().longValue();
         } else {
             result = performAddition().couldBeTrue(allowConcatenation)
                     || performMultiplication().couldBeTrue(allowConcatenation)
