@@ -15,11 +15,14 @@ public class Part2 implements LongSolver {
     public long solve(Stream<String> lines) {
         State initialState = State.parse(lines.toList());
         
+        // First determine the path the guard would walk without an extra obstruction, as in part 1.
+        // Putting an obstruction anywhere else would be pointless: the guard would not encounter it.
         return initialState.predictPath()
                 .visited()
                 .stream()
                 .map(GuardPosition::position)
                 .distinct()
+                // For each of the found locations, see if putting the extra obstruction here would result in a loop.
                 .parallel()
                 .unordered()
                 .map(initialState::addObstruction)

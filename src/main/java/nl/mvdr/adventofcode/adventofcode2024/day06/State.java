@@ -66,6 +66,7 @@ record State(Area area, Optional<GuardPosition> guard, List<GuardPosition> visit
             // Move
             newGuard = Optional.of(new GuardPosition(nextPosition, direction));
         } else {
+            // Leave the area
             newGuard = Optional.empty();
         }
         
