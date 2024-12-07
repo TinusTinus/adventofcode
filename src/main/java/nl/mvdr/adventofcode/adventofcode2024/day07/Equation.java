@@ -23,14 +23,16 @@ record Equation(long testValue, List<Long> operands) {
         return new Equation(testValue, operands);
     }
     
-    boolean couldBeTrue() {
+    boolean couldBeTrue(boolean allowConcatenation) {
         boolean result;
         if (operands.size() == 1 && testValue == operands.getFirst().longValue()) {
             result = true;
         } else if (operands.size() == 1) {
             result = false;
         } else {
-            result = performAddition().couldBeTrue() || performMultiplication().couldBeTrue();
+            result = performAddition().couldBeTrue(allowConcatenation)
+                    || performMultiplication().couldBeTrue(allowConcatenation)
+                    || (allowConcatenation && performConcatenation().couldBeTrue(true));
         }
         
         return result;
@@ -42,6 +44,10 @@ record Equation(long testValue, List<Long> operands) {
 
     private Equation performMultiplication() {
         return performOperation((i, j) -> i * j);
+    }
+    
+    private Equation performConcatenation() {
+        return performOperation((i, j) -> Long.parseLong("" + i + j));
     }
     
     private Equation performOperation(LongBinaryOperator operation) {
