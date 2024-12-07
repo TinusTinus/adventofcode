@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -76,8 +75,7 @@ record State(Area area, Optional<GuardPosition> guard, List<GuardPosition> visit
         return new State(area, newGuard, newVisited);
     }
     
-    Stream<State> addObstruction() {
-        return area.addObstruction()
-                .map(newArea -> new State(newArea, guard, visited));
+    State addObstruction(Point obstruction) {
+        return new State(area.addObstruction(obstruction), guard, visited);
     }
 }

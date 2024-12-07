@@ -15,8 +15,14 @@ public class Part2 implements LongSolver {
     public long solve(Stream<String> lines) {
         State initialState = State.parse(lines.toList());
         
-        return initialState.addObstruction()
+        return initialState.predictPath()
+                .visited()
+                .stream()
+                .map(GuardPosition::position)
+                .distinct()
                 .parallel()
+                .unordered()
+                .map(initialState::addObstruction)
                 .map(State::predictPath)
                 .filter(State::isGuardInLoop)
                 .count();
