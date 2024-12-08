@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.Solver;
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.Solver;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link DonutMazePart2}.

@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day21;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/21">?</a>.

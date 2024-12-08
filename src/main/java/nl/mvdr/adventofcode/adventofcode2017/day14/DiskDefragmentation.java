@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 import nl.mvdr.adventofcode.adventofcode2017.day10.KnotHashPart2;
 import nl.mvdr.adventofcode.adventofcode2017.knothash.KnotHasher;
 import nl.mvdr.adventofcode.point.Point;

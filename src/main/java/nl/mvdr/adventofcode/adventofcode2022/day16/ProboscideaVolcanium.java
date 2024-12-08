@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day16;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/16">Proboscidea Volcanium</a>.

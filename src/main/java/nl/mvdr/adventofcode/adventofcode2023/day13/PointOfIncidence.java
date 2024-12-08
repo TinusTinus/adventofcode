@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day13;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/13">Point of Incidence</a>.

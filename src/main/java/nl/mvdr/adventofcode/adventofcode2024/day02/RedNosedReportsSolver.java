@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2024.day02;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
 class RedNosedReportsSolver implements LongSolver {
 

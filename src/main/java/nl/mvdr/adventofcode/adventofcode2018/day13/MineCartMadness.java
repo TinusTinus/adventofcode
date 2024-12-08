@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day13;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LinesSolver;
+import nl.mvdr.adventofcode.solver.LinesSolver;
 import nl.mvdr.adventofcode.point.Point;
 
 /**

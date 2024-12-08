@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day01;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
 import java.util.List;
 import java.util.stream.IntStream;

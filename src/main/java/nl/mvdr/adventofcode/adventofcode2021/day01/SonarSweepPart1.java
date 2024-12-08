@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day01;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.Solver;
+import nl.mvdr.adventofcode.solver.Solver;
 
 /**
  * Solution to the day 1 puzzle of 2021's Advent of Code:

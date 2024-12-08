@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LinesSolver;
+import nl.mvdr.adventofcode.solver.LinesSolver;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.AsciiOutputDebugLogger;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 

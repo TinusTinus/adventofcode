@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day15;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
 import java.util.List;
 import java.util.function.Predicate;
