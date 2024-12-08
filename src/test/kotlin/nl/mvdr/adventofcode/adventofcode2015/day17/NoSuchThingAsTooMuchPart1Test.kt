@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2015.day17
 
-import nl.mvdr.adventofcode.FunctionSolver
+import nl.mvdr.adventofcode.solver.FunctionSolver
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

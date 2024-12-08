@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2021.day21
 
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
 class DiracDicePart2Test: FunctionSolverTest<Any>(::solvePart2) {

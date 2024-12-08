@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2015.day03
 
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
 class SphericalHousesPart2Test: FunctionSolverTest<Int>(::solvePart2) {

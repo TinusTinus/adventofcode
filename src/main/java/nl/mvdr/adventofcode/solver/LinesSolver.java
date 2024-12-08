@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode;
+package nl.mvdr.adventofcode.solver;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

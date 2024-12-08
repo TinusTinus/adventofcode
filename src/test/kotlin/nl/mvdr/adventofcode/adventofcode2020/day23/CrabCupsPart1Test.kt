@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2020.day23
 
-import nl.mvdr.adventofcode.FunctionSolver
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolver
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.CsvSource

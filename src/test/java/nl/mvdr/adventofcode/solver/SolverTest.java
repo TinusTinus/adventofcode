@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode;
+package nl.mvdr.adventofcode.solver;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;

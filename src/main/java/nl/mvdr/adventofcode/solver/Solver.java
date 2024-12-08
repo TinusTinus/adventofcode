@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode;
+package nl.mvdr.adventofcode.solver;
 
 /**
  * Solver interface.
@@ -13,7 +13,7 @@ public interface Solver {
     /**
      * Solver method.
      * 
-     * @param filename filename of the input file (on the classpath)
+     * @param inputfile filename of the input file (on the classpath)
      * @return solution to the puzzle for the given input
      */
     String solve(String inputfile);

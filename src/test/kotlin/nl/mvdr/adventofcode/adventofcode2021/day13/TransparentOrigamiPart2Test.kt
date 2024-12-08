@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2021.day13
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.FunctionSolver
+import nl.mvdr.adventofcode.solver.FunctionSolver
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
