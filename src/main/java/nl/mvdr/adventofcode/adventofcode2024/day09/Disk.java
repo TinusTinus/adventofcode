@@ -3,8 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2024.day09;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 record Disk(List<DiskElement> elements) {
     
@@ -18,25 +17,18 @@ record Disk(List<DiskElement> elements) {
             elements.add(new File(i / 2, Character.getNumericValue(diskMap.charAt(i))));
         }
         
+        // filter out any empty (that is, 0-block) elements
+        elements.removeIf(DiskElement::isEmpty);
+        
         return new Disk(elements);
     }
     
-    Disk filterEmptyElements() {
-        return new Disk(elements.stream()
-                .filter(Predicate.not(DiskElement::isEmpty))
-                .toList());
-    }
-    
     Disk compact() {
-        var result = this.filterEmptyElements();
+        var result = this;
         while (result.findFirstEmptySpace().isPresent()) {
             var firstEmptySpace = result.findFirstEmptySpace().orElseThrow();
             var lastFile = result.findLastFile();
             var blocksToMove = Math.min(firstEmptySpace.blocks(), lastFile.blocks());
-            
-            System.out.println("First empty space: " + firstEmptySpace); // TODO remove
-            System.out.println("Last file: " + lastFile); // TODO remove
-            System.out.println("Blocks to move: " + blocksToMove); // TODO remove
             
             List<DiskElement> newElements = new ArrayList<>();
             var elementIndex = 0;
@@ -52,10 +44,16 @@ record Disk(List<DiskElement> elements) {
                 elementIndex++;
             }
             newElements.add(new File(lastFile.idNumber(), lastFile.blocks() - blocksToMove));
-            result = new Disk(newElements);
+
+            // filter out any empty (that is, 0-block) elements
+            newElements.removeIf(DiskElement::isEmpty);
             
-            result = result.filterEmptyElements();
-            System.out.println(result); // TODO remove
+            // remove any trailing empty space
+            while (newElements.getLast() instanceof EmptySpace) {
+                newElements.remove(newElements.size() - 1);
+            }
+            
+            result = new Disk(newElements);
         }
         
         return result;
@@ -77,12 +75,12 @@ record Disk(List<DiskElement> elements) {
                 .orElseThrow();
     }
     
-    int checksum() {
-        int result = 0;
+    long checksum() {
+        long result = 0L;
         int blockIndex = 0;
         for (DiskElement element : elements) {
             if (element instanceof File file) {
-                result = result + IntStream.range(blockIndex, blockIndex + file.blocks()).sum() * file.idNumber();
+                result = Math.addExact(result, LongStream.range(blockIndex, blockIndex + file.blocks()).sum() * file.idNumber());
             }
             blockIndex += element.blocks();
         }
