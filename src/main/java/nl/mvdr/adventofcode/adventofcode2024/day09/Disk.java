@@ -23,7 +23,7 @@ record Disk(List<DiskElement> elements) {
         return new Disk(elements);
     }
     
-    Disk compact() {
+    Disk compactBlocks() {
         var result = this;
         while (result.findFirstEmptySpace().isPresent()) {
             var firstEmptySpace = result.findFirstEmptySpace().orElseThrow();
@@ -54,6 +54,59 @@ record Disk(List<DiskElement> elements) {
             }
             
             result = new Disk(newElements);
+        }
+        
+        return result;
+    }
+    
+    Disk compactFiles() {
+        var result = this;
+        
+        var files = elements.reversed()
+                .stream()
+                .filter(File.class::isInstance)
+                .map(File.class::cast)
+                .toList();
+        
+        for (var file : files) {
+            var optionalEmptySpace = result.elements()
+                    .stream()
+                    .filter(EmptySpace.class::isInstance)
+                    .map(EmptySpace.class::cast)
+                    .filter(emptySpace -> file.blocks() <= emptySpace.blocks())
+                    .findFirst();
+            if (optionalEmptySpace.isPresent() 
+                    && result.elements().indexOf(optionalEmptySpace.orElseThrow()) < result.elements.indexOf(file)) {
+                var emptySpace = optionalEmptySpace.orElseThrow();
+                
+                // We have found an empty space which can fit the file. Move the file here.
+                List<DiskElement> newElements = new ArrayList<>();
+                var elementIndex = 0;
+                while (result.elements().get(elementIndex) != emptySpace) {
+                    newElements.add(result.elements().get(elementIndex));
+                    elementIndex++;
+                }
+                newElements.add(file);
+                newElements.add(new EmptySpace(emptySpace.blocks() - file.blocks()));
+                elementIndex++;
+                while (elementIndex < result.elements().size()) {
+                    if (result.elements().get(elementIndex) != file) {
+                        newElements.add(result.elements().get(elementIndex));
+                    } else {
+                        newElements.add(new EmptySpace(file.blocks()));
+                    }
+                    elementIndex++;
+                }
+                
+                // filter out any empty (that is, 0-block) elements
+                newElements.removeIf(DiskElement::isEmpty);
+                
+                // remove any trailing empty space
+                while (newElements.getLast() instanceof EmptySpace) {
+                    newElements.remove(newElements.size() - 1);
+                }
+                result = new Disk(newElements);
+            }
         }
         
         return result;
