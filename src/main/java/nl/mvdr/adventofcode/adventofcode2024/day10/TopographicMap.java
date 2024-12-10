@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -71,6 +72,14 @@ record TopographicMap(Map<Point, Integer> heights) {
                 .flatMap(paths -> mountaintops.stream().map(mountainhead -> paths.getPath(mountainhead)))
                 .filter(Objects::nonNull)
                 .count();
+    }
+    
+    long calculateTrailheadRatings() {
+        var graph = createGraph();
+        
+        AllDirectedPaths<Point, DefaultEdge> algorithm = new AllDirectedPaths<>(graph);
+
+        return algorithm.getAllPaths(getTrailheads(), getMountaintops(), false, Integer.valueOf(10)).size();
     }
     
 }
