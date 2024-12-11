@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2024.day11;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Part2 extends Part1 {
+public class Part2 extends PlutonianPebblesSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
