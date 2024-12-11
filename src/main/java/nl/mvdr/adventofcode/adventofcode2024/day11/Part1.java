@@ -36,13 +36,19 @@ public class Part1 implements LongSolver {
     }
     
     private static long countStones(long stoneNumber, int blinks) {
-        return switch (blinks) {
-            case 0 -> 1L;
-            default -> cache.computeIfAbsent(
-                    new StoneNumberAndBlinkCount(stoneNumber, blinks),
-                    key -> Long.valueOf(blinkStone(stoneNumber).map(s -> countStones(s, blinks - 1)).sum()))
-                .longValue();
-        };
+        long result;
+        if (blinks == 0) {
+            result = 1L;
+        } else {
+            var cacheKey = new StoneNumberAndBlinkCount(stoneNumber, blinks);
+            if (cache.containsKey(cacheKey)) {
+                result = cache.get(cacheKey).longValue();
+            } else {
+                result = blinkStone(stoneNumber).map(s -> countStones(s, blinks - 1)).sum();
+                cache.put(cacheKey, Long.valueOf(result));
+            }
+        }
+        return result;
     }
     
     private static LongStream blinkStone(long stoneNumber) {
