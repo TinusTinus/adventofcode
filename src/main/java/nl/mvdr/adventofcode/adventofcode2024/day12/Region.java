@@ -11,7 +11,9 @@ record Region(char plant, Set<Point> plots) {
 	}
 	
 	private int perimeter() {
-		return 0; // TODO calculate perimeter
+		return (int)plots.stream()
+				.flatMap(plot -> plot.neighbours().stream().filter(neighbour -> !plots.contains(neighbour)))
+				.count(); // TODO clean up
 	}
 	
 	int cost() {
