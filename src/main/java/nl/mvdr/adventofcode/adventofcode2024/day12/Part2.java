@@ -7,17 +7,17 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.solver.LongSolver;
 
-public class Part1 implements LongSolver {
+public class Part2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
     public long solve(Stream<String> lines) {
-        return new GardenGroupsSolver(Region::cost).solve(lines);
+        return new GardenGroupsSolver(Region::costWithDiscount).solve(lines);
     }
 
     public static void main(String[] args) {
-        var instance = new Part1();
+        var instance = new Part2();
 
         var result = instance.solve("input-day12-2024.txt");
 
