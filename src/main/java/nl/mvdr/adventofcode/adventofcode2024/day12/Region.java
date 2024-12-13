@@ -12,7 +12,10 @@ record Region(char plant, Set<Point> plots) {
 
     private long perimeter() {
         return plots.stream()
-                .flatMap(plot -> plot.neighbours().stream().filter(neighbour -> !plots.contains(neighbour))).count();
+                .flatMap(plot -> plot.neighbours()
+                        .stream()
+                        .filter(neighbour -> !plots.contains(neighbour)))
+                .count();
     }
 
     long cost() {
@@ -20,7 +23,7 @@ record Region(char plant, Set<Point> plots) {
     }
     
     private long sides() {
-        return 0; // TODO
+        return 0; // TODO implement!
     }
     
     long costWithDiscount() {
