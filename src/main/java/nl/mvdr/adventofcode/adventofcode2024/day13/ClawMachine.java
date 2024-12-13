@@ -1,17 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2024.day13;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import com.microsoft.z3.Context;
 
-import nl.mvdr.adventofcode.point.Point;
-
-record ClawMachine(Map<Button, Point> buttonMovements, long prizeX, long prizeY) {
+record ClawMachine(long ax, long ay, long bx, long by, long prizeX, long prizeY) {
 
     private static final long OFFSET = 10000000000000L;
 
@@ -31,29 +27,26 @@ record ClawMachine(Map<Button, Point> buttonMovements, long prizeX, long prizeY)
     }
     
     private static ClawMachine parseMachine(List<String> lines) {
-        Map<Button, Point> buttonMovements = new HashMap<>();;
-        Point prize = null;
-        
-        for (var line : lines) {
-            if (line.startsWith("Button ")) {
-                var button = Button.valueOf("" + line.charAt(7));
-                
-                var indexOfComma = line.indexOf(',');
-                var x = Integer.parseInt(line.substring(12, indexOfComma));
-                var y = Integer.parseInt(line.substring(indexOfComma + 4, line.length()));
-                
-                buttonMovements.put(button, new Point(x, y));
-            } else if (line.startsWith("Prize: X=")) {
-                var indexOfComma = line.indexOf(',');
-                var x = Integer.parseInt(line.substring(9, indexOfComma));
-                var y = Integer.parseInt(line.substring(indexOfComma + 4, line.length()));
-                prize = new Point(x, y);
-            } else if (!line.isEmpty()) {
-                throw new IllegalArgumentException("Unable to parse line: " + line);
-            }
+        if (lines.size() != 3) {
+            throw new IllegalArgumentException();
         }
+        return parseMachine(lines.get(0), lines.get(1), lines.get(2));
+    }
+    
+    private static ClawMachine parseMachine(String aLine, String bLine, String prizeLine) {
+        var indexOfComma = aLine.indexOf(',');
+        var ax = Long.parseLong(aLine.substring(12, indexOfComma));
+        var ay = Long.parseLong(aLine.substring(indexOfComma + 4, aLine.length()));
         
-        return new ClawMachine(buttonMovements, prize.x(), prize.y());
+        indexOfComma = bLine.indexOf(',');
+        var bx = Long.parseLong(bLine.substring(12, indexOfComma));
+        var by = Long.parseLong(bLine.substring(indexOfComma + 4, bLine.length()));
+        
+        indexOfComma = prizeLine.indexOf(',');
+        var prizeX = Long.parseLong(prizeLine.substring(9, indexOfComma));
+        var prizeY = Long.parseLong(prizeLine.substring(indexOfComma + 4, prizeLine.length()));
+        
+        return new ClawMachine(ax, ay, bx, by, prizeX, prizeY);
     }
     
     long calculateTokens() {
@@ -64,16 +57,16 @@ record ClawMachine(Map<Button, Point> buttonMovements, long prizeX, long prizeY)
             var aPresses = context.mkIntConst("a");
             var bPresses = context.mkIntConst("b");
 
-            var ax = context.mkMul(aPresses, context.mkInt(buttonMovements.get(Button.A).x()));
-            var bx = context.mkMul(bPresses, context.mkInt(buttonMovements.get(Button.B).x()));
-            solver.add(context.mkEq(context.mkInt(prizeX), context.mkAdd(ax, bx)));
+            var axTotal = context.mkMul(aPresses, context.mkInt(ax));
+            var bxTotal = context.mkMul(bPresses, context.mkInt(bx));
+            solver.add(context.mkEq(context.mkInt(prizeX), context.mkAdd(axTotal, bxTotal)));
             
-            var ay = context.mkMul(aPresses, context.mkInt(buttonMovements.get(Button.A).y()));
-            var by = context.mkMul(bPresses, context.mkInt(buttonMovements.get(Button.B).y()));
-            solver.add(context.mkEq(context.mkInt(prizeY), context.mkAdd(ay, by)));
+            var ayTotal = context.mkMul(aPresses, context.mkInt(ay));
+            var byTotal = context.mkMul(bPresses, context.mkInt(by));
+            solver.add(context.mkEq(context.mkInt(prizeY), context.mkAdd(ayTotal, byTotal)));
             
-            var aPressCost = context.mkMul(aPresses, context.mkInt(Button.A.getCost()));
-            var bPressCost = context.mkMul(bPresses, context.mkInt(Button.B.getCost()));
+            var aPressCost = context.mkMul(aPresses, context.mkInt(3));
+            var bPressCost = context.mkMul(bPresses, context.mkInt(1));
             solver.add(context.mkEq(cost, context.mkAdd(aPressCost, bPressCost)));
             
             return switch(solver.check()) {
@@ -85,6 +78,6 @@ record ClawMachine(Map<Button, Point> buttonMovements, long prizeX, long prizeY)
     }
     
     ClawMachine movePrize() {
-        return new ClawMachine(buttonMovements, prizeX + OFFSET, prizeY + OFFSET);
+        return new ClawMachine(ax, ay, bx, by, prizeX + OFFSET, prizeY + OFFSET);
     }
 }
