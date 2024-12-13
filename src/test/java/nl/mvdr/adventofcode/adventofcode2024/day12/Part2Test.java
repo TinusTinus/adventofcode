@@ -2,12 +2,10 @@ package nl.mvdr.adventofcode.adventofcode2024.day12;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.provider.Arguments;
 
 import nl.mvdr.adventofcode.solver.SolverTest;
 
-@Disabled // TODO solve part 2
 public class Part2Test extends SolverTest<Part2> {
 
     public Part2Test() {
