@@ -13,8 +13,8 @@ public class Part1 implements LongSolver {
 
     @Override
     public long solve(Stream<String> lines) {
-        var machines = ClawMachine.parse(lines);
-    	return machines.stream()
+        return ClawMachine.parse(lines)
+                .stream()
     	        .parallel()
     	        .mapToLong(ClawMachine::calculateTokens)
     	        .sum();
