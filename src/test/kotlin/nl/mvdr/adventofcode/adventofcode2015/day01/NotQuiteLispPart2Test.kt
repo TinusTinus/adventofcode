@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2015.day01
 
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
 class NotQuiteLispPart2Test: FunctionSolverTest<Int>(::solvePart2) {
@@ -10,8 +10,7 @@ class NotQuiteLispPart2Test: FunctionSolverTest<Int>(::solvePart2) {
         fun testSolution(): List<Arguments> {
             return listOf(
                 Arguments.of("1", "example-day01-2015-9.txt"),
-                Arguments.of("5", "example-day01-2015-10.txt"),
-                Arguments.of("1797", "input-day01-2015.txt")
+                Arguments.of("5", "example-day01-2015-10.txt")
             )
         }
     }

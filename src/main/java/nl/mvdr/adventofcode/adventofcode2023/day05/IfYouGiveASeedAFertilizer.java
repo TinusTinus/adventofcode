@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day05;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/5">If You Give A Seed A Fertilizer</a>.

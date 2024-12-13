@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Status;
 
-import nl.mvdr.adventofcode.LinesSolver;
+import nl.mvdr.adventofcode.solver.LinesSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/24">Never Tell Me The Odds</a>.

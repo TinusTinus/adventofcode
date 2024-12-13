@@ -6,3 +6,4 @@ bin
 .checkstyle
 .idea
 *.iml
+input-day*.txt

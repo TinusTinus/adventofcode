@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 
 /**

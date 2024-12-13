@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Test class for {@link ReposeRecordPart1}.
@@ -21,7 +21,6 @@ public class ReposeRecordPart1Test extends SolverTest<ReposeRecordPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("240", "example-day04-2018.txt"),
-                Arguments.of("240", "example-day04-2018-jumbled.txt"),
-                Arguments.of("131469", "input-day04-2018.txt"));
+                Arguments.of("240", "example-day04-2018-jumbled.txt"));
     }
 }

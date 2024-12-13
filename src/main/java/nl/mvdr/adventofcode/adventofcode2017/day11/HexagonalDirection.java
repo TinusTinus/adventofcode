@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2017.day11;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

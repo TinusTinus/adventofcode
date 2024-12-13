@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/10">Pipe Maze</a>.

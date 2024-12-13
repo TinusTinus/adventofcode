@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day06;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/06">Tuning Trouble</a>.

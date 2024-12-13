@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link PacketScannersPart2}.
@@ -24,9 +24,6 @@ public class PacketScannersPart2Test extends SolverTest<PacketScannersPart2> {
                 // Because all smaller delays would get you caught,
                 // the fewest number of picoseconds you would need to delay to get through safely is 10.
                 // Note: day 4 has severity = 0, but the packet does get caught, at layer 0.
-                Arguments.of("10", "example-day13-2017.txt")
-                // Commented out by default, as this test case typically takes over two minutes to complete
-                // , Arguments.of("3897604", "input-day13-2017.txt")
-                );
+                Arguments.of("10", "example-day13-2017.txt"));
     }
 }

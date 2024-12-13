@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2021.day13
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.FunctionSolver
+import nl.mvdr.adventofcode.solver.FunctionSolver
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -26,8 +26,7 @@ class TransparentOrigamiPart2Test {
     companion object {
         @JvmStatic
         fun test(): List<Arguments> = listOf(
-            Arguments.of("example-day13-2021.txt"), // expected result: a square
-            Arguments.of("input-day13-2021.txt") // expected result: eight capital letters
+            Arguments.of("example-day13-2021.txt") // expected result: a square
         )
     }
 

@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link SpiralMemoryPart1}.
@@ -24,7 +24,6 @@ public class SpiralMemoryPart1Test extends SolverTest<SpiralMemoryPart1> {
                 Arguments.of("0", "example-day03-2017-0.txt"),
                 Arguments.of("3", "example-day03-2017-1.txt"),
                 Arguments.of("2", "example-day03-2017-2.txt"),
-                Arguments.of("31", "example-day03-2017-3.txt"),
-                Arguments.of("371", "input-day03-2017.txt"));
+                Arguments.of("31", "example-day03-2017-3.txt"));
     }
 }

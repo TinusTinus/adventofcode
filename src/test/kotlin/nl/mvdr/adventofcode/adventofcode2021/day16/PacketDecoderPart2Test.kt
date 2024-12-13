@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2021.day16
 
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
 class PacketDecoderPart2Test: FunctionSolverTest<Long>(::solvePart2) {
@@ -14,8 +14,7 @@ class PacketDecoderPart2Test: FunctionSolverTest<Long>(::solvePart2) {
             Arguments.of("1", "example-day16-2021-8.txt"),
             Arguments.of("0", "example-day16-2021-9.txt"),
             Arguments.of("0", "example-day16-2021-10.txt"),
-            Arguments.of("1", "example-day16-2021-11.txt"),
-            Arguments.of("6802496672062", "input-day16-2021.txt")
+            Arguments.of("1", "example-day16-2021-11.txt")
         )
     }
 }

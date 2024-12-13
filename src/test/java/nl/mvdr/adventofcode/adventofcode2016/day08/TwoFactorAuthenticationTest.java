@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link TwoFactorAuthentication}.
@@ -22,8 +22,7 @@ public class TwoFactorAuthenticationTest extends SolverTest<TwoFactorAuthenticat
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("0", "example-day08-2016-0.txt"),
-                Arguments.of("116", "input-day08-2016.txt"));
+                Arguments.of("0", "example-day08-2016-0.txt"));
     }
     
     /** Test case based on an example from the puzzle text. */

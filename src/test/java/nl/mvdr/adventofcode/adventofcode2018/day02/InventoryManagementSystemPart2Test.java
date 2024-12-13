@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link InventoryManagementSystemPart2}.
@@ -20,7 +20,6 @@ public class InventoryManagementSystemPart2Test extends SolverTest<InventoryMana
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("fgij", "example-day02-2018-part2.txt"),
-                Arguments.of("bvnfawcnyoeyudzrpgslimtkj", "input-day02-2018.txt"));
+                Arguments.of("fgij", "example-day02-2018-part2.txt"));
     }
 }

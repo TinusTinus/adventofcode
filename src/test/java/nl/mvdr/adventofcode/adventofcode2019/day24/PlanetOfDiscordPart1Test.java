@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link PlanetOfDiscordPart1}.
@@ -26,7 +26,6 @@ public class PlanetOfDiscordPart1Test extends SolverTest<PlanetOfDiscordPart1> {
                 Arguments.of("2129920", "example-day24-2019-2.txt"),
                 Arguments.of("2129920", "example-day24-2019-3.txt"),
                 Arguments.of("2129920", "example-day24-2019-4.txt"),
-                Arguments.of("2129920", "example-day24-2019-5.txt"),
-                Arguments.of("28778811", "input-day24-2019.txt"));
+                Arguments.of("2129920", "example-day24-2019-5.txt"));
     }
 }

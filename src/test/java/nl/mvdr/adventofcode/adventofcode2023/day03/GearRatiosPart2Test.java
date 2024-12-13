@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link GearRatiosPart2}.
@@ -21,7 +21,6 @@ public class GearRatiosPart2Test extends SolverTest<GearRatiosPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("467835", "example-day03-2023.txt"),
-                Arguments.of("69527306", "input-day03-2023.txt"));
+                Arguments.of("467835", "example-day03-2023.txt"));
     }
 }

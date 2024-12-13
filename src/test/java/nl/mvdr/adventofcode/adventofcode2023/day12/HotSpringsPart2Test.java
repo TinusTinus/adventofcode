@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link HotSpringsPart2}.
@@ -21,7 +21,6 @@ public class HotSpringsPart2Test extends SolverTest<HotSpringsPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("525152", "example-day12-2023.txt"),
-                Arguments.of("4500070301581", "input-day12-2023.txt"));
+                Arguments.of("525152", "example-day12-2023.txt"));
     }
 }

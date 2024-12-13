@@ -71,4 +71,18 @@ public enum Axis3D {
     public Orientation getOrientation() {
         return orientation;
     }
+
+    /**
+     * Parses the string representation of an axis.
+     * @param stringRepresentation the string representation: "x", "y" or "z"
+     * @return axis
+     */
+    public static Axis3D parse(String stringRepresentation) {
+        return switch (stringRepresentation) {
+            case "x" -> X;
+            case "y" -> Y;
+            case "z" -> Z;
+            default -> throw new IllegalArgumentException("Unexpected string representation of an axis: " + stringRepresentation);
+        };
+    }
 }

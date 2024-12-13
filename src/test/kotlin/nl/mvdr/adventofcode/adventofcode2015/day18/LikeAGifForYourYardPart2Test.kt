@@ -1,18 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2015.day18
 
-import nl.mvdr.adventofcode.FunctionSolver
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolver
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import kotlin.test.assertEquals
 
-class LikeAGifForYourYardPart2Test: FunctionSolverTest<Int>(::solvePart2) {
+class LikeAGifForYourYardPart2Test {
 
     companion object {
-        @JvmStatic
-        fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("1006", "input-day18-2015.txt")
-        )
 
         @JvmStatic
         fun testExample(): List<Arguments> = listOf(
@@ -30,7 +26,9 @@ class LikeAGifForYourYardPart2Test: FunctionSolverTest<Int>(::solvePart2) {
     fun testExample(steps: Int, expectedSolution: String) {
         val solver = FunctionSolver { solvePart2(it, steps) }
         val inputFile = "example-day18-2015.txt"
-
-        assertSolution(solver, expectedSolution, inputFile)
+        
+        val result = solver.solve(inputFile)
+        
+        assertEquals(expectedSolution, result)
     }
 }

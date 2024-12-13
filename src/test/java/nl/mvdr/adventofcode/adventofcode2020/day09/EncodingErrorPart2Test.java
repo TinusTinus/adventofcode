@@ -1,35 +1,28 @@
 package nl.mvdr.adventofcode.adventofcode2020.day09;
 
-import java.util.stream.Stream;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
-
-import nl.mvdr.adventofcode.SolverTest;
 
 /**
  * Unit test cases for {@link EncodingErrorPart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class EncodingErrorPart2Test extends SolverTest<EncodingErrorPart2> {
+public class EncodingErrorPart2Test {
 
-    /** Constructor. */
-    public EncodingErrorPart2Test() {
-        super(EncodingErrorPart2.class);
-    }
-    
-    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
-    static Stream<Arguments> testSolution() {
-        return Stream.of(
-                Arguments.of("20532569", "input-day09-2020.txt"));
-    }
-    
     /**
      * Test case based on an example from the puzzle text.
+     * 
+     * In this example, after the 5-number preamble, almost every number is the sum
+     * of two of the previous 5 numbers; the only number that does not follow this
+     * rule is 127.
      */
     @Test
     public void testExample() {
-        assertSolution(new EncodingErrorPart2(5), "62", "example-day09-2020.txt");
+        EncodingErrorPart2 solver = new EncodingErrorPart2(5);
+        
+        String result = solver.solve("example-day09-2020.txt");
+        
+        Assertions.assertEquals("62", result);
     }
 }

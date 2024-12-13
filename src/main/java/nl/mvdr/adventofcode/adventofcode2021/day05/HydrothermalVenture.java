@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import org.apache.commons.collections4.MultiSet;
 import org.apache.commons.collections4.multiset.HashMultiSet;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 import nl.mvdr.adventofcode.point.Line;
 import nl.mvdr.adventofcode.point.Point;
 

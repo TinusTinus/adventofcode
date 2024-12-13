@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Instruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.MultiplyInstruction;
 import nl.mvdr.adventofcode.adventofcode2017.duet.Program;

@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2019.day21;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.AsciiOutputDebugLogger;
 import nl.mvdr.adventofcode.adventofcode2019.intcode.Program;
 

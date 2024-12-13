@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import nl.mvdr.adventofcode.LinesSolver;
+import nl.mvdr.adventofcode.solver.LinesSolver;
 
 /**
  * Unit test cases for {@link Step}.
@@ -52,24 +52,6 @@ public class StepTest {
             Assertions.assertEquals('F', steps.get(5).getId());
             Assertions.assertEquals(6, steps.get(5).getRemainingTime());
             Assertions.assertEquals(Set.of('C'), steps.get(5).getPrerequisites().stream().map(Step::getId).collect(Collectors.toSet()));
-        }
-    }
-    
-    /**
-     * Test case based on the puzzle input.
-     *
-     * @throws IOException unexpected
-     */
-    @Test
-    public void testParse() throws IOException {
-        Path path = LinesSolver.toPath(getClass(), "input-day07-2018.txt");
-        try (Stream<String> lines = Files.lines(path)) {
-        
-            List<Step> steps = Step.parse(lines, 60);
-        
-            Assertions.assertEquals(26, steps.size());
-            Assertions.assertEquals('A', steps.get(0).getId());
-            Assertions.assertEquals(61, steps.get(0).getRemainingTime());
         }
     }
 }

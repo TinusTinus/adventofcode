@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link SporificaVirusPart2}.
@@ -73,16 +73,9 @@ public class SporificaVirusPart2Test extends SolverTest<SporificaVirusPart2> {
         assertSolution(new SporificaVirusPart2(100), "26", "example-day22-2017.txt");
     }
     
-    /** Test case with 0 bursts. No nodes could possibly be infected in this case. */
-    @Test
-    public void test0BurstsActualInput() {
-        assertSolution(new SporificaVirusPart2(0), "0", "input-day22-2017.txt");
-    }
-
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("2511944", "example-day22-2017.txt"),
-                Arguments.of("2512103", "input-day22-2017.txt"));
+                Arguments.of("2511944", "example-day22-2017.txt"));
     }
 }

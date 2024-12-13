@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2018.day22;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
 /**
  * Solution to the day 22 puzzle of 2018's Advent of Code:

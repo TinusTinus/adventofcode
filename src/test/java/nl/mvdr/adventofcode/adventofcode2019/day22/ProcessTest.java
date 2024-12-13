@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import nl.mvdr.adventofcode.LinesSolver;
+import nl.mvdr.adventofcode.solver.LinesSolver;
 
 /**
  * Test cases for {@link Process}.

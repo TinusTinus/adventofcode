@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link ParticleSwarmPart2}.
@@ -22,7 +22,6 @@ public class ParticleSwarmPart2Test extends SolverTest<ParticleSwarmPart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("2", "example-day20-2017-0.txt"),
-                Arguments.of("1", "example-day20-2017-1.txt"),
-                Arguments.of("471", "input-day20-2017.txt"));
+                Arguments.of("1", "example-day20-2017-1.txt"));
     }
 }

@@ -2,13 +2,12 @@ package nl.mvdr.adventofcode.adventofcode2016.day08;
 
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
 /**
  * Solution to the day 8 puzzle of 2016's Advent of Code:

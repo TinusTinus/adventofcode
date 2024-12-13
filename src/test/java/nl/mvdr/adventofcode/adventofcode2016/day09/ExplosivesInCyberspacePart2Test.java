@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link ExplosivesInCyberspacePart2}.
@@ -27,7 +27,6 @@ public class ExplosivesInCyberspacePart2Test extends SolverTest<ExplosivesInCybe
                 Arguments.of("11", "example-day09-2016-3.txt"),
                 Arguments.of("20", "example-day09-2016-5.txt"),
                 Arguments.of("241920", "example-day09-2016-6.txt"),
-                Arguments.of("445", "example-day09-2016-7.txt"),
-                Arguments.of("11317278863", "input-day09-2016.txt"));
+                Arguments.of("445", "example-day09-2016-7.txt"));
     }
 }

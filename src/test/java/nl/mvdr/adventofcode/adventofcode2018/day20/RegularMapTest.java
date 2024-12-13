@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link RegularMap}.
@@ -24,7 +24,6 @@ public class RegularMapTest extends SolverTest<RegularMap> {
                 Arguments.of("Part 1: 10, part 2: 0", "example-day20-2018-1.txt"),
                 Arguments.of("Part 1: 18, part 2: 0", "example-day20-2018-2.txt"),
                 Arguments.of("Part 1: 23, part 2: 0", "example-day20-2018-3.txt"),
-                Arguments.of("Part 1: 31, part 2: 0", "example-day20-2018-4.txt"),
-                Arguments.of("Part 1: 3502, part 2: 8000", "input-day20-2018.txt"));
+                Arguments.of("Part 1: 31, part 2: 0", "example-day20-2018-4.txt"));
     }
 }

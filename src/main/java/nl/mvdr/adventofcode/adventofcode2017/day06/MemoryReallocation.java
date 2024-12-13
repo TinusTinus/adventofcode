@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2017.day06;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2023.day21;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.Solver;
+import nl.mvdr.adventofcode.solver.Solver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2023/day/21">?</a>.

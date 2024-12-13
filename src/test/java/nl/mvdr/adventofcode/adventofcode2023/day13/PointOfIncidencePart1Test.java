@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link PointOfIncidencePart1}.
@@ -21,7 +21,6 @@ public class PointOfIncidencePart1Test extends SolverTest<PointOfIncidencePart1>
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("405", "example-day13-2023.txt"),
-                Arguments.of("35521", "input-day13-2023.txt"));
+                Arguments.of("405", "example-day13-2023.txt"));
     }
 }

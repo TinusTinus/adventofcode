@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import nl.mvdr.adventofcode.LinesSolver;
+import nl.mvdr.adventofcode.solver.LinesSolver;
 
 /**
  * Unit tests for {@link LumberCollectionArea}.

@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link PulsePropagationPart1}.
@@ -22,7 +22,6 @@ public class PulsePropagationPart1Test extends SolverTest<PulsePropagationPart1>
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("32000000", "example-day20-2023-0.txt"),
-                Arguments.of("11687500", "example-day20-2023-1.txt"),
-                Arguments.of("812609846", "input-day20-2023.txt"));
+                Arguments.of("11687500", "example-day20-2023-1.txt"));
     }
 }

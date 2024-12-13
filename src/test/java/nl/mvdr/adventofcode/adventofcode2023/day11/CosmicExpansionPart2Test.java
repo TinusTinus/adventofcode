@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link CosmicExpansionPart2}.
@@ -37,6 +37,6 @@ public class CosmicExpansionPart2Test extends SolverTest<CosmicExpansionPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("648458253817", "input-day11-2023.txt"));
+                Arguments.of("82000210", "example-day11-2023.txt"));
     }
 }

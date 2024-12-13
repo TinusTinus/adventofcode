@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link MonsterMessagesPart1}.
@@ -22,7 +22,6 @@ public class MonsterMessagesPart1Test extends SolverTest<MonsterMessagesPart1> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("2", "example-day19-2020-0.txt"),
-                Arguments.of("3", "example-day19-2020-1.txt"),
-                Arguments.of("279", "input-day19-2020.txt"));
+                Arguments.of("3", "example-day19-2020-1.txt"));
     }
 }

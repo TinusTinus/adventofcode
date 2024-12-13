@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link PipeMazePart1}.
@@ -24,7 +24,6 @@ public class PipeMazePart1Test extends SolverTest<PipeMazePart1> {
                 Arguments.of("4", "example-day10-2023-0.txt"),
                 Arguments.of("4", "example-day10-2023-1.txt"),
                 Arguments.of("8", "example-day10-2023-2.txt"),
-                Arguments.of("8", "example-day10-2023-3.txt"),
-                Arguments.of("6757", "input-day10-2023.txt"));
+                Arguments.of("8", "example-day10-2023-3.txt"));
     }
 }

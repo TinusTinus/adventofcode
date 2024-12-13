@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2021.day02;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
 /**
  * Solution to 2021's Advent of Code:

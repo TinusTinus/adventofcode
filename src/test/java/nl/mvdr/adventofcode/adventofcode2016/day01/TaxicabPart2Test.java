@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link TaxicabPart2}.
@@ -21,7 +21,6 @@ public class TaxicabPart2Test extends SolverTest<TaxicabPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("4", "example-day01-2016-3.txt"),
-                Arguments.of("154", "input-day01-2016.txt"));
+                Arguments.of("4", "example-day01-2016-3.txt"));
     }
 }

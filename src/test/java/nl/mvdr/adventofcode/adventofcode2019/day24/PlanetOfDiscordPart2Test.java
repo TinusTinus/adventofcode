@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link PlanetOfDiscordPart2}.
@@ -28,6 +28,6 @@ public class PlanetOfDiscordPart2Test extends SolverTest<PlanetOfDiscordPart2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("2097", "input-day24-2019.txt"));
+                Arguments.of("1922", "example-day24-2019-0.txt"));
     }
 }

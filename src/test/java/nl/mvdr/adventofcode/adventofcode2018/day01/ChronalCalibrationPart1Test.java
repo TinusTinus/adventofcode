@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link ChronalCalibrationPart1}.
@@ -24,7 +24,6 @@ public class ChronalCalibrationPart1Test extends SolverTest<ChronalCalibrationPa
                 Arguments.of("3", "example-day01-2018-0.txt"),
                 Arguments.of("3", "example-day01-2018-1.txt"),
                 Arguments.of("0", "example-day01-2018-2.txt"),
-                Arguments.of("-6", "example-day01-2018-3.txt"),
-                Arguments.of("425", "input-day01-2018.txt"));
+                Arguments.of("-6", "example-day01-2018-3.txt"));
     }
 }

@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link PermutationPromenadePart1}.
@@ -28,6 +28,6 @@ public class PermutationPromenadePart1Test extends SolverTest<PermutationPromena
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("ebjpfdgmihonackl", "input-day16-2017.txt"));
+                Arguments.of("paedcbfghijklmno", "example-day16-2017.txt"));
     }
 }

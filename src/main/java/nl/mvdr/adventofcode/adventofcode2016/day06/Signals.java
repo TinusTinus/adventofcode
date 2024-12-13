@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LinesSolver;
+import nl.mvdr.adventofcode.solver.LinesSolver;
 
 /**
  * Solution to the day 6 puzzle of 2016's Advent of Code:

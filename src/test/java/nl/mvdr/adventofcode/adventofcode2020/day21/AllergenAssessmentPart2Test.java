@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link AllergenAssessmentPart2}.
@@ -21,7 +21,6 @@ public class AllergenAssessmentPart2Test extends SolverTest<AllergenAssessmentPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("mxmxvkd,sqjhc,fvjkl", "example-day21-2020.txt"),
-                Arguments.of("vpzxk,bkgmcsx,qfzv,tjtgbf,rjdqt,hbnf,jspkl,hdcj", "input-day21-2020.txt"));
+                Arguments.of("mxmxvkd,sqjhc,fvjkl", "example-day21-2020.txt"));
     }
 }

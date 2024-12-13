@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link CamelCardsPart1}.
@@ -21,7 +21,6 @@ public class CamelCardsPart1Test extends SolverTest<CamelCardsPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("6440", "example-day07-2023.txt"),
-                Arguments.of("250120186", "input-day07-2023.txt"));
+                Arguments.of("6440", "example-day07-2023.txt"));
     }
 }

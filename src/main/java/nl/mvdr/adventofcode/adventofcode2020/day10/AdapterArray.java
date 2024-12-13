@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2020.day10;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
 /**
  * Solution to the day 10 puzzle of 2020's Advent of Code:

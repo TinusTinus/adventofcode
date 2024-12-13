@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2017.day21;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
 /**
  * Solution to the day 21 puzzle of 2017's Advent of Code:

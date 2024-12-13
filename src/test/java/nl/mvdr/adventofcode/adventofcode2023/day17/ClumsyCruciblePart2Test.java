@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link ClumsyCruciblePart2}.
@@ -22,7 +22,6 @@ public class ClumsyCruciblePart2Test extends SolverTest<ClumsyCruciblePart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("94", "example-day17-2023-0.txt"),
-                Arguments.of("71", "example-day17-2023-1.txt"),
-                Arguments.of("881", "input-day17-2023.txt"));
+                Arguments.of("71", "example-day17-2023-1.txt"));
     }
 }

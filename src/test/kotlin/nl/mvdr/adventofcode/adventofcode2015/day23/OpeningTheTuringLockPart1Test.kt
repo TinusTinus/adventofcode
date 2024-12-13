@@ -1,14 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2015.day23
 
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
 class OpeningTheTuringLockPart1Test: FunctionSolverTest<Int>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> = listOf(
-            Arguments.of("0", "example-day23-2015.txt"),
-            Arguments.of("184", "input-day23-2015.txt")
+            Arguments.of("0", "example-day23-2015.txt")
         )
     }
 }

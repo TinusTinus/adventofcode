@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link NeverTellMeTheOddsPart2}.
@@ -21,7 +21,6 @@ public class NeverTellMeTheOddsPart2Test extends SolverTest<NeverTellMeTheOddsPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("47", "example-day24-2023.txt"),
-                Arguments.of("843888100572888", "input-day24-2023.txt"));
+                Arguments.of("47", "example-day24-2023.txt"));
     }
 }

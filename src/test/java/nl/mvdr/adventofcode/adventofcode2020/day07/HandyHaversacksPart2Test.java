@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link HandyHaversacksPart2}.
@@ -22,7 +22,6 @@ public class HandyHaversacksPart2Test extends SolverTest<HandyHaversacksPart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("32", "example-day07-2020-0.txt"),
-                Arguments.of("126", "example-day07-2020-1.txt"),
-                Arguments.of("18885", "input-day07-2020.txt"));
+                Arguments.of("126", "example-day07-2020-1.txt"));
     }
 }

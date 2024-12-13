@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link ElectromagneticMoatPart2}.
@@ -21,7 +21,6 @@ public class ElectromagneticMoatPart2Test extends SolverTest<ElectromagneticMoat
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("19", "example-day24-2017.txt"),
-                Arguments.of("1928", "input-day24-2017.txt"));
+                Arguments.of("19", "example-day24-2017.txt"));
     }
 }

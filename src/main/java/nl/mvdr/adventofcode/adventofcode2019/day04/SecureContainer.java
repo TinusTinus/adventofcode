@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2019.day04;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.LongSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
 /**
  * Solution to the day 4 puzzle of 2019's Advent of Code:

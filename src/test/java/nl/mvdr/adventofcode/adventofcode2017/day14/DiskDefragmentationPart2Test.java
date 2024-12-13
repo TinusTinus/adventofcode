@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link DiskDefragmentationPart2}.
@@ -21,7 +21,6 @@ public class DiskDefragmentationPart2Test extends SolverTest<DiskDefragmentation
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1242", "example-day14-2017.txt"),
-                Arguments.of("1128", "input-day14-2017.txt"));
+                Arguments.of("1242", "example-day14-2017.txt"));
     }
 }

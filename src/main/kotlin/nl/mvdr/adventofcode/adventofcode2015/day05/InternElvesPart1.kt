@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2015.day05
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.FunctionSolver
+import nl.mvdr.adventofcode.solver.FunctionSolver
 
 private val VOWELS = setOf('a', 'e', 'i', 'o', 'u')
 private val FORBIDDEN = setOf("ab", "cd", "pq", "xy")

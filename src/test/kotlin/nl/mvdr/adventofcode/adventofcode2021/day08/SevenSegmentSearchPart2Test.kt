@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2021.day08
 
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
 class SevenSegmentSearchPart2Test: FunctionSolverTest<Int>(::solvePart2) {
@@ -8,8 +8,7 @@ class SevenSegmentSearchPart2Test: FunctionSolverTest<Int>(::solvePart2) {
         @JvmStatic
         fun testSolution() = listOf(
             Arguments.of("5353", "example-day08-2021-0.txt"),
-            Arguments.of("61229", "example-day08-2021-1.txt"),
-            Arguments.of("1019355", "input-day08-2021.txt")
+            Arguments.of("61229", "example-day08-2021-1.txt")
         )
     }
 }

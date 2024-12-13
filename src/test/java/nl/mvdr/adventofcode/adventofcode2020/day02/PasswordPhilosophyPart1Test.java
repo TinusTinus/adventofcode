@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link PasswordPhilosophyPart1}.
@@ -21,7 +21,6 @@ public class PasswordPhilosophyPart1Test extends SolverTest<PasswordPhilosophyPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("2", "example-day02-2020.txt"),
-                Arguments.of("548", "input-day02-2020.txt"));
+                Arguments.of("2", "example-day02-2020.txt"));
     }
 }

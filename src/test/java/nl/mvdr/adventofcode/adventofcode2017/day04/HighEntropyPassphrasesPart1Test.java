@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link HighEntropyPassphrasesPart1}.
@@ -24,7 +24,6 @@ public class HighEntropyPassphrasesPart1Test extends SolverTest<HighEntropyPassp
                 Arguments.of("1", "example-day04-2017-0.txt"),
                 Arguments.of("0", "example-day04-2017-1.txt"),
                 Arguments.of("1", "example-day04-2017-2.txt"),
-                Arguments.of("2", "example-day04-2017-3.txt"),
-                Arguments.of("386", "input-day04-2017.txt"));
+                Arguments.of("2", "example-day04-2017-3.txt"));
     }
 }

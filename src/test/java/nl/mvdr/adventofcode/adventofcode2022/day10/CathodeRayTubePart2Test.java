@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link CathodeRayTubePart2}.
@@ -28,14 +28,6 @@ public class CathodeRayTubePart2Test extends SolverTest<CathodeRayTubePart2> {
                         #####.....#####.....#####.....#####.....
                         ######......######......######......####
                         #######.......#######.......#######.....
-                        """, "example-day10-2022.txt"),
-                Arguments.of("""
-                        ####..##...##....##.####...##.####.#....
-                        ...#.#..#.#..#....#....#....#.#....#....
-                        ..#..#....#.......#...#.....#.###..#....
-                        .#...#.##.#.......#..#......#.#....#....
-                        #....#..#.#..#.#..#.#....#..#.#....#....
-                        ####..###..##...##..####..##..#....####.
-                        """, "input-day10-2022.txt"));
+                        """, "example-day10-2022.txt"));
     }
 }

@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link MineCartMadnessPart1}.
@@ -23,7 +23,6 @@ public class MineCartMadnessPart1Test extends SolverTest<MineCartMadnessPart1> {
                 Arguments.of("0,3", "example-day13-2018-0.txt"),
                 Arguments.of("0,3", "example-day13-2018-1.txt"),
                 Arguments.of("7,3", "example-day13-2018-2.txt"),
-                Arguments.of("7,3", "example-day13-2018-3.txt"),
-                Arguments.of("124,130", "input-day13-2018.txt"));
+                Arguments.of("7,3", "example-day13-2018-3.txt"));
     }
 }

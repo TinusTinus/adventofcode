@@ -1,25 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2019.day04;
 
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
-
-import nl.mvdr.adventofcode.SolverTest;
 
 /**
  * Unit test cases for {@link SecureContainerPart2}.
  *
  * @author Martijn van de Rijdt
  */
-public class SecureContainerPart2Test extends SolverTest<SecureContainerPart2> {
+public class SecureContainerPart2Test {
 
-    /** Constructor. */
-    public SecureContainerPart2Test() {
-        super(SecureContainerPart2.class);
-    }
-    
     /** Test case for {@link SecureContainerPart2#validatePassword(int)}.  */
     @Test
     public void testValidate111111() {
@@ -117,11 +107,5 @@ public class SecureContainerPart2Test extends SolverTest<SecureContainerPart2> {
         boolean valid = solver.validatePassword(password);
         
         Assertions.assertTrue(valid);
-    }
-    
-    /** @return arguments for {@link SolverTest#testSolution(String, String)} */
-    static Stream<Arguments> testSolution() {
-        return Stream.of(
-                Arguments.of("1126", "input-day04-2019.txt"));
     }
 }

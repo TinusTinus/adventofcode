@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link ReservoirResearch}.
@@ -20,8 +20,6 @@ public class ReservoirResearchTest extends SolverTest<ReservoirResearch> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("Reached by water: 57, settled water: 29", "example-day17-2018.txt")
-                // , Arguments.of("Reached by water: 30737, settled water: 24699", "input-day17-2018.txt") // long-running test case
-                );
+                Arguments.of("Reached by water: 57, settled water: 29", "example-day17-2018.txt"));
     }
 }

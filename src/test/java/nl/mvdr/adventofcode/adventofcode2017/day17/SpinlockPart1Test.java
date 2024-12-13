@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link SpinlockPart1}.
@@ -21,7 +21,6 @@ public class SpinlockPart1Test extends SolverTest<SpinlockPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("638", "example-day17-2017.txt"),
-                Arguments.of("725", "input-day17-2017.txt"));
+                Arguments.of("638", "example-day17-2017.txt"));
     }
 }

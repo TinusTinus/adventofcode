@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link FlawedFrequencyTransmissionPart1}.
@@ -54,7 +54,6 @@ public class FlawedFrequencyTransmissionPart1Test extends SolverTest<FlawedFrequ
         return Stream.of(
                 Arguments.of("24176176", "example-day16-2019-1.txt"),
                 Arguments.of("73745418", "example-day16-2019-2.txt"),
-                Arguments.of("52432133", "example-day16-2019-3.txt"),
-                Arguments.of("96136976", "input-day16-2019.txt"));
+                Arguments.of("52432133", "example-day16-2019-3.txt"));
     }
 }

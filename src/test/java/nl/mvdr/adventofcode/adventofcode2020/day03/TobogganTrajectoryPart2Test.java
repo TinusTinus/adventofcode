@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link TobogganTrajectoryPart2}.
@@ -21,7 +21,6 @@ public class TobogganTrajectoryPart2Test extends SolverTest<TobogganTrajectoryPa
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("336", "example-day03-2020.txt"),
-                Arguments.of("5140884672", "input-day03-2020.txt"));
+                Arguments.of("336", "example-day03-2020.txt"));
     }
 }

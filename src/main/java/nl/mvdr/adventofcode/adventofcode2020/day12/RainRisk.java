@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2020.day12;
 import java.util.List;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.IntSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
 /**
  * Solution to the day 12 puzzle of 2020's Advent of Code:

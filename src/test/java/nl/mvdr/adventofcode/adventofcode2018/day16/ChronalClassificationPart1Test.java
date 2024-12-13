@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link ChronalClassificationPart1}.
@@ -20,7 +20,6 @@ public class ChronalClassificationPart1Test extends SolverTest<ChronalClassifica
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1", "example-day16-2018.txt"),
-                Arguments.of("646", "input-day16-2018.txt"));
+                Arguments.of("1", "example-day16-2018.txt"));
     }
 }

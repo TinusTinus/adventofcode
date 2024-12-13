@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2015.day08
 
-import nl.mvdr.adventofcode.FunctionSolverTest
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.provider.Arguments
 import kotlin.test.assertEquals
@@ -11,8 +11,7 @@ class MatchsticksPart1Test: FunctionSolverTest<Int>(::solvePart1) {
         @JvmStatic
         fun testSolution(): List<Arguments> {
             return listOf(
-                Arguments.of("12", "example-day08-2015.txt"),
-                Arguments.of("1333", "input-day08-2015.txt")
+                Arguments.of("12", "example-day08-2015.txt")
             )
         }
     }

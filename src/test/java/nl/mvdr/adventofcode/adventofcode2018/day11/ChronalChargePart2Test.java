@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link ChronalChargePart2}.
@@ -23,7 +23,6 @@ public class ChronalChargePart2Test extends SolverTest<ChronalChargePart2> {
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("90,269,16", "example-day11-2018-0.txt"),
-                Arguments.of("232,251,12", "example-day11-2018-1.txt"),
-                Arguments.of("236,175,11", "input-day11-2018.txt"));
+                Arguments.of("232,251,12", "example-day11-2018-1.txt"));
     }
 }

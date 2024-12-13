@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link InverseCaptchaPart2}.
@@ -25,7 +25,6 @@ public class InverseCaptchaPart2Test extends SolverTest<InverseCaptchaPart2> {
                 Arguments.of("0", "example-day01-2017-5.txt"),
                 Arguments.of("4", "example-day01-2017-6.txt"),
                 Arguments.of("12", "example-day01-2017-7.txt"),
-                Arguments.of("4", "example-day01-2017-8.txt"),
-                Arguments.of("1244", "input-day01-2017.txt"));
+                Arguments.of("4", "example-day01-2017-8.txt"));
     }
 }

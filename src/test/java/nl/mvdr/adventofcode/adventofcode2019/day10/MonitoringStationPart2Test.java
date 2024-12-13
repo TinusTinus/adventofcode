@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link MonitoringStationPart2}.
@@ -22,8 +22,7 @@ public class MonitoringStationPart2Test extends SolverTest<MonitoringStationPart
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("802", "example-day10-2019-4.txt"),
-                Arguments.of("1707", "input-day10-2019.txt"));
+                Arguments.of("802", "example-day10-2019-4.txt"));
     }
     
     /** The 1st asteroid to be vaporized is at 11,12. */

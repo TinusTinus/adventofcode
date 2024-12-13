@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link FourDimensionalAdventure}.
@@ -24,7 +24,6 @@ public class FourDimensionalAdventureTest extends SolverTest<FourDimensionalAdve
                 Arguments.of("1", "example-day25-2018-1.txt"),
                 Arguments.of("4", "example-day25-2018-2.txt"),
                 Arguments.of("3", "example-day25-2018-3.txt"),
-                Arguments.of("8", "example-day25-2018-4.txt"),
-                Arguments.of("396", "input-day25-2018.txt"));
+                Arguments.of("8", "example-day25-2018-4.txt"));
     }
 }

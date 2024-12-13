@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link ImmuneSystemSimulatorPart1}.
@@ -21,7 +21,6 @@ public class ImmuneSystemSimulatorPart1Test extends SolverTest<ImmuneSystemSimul
     static Stream<Arguments> testSolution() {
         return Stream.of(
                 Arguments.of("5216", "example-day24-2018-0.txt"),
-                Arguments.of("51", "example-day24-2018-1.txt"),
-                Arguments.of("26277", "input-day24-2018.txt"));
+                Arguments.of("51", "example-day24-2018-1.txt"));
     }
 }

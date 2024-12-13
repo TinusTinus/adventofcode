@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2022.day22;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.Solver;
+import nl.mvdr.adventofcode.solver.Solver;
 
 /**
  * Solution to <a href="https://adventofcode.com/2022/day/22">Monkey Map</a>.

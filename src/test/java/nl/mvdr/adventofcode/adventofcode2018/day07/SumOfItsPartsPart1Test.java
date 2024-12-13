@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test for {@link SumOfItsPartsPart1}.
@@ -20,7 +20,6 @@ public class SumOfItsPartsPart1Test extends SolverTest<SumOfItsPartsPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("CABDFE", "example-day07-2018.txt"),
-                Arguments.of("PFKQWJSVUXEMNIHGTYDOZACRLB", "input-day07-2018.txt"));
+                Arguments.of("CABDFE", "example-day07-2018.txt"));
     }
 }

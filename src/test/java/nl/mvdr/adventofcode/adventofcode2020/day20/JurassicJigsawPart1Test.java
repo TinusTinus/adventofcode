@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link JurassicJigsawPart1}.
@@ -21,7 +21,6 @@ public class JurassicJigsawPart1Test extends SolverTest<JurassicJigsawPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("20899048083289", "example-day20-2020.txt"),
-                Arguments.of("51214443014783", "input-day20-2020.txt"));
+                Arguments.of("20899048083289", "example-day20-2020.txt"));
     }
 }

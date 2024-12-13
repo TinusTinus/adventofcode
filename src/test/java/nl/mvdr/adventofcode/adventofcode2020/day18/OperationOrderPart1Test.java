@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link OperationOrderPart1}.
@@ -27,7 +27,6 @@ public class OperationOrderPart1Test extends SolverTest<OperationOrderPart1> {
                 Arguments.of("437", "example-day18-2020-3.txt"),
                 Arguments.of("12240", "example-day18-2020-4.txt"),
                 Arguments.of("13632", "example-day18-2020-5.txt"),
-                Arguments.of("26457", "example-day18-2020-6.txt"),
-                Arguments.of("8929569623593", "input-day18-2020.txt"));
+                Arguments.of("26457", "example-day18-2020-6.txt"));
     }
 }

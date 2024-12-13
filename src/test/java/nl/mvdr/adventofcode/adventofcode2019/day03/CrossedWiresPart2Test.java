@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link CrossedWiresPart2}.
@@ -23,7 +23,6 @@ public class CrossedWiresPart2Test extends SolverTest<CrossedWiresPart2> {
         return Stream.of(
                 Arguments.of("30", "example-day03-2019-0.txt"),
                 Arguments.of("610", "example-day03-2019-1.txt"),
-                Arguments.of("410", "example-day03-2019-2.txt"),
-                Arguments.of("15678", "input-day03-2019.txt"));
+                Arguments.of("410", "example-day03-2019-2.txt"));
     }
 }

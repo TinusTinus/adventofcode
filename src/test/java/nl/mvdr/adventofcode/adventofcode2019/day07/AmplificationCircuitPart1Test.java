@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import nl.mvdr.adventofcode.SolverTest;
+import nl.mvdr.adventofcode.solver.SolverTest;
 
 /**
  * Unit test cases for {@link AmplificationCircuitPart1}.
@@ -23,7 +23,6 @@ public class AmplificationCircuitPart1Test extends SolverTest<AmplificationCircu
         return Stream.of(
                 Arguments.of("43210", "example-day07-2019-0.txt"),
                 Arguments.of("54321", "example-day07-2019-1.txt"),
-                Arguments.of("65210", "example-day07-2019-2.txt"),
-                Arguments.of("368584", "input-day07-2019.txt"));
+                Arguments.of("65210", "example-day07-2019-2.txt"));
     }
 }
