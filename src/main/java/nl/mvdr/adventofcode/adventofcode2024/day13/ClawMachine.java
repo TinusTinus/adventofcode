@@ -11,7 +11,9 @@ import com.microsoft.z3.Context;
 
 import nl.mvdr.adventofcode.point.Point;
 
-record ClawMachine(Map<Button, Point> buttonMovements, Point prize) {
+record ClawMachine(Map<Button, Point> buttonMovements, long prizeX, long prizeY) {
+
+    private static final long OFFSET = 10000000000000L;
 
     static Set<ClawMachine> parse(Stream<String> lines) {
         Set<ClawMachine> result = new HashSet<>();
@@ -51,10 +53,10 @@ record ClawMachine(Map<Button, Point> buttonMovements, Point prize) {
             }
         }
         
-        return new ClawMachine(buttonMovements, prize);
+        return new ClawMachine(buttonMovements, prize.x(), prize.y());
     }
     
-    int calculateTokens() {
+    long calculateTokens() {
         try (var context = new Context()) {
             var solver = context.mkSolver();
             
@@ -64,24 +66,25 @@ record ClawMachine(Map<Button, Point> buttonMovements, Point prize) {
 
             var ax = context.mkMul(aPresses, context.mkInt(buttonMovements.get(Button.A).x()));
             var bx = context.mkMul(bPresses, context.mkInt(buttonMovements.get(Button.B).x()));
-            solver.add(context.mkEq(context.mkInt(prize.x()), context.mkAdd(ax, bx)));
+            solver.add(context.mkEq(context.mkInt(prizeX), context.mkAdd(ax, bx)));
             
             var ay = context.mkMul(aPresses, context.mkInt(buttonMovements.get(Button.A).y()));
             var by = context.mkMul(bPresses, context.mkInt(buttonMovements.get(Button.B).y()));
-            solver.add(context.mkEq(context.mkInt(prize.y()), context.mkAdd(ay, by)));
+            solver.add(context.mkEq(context.mkInt(prizeY), context.mkAdd(ay, by)));
             
             var aPressCost = context.mkMul(aPresses, context.mkInt(Button.A.getCost()));
             var bPressCost = context.mkMul(bPresses, context.mkInt(Button.B.getCost()));
             solver.add(context.mkEq(cost, context.mkAdd(aPressCost, bPressCost)));
             
-            solver.add(context.mkLt(aPresses, context.mkInt(100)));
-            solver.add(context.mkLt(bPresses, context.mkInt(100)));
-            
             return switch(solver.check()) {
-                case SATISFIABLE -> Integer.parseInt(solver.getModel().eval(cost, false).toString());
-                case UNSATISFIABLE -> 0;
+                case SATISFIABLE -> Long.parseLong(solver.getModel().eval(cost, false).toString());
+                case UNSATISFIABLE -> 0L;
                 case UNKNOWN -> throw new IllegalStateException("Unable to solve for claw machine " + this);
             };
         }
+    }
+    
+    ClawMachine movePrize() {
+        return new ClawMachine(buttonMovements, prizeX + OFFSET, prizeY + OFFSET);
     }
 }
