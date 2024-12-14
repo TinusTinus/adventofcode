@@ -10,6 +10,10 @@ import nl.mvdr.adventofcode.solver.LinesSolver;
 
 public class Part2 implements LinesSolver<Void> {
 
+    private static final int INITIALISATION_SECONDS = 65;
+    private static final int SECONDS_PER_ITERATION = 101;
+    private static final int ITERATIONS = 10_000;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     private final int width;
@@ -30,9 +34,11 @@ public class Part2 implements LinesSolver<Void> {
                 .collect(Collectors.toSet());
         var space = new SpaceOutsideBathroom(width, height, robots);
         
-        for (int second = 0; second < 1_000; second++) {
-            space = space.move(1);
-            LOGGER.info("After {} seconds: {}", Integer.valueOf(second), space);
+        space = space.move(INITIALISATION_SECONDS);
+        LOGGER.info("After 65 seconds: {}", space);
+        for (int i = 1; i < ITERATIONS; i++) {
+            space = space.move(SECONDS_PER_ITERATION);
+            LOGGER.info("After {} seconds: {}", Integer.valueOf(INITIALISATION_SECONDS + i * SECONDS_PER_ITERATION), space);
         }
         return null;
     }
