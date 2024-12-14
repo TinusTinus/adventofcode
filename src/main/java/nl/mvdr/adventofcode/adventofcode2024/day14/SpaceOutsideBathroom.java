@@ -3,6 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2024.day14;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import nl.mvdr.adventofcode.point.Point;
+
 record SpaceOutsideBathroom(int width, int height, Set<Robot> robots) {
 
     SpaceOutsideBathroom move(int seconds) {
@@ -34,5 +36,13 @@ record SpaceOutsideBathroom(int width, int height, Set<Robot> robots) {
                 .count();
         
         return robotsInTopLeftQuadrant * robotsInTopRightQuadrant * robotsInBottomLeftQuadrant * robotsInBottomRightQuadrant;
+    }
+    
+    @Override
+    public final String toString() {
+        var robotPositions = robots.stream()
+                .map(Robot::position)
+                .collect(Collectors.toSet());
+        return Point.visualize(robotPositions);
     }
 }
