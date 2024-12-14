@@ -5,13 +5,17 @@ import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.point.Point;
 
-record SpaceOutsideBathroom(int width, int height, Set<Robot> robots) {
+record SpaceOutsideBathroom(int width, int height, Set<Robot> robots, int timePassedInSeconds) {
 
+    SpaceOutsideBathroom(int width, int height, Set<Robot> robots) {
+        this(width, height, robots, 0);
+    }
+    
     SpaceOutsideBathroom move(int seconds) {
         var newRobots = robots.stream()
                 .map(robot -> robot.move(seconds, width, height))
                 .collect(Collectors.toSet());
-        return new SpaceOutsideBathroom(width, height, newRobots);
+        return new SpaceOutsideBathroom(width, height, newRobots, timePassedInSeconds + seconds);
     }
     
     long safetyFactor() {
@@ -43,6 +47,6 @@ record SpaceOutsideBathroom(int width, int height, Set<Robot> robots) {
         var robotPositions = robots.stream()
                 .map(Robot::position)
                 .collect(Collectors.toSet());
-        return Point.visualize(robotPositions);
+        return "Space after " + timePassedInSeconds + " seconds:\n" + Point.visualize(robotPositions);
     }
 }
