@@ -42,7 +42,7 @@ public class Part2 implements LinesSolver<Void> {
         }
         // Observe log output to find the tree.
         // Note: in my case I quickly noticed a pattern in the log output,
-        // which allowed me to pick better values for INITIALISATION_SECONDS and SECONDS_PER_ITERATION (66 and 101 respectively).
+        // which allowed me to pick better values for INITIALISATION_SECONDS and SECONDS_PER_ITERATION.
         // I assume these are different depending on the input.
         return null;
     }
