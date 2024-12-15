@@ -15,6 +15,7 @@ public class Part2 extends WarehouseWoesSolver {
         return linesStream.map(line -> line.replace(".", ".."))
                 .map(line -> line.replace("#", "##"))
                 .map(line -> line.replace("O", "[]"))
+                .map(line -> line.replace("@", "@."))
                 .toList();
     }
     

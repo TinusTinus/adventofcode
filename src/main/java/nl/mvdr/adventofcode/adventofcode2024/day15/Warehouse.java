@@ -10,6 +10,7 @@ import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 record Warehouse(Set<Point> walls, Set<Box> boxes, Point robot) {
+    
     static Warehouse parse(List<String> lines) {
         Set<Point> walls = new HashSet<>();
         Set<Box> boxes = new HashSet<>();
@@ -103,5 +104,49 @@ record Warehouse(Set<Point> walls, Set<Box> boxes, Point robot) {
     /// @return updated warehouse
     private Warehouse moveRobot(Point targetLocation) {
         return new Warehouse(walls, boxes, targetLocation);
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Warehouse: \n");
+
+        int minX = Point.minX(walls);
+        int maxX = Point.maxX(walls);
+        int minY = Point.minY(walls);
+        int maxY = Point.maxY(walls);
+        
+        for (int y = minY; y != maxY + 1; y++) {
+            for (int x = minX; x != maxX + 1; x++) {
+                var point = new Point(x, y);
+                
+                if (walls.contains(point)) {
+                    builder.append("#");
+                } else if (robot.equals(point)) {
+                    builder.append("@");
+                } else {
+                    var optionalBox = boxes.stream()
+                            .filter(box -> box.occupiesSpace(point))
+                            .findFirst();
+                    if (optionalBox.isPresent()) {
+                        var box = optionalBox.orElseThrow();
+                        if (box.width() == 1) {
+                            builder.append("O");
+                        } else if (box.width() == 2) {
+                            if (box.location().equals(point)) {
+                                builder.append("[");
+                            } else {
+                                builder.append("]");
+                            }
+                        } else {
+                            throw new IllegalStateException("Unexpected box width: " + box.width());
+                        }
+                    } else {
+                        builder.append(".");
+                    }
+                }
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
     }
 }
