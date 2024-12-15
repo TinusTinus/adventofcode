@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.point.Direction;
@@ -72,23 +73,16 @@ record Warehouse(Set<Point> walls, Set<Box> boxes, Point robot) {
                 
             } else {
                 
+                // Attempt to shove the box.
+                // First clear the space(s) in front of the box, then move the box itself.
+                
                 var box = optionalBox.orElseThrow();
                 
-                // Attempt to shove the box. This means we must first clear the space(s) in front of the box.
-                
-                Set<Point> spacesToClear;
-                if (direction == Direction.LEFT) {
-                    spacesToClear = Set.of(Direction.LEFT.move(point));
-                } else if (direction == Direction.RIGHT) {
-                    spacesToClear = Set.of(Direction.RIGHT.move(point, box.width()));
-                } else if (direction.isVertical()) {
-                    spacesToClear = box.spaces()
-                            .stream()
-                            .map(direction::move)
-                            .collect(Collectors.toSet());
-                } else {
-                    throw new IllegalArgumentException("No diagonals allowed");
-                }
+                var boxSpaces = box.spaces();
+                var spacesToClear = boxSpaces.stream()
+                        .map(space -> direction.move(space))
+                        .filter(Predicate.not(boxSpaces::contains))
+                        .collect(Collectors.toSet());
                 
                 result = Optional.of(this);
                 for (var space : spacesToClear) {
