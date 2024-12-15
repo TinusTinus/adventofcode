@@ -14,7 +14,7 @@ public class Part1Test extends SolverTest<Part1> {
     
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("10092", "example-day13-2024-0.txt"),
-                Arguments.of("2028", "example-day13-2024-1.txt"));
+                Arguments.of("10092", "example-day15-2024-0.txt"),
+                Arguments.of("2028", "example-day15-2024-1.txt"));
     }
 }
