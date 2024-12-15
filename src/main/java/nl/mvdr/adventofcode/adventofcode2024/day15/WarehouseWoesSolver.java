@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2024.day15;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,7 +15,7 @@ abstract class WarehouseWoesSolver implements IntSolver {
     
     @Override
     public int solve(Stream<String> linesStream) {
-        var lines = toList(linesStream);
+        var lines = manipulate(linesStream).toList();
         var indexOfEmptyLine = lines.indexOf("");
 
         var warehouse = Warehouse.parse(lines.subList(0, indexOfEmptyLine));
@@ -40,9 +39,9 @@ abstract class WarehouseWoesSolver implements IntSolver {
                 .sum();
     }
 
-    /// Enables subclasses to manipulate the input.
-    protected List<String> toList(Stream<String> linesStream) {
-        return linesStream.toList();
+    /// This method is intended as an extension point for subclasses to manipulate the input.
+    protected Stream<String> manipulate(Stream<String> lines) {
+        return lines;
     }
 }
  

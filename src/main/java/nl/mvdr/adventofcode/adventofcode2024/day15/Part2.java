@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2024.day15;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -11,12 +10,11 @@ public class Part2 extends WarehouseWoesSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
-    protected List<String> toList(Stream<String> linesStream) {
-        return linesStream.map(line -> line.replace(".", ".."))
+    protected Stream<String> manipulate(Stream<String> lines) {
+        return lines.map(line -> line.replace(".", ".."))
                 .map(line -> line.replace("#", "##"))
                 .map(line -> line.replace("O", "[]"))
-                .map(line -> line.replace("@", "@."))
-                .toList();
+                .map(line -> line.replace("@", "@."));
     }
     
     public static void main(String[] args) {
