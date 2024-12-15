@@ -56,16 +56,25 @@ record Warehouse(Set<Point> walls, Set<Box> boxes, Point robot) {
     private Optional<Warehouse> clear(Point point, Direction direction) {
         Optional<Warehouse> result = null;
         if (walls.contains(point)) {
+            
+            // There is a wall in the way. Unable to clear this space.
             result = Optional.empty();
+            
         } else {
             // See if any boxes are in the way.
             Optional<Box> optionalBox = boxes.stream()
                     .filter((box -> box.occupiesSpace(point)))
                     .findFirst();
             if (optionalBox.isEmpty()) {
+                
+                // No boxes: the space is already clear.
                 result = Optional.of(this);
+                
             } else {
+                
                 var box = optionalBox.orElseThrow();
+                
+                // Attempt to shove the box. This means we must first clear the space(s) in front of the box.
                 
                 Set<Point> spacesToClear;
                 if (direction == Direction.LEFT) {
@@ -100,8 +109,6 @@ record Warehouse(Set<Point> walls, Set<Box> boxes, Point robot) {
     }
     
     /// Moves the given robot. Note that this method does not perform any argument checking.
-    /// @param targetLocation target box location; must not be a wall or box location
-    /// @return updated warehouse
     private Warehouse moveRobot(Point targetLocation) {
         return new Warehouse(walls, boxes, targetLocation);
     }
