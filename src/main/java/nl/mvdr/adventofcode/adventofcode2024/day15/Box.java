@@ -32,4 +32,8 @@ record Box(Point location, int width) {
                 .filter(Predicate.not(boxSpaces::contains))
                 .collect(Collectors.toSet());
     }
+    
+    int gps() {
+        return location().y() * 100 + location().x();
+    }
 }

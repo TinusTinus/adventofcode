@@ -34,7 +34,10 @@ abstract class WarehouseWoesSolver implements IntSolver {
             LOGGER.debug("After attempted {} move: {}", direction, warehouse);
         }
         
-        return warehouse.sumOfBoxGPS();
+        return warehouse.boxes()
+                .stream()
+                .mapToInt(Box::gps)
+                .sum();
     }
 
     /// Enables subclasses to manipulate the input.

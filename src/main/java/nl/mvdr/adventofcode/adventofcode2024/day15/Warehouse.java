@@ -36,12 +36,6 @@ record Warehouse(Set<Point> walls, Set<Box> boxes, Point robot) {
         return new Warehouse(walls, boxes, robots.iterator().next());
     }
     
-    int sumOfBoxGPS() {
-        return boxes.stream()
-                .mapToInt(box -> box.location().y() * 100 + box.location().x())
-                .sum();
-    }
-    
     /// Performs an attempt to move the robot in the given direction.
     Warehouse attemptMove(Direction direction) {
         var targetLocation = direction.move(robot);
