@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -57,35 +55,17 @@ record Warehouse(Set<Point> walls, Set<Box> boxes, Point robot) {
     private Optional<Warehouse> clear(Point point, Direction direction) {
         Optional<Warehouse> result = null;
         if (walls.contains(point)) {
-            
-            // There is a wall in the way. Unable to clear this space.
             result = Optional.empty();
-            
         } else {
-            // See if any boxes are in the way.
-            Optional<Box> optionalBox = boxes.stream()
-                    .filter((box -> box.occupiesSpace(point)))
+            Optional<Box> boxInTheWay = boxes.stream()
+                    .filter(box -> box.occupies(point))
                     .findFirst();
-            if (optionalBox.isEmpty()) {
-                
-                // No boxes: the space is already clear.
+            if (boxInTheWay.isEmpty()) {
                 result = Optional.of(this);
-                
             } else {
-                
-                // Attempt to shove the box.
-                // First clear the space(s) in front of the box, then move the box itself.
-                
-                var box = optionalBox.orElseThrow();
-                
-                var boxSpaces = box.spaces();
-                var spacesToClear = boxSpaces.stream()
-                        .map(space -> direction.move(space))
-                        .filter(Predicate.not(boxSpaces::contains))
-                        .collect(Collectors.toSet());
-                
+                var box = boxInTheWay.orElseThrow();
                 result = Optional.of(this);
-                for (var space : spacesToClear) {
+                for (var space : box.spacesInFront(direction)) {
                     result = result.flatMap(warehouse -> warehouse.clear(space, direction));
                 }
                 result = result.map(warehouse -> warehouse.moveBox(box, direction));
@@ -126,7 +106,7 @@ record Warehouse(Set<Point> walls, Set<Box> boxes, Point robot) {
                     builder.append("@");
                 } else {
                     var optionalBox = boxes.stream()
-                            .filter(box -> box.occupiesSpace(point))
+                            .filter(box -> box.occupies(point))
                             .findFirst();
                     if (optionalBox.isPresent()) {
                         var box = optionalBox.orElseThrow();
