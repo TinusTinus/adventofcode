@@ -80,42 +80,36 @@ record Maze(PointAndDirection start, Point end, Set<Point> tiles) {
     
     int computeLowestScore() {
         var graph = createGraph();
-        return (int) computeShortestPathWeight(graph);
+        var path = computeShortestPath(graph);
+        return (int) path.getWeight();
     }
 
-    private double computeShortestPathWeight(Graph<PointAndDirection, DefaultEdge> graph) {
-        ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        var paths = algorithm.getPaths(start);
-        return Stream.of(Direction.values())
-                .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
-                .map(direction -> new PointAndDirection(end, direction))
-                .mapToDouble(paths::getWeight)
-                .min()
-                .orElseThrow();
-    }
-    
-    long countBestPathTiles() {
-        var graph = createGraph();
+    private GraphPath<PointAndDirection, DefaultEdge> computeShortestPath(Graph<PointAndDirection, DefaultEdge> graph) {
         ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
         var paths = algorithm.getPaths(start);
         
-        var shortestPath = Stream.of(Direction.values())
+        return Stream.of(Direction.values())
                 .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
                 .map(direction -> new PointAndDirection(end, direction))
                 .map(paths::getPath)
                 .min(Comparator.comparing(GraphPath::getWeight))
                 .orElseThrow();
+    }
+    
+    long countBestPathTiles() {
+        var graph = createGraph();
+        var shortestPath = computeShortestPath(graph);
         
-        AllDirectedPaths<PointAndDirection, DefaultEdge> allPathsAlgorithm = new AllDirectedPaths<>(graph);
+        AllDirectedPaths<PointAndDirection, DefaultEdge> algorithm = new AllDirectedPaths<>(graph);
         
-        var allPaths = allPathsAlgorithm.getAllPaths(Set.of(start), 
+        var paths = algorithm.getAllPaths(Set.of(start), 
                 Stream.of(Direction.values())
                         .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
                         .map(direction -> new PointAndDirection(end, direction))
                         .collect(Collectors.toSet()),
-                true, shortestPath.getLength());
+                true, Integer.valueOf(shortestPath.getLength()));
                 
-        return allPaths.stream()
+        return paths.stream()
                 .filter(path -> path.getWeight() == shortestPath.getWeight())
                 .flatMap(path -> path.getVertexList().stream())
                 .map(PointAndDirection::point)
