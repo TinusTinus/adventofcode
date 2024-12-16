@@ -1,8 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2024.day16;
 
-import nl.mvdr.adventofcode.point.Direction;
-import nl.mvdr.adventofcode.point.Orientation;
-import nl.mvdr.adventofcode.point.Point;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
@@ -11,12 +14,9 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import nl.mvdr.adventofcode.point.Direction;
+import nl.mvdr.adventofcode.point.Orientation;
+import nl.mvdr.adventofcode.point.Point;
 
 record Maze(PointAndDirection start, Point end, Set<Point> tiles) {
     
@@ -75,6 +75,13 @@ record Maze(PointAndDirection start, Point end, Set<Point> tiles) {
                 .map(vertex -> result.addEdge(vertex, vertex.turnCounterClockwise()))
                 .forEach(edge -> result.setEdgeWeight(edge, 1_000));
         
+        // We do not care which direction we are facing for the end!
+        Stream.of(Direction.values())
+                .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
+                .map(direction -> new PointAndDirection(end, direction))
+                .peek(vertex -> result.setEdgeWeight(vertex, vertex.turnClockwise(), 0))
+                .forEach(vertex -> result.setEdgeWeight(vertex, vertex.turnCounterClockwise(), 0));
+        
         return result;
     }
     
@@ -86,14 +93,7 @@ record Maze(PointAndDirection start, Point end, Set<Point> tiles) {
 
     private GraphPath<PointAndDirection, DefaultEdge> computeShortestPath(Graph<PointAndDirection, DefaultEdge> graph) {
         ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        var paths = algorithm.getPaths(start);
-        
-        return Stream.of(Direction.values())
-                .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
-                .map(direction -> new PointAndDirection(end, direction))
-                .map(paths::getPath)
-                .min(Comparator.comparing(GraphPath::getWeight))
-                .orElseThrow();
+        return algorithm.getPath(start, new PointAndDirection(end, Direction.RIGHT));
     }
     
     long countBestPathTiles() {
