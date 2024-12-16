@@ -4,12 +4,14 @@ import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Orientation;
 import nl.mvdr.adventofcode.point.Point;
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,21 +96,29 @@ record Maze(PointAndDirection start, Point end, Set<Point> tiles) {
     
     long countBestPathTiles() {
         var graph = createGraph();
+        ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        var paths = algorithm.getPaths(start);
         
-        var bestPathWeight = computeShortestPathWeight(graph);
+        var shortestPath = Stream.of(Direction.values())
+                .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
+                .map(direction -> new PointAndDirection(end, direction))
+                .map(paths::getPath)
+                .min(Comparator.comparing(GraphPath::getWeight))
+                .orElseThrow();
         
-        AllDirectedPaths<PointAndDirection, DefaultEdge> algorithm = new AllDirectedPaths<>(graph);
+        AllDirectedPaths<PointAndDirection, DefaultEdge> allPathsAlgorithm = new AllDirectedPaths<>(graph);
         
-        var paths = algorithm.getAllPaths(Set.of(start), 
+        var allPaths = allPathsAlgorithm.getAllPaths(Set.of(start), 
                 Stream.of(Direction.values())
                         .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
                         .map(direction -> new PointAndDirection(end, direction))
                         .collect(Collectors.toSet()),
-                true, null);
+                true, shortestPath.getLength());
                 
-        return paths.stream()
-                .filter(path -> path.getWeight() == bestPathWeight)
-                .flatMap(graphpath -> graphpath.getVertexList().stream())
+        return allPaths.stream()
+                .filter(path -> path.getWeight() == shortestPath.getWeight())
+                .flatMap(path -> path.getVertexList().stream())
+                .map(PointAndDirection::point)
                 .distinct()
                 .count();
     }
