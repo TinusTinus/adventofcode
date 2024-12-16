@@ -5,6 +5,7 @@ import nl.mvdr.adventofcode.point.Orientation;
 import nl.mvdr.adventofcode.point.Point;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultEdge;
@@ -12,9 +13,10 @@ import org.jgrapht.graph.DefaultEdge;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-record Maze(PointAndDirection start, Point end, Set<Point> walkways) {
+record Maze(PointAndDirection start, Point end, Set<Point> tiles) {
     
     static Maze parse(List<String> lines) {
         Set<Point> startingPoints = new HashSet<>();
@@ -51,10 +53,10 @@ record Maze(PointAndDirection start, Point end, Set<Point> walkways) {
     private Graph<PointAndDirection, DefaultEdge> createGraph() {
         Graph<PointAndDirection, DefaultEdge> result = new DefaultDirectedWeightedGraph<>(DefaultEdge.class);
         
-        walkways.stream()
-                .flatMap(walkway -> Stream.of(Direction.values())
+        tiles.stream()
+                .flatMap(tile -> Stream.of(Direction.values())
                         .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
-                        .map(direction -> new PointAndDirection(walkway, direction)))
+                        .map(direction -> new PointAndDirection(tile, direction)))
                 .forEach(result::addVertex);
 
         result.vertexSet()
@@ -76,16 +78,38 @@ record Maze(PointAndDirection start, Point end, Set<Point> walkways) {
     
     int computeLowestScore() {
         var graph = createGraph();
-        
-        ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<PointAndDirection, DefaultEdge>(graph);
-        
+        return (int) computeShortestPathWeight(graph);
+    }
+
+    private double computeShortestPathWeight(Graph<PointAndDirection, DefaultEdge> graph) {
+        ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
         var paths = algorithm.getPaths(start);
-        
         return Stream.of(Direction.values())
+                .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
                 .map(direction -> new PointAndDirection(end, direction))
                 .mapToDouble(paths::getWeight)
-                .mapToInt(d -> (int) d)
                 .min()
                 .orElseThrow();
+    }
+    
+    long countBestPathTiles() {
+        var graph = createGraph();
+        
+        var bestPathWeight = computeShortestPathWeight(graph);
+        
+        AllDirectedPaths<PointAndDirection, DefaultEdge> algorithm = new AllDirectedPaths<>(graph);
+        
+        var paths = algorithm.getAllPaths(Set.of(start), 
+                Stream.of(Direction.values())
+                        .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
+                        .map(direction -> new PointAndDirection(end, direction))
+                        .collect(Collectors.toSet()),
+                true, null);
+                
+        return paths.stream()
+                .filter(path -> path.getWeight() == bestPathWeight)
+                .flatMap(graphpath -> graphpath.getVertexList().stream())
+                .distinct()
+                .count();
     }
 }
