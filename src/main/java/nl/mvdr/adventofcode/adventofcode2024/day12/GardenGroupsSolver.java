@@ -2,24 +2,24 @@ package nl.mvdr.adventofcode.adventofcode2024.day12;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.ToLongFunction;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
-import nl.mvdr.adventofcode.solver.LongSolver;
+import nl.mvdr.adventofcode.solver.IntSolver;
 
-class GardenGroupsSolver implements LongSolver {
+class GardenGroupsSolver implements IntSolver {
 
-    private final ToLongFunction<Region> costFunction;
+    private final ToIntFunction<Region> costFunction;
     
-    GardenGroupsSolver(ToLongFunction<Region> costFunction) {
+    GardenGroupsSolver(ToIntFunction<Region> costFunction) {
         super();
         this.costFunction = costFunction;
     }
     
     @Override
-    public long solve(Stream<String> lines) {
+    public int solve(Stream<String> lines) {
         Set<Region> regions = new HashSet<>();
 
         Point.parse2DMap(lines.toList(), (plot, plant) -> {
@@ -37,6 +37,6 @@ class GardenGroupsSolver implements LongSolver {
             regions.add(new Region(plant, newRegionPlots));
         });
 
-        return regions.stream().mapToLong(costFunction).sum();
+        return regions.stream().mapToInt(costFunction).sum();
     }
 }
