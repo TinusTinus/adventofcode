@@ -6,9 +6,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
-import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultEdge;
@@ -20,6 +18,8 @@ import nl.mvdr.adventofcode.point.Point;
 record Maze(Graph<PointAndDirection, DefaultEdge> graph, PointAndDirection startVertex, PointAndDirection endVertex) {
     
     static Maze parse(List<String> lines) {
+        
+        // Parse the given input.
         Set<Point> startingPoints = new HashSet<>();
         Set<Point> endPoints = new HashSet<>();
         Set<Point> tiles = new HashSet<>();
@@ -49,6 +49,8 @@ record Maze(Graph<PointAndDirection, DefaultEdge> graph, PointAndDirection start
         
         Point end = endPoints.iterator().next();
         
+        // Convert the input into a graph.
+        // Vertices are positions in the maze, consisting of a location and direction.
         
         Graph<PointAndDirection, DefaultEdge> graph = new DefaultDirectedWeightedGraph<>(DefaultEdge.class);
         
@@ -58,11 +60,14 @@ record Maze(Graph<PointAndDirection, DefaultEdge> graph, PointAndDirection start
                         .map(direction -> new PointAndDirection(tile, direction)))
                 .forEach(graph::addVertex);
 
+        // Traveling a single step has weight 1.
         graph.vertexSet()
                 .stream()
                 .filter(vertex -> graph.containsVertex(vertex.move()))
                 .map(vertex -> graph.addEdge(vertex, vertex.move()))
                 .forEach(edge -> graph.setEdgeWeight(edge, 1));
+        
+        // Turning has weight 1000.
         graph.vertexSet()
                 .stream()
                 .map(vertex -> graph.addEdge(vertex, vertex.turnClockwise()))
@@ -72,37 +77,34 @@ record Maze(Graph<PointAndDirection, DefaultEdge> graph, PointAndDirection start
                 .map(vertex -> graph.addEdge(vertex, vertex.turnCounterClockwise()))
                 .forEach(edge -> graph.setEdgeWeight(edge, 1_000));
         
-        // We do not care which direction we are facing for the end!
+        // We do not care which direction we are facing at the end.
+        // Make turning at the end free (weight 0).
         Stream.of(Direction.values())
                 .filter(direction -> direction.getOrientation() != Orientation.DIAGONAL)
                 .map(direction -> new PointAndDirection(end, direction))
                 .peek(vertex -> graph.setEdgeWeight(vertex, vertex.turnClockwise(), 0))
                 .forEach(vertex -> graph.setEdgeWeight(vertex, vertex.turnCounterClockwise(), 0));
+        // Now we can pick any direction and just consider that the end vertex.
         PointAndDirection endVertex = new PointAndDirection(end, Direction.RIGHT);
         
         return new Maze(graph, startVertex, endVertex);
     }
     
     int computeLowestScore() {
-        var path = computeShortestPath();
-        return (int) path.getWeight();
+        ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        return (int) algorithm.getPathWeight(startVertex, endVertex);
     }
 
-    private GraphPath<PointAndDirection, DefaultEdge> computeShortestPath() {
-        ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        return algorithm.getPath(startVertex, endVertex);
-    }
-    
     long countBestPathTiles() {
-        var shortestPath = computeShortestPath();
+        ShortestPathAlgorithm<PointAndDirection, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        var pathsFromStart = algorithm.getPaths(startVertex);
+        var pathsFromEnd = algorithm.getPaths(endVertex);
         
-        AllDirectedPaths<PointAndDirection, DefaultEdge> algorithm = new AllDirectedPaths<>(graph);
+        var lowestScore = pathsFromStart.getWeight(endVertex);
         
-        var paths = algorithm.getAllPaths(startVertex, endVertex, true, Integer.valueOf(shortestPath.getLength()));
-                
-        return paths.stream()
-                .filter(path -> path.getWeight() == shortestPath.getWeight())
-                .flatMap(path -> path.getVertexList().stream())
+        return graph.vertexSet()
+                .stream()
+                .filter(vertex -> pathsFromStart.getWeight(vertex) + pathsFromEnd.getWeight(vertex.turnClockwise().turnClockwise()) == lowestScore)
                 .map(PointAndDirection::point)
                 .distinct()
                 .count();
