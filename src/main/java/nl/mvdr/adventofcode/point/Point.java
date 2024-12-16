@@ -459,7 +459,7 @@ public record Point(int x, int y) implements Comparable<Point> {
      * @param maxX maximum x coordinate value
      * @param minY minimum y coordinate value
      * @param maxY maximum y coordinate value
-     * @return
+     * @return (potentially multiline!) string
      */
     public static String visualize(Set<Point> points, int minX, int maxX, int minY, int maxY) {
         StringBuilder builder = new StringBuilder();
