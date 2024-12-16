@@ -15,4 +15,8 @@ record PointAndDirection(Point point, Direction direction) {
     PointAndDirection turnCounterClockwise() {
         return new PointAndDirection(point, direction.turnCounterClockwise());
     }
+    
+    PointAndDirection reverseDirection() {
+        return new PointAndDirection(point, direction.reverse());
+    }
 }

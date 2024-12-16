@@ -15,11 +15,11 @@ import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Orientation;
 import nl.mvdr.adventofcode.point.Point;
 
+/// Representation of the maze as a graph.
+/// Vertices are positions in the maze, consisting of a location and direction.
 record Maze(Graph<PointAndDirection, DefaultEdge> graph, PointAndDirection startVertex, PointAndDirection endVertex) {
     
     static Maze parse(List<String> lines) {
-        
-        // Parse the given input.
         Set<Point> startingPoints = new HashSet<>();
         Set<Point> endPoints = new HashSet<>();
         Set<Point> tiles = new HashSet<>();
@@ -45,13 +45,13 @@ record Maze(Graph<PointAndDirection, DefaultEdge> graph, PointAndDirection start
             throw new IllegalArgumentException("Expected 1 end point, found: " + endPoints);
         }
         
-        PointAndDirection startVertex = new PointAndDirection(startingPoints.iterator().next(), Direction.RIGHT);
-        
+        Point start = startingPoints.iterator().next();
         Point end = endPoints.iterator().next();
         
-        // Convert the input into a graph.
-        // Vertices are positions in the maze, consisting of a location and direction.
-        
+        return createMaze(tiles, start, end);
+    }
+
+    private static Maze createMaze(Set<Point> tiles, Point start, Point end) {
         Graph<PointAndDirection, DefaultEdge> graph = new DefaultDirectedWeightedGraph<>(DefaultEdge.class);
         
         tiles.stream()
@@ -76,6 +76,8 @@ record Maze(Graph<PointAndDirection, DefaultEdge> graph, PointAndDirection start
                 .stream()
                 .map(vertex -> graph.addEdge(vertex, vertex.turnCounterClockwise()))
                 .forEach(edge -> graph.setEdgeWeight(edge, 1_000));
+        
+        PointAndDirection startVertex = new PointAndDirection(start, Direction.RIGHT);
         
         // We do not care which direction we are facing at the end.
         // Make turning at the end free (weight 0).
@@ -104,7 +106,7 @@ record Maze(Graph<PointAndDirection, DefaultEdge> graph, PointAndDirection start
         
         return graph.vertexSet()
                 .stream()
-                .filter(vertex -> pathsFromStart.getWeight(vertex) + pathsFromEnd.getWeight(vertex.turnClockwise().turnClockwise()) == lowestScore)
+                .filter(vertex -> pathsFromStart.getWeight(vertex) + pathsFromEnd.getWeight(vertex.reverseDirection()) == lowestScore)
                 .map(PointAndDirection::point)
                 .distinct()
                 .count();
