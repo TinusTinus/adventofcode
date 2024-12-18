@@ -1,20 +1,20 @@
 package nl.mvdr.adventofcode.adventofcode2024.day17;
 
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.solver.IntSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
-public class Part2 implements IntSolver {
+public class Part2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         var program = Program.parse(lines.toList());
         
         var programString = program.program()
@@ -22,8 +22,8 @@ public class Part2 implements IntSolver {
                 .map(i -> i.toString())
                 .collect(Collectors.joining(","));
         
-        return IntStream.iterate(0, a -> a + 1)
-                .parallel()
+        return LongStream.iterate(40_000_000_000_000L, a -> a + 1)
+//                .parallel()
                 .filter(a -> program.withInitialA(a).outputs(programString))
                 .findFirst()
                 .orElseThrow();

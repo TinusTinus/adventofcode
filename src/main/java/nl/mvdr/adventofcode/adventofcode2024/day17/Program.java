@@ -4,7 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-record Program(int initialA, int initialB, int initialC, List<Integer> program) {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+record Program(long initialA, long initialB, long initialC, List<Long> program) {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     
     static Program parse(List<String> lines) {
         var a = getRegisterValue(lines.get(0));
@@ -16,21 +21,21 @@ record Program(int initialA, int initialB, int initialC, List<Integer> program) 
         return new Program(a, b, c, program);
     }
 
-    private static int getRegisterValue(String line) {
+    private static long getRegisterValue(String line) {
         var registerValueString = line.substring(line.indexOf(": ") + 2);
-        return Integer.parseInt(registerValueString);
+        return Long.parseLong(registerValueString);
     }
     
-    private static List<Integer> getProgram(String line) {
+    private static List<Long> getProgram(String line) {
         var programString = line.substring(9);
         return Stream.of(programString.split(","))
-                .map(Integer::valueOf)
+                .map(Long::valueOf)
                 .toList();
     }
     
-    private static int divide(int a, int operandValue) {
+    private static long divide(long a, long operandValue) {
         var numerator = a;
-        var denominator = (int)Math.pow(2, operandValue);
+        var denominator = (long)Math.pow(2, operandValue);
         return numerator / denominator;
     }
     
@@ -53,7 +58,7 @@ record Program(int initialA, int initialB, int initialC, List<Integer> program) 
             var instruction = Instruction.fromOpcode(opcode);
             
             var operand = program.get(instructionPointer + 1).intValue();
-            int operandValue = switch(instruction.getOperandType()) {
+            long operandValue = switch(instruction.getOperandType()) {
                 case LITERAL -> operand;
                 case COMBO -> switch(operand) {
                     case 0, 1, 2, 3 -> operand;
@@ -77,7 +82,7 @@ record Program(int initialA, int initialB, int initialC, List<Integer> program) 
                 if (a == 0) {
                     instructionPointer += 2;
                 } else {
-                    instructionPointer = operandValue;
+                    instructionPointer = Math.toIntExact(operandValue);
                 }
             } else if (instruction == Instruction.BXC) {
                 b = b ^ c;
@@ -101,11 +106,13 @@ record Program(int initialA, int initialB, int initialC, List<Integer> program) 
     }
     
     boolean outputs(String expectedOutput) {
-        String output = execute(Optional.of(expectedOutput));
+        String output = execute(Optional.empty());
+        // String output = execute(Optional.of(expectedOutput));
+        LOGGER.info("Expected output: {}, initial value for A = {}: {}", expectedOutput, Long.valueOf(initialA), output); // TODO clean up logging
         return expectedOutput.equals(output);
     }
     
-    Program withInitialA(int a) {
+    Program withInitialA(long a) {
         return new Program(a, initialB, initialC, program);
     }
 }
