@@ -22,8 +22,8 @@ public class Part2 implements LongSolver {
                 .map(i -> i.toString())
                 .collect(Collectors.joining(","));
         
-        return LongStream.iterate(40_000_000_000_000L, a -> a + 1)
-//                .parallel()
+        return LongStream.iterate(0L, a -> a + 1)
+                .parallel()
                 .filter(a -> program.withInitialA(a).outputs(programString))
                 .findFirst()
                 .orElseThrow();

@@ -33,12 +33,6 @@ record Program(long initialA, long initialB, long initialC, List<Long> program) 
                 .toList();
     }
     
-    private static long divide(long a, long operandValue) {
-        var numerator = a;
-        var denominator = (long)Math.pow(2, operandValue);
-        return numerator / denominator;
-    }
-    
     String execute() {
         return execute(Optional.empty());
     }
@@ -70,7 +64,7 @@ record Program(long initialA, long initialB, long initialC, List<Long> program) 
             };
             
             if (instruction == Instruction.ADV) {
-                a = divide(a, operandValue);
+                a = a >> operandValue;
                 instructionPointer += 2;
             } else if (instruction == Instruction.BXL) {
                 b = b ^ operandValue;
@@ -94,10 +88,10 @@ record Program(long initialA, long initialB, long initialC, List<Long> program) 
                 output.append(operandValue % 8);
                 instructionPointer += 2;
             } else if (instruction == Instruction.BDV) {
-                b = divide(a, operandValue);
+                b = a >> operandValue;
                 instructionPointer += 2;
             } else if (instruction == Instruction.CDV) {
-                c = divide(a, operandValue);
+                c = a >> operandValue;
                 instructionPointer += 2;
             }
         }
@@ -106,9 +100,8 @@ record Program(long initialA, long initialB, long initialC, List<Long> program) 
     }
     
     boolean outputs(String expectedOutput) {
-        String output = execute(Optional.empty());
-        // String output = execute(Optional.of(expectedOutput));
-        LOGGER.info("Expected output: {}, initial value for A = {}: {}", expectedOutput, Long.valueOf(initialA), output); // TODO clean up logging
+        String output = execute(Optional.of(expectedOutput));
+//        LOGGER.info("Expected output: {}, initial value for A = {}: {}", expectedOutput, Long.valueOf(initialA), output); // TODO clean up logging
         return expectedOutput.equals(output);
     }
     
