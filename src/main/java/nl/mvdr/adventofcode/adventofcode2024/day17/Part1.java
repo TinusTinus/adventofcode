@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2024.day17;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -14,7 +15,10 @@ public class Part1 implements LinesSolver<String> {
     @Override
     public String solve(Stream<String> lines) {
         var program = Program.parse(lines.toList());
-        return program.execute();
+        var output = program.execute();
+        return output.stream()
+                .map(value -> value.toString())
+                .collect(Collectors.joining(","));
     }
     
     public static void main(String[] args) {

@@ -1,16 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2024.day17;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 record Program(long initialA, long initialB, long initialC, List<Long> program) {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
-    
     static Program parse(List<String> lines) {
         var a = getRegisterValue(lines.get(0));
         var b = getRegisterValue(lines.get(1));
@@ -33,21 +28,16 @@ record Program(long initialA, long initialB, long initialC, List<Long> program) 
                 .toList();
     }
     
-    String execute() {
-        return execute(Optional.empty());
-    }
-    
-    private String execute(Optional<String> expectedOuput) {
+    List<Long> execute() {
         var a = initialA;
         var b = initialB;
         var c = initialC;
         
         var instructionPointer = 0;
         
-        var output = new StringBuilder();
+        List<Long> output = new ArrayList<>();
         
-        while (0 <= instructionPointer && instructionPointer < program.size()
-                && (expectedOuput.isEmpty() || expectedOuput.orElseThrow().startsWith(output.toString()))) {
+        while (0 <= instructionPointer && instructionPointer < program.size()) {
             var opcode = program.get(instructionPointer).intValue();
             var instruction = Instruction.fromOpcode(opcode);
             
@@ -82,10 +72,7 @@ record Program(long initialA, long initialB, long initialC, List<Long> program) 
                 b = b ^ c;
                 instructionPointer += 2;
             } else if (instruction == Instruction.OUT) {
-                if (!output.isEmpty()) {
-                    output.append(",");
-                }
-                output.append(operandValue % 8);
+                output.add(Long.valueOf(operandValue % 8));
                 instructionPointer += 2;
             } else if (instruction == Instruction.BDV) {
                 b = a >> operandValue;
@@ -96,13 +83,7 @@ record Program(long initialA, long initialB, long initialC, List<Long> program) 
             }
         }
         
-        return output.toString();
-    }
-    
-    boolean outputs(String expectedOutput) {
-        String output = execute(Optional.of(expectedOutput));
-//        LOGGER.info("Expected output: {}, initial value for A = {}: {}", expectedOutput, Long.valueOf(initialA), output); // TODO clean up logging
-        return expectedOutput.equals(output);
+        return output;
     }
     
     Program withInitialA(long a) {

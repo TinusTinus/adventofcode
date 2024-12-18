@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2024.day17;
 
-import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -16,15 +15,9 @@ public class Part2 implements LongSolver {
     @Override
     public long solve(Stream<String> lines) {
         var program = Program.parse(lines.toList());
-        
-        var programString = program.program()
-                .stream()
-                .map(i -> i.toString())
-                .collect(Collectors.joining(","));
-        
         return LongStream.iterate(0L, a -> a + 1)
                 .parallel()
-                .filter(a -> program.withInitialA(a).outputs(programString))
+                .filter(a -> program.withInitialA(a).execute().equals(program.program()))
                 .findFirst()
                 .orElseThrow();
     }
