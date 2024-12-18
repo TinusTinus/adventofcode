@@ -23,7 +23,7 @@ public class Part2 implements IntSolver {
                 .collect(Collectors.joining(","));
         
         return IntStream.iterate(0, a -> a + 1)
-                .filter(a -> programString.equals(program.withInitialA(a).execute()))
+                .filter(a -> program.withInitialA(a).outputs(programString))
                 .findFirst()
                 .orElseThrow();
     }

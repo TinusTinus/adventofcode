@@ -94,6 +94,10 @@ record Program(int initialA, int initialB, int initialC, List<Integer> program) 
         return output.toString();
     }
     
+    boolean outputs(String expectedOutput) {
+        return expectedOutput.equals(execute()); // TODO implement this more efficiently!
+    }
+    
     Program withInitialA(int a) {
         return new Program(a, initialB, initialC, program);
     }
