@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2024.day17;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 record Program(int initialA, int initialB, int initialC, List<Integer> program) {
@@ -34,6 +35,10 @@ record Program(int initialA, int initialB, int initialC, List<Integer> program) 
     }
     
     String execute() {
+        return execute(Optional.empty());
+    }
+    
+    private String execute(Optional<String> expectedOuput) {
         var a = initialA;
         var b = initialB;
         var c = initialC;
@@ -42,7 +47,8 @@ record Program(int initialA, int initialB, int initialC, List<Integer> program) 
         
         var output = new StringBuilder();
         
-        while (0 <= instructionPointer && instructionPointer < program.size()) {
+        while (0 <= instructionPointer && instructionPointer < program.size()
+                && (expectedOuput.isEmpty() || expectedOuput.orElseThrow().startsWith(output.toString()))) {
             var opcode = program.get(instructionPointer).intValue();
             var instruction = Instruction.fromOpcode(opcode);
             
@@ -95,7 +101,8 @@ record Program(int initialA, int initialB, int initialC, List<Integer> program) 
     }
     
     boolean outputs(String expectedOutput) {
-        return expectedOutput.equals(execute()); // TODO implement this more efficiently!
+        String output = execute(Optional.of(expectedOutput));
+        return expectedOutput.equals(output);
     }
     
     Program withInitialA(int a) {
