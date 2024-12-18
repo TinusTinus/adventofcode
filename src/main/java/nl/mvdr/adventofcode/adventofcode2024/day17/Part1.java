@@ -30,7 +30,7 @@ public class Part1 implements LinesSolver<String> {
             var opcode = program.get(instructionPointer).intValue();
             var instruction = Instruction.fromOpcode(opcode);
             
-            var operand = program.get(instructionPointer).intValue();
+            var operand = program.get(instructionPointer + 1).intValue();
             int operandValue = switch(instruction.getOperandType()) {
                 case LITERAL -> operand;
                 case COMBO -> switch(operand) {
@@ -41,8 +41,6 @@ public class Part1 implements LinesSolver<String> {
                     default -> throw new IllegalStateException("Not a valid combo operand: " + operand);
                 };
             };
-            
-            LOGGER.info("Executing instruction {} with operand value {}", instruction, Integer.valueOf(operandValue)); // TODO debug
             
             if (instruction == Instruction.ADV) {
                 a = divide(a, operandValue);
