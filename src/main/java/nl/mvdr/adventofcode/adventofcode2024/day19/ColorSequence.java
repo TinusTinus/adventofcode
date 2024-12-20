@@ -17,13 +17,31 @@ record ColorSequence(List<Color> colors) {
                 && towelPattern.colors().equals(colors.subList(0, towelPattern.colors().size()));
     }
     
+    private ColorSequence dropColors(int n) {
+        return new ColorSequence(colors.subList(n, colors.size()));
+    }
+    
     /// Checks whether it is possible to create this design,
     /// using an infinite number of towels of each of the given towel patterns.
     boolean isPossible(Set<ColorSequence> towelPatterns) {
         return colors.isEmpty()
                 || towelPatterns.stream()
                         .filter(this::startsWith)
-                        .anyMatch(towelPattern -> new ColorSequence(colors.subList(towelPattern.colors().size(), colors.size())).isPossible(towelPatterns));
+                        .anyMatch(towelPattern -> dropColors(towelPattern.colors().size()).isPossible(towelPatterns));
     }
-    
+
+    /// Checks whether it is possible to create this design,
+    /// using an infinite number of towels of each of the given towel patterns.
+    long countWaysToMake(Set<ColorSequence> towelPatterns) {
+        long result;
+        if (colors.isEmpty()) {
+            result = 1L;
+        } else {
+            result = towelPatterns.stream()
+                    .filter(this::startsWith)
+                    .mapToLong(towelPattern -> dropColors(towelPattern.colors().size()).countWaysToMake(towelPatterns))
+                    .sum();
+        }
+        return result;
+    }
 }
