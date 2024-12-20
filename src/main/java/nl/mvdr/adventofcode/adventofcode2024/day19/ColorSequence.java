@@ -25,8 +25,7 @@ record ColorSequence(List<Color> colors) {
         return new ColorSequence(colors.subList(n, colors.size()));
     }
     
-    /// Checks whether it is possible to create this design,
-    /// using an infinite number of towels of each of the given towel patterns.
+    /// Checks whether it is possible to create this design.
     boolean isPossible(Set<ColorSequence> towelPatterns) {
         return colors.isEmpty()
                 || towelPatterns.stream()
@@ -34,8 +33,7 @@ record ColorSequence(List<Color> colors) {
                         .anyMatch(towelPattern -> dropColors(towelPattern.colors().size()).isPossible(towelPatterns));
     }
 
-    /// Checks whether it is possible to create this design,
-    /// using an infinite number of towels of each of the given towel patterns.
+    /// Counts the ways to create this design.
     long countWaysToMake(Set<ColorSequence> towelPatterns) {
         Long cached = cache.get(this);
         
