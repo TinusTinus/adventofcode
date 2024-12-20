@@ -1,10 +1,14 @@
 package nl.mvdr.adventofcode.adventofcode2024.day19;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 record ColorSequence(List<Color> colors) {
 
+    private static Map<ColorSequence, Long> cache = new HashMap<>();
+    
     static ColorSequence parse(String stringRepresentation) {
         var colors = stringRepresentation.chars()
                 .mapToObj(c -> Color.parse((char)c))
@@ -33,15 +37,23 @@ record ColorSequence(List<Color> colors) {
     /// Checks whether it is possible to create this design,
     /// using an infinite number of towels of each of the given towel patterns.
     long countWaysToMake(Set<ColorSequence> towelPatterns) {
+        Long cached = cache.get(this);
+        
         long result;
-        if (colors.isEmpty()) {
-            result = 1L;
+        if (cached == null) {
+            if (colors.isEmpty()) {
+                result = 1L;
+            } else {
+                result = towelPatterns.stream()
+                        .filter(this::startsWith)
+                        .mapToLong(towelPattern -> dropColors(towelPattern.colors().size()).countWaysToMake(towelPatterns))
+                        .sum();
+            }
+            cache.put(this, Long.valueOf(result));
         } else {
-            result = towelPatterns.stream()
-                    .filter(this::startsWith)
-                    .mapToLong(towelPattern -> dropColors(towelPattern.colors().size()).countWaysToMake(towelPatterns))
-                    .sum();
+            result = cached.longValue();
         }
+        
         return result;
     }
 }
