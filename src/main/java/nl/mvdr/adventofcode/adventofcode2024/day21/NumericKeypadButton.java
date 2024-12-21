@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
 
-enum NumericKeypadButton {
+enum NumericKeypadButton implements KeypadButton<NumericKeypadButton> {
     
     KEY_7('7', 0, 0),
     KEY_8('8', 1, 0),
@@ -38,5 +38,10 @@ enum NumericKeypadButton {
         return Stream.of(NumericKeypadButton.values())
                 .filter(button -> button.location.equals(location))
                 .findFirst();
+    }
+    
+    @Override
+    public Point getLocation() {
+        return location;
     }
 }
