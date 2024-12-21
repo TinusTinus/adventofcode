@@ -121,8 +121,13 @@ record State(List<NumericKeypadButton> remainingCode,
         
         ShortestPathAlgorithm<State, DirectionalKeypadButtonPress> algorithm = new DijkstraShortestPath<>(graph);
         
+        LOGGER.info("Constructed a graph for code {}", remainingCode); // TODO clean up logging
+        
         var path = algorithm.getPath(this, new State("", intermediateRobotPositions.size()));
+        
         LOGGER.debug("Path found: {}", path);
+        LOGGER.info("Path found for code {}, length: {}", remainingCode, Integer.valueOf(path.getLength())); // TODO clean up logging?
+        
         return path.getLength();
     }
     

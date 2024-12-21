@@ -15,6 +15,7 @@ class KeypadConondrumSolver implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         return lines.map(code -> new State(code, intermediateRobots))
+                .parallel()
                 .mapToInt(State::complexity)
                 .sum();
     }
