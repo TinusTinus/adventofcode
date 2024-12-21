@@ -104,6 +104,7 @@ record State(List<NumericKeypadButton> remainingCode,
                 .mapToObj(i -> remainingCode.subList(i, remainingCode.size()))
                 .forEach(code -> Stream.of(NumericKeypadButton.values())
                         .forEach(firstPosition -> DirectionalKeypadButton.getAllPermutations(intermediateRobotPositions.size())
+                                .stream()
                                 .map(intermediatePositions -> new State(code, firstPosition, intermediatePositions))
                                 .forEach(result::addVertex)));
         
