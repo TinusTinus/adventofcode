@@ -11,13 +11,11 @@ interface KeypadButton<B extends Enum<B> & KeypadButton<B>> {
     
     Point getLocation();
     
-    private static <T extends Enum<T> & KeypadButton<T>> Optional<T> buttonAt(Point location, Class<T> buttonType) {
-        return Stream.of(buttonType.getEnumConstants())
-                .filter(button -> button.getLocation().equals(location))
-                .findFirst();
-    }
-    
     default Optional<B> neighbouringButton(Direction direction) {
-        return buttonAt(direction.move(getLocation()), (Class<B>)getClass());
+        var neighbourLocation = direction.move(getLocation());
+        return Stream.of(getClass().getEnumConstants())
+                .map(value -> (B)value)
+                .filter(button -> button.getLocation().equals(neighbourLocation))
+                .findFirst();
     }
 }
