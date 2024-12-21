@@ -1,19 +1,26 @@
 package nl.mvdr.adventofcode.adventofcode2024.day21;
 
+import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 enum DirectionalKeypadButton implements KeypadButton<DirectionalKeypadButton> {
     
-    UP(1, 0),
-    A(2, 0),
-    LEFT(0, 1),
-    DOWN(1, 1),
-    RIGHT(2, 1);
+    UP(Direction.UP, 1, 0),
+    A(null, 2, 0),
+    LEFT(Direction.LEFT, 0, 1),
+    DOWN(Direction.DOWN, 1, 1),
+    RIGHT(Direction.RIGHT, 2, 1);
     
+    private final Direction direction;
     private final Point location;
     
-    private DirectionalKeypadButton(int x, int y) {
+    private DirectionalKeypadButton(Direction direction, int x, int y) {
+        this.direction = direction;
         this.location = new Point(x, y);
+    }
+
+    Direction getDirection() {
+        return direction;
     }
     
     @Override

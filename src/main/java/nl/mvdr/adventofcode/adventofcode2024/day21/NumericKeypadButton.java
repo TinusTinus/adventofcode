@@ -19,8 +19,8 @@ enum NumericKeypadButton implements KeypadButton<NumericKeypadButton> {
     KEY_0('0', 1, 3),
     KEY_A('A', 2, 3);
     
-    private final Point location;
     private final char character;
+    private final Point location;
     
     private NumericKeypadButton(char character, int x, int y) {
         this.character = character;
@@ -38,6 +38,10 @@ enum NumericKeypadButton implements KeypadButton<NumericKeypadButton> {
         return Stream.of(NumericKeypadButton.values())
                 .filter(button -> button.location.equals(location))
                 .findFirst();
+    }
+    
+    char getCharacter() {
+        return character;
     }
     
     @Override

@@ -40,7 +40,34 @@ record State(List<NumericKeypadButton> remainingCode,
     
     /// Returns the updated state, after pressing the A button (that is, the confirm button) on the third robot's directional keypad.
     private Optional<State> pressA() {
-        return Optional.empty(); // TODO implement!
+        Optional<State> result;
+        
+        if (thirdRobotArmPosition == DirectionalKeypadButton.A) {
+            // The third robot is also about to press the A button!
+            
+            if (secondRobotArmPosition == DirectionalKeypadButton.A) {
+                // The second robot is also about to press the A button!!
+                
+                if (!remainingCode.isEmpty() && remainingCode.getFirst() == firstRobotArmPosition) {
+                    // The first robot arm is hovering over the correct numpad button!!!
+                    var newRemainingCode = remainingCode.subList(1, remainingCode.size());
+                    result = Optional.of(new State(newRemainingCode, firstRobotArmPosition, secondRobotArmPosition, thirdRobotArmPosition));
+                } else {
+                    // The first robot arm is hovering over the wrong button. Let's not press it.
+                    result = Optional.empty();
+                }
+            } else {
+                // The second robot is pressing a directional button. Move the first arm.
+                result = firstRobotArmPosition.neighbouringButton(secondRobotArmPosition.getDirection())
+                        .map(newFirstPosition -> new State(remainingCode, newFirstPosition, secondRobotArmPosition, thirdRobotArmPosition));
+            }
+        } else {
+            // The third robot arm is pressing a directional button. Move the second arm.
+            result = secondRobotArmPosition.neighbouringButton(thirdRobotArmPosition.getDirection())
+                    .map(newSecondPosition -> new State(remainingCode, firstRobotArmPosition, newSecondPosition, thirdRobotArmPosition));
+        }
+        
+        return result;
     }
     
     private Stream<State> stateTransitions() {
