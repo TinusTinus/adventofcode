@@ -7,6 +7,8 @@ import nl.mvdr.adventofcode.solver.IntSolver;
 class KeypadConondrumSolver implements IntSolver {
 
     private final int intermediateRobots;
+    private final Keypad<NumericKeypadButton> numericKeypad = Keypad.create(NumericKeypadButton.class);
+    private final Keypad<DirectionalKeypadButton> directionalKeypad = Keypad.create(DirectionalKeypadButton.class);
 
     KeypadConondrumSolver(int intermediateRobots) {
         this.intermediateRobots = intermediateRobots;
@@ -22,17 +24,14 @@ class KeypadConondrumSolver implements IntSolver {
         return Math.multiplyExact(findFewestButtonPresses(code), getNumericCode(code));
     }
     
-    
     private int findFewestButtonPresses(String code) {
-        var firstRobot = Robot.createFirstRobot(code);
-        
-        var fewestButtonPresses = firstRobot.fewestButtonPresses();
-        
-        var intermediateRobot = Robot.createIntermediateRobot(fewestButtonPresses);
+        var codeButtons = code.chars()
+                .mapToObj(c -> NumericKeypadButton.of((char)c))
+                .toList();
+        var fewestButtonPresses = numericKeypad.fewestButtonPresses(codeButtons, NumericKeypadButton.KEY_A);
         
         for (int i = 0; i != intermediateRobots; i++) {
-            fewestButtonPresses = intermediateRobot.fewestButtonPresses();
-            intermediateRobot = Robot.createIntermediateRobot(fewestButtonPresses);
+            fewestButtonPresses = directionalKeypad.fewestButtonPresses(fewestButtonPresses, DirectionalKeypadButton.A);
         }
         
         return fewestButtonPresses.size();
