@@ -7,17 +7,17 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.solver.IntSolver;
 
-public class Part1 implements IntSolver {
+public class Part2 implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
     public int solve(Stream<String> lines) {
-        return new KeypadConondrumSolver(2).solve(lines);
+        return new KeypadConondrumSolver(25).solve(lines);
     }
     
     public static void main(String[] args) {
-        var instance = new Part1();
+        var instance = new Part2();
 
         var result = instance.solve("input-day21-2024.txt");
 

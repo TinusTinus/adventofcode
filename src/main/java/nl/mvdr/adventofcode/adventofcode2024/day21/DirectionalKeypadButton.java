@@ -1,6 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2024.day21;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
@@ -35,5 +37,14 @@ enum DirectionalKeypadButton implements KeypadButton<DirectionalKeypadButton> {
         return Optional.ofNullable(direction)
                 .map(Direction::toString)
                 .orElse("A");
+    }
+    
+    static Stream<List<DirectionalKeypadButton>> getAllPermutations(int length) {
+        return switch(length) {
+            case 0 -> Stream.of(List.of());
+            default -> getAllPermutations(length - 1)
+                    .flatMap(permutation -> Stream.of(values())
+                            .map(value -> (Stream.concat(Stream.of(value), permutation.stream())).toList()));
+        };
     }
 }
