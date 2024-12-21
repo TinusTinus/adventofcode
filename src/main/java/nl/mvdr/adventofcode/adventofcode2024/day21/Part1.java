@@ -14,7 +14,7 @@ public class Part1 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         return lines.map(State::new)
-                .mapToInt(State::buttonPresses)
+                .mapToInt(State::complexity)
                 .sum();
     }
     

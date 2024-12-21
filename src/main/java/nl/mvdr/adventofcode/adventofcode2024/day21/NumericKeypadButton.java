@@ -48,4 +48,9 @@ enum NumericKeypadButton implements KeypadButton<NumericKeypadButton> {
     public Point getLocation() {
         return location;
     }
+    
+    @Override
+    public String toString() {
+        return "" + character;
+    }
 }

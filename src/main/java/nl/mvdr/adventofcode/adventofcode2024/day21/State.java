@@ -2,13 +2,14 @@ package nl.mvdr.adventofcode.adventofcode2024.day21;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 import nl.mvdr.adventofcode.point.Direction;
@@ -30,6 +31,19 @@ record State(List<NumericKeypadButton> remainingCode,
                 NumericKeypadButton.KEY_A,
                 DirectionalKeypadButton.A,
                 DirectionalKeypadButton.A);
+    }
+    
+    /// Presses the given button on the directional keypad of the third robot.
+    /// Returns an empty value if the resulting state would result in a robot panic,
+    /// or if it would result in an incorrect keypad button being pressed.
+    private Optional<State> press(DirectionalKeypadButton button) {
+        Optional<State> result;
+        if (button == DirectionalKeypadButton.A) {
+            result = pressA();
+        } else {
+            result = pressDirection(button.getDirection());
+        }
+        return result;
     }
     
     /// Returns the updated state, after pressing the given directional button on the third robot's directional keypad.
@@ -70,18 +84,8 @@ record State(List<NumericKeypadButton> remainingCode,
         return result;
     }
     
-    private Stream<State> stateTransitions() {
-        return Stream.concat(        
-            Stream.of(Direction.values())
-                    .map(this::pressDirection)
-                    .filter(Optional::isPresent)
-                    .map(Optional::orElseThrow),
-            pressA().stream());
-    }
-
-
-    private Graph<State, DefaultEdge> createGraph() {
-        Graph<State, DefaultEdge> result = new SimpleDirectedGraph<>(DefaultEdge.class);
+    private Graph<State, DirectionalKeypadButtonPress> createGraph() {
+        Graph<State, DirectionalKeypadButtonPress> result = new SimpleDirectedGraph<>(DirectionalKeypadButtonPress.class);
         
         IntStream.range(0, remainingCode.size() + 1)
                 .mapToObj(i -> remainingCode.subList(i, remainingCode.size()))
@@ -92,19 +96,35 @@ record State(List<NumericKeypadButton> remainingCode,
                                         .forEach(result::addVertex))));
         
         result.vertexSet()
-                .forEach(state -> state.stateTransitions()
-                        .forEach(nextState -> result.addEdge(state, nextState)));
+                .forEach(state -> Stream.of(DirectionalKeypadButton.values())
+                        .forEach(button -> state.press(button)
+                                .ifPresent(nextState -> result.addEdge(state, nextState, new DirectionalKeypadButtonPress(button)))));
         
         return result;
     }
     
     /// Fewest number of button presses needed to cause the robot in front of the door to type the code
-    int buttonPresses() {
+    private int buttonPresses() {
         var graph = createGraph();
         
-        ShortestPathAlgorithm<State, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
+        ShortestPathAlgorithm<State, DirectionalKeypadButtonPress> algorithm = new DijkstraShortestPath<>(graph);
         
-        return algorithm.getPath(this, END_STATE).getLength();
+        GraphPath<State, DirectionalKeypadButtonPress> path = algorithm.getPath(this, END_STATE);
+        
+        return path.getLength();
+    }
+    
+    private int numericCode() {
+        String numericCodeString = remainingCode.stream()
+                .filter(button -> button != NumericKeypadButton.KEY_A)
+                .map(NumericKeypadButton::toString)
+                .collect(Collectors.joining());
+        
+        return Integer.parseInt(numericCodeString, 10);
+    }
+    
+    int complexity() {
+        return buttonPresses() * numericCode();
     }
     
 }

@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2024.day21;
 
+import java.util.Optional;
+
 import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
@@ -26,5 +28,12 @@ enum DirectionalKeypadButton implements KeypadButton<DirectionalKeypadButton> {
     @Override
     public Point getLocation() {
         return location;
+    }
+
+    @Override
+    public String toString() {
+        return Optional.ofNullable(direction)
+                .map(Direction::toString)
+                .orElse("A");
     }
 }
