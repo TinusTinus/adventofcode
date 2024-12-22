@@ -5,14 +5,14 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.solver.IntSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
-public class Part2 implements IntSolver {
+public class Part2 implements LongSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
-    public int solve(Stream<String> lines) {
+    public long solve(Stream<String> lines) {
         return new KeypadConondrumSolver(26).solve(lines);
     }
     
@@ -21,7 +21,7 @@ public class Part2 implements IntSolver {
 
         var result = instance.solve("input-day21-2024.txt");
 
-        LOGGER.info(result);
+        LOGGER.info(result); // 14494653634400 is too low!
     }
 }
  
