@@ -28,8 +28,7 @@ public class Hailstone2DTest {
         var resultReversed = stone1.findPathIntersection(stone0);
                 
         Assertions.assertEquals(result, resultReversed);
-        
-        Assertions.assertEquals(expectedResult, result); // TODO take precision into account
+        Assertions.assertEquals(expectedResult, result);
     }
     
     /**

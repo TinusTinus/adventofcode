@@ -21,7 +21,7 @@ public class Part2 implements LongSolver {
 
         var result = instance.solve("input-day21-2024.txt");
 
-        LOGGER.info(result); // 14494653634400 is too low!
+        LOGGER.info(result);
     }
 }
  

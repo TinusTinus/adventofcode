@@ -70,9 +70,7 @@ record Keypad<B extends Enum<B> & KeypadButton<B>>(AllDirectedPaths<B, Direction
                 // Just press the button
                 result = 1;
             } else {
-                // TODO caching
-                
-                var paths = allPathsAlgorithm.getAllPaths(initialButton, button, false, Integer.valueOf(5)); // TODO could be reduced: 5 for numeric, 3 for directional
+                var paths = allPathsAlgorithm.getAllPaths(initialButton, button, false, Integer.valueOf(5)); // max path length is 5 for numeric, 3 for directional
                 var shortestPathLength = paths.stream()
                         .mapToInt(GraphPath::getLength)
                         .min()
@@ -93,7 +91,7 @@ record Keypad<B extends Enum<B> & KeypadButton<B>>(AllDirectedPaths<B, Direction
             }
             cache.put(cacheKey, Long.valueOf(result));
         } else {
-            result = cached.intValue();
+            result = cached.longValue();
         }
         return result;
     }
