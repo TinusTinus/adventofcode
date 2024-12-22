@@ -26,7 +26,7 @@ class KeypadConondrumSolver implements LongSolver {
         var codeButtons = code.chars()
                 .mapToObj(c -> NumericKeypadButton.of((char)c))
                 .toList();
-        return  Keypad.NUMERIC.fewestButtonPresses(codeButtons, NumericKeypadButton.KEY_A, robots);
+        return  Keypad.NUMERIC.fewestButtonPresses(codeButtons, robots);
     }
     
     private static int getNumericCode(String code) {
