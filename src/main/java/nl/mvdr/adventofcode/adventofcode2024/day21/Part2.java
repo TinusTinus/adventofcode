@@ -13,7 +13,7 @@ public class Part2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        return new KeypadConondrumSolver(25).solve(lines);
+        return new KeypadConondrumSolver(26).solve(lines);
     }
     
     public static void main(String[] args) {

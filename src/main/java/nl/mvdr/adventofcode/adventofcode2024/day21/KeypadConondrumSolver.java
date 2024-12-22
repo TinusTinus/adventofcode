@@ -6,12 +6,10 @@ import nl.mvdr.adventofcode.solver.IntSolver;
 
 class KeypadConondrumSolver implements IntSolver {
 
-    private final int intermediateRobots;
-    private final Keypad<NumericKeypadButton> numericKeypad = Keypad.create(NumericKeypadButton.class);
-    private final Keypad<DirectionalKeypadButton> directionalKeypad = Keypad.create(DirectionalKeypadButton.class);
+    private final int robots;
 
-    KeypadConondrumSolver(int intermediateRobots) {
-        this.intermediateRobots = intermediateRobots;
+    KeypadConondrumSolver(int robots) {
+        this.robots = robots;
     }
     
     @Override
@@ -28,13 +26,7 @@ class KeypadConondrumSolver implements IntSolver {
         var codeButtons = code.chars()
                 .mapToObj(c -> NumericKeypadButton.of((char)c))
                 .toList();
-        var fewestButtonPresses = numericKeypad.fewestButtonPresses(codeButtons, NumericKeypadButton.KEY_A);
-        
-        for (int i = 0; i != intermediateRobots; i++) {
-            fewestButtonPresses = directionalKeypad.fewestButtonPresses(fewestButtonPresses, DirectionalKeypadButton.A);
-        }
-        
-        return fewestButtonPresses.size();
+        return  Keypad.NUMERIC.fewestButtonPresses(codeButtons, NumericKeypadButton.KEY_A, robots);
     }
     
     private static int getNumericCode(String code) {
