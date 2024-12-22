@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2024.day21;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
@@ -32,12 +31,6 @@ enum NumericKeypadButton implements KeypadButton<NumericKeypadButton> {
                 .filter(button -> button.character == c)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No button found for " + c));
-    }
-    
-    static Optional<NumericKeypadButton> buttonAt(Point location) {
-        return Stream.of(NumericKeypadButton.values())
-                .filter(button -> button.location.equals(location))
-                .findFirst();
     }
     
     char getCharacter() {
