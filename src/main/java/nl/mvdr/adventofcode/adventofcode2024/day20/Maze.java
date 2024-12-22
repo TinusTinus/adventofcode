@@ -51,6 +51,7 @@ record Maze(Set<Point> walls, Set<Point> tracks, Point start, Point end) {
         var fastestPathWithoutCheating = fastestPath();
         
         return walls.stream()
+                .parallel()
                 .map(this::removeWall)
                 .mapToInt(Maze::fastestPath)
                 .filter(pathLength -> minSavingsThreshold <= fastestPathWithoutCheating - pathLength)
