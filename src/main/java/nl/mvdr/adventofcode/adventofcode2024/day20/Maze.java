@@ -46,8 +46,9 @@ record Maze(Set<Point> walls, Set<Point> tracks, Point start, Point end) {
         return new Maze(walls, tracks, start, end);
     }
     
-    /// Counts the number of cheats which would save at least the given threshold in picoseconds.
-    long countCheats(int minSavingsThreshold) {
+    /// Counts the number of cheats lasting at most the given duration, which would save at least the given threshold.
+    /// All times are in picoseconds.
+    long countCheats(int maxCheatDuration, int minSavingsThreshold) {
         var fastestPathWithoutCheating = fastestPath();
         
         return walls.stream()
