@@ -3,9 +3,8 @@ package nl.mvdr.adventofcode.adventofcode2024.day23;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.jgrapht.Graph;
-import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.slf4j.Logger;
@@ -29,16 +28,17 @@ public class Part1 implements LongSolver {
             graph.addEdge(computers.getFirst(), computers.getLast());
         });
         
-        var connectivityInspector = new ConnectivityInspector<>(graph);
-        
         return graph.vertexSet()
                 .stream()
-                .filter(computer -> computer.startsWith("t"))
-                .map(connectivityInspector::connectedSetOf)
-                .peek(connectedSet -> LOGGER.info("Connected set: {}", connectedSet)) // TODO
-                .mapToInt(Set::size)
-                .mapToLong(connectedSetSize -> CombinatoricsUtils.binomialCoefficient(connectedSetSize, 3))
-                .sum();
+                .flatMap(firstComputer -> Graphs.neighborListOf(graph, firstComputer)
+                        .stream()
+                        .flatMap(secondComputer -> Graphs.neighborListOf(graph, firstComputer)
+                                .stream()
+                                .filter(thirdComputer -> graph.containsEdge(secondComputer, thirdComputer))
+                                .map(thirdComputer -> Set.of(firstComputer, secondComputer, thirdComputer))))
+                .filter(interConnectedSet -> interConnectedSet.stream().anyMatch(computer -> computer.startsWith("t")))
+                .distinct()
+                .count();
     }
     
     public static void main(String[] args) {
