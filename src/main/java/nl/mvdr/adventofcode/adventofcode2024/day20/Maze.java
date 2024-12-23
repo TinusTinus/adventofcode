@@ -9,21 +9,22 @@ import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
 
-record Maze(Set<Point> walls, Set<Point> tracks, Point start, Point end) {
+record Maze(Set<Point> tracks, Point start, Point end) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Maze.class);
     
     static Maze parse(List<String> input) {
-        Set<Point> walls = new HashSet<>();
         Set<Point> tracks = new HashSet<>();
         Set<Point> starts = new HashSet<>();
         Set<Point> ends = new HashSet<>();
         
         Point.parse2DMap(input, (point, character) -> {
-            if (character == '#') {
-                walls.add(point);
-            } else if (character == '.') {
+            if (character == '.') {
                 tracks.add(point);
             } else if (character == 'S') {
                 starts.add(point);
@@ -31,7 +32,7 @@ record Maze(Set<Point> walls, Set<Point> tracks, Point start, Point end) {
             } else if (character == 'E') {
                 ends.add(point);
                 tracks.add(point);
-            } else {
+            } else if (character != '#') {
                 throw new IllegalArgumentException("Unable to parse as a maze element: " + character);
             }
         });
@@ -43,26 +44,37 @@ record Maze(Set<Point> walls, Set<Point> tracks, Point start, Point end) {
         var start = starts.iterator().next();
         var end = ends.iterator().next();
         
-        return new Maze(walls, tracks, start, end);
+        return new Maze(tracks, start, end);
     }
     
     /// Counts the number of cheats lasting at most the given duration, which would save at least the given threshold.
     /// All times are in picoseconds.
     long countCheats(int maxCheatDuration, int minSavingsThreshold) {
-        var fastestPathWithoutCheating = fastestPath();
+        ShortestPathAlgorithm<Point, DefaultEdge> algorithm = createAlgorithm();
         
-        return walls.stream()
-                .parallel()
-                .map(this::removeWall)
-                .mapToInt(Maze::fastestPath)
-                .filter(pathLength -> minSavingsThreshold <= fastestPathWithoutCheating - pathLength)
+        LOGGER.debug("Created shortest path algorithm");
+        
+        var pathsFromStart = algorithm.getPaths(start);
+        var pathsFromEnd = algorithm.getPaths(end);
+        
+        LOGGER.debug("Computed all shortest paths");
+        
+        var fastestPathWithoutCheating = pathsFromStart.getPath(end).getLength();
+        var maxPathLengthWithCheats = fastestPathWithoutCheating - minSavingsThreshold;
+        
+        return tracks.parallelStream()
+                .flatMap(cheatStart -> tracks.stream()
+                        .filter(cheatEnd -> !cheatStart.equals(cheatEnd))
+                        .filter(cheatEnd -> cheatEnd.manhattanDistance(cheatStart) <= maxCheatDuration)
+                        .filter(cheatEnd -> pathsFromStart.getPath(cheatStart).getLength()
+                                + cheatStart.manhattanDistance(cheatEnd)
+                                + pathsFromEnd.getPath(cheatEnd).getLength() <= maxPathLengthWithCheats))
                 .count();
     }
     
-    private int fastestPath() {
+    private ShortestPathAlgorithm<Point, DefaultEdge> createAlgorithm() {
         var graph = createGraph();
-        ShortestPathAlgorithm<Point, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
-        return algorithm.getPath(start, end).getLength();
+        return new DijkstraShortestPath<>(graph);
     }
     
     private Graph<Point, DefaultEdge> createGraph() {
@@ -78,15 +90,4 @@ record Maze(Set<Point> walls, Set<Point> tracks, Point start, Point end) {
         
         return result;
     }
-
-    private Maze removeWall(Point wall) {
-        Set<Point> newWalls = new HashSet<>(walls);
-        newWalls.remove(wall);
-        
-        Set<Point> newTracks = new HashSet<>(tracks);
-        newTracks.add(wall);
-        
-        return new Maze(newWalls, newTracks, start, end);
-    }
-    
 }

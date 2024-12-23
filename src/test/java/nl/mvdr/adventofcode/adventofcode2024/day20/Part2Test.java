@@ -21,7 +21,7 @@ public class Part2Test extends SolverTest<Part2> {
     
     @ParameterizedTest
     @CsvSource({
-        "50, 303",
+        "50, 285",
         "52, 253",
         "54, 222",
         "56, 193",
