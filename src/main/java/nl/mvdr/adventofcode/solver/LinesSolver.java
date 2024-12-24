@@ -59,8 +59,6 @@ public interface LinesSolver<R> extends Solver {
     /**
      * Solver method.
      * 
-     * Note that the last line from the input is usually empty (input files typically end with a newline).
-     * 
      * @param lines stream of strings, each of which corresponds to a line from the input
      * @return solution to the puzzle for the given input
      */
