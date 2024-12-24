@@ -22,7 +22,7 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
         var values = lines.subList(0, emptyLineIndex)
                 .stream()
                 .map(line -> line.split(": "))
-                .collect(Collectors.toMap(parts -> new Wire(parts[0]), parts -> Boolean.valueOf("0".equals(parts[1]))));
+                .collect(Collectors.toMap(parts -> new Wire(parts[0]), parts -> Boolean.valueOf("1".equals(parts[1]))));
         
         var gates = lines.subList(emptyLineIndex + 1, lines.size())
                 .stream()
@@ -42,16 +42,30 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
                 .filter(gate -> values.containsKey(gate.lhs()))
                 .filter(gate -> values.containsKey(gate.rhs()))
                 .peek(updatedGates::remove)
-                .peek(gate -> LOGGER.info("Resolving gate: {}", gate))
-                .forEach(gate -> updatedValues.put(gate.output(), Boolean.valueOf(
-                        gate.type().apply(
-                                values.get(gate.lhs()).booleanValue(),
-                                values.get(gate.rhs()).booleanValue()))));
+                .forEach(gate -> updatedValues.put(gate.output(), resolve(gate)));
         
         return new Device(updatedValues, updatedGates);
     }
+
+    private Boolean resolve(LogicGate gate) {
+        LOGGER.info("Resolving gate: {}", gate); // TODO clean up logging
+        
+        Boolean lhsValue = values.get(gate.lhs());
+        Boolean rhsValue = values.get(gate.rhs());
+        
+        var result = Boolean.valueOf(gate.type()
+                .apply(
+                        lhsValue.booleanValue(),
+                        rhsValue.booleanValue()));
+        
+        LOGGER.info("{} {} {} -> {}", lhsValue, gate.type(), rhsValue, result); // TODO clean up logging
+        
+        return result;
+    }
     
     long resolveZ() {
+        LOGGER.info("{}", this); // TODO clean up logging
+        
         long result;
         if (gates.stream().anyMatch(gate -> gate.output().isZWire())) {
             result = step().resolveZ();
@@ -66,5 +80,19 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
                     .sum();
         }
         return result;
+    }
+    
+    @Override
+    public final String toString() {
+        StringBuilder result = new StringBuilder("Device:\n");
+        
+        values.entrySet()
+                .stream()
+                .map(entry -> entry.getKey() + ": " + entry.getValue().booleanValue() + "\n")
+                .forEach(result::append);
+        
+        gates.forEach(gate -> result.append(gate).append("\n"));
+
+        return result.toString();
     }
 }
