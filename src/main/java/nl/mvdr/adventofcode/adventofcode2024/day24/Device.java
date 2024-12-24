@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2024.day24;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +25,32 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
         return new Device(values, gates);
     }
     
+    /// Takes a step towards resolving the value of each wire.
+    private Device step() {
+        Map<Wire, Boolean> updatedValues = new HashMap<>(values);
+        
+        Set<LogicGate> updatedGates = new HashSet<>(gates);
+        
+        gates.stream()
+                .filter(gate -> values.containsKey(gate.lhs()))
+                .filter(gate -> values.containsKey(gate.rhs()))
+                .peek(updatedGates::remove)
+                .forEach(gate -> updatedValues.put(gate.output(), Boolean.valueOf(
+                        gate.type().apply(
+                                values.get(gate.lhs()).booleanValue(),
+                                values.get(gate.rhs()).booleanValue()))));
+                        
+        return new Device(updatedValues, updatedGates);
+    }
+    
     long resolveZ() {
-        return 0; // TODO implement
+        long result;
+        if (gates.stream().anyMatch(gate -> gate.output().name().startsWith("z"))) {
+            result = step().resolveZ();
+        } else {
+            result = 0; // TODO!
+        }
+        
+        return result;
     }
 }
