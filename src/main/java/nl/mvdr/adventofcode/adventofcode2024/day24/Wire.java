@@ -13,4 +13,9 @@ record Wire(String name) {
         
         return Integer.parseInt(name.substring(1), 10);
     }
+    
+    @Override
+    public final String toString() {
+        return name;
+    }
 }

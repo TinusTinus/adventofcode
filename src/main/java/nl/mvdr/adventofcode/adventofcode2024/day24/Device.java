@@ -1,13 +1,20 @@
 package nl.mvdr.adventofcode.adventofcode2024.day24;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Device.class);
     
     static Device parse(List<String> lines) {
         var emptyLineIndex = lines.indexOf("");
@@ -35,11 +42,12 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
                 .filter(gate -> values.containsKey(gate.lhs()))
                 .filter(gate -> values.containsKey(gate.rhs()))
                 .peek(updatedGates::remove)
+                .peek(gate -> LOGGER.info("Resolving gate: {}", gate))
                 .forEach(gate -> updatedValues.put(gate.output(), Boolean.valueOf(
                         gate.type().apply(
                                 values.get(gate.lhs()).booleanValue(),
                                 values.get(gate.rhs()).booleanValue()))));
-                        
+        
         return new Device(updatedValues, updatedGates);
     }
     
@@ -51,7 +59,8 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
             result = values.entrySet()
                     .stream()
                     .filter(entry -> entry.getKey().isZWire())
-                    .peek(System.out::println) // TODO remove
+                    .sorted(Comparator.<Entry<Wire, Boolean>, String>comparing(entry -> entry.getKey().name()).reversed()) // TODO remove?
+                    .peek(entry -> LOGGER.info("{}: {}", entry.getKey(), entry.getValue().booleanValue() ? "1" : "0")) // TODO clean up logging
                     .filter(entry -> entry.getValue().booleanValue())
                     .mapToLong(entry -> (long)Math.pow(2, entry.getKey().getZindex()))
                     .sum();

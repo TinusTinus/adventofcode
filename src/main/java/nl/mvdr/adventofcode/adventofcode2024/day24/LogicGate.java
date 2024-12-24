@@ -15,4 +15,9 @@ record LogicGate(Wire lhs, LogicGateType type, Wire rhs, Wire output) {
         
         return new LogicGate(lhs, type, rhs, output);
     }
+    
+    @Override
+    public final String toString() {
+        return lhs + " " + type + " " + rhs + " -> " + output;
+    }
 }
