@@ -37,6 +37,7 @@ public class Part2 extends LanPartySolver<String> {
         return network.vertexSet()
                 .parallelStream()
                 .map(computer -> largestInterconnectedSet(network, Set.of(computer)))
+                .peek(set -> LOGGER.debug("Found an interconnected set: {}", set))
                 .max(Comparator.comparing(Set::size))
                 .orElseThrow()
                 .stream()
