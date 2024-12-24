@@ -68,14 +68,18 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
         if (gates.stream().anyMatch(gate -> gate.output().isZWire())) {
             result = step().resolveZ();
         } else {
-            result = values.entrySet()
-                    .stream()
-                    .filter(entry -> entry.getKey().isZWire())
-                    .filter(entry -> entry.getValue().booleanValue())
-                    .mapToLong(entry -> (long)Math.pow(2, entry.getKey().getZindex()))
-                    .sum();
+            result = getZValue();
         }
         return result;
+    }
+
+    private long getZValue() {
+        return values.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().isZWire())
+                .filter(entry -> entry.getValue().booleanValue())
+                .mapToLong(entry -> 1L << entry.getKey().getZindex())
+                .sum();
     }
     
     @Override
