@@ -30,13 +30,13 @@ public class Part1 implements LongSolver {
         
         return graph.vertexSet()
                 .stream()
+                .filter(firstComputer -> firstComputer.startsWith("t"))
                 .flatMap(firstComputer -> Graphs.neighborListOf(graph, firstComputer)
                         .stream()
                         .flatMap(secondComputer -> Graphs.neighborListOf(graph, firstComputer)
                                 .stream()
                                 .filter(thirdComputer -> graph.containsEdge(secondComputer, thirdComputer))
                                 .map(thirdComputer -> Set.of(firstComputer, secondComputer, thirdComputer))))
-                .filter(interConnectedSet -> interConnectedSet.stream().anyMatch(computer -> computer.startsWith("t")))
                 .distinct()
                 .count();
     }
