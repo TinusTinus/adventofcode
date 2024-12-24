@@ -25,7 +25,7 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
         return new Device(values, gates);
     }
     
-    /// Takes a step towards resolving the value of each wire.
+    /// Takes a step towards resolving the value of each output wire.
     private Device step() {
         Map<Wire, Boolean> updatedValues = new HashMap<>(values);
         
@@ -45,12 +45,17 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
     
     long resolveZ() {
         long result;
-        if (gates.stream().anyMatch(gate -> gate.output().name().startsWith("z"))) {
+        if (gates.stream().anyMatch(gate -> gate.output().isZWire())) {
             result = step().resolveZ();
         } else {
-            result = 0; // TODO!
+            result = values.entrySet()
+                    .stream()
+                    .filter(entry -> entry.getKey().isZWire())
+                    .peek(System.out::println) // TODO remove
+                    .filter(entry -> entry.getValue().booleanValue())
+                    .mapToLong(entry -> (long)Math.pow(2, entry.getKey().getZindex()))
+                    .sum();
         }
-        
         return result;
     }
 }
