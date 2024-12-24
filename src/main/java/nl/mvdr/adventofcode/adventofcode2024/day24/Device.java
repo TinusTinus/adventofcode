@@ -1,11 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2024.day24;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,7 +46,7 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
     }
 
     private Boolean resolve(LogicGate gate) {
-        LOGGER.info("Resolving gate: {}", gate); // TODO clean up logging
+        LOGGER.debug("Resolving gate: {}", gate);
         
         Boolean lhsValue = values.get(gate.lhs());
         Boolean rhsValue = values.get(gate.rhs());
@@ -58,13 +56,13 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
                         lhsValue.booleanValue(),
                         rhsValue.booleanValue()));
         
-        LOGGER.info("{} {} {} -> {}", lhsValue, gate.type(), rhsValue, result); // TODO clean up logging
+        LOGGER.debug("{} {} {} -> {}", lhsValue, gate.type(), rhsValue, result);
         
         return result;
     }
     
     long resolveZ() {
-        LOGGER.info("{}", this); // TODO clean up logging
+        LOGGER.debug("{}", this);
         
         long result;
         if (gates.stream().anyMatch(gate -> gate.output().isZWire())) {
@@ -73,8 +71,6 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
             result = values.entrySet()
                     .stream()
                     .filter(entry -> entry.getKey().isZWire())
-                    .sorted(Comparator.<Entry<Wire, Boolean>, String>comparing(entry -> entry.getKey().name()).reversed()) // TODO remove?
-                    .peek(entry -> LOGGER.info("{}: {}", entry.getKey(), entry.getValue().booleanValue() ? "1" : "0")) // TODO clean up logging
                     .filter(entry -> entry.getValue().booleanValue())
                     .mapToLong(entry -> (long)Math.pow(2, entry.getKey().getZindex()))
                     .sum();
