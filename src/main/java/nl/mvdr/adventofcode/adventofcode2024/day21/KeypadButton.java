@@ -7,7 +7,7 @@ import nl.mvdr.adventofcode.point.Direction;
 import nl.mvdr.adventofcode.point.Point;
 
 /// Self-referential generic interface for keypad button enums.
-interface KeypadButton<B extends Enum<B> & KeypadButton<B>> {
+sealed interface KeypadButton<B extends KeypadButton<B>> permits NumericKeypadButton, DirectionalKeypadButton {
     
     Point getLocation();
     

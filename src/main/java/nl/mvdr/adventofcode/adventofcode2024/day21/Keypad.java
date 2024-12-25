@@ -13,7 +13,7 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class Keypad<B extends Enum<B> & KeypadButton<B>> {
+class Keypad<B extends KeypadButton<B>> {
 
     static final Keypad<NumericKeypadButton> NUMERIC = new Keypad<>(NumericKeypadButton.class, NumericKeypadButton.KEY_A);
     private static final Keypad<DirectionalKeypadButton> DIRECTIONAL = new Keypad<>(DirectionalKeypadButton.class, DirectionalKeypadButton.A);
@@ -30,7 +30,7 @@ class Keypad<B extends Enum<B> & KeypadButton<B>> {
         cache = new HashMap<>();
     }
     
-    private static <B extends Enum<B> & KeypadButton<B>> Graph<B, DirectionalKeypadButtonPress> createGraph(Class<B> buttonClass) {
+    private static <B extends KeypadButton<B>> Graph<B, DirectionalKeypadButtonPress> createGraph(Class<B> buttonClass) {
         Graph<B, DirectionalKeypadButtonPress> graph = new SimpleDirectedGraph<>(DirectionalKeypadButtonPress.class);
         Stream.of(buttonClass.getEnumConstants())
                 .forEach(graph::addVertex);
