@@ -47,11 +47,13 @@ record LogicGate(Wire lhs, LogicGateType type, Wire rhs, Wire output) {
         } else if (output.isCWire() || output.isZWire()) {
             // do not rename
             result = Optional.empty();
+        } else if (lhs.name().equals("x00") && rhs.name().equals("y00") && type == LogicGateType.AND) {
+            result = Optional.of("c01");
         } else if (lhs.isXInputWire() && rhs.isYInputWire() && lhs.getIndex() == rhs.getIndex()) {
             result = Optional.of(String.format("x%sy%02d", type, lhs.getIndex()));
         } else if (lhs.isCWire() && rhs.name().matches("xXORy\\d\\d") && lhs.getIndex() == rhs.getIndex() && type == LogicGateType.AND) {
             result = Optional.of(String.format("temp%02d", lhs.getIndex()));
-        } else if (lhs.isCWire() && rhs.name().matches("temp\\d\\d") && lhs.getIndex() == rhs.getIndex() && type == LogicGateType.OR) {
+        } else if (lhs.name().matches("temp\\d\\d") && rhs.name().matches("xANDy\\d\\d") && lhs.getIndex() == rhs.getIndex() && type == LogicGateType.OR) {
             result = Optional.of(String.format("c%02d", lhs.getIndex() + 1));
         } else {
             result = Optional.empty();

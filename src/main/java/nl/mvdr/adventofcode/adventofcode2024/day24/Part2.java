@@ -19,6 +19,10 @@ public class Part2 implements LinesSolver<Void> {
         
         LOGGER.info("Normalized {}", device);
         
+        // For those who know electronics:
+        // the circuit should consist of a half-adder (for x00 and y00) and full adders (for pretty much everything else).
+        // Inspect the log output to find the incorrect mappings.
+        
         return null;
     }
     
