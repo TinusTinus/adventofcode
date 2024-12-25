@@ -26,20 +26,20 @@ public class Part1 implements LongSolver {
         while (!lines.isEmpty()) {
             if (lines.getFirst().startsWith("#")) {
                 var lock = Lock.parse(lines.subList(0, 7));
-                LOGGER.debug("Parsed a lock: {}", lock);
+                LOGGER.info("Parsed a lock: {}", lock);
                 locks.add(lock);
             } else {
                 var key = Key.parse(lines.subList(0, 7));
-                LOGGER.debug("Parsed a key: {}", key);
+                LOGGER.info("Parsed a key: {}", key);
                 keys.add(key);
             }
             
             lines = lines.subList(Math.min(8, lines.size()), lines.size());
         }
         
-        return locks.stream()
-                .flatMap(lock -> keys.stream()
-                        .filter(key -> key.fits(lock)))
+        return keys.stream()
+                .flatMap(key -> locks.stream()
+                        .filter(lock -> key.fits(lock)))
                 .count();
     }
     

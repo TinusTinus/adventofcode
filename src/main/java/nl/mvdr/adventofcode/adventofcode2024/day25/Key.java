@@ -25,6 +25,6 @@ record Key(List<Integer> pinHeights) implements Schematic {
     }
 
     boolean fits(Lock lock) {
-        return !overlaps(lock);
+        return overlaps(lock);
     }
 }
