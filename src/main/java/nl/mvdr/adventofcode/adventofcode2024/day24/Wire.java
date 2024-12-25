@@ -2,16 +2,24 @@ package nl.mvdr.adventofcode.adventofcode2024.day24;
 
 record Wire(String name) {
 
-    boolean isZWire() {
-        return name.startsWith("z");
+    boolean isXInputWire() {
+        return name.matches("x\\d\\d");
     }
     
-    int getZindex() {
-        if (!isZWire()) {
-            throw new UnsupportedOperationException("Not a z wire: " + name);
-        }
-        
-        return Integer.parseInt(name.substring(1), 10);
+    boolean isYInputWire() {
+        return name.matches("y\\d\\d");
+    }
+    
+    boolean isZWire() {
+        return name.matches("z\\d\\d");
+    }
+    
+    boolean isCWire() {
+        return name.matches("c\\d\\d");
+    }
+    
+    int getIndex() {
+        return Integer.parseInt(name.substring(name.length() - 2, name.length()), 10);
     }
     
     @Override

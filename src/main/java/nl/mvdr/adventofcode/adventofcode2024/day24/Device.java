@@ -61,6 +61,15 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
         return result;
     }
     
+    private long getZValue() {
+        return values.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().isZWire())
+                .filter(entry -> entry.getValue().booleanValue())
+                .mapToLong(entry -> 1L << entry.getKey().getIndex())
+                .sum();
+    }
+    
     long resolveZ() {
         LOGGER.debug("{}", this);
         
@@ -72,16 +81,51 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
         }
         return result;
     }
+    
+    Device normalize() {
+        Device previousResult = this;
+        Device result = alphabetizeGates();
+        
+        while (!result.equals(previousResult)) {
+            previousResult = result;
+            result = result.renameWire().alphabetizeGates();
+        }
+        
+        return result;
+    }
 
-    private long getZValue() {
-        return values.entrySet()
-                .stream()
-                .filter(entry -> entry.getKey().isZWire())
-                .filter(entry -> entry.getValue().booleanValue())
-                .mapToLong(entry -> 1L << entry.getKey().getZindex())
-                .sum();
+    private Device alphabetizeGates() {
+        Set<LogicGate> updatedGates = gates.stream()
+                .map(LogicGate::alphabetize)
+                .collect(Collectors.toSet());
+        
+        return new Device(values, updatedGates);
+    }
+
+    private Device renameWire() {
+        return gates.stream()
+                .filter(gate -> gate.findOutputWireName().isPresent())
+                .findFirst()
+                .map(gate -> renameWire(gate.output().name(), gate.findOutputWireName().orElseThrow()))
+                .orElse(this)
+                .alphabetizeGates();
     }
     
+    private Device renameWire(String currentName, String newName) {
+        Map<Wire, Boolean> newValues = values.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().name().equals(currentName) ? new Wire(newName) : entry.getKey(),
+                        entry -> entry.getValue()));
+        
+        Set<LogicGate> newGates = gates.stream()
+                .map(gate -> gate.renameWire(currentName, newName))
+                .collect(Collectors.toSet());
+
+        LOGGER.debug("Renamed wire {} to {}", currentName, newName);
+        
+        return new Device(newValues, newGates);
+    }
+
     @Override
     public final String toString() {
         StringBuilder result = new StringBuilder("Device:\n");
@@ -89,9 +133,15 @@ record Device(Map<Wire, Boolean> values, Set<LogicGate> gates) {
         values.entrySet()
                 .stream()
                 .map(entry -> entry.getKey() + ": " + entry.getValue().booleanValue() + "\n")
+                .sorted()
                 .forEach(result::append);
         
-        gates.forEach(gate -> result.append(gate).append("\n"));
+        result.append("\n");
+        
+        gates.stream()
+            .map(LogicGate::toString)
+            .sorted()
+            .forEach(gate -> result.append(gate).append("\n"));
 
         return result.toString();
     }
