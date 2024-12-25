@@ -26,11 +26,11 @@ public class Part1 implements LongSolver {
         while (!lines.isEmpty()) {
             if (lines.getFirst().startsWith("#")) {
                 var lock = Lock.parse(lines.subList(0, 7));
-                LOGGER.info("Parsed a lock: {}", lock);
+                LOGGER.debug("Parsed a lock: {}", lock);
                 locks.add(lock);
             } else {
                 var key = Key.parse(lines.subList(0, 7));
-                LOGGER.info("Parsed a key: {}", key);
+                LOGGER.debug("Parsed a key: {}", key);
                 keys.add(key);
             }
             

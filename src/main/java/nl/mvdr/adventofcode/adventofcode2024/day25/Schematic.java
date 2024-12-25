@@ -29,6 +29,6 @@ interface Schematic {
             throw new IllegalArgumentException();
         }
         return IntStream.range(0, pinHeights().size())
-                .allMatch(i -> pinHeights().get(i).intValue() + other.pinHeights().get(i).intValue() < MAX_HEIGHT);
+                .anyMatch(i -> MAX_HEIGHT <= pinHeights().get(i).intValue() + other.pinHeights().get(i).intValue());
     }
 }
