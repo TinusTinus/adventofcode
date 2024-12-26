@@ -25,6 +25,7 @@ public class Part2 implements LongSolver {
                 .filter(priceChangeSequence -> priceChangeSequence.size() == 4)
                 .distinct()
                 .mapToLong(priceChangeSequence -> secretNumberSequences.stream()
+                        .parallel()
                         .mapToLong(secretNumberSequence -> secretNumberSequence.stream()
                                 .filter(secretNumber -> secretNumber.priceChanges().equals(priceChangeSequence))
                                 .mapToLong(SecretNumber::price)
