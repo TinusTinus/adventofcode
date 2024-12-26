@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2024.day22;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -68,5 +70,69 @@ class SecretNumberTest {
         var price = secretNumber.price();
         
         Assertions.assertEquals(expectedPrice, price);
+    }
+    
+    @SuppressWarnings("boxing")
+    @Test
+    void testPriceChanges() {
+        var secretNumber = new SecretNumber(123);
+        
+        Assertions.assertEquals(123, secretNumber.number());
+        Assertions.assertEquals(3, secretNumber.price());
+        Assertions.assertEquals(List.of(), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(15887950, secretNumber.number());
+        Assertions.assertEquals(0, secretNumber.price());
+        Assertions.assertEquals(List.of(-3L), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(16495136, secretNumber.number());
+        Assertions.assertEquals(6, secretNumber.price());
+        Assertions.assertEquals(List.of(-3L, 6L), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(527345, secretNumber.number());
+        Assertions.assertEquals(5, secretNumber.price());
+        Assertions.assertEquals(List.of(-3L, 6L, -1L), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(704524, secretNumber.number());
+        Assertions.assertEquals(4, secretNumber.price());
+        Assertions.assertEquals(List.of(-3L, 6L, -1L, -1L), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(1553684, secretNumber.number());
+        Assertions.assertEquals(4, secretNumber.price());
+        Assertions.assertEquals(List.of(6L, -1L, -1L, 0L), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(12683156, secretNumber.number());
+        Assertions.assertEquals(6, secretNumber.price());
+        Assertions.assertEquals(List.of(-1L, -1L, 0L, 2L), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(11100544, secretNumber.number());
+        Assertions.assertEquals(4, secretNumber.price());
+        Assertions.assertEquals(List.of(-1L, 0L, 2L, -2L), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(12249484, secretNumber.number());
+        Assertions.assertEquals(4, secretNumber.price());
+        Assertions.assertEquals(List.of(0L, 2L, -2L, 0L), secretNumber.priceChanges());
+        
+        secretNumber = secretNumber.next();
+        
+        Assertions.assertEquals(7753432, secretNumber.number());
+        Assertions.assertEquals(2, secretNumber.price());
+        Assertions.assertEquals(List.of(2L, -2L, 0L, -2L), secretNumber.priceChanges());
     }
 }

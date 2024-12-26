@@ -1,7 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2024.day22;
 
-record SecretNumber(long number) {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
+record SecretNumber(long number, List<Long> priceChanges) {
+
+    SecretNumber(long number) {
+        this(number, List.of());
+    }
+    
     static long nextSecretNumber(long secretNumber) {
         return new SecretNumber(secretNumber).next().number();
     }
@@ -22,6 +30,10 @@ record SecretNumber(long number) {
         return secretNumber;
     }
     
+    private static long price(long secretNumber) {
+        return secretNumber % 10;
+    }
+    
     private long nextSecretNumber() {
         var temp = Math.multiplyExact(number, 64);
         var result = mix(number, temp);
@@ -39,10 +51,26 @@ record SecretNumber(long number) {
     }
     
     SecretNumber next() {
-        return new SecretNumber(nextSecretNumber());
+        var nextSecretNumber = nextSecretNumber();
+        
+        var nextPriceChanges = new ArrayList<>(priceChanges);
+        if (nextPriceChanges.size() == 4) {
+            nextPriceChanges.removeFirst();
+        }
+        var priceChange = price(nextSecretNumber) - price();
+        nextPriceChanges.add(Long.valueOf(priceChange));
+        
+        
+        return new SecretNumber(nextSecretNumber, nextPriceChanges);
     }
     
     long price() {
-        return number % 10;
+        return price(number);
+    }
+    
+    final List<SecretNumber> generateAll() {
+        return Stream.iterate(this, SecretNumber::next)
+                .limit(2000)
+                .toList();
     }
 }
