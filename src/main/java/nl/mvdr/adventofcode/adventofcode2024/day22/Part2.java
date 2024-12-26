@@ -7,19 +7,17 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.solver.LongSolver;
 
-public class Part1 implements LongSolver {
+public class Part2 implements LongSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
     public long solve(Stream<String> lines) {
-        return lines.mapToLong(Long::parseLong)
-                .map(initialSecretNumber -> SecretNumber.getSecretNumber(initialSecretNumber, 2_000))
-                .sum();
+        return 0L; // TODO
     }
     
     public static void main(String[] args) {
-        var instance = new Part1();
+        var instance = new Part2();
 
         var result = instance.solve("input-day22-2024.txt");
 

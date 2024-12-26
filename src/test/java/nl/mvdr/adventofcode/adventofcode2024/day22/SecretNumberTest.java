@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class SecretNumbersTest {
+class SecretNumberTest {
     
     @ParameterizedTest
     @CsvSource( { "123,15887950",
@@ -20,7 +20,7 @@ class SecretNumbersTest {
         "7753432,5908254"
     } )
     void testNextNumber(long input, long expected) {
-        var result = SecretNumbers.nextSecretNumber(input);
+        var result = SecretNumber.nextSecretNumber(input);
         
         Assertions.assertEquals(expected, result);
     }
@@ -32,7 +32,7 @@ class SecretNumbersTest {
             "2024,8667524"
     } )
     void testGetSecretNumber(long input, long expected) {
-        var result = SecretNumbers.getSecretNumber(input, 2_000);
+        var result = SecretNumber.getSecretNumber(input, 2_000);
         
         Assertions.assertEquals(expected, result);
     }
@@ -42,7 +42,7 @@ class SecretNumbersTest {
         var value = 15;
         var secretNumber = 42;
         
-        var mixed = SecretNumbers.mix(secretNumber, value);
+        var mixed = SecretNumber.mix(secretNumber, value);
         
         Assertions.assertEquals(37, mixed);
     }
@@ -51,8 +51,22 @@ class SecretNumbersTest {
     void testPrune() {
         var secretNumber = 100000000;
         
-        var mixed = SecretNumbers.prune(secretNumber);
+        var mixed = SecretNumber.prune(secretNumber);
         
         Assertions.assertEquals(16113920, mixed);
+    }
+    
+    @ParameterizedTest
+    @CsvSource({
+        "123, 3",
+        "15887950, 0",
+        "16495136, 6"
+    })
+    void testPrice(long number, long expectedPrice) {
+        var secretNumber = new SecretNumber(number);
+        
+        var price = secretNumber.price();
+        
+        Assertions.assertEquals(expectedPrice, price);
     }
 }
