@@ -1,0 +1,6 @@
+{
+  "branchPrefix": "renovate-action/",
+  "repositories": [
+    "TinusTinus/adventofcode"
+  ]
+}
