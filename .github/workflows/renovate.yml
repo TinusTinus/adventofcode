@@ -1,12 +1,10 @@
 name: Renovate
 on:
-# TODO replace push and workflow_dispatch by the schedule
-  push:
-    branches: [ "renovate-setup" ]
+  schedule:
+    # Daily, at midnight.
+    - cron: '0 0 * * *'
+  # Can also be triggered manually.
   workflow_dispatch:
-#  schedule:
-#    # Daily, at midnight.
-#    - cron: '0 0 * * *'
 jobs:
   renovate:
     runs-on: ubuntu-latest
