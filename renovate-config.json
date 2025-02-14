@@ -1,4 +1,6 @@
 {
+  "onboarding": false,
+  "requireConfig": "optional",
   "branchPrefix": "renovate-action/",
   "repositories": [
     "TinusTinus/adventofcode"
