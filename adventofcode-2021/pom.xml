@@ -10,9 +10,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
-    <artifactId>adventofcode-2020</artifactId>
+    <artifactId>adventofcode-2021</artifactId>
     <packaging>jar</packaging>
-    <name>Advent of Code 2020 Solutions Module</name>
+    <name>Advent of Code 2021 Solutions Project</name>
 
     <dependencies>
         <dependency>
@@ -20,10 +20,19 @@
             <artifactId>adventofcode-common</artifactId>
         </dependency>
 
+        <!-- logging -->
         <dependency>
             <groupId>io.github.oshai</groupId>
             <artifactId>kotlin-logging-jvm</artifactId>
         </dependency>
+
+        <!-- graph algorithms -->
+        <dependency>
+            <groupId>org.jgrapht</groupId>
+            <artifactId>jgrapht-core</artifactId>
+        </dependency>
+
+        <!-- StringUtils and other general helper classes -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -32,7 +41,18 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+        </dependency>
 
+        <!-- mathematical equation solver-->
+        <dependency>
+            <groupId>tools.aqua</groupId>
+            <artifactId>z3-turnkey</artifactId>
+        </dependency>
+
+        <!-- unit testing -->
         <dependency>
             <groupId>nl.mvdr.adventofcode</groupId>
             <artifactId>adventofcode-common</artifactId>
