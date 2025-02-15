@@ -12,6 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
         <!-- Java version -->
+        <java.version>23</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
@@ -21,7 +22,6 @@
         <commons-lang.version>3.17.0</commons-lang.version>
         <commons-math.version>3.6.1</commons-math.version>
         <jackson.version>2.18.2</jackson.version>
-        <java.version>23</java.version>
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>5.11.3</junit.version>
         <kotlin.version>2.1.10</kotlin.version>
