@@ -12,6 +12,7 @@
 
     <modules>
         <module>adventofcode-common</module>
+        <module>adventofcode-2015</module>
         <module>adventofcode-2016</module>
         <module>adventofcode-module</module>
     </modules>
