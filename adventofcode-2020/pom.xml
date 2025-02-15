@@ -10,9 +10,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
-    <artifactId>adventofcode-2019</artifactId>
+    <artifactId>adventofcode-2020</artifactId>
     <packaging>jar</packaging>
-    <name>Advent of Code 2019 Solutions Project</name>
+    <name>Advent of Code 2020 Solutions Module</name>
 
     <dependencies>
         <dependency>
@@ -23,18 +23,6 @@
         <dependency>
             <groupId>io.github.oshai</groupId>
             <artifactId>kotlin-logging-jvm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jgrapht</groupId>
-            <artifactId>jgrapht-core</artifactId>
         </dependency>
 
         <dependency>
@@ -56,6 +44,11 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
