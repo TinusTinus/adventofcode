@@ -34,14 +34,6 @@
 
         <!-- StringUtils and other general helper classes -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-        </dependency>
-        <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
@@ -52,12 +44,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <!-- mathematical equation solver-->
-        <dependency>
-            <groupId>tools.aqua</groupId>
-            <artifactId>z3-turnkey</artifactId>
         </dependency>
 
         <!-- unit testing -->
