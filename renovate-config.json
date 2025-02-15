@@ -4,5 +4,10 @@
   "branchPrefix": "renovate-action/",
   "repositories": [
     "TinusTinus/adventofcode"
+  ],
+  "packageRules": [
+    {
+      "automerge": true
+    }
   ]
 }
