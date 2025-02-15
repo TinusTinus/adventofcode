@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>adventofcode-common</module>
         <module>adventofcode-module</module>
     </modules>
 
@@ -40,6 +41,20 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- sibling modules -->
+            <dependency>
+                <groupId>nl.mvdr.adventofcode</groupId>
+                <artifactId>adventofcode-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>nl.mvdr.adventofcode</groupId>
+                <artifactId>adventofcode-common</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+            </dependency>
+        
+            <!-- Kotlin standard library -->
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib-jdk8</artifactId>
