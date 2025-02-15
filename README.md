@@ -6,4 +6,5 @@ I attempt these for fun and learning, not to actually compete on the global lead
 
 Solutions have been written in Java and Kotlin.
 Third-party dependency management is done using [Maven](https://maven.apache.org).
-Github Actions are used to run unit tests after every push to master.
+Github Actions are used to run unit tests after every push,
+and to periodically update dependencies using [Renovate](https://docs.renovatebot.com).
