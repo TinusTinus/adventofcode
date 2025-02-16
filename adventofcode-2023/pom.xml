@@ -10,9 +10,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
-    <artifactId>adventofcode-module</artifactId>
+    <artifactId>adventofcode-2023</artifactId>
     <packaging>jar</packaging>
-    <name>Advent of Code Solutions Module Project</name>
+    <name>Advent of Code 2023 Solutions Project</name>
 
     <dependencies>
         <dependency>

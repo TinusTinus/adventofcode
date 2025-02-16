@@ -20,7 +20,8 @@
         <module>adventofcode-2020</module>
         <module>adventofcode-2021</module>
         <module>adventofcode-2022</module>
-        <module>adventofcode-module</module>
+        <module>adventofcode-2023</module>
+        <module>adventofcode-2024</module>
     </modules>
 
     <properties>
