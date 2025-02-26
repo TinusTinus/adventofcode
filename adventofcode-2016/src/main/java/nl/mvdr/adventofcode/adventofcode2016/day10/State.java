@@ -17,10 +17,10 @@ record State(Map<MicrochipHolder, Set<Microchip>> microchips) {
                 .findFirst()
                 .map(Entry::getKey)
                 .map(Bot.class::cast)
-                .orElseGet(() -> apply(rules).findResponsibleBot(first, second, rules));
+                .orElseGet(() -> applyOnce(rules).findResponsibleBot(first, second, rules));
     }
     
-    private State apply(Map<Bot, Rule> rules) {
+    private State applyOnce(Map<Bot, Rule> rules) {
         
         Map<MicrochipHolder, Set<Microchip>> newMicrochips = new HashMap<>();
         
@@ -43,5 +43,16 @@ record State(Map<MicrochipHolder, Set<Microchip>> microchips) {
                 });
         
         return new State(newMicrochips);
+    }
+    
+    State applyUntilDone(Map<Bot, Rule> rules) {
+        var nextState = applyOnce(rules);
+        State result;
+        if (nextState.equals(this)) {
+            result = this;
+        } else {
+            result = nextState.applyUntilDone(rules);
+        }
+        return result;
     }
 }

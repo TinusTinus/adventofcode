@@ -1,17 +1,11 @@
 package nl.mvdr.adventofcode.adventofcode2016.day10;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.solver.IntSolver;
-
-public class Part1 implements IntSolver {
+public class Part1 extends BalanceBotsSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
     
@@ -32,32 +26,8 @@ public class Part1 implements IntSolver {
     }
     
     @Override
-    public int solve(Stream<String> lines) {
-        Map<Bot, Rule> rules = new HashMap<>();
-        Map<MicrochipHolder, Set<Microchip>> initialMicrochips = new HashMap<>();
-        lines.forEach(line -> {
-            if (line.startsWith("value ")) {
-                var parts = line.substring(6).split(" goes to ");
-                var value = Integer.parseInt(parts[0]);
-                var microchip = new Microchip(value);
-                var holder = MicrochipHolder.parse(parts[1]);
-                initialMicrochips.computeIfAbsent(holder, h -> new HashSet<>()).add(microchip);
-            } else if (line.startsWith("bot ")) {
-                var parts = line.split(" gives low to ");
-                var bot = Bot.parse(parts[0]);
-                parts = parts[1].split(" and high to ");
-                var lowTarget = MicrochipHolder.parse(parts[0]);
-                var highTarget = MicrochipHolder.parse(parts[1]);
-                var rule = new Rule(lowTarget, highTarget);
-                rules.put(bot, rule);
-            } else {
-                throw new IllegalArgumentException("Unable to parse line: " + line);
-            }
-        });
-        
-        var state = new State(initialMicrochips);
-        
-        var responsibleBot = state.findResponsibleBot(firstMicrochip, secondMicrochip, rules);
+    protected int solve(State initialState, Map<Bot, Rule> rules) {
+        var responsibleBot = initialState.findResponsibleBot(firstMicrochip, secondMicrochip, rules);
         return responsibleBot.number();
     }
     
