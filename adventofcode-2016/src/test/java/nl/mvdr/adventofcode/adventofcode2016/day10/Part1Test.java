@@ -1,19 +1,24 @@
 package nl.mvdr.adventofcode.adventofcode2016.day10;
 
-import java.util.stream.Stream;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import org.junit.jupiter.params.provider.Arguments;
+class Part1Test {
 
-import nl.mvdr.adventofcode.solver.SolverTest;
-
-class Part1Test extends SolverTest<Part1> {
-
-    public Part1Test() {
-        super(Part1.class);
-    }
-    
-    static Stream<Arguments> testSolution() {
-        return Stream.of(
-                Arguments.of("2", "example-day10-2016.txt"));
+    @ParameterizedTest
+    @CsvSource({ "5, 2, 2",
+        "2, 5, 2",
+        "2, 3, 1",
+        "3, 2, 1",
+        "3, 5, 0",
+        "5, 3, 0"
+        })
+    void test(int firstMicrochipValue, int secondMicrochipValue, int expectedBotNumber) {
+        var solver = new Part1(firstMicrochipValue, secondMicrochipValue);
+        
+        var result = solver.solve("example-day10-2016.txt");
+        
+        Assertions.assertEquals("" + expectedBotNumber, result);
     }
 }
