@@ -23,11 +23,6 @@ public class Part2 extends BalanceBotsSolver {
                 .orElseThrow(); 
     }
     
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are ignored
-     */
     public static void main(String[] args) {
         Part2 instance = new Part2();
 

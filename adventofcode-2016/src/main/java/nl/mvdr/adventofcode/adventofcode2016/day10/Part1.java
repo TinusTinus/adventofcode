@@ -31,11 +31,6 @@ public class Part1 extends BalanceBotsSolver {
         return responsibleBot.number();
     }
     
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are ignored
-     */
     public static void main(String[] args) {
         Part1 instance = new Part1();
 
