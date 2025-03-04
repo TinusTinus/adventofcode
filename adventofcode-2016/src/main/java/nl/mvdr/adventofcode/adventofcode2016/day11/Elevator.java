@@ -7,4 +7,9 @@ final class Elevator implements Item {
     private Elevator() {
         // private constructor to prevent singleton instantiation
     }
+    
+    @Override
+    public String toString() {
+        return "E";
+    }
 }

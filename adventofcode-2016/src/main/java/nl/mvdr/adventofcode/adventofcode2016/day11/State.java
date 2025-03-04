@@ -1,9 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2016.day11;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -110,16 +110,16 @@ record State(Map<Item, Floor> itemLocations) {
     
     private Stream<State> takeElevatorAndSingleItem(Floor targetFloor) {
         var currentFloor = itemLocations.get(Elevator.INSTANCE);
-        return itemsFromFloor(currentFloor)
+        return itemsOnFloor(currentFloor)
+                .filter(item -> item != Elevator.INSTANCE)
                 .map(item -> moveItems(targetFloor, Elevator.INSTANCE, item));
     }
     
-    private Stream<Item> itemsFromFloor(Floor floor) {
+    private Stream<Item> itemsOnFloor(Floor floor) {
         return itemLocations.entrySet()
                 .stream()
                 .filter(entry -> entry.getValue() == floor)
-                .map(Entry::getKey)
-                .filter(item -> item != Elevator.INSTANCE);
+                .map(Entry::getKey);
     }
     
     private State moveItems(Floor targetFloor, Item... items) {
@@ -130,9 +130,28 @@ record State(Map<Item, Floor> itemLocations) {
     
     private Stream<State> takeElevatorAndTwoItems(Floor targetFloor) {
         var currentFloor = itemLocations.get(Elevator.INSTANCE);
-        return itemsFromFloor(currentFloor)
-                .flatMap(item -> itemsFromFloor(currentFloor)
+        return itemsOnFloor(currentFloor)
+                .filter(item -> item != Elevator.INSTANCE)
+                .flatMap(item -> itemsOnFloor(currentFloor)
+                        .filter(otherItem -> otherItem != Elevator.INSTANCE)
                         .filter(otherItem -> item != otherItem)
                         .map(otherItem -> moveItems(targetFloor, Elevator.INSTANCE, item, otherItem)));
+    }
+    
+    @Override
+    public final String toString() {
+        var result = new StringBuilder();
+        result.append("State:\n");
+        Stream.of(Floor.values())
+                .sorted(Comparator.reverseOrder())
+                .forEach(floor -> appendFloor(result, floor));
+        return result.toString();
+    }
+    
+    private void appendFloor(StringBuilder builder, Floor floor) {
+        builder.append(floor);
+        builder.append(": ");
+        builder.append(itemsOnFloor(floor).map(Object::toString).collect(Collectors.joining(", ")));
+        builder.append("\n");
     }
 }

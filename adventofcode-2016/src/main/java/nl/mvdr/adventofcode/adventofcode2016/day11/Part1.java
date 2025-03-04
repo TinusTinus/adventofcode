@@ -31,6 +31,7 @@ public class Part1 implements IntSolver {
         
         ShortestPathAlgorithm<State, DefaultEdge> algorithm = new DijkstraShortestPath<>(graph);
         var path = algorithm.getPath(initialState, initialState.endState());
+        LOGGER.debug("Path: {}", path);
         return path.getLength();
     }
     
