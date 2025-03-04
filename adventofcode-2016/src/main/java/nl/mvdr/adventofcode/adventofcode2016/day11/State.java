@@ -51,7 +51,7 @@ record State(Map<Item, Floor> itemLocations) {
                 .map(floor -> add(item, floor));
     }
     
-    private State add(Item item, Floor floor) {
+    State add(Item item, Floor floor) {
         var newItemLocations = new HashMap<>(itemLocations);
         newItemLocations.put(item, floor);
         return new State(newItemLocations);
