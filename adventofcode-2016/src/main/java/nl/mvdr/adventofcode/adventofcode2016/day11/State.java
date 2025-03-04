@@ -98,8 +98,9 @@ record State(Map<Item, Floor> itemLocations) {
     
     /// @return possible transitions, by taking the elevator to another floor, taking one or two items
     Stream<State> takeElevator() {
+        var currentFloor = itemLocations.get(Elevator.INSTANCE);
         return Stream.of(Floor.values())
-                .filter(floor -> floor != itemLocations.get(Elevator.INSTANCE))
+                .filter(floor -> Math.abs(floor.getFloorNumber() - currentFloor.getFloorNumber()) == 1)
                 .flatMap(this::takeElevator)
                 .filter(State::isValid);
     }

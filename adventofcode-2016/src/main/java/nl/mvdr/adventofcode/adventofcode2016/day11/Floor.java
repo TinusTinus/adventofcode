@@ -3,17 +3,17 @@ package nl.mvdr.adventofcode.adventofcode2016.day11;
 import java.util.stream.Stream;
 
 enum Floor {
-    FIRST("The first floor", "F1"),
-    SECOND("The second floor", "F2"),
-    THIRD("The third floor", "F3"),
-    FOURTH("The fourth floor", "F4");
+    FIRST("The first floor", 1),
+    SECOND("The second floor", 2),
+    THIRD("The third floor", 3),
+    FOURTH("The fourth floor", 4);
     
     private final String stringRepresentation;
-    private final String shortRepresentation;
+    private final int floorNumber;
     
-    private Floor(String stringRepresentation, String shortRepresentation) {
+    private Floor(String stringRepresentation, int floorNumber) {
         this.stringRepresentation = stringRepresentation;
-        this.shortRepresentation = shortRepresentation;
+        this.floorNumber = floorNumber;
     }
     
     static Floor of(String stringRepresentation) {
@@ -23,8 +23,12 @@ enum Floor {
                 .orElseThrow();
     }
     
+    int getFloorNumber() {
+        return floorNumber;
+    }
+    
     @Override
     public String toString() {
-        return shortRepresentation;
+        return "F" + floorNumber;
     }
 }
