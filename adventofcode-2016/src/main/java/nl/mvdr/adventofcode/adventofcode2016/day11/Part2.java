@@ -15,7 +15,7 @@ public class Part2 implements Solver {
     }
     
     public static void main(String[] args) {
-        Part1 instance = new Part1();
+        Part2 instance = new Part2();
 
         String result = instance.solve("input-day11-2016.txt");
 

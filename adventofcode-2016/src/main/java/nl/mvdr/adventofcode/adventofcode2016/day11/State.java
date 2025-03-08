@@ -15,7 +15,6 @@ record State(Floor elevator, MultiSet<Pair> pairs) {
     private static final String GENERATOR_SUFFIX = " generator";
     
     static State parse(Stream<String> lines, boolean extraObjects) {
-        
         Map<String, Floor> microchips = new HashMap<>();
         Map<String, Floor> generators = new HashMap<>();
         
@@ -62,6 +61,7 @@ record State(Floor elevator, MultiSet<Pair> pairs) {
         return new State(Floor.FIRST, pairs);
     }
 
+    /// @return the end state corresponding to this initial state, where all items (including the elevator) have been moved to the fourth floor
     State endState() {
         MultiSet<Pair> endPairs = Collections.nCopies(pairs.size(), new Pair(Floor.FOURTH, Floor.FOURTH))
                 .stream()
@@ -69,6 +69,7 @@ record State(Floor elevator, MultiSet<Pair> pairs) {
         return new State(Floor.FOURTH, endPairs);
     }
     
+    /// @return possible followup states which can be reached by taking a single step; that is, taking the elevator to an adjacent floor
     Stream<State> takeElevator() {
         return Stream.of(Floor.values())
                 .filter(floor -> Math.abs(floor.getFloorNumber() - elevator.getFloorNumber()) == 1)
@@ -81,12 +82,16 @@ record State(Floor elevator, MultiSet<Pair> pairs) {
     }
     
     private Stream<State> takeElevatorAndSingleItem(Floor targetFloor) {
-        return Stream.concat(takeElevatorAndMicrochip(targetFloor), takeElevatorAndGenerator(targetFloor));
+        return takeSingleItem(elevator, targetFloor);
     }
     
-    private Stream<State> takeElevatorAndMicrochip(Floor targetFloor) {
+    private Stream<State> takeSingleItem(Floor startingFloor, Floor targetFloor) {
+        return Stream.concat(takeMicrochip(startingFloor, targetFloor), takeGenerator(startingFloor, targetFloor));
+    }
+    
+    private Stream<State> takeMicrochip(Floor startingFloor, Floor targetFloor) {
         return pairs.stream()
-                .filter(pair -> pair.microchip() == elevator)
+                .filter(pair -> pair.microchip() == startingFloor)
                 .map(pair -> moveMicrochip(targetFloor, pair));
     }
     
@@ -97,10 +102,10 @@ record State(Floor elevator, MultiSet<Pair> pairs) {
         return new State(targetFloor, newPairs);
     }
     
-    private Stream<State> takeElevatorAndGenerator(Floor targetFloor) {
+    private Stream<State> takeGenerator(Floor startingFloor, Floor targetFloor) {
         return pairs.uniqueSet()
                 .stream()
-                .filter(pair -> pair.generator() == elevator)
+                .filter(pair -> pair.generator() == startingFloor)
                 .map(pair -> moveGenerator(targetFloor, pair));
     }
     
@@ -112,7 +117,8 @@ record State(Floor elevator, MultiSet<Pair> pairs) {
     }
     
     private Stream<State> takeElevatorAndTwoItems(Floor targetFloor) {
-        return Stream.of(); // TODO
+        return takeElevatorAndSingleItem(targetFloor)
+                .flatMap(state -> state.takeSingleItem(elevator, targetFloor));
     }
     
     private boolean isValid() {
@@ -121,7 +127,7 @@ record State(Floor elevator, MultiSet<Pair> pairs) {
                 .allMatch(pair -> 
                     // Either the corresponding microchip and generator are on the same floor,
                     pair.generator() == pair.microchip()
-                        // or there are no non-corresponding generators on the microchip's floor.
-                        || pairs.uniqueSet().stream().noneMatch(otherPair -> otherPair != pair && otherPair.generator() == pair.microchip()));
+                        // or there are no generators on the microchip's floor.
+                        || pairs.uniqueSet().stream().noneMatch(otherPair -> otherPair.generator() == pair.microchip()));
     }
 }
