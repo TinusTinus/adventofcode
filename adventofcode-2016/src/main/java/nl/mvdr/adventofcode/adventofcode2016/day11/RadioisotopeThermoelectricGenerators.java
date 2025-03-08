@@ -23,10 +23,14 @@ class RadioisotopeThermoelectricGenerators implements IntSolver {
         
         // Search for a path to the end state using Dijkstra's algorithm
         Set<State> visited = new HashSet<>();
-        Set<State> current = Set.of(endState);
+        Set<State> current = Set.of(initialState);
         var steps = 0;
         
-        while (!current.contains(initialState)) {
+        while (!current.contains(endState)) {
+            if (current.isEmpty()) {
+                throw new IllegalStateException("No path found");
+            }
+            
             Set<State> next = current.parallelStream()
                     .flatMap(State::takeElevator)
                     .distinct()

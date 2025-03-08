@@ -1,19 +1,23 @@
 package nl.mvdr.adventofcode.adventofcode2016.day11;
 
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-record State(Map<Item, Floor> itemLocations) {
+import org.apache.commons.collections4.MultiSet;
+import org.apache.commons.collections4.multiset.HashMultiSet;
+
+record State(Floor elevator, MultiSet<Pair> pairs) {
+    
+    private static final String MICROCHIP_SUFFIX = "-compatible microchip";
+    private static final String GENERATOR_SUFFIX = " generator";
     
     static State parse(Stream<String> lines, boolean extraObjects) {
-        Map<Item, Floor> itemLocations = new HashMap<>();
         
-        itemLocations.put(Elevator.INSTANCE, Floor.FIRST);
+        Map<String, Floor> microchips = new HashMap<>();
+        Map<String, Floor> generators = new HashMap<>();
         
         lines.forEach(line -> {
             var parts = line.split(" contains ");
@@ -26,88 +30,48 @@ record State(Map<Item, Floor> itemLocations) {
                 Stream.of(contents.split(", and"))
                         .flatMap(string -> Stream.of(string.split(" and ")))
                         .flatMap(string -> Stream.of(string.split(", ")))
-                        .map(Item::parse)
-                        .forEach(item -> itemLocations.put(item, floor));
+                        .forEach(itemString -> {
+                            if (itemString.endsWith(MICROCHIP_SUFFIX)) {
+                                String radioisotope = itemString.substring(0, itemString.length() - MICROCHIP_SUFFIX.length());
+                                microchips.put(radioisotope, floor);
+                            } else if (itemString.endsWith(GENERATOR_SUFFIX)) {
+                                String radioisotope = itemString.substring(0, itemString.length() - GENERATOR_SUFFIX.length());
+                                generators.put(radioisotope, floor);
+                            } else {
+                                throw new IllegalArgumentException("Unable to parse: " + itemString);
+                            }
+                        });
             }
         });
         
         if (extraObjects) {
-            itemLocations.put(new RadioisotopeThermoelectricGenerator(new Radioisotope("elerium")), Floor.FIRST);
-            itemLocations.put(new Microchip(new Radioisotope("elerium")), Floor.FIRST);
-            itemLocations.put(new RadioisotopeThermoelectricGenerator(new Radioisotope("dilithium")), Floor.FIRST);
-            itemLocations.put(new Microchip(new Radioisotope("dilithium")), Floor.FIRST);
+            microchips.put("elerium", Floor.FIRST);
+            generators.put("elerium", Floor.FIRST);
+            microchips.put("dilithium", Floor.FIRST);
+            generators.put("dilithium", Floor.FIRST);
         }
         
-        return new State(itemLocations);
-    }
-
-    /// @return all possible valid states containing the items in this state
-    Stream<State> allValidStates() {
-        var emptyState = new State(Map.of());
-        var result = Stream.of(emptyState);
-        
-        for (var item : itemLocations.keySet()) {
-            result = result.flatMap(state -> state.add(item));
+        if (!generators.keySet().equals(microchips.keySet())) {
+            throw new IllegalArgumentException("Invalid input");
         }
         
-        return result.filter(State::isValid);
-    }
-    
-    private Stream<State> add(Item item) {
-        return Stream.of(Floor.values())
-                .map(floor -> add(item, floor));
-    }
-    
-    State add(Item item, Floor floor) {
-        var newItemLocations = new HashMap<>(itemLocations);
-        newItemLocations.put(item, floor);
-        return new State(newItemLocations);
-    }
-    
-    private boolean isValid() {
-        return itemLocations.keySet()
+        MultiSet<Pair> pairs = microchips.entrySet()
                 .stream()
-                .filter(Microchip.class::isInstance)
-                .map(Microchip.class::cast)
-                .noneMatch(this::fries);
-    }
-    
-    private boolean fries(Microchip chip) {
-        return !isPowered(chip) && isNearOtherGenerator(chip) ;
+                .map(entry -> new Pair(generators.get(entry.getKey()), entry.getValue()))
+                .collect(Collectors.toCollection(HashMultiSet::new));
+        return new State(Floor.FIRST, pairs);
     }
 
-    private boolean isNearOtherGenerator(Microchip chip) {
-        var chipFloor = itemLocations.get(chip);
-        return itemLocations.entrySet()
-                .stream()
-                .filter(entry -> entry.getValue() == chipFloor)
-                .map(Entry::getKey)
-                .filter(RadioisotopeThermoelectricGenerator.class::isInstance)
-                .map(RadioisotopeThermoelectricGenerator.class::cast)
-                .filter(generator -> !generator.radioisotope().equals(chip.radioisotope()))
-                .findFirst()
-                .isPresent();
-    }
-
-    private boolean isPowered(Microchip chip) {
-        var chipFloor = itemLocations.get(chip);
-        var generatorFloor = itemLocations.get(new RadioisotopeThermoelectricGenerator(chip.radioisotope()));
-        return chipFloor == generatorFloor;
-    }
-
-    /// @return the desired end state, where all items have been gathered on the fourth floor
     State endState() {
-        var endItemLocations = itemLocations.keySet()
+        MultiSet<Pair> endPairs = Collections.nCopies(pairs.size(), new Pair(Floor.FOURTH, Floor.FOURTH))
                 .stream()
-                .collect(Collectors.toMap(Function.identity(), item -> Floor.FOURTH));
-        return new State(endItemLocations);
+                .collect(Collectors.toCollection(HashMultiSet::new));
+        return new State(Floor.FOURTH, endPairs);
     }
     
-    /// @return possible transitions, by taking the elevator to another floor, taking one or two items
     Stream<State> takeElevator() {
-        var currentFloor = itemLocations.get(Elevator.INSTANCE);
         return Stream.of(Floor.values())
-                .filter(floor -> Math.abs(floor.getFloorNumber() - currentFloor.getFloorNumber()) == 1)
+                .filter(floor -> Math.abs(floor.getFloorNumber() - elevator.getFloorNumber()) == 1)
                 .flatMap(this::takeElevator)
                 .filter(State::isValid);
     }
@@ -117,49 +81,47 @@ record State(Map<Item, Floor> itemLocations) {
     }
     
     private Stream<State> takeElevatorAndSingleItem(Floor targetFloor) {
-        var currentFloor = itemLocations.get(Elevator.INSTANCE);
-        return itemsOnFloor(currentFloor)
-                .filter(item -> item != Elevator.INSTANCE)
-                .map(item -> moveItems(targetFloor, Elevator.INSTANCE, item));
+        return Stream.concat(takeElevatorAndMicrochip(targetFloor), takeElevatorAndGenerator(targetFloor));
     }
     
-    private Stream<Item> itemsOnFloor(Floor floor) {
-        return itemLocations.entrySet()
+    private Stream<State> takeElevatorAndMicrochip(Floor targetFloor) {
+        return pairs.stream()
+                .filter(pair -> pair.microchip() == elevator)
+                .map(pair -> moveMicrochip(targetFloor, pair));
+    }
+    
+    private State moveMicrochip(Floor targetFloor, Pair microchipPair) {
+        MultiSet<Pair> newPairs = new HashMultiSet<>(pairs);
+        newPairs.remove(microchipPair);
+        newPairs.add(microchipPair.moveMicrochip(targetFloor));
+        return new State(targetFloor, newPairs);
+    }
+    
+    private Stream<State> takeElevatorAndGenerator(Floor targetFloor) {
+        return pairs.uniqueSet()
                 .stream()
-                .filter(entry -> entry.getValue() == floor)
-                .map(Entry::getKey);
+                .filter(pair -> pair.generator() == elevator)
+                .map(pair -> moveGenerator(targetFloor, pair));
     }
     
-    private State moveItems(Floor targetFloor, Item... items) {
-        Map<Item, Floor> newItemLocations = new HashMap<>(itemLocations);
-        Stream.of(items).forEach(item -> newItemLocations.put(item, targetFloor));
-        return new State(newItemLocations);
+    private State moveGenerator(Floor targetFloor, Pair generatorPair) {
+        MultiSet<Pair> newPairs = new HashMultiSet<>(pairs);
+        newPairs.remove(generatorPair);
+        newPairs.add(generatorPair.moveGenerator(targetFloor));
+        return new State(targetFloor, newPairs);
     }
     
     private Stream<State> takeElevatorAndTwoItems(Floor targetFloor) {
-        var currentFloor = itemLocations.get(Elevator.INSTANCE);
-        return itemsOnFloor(currentFloor)
-                .filter(item -> item != Elevator.INSTANCE)
-                .flatMap(item -> itemsOnFloor(currentFloor)
-                        .filter(otherItem -> otherItem != Elevator.INSTANCE)
-                        .filter(otherItem -> item != otherItem)
-                        .map(otherItem -> moveItems(targetFloor, Elevator.INSTANCE, item, otherItem)));
+        return Stream.of(); // TODO
     }
     
-    @Override
-    public final String toString() {
-        var result = new StringBuilder();
-        result.append("State:\n");
-        Stream.of(Floor.values())
-                .sorted(Comparator.reverseOrder())
-                .forEach(floor -> appendFloor(result, floor));
-        return result.toString();
-    }
-    
-    private void appendFloor(StringBuilder builder, Floor floor) {
-        builder.append(floor);
-        builder.append(": ");
-        builder.append(itemsOnFloor(floor).map(Object::toString).collect(Collectors.joining(", ")));
-        builder.append("\n");
+    private boolean isValid() {
+        return pairs.uniqueSet()
+                .stream()
+                .allMatch(pair -> 
+                    // Either the corresponding microchip and generator are on the same floor,
+                    pair.generator() == pair.microchip()
+                        // or there are no non-corresponding generators on the microchip's floor.
+                        || pairs.uniqueSet().stream().noneMatch(otherPair -> otherPair != pair && otherPair.generator() == pair.microchip()));
     }
 }
