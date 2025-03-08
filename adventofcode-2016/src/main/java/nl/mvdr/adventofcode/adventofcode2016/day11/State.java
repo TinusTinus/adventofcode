@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 record State(Map<Item, Floor> itemLocations) {
     
-    static State parse(Stream<String> lines) {
+    static State parse(Stream<String> lines, boolean extraObjects) {
         Map<Item, Floor> itemLocations = new HashMap<>();
         
         itemLocations.put(Elevator.INSTANCE, Floor.FIRST);
@@ -30,6 +30,13 @@ record State(Map<Item, Floor> itemLocations) {
                         .forEach(item -> itemLocations.put(item, floor));
             }
         });
+        
+        if (extraObjects) {
+            itemLocations.put(new RadioisotopeThermoelectricGenerator(new Radioisotope("elerium")), Floor.FIRST);
+            itemLocations.put(new Microchip(new Radioisotope("elerium")), Floor.FIRST);
+            itemLocations.put(new RadioisotopeThermoelectricGenerator(new Radioisotope("dilithium")), Floor.FIRST);
+            itemLocations.put(new Microchip(new Radioisotope("dilithium")), Floor.FIRST);
+        }
         
         return new State(itemLocations);
     }
