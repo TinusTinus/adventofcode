@@ -15,8 +15,8 @@ record Program(List<Instruction> instructions) {
         return new Program(instructions);
     }
     
-    State execute() {
-        var state = new State();
+    State execute(State startState) {
+        State state = startState;
         while (state.instructionPointer() < instructions.size()) {
             LOGGER.debug("{}", state);
             state = instructions.get(state.instructionPointer()).execute(state);
