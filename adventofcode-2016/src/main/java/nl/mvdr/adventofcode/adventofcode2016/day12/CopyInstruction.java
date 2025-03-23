@@ -9,12 +9,10 @@ record CopyInstruction(Expression x, Register y) implements Instruction {
             throw new IllegalArgumentException("Unexpected parameters: " + parameters);
         }
         var x = parameters.getFirst();
-        Register y;
-        if (parameters.getLast() instanceof RegisterExpression yExpression) {
-            y = yExpression.register();
-        } else {
-            throw new IllegalArgumentException("Register expression expected, but got: " + parameters.getLast());
-        }
+        var y = switch (parameters.getLast()) {
+            case RegisterExpression expression -> expression.register();
+            default -> throw new IllegalArgumentException("Register expression expected, but got: " + parameters.getLast());
+        };
         
         return new CopyInstruction(x, y);
     }

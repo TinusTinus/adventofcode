@@ -8,12 +8,10 @@ record DecreaseInstruction(Register x) implements Instruction {
         if (parameters.size() != 1) {
             throw new IllegalArgumentException("Unexpected parameters: " + parameters);
         }
-        Register x;
-        if (parameters.getFirst() instanceof RegisterExpression xExpression) {
-            x = xExpression.register();
-        } else {
-            throw new IllegalArgumentException("Register expression expected, but got: " + parameters.getLast());
-        }
+        var x = switch (parameters.getFirst()) {
+            case RegisterExpression expression -> expression.register();
+            default -> throw new IllegalArgumentException("Register expression expected, but got: " + parameters.getLast());
+        };
         return new DecreaseInstruction(x);
     }
     
