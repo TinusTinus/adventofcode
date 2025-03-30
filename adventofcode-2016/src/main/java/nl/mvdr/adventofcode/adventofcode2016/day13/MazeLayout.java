@@ -24,6 +24,6 @@ record MazeLayout(int officeDesignersFavoriteNumber) {
                 .filter(c -> c == '1')
                 .count();
         
-        return oneBits % 2 == 0;
+        return 0 <= x && 0 <= y && oneBits % 2 == 0;
     }
 }

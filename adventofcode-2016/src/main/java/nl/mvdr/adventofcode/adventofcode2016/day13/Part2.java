@@ -41,6 +41,8 @@ public class Part2 implements IntSolver {
             pathLength++;
         }
         
+        LOGGER.debug("Visited locations:\n{}", Point.visualize(visited));
+        
         return visited.size();
     }
     
