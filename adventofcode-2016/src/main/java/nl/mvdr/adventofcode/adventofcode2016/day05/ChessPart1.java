@@ -54,7 +54,7 @@ public class ChessPart1 implements LinesSolver<String> {
     public static void main(String[] args) {
         ChessPart1 instance = new ChessPart1();
 
-        String result = instance.solve("input-day05-2016.txt");
+        String result = instance.solve("input-day05.txt");
 
         LOGGER.info(result);
     }

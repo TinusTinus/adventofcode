@@ -64,7 +64,7 @@ public class TaxicabPart2 implements IntSolver {
     public static void main(String[] args) {
         TaxicabPart2 instance = new TaxicabPart2();
 
-        String result = instance.solve("input-day01-2016.txt");
+        String result = instance.solve("input-day01.txt");
 
         LOGGER.info(result);
     }

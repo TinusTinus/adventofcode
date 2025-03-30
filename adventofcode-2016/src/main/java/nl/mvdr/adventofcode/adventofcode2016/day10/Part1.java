@@ -34,7 +34,7 @@ public class Part1 extends BalanceBotsSolver {
     public static void main(String[] args) {
         Part1 instance = new Part1();
 
-        String result = instance.solve("input-day10-2016.txt");
+        String result = instance.solve("input-day10.txt");
 
         LOGGER.info(result);
     }

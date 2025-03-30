@@ -44,7 +44,7 @@ public class BathroomSecurityPart1 extends BathroomSecurity {
     public static void main(String[] args) {
         BathroomSecurityPart1 instance = new BathroomSecurityPart1();
 
-        String result = instance.solve("input-day02-2016.txt");
+        String result = instance.solve("input-day02.txt");
 
         LOGGER.info(result);
     }

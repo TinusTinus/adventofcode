@@ -20,7 +20,7 @@ public class Part2 implements IntSolver {
     public static void main(String[] args) {
         Part2 instance = new Part2();
 
-        String result = instance.solve("input-day12-2016.txt");
+        String result = instance.solve("input-day12.txt");
 
         LOGGER.info(result);
     }

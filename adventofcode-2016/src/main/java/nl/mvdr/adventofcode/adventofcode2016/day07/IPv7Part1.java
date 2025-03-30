@@ -39,7 +39,7 @@ public class IPv7Part1 implements LongSolver {
     public static void main(String[] args) {
         IPv7Part1 instance = new IPv7Part1();
 
-        String result = instance.solve("input-day07-2016.txt");
+        String result = instance.solve("input-day07.txt");
 
         LOGGER.info(result);
     }

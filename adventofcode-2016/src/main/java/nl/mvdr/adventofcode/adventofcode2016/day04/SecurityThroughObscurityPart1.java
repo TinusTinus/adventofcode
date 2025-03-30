@@ -40,7 +40,7 @@ public class SecurityThroughObscurityPart1 implements IntSolver {
     public static void main(String[] args) {
         SecurityThroughObscurityPart1 instance = new SecurityThroughObscurityPart1();
 
-        String result = instance.solve("input-day04-2016.txt");
+        String result = instance.solve("input-day04.txt");
 
         LOGGER.info(result);
     }

@@ -26,7 +26,7 @@ public class SignalsPart2 extends Signals {
     public static void main(String[] args) {
         SignalsPart2 instance = new SignalsPart2();
 
-        String result = instance.solve("input-day06-2016.txt");
+        String result = instance.solve("input-day06.txt");
 
         LOGGER.info(result);
     }

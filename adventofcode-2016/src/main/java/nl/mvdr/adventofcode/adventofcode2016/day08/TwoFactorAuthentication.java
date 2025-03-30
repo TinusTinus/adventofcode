@@ -71,7 +71,7 @@ public class TwoFactorAuthentication implements IntSolver {
     public static void main(String[] args) {
         TwoFactorAuthentication instance = new TwoFactorAuthentication();
 
-        String result = instance.solve("input-day08-2016.txt");
+        String result = instance.solve("input-day08.txt");
 
         LOGGER.info(result);
     }

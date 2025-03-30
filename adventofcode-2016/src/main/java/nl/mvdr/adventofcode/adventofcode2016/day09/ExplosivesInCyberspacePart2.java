@@ -26,7 +26,7 @@ public class ExplosivesInCyberspacePart2 extends ExplosivesInCyberspace {
     public static void main(String[] args) {
         ExplosivesInCyberspacePart2 instance = new ExplosivesInCyberspacePart2();
 
-        String result = instance.solve("input-day09-2016.txt");
+        String result = instance.solve("input-day09.txt");
 
         LOGGER.info(result);
     }

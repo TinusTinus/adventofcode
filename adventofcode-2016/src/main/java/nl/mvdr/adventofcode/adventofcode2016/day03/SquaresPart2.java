@@ -56,7 +56,7 @@ public class SquaresPart2 implements IntSolver {
     public static void main(String[] args) {
         SquaresPart2 instance = new SquaresPart2();
 
-        String result = instance.solve("input-day03-2016.txt");
+        String result = instance.solve("input-day03.txt");
 
         LOGGER.info(result);
     }

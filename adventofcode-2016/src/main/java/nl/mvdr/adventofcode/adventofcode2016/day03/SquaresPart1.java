@@ -39,7 +39,7 @@ public class SquaresPart1 implements LongSolver {
     public static void main(String[] args) {
         SquaresPart1 instance = new SquaresPart1();
 
-        String result = instance.solve("input-day03-2016.txt");
+        String result = instance.solve("input-day03.txt");
 
         LOGGER.info(result);
     }
