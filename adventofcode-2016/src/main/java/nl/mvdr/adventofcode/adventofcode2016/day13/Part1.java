@@ -30,7 +30,7 @@ public class Part1 implements IntSolver {
     public int solve(Stream<String> lines) {
         var layout = MazeLayout.parse(lines);
         
-        // Let's Dijkstra it up!
+        // Dijkstra's algorithm
         Set<Point> visited = new HashSet<>();
         
         Set<Point> current = new HashSet<>();
