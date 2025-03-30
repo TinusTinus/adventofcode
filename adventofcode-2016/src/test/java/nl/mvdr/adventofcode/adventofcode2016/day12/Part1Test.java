@@ -13,6 +13,6 @@ class Part1Test extends SolverTest<Part1> {
     }
     
     static Stream<Arguments> testSolution() {
-        return Stream.of(Arguments.of("42", "example-day12-2016.txt"));
+        return Stream.of(Arguments.of("42", "example-day12.txt"));
     }
 }

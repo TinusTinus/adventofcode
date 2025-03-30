@@ -17,7 +17,7 @@ class Part1Test {
     void test(int firstMicrochipValue, int secondMicrochipValue, int expectedBotNumber) {
         var solver = new Part1(firstMicrochipValue, secondMicrochipValue);
         
-        var result = solver.solve("example-day10-2016.txt");
+        var result = solver.solve("example-day10.txt");
         
         Assertions.assertEquals("" + expectedBotNumber, result);
     }

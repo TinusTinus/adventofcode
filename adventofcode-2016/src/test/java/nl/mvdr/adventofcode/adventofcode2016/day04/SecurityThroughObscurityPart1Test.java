@@ -21,6 +21,6 @@ public class SecurityThroughObscurityPart1Test extends SolverTest<SecurityThroug
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1514", "example-day04-2016.txt"));
+                Arguments.of("1514", "example-day04.txt"));
     }
 }

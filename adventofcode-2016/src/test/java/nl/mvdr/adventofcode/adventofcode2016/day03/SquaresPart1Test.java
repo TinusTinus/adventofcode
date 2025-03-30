@@ -21,6 +21,6 @@ public class SquaresPart1Test extends SolverTest<SquaresPart1> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("0", "example-day03-2016.txt"));
+                Arguments.of("0", "example-day03.txt"));
     }
 }

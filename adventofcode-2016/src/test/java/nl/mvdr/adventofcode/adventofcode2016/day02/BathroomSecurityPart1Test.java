@@ -21,6 +21,6 @@ public class BathroomSecurityPart1Test extends SolverTest<BathroomSecurityPart1>
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("1985", "example-day02-2016.txt"));
+                Arguments.of("1985", "example-day02.txt"));
     }
 }

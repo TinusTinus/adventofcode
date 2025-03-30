@@ -21,6 +21,6 @@ public class IPv7Part2Test extends SolverTest<IPv7Part2> {
     /** @return arguments for {@link SolverTest#testSolution(String, String)} */
     static Stream<Arguments> testSolution() {
         return Stream.of(
-                Arguments.of("3", "example-day07-2016-1.txt"));
+                Arguments.of("3", "example-day07-1.txt"));
     }
 }
