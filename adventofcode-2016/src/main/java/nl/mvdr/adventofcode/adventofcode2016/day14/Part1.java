@@ -22,7 +22,7 @@ public class Part1 implements IntSolver {
                 .peek(i -> LOGGER.debug("Key found at index {}", Integer.valueOf(i)))
                 .skip(63)
                 .findFirst()
-                .orElseThrow(); // The accepted answer is the 61st key for my input. For the example it's the 63rd key. Why? There must be keys this solution is not detecting.
+                .orElseThrow();
     }
 
     static boolean isKey(String salt, int index) {
@@ -37,7 +37,7 @@ public class Part1 implements IntSolver {
     
     static Character findTriplet(String salt, int index) {
         var hash = hash(salt, index);
-        var result = IntStream.range(0, hash.length() - 3)
+        var result = IntStream.range(0, hash.length() - 2)
                 .filter((i -> hash.charAt(i) == hash.charAt(i + 1) && hash.charAt(i) == hash.charAt(i + 2)))
                 .mapToObj(i -> Character.valueOf(hash.charAt(i)))
                 .findFirst()
