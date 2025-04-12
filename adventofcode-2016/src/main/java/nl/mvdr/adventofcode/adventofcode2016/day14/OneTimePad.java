@@ -1,5 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2016.day14;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -14,6 +16,8 @@ class OneTimePad implements IntSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(OneTimePad.class);
 
     private final int hashCount;
+    
+    private Map<String, String> hashCache = new HashMap<>();
     
     OneTimePad(int hashCount) {
         this.hashCount = hashCount;
@@ -38,9 +42,16 @@ class OneTimePad implements IntSolver {
     }
     
     String hash(String salt, int index) {
-        String result = salt + index;
-        for (int i = 0; i != hashCount; i++) {
-            result = DigestUtils.md5Hex(result);
+        String input = salt + index;
+        
+        String result = hashCache.get(input);
+        
+        if (result == null) {
+            result = input;
+            for (int i = 0; i != hashCount; i++) {
+                result = DigestUtils.md5Hex(result);
+            }
+            hashCache.put(input, result);
         }
         return result;
     }
