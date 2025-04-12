@@ -27,21 +27,25 @@ class OneTimePad implements IntSolver {
     public int solve(Stream<String> lines) {
         var salt = lines.findFirst().orElseThrow();
         
-        return IntStream.iterate(0, i -> i + 1)
-                .filter(i -> isKey(salt, i))
-                .peek(i -> LOGGER.debug("Key found at index {}", Integer.valueOf(i)))
+        return IntStream.iterate(0, index -> index + 1)
+                .filter(index -> isKey(salt, index))
                 .skip(63)
                 .findFirst()
                 .orElseThrow();
     }
 
+    // Default visibility for unit test
     boolean isKey(String salt, int index) {
         var tripletCharacter = findTriplet(salt, index);
-        return tripletCharacter != null && IntStream.range(index + 1, index + 1001)
+        boolean result = tripletCharacter != null && IntStream.range(index + 1, index + 1001)
                 .anyMatch(i -> containsQuintuplet(salt, i, tripletCharacter.charValue()));
+        if (result) {
+            LOGGER.debug("Key found at index {}", Integer.valueOf(index));
+        }
+        return result;
     }
     
-    String hash(String salt, int index) {
+    private String hash(String salt, int index) {
         String input = salt + index;
         
         String result = hashCache.get(input);
@@ -56,6 +60,7 @@ class OneTimePad implements IntSolver {
         return result;
     }
     
+    // Default visibility for unit test
     Character findTriplet(String salt, int index) {
         var hash = hash(salt, index);
         var result = IntStream.range(0, hash.length() - 2)
@@ -69,7 +74,7 @@ class OneTimePad implements IntSolver {
         return result;
     }
 
-    boolean containsQuintuplet(String salt, int index, char character) {
+    private boolean containsQuintuplet(String salt, int index, char character) {
         var hash = hash(salt, index);
         var result =  hash.contains("" + character + character + character + character + character);
         if (result) {
