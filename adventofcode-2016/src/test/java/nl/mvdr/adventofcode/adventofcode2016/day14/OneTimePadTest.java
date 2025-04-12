@@ -60,4 +60,34 @@ class OneTimePadTest {
                 .filter(i -> i != 39)
                 .mapToObj(i -> Arguments.arguments(Integer.valueOf(i)));
     }
+    
+    @ParameterizedTest
+    @ValueSource(ints = { 5, 10, 22551 })
+    void testIsTripletWhenKeyStretching(int index) {
+        OneTimePad solver = new OneTimePad(2017);
+        
+        Character tripletCharacter = solver.findTriplet("abc", index);
+        
+        assertNotNull(tripletCharacter);
+    }
+    
+    @ParameterizedTest
+    @ValueSource(ints = { 0, 1, 2, 3, 4, 6, 7, 8, 9 })
+    void testIsNotTripletWhenKeyStretching(int index) {
+        OneTimePad solver = new OneTimePad(2017);
+        
+        Character tripletCharacter = solver.findTriplet("abc", index);
+        
+        assertNull(tripletCharacter);
+    }
+    
+    @ParameterizedTest
+    @ValueSource(ints = { 10, 22551 })
+    void testIsKeyWhenKeyStretching(int index) {
+        OneTimePad solver = new OneTimePad(2017);
+        
+        boolean key = solver.isKey("abc", index);
+        
+        assertTrue(key);
+    }
 }
