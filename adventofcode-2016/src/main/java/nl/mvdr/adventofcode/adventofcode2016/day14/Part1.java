@@ -20,9 +20,9 @@ public class Part1 implements IntSolver {
         return IntStream.iterate(0, i -> i + 1)
                 .filter(i -> isKey(salt, i))
                 .peek(i -> LOGGER.debug("Key found at index {}", Integer.valueOf(i)))
-                .skip(62) // TODO shouldn't this be 63? But 62 gives the correct answer for the example input
+                .skip(63)
                 .findFirst()
-                .orElseThrow(); // 29847 is too high!
+                .orElseThrow(); // The accepted answer is the 61st key for my input. For the example it's the 63rd key. Why? There must be keys this solution is not detecting.
     }
 
     static boolean isKey(String salt, int index) {
@@ -37,16 +37,24 @@ public class Part1 implements IntSolver {
     
     static Character findTriplet(String salt, int index) {
         var hash = hash(salt, index);
-        return IntStream.range(0, hash.length() - 3)
+        var result = IntStream.range(0, hash.length() - 3)
                 .filter((i -> hash.charAt(i) == hash.charAt(i + 1) && hash.charAt(i) == hash.charAt(i + 2)))
                 .mapToObj(i -> Character.valueOf(hash.charAt(i)))
                 .findFirst()
                 .orElse(null);
+        if (result != null) {
+            LOGGER.debug("Triplet found in hash {} at index {}: {}", hash, Integer.valueOf(index), result);
+        }
+        return result;
     }
 
     static boolean containsQuintuplet(String salt, int index, char character) {
         var hash = hash(salt, index);
-        return hash.contains("" + character + character + character + character + character);
+        var result =  hash.contains("" + character + character + character + character + character);
+        if (result) {
+            LOGGER.debug("{} quintuplet found in hash {} at index {}", Character.valueOf(character), hash, Integer.valueOf(index));
+        }
+        return result;
     }
     
     public static void main(String[] args) {
