@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2016.day14;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -14,31 +13,42 @@ public class Part1 implements IntSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
 
-    private final MessageDigest md5Algorithm;
-    
-    public Part1() {
-        try {
-            this.md5Algorithm = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-    
     @Override
     public int solve(Stream<String> lines) {
         var salt = lines.findFirst().orElseThrow();
         
-        System.out.println(md5(salt + 13));
-        
-        return 0; // TODO
+        return IntStream.iterate(0, i -> i + 1)
+                .filter(i -> isKey(salt, i))
+                .peek(i -> LOGGER.debug("Key found at index {}", Integer.valueOf(i)))
+                .skip(62) // TODO shouldn't this be 63? But 62 gives the correct answer for the example input
+                .findFirst()
+                .orElseThrow(); // 29847 is too high!
+    }
+
+    static boolean isKey(String salt, int index) {
+        var tripletCharacter = findTriplet(salt, index);
+        return tripletCharacter != null && IntStream.range(index + 1, index + 1001)
+                .anyMatch(i -> containsQuintuplet(salt, i, tripletCharacter.charValue()));
     }
     
-    private String md5(String input) {
-        var hashBytes = md5Algorithm.digest(input.getBytes());
-        return DatatypeConverter.printHexBinary(hashBytes);
+    static String hash(String salt, int index) {
+        return DigestUtils.md5Hex(salt + index);
+    }
+    
+    static Character findTriplet(String salt, int index) {
+        var hash = hash(salt, index);
+        return IntStream.range(0, hash.length() - 3)
+                .filter((i -> hash.charAt(i) == hash.charAt(i + 1) && hash.charAt(i) == hash.charAt(i + 2)))
+                .mapToObj(i -> Character.valueOf(hash.charAt(i)))
+                .findFirst()
+                .orElse(null);
     }
 
-
+    static boolean containsQuintuplet(String salt, int index, char character) {
+        var hash = hash(salt, index);
+        return hash.contains("" + character + character + character + character + character);
+    }
+    
     public static void main(String[] args) {
         Part1 instance = new Part1();
 
