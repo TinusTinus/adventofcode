@@ -1,13 +1,16 @@
 package nl.mvdr.adventofcode.adventofcode2016.day14;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import nl.mvdr.adventofcode.solver.SolverTest;
@@ -42,5 +45,17 @@ class Part1Test extends SolverTest<Part1> {
     @ValueSource(ints = { 39, 92, 22728 })
     void testIsKey(int index) {
         assertTrue(Part1.isKey("abc", index));
+    }
+    
+    @ParameterizedTest
+    @MethodSource
+    void testIsNotKey(int index) {
+        assertFalse(Part1.isKey("abc", index));
+    }
+    
+    static Stream<Arguments> testIsNotKey() {
+        return IntStream.range(0, 92)
+                .filter(i -> i != 39)
+                .mapToObj(i -> Arguments.arguments(Integer.valueOf(i)));
     }
 }
