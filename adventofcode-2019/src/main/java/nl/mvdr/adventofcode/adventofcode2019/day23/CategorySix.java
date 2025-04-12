@@ -38,7 +38,7 @@ abstract class CategorySix implements LongSolver {
         
         List<Program> computers = LongStream.range(0L, 50L)
                 // Make sure each program is provided with its address first.
-                .mapToObj(address -> inputs.computeIfAbsent(Long.valueOf(address), a -> new LinkedList<>(Set.of(Long.valueOf(address)))))
+                .mapToObj(address -> inputs.computeIfAbsent(Long.valueOf(address), _ -> new LinkedList<>(Set.of(Long.valueOf(address)))))
                 .map(queue -> program.withQueueInput(queue))
                 .map(computer -> computer.withOutput(new OutputHandler(inputs, nat)::handleOutput))
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);

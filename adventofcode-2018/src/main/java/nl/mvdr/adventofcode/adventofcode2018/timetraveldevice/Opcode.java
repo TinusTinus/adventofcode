@@ -35,9 +35,9 @@ public enum Opcode {
     BORI((a, b, registers) -> registers.get(a).intValue() | b),
     // Assignment
     /** Opcode setr (set register) copies the contents of register A into register C. (Input B is ignored.) */
-    SETR((a, b, registers) -> registers.get(a).intValue()),
+    SETR((a, _, registers) -> registers.get(a).intValue()),
     /** Opcode seti (set immediate) stores value A into register C. (Input B is ignored.) */
-    SETI((a, b, registers) -> a),
+    SETI((a, _, _) -> a),
     // Greater-than testing
     /** Opcode gtir (greater-than immediate/register) sets register C to 1 if value A is greater than register B. Otherwise, register C is set to 0. */
     GTIR((a, b, registers) -> a > registers.get(b).intValue() ? 1 : 0),

@@ -78,7 +78,7 @@ public class Program {
      * @return value of register 0
      */
     public int execute(int register0Value) {
-        return this.execute(register0Value, (registers, pointer) -> true);
+        return this.execute(register0Value, (_, _) -> true);
     }
     
     /**

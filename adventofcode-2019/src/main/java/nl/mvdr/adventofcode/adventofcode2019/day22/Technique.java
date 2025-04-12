@@ -16,12 +16,12 @@ import java.util.stream.IntStream;
 enum Technique implements PreviousIndexFunction {
     /** Deal into a new stack. */
     DEAL_INTO_NEW_STACK("deal into new stack",
-            (deck, n) -> {
+            (deck, _) -> {
                 List<Integer> result = new ArrayList<>(deck);
                 Collections.reverse(result);
                 return result;
             },
-            (newIndex, deckSize, n) -> deckSize - newIndex - 1),
+            (newIndex, deckSize, _) -> deckSize - newIndex - 1),
     
     /** Cut the cards. */
     CUT("cut ",

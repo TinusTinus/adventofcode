@@ -72,7 +72,7 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
                         while (!deadEnd && pointsOfInterest.stream().noneMatch(p -> p.point().equals(path.getLast()))) {
                             var nextLocation = step(path.getLast(), slipperySlopes)
                                     .filter(point -> !point.equals(path.get(path.size() - 2)))
-                                    .reduce((point0, point1) -> {throw new IllegalStateException("Multiple exits found");});
+                                    .reduce((_, _) -> {throw new IllegalStateException("Multiple exits found");});
                             if (nextLocation.isPresent()) {
                                 path.add(nextLocation.orElseThrow());
                             } else {
@@ -83,7 +83,7 @@ public record HikingTrailsMap(Map<Point, Terrain> terrainMap, Point start, Point
                             // Found a path
                             var targetPointOfInterest = pointsOfInterest.stream()
                                     .filter(target -> target.point().equals(path.getLast()))
-                                    .reduce((poi0, poi1) -> {throw new IllegalStateException();})
+                                    .reduce((_, _) -> {throw new IllegalStateException();})
                                     .orElseThrow();
                             pointOfInterest.pathLengths().put(targetPointOfInterest, Integer.valueOf(path.size() - 1));
                         }

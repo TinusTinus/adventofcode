@@ -42,7 +42,7 @@ public class Part2 implements LinesSolver<Point> {
         
         return lines.map(Point::parse)
                 .peek(graph::removeVertex)
-                .filter(b -> !new ConnectivityInspector<>(graph).pathExists(start, end))
+                .filter(_ -> !new ConnectivityInspector<>(graph).pathExists(start, end))
                 .findFirst()
                 .orElseThrow();
     }

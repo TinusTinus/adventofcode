@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 record State(Map<Register, Integer> registers, int instructionPointer) {
     State() {
         this(Stream.of(Register.values())
-                .collect(Collectors.toMap(Function.identity(), register -> Integer.valueOf(0))), 0);
+                .collect(Collectors.toMap(Function.identity(), _ -> Integer.valueOf(0))), 0);
     }
     
     State setRegister(Register register, int value) {

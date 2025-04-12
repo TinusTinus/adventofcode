@@ -79,7 +79,7 @@ record Machine(Map<String, Module> modules, List<Pulse> pulseQueue) {
      */
     long countPulses(int buttonPresses) {
         var pulseCounter = Stream.of(PulseType.values())
-                .collect(Collectors.toMap(Function.identity(), type -> Long.valueOf(0L)));
+                .collect(Collectors.toMap(Function.identity(), _ -> Long.valueOf(0L)));
         pulseCounter = new EnumMap<>(pulseCounter);
         
         pressButtonAndHandle(buttonPresses, pulseCounter);

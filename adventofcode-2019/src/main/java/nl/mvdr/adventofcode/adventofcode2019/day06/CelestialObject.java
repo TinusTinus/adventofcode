@@ -32,8 +32,8 @@ class CelestialObject {
         lines.filter(Predicate.not(String::isBlank))
                 .forEach(line -> {
                     String[] parts = line.split("\\)");
-                    CelestialObject lhs = objects.computeIfAbsent(parts[0], name -> new CelestialObject());
-                    CelestialObject rhs = objects.computeIfAbsent(parts[1], name -> new CelestialObject());
+                    CelestialObject lhs = objects.computeIfAbsent(parts[0], _ -> new CelestialObject());
+                    CelestialObject rhs = objects.computeIfAbsent(parts[1], _ -> new CelestialObject());
                     rhs.setOrbitedObject(lhs);
                 });
         
@@ -59,7 +59,7 @@ class CelestialObject {
      * @param object the other celestial object which this object orbits
      */
     void setOrbitedObject(CelestialObject object) {
-        this.orbitedObject.ifPresent(o -> {
+        this.orbitedObject.ifPresent(_ -> {
             throw new IllegalStateException("Orbit already set.");
         });
         this.orbitedObject = Optional.of(object);

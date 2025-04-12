@@ -17,7 +17,7 @@ record PartRange(Map<Property, ValueRange> valueRanges) {
      */
     static final PartRange FULL_RANGE = new PartRange(
             Stream.of(Property.values())
-                .collect(Collectors.toMap(Function.identity(), property -> ValueRange.FULL_RANGE)));
+                .collect(Collectors.toMap(Function.identity(), _ -> ValueRange.FULL_RANGE)));
     
     /**
      * An empty range.
@@ -28,7 +28,7 @@ record PartRange(Map<Property, ValueRange> valueRanges) {
      */
     static final PartRange EMPTY_RANGE = new PartRange(
             Stream.of(Property.values())
-            .collect(Collectors.toMap(Function.identity(), property -> ValueRange.EMPTY_RANGE)));
+            .collect(Collectors.toMap(Function.identity(), _ -> ValueRange.EMPTY_RANGE)));
     
     /**
      * @return whether this range is empty

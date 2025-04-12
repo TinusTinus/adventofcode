@@ -19,7 +19,7 @@ record CityMap(int width, int height, Map<Signal, Set<Point>> antennas) {
         Point.parse2DMap(lines,
                 (point, character) -> {
                     if (character != '.') {
-                        antennas.computeIfAbsent(new Signal(character), p -> new HashSet<>()).add(point);
+                        antennas.computeIfAbsent(new Signal(character), _ -> new HashSet<>()).add(point);
                     }
                 });
         

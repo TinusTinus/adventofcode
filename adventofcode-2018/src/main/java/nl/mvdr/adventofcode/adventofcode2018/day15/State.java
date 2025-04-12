@@ -393,7 +393,7 @@ class State {
                 
                 unit.ifPresent(units::add);
                 
-                map[x][y] = unit.map(u -> Square.OPEN_AREA)
+                map[x][y] = unit.map(_ -> Square.OPEN_AREA)
                         .orElseGet(() -> Square.of(c));
             }
         }

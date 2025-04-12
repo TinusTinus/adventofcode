@@ -34,11 +34,11 @@ record State(Map<MicrochipHolder, Set<Microchip>> microchips) {
                         var lowValueChip = heldMicrochips.stream().min(Comparator.comparing(Microchip::value)).orElseThrow();
                         var highValueChip = heldMicrochips.stream().max(Comparator.comparing(Microchip::value)).orElseThrow();
                         var rule = rules.get(bot);
-                        newMicrochips.computeIfAbsent(bot, h -> new HashSet<>());
-                        newMicrochips.computeIfAbsent(rule.lowTarget(), h -> new HashSet<>()).add(lowValueChip);
-                        newMicrochips.computeIfAbsent(rule.highTarget(), h -> new HashSet<>()).add(highValueChip);
+                        newMicrochips.computeIfAbsent(bot, _ -> new HashSet<>());
+                        newMicrochips.computeIfAbsent(rule.lowTarget(), _ -> new HashSet<>()).add(lowValueChip);
+                        newMicrochips.computeIfAbsent(rule.highTarget(), _ -> new HashSet<>()).add(highValueChip);
                     } else {
-                        newMicrochips.computeIfAbsent(holder, h -> new HashSet<>()).addAll(heldMicrochips);
+                        newMicrochips.computeIfAbsent(holder, _ -> new HashSet<>()).addAll(heldMicrochips);
                     }
                 });
         

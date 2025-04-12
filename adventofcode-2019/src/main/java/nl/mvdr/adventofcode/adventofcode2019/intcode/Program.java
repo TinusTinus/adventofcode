@@ -222,7 +222,7 @@ public class Program {
      * @return program state after the program has halted
      */
     public Program execute() {
-        return executeUntil(p -> false);
+        return executeUntil(_ -> false);
     }
     
     /**

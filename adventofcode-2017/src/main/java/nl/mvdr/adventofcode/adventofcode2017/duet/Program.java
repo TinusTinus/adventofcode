@@ -95,7 +95,7 @@ public class Program {
         State updatedState = instruction.execute(state);
         
         Map<Class<? extends Instruction>, Integer> newExecutionCounter = new HashMap<>(executionCounter);
-        newExecutionCounter.computeIfPresent(instruction.getClass(), (c, count) -> Integer.valueOf(count.intValue() + 1));
+        newExecutionCounter.computeIfPresent(instruction.getClass(), (_, count) -> Integer.valueOf(count.intValue() + 1));
         
         return new Program(instructions, updatedState, name, newExecutionCounter);
     }

@@ -150,11 +150,11 @@ record ConditionRecord(List<Condition> springs, List<Integer> contiguousGroupSiz
     ConditionRecord unfold() {
         List<Integer> newSizes = new ArrayList<>();
         IntStream.range(0, 5)
-            .forEach(i -> newSizes.addAll(contiguousGroupSizes));
+            .forEach(_ -> newSizes.addAll(contiguousGroupSizes));
         
         List<Condition> newSprings = new ArrayList<>(springs);
         IntStream.range(0, 4)
-            .forEach(i -> {
+            .forEach(_ -> {
                 newSprings.add(Condition.UNKNOWN);
                 newSprings.addAll(springs);
             });

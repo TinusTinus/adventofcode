@@ -32,7 +32,7 @@ public class SecureContainerPart2 extends SecureContainer {
             
             ascending = digit <= previousDigit;
             digitCounts.compute(Integer.valueOf(digit), 
-                    (key, count) -> count == null ? Integer.valueOf(1) : Integer.valueOf(count.intValue() + 1));
+                    (_, count) -> count == null ? Integer.valueOf(1) : Integer.valueOf(count.intValue() + 1));
             
             previousDigit = digit;
         }

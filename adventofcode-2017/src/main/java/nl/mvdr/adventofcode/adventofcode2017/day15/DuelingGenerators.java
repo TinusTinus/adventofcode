@@ -56,7 +56,7 @@ abstract class DuelingGenerators implements LongSolver {
             sampleSize = LARGE_SAMPLE_SIZE;
         }
         
-        long result = IntStream.range(0, sampleSize).filter(i -> {
+        long result = IntStream.range(0, sampleSize).filter(_ -> {
             long a = generatorA.nextValue();
             long b = generatorB.nextValue();
             

@@ -85,7 +85,7 @@ record Game(boolean recursive,
      * @return updated game state after playing a single round
      */
     private Game playRound() {
-        winner.ifPresent(w -> { throw new IllegalStateException("This game has already concluded: " + this); });
+        winner.ifPresent(_ -> { throw new IllegalStateException("This game has already concluded: " + this); });
         
         LOGGER.debug("-- Round {} --", Integer.valueOf(history.size() + 1));
         logDecks();

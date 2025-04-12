@@ -21,7 +21,7 @@ public class LensLibraryPart2 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var boxes = IntStream.range(0, HashAlgorithm.NUMBER_OF_VALUES)
-                .mapToObj(i -> new Box())
+                .mapToObj(_ -> new Box())
                 .toArray(Box[]::new);
 
         var string = lines.collect(Collectors.joining()); // ignore any newlines

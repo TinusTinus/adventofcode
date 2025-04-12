@@ -20,7 +20,7 @@ abstract class BalanceBotsSolver implements IntSolver {
                 var value = Integer.parseInt(parts[0]);
                 var microchip = new Microchip(value);
                 var holder = MicrochipHolder.parse(parts[1]);
-                initialMicrochips.computeIfAbsent(holder, h -> new HashSet<>()).add(microchip);
+                initialMicrochips.computeIfAbsent(holder, _ -> new HashSet<>()).add(microchip);
             } else if (line.startsWith("bot ")) {
                 var parts = line.split(" gives low to ");
                 var bot = Bot.parse(parts[0]);

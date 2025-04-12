@@ -44,7 +44,7 @@ record ConjunctionModule(String name, List<String> destinations, Map<String, Pul
     public ConjunctionModule init(Set<Module> modules) {
         var newLatestInputs = modules.stream()
                 .filter(module -> module.destinations().contains(name))
-                .collect(Collectors.toMap(Module::name, module -> PulseType.LOW));
+                .collect(Collectors.toMap(Module::name, _ -> PulseType.LOW));
         return new ConjunctionModule(name, destinations, newLatestInputs, hasOutputHigh);
     }
     

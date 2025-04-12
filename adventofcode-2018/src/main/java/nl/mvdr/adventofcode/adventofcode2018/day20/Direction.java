@@ -16,30 +16,30 @@ enum Direction implements RoomMapExpression {
     
     /** North. */
     NORTH((points, map) -> points.stream()
-            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()))
+            .peek(point -> map.getRooms().computeIfAbsent(point, _ -> new Room()))
             .map(Point::northNeighbour)
-            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()).addSouthDoor())
+            .peek(point -> map.getRooms().computeIfAbsent(point, _ -> new Room()).addSouthDoor())
             .collect(Collectors.toSet())),
     
     /** East. */
     EAST((points, map) -> points.stream()
-                .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()).addEastDoor())
+                .peek(point -> map.getRooms().computeIfAbsent(point, _ -> new Room()).addEastDoor())
                 .map(Point::eastNeighbour)
-                .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()))
+                .peek(point -> map.getRooms().computeIfAbsent(point, _ -> new Room()))
                 .collect(Collectors.toSet())),
     
     /** South. */
     SOUTH((points, map) -> points.stream()
-            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()).addSouthDoor())
+            .peek(point -> map.getRooms().computeIfAbsent(point, _ -> new Room()).addSouthDoor())
             .map(Point::southNeighbour)
-            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()))
+            .peek(point -> map.getRooms().computeIfAbsent(point, _ -> new Room()))
             .collect(Collectors.toSet())),
     
     /** West. */
     WEST((points, map) -> points.stream()
-            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()))
+            .peek(point -> map.getRooms().computeIfAbsent(point, _ -> new Room()))
             .map(Point::westNeighbour)
-            .peek(point -> map.getRooms().computeIfAbsent(point, p -> new Room()).addEastDoor())
+            .peek(point -> map.getRooms().computeIfAbsent(point, _ -> new Room()).addEastDoor())
             .collect(Collectors.toSet()));
     
     private final RoomMapExpression applyFunction;

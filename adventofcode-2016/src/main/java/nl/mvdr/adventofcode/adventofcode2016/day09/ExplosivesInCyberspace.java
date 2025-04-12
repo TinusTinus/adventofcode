@@ -111,7 +111,7 @@ abstract class ExplosivesInCyberspace implements LongSolver {
      */
     private String expand(String sequence, int repeats) {
         return IntStream.range(0, repeats)
-                .mapToObj(i -> sequence)
+                .mapToObj(_ -> sequence)
                 .collect(Collectors.joining());
     }
     

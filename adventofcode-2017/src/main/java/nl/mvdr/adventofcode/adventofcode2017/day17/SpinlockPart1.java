@@ -25,7 +25,7 @@ public class SpinlockPart1 extends Spinlock {
         
         for (int i = 1; i <= 2017; i++) {
             IntStream.range(0, stepSize + 1)
-                    .forEach(j -> buffer.offerLast(buffer.pollFirst()));
+                    .forEach(_ -> buffer.offerLast(buffer.pollFirst()));
             
             buffer.offerFirst(Integer.valueOf(i));
         }

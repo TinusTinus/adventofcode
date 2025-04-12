@@ -51,7 +51,7 @@ enum Crane {
         LOGGER.debug("Performing step: {}", step);
 
         var crates = IntStream.range(0, step.numberOfCrates())
-                .mapToObj(i -> stacks.get(step.sourceStack() - 1).pop())
+                .mapToObj(_ -> stacks.get(step.sourceStack() - 1).pop())
                 .collect(Collectors.toList());
         
         LOGGER.debug("Moving crates from stack {} to stack {}: {}",

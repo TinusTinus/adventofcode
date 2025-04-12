@@ -30,7 +30,7 @@ final class Spin implements DanceMove {
     public List<Program> perform(List<Program> dancers) {
         LinkedList<Program> result = new LinkedList<>(dancers);
         
-        IntStream.range(0, numberOfDancers).forEach(i -> {
+        IntStream.range(0, numberOfDancers).forEach(_ -> {
             Program dancer = result.pollLast();
             result.offerFirst(dancer);
         });

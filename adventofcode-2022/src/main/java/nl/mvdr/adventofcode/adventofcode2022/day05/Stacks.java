@@ -37,7 +37,7 @@ class Stacks {
         var numberOfStacks = determineNumberOfStacks(stackIdsString);
 
         List<Deque<Character>> result = new ArrayList<>(numberOfStacks);
-        IntStream.range(0, numberOfStacks).forEach(i -> result.add(new LinkedList<>()));
+        IntStream.range(0, numberOfStacks).forEach(_ -> result.add(new LinkedList<>()));
         
         // Process lines in reverse order (bottom of stack to top)
         for (int lineNumber = input.size() - 2; 0 <= lineNumber; lineNumber--) {

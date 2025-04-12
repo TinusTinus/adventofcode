@@ -171,7 +171,7 @@ record Tile(int id, List<String> imageLines) {
         
         for (int y = minY; y != maxY + 1; y++) {
             List<String> tempImageLines = new ArrayList<>();
-            IntStream.range(0, tileSize - 2).forEach(i -> tempImageLines.add(""));
+            IntStream.range(0, tileSize - 2).forEach(_ -> tempImageLines.add(""));
             
             for (int x = minX; x != maxX + 1; x++) {
                 Tile tile = image.get(new Point(x, y));
