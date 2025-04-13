@@ -18,7 +18,7 @@ class OneTimePadTest {
     @ParameterizedTest
     @ValueSource(ints = { 18, 39, 92, 22728 })
     void testIsTriplet(int index) {
-        OneTimePad solver = new OneTimePad(1);
+        OneTimePadSolver solver = new OneTimePadSolver(1);
         
         Character tripletCharacter = solver.findTriplet("abc", index);
         
@@ -28,7 +28,7 @@ class OneTimePadTest {
     @ParameterizedTest
     @ValueSource(ints = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,  10, 11, 12, 13, 14, 15, 16, 17 })
     void testIsNotTriplet(int index) {
-        OneTimePad solver = new OneTimePad(1);
+        OneTimePadSolver solver = new OneTimePadSolver(1);
         
         Character tripletCharacter = solver.findTriplet("abc", index);
         
@@ -38,7 +38,7 @@ class OneTimePadTest {
     @ParameterizedTest
     @ValueSource(ints = { 39, 92, 22728 })
     void testIsKey(int index) {
-        OneTimePad solver = new OneTimePad(1);
+        OneTimePadSolver solver = new OneTimePadSolver(1);
         
         boolean key = solver.isKey("abc", index);
         
@@ -48,7 +48,7 @@ class OneTimePadTest {
     @ParameterizedTest
     @MethodSource
     void testIsNotKey(int index) {
-        OneTimePad solver = new OneTimePad(1);
+        OneTimePadSolver solver = new OneTimePadSolver(1);
         
         boolean key = solver.isKey("abc", index);
         
@@ -64,7 +64,7 @@ class OneTimePadTest {
     @ParameterizedTest
     @ValueSource(ints = { 5, 10, 22551 })
     void testIsTripletWhenKeyStretching(int index) {
-        OneTimePad solver = new OneTimePad(2017);
+        OneTimePadSolver solver = new OneTimePadSolver(2017);
         
         Character tripletCharacter = solver.findTriplet("abc", index);
         
@@ -74,7 +74,7 @@ class OneTimePadTest {
     @ParameterizedTest
     @ValueSource(ints = { 0, 1, 2, 3, 4, 6, 7, 8, 9 })
     void testIsNotTripletWhenKeyStretching(int index) {
-        OneTimePad solver = new OneTimePad(2017);
+        OneTimePadSolver solver = new OneTimePadSolver(2017);
         
         Character tripletCharacter = solver.findTriplet("abc", index);
         
@@ -84,7 +84,7 @@ class OneTimePadTest {
     @ParameterizedTest
     @ValueSource(ints = { 10, 22551 })
     void testIsKeyWhenKeyStretching(int index) {
-        OneTimePad solver = new OneTimePad(2017);
+        OneTimePadSolver solver = new OneTimePadSolver(2017);
         
         boolean key = solver.isKey("abc", index);
         

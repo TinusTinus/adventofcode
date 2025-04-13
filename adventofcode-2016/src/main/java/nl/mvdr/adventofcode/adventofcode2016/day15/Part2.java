@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2016.day14;
+package nl.mvdr.adventofcode.adventofcode2016.day15;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +11,13 @@ public class Part2 implements Solver {
 
     @Override
     public String solve(String inputfile) {
-        return new OneTimePadSolver(2017).solve(inputfile);
+        return new TimingIsEverythingSolver(true).solve(inputfile);
     }
 
     public static void main(String[] args) {
         Part2 instance = new Part2();
 
-        String result = instance.solve("input-day14.txt");
+        String result = instance.solve("input-day15.txt");
 
         LOGGER.info(result);
     }

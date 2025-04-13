@@ -11,7 +11,7 @@ public class Part1 implements Solver {
 
     @Override
     public String solve(String inputfile) {
-        return new OneTimePad(1).solve(inputfile);
+        return new OneTimePadSolver(1).solve(inputfile);
     }
 
     public static void main(String[] args) {

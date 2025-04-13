@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.solver.IntSolver;
 
-class OneTimePad implements IntSolver {
+class OneTimePadSolver implements IntSolver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OneTimePad.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OneTimePadSolver.class);
 
     private final int hashCount;
     private final Map<String, String> hashCache;
@@ -21,7 +21,7 @@ class OneTimePad implements IntSolver {
     /// Constructor.
     ///
     /// @param hashCount the number of times to apply the hash function to each input
-    OneTimePad(int hashCount) {
+    OneTimePadSolver(int hashCount) {
         this.hashCount = hashCount;
         this.hashCache = new HashMap<>();
     }
