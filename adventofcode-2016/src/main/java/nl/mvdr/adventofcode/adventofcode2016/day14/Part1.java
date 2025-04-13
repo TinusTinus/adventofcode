@@ -1,19 +1,17 @@
 package nl.mvdr.adventofcode.adventofcode2016.day14;
 
-import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.solver.IntSolver;
+import nl.mvdr.adventofcode.solver.Solver;
 
-public class Part1 implements IntSolver {
+public class Part1 implements Solver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
-        return new OneTimePad(1).solve(lines);
+    public String solve(String inputfile) {
+        return new OneTimePad(1).solve(inputfile);
     }
 
     public static void main(String[] args) {

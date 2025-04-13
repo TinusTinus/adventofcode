@@ -16,11 +16,14 @@ class OneTimePad implements IntSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(OneTimePad.class);
 
     private final int hashCount;
+    private final Map<String, String> hashCache;
     
-    private Map<String, String> hashCache = new HashMap<>();
-    
+    /// Constructor.
+    ///
+    /// @param hashCount the number of times to apply the hash function to each input
     OneTimePad(int hashCount) {
         this.hashCount = hashCount;
+        this.hashCache = new HashMap<>();
     }
     
     @Override
@@ -46,16 +49,13 @@ class OneTimePad implements IntSolver {
     }
     
     private String hash(String salt, int index) {
-        String input = salt + index;
-        
-        String result = hashCache.get(input);
-        
-        if (result == null) {
-            result = input;
-            for (int i = 0; i != hashCount; i++) {
-                result = DigestUtils.md5Hex(result);
-            }
-            hashCache.put(input, result);
+        return hashCache.computeIfAbsent(salt + index, this::computeHash);
+    }
+
+    private String computeHash(String input) {
+        String result = input;
+        for (int i = 0; i != hashCount; i++) {
+            result = DigestUtils.md5Hex(result);
         }
         return result;
     }
