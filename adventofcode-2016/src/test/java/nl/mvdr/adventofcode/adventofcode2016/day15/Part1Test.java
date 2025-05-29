@@ -8,7 +8,7 @@ import nl.mvdr.adventofcode.solver.SolverTest;
 
 class Part1Test extends SolverTest<Part1> {
     
-    public Part1Test() {
+    Part1Test() {
         super(Part1.class);
     }
     
