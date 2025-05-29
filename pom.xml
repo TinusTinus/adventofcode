@@ -31,7 +31,7 @@
         <java.version>24</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <kotlin.jvm.target>23</kotlin.jvm.target> <!-- the Kotlin Maven Plugin does not yet support Java 24 as of version 2.1.20 -->
+        <kotlin.jvm.target>23</kotlin.jvm.target> <!-- the Kotlin Maven Plugin does not yet support Java 24 as of version 2.1.21; should be supported in 2.2 -->
 
         <!-- dependency versions -->
         <commons-codec.version>1.18.0</commons-codec.version>
