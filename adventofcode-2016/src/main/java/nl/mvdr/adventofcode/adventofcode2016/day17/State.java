@@ -20,25 +20,30 @@ record State(String passcode, String path, Point location) {
     }
     
     Stream<State> move() {
-        Stream<State> result;
-        
-        if (isAtVault()) {
-            // We're already at the vault, do not keep moving.
-            result = Stream.of();
-        } else {
-            String hash = DigestUtils.md5Hex(passcode + path);
-            result = IntStream.range(0, 4)
-                    .filter(index -> doorIsOpen(hash.charAt(index)))
-                    .mapToObj(index -> Direction.values()[index])
-                    .map(this::move)
-                    .filter(Objects::nonNull);
-        }
-        
-        return result;
+        String hash = DigestUtils.md5Hex(passcode + path);
+
+        return IntStream.range(0, 4)
+                .filter(index -> doorIsOpen(hash.charAt(index)))
+                .mapToObj(index -> Direction.values()[index])
+                .map(this::move)
+                .filter(Objects::nonNull);
     }
     
     boolean isAtVault() {
         return VAULT.equals(location);
+    }
+    
+    int longestPathToVault() {
+        int result;
+        if (isAtVault()) {
+            result = path.length();
+        } else {
+            result = move()
+                    .mapToInt(State::longestPathToVault)
+                    .max()
+                    .orElse(0);
+        }
+        return result;
     }
 
     private boolean doorIsOpen(char hashCharacter) {
