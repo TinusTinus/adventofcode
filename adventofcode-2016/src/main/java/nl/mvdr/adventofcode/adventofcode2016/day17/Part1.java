@@ -1,7 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2016.day17;
 
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -16,20 +14,8 @@ public class Part1 implements LinesSolver<String> {
     @Override
     public String solve(Stream<String> lines) {
         var passcode = lines.findFirst().orElseThrow();
-        
-        var states = Set.of(new State(passcode));
-        
-        while (!states.stream().anyMatch(State::isAtVault) && !states.isEmpty()) {
-            states = states.stream()
-                    .flatMap(State::move)
-                    .collect(Collectors.toSet());
-        }
-        
-        return states.stream()
-                .filter(State::isAtVault)
-                .reduce((_, _) -> { throw new IllegalStateException("Multiple shortest paths to vault found!"); })
-                .orElseThrow(() -> new IllegalStateException("No path to vault found!"))
-                .path();
+        var initialState = new State(passcode);
+        return initialState.shortestPathToVault();
     }
 
     public static void main(String[] args) {

@@ -14,8 +14,8 @@ public class Part2 implements IntSolver {
     @Override
     public int solve(Stream<String> lines) {
         var passcode = lines.findFirst().orElseThrow();
-        
-        return new State(passcode).longestPathToVault();
+        var initialState = new State(passcode);
+        return initialState.longestPathToVaultLength();
     }
 
     public static void main(String[] args) {

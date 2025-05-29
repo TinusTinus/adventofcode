@@ -2,6 +2,8 @@ package nl.mvdr.adventofcode.adventofcode2016.day17;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -19,7 +21,40 @@ record State(String passcode, String path, Point location) {
         this(passcode, "", new Point(0, 0));
     }
     
-    Stream<State> move() {
+    String shortestPathToVault() {
+        var states = Set.of(this);
+        
+        while (!states.stream().anyMatch(State::isAtVault) && !states.isEmpty()) {
+            states = states.stream()
+                    .flatMap(State::move)
+                    .collect(Collectors.toSet());
+        }
+        
+        return states.stream()
+                .filter(State::isAtVault)
+                .reduce((_, _) -> { throw new IllegalStateException("Multiple shortest paths to vault found!"); })
+                .orElseThrow(() -> new IllegalStateException("No path to vault found!"))
+                .path();
+    }
+    
+    int longestPathToVaultLength() {
+        int result;
+        if (isAtVault()) {
+            result = path.length();
+        } else {
+            result = move()
+                    .mapToInt(State::longestPathToVaultLength)
+                    .max()
+                    .orElse(0);
+        }
+        return result;
+    }
+    
+    private boolean isAtVault() {
+        return VAULT.equals(location);
+    }
+    
+    private Stream<State> move() {
         String hash = DigestUtils.md5Hex(passcode + path);
 
         return IntStream.range(0, 4)
@@ -27,23 +62,6 @@ record State(String passcode, String path, Point location) {
                 .mapToObj(index -> Direction.values()[index])
                 .map(this::move)
                 .filter(Objects::nonNull);
-    }
-    
-    boolean isAtVault() {
-        return VAULT.equals(location);
-    }
-    
-    int longestPathToVault() {
-        int result;
-        if (isAtVault()) {
-            result = path.length();
-        } else {
-            result = move()
-                    .mapToInt(State::longestPathToVault)
-                    .max()
-                    .orElse(0);
-        }
-        return result;
     }
 
     private boolean doorIsOpen(char hashCharacter) {
@@ -58,6 +76,7 @@ record State(String passcode, String path, Point location) {
                 && 0 <= newLocation.y() && newLocation.y() < 4) {
             result = new State(passcode, path + direction.name().charAt(0), newLocation);
         } else {
+            // Facing a wall.
             result = null;
         }
         return result;
