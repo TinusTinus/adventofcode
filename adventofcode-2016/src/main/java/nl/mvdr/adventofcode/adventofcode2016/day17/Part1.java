@@ -19,14 +19,14 @@ public class Part1 implements LinesSolver<String> {
         
         var states = Set.of(new State(passcode));
         
-        while (!states.stream().anyMatch(state -> Vault.LOCATION.equals(state.location())) && !states.isEmpty()) {
+        while (!states.stream().anyMatch(State::isAtVault) && !states.isEmpty()) {
             states = states.stream()
                     .flatMap(State::move)
                     .collect(Collectors.toSet());
         }
         
         return states.stream()
-                .filter(state -> Vault.LOCATION.equals(state.location()))
+                .filter(State::isAtVault)
                 .reduce((_, _) -> { throw new IllegalStateException("Multiple shortest paths to vault found!"); })
                 .orElseThrow(() -> new IllegalStateException("No path to vault found!"))
                 .path();

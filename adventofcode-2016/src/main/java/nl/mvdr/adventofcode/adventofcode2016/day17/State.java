@@ -12,6 +12,8 @@ import nl.mvdr.adventofcode.point.Point;
 
 record State(String passcode, String path, Point location) {
     
+    private static final Point VAULT = new Point(3, 3);
+    
     /// Constructor for the initial state
     State(String passcode) {
         this(passcode, "", new Point(0, 0));
@@ -20,7 +22,7 @@ record State(String passcode, String path, Point location) {
     Stream<State> move() {
         Stream<State> result;
         
-        if (Vault.LOCATION.equals(location)) {
+        if (isAtVault()) {
             // We're already at the vault, do not keep moving.
             result = Stream.of();
         } else {
@@ -33,6 +35,10 @@ record State(String passcode, String path, Point location) {
         }
         
         return result;
+    }
+    
+    boolean isAtVault() {
+        return VAULT.equals(location);
     }
 
     private boolean doorIsOpen(char hashCharacter) {
