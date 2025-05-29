@@ -18,13 +18,21 @@ record State(String passcode, String path, Point location) {
     }
     
     Stream<State> move() {
-        String hash = DigestUtils.md5Hex(passcode + path);
+        Stream<State> result;
         
-        return IntStream.range(0, 4)
-                .filter(index -> doorIsOpen(hash.charAt(index)))
-                .mapToObj(index -> Direction.values()[index])
-                .map(this::move)
-                .filter(Objects::nonNull);
+        if (Vault.LOCATION.equals(location)) {
+            // We're already at the vault, do not keep moving.
+            result = Stream.of();
+        } else {
+            String hash = DigestUtils.md5Hex(passcode + path);
+            result = IntStream.range(0, 4)
+                    .filter(index -> doorIsOpen(hash.charAt(index)))
+                    .mapToObj(index -> Direction.values()[index])
+                    .map(this::move)
+                    .filter(Objects::nonNull);
+        }
+        
+        return result;
     }
 
     private boolean doorIsOpen(char hashCharacter) {
