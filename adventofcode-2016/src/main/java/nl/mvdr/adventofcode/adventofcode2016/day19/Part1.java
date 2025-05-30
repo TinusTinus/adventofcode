@@ -27,6 +27,10 @@ public class Part1 implements IntSolver {
         var currentElfIndex = 0;
         
         while (1 < elves.size()) {
+            if (currentElfIndex == 0) {
+                LOGGER.info("Remaining elves: " + elves.size()); // TODO reduce log level to debug
+            }
+            
             if (currentElfIndex == 0 && elves.size() % 2 == 0) {
                 // We can just remove all odd indices
                 var size = elves.size();
@@ -39,10 +43,6 @@ public class Part1 implements IntSolver {
             } else {
                 elves.remove(currentElfIndex + 1);
                 currentElfIndex = (currentElfIndex + 1) % elves.size();
-            }
-            
-            if (currentElfIndex == 0) {
-                LOGGER.info("Remaining elves: " + elves.size()); // TODO remove
             }
         }
         
