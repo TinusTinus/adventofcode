@@ -31,12 +31,19 @@ public class Part1 implements IntSolver {
                 LOGGER.info("Remaining elves: " + elves.size()); // TODO reduce log level to debug
             }
             
-            if (currentElfIndex == 0 && elves.size() % 2 == 0) {
+            if (currentElfIndex == 0) {
                 // We can just remove all odd indices
                 var size = elves.size();
-                IntStream.range(0, size / 2)
-                        .map(i -> size - i * 2 - 1)
-                        .forEach(elves::remove);
+                elves = IntStream.range(0, size)
+                        .filter(i -> i % 2 == 0)
+                        .mapToObj(elves::get)
+                        .collect(Collectors.toCollection(LinkedList::new));
+                
+                if (size % 2 == 0) {
+                    currentElfIndex = 0;
+                } else {
+                    currentElfIndex = elves.size() - 1;
+                }
             } else if (currentElfIndex == elves.size() - 1) {
                 elves.remove(0);
                 currentElfIndex = 0;
