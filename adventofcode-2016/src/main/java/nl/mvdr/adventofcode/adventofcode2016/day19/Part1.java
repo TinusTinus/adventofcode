@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2016.day19;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -28,18 +26,19 @@ public class Part1 implements IntSolver {
         
         while (1 < elves.size()) {
             if (currentElfIndex == 0) {
-                LOGGER.info("Remaining elves: " + elves.size()); // TODO reduce log level to debug
+                LOGGER.debug("Remaining elves: {}", elves.size());
             }
             
             if (currentElfIndex == 0) {
-                // We can just remove all odd indices
-                var size = elves.size();
-                elves = IntStream.range(0, size)
+                boolean even = elves.size() % 2 == 0;
+                
+                // Just remove all odd indices
+                elves = IntStream.range(0, elves.size())
                         .filter(i -> i % 2 == 0)
                         .mapToObj(elves::get)
                         .toList();
                 
-                if (size % 2 == 0) {
+                if (even) {
                     currentElfIndex = 0;
                 } else {
                     currentElfIndex = elves.size() - 1;
@@ -48,9 +47,7 @@ public class Part1 implements IntSolver {
                 elves = elves.subList(1, elves.size());
                 currentElfIndex = 0;
             } else {
-                throw new IllegalStateException();
-//                elves.remove(currentElfIndex + 1);
-//                currentElfIndex = (currentElfIndex + 1) % elves.size();
+                throw new IllegalStateException("Should not occur");
             }
         }
         
