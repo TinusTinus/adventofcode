@@ -22,7 +22,7 @@ public class Part1 implements IntSolver {
         
         List<Integer> elves = IntStream.range(1, startingElves + 1)
                 .boxed()
-                .collect(Collectors.toCollection(LinkedList::new));
+                .toList();
         
         var currentElfIndex = 0;
         
@@ -37,7 +37,7 @@ public class Part1 implements IntSolver {
                 elves = IntStream.range(0, size)
                         .filter(i -> i % 2 == 0)
                         .mapToObj(elves::get)
-                        .collect(Collectors.toCollection(LinkedList::new));
+                        .toList();
                 
                 if (size % 2 == 0) {
                     currentElfIndex = 0;
@@ -45,11 +45,12 @@ public class Part1 implements IntSolver {
                     currentElfIndex = elves.size() - 1;
                 }
             } else if (currentElfIndex == elves.size() - 1) {
-                elves.remove(0);
+                elves = elves.subList(1, elves.size());
                 currentElfIndex = 0;
             } else {
-                elves.remove(currentElfIndex + 1);
-                currentElfIndex = (currentElfIndex + 1) % elves.size();
+                throw new IllegalStateException();
+//                elves.remove(currentElfIndex + 1);
+//                currentElfIndex = (currentElfIndex + 1) % elves.size();
             }
         }
         
