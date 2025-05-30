@@ -39,12 +39,16 @@ public class Part1 implements IntSolver {
                         .toList();
                 
                 if (even) {
+                    // The last elf was just eliminated. The turn loops back around to the first one.
                     currentElfIndex = 0;
                 } else {
+                    // It's the last elf's turn.
                     currentElfIndex = elves.size() - 1;
                 }
             } else if (currentElfIndex == elves.size() - 1) {
+                // Eliminate the first elf.
                 elves = elves.subList(1, elves.size());
+                // The new first elf is now up.
                 currentElfIndex = 0;
             } else {
                 throw new IllegalStateException("Should not occur");
