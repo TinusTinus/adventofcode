@@ -27,7 +27,13 @@ public class Part1 implements IntSolver {
         var currentElfIndex = 0;
         
         while (1 < elves.size()) {
-            if (currentElfIndex == elves.size() - 1) {
+            if (currentElfIndex == 0 && elves.size() % 2 == 0) {
+                // We can just remove all odd indices
+                var size = elves.size();
+                IntStream.range(0, size / 2)
+                        .map(i -> size - i * 2 - 1)
+                        .forEach(elves::remove);
+            } else if (currentElfIndex == elves.size() - 1) {
                 elves.remove(0);
                 currentElfIndex = 0;
             } else {
