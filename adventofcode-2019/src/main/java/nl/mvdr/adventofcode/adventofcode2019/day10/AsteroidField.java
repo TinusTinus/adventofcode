@@ -43,7 +43,7 @@ class AsteroidField {
                 .filter(Predicate.not(station::equals))
                 .forEach(asteroid -> {
                     double angle = station.computeAngle(asteroid);
-                    asteroidsByAngle.computeIfAbsent(Double.valueOf(angle), a -> new HashSet<>()).add(asteroid);
+                    asteroidsByAngle.computeIfAbsent(Double.valueOf(angle), _ -> new HashSet<>()).add(asteroid);
                 });
     }
 
