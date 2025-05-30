@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2016.day19;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,7 +22,7 @@ public class Part1 implements IntSolver {
         
         List<Integer> elves = IntStream.range(1, startingElves + 1)
                 .boxed()
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toCollection(LinkedList::new));
         
         var currentElfIndex = 0;
         
@@ -33,6 +33,10 @@ public class Part1 implements IntSolver {
             } else {
                 elves.remove(currentElfIndex + 1);
                 currentElfIndex = (currentElfIndex + 1) % elves.size();
+            }
+            
+            if (currentElfIndex == 0) {
+                LOGGER.info("Remaining elves: " + elves.size()); // TODO remove
             }
         }
         
