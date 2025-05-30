@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2016.day18;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -9,9 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.point.Point;
-import nl.mvdr.adventofcode.solver.IntSolver;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
-public class Part1 implements IntSolver {
+public class Part1 implements LongSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
 
@@ -26,16 +26,34 @@ public class Part1 implements IntSolver {
     }
     
     @Override
-    public int solve(Stream<String> lines) {
-        Set<Point> traps = new HashSet<>();
+    public long solve(Stream<String> lines) {
+        Map<Point, Tile> topRow = Point.parse2DMap(lines.toList(), Tile::parse);
         
-        var line = lines.findFirst().orElseThrow();
-        IntStream.range(0, line.length())
-                .filter(index -> line.charAt(index) == '^')
-                .mapToObj(x -> new Point(x, 0))
-                .forEach(traps::add);
+        Map<Point, Tile> map = new HashMap<>(topRow);
         
-        return 0; // TODO
+        int maxX = Point.maxX(map.keySet());
+        
+        IntStream.range(1, rows)
+                .mapToObj(Integer::valueOf)
+                .flatMap(y -> IntStream.range(0, maxX + 1).mapToObj(x -> new Point(x, y)))
+                .forEach(point -> {
+                    var leftIsTrap = map.get(new Point(point.x() - 1, point.y() - 1)) == Tile.TRAP;
+                    var rightIsTrap = map.get(new Point(point.x() + 1, point.y() - 1)) == Tile.TRAP;
+                    
+                    Tile tile;
+                    if (leftIsTrap != rightIsTrap) {
+                        tile = Tile.TRAP;
+                    } else {
+                        tile = Tile.SAFE;
+                    }
+                    
+                    map.put(point, tile);
+                });
+        
+        return map.values()
+                .stream()
+                .filter(value -> value == Tile.SAFE)
+                .count();
     }
 
     public static void main(String[] args) {

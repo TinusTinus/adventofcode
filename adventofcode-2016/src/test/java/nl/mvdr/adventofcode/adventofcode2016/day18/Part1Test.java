@@ -9,7 +9,11 @@ class Part1Test {
     
     @ParameterizedTest
     @CsvSource( {
+        "example-day18-0.txt, 1, 3",
+        "example-day18-0.txt, 2, 4",
         "example-day18-0.txt, 3, 6",
+        "example-day18-1.txt, 1, 3",
+        "example-day18-1.txt, 2, 8",
         "example-day18-1.txt, 10, 38",
     })
     void test(String inputFile, int rows, String expectedResult) {
