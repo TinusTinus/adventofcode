@@ -5,18 +5,18 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.solver.Solver;
 
-public class Part1 implements Solver {
+public class Part2 implements Solver {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
     public String solve(String inputfile) {
         
-        return new LikeARogueSolver(40).solve(inputfile);
+        return new LikeARogueSolver(400_000).solve(inputfile);
     }
 
     public static void main(String[] args) {
-        Part1 instance = new Part1();
+        Part2 instance = new Part2();
 
         String result = instance.solve("input-day18.txt");
 

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class Part1Test {
+class LikeARogueSolverTest {
     
     @ParameterizedTest
     @CsvSource( {
@@ -17,7 +17,7 @@ class Part1Test {
         "example-day18-1.txt, 10, 38",
     })
     void test(String inputFile, int rows, String expectedResult) {
-        var solver = new Part1(rows);
+        var solver = new LikeARogueSolver(rows);
         
         var result = solver.solve(inputFile);
         
