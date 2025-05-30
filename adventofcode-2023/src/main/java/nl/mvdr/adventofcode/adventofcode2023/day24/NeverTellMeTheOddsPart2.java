@@ -20,6 +20,7 @@ public class NeverTellMeTheOddsPart2 implements LinesSolver<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(NeverTellMeTheOddsPart2.class);
 
     @Override
+    @SuppressWarnings("unchecked")
     public String solve(Stream<String> lines) {
         // We know that, for each hailstone, some timestamp t must exist so that:
         //   hailstone.position + t * hailstone.velocity = rock.position + t * rock.velocity

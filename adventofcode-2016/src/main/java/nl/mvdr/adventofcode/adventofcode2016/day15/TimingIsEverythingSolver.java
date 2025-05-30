@@ -28,6 +28,7 @@ class TimingIsEverythingSolver implements LinesSolver<String> {
         return solve(discs);
     }
 
+    @SuppressWarnings("unchecked")
     private String solve(ArrayList<Disc> discs) {
         try (var context = new Context()) {
             var time = context.mkIntConst("time");

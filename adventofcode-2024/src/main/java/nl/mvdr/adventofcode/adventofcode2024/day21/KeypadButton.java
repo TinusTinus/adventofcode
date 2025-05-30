@@ -11,6 +11,7 @@ sealed interface KeypadButton<B extends KeypadButton<B>> permits NumericKeypadBu
     
     Point getLocation();
     
+    @SuppressWarnings("unchecked")
     default Optional<B> neighbouringButton(Direction direction) {
         var neighbourLocation = direction.move(getLocation());
         return Stream.of(getClass().getEnumConstants())

@@ -49,6 +49,7 @@ record ClawMachine(long ax, long ay, long bx, long by, long prizeX, long prizeY)
         return new ClawMachine(ax, ay, bx, by, prizeX, prizeY);
     }
     
+    @SuppressWarnings("unchecked")
     long calculateTokens() {
         try (var context = new Context()) {
             var solver = context.mkSolver();
