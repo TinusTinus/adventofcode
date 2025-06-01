@@ -14,18 +14,27 @@ public class Part2 extends ElephantNamedJosephSolver {
 
     @Override
     protected int solve(int startingElves) {
-        List<Integer> elves = IntStream.range(1, startingElves + 1)
+        List<Integer> firstHalf = IntStream.range(1, startingElves / 2 + 1)
                 .boxed()
                 .collect(Collectors.toCollection(LinkedList::new));
-        
-        while (1 < elves.size()) {
-            elves.remove(elves.size() / 2);
+        List<Integer> secondHalf = IntStream.range(startingElves / 2 + 1, startingElves + 1)
+                .boxed()
+                .collect(Collectors.toCollection(LinkedList::new));
+
+        while (!secondHalf.isEmpty()) {
+            Integer currentElf = firstHalf.removeFirst();
+            if (firstHalf.size() == secondHalf.size()) {
+                firstHalf.removeLast();
+            } else {
+                secondHalf.removeFirst();
+            }
+            secondHalf.addLast(currentElf);
             
-            var first = elves.remove(0);
-            elves.add(first);
+            // Balance the lists
+            Integer temp = secondHalf.removeFirst();
+            firstHalf.addLast(temp);
         }
-        
-        return elves.getFirst().intValue();
+        return firstHalf.getFirst().intValue();
     }
 
     public static void main(String[] args) {
