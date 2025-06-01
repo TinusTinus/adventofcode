@@ -29,6 +29,11 @@ public class Part2 implements IntSolver {
             
             var first = elves.remove(0);
             elves.add(first);
+            
+            if (elves.size() % 1_000 == 0) {
+                var done = ((double)startingElves - elves.size()) / startingElves;
+                LOGGER.info("{} % done", done * 100); // TODO debug
+            }
         }
         
         return elves.getFirst().intValue();
