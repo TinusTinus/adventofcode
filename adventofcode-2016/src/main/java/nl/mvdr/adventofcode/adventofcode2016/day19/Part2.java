@@ -1,8 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2016.day19;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -22,13 +20,21 @@ public class Part2 implements IntSolver {
         
         List<Integer> elves = IntStream.range(1, startingElves + 1)
                 .boxed()
-                .collect(Collectors.toCollection(LinkedList::new));
+                .toList();
         
         while (1 < elves.size()) {
-            elves.remove(elves.size() / 2);
+            var indexToRemove = elves.size() / 2;
             
-            var first = elves.remove(0);
-            elves.add(first);
+            var first = elves.getFirst();
+            
+            elves = Stream.concat(
+                        Stream.concat(
+                            IntStream.range(1, indexToRemove)
+                                .mapToObj(elves::get),
+                            IntStream.range(indexToRemove + 1, elves.size())
+                                .mapToObj(elves::get)),
+                    Stream.of(first))
+                .toList();
             
             if (elves.size() % 1_000 == 0) {
                 var done = ((double)startingElves - elves.size()) / startingElves;
