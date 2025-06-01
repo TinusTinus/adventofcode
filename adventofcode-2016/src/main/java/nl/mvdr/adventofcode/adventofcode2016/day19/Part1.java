@@ -22,36 +22,16 @@ public class Part1 implements IntSolver {
                 .boxed()
                 .toList();
         
-        var currentElfIndex = 0;
-        
         while (1 < elves.size()) {
-            if (currentElfIndex == 0) {
-                LOGGER.debug("Remaining elves: {}", elves.size());
-            }
+            boolean odd = elves.size() % 2 == 1;
             
-            if (currentElfIndex == 0) {
-                boolean even = elves.size() % 2 == 0;
-                
-                // Just remove all odd indices
-                elves = IntStream.range(0, elves.size())
-                        .filter(i -> i % 2 == 0)
-                        .mapToObj(elves::get)
-                        .toList();
-                
-                if (even) {
-                    // The last elf was just eliminated. The turn loops back around to the first one.
-                    currentElfIndex = 0;
-                } else {
-                    // It's the last elf's turn.
-                    currentElfIndex = elves.size() - 1;
-                }
-            } else if (currentElfIndex == elves.size() - 1) {
-                // Eliminate the first elf.
+            elves = IntStream.range(0, elves.size())
+                    .filter(i -> i % 2 == 0)
+                    .mapToObj(elves::get)
+                    .toList();
+            
+            if (odd) {
                 elves = elves.subList(1, elves.size());
-                // The new first elf is now up.
-                currentElfIndex = 0;
-            } else {
-                throw new IllegalStateException("Should not occur");
             }
         }
         
