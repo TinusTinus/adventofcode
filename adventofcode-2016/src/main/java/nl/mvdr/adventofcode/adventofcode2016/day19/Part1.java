@@ -2,22 +2,16 @@ package nl.mvdr.adventofcode.adventofcode2016.day19;
 
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.solver.IntSolver;
-
-public class Part1 implements IntSolver {
+public class Part1 extends ElephantNamedJosephSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
-        var line = lines.findFirst().orElseThrow();
-        var startingElves = Integer.parseInt(line);
-        
+    protected int solve(int startingElves) {
         List<Integer> elves = IntStream.range(1, startingElves + 1)
                 .boxed()
                 .toList();

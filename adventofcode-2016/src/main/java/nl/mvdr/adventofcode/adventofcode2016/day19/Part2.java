@@ -4,22 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.solver.IntSolver;
-
-public class Part2 implements IntSolver {
+public class Part2 extends ElephantNamedJosephSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
     @Override
-    public int solve(Stream<String> lines) {
-        var line = lines.findFirst().orElseThrow();
-        var startingElves = Integer.parseInt(line);
-        
+    protected int solve(int startingElves) {
         List<Integer> elves = IntStream.range(1, startingElves + 1)
                 .boxed()
                 .collect(Collectors.toCollection(LinkedList::new));
@@ -29,11 +23,6 @@ public class Part2 implements IntSolver {
             
             var first = elves.remove(0);
             elves.add(first);
-            
-            if (elves.size() % 1_000 == 0) {
-                var done = ((double)startingElves - elves.size()) / startingElves;
-                LOGGER.info("{} % done", done * 100); // TODO debug
-            }
         }
         
         return elves.getFirst().intValue();
