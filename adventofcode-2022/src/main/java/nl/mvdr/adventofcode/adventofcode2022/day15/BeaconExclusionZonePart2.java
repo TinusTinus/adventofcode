@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.solver.LongSolver;
+import nl.mvdr.adventofcode.intrange.IntRange;
 import nl.mvdr.adventofcode.point.Point;
 
 /**

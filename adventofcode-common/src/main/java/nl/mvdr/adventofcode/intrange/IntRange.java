@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2022.day15;
+package nl.mvdr.adventofcode.intrange;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,13 +12,29 @@ import org.slf4j.LoggerFactory;
 /**
  * A range of integers.
  *
- * @param min minimum value
- * @param max maximum value
+ * @param min minimum value (inclusive)
+ * @param max maximum value (inclusive)
  * @author Martijn van de Rijdt
  */
-record IntRange(int min, int max) implements Comparable<IntRange> {
+public record IntRange(int min, int max) implements Comparable<IntRange> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IntRange.class);
+    
+    /**
+     * Parses the string representation of an int range.
+     * 
+     * @param line string representation; for example: "4-7"
+     */
+    public static IntRange parse(String line) {
+        var parts = line.split("-");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Unable to parse as an int range: " + line);
+        }
+        var min = Integer.parseInt(parts[0]);
+        var max = Integer.parseInt(parts[1]);
+        
+        return new IntRange(min, max);
+    }
     
     /**
      * Merges the given ranges where possible.
@@ -26,7 +42,7 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
      * @param ranges nonempty int ranges
      * @return merged int ranges
      */
-    static List<IntRange> reduce(List<IntRange> ranges) { 
+    public static List<IntRange> reduce(List<IntRange> ranges) { 
         List<IntRange> result = new ArrayList<>(ranges);
         
         boolean done = false;
@@ -63,14 +79,14 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
     /**
      * @return whether this range is empty
      */
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return max < min;
     }
     
     /**
      * @return number of integers in the range
      */
-    int size() {
+    public int size() {
         int result;
         if (isEmpty()) {
             result = 0;
@@ -83,7 +99,7 @@ record IntRange(int min, int max) implements Comparable<IntRange> {
     /**
      * @return stream for this int range
      */
-    IntStream stream() {
+    public IntStream stream() {
         return IntStream.range(min, max + 1);
     }
     

@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2022.day15;
+package nl.mvdr.adventofcode.intrange;
 
 import java.util.List;
 
