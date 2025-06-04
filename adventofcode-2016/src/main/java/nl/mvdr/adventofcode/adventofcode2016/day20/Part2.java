@@ -12,6 +12,16 @@ public class Part2 implements LongSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Part2.class);
 
+    private final long maxIp;
+    
+    Part2(long maxIp) {
+        this.maxIp = maxIp;
+    }
+    
+    public Part2() {
+        this(4294967295L);
+    }
+    
     @Override
     public long solve(Stream<String> lines) {
         var ranges = lines.map(LongRange::parse)
@@ -25,7 +35,7 @@ public class Part2 implements LongSolver {
             result = result + ranges.get(i + 1).min() - ranges.get(i).max() - 1;
         }
         
-        result = result + 4294967295L - ranges.getLast().max();
+        result = result + maxIp - ranges.getLast().max();
         
         return result;
     }
