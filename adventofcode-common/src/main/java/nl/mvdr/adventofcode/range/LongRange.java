@@ -38,8 +38,8 @@ public record LongRange(long min, long max) implements Comparable<LongRange> {
     /**
      * Merges the given ranges where possible.
      * 
-     * @param ranges nonempty int ranges
-     * @return merged int ranges
+     * @param ranges nonempty ranges
+     * @return merged ranges, sorted
      */
     public static List<LongRange> reduce(List<LongRange> ranges) { 
         List<LongRange> result = new ArrayList<>(ranges);
