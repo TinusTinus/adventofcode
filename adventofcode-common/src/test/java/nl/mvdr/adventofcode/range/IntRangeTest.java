@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.intrange;
+package nl.mvdr.adventofcode.range;
 
 import java.util.List;
 

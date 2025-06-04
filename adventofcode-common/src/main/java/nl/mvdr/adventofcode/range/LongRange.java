@@ -1,39 +1,38 @@
-package nl.mvdr.adventofcode.intrange;
+package nl.mvdr.adventofcode.range;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A range of integers.
+ * A range of longs.
  *
  * @param min minimum value (inclusive)
  * @param max maximum value (inclusive)
  * @author Martijn van de Rijdt
  */
-public record IntRange(int min, int max) implements Comparable<IntRange> {
+public record LongRange(long min, long max) implements Comparable<LongRange> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IntRange.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LongRange.class);
     
     /**
-     * Parses the string representation of an int range.
+     * Parses the string representation of a range.
      * 
      * @param line string representation; for example: "4-7"
      */
-    public static IntRange parse(String line) {
+    public static LongRange parse(String line) {
         var parts = line.split("-");
         if (parts.length != 2) {
-            throw new IllegalArgumentException("Unable to parse as an int range: " + line);
+            throw new IllegalArgumentException("Unable to parse as a long range: " + line);
         }
-        var min = Integer.parseInt(parts[0]);
-        var max = Integer.parseInt(parts[1]);
+        var min = Long.parseLong(parts[0]);
+        var max = Long.parseLong(parts[1]);
         
-        return new IntRange(min, max);
+        return new LongRange(min, max);
     }
     
     /**
@@ -42,14 +41,14 @@ public record IntRange(int min, int max) implements Comparable<IntRange> {
      * @param ranges nonempty int ranges
      * @return merged int ranges
      */
-    public static List<IntRange> reduce(List<IntRange> ranges) { 
-        List<IntRange> result = new ArrayList<>(ranges);
+    public static List<LongRange> reduce(List<LongRange> ranges) { 
+        List<LongRange> result = new ArrayList<>(ranges);
         
         boolean done = false;
         while (!done) {
             // Find two overlapping ranges
-            IntRange overlapping0 = null;
-            IntRange overlapping1 = null;
+            LongRange overlapping0 = null;
+            LongRange overlapping1 = null;
             for (int i = 0; overlapping0 == null && i != result.size(); i++) {
                 for (int j = i + 1; overlapping0 == null && j != result.size(); j++) {
                     if (result.get(i).canBeMerged(result.get(j))) {
@@ -77,33 +76,6 @@ public record IntRange(int min, int max) implements Comparable<IntRange> {
     }
     
     /**
-     * @return whether this range is empty
-     */
-    public boolean isEmpty() {
-        return max < min;
-    }
-    
-    /**
-     * @return number of integers in the range
-     */
-    public int size() {
-        int result;
-        if (isEmpty()) {
-            result = 0;
-        } else {
-            result = max + 1 - min;
-        }
-        return result;
-    }
-    
-    /**
-     * @return stream for this int range
-     */
-    public IntStream stream() {
-        return IntStream.range(min, max + 1);
-    }
-    
-    /**
      * Whether this range overlaps with the given other range.
      * 
      * Note: this method assumes that the range is not empty.
@@ -111,7 +83,7 @@ public record IntRange(int min, int max) implements Comparable<IntRange> {
      * @param other other range
      * @return whether there is any overlap
      */
-    private boolean canBeMerged(IntRange other) {
+    private boolean canBeMerged(LongRange other) {
         return this.min <= other.max && other.min <= this.max // overlaps
                 || this.min == other.max + 1 || other.min == this.max + 1; // are connected
     }
@@ -124,14 +96,14 @@ public record IntRange(int min, int max) implements Comparable<IntRange> {
      * @param other other int range
      * @return range representing all values that are part of these two ranges
      */
-    private IntRange merge(IntRange other) {
-        return new IntRange(Math.min(this.min, other.min), Math.max(this.max, other.max));
+    private LongRange merge(LongRange other) {
+        return new LongRange(Math.min(this.min, other.min), Math.max(this.max, other.max));
     }
     
     @Override
-    public int compareTo(IntRange other) {
-        return Comparator.comparing(IntRange::min)
-                .thenComparing(IntRange::max)
+    public int compareTo(LongRange other) {
+        return Comparator.comparing(LongRange::min)
+                .thenComparing(LongRange::max)
                 .compare(this, other);
     }
 }

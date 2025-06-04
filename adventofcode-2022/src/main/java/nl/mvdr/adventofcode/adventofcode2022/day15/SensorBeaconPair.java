@@ -5,8 +5,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.intrange.IntRange;
 import nl.mvdr.adventofcode.point.Point;
+import nl.mvdr.adventofcode.range.IntRange;
 
 /**
  * A pair of a sensor and its (unique) closest beacon.

@@ -5,19 +5,19 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.mvdr.adventofcode.intrange.IntRange;
-import nl.mvdr.adventofcode.solver.IntSolver;
+import nl.mvdr.adventofcode.range.LongRange;
+import nl.mvdr.adventofcode.solver.LongSolver;
 
-public class Part1 implements IntSolver {
+public class Part1 implements LongSolver {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(Part1.class);
 
     @Override
-    public int solve(Stream<String> lines) {
-        var ranges = lines.map(IntRange::parse)
+    public long solve(Stream<String> lines) {
+        var ranges = lines.map(LongRange::parse)
                 .toList();
         
-        ranges = IntRange.reduce(ranges);
+        ranges = LongRange.reduce(ranges);
         
         return ranges.getFirst().max() + 1;
     }
