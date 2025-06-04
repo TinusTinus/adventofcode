@@ -26,17 +26,13 @@ public class Part2 implements LongSolver {
     public long solve(Stream<String> lines) {
         var ranges = lines.map(LongRange::parse)
                 .toList();
-        
         ranges = LongRange.reduce(ranges);
         
         var result = ranges.getFirst().min();
-        
         for (var i = 0; i != ranges.size() - 1; i++) {
             result = result + ranges.get(i + 1).min() - ranges.get(i).max() - 1;
         }
-        
         result = result + maxIp - ranges.getLast().max();
-        
         return result;
     }
 
