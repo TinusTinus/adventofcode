@@ -10,7 +10,6 @@ public record ReversedRotateBasedOnPositionOperation(RotateBasedOnPositionOperat
                 .mapToObj(rotationAmount -> new RotateOperation(RotationDirection.LEFT, rotationAmount))
                 .map(operation -> operation.apply(input))
                 .filter(output -> originalOperation.apply(output).equals(input))
-                .peek(System.out::println)
                 .reduce((_, _) -> { throw new IllegalStateException("Multiple possible correct answers found for " + this); })
                 .orElseThrow();
     }
