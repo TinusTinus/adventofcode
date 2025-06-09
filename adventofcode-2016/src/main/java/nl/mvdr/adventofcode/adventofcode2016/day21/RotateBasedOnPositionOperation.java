@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2016.day21;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 record RotateBasedOnPositionOperation(char x) implements ScramblerOperation {
 
@@ -19,7 +20,7 @@ record RotateBasedOnPositionOperation(char x) implements ScramblerOperation {
     }
     
     @Override
-    public String apply(String input) {
+    public Stream<String> apply(String input) {
         var index = input.indexOf(x);
         
         var rotationAmount = 1 + index;
@@ -30,5 +31,9 @@ record RotateBasedOnPositionOperation(char x) implements ScramblerOperation {
         
         return new RotateOperation(RotationDirection.RIGHT, rotationAmount).apply(input);
     }
-
+    
+    @Override
+    public ScramblerOperation reverse() {
+        return new ReversedRotateBasedOnPositionOperation(this);
+    }
 }

@@ -31,8 +31,17 @@ class ReversePositionsOperationTest {
     void testApply() {
         var operation = new ReversePositionsOperation(0, 4);
         
-        var result = operation.apply("edcba");
+        var result = operation.apply("edcba").findFirst().orElseThrow();
         
         assertEquals("abcde", result);
+    }
+    
+    @Test
+    void testReverse() {
+        var operation = new ReversePositionsOperation(0, 4).reverse();
+        
+        var result = operation.apply("abcde").findFirst().orElseThrow();
+        
+        assertEquals("edcba", result);
     }
 }

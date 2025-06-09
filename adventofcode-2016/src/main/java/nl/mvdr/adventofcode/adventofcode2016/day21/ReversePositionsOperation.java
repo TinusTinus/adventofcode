@@ -25,9 +25,16 @@ record ReversePositionsOperation(int x, int y) implements ScramblerOperation {
     }
     
     @Override
-    public String apply(String input) {
-        return input.substring(0, x)
+    public Stream<String> apply(String input) {
+        String result = input.substring(0, x)
                 + new StringBuilder(input.substring(x, y + 1)).reverse().toString()
                 + input.substring(y + 1, input.length());
+        
+        return Stream.of(result);
+    }
+    
+    @Override
+    public ScramblerOperation reverse() {
+        return this;
     }
 }

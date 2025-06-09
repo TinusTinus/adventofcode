@@ -31,8 +31,17 @@ class RotateOperationTest {
     void testApply() {
         var operation = new RotateOperation(RotationDirection.LEFT, 1);
         
-        var result = operation.apply("abcde");
+        var result = operation.apply("abcde").findFirst().orElseThrow();
         
         assertEquals("bcdea", result);
+    }
+    
+    @Test
+    void testReverse() {
+        var operation = new RotateOperation(RotationDirection.LEFT, 1).reverse();
+        
+        var result = operation.apply("bcdea").findFirst().orElseThrow();
+        
+        assertEquals("abcde", result);
     }
 }

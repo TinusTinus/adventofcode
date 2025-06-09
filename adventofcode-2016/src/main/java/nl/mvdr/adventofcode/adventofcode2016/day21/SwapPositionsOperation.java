@@ -25,15 +25,16 @@ record SwapPositionsOperation(int x, int y) implements ScramblerOperation {
     }
     
     @Override
-    public String apply(String input) {
-        String result;
+    public Stream<String> apply(String input) {
+        Stream<String> result;
         
         if (x <= y) {
-            result = input.substring(0, x)
+            var resultString = input.substring(0, x)
                     + input.charAt(y)
                     + input.substring(x + 1, y)
                     + input.charAt(x)
                     + input.substring(y + 1);
+            result = Stream.of(resultString);
         } else {
             result = new SwapPositionsOperation(y, x).apply(input);
         }
@@ -41,4 +42,8 @@ record SwapPositionsOperation(int x, int y) implements ScramblerOperation {
         return result;
     }
 
+    @Override
+    public ScramblerOperation reverse() {
+        return this;
+    }
 }

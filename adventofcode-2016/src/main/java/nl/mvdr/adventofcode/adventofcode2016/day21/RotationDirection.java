@@ -12,4 +12,11 @@ enum RotationDirection {
             default -> throw new IllegalArgumentException("Unable to parse as a direction: " + string);
         };
     }
+    
+    RotationDirection reverse() {
+        return switch(this) {
+            case LEFT -> RIGHT;
+            case RIGHT -> LEFT;
+        };
+    }
 }
