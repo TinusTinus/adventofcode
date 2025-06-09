@@ -6,12 +6,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-record Scrambler(List<ScramblerOperation> operations) implements Function<String, String> {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+record Scrambler(List<ScramblerOperation> operations, boolean unscrambling) implements Function<String, String> {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(Scrambler.class);
     
     static Scrambler parse(Stream<String> lines) {
         var operations = lines.map(ScramblerOperation::parse)
                 .toList();
-        return new Scrambler(operations);
+        return new Scrambler(operations, false);
     }
     
     @Override
@@ -24,6 +29,14 @@ record Scrambler(List<ScramblerOperation> operations) implements Function<String
                     .collect(Collectors.toSet());
         }
         
+        if (strings.isEmpty()) {
+            throw new IllegalArgumentException("Unable to " + (unscrambling ? "un" : "") + "scramble " + input);
+        }
+        
+        if (2 <= strings.size()) {
+            LOGGER.warn("Multiple possible results found while {}scrambling {}: {}", unscrambling ? "un" : "", input, strings);
+        }
+        
         return strings.stream().collect(Collectors.joining(" OR "));
     }
     
@@ -32,6 +45,6 @@ record Scrambler(List<ScramblerOperation> operations) implements Function<String
                 .stream()
                 .map(ScramblerOperation::reverse)
                 .toList();
-        return new Scrambler(reversedOperations);
+        return new Scrambler(reversedOperations, !unscrambling);
     }
 }
