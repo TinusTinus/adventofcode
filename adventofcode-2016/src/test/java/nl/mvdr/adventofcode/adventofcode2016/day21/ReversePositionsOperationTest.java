@@ -35,4 +35,13 @@ class ReversePositionsOperationTest {
         
         assertEquals("abcde", result);
     }
+    
+    @Test
+    void testReverse() {
+        var operation = new ReversePositionsOperation(0, 4).reverse();
+        
+        var result = operation.apply("abcde");
+        
+        assertEquals("edcba", result);
+    }
 }

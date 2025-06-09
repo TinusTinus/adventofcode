@@ -43,4 +43,17 @@ class MoveOperationTest {
         
         assertEquals(expectedOutput, result);
     }
+    
+    @ParameterizedTest
+    @CsvSource({
+        "1, 4, bdeac, bcdea",
+        "3, 0, abdec, bdeac"
+    })
+    void testReverse(int x, int y, String input, String expectedOutput) {
+        var operation = new MoveOperation(x, y).reverse();
+        
+        var result = operation.apply(input);
+        
+        assertEquals(expectedOutput, result);
+    }
 }

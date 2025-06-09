@@ -35,4 +35,13 @@ class SwapLettersOperationTest {
         
         assertEquals("edcba", result);
     }
+    
+    @Test
+    void testReverse() {
+        var operation = new SwapLettersOperation('d', 'b').reverse();
+        
+        var result = operation.apply("edcba");
+        
+        assertEquals("ebcda", result);
+    }
 }

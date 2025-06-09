@@ -42,4 +42,17 @@ class RotateBasedOnPositionOperationTest {
         
         assertEquals(expectedResult, result);
     }
+    
+    @ParameterizedTest
+    @CsvSource( {
+        "b, ecabd, abdec",
+        "d, decab, ecabd"
+    })
+    void testReverse(char x, String input, String expectedResult) {
+        var operation = new RotateBasedOnPositionOperation(x).reverse();
+        
+        var result = operation.apply(input);
+        
+        assertEquals(expectedResult, result);
+    }
 }

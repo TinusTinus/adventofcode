@@ -35,4 +35,13 @@ class SwapPositionsOperationTest {
         
         assertEquals("ebcda", result);
     }
+    
+    @Test
+    void testReverse() {
+        var operation = new SwapPositionsOperation(4, 0).reverse();
+        
+        var result = operation.apply("ebcda");
+        
+        assertEquals("abcde", result);
+    }
 }

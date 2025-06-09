@@ -35,4 +35,13 @@ class RotateOperationTest {
         
         assertEquals("bcdea", result);
     }
+    
+    @Test
+    void testReverse() {
+        var operation = new RotateOperation(RotationDirection.LEFT, 1).reverse();
+        
+        var result = operation.apply("bcdea");
+        
+        assertEquals("abcde", result);
+    }
 }
