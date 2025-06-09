@@ -33,6 +33,6 @@ record RotateBasedOnPositionOperation(char x) implements ScramblerOperation {
     
     @Override
     public ScramblerOperation reverse() {
-        return this; // TODO implement!
+        return new ReversedRotateBasedOnPositionOperation(this);
     }
 }
