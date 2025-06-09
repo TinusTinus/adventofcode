@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2016.day21;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 record SwapPositionsOperation(int x, int y) implements ScramblerOperation {
 
@@ -10,10 +11,13 @@ record SwapPositionsOperation(int x, int y) implements ScramblerOperation {
     static Optional<SwapPositionsOperation> parse(String line) {
         Optional<SwapPositionsOperation> result;
         if (line.startsWith(PREFIX)) {
-            var parameters = line.substring(PREFIX.length()).split(INFIX);
-            var x = Integer.parseInt(parameters[0]);
-            var y = Integer.parseInt(parameters[1]);
-            result = Optional.of(new SwapPositionsOperation(x, y));
+            var parameters = Stream.of(line.substring(PREFIX.length()).split(INFIX))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            if (parameters.length != 2) {
+                throw new IllegalArgumentException("Unable to parse: " + line);
+            }
+            result = Optional.of(new SwapPositionsOperation(parameters[0], parameters[1]));
         } else {
             result = Optional.empty();
         }
