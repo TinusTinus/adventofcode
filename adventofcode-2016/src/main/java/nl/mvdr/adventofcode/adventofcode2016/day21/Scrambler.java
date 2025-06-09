@@ -24,11 +24,7 @@ record Scrambler(List<ScramblerOperation> operations) implements Function<String
                     .collect(Collectors.toSet());
         }
         
-        if (strings.size() != 1) {
-            throw new IllegalStateException("Expected exactly 1 result, found: " + strings);
-        }
-        
-        return strings.iterator().next();
+        return strings.stream().collect(Collectors.joining(" OR "));
     }
     
     Scrambler reverse() {
