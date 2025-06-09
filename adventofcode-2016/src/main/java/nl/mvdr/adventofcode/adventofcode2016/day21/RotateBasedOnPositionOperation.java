@@ -30,5 +30,9 @@ record RotateBasedOnPositionOperation(char x) implements ScramblerOperation {
         
         return new RotateOperation(RotationDirection.RIGHT, rotationAmount).apply(input);
     }
-
+    
+    @Override
+    public ScramblerOperation reverse() {
+        return this; // TODO implement!
+    }
 }

@@ -20,4 +20,12 @@ record Scrambler(List<ScramblerOperation> operations) implements Function<String
                 .orElseThrow()
                 .apply(input);
     }
+    
+    Scrambler reverse() {
+        var reversedOperations = operations.reversed()
+                .stream()
+                .map(ScramblerOperation::reverse)
+                .toList();
+        return new Scrambler(reversedOperations);
+    }
 }

@@ -13,4 +13,6 @@ interface ScramblerOperation extends Function<String, String> {
                 .orElseGet(() -> SwapPositionsOperation.parse(line)
                 .orElseThrow(() -> new IllegalArgumentException("Unable to parse: " + line)))))));
     }
+    
+    ScramblerOperation reverse();
 }

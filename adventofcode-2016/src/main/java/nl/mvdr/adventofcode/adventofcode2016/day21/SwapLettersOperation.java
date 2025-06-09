@@ -39,4 +39,8 @@ record SwapLettersOperation(char x, char y) implements ScramblerOperation {
         return new SwapPositionsOperation(xIndex, yIndex).apply(input);
     }
 
+    @Override
+    public ScramblerOperation reverse() {
+        return this;
+    }
 }

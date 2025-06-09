@@ -41,4 +41,8 @@ record SwapPositionsOperation(int x, int y) implements ScramblerOperation {
         return result;
     }
 
+    @Override
+    public ScramblerOperation reverse() {
+        return this;
+    }
 }

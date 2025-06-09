@@ -44,5 +44,9 @@ record MoveOperation(int x, int y) implements ScramblerOperation {
         
         return result;
     }
-
+    
+    @Override
+    public ScramblerOperation reverse() {
+        return new MoveOperation(y, x);
+    }
 }

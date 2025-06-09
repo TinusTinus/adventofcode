@@ -38,5 +38,9 @@ record RotateOperation(RotationDirection direction, int x) implements ScramblerO
         
         return result;
     }
-
+    
+    @Override
+    public ScramblerOperation reverse() {
+        return new RotateOperation(direction.reverse(), x);
+    }
 }

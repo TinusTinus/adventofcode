@@ -30,4 +30,9 @@ record ReversePositionsOperation(int x, int y) implements ScramblerOperation {
                 + new StringBuilder(input.substring(x, y + 1)).reverse().toString()
                 + input.substring(y + 1, input.length());
     }
+    
+    @Override
+    public ScramblerOperation reverse() {
+        return this;
+    }
 }
