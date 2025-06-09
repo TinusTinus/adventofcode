@@ -7,7 +7,7 @@ public record ReversedRotateBasedOnPositionOperation(RotateBasedOnPositionOperat
 
     @Override
     public Stream<String> apply(String input) {
-        return IntStream.range(1, input.length())
+        return IntStream.range(1, input.length() + 1)
                 .mapToObj(rotationAmount -> new RotateOperation(RotationDirection.LEFT, rotationAmount))
                 .flatMap(operation -> operation.apply(input))
                 .filter(output -> originalOperation.apply(output).anyMatch(input::equals));
