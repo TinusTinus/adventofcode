@@ -1,8 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2016.day21;
 
 import java.util.function.Function;
+import java.util.stream.Stream;
 
-interface ScramblerOperation extends Function<String, String> {
+interface ScramblerOperation extends Function<String, Stream<String>> {
 
     static ScramblerOperation parse(String line) {
         return MoveOperation.parse(line)

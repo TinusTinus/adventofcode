@@ -32,7 +32,7 @@ record SwapLettersOperation(char x, char y) implements ScramblerOperation {
     }
      
     @Override
-    public String apply(String input) {
+    public Stream<String> apply(String input) {
         var xIndex = input.indexOf(x);
         var yIndex = input.indexOf(y);
         

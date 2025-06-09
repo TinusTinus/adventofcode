@@ -31,7 +31,7 @@ class SwapLettersOperationTest {
     void testApply() {
         var operation = new SwapLettersOperation('d', 'b');
         
-        var result = operation.apply("ebcda");
+        var result = operation.apply("ebcda").findFirst().orElseThrow();
         
         assertEquals("edcba", result);
     }
@@ -40,7 +40,7 @@ class SwapLettersOperationTest {
     void testReverse() {
         var operation = new SwapLettersOperation('d', 'b').reverse();
         
-        var result = operation.apply("edcba");
+        var result = operation.apply("edcba").findFirst().orElseThrow();
         
         assertEquals("ebcda", result);
     }

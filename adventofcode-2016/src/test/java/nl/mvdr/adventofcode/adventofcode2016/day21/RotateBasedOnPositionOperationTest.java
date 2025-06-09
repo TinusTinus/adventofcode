@@ -38,7 +38,7 @@ class RotateBasedOnPositionOperationTest {
     void testApply(char x, String input, String expectedResult) {
         var operation = new RotateBasedOnPositionOperation(x);
         
-        var result = operation.apply(input);
+        var result = operation.apply(input).findFirst().orElseThrow();
         
         assertEquals(expectedResult, result);
     }
@@ -51,7 +51,7 @@ class RotateBasedOnPositionOperationTest {
     void testReverse(char x, String input, String expectedResult) {
         var operation = new RotateBasedOnPositionOperation(x).reverse();
         
-        var result = operation.apply(input);
+        var result = operation.apply(input).findFirst().orElseThrow();
         
         assertEquals(expectedResult, result);
     }

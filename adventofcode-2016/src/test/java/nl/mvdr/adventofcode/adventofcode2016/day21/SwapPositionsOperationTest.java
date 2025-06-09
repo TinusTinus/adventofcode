@@ -31,7 +31,7 @@ class SwapPositionsOperationTest {
     void testApply() {
         var operation = new SwapPositionsOperation(4, 0);
         
-        var result = operation.apply("abcde");
+        var result = operation.apply("abcde").findFirst().orElseThrow();
         
         assertEquals("ebcda", result);
     }
@@ -40,7 +40,7 @@ class SwapPositionsOperationTest {
     void testReverse() {
         var operation = new SwapPositionsOperation(4, 0).reverse();
         
-        var result = operation.apply("ebcda");
+        var result = operation.apply("ebcda").findFirst().orElseThrow();
         
         assertEquals("abcde", result);
     }

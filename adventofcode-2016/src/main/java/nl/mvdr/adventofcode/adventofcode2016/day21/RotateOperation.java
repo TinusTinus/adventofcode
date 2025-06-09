@@ -1,6 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2016.day21;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 record RotateOperation(RotationDirection direction, int x) implements ScramblerOperation {
 
@@ -27,11 +28,11 @@ record RotateOperation(RotationDirection direction, int x) implements ScramblerO
     }
     
     @Override
-    public String apply(String input) {
-        String result;
+    public Stream<String> apply(String input) {
+        Stream<String> result;
         
         if (direction == RotationDirection.LEFT) {
-            result = input.substring(x) + input.substring(0, x);
+            result = Stream.of(input.substring(x) + input.substring(0, x));
         } else {
             result = new RotateOperation(RotationDirection.LEFT, input.length() - x).apply(input);
         }

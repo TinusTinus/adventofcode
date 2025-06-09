@@ -25,7 +25,7 @@ record MoveOperation(int x, int y) implements ScramblerOperation {
     }
     
     @Override
-    public String apply(String input) {
+    public Stream<String> apply(String input) {
         String result;
         
         if (x == y) {
@@ -42,7 +42,7 @@ record MoveOperation(int x, int y) implements ScramblerOperation {
                     + input.substring(x + 1, input.length());
         }
         
-        return result;
+        return Stream.of(result);
     }
     
     @Override

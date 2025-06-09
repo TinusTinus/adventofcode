@@ -39,7 +39,7 @@ class MoveOperationTest {
     void testApply(int x, int y, String input, String expectedOutput) {
         var operation = new MoveOperation(x, y);
         
-        var result = operation.apply(input);
+        var result = operation.apply(input).findFirst().orElseThrow();
         
         assertEquals(expectedOutput, result);
     }
@@ -52,7 +52,7 @@ class MoveOperationTest {
     void testReverse(int x, int y, String input, String expectedOutput) {
         var operation = new MoveOperation(x, y).reverse();
         
-        var result = operation.apply(input);
+        var result = operation.apply(input).findFirst().orElseThrow();
         
         assertEquals(expectedOutput, result);
     }
