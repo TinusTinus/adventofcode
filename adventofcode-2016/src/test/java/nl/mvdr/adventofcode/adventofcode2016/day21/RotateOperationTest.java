@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2016.day21;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +13,9 @@ class RotateOperationTest {
         
         var result = RotateOperation.parse(input);
         
-        assertTrue(result.isPresent());
-        assertEquals(RotationDirection.LEFT, result.orElseThrow().direction());
-        assertEquals(1, result.orElseThrow().x());
+        var operation = (RotateOperation)result.orElseThrow();
+        assertEquals(RotationDirection.LEFT, operation.direction());
+        assertEquals(1, operation.x());
     }
     
     @Test

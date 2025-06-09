@@ -3,10 +3,10 @@ package nl.mvdr.adventofcode.adventofcode2016.day21;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-record SwapPositionsOperation(int x, int y) implements ScramblerOperation {
+record ReversePositionsOperation(int x, int y) implements ScramblerOperation {
 
-    private static final String PREFIX = "swap position ";
-    private static final String INFIX = " with position ";
+    private static final String PREFIX = "reverse positions ";
+    private static final String INFIX = " through ";
     
     static Optional<ScramblerOperation> parse(String line) {
         Optional<ScramblerOperation> result;
@@ -17,7 +17,7 @@ record SwapPositionsOperation(int x, int y) implements ScramblerOperation {
             if (parameters.length != 2) {
                 throw new IllegalArgumentException("Unable to parse: " + line);
             }
-            result = Optional.of(new SwapPositionsOperation(parameters[0], parameters[1]));
+            result = Optional.of(new ReversePositionsOperation(parameters[0], parameters[1]));
         } else {
             result = Optional.empty();
         }
@@ -26,19 +26,8 @@ record SwapPositionsOperation(int x, int y) implements ScramblerOperation {
     
     @Override
     public String apply(String input) {
-        String result;
-        
-        if (x <= y) {
-            result = input.substring(0, x)
-                    + input.charAt(y)
-                    + input.substring(x + 1, y)
-                    + input.charAt(x)
-                    + input.substring(y + 1);
-        } else {
-            result = new SwapPositionsOperation(y, x).apply(input);
-        }
-        
-        return result;
+        return input.substring(0, x)
+                + new StringBuilder(input.substring(x, y + 1)).reverse().toString()
+                + input.substring(y + 1, input.length());
     }
-
 }

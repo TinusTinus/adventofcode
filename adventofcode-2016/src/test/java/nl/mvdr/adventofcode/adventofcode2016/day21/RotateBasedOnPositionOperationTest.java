@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2016.day21;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,8 +17,8 @@ class RotateBasedOnPositionOperationTest {
     void testParse(String input, char expectedX) {
         var result = RotateBasedOnPositionOperation.parse(input);
         
-        assertTrue(result.isPresent());
-        assertEquals(expectedX, result.orElseThrow().x());
+        var operation = (RotateBasedOnPositionOperation)result.orElseThrow();
+        assertEquals(expectedX, operation.x());
     }
     
     @Test

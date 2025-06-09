@@ -6,8 +6,8 @@ record RotateBasedOnPositionOperation(char x) implements ScramblerOperation {
 
     private static final String PREFIX = "rotate based on position of letter ";
     
-    static Optional<RotateBasedOnPositionOperation> parse(String line) {
-        Optional<RotateBasedOnPositionOperation> result;
+    static Optional<ScramblerOperation> parse(String line) {
+        Optional<ScramblerOperation> result;
         if (line.startsWith(PREFIX)) {
             var x = line.substring(PREFIX.length()).charAt(0);
             

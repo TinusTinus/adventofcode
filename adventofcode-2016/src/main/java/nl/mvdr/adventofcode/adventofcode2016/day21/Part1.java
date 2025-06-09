@@ -23,7 +23,8 @@ public class Part1 implements LinesSolver<String> {
     
     @Override
     public String solve(Stream<String> lines) {
-        return input; // TODO scramble
+        var scrambler = Scrambler.parse(lines);
+        return scrambler.apply(input);
     }
 
     public static void main(String[] args) {

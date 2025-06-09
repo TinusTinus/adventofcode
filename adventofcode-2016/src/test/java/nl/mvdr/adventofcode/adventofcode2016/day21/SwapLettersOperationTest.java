@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.adventofcode2016.day21;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +13,9 @@ class SwapLettersOperationTest {
         
         var result = SwapLettersOperation.parse(input);
         
-        assertTrue(result.isPresent());
-        assertEquals('d', result.orElseThrow().x());
-        assertEquals('b', result.orElseThrow().y());
+        var operation = (SwapLettersOperation)result.orElseThrow();
+        assertEquals('d', operation.x());
+        assertEquals('b', operation.y());
     }
     
     @Test

@@ -8,8 +8,8 @@ record SwapLettersOperation(char x, char y) implements ScramblerOperation {
     private static final String PREFIX = "swap letter ";
     private static final String INFIX = " with letter ";
     
-    static Optional<SwapLettersOperation> parse(String line) {
-        Optional<SwapLettersOperation> result;
+    static Optional<ScramblerOperation> parse(String line) {
+        Optional<ScramblerOperation> result;
         if (line.startsWith(PREFIX)) {
             var parameters = Stream.of(line.substring(PREFIX.length()).split(INFIX))
                     .peek(SwapLettersOperation::checkLength1)

@@ -7,8 +7,8 @@ record RotateOperation(RotationDirection direction, int x) implements ScramblerO
     private static final String PREFIX = "rotate ";
     private static final String INFIX = " ";
     
-    static Optional<RotateOperation> parse(String line) {
-        Optional<RotateOperation> result;
+    static Optional<ScramblerOperation> parse(String line) {
+        Optional<ScramblerOperation> result;
         if (line.startsWith(PREFIX)) {
             var parts = line.substring(PREFIX.length()).split(INFIX);
             
