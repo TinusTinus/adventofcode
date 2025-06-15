@@ -1,9 +1,20 @@
 package nl.mvdr.adventofcode.adventofcode2016.day22;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import nl.mvdr.adventofcode.point.Point;
 
 record Node(Point location, int size, int used, int avail, int usePercentage) {
-    static Node parse(String line) {
+    
+    static Set<Node> parse(Stream<String> lines) {
+        return lines.skip(2)
+                .map(Node::parse)
+                .collect(Collectors.toSet());
+    }
+    
+    private static Node parse(String line) {
         var parts = line.split(" +");
         if (parts.length != 5) {
             throw new IllegalArgumentException("Unable to parse as a node: " + line);

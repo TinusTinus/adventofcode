@@ -1,6 +1,5 @@
 package nl.mvdr.adventofcode.adventofcode2016.day22;
 
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -14,9 +13,7 @@ public class Part2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        var nodes = lines.skip(2)
-                .map(Node::parse)
-                .collect(Collectors.toSet());
+        var grid = Grid.parse(lines);
         
         return 0; // TODO
     }
