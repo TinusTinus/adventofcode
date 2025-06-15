@@ -24,7 +24,7 @@ public class Part2 implements IntSolver {
         int steps = 0;
         
         while(!current.stream().anyMatch(Grid::isGoalDataAccessible)) {
-            Set<Grid> next = current.stream()
+            Set<Grid> next = current.parallelStream()
                     .flatMap(Grid::step)
                     .filter(Predicate.not(visited::contains))
                     .collect(Collectors.toSet());
@@ -34,6 +34,8 @@ public class Part2 implements IntSolver {
             current = next;
             
             steps++;
+            
+            LOGGER.info("After {} steps: {} grids, visited: {}", steps, current.size(), visited.size());
         }
         
         return steps;
