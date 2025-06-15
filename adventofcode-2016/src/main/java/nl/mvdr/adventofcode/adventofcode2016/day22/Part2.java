@@ -1,5 +1,9 @@
 package nl.mvdr.adventofcode.adventofcode2016.day22;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -13,9 +17,26 @@ public class Part2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        var grid = Grid.parse(lines);
+        Set<Grid> visited = new HashSet<>();;
         
-        return 0; // TODO
+        Set<Grid> current = Set.of(Grid.parse(lines));
+        
+        int steps = 0;
+        
+        while(!current.stream().anyMatch(Grid::isGoalDataAccessible)) {
+            Set<Grid> next = current.stream()
+                    .flatMap(Grid::step)
+                    .filter(Predicate.not(visited::contains))
+                    .collect(Collectors.toSet());
+            
+            visited.addAll(current);
+            
+            current = next;
+            
+            steps++;
+        }
+        
+        return steps;
     }
     
     public static void main(String[] args) {

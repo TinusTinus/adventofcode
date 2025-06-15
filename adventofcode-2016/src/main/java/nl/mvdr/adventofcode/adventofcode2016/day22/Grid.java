@@ -1,7 +1,7 @@
 package nl.mvdr.adventofcode.adventofcode2016.day22;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
@@ -24,19 +24,30 @@ public record Grid(Set<Node> nodes, Point goalDataLocation) {
     }
     
     Stream<Grid> step() {
-        var viablePairs = nodes.stream()
-                .flatMap(a -> neighbours(a).map(b -> new NodePair(a, b)))
+        return nodes.stream()
+                .flatMap(a -> nodes.stream().map(b -> new NodePair(a, b)))
                 .filter(NodePair::isViable)
-                .collect(Collectors.toSet());
-        
-        return Stream.of(this); // TODO
+                .filter(pair -> pair.a().location().neighbours().contains(pair.b().location()))
+                .map(pair -> moveData(pair.a(), pair.b()));
     }
     
-    // TODO the following could be made more efficient by storing nodes in a map, indexed by their location
-    private Stream<Node> neighbours(Node node) {
-        var neighbourLocations = node.location().neighbours();
+    private Grid moveData(Node source, Node target) {
+        Set<Node> newNodes = new HashSet<>(nodes);
         
-        return nodes.stream()
-                .filter(otherNode -> neighbourLocations.contains(otherNode.location()));
+        newNodes.remove(source);
+        newNodes.add(new Node(source.location(), source.size(), 0));
+        
+        newNodes.remove(target);
+        newNodes.add(new Node(target.location(), target.size(), target.used() + source.used()));
+        
+        Point newGoalDataLocation;
+        if (goalDataLocation.equals(source.location())) {
+            // Goal data is being copied from source to target
+            newGoalDataLocation = target.location();
+        } else {
+            newGoalDataLocation = goalDataLocation;
+        }
+        
+        return new Grid(newNodes, newGoalDataLocation);
     }
 }
