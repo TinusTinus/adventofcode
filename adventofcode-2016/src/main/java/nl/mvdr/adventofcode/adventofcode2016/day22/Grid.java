@@ -1,16 +1,21 @@
 package nl.mvdr.adventofcode.adventofcode2016.day22;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
 
-public record Grid(Set<Node> nodes, Point goalDataLocation) {
+public record Grid(Map<Point, Node> nodes, Point goalDataLocation) {
     static Grid parse(Stream<String> lines) {
-        var nodes = Node.parse(lines);
+        var nodes = Node.parse(lines)
+                .collect(Collectors.toMap(Node::location, Function.identity()));
         
-        var goalDataLocation = nodes.stream()
+        var goalDataLocation = nodes.values()
+                .stream()
                 .map(Node::location)
                 .filter(location -> location.y() == 0)
                 .max(Point::compareTo)
@@ -24,21 +29,23 @@ public record Grid(Set<Node> nodes, Point goalDataLocation) {
     }
     
     Stream<Grid> step() {
-        return nodes.stream()
-                .flatMap(a -> nodes.stream().map(b -> new NodePair(a, b)))
+        return nodes.entrySet()
+                .stream()
+                .flatMap(entry -> entry.getKey()
+                        .neighbours()
+                        .stream()
+                        .map(nodes::get)
+                        .filter(Objects::nonNull)
+                        .map(b -> new NodePair(entry.getValue(), b)))
                 .filter(NodePair::isViable)
-                .filter(pair -> pair.a().location().neighbours().contains(pair.b().location()))
                 .map(pair -> moveData(pair.a(), pair.b()));
     }
     
     private Grid moveData(Node source, Node target) {
-        Set<Node> newNodes = new HashSet<>(nodes);
+        Map<Point, Node> newNodes = new HashMap<>(nodes);
         
-        newNodes.remove(source);
-        newNodes.add(new Node(source.location(), source.size(), 0));
-        
-        newNodes.remove(target);
-        newNodes.add(new Node(target.location(), target.size(), target.used() + source.used()));
+        newNodes.put(source.location(), new Node(source.location(), source.size(), 0));
+        newNodes.put(target.location(), new Node(target.location(), target.size(), target.used() + source.used()));
         
         Point newGoalDataLocation;
         if (goalDataLocation.equals(source.location())) {
