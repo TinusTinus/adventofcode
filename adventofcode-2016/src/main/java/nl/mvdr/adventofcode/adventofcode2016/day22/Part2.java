@@ -17,25 +17,17 @@ public class Part2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        Set<Grid> visited = new HashSet<>();;
         
-        Set<Grid> current = Set.of(Grid.parse(lines));
+        Set<Grid> grids = Set.of(Grid.parse(lines));
         
         int steps = 0;
         
-        while(!current.stream().anyMatch(Grid::isGoalDataAccessible)) {
-            Set<Grid> next = current.parallelStream()
+        while(!grids.stream().anyMatch(Grid::isGoalDataAccessible)) {
+            grids = grids.parallelStream()
                     .flatMap(Grid::step)
-                    .filter(Predicate.not(visited::contains))
                     .collect(Collectors.toSet());
-            
-            visited.addAll(current);
-            
-            current = next;
-            
             steps++;
-            
-            LOGGER.info("After {} steps: {} grids, visited: {}", steps, current.size(), visited.size());
+            LOGGER.info("After {} steps: {} grids", steps, grids.size()); // TODO debug
         }
         
         return steps;
