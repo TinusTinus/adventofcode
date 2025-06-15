@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
 
-record Node(Point location, int size, int used, int avail, int usePercentage) {
+record Node(Point location, int size, int used) {
     
     static Set<Node> parse(Stream<String> lines) {
         return lines.skip(2)
@@ -23,10 +23,8 @@ record Node(Point location, int size, int used, int avail, int usePercentage) {
         var location = parseLocation(parts[0]);
         var size = parseSize(parts[1]);
         var used = parseSize(parts[2]);
-        var avail = parseSize(parts[3]);
-        var usePercentage = parsePercentage(parts[4]);
         
-        return new Node(location, size, used, avail, usePercentage);
+        return new Node(location, size, used);
     }
 
     private static Point parseLocation(String filename) {
@@ -49,14 +47,11 @@ record Node(Point location, int size, int used, int avail, int usePercentage) {
         return Integer.parseInt(string.substring(0, string.length() - 1));
     }
     
-    private static int parsePercentage(String string) {
-        if (!string.endsWith("%")) {
-            throw new IllegalArgumentException("Unable to parse as a percentage: " + string);
-        }
-        return Integer.parseInt(string.substring(0, string.length() - 1));
-    }
-    
     boolean isEmpty() {
         return used == 0;
+    }
+    
+    int avail() {
+        return size - used;
     }
 }
