@@ -46,6 +46,6 @@ record Node(Point location, int size, int used, int avail, int usePercentage) {
     }
     
     boolean isEmpty() {
-        return size == 0;
+        return used == 0;
     }
 }
