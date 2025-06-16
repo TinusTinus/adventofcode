@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.point.Point;
 
-public record Grid(Map<Point, Node> nodes, Point goalDataLocation) {
+record Grid(Map<Point, Node> nodes, Point goalDataLocation) {
     static Grid parse(Stream<String> lines) {
         var nodes = Node.parse(lines)
                 .collect(Collectors.toMap(Node::location, Function.identity()));

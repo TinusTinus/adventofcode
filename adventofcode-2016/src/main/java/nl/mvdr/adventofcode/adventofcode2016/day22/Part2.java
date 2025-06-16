@@ -24,7 +24,7 @@ public class Part2 implements IntSolver {
                     .flatMap(Grid::step)
                     .collect(Collectors.toSet());
             steps++;
-            LOGGER.debug("After {} steps: {} grids", steps, grids.size());
+            LOGGER.info("After {} steps: {} grids", steps, grids.size()); // TODO debug
         }
         
         return steps;
