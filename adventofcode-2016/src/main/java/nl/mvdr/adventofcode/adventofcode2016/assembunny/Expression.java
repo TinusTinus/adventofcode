@@ -9,5 +9,5 @@ sealed interface Expression permits IntegerExpression, RegisterExpression {
                 .orElseGet(() -> new IntegerExpression(Integer.parseInt(stringRepresentation)));
     }
     
-    int evaluate(State state);
+    int evaluate(Program program);
 }

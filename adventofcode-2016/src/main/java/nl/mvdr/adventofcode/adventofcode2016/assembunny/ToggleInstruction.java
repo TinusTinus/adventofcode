@@ -12,7 +12,7 @@ record ToggleInstruction(Expression x) implements Instruction {
     }
     
     @Override
-    public State execute(State state) {
+    public Program execute(Program program) {
         // TODO Auto-generated method stub!
         return null;
     }

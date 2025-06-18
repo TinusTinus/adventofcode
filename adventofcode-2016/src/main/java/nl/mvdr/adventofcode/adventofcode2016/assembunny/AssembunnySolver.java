@@ -1,21 +1,22 @@
 package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 import nl.mvdr.adventofcode.solver.IntSolver;
 
 public class AssembunnySolver implements IntSolver {
 
-    private final State startState;
+    private final Map<Register, Integer> initialRegisters;
     
-    public AssembunnySolver(State startState) {
-        this.startState = startState;
+    public AssembunnySolver(Map<Register, Integer> initialRegisters) {
+        this.initialRegisters = initialRegisters;
     }
     
     @Override
     public int solve(Stream<String> lines) {
-        var program = Program.parse(lines);
-        var endState = program.execute(startState);
+        var program = Program.parse(lines, initialRegisters);
+        var endState = program.execute();
         return endState.registers().get(Register.A).intValue();
     }
 }

@@ -1,27 +1,39 @@
 package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public record Program(List<Instruction> instructions) {
+public record Program(List<Instruction> instructions, Map<Register, Integer> registers, int instructionPointer) {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     
-    public static Program parse(Stream<String> input) {
+    public static Program parse(Stream<String> input, Map<Register, Integer> registers) {
         var instructions = input.map(Instruction::parse).toList();
-        return new Program(instructions);
+        return new Program(instructions, registers, 0);
     }
     
-    public State execute(State startState) {
-        State state = startState;
-        while (state.instructionPointer() < instructions.size()) {
-            LOGGER.debug("{}", state);
-            state = instructions.get(state.instructionPointer()).execute(state);
+    public Program execute() {
+        Program program = this;
+        while (program.instructionPointer() < program.instructions.size()) {
+            LOGGER.debug("{}", program);
+            var instruction = program.instructions().get(program.instructionPointer());
+            program = instruction.execute(program);
         }
-        return state;
+        return program;
     }
     
+    Program setRegister(Register register, int value) {
+        Map<Register, Integer> newRegisters = new HashMap<>(registers);
+        newRegisters.put(register, Integer.valueOf(value));
+        return new Program(instructions, newRegisters, instructionPointer + 1);
+    }
+    
+    Program setInstructionPointer(int newInstructionPointerValue) {
+        return new Program(instructions, registers, newInstructionPointerValue);
+    }
 }

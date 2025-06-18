@@ -16,10 +16,10 @@ record CopyInstruction(Expression x, Expression y) implements Instruction {
     
     
     @Override
-    public State execute(State state) {
+    public Program execute(Program program) {
         return switch (y) {
-            case RegisterExpression registerExpression -> state.setRegister(registerExpression.register(), x.evaluate(state));
-            case IntegerExpression _ -> state; // skip
+            case RegisterExpression registerExpression -> program.setRegister(registerExpression.register(), x.evaluate(program));
+            case IntegerExpression _ -> program.setInstructionPointer(program.instructionPointer() + 1); // skip
         };
     }
     

@@ -14,12 +14,12 @@ record JumpNotZeroInstruction(Expression x, Expression y) implements Instruction
     }
     
     @Override
-    public State execute(State state) {
-        int offset = switch(x.evaluate(state)) {
+    public Program execute(Program program) {
+        int offset = switch(x.evaluate(program)) {
             case 0 -> 1;
-            default -> y.evaluate(state);
+            default -> y.evaluate(program);
         };
-        return new State(state.registers(), state.instructionPointer() + offset);
+        return new Program(program.instructions(), program.registers(), program.instructionPointer() + offset);
     }
     
     @Override

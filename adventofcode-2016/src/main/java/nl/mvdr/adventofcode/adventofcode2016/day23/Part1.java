@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.adventofcode2016.assembunny.AssembunnySolver;
 import nl.mvdr.adventofcode.adventofcode2016.assembunny.Register;
-import nl.mvdr.adventofcode.adventofcode2016.assembunny.State;
 import nl.mvdr.adventofcode.solver.IntSolver;
 
 public class Part1 implements IntSolver {
@@ -22,8 +21,7 @@ public class Part1 implements IntSolver {
                 Register.B, 0,
                 Register.C, 0,
                 Register.D, 0);
-        State startState = new State(startingRegisterValues, 0);
-        return new AssembunnySolver(startState).solve(lines);
+        return new AssembunnySolver(startingRegisterValues).solve(lines);
     }
     
     public static void main(String[] args) {

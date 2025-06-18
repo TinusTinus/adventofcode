@@ -24,7 +24,7 @@ sealed interface Instruction permits CopyInstruction, IncreaseInstruction, Decre
         };
     }
     
-    State execute(State state);
+    Program execute(Program program);
     
     Instruction toggle();
 }

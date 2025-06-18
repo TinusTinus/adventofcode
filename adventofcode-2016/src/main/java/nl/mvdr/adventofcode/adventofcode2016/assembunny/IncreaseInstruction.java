@@ -12,11 +12,11 @@ record IncreaseInstruction(Expression x) implements Instruction {
     }
     
     @Override
-    public State execute(State state) {
+    public Program execute(Program program) {
         return switch (x) {
-            case RegisterExpression registerExpression -> state.setRegister(registerExpression.register(),
-                    state.registers().get(registerExpression.register()).intValue() + 1);
-            case IntegerExpression _ -> state;
+            case RegisterExpression registerExpression -> program.setRegister(registerExpression.register(),
+                    program.registers().get(registerExpression.register()).intValue() + 1);
+            case IntegerExpression _ -> program;
         };
     }
     

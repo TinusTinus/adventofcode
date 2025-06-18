@@ -1,12 +1,13 @@
 package nl.mvdr.adventofcode.adventofcode2016.day12;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.mvdr.adventofcode.adventofcode2016.assembunny.AssembunnySolver;
-import nl.mvdr.adventofcode.adventofcode2016.assembunny.State;
+import nl.mvdr.adventofcode.adventofcode2016.assembunny.Register;
 import nl.mvdr.adventofcode.solver.IntSolver;
 
 public class Part1 implements IntSolver {
@@ -15,8 +16,12 @@ public class Part1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        State startState = new State();
-        return new AssembunnySolver(startState).solve(lines);
+        Map<Register, Integer> startingRegisterValues = Map.of(
+                Register.A, 0,
+                Register.B, 0,
+                Register.C, 0,
+                Register.D, 0);
+        return new AssembunnySolver(startingRegisterValues).solve(lines);
     }
     
     public static void main(String[] args) {
