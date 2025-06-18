@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2016.day12;
+package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
 import java.util.stream.Stream;
 

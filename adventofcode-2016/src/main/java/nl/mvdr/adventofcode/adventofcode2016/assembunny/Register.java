@@ -1,9 +1,9 @@
-package nl.mvdr.adventofcode.adventofcode2016.day12;
+package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
-enum Register {
+public enum Register {
     A("a"),
     B("b"),
     C("c"),

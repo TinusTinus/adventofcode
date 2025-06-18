@@ -1,4 +1,4 @@
-package nl.mvdr.adventofcode.adventofcode2016.day12;
+package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -6,16 +6,16 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-record Program(List<Instruction> instructions) {
+public record Program(List<Instruction> instructions) {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     
-    static Program parse(Stream<String> input) {
+    public static Program parse(Stream<String> input) {
         var instructions = input.map(Instruction::parse).toList();
         return new Program(instructions);
     }
     
-    State execute(State startState) {
+    public State execute(State startState) {
         State state = startState;
         while (state.instructionPointer() < instructions.size()) {
             LOGGER.debug("{}", state);

@@ -2,6 +2,9 @@ package nl.mvdr.adventofcode.adventofcode2016.day12;
 
 import java.util.stream.Stream;
 
+import nl.mvdr.adventofcode.adventofcode2016.assembunny.Program;
+import nl.mvdr.adventofcode.adventofcode2016.assembunny.Register;
+import nl.mvdr.adventofcode.adventofcode2016.assembunny.State;
 import nl.mvdr.adventofcode.solver.IntSolver;
 
 class LeonardosMonorail implements IntSolver {

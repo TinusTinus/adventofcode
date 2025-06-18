@@ -5,6 +5,8 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.adventofcode2016.assembunny.Register;
+import nl.mvdr.adventofcode.adventofcode2016.assembunny.State;
 import nl.mvdr.adventofcode.solver.IntSolver;
 
 public class Part2 implements IntSolver {
