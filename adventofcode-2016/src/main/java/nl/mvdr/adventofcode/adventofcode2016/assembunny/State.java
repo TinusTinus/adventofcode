@@ -12,13 +12,13 @@ public record State(Map<Register, Integer> registers, int instructionPointer) {
                 .collect(Collectors.toMap(Function.identity(), _ -> Integer.valueOf(0))), 0);
     }
     
-    public State setRegister(Register register, int value) {
+    public State withRegister(Register register, int value) {
         Map<Register, Integer> newRegisters = new HashMap<>(registers);
         newRegisters.put(register, Integer.valueOf(value));
         return new State(newRegisters, instructionPointer + 1);
     }
     
-    public State setInstructionPointer(int newInstructionPointerValue) {
+    public State withInstructionPointer(int newInstructionPointerValue) {
         return new State(registers, newInstructionPointerValue);
     }
 }

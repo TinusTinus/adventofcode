@@ -1,17 +1,14 @@
-package nl.mvdr.adventofcode.adventofcode2016.day12;
+package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.adventofcode.adventofcode2016.assembunny.Program;
-import nl.mvdr.adventofcode.adventofcode2016.assembunny.Register;
-import nl.mvdr.adventofcode.adventofcode2016.assembunny.State;
 import nl.mvdr.adventofcode.solver.IntSolver;
 
-class LeonardosMonorail implements IntSolver {
+public class AssembunnySolver implements IntSolver {
 
     private final State startState;
     
-    public LeonardosMonorail(State startState) {
+    public AssembunnySolver(State startState) {
         this.startState = startState;
     }
     

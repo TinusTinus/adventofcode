@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.mvdr.adventofcode.adventofcode2016.assembunny.AssembunnySolver;
 import nl.mvdr.adventofcode.adventofcode2016.assembunny.Register;
 import nl.mvdr.adventofcode.adventofcode2016.assembunny.State;
 import nl.mvdr.adventofcode.solver.IntSolver;
@@ -15,8 +16,8 @@ public class Part2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        State startState = new State().setRegister(Register.C, 1).setInstructionPointer(0);
-        return new LeonardosMonorail(startState).solve(lines);
+        State startState = new State().withRegister(Register.C, 1).withInstructionPointer(0);
+        return new AssembunnySolver(startState).solve(lines);
     }
     
     public static void main(String[] args) {

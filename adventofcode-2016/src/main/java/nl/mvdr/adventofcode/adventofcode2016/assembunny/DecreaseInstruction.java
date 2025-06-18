@@ -17,6 +17,6 @@ record DecreaseInstruction(Register x) implements Instruction {
     
     @Override
     public State execute(State state) {
-        return state.setRegister(x, state.registers().get(x).intValue() - 1);
+        return state.withRegister(x, state.registers().get(x).intValue() - 1);
     }
 }

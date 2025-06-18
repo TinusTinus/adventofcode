@@ -20,6 +20,6 @@ record CopyInstruction(Expression x, Register y) implements Instruction {
     
     @Override
     public State execute(State state) {
-        return state.setRegister(y, x.evaluate(state));
+        return state.withRegister(y, x.evaluate(state));
     }
 }
