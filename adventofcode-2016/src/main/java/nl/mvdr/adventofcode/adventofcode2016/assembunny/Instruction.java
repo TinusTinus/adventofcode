@@ -2,7 +2,7 @@ package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
 import java.util.stream.Stream;
 
-sealed interface Instruction permits CopyInstruction, IncreaseInstruction, DecreaseInstruction, JumpNotZeroInstruction {
+sealed interface Instruction permits CopyInstruction, IncreaseInstruction, DecreaseInstruction, JumpNotZeroInstruction, ToggleInstruction {
     
     static Instruction parse(String stringRepresentation) {
         var parts = stringRepresentation.split(" ");
@@ -19,9 +19,12 @@ sealed interface Instruction permits CopyInstruction, IncreaseInstruction, Decre
             case "inc" -> IncreaseInstruction.withParameters(parameters);
             case "dec" -> DecreaseInstruction.withParameters(parameters);
             case "jnz" -> JumpNotZeroInstruction.withParameters(parameters);
+            case "tgl" -> ToggleInstruction.withParameters(parameters);
             default -> throw new IllegalArgumentException("Unsupported instruction: " + stringRepresentation);
         };
     }
     
     State execute(State state);
+    
+    Instruction toggle();
 }

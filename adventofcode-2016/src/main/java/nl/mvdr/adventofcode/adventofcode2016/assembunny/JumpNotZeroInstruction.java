@@ -21,4 +21,9 @@ record JumpNotZeroInstruction(Expression x, Expression y) implements Instruction
         };
         return new State(state.registers(), state.instructionPointer() + offset);
     }
+    
+    @Override
+    public Instruction toggle() {
+        return new CopyInstruction(x, y);
+    }
 }

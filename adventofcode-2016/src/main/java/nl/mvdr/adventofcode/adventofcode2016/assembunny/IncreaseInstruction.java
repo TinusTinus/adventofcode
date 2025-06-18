@@ -19,4 +19,9 @@ record IncreaseInstruction(Register x) implements Instruction {
     public State execute(State state) {
         return state.setRegister(x, state.registers().get(x).intValue() + 1);
     }
+    
+    @Override
+    public Instruction toggle() {
+        return new DecreaseInstruction(x);
+    }
 }
