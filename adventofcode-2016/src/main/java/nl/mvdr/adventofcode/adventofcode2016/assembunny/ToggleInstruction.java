@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
+import java.util.ArrayList;
 import java.util.List;
 
 record ToggleInstruction(Expression x) implements Instruction {
@@ -13,8 +14,14 @@ record ToggleInstruction(Expression x) implements Instruction {
     
     @Override
     public Program execute(Program program) {
-        // TODO Auto-generated method stub!
-        return null;
+        int offset = x.evaluate(program);
+        var instructionIndex = program.instructionPointer() + offset;
+        
+        List<Instruction> newInstructions = new ArrayList<>(program.instructions());
+        if (0 <= instructionIndex && instructionIndex < program.instructions().size()) {
+            newInstructions.set(instructionIndex, program.instructions().get(instructionIndex).toggle());
+        }
+        return new Program(newInstructions, program.registers(), program.instructionPointer() + 1);
     }
     
     @Override
