@@ -19,9 +19,6 @@ record ToggleInstruction(Expression x) implements Instruction {
     
     @Override
     public Instruction toggle() {
-        // TODO implement
-        return null;
+        return new IncreaseInstruction(x);
     }
-
-
 }
