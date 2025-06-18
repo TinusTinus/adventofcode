@@ -1,5 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2016.day12;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -16,7 +17,12 @@ public class Part2 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        State startState = new State().withRegister(Register.C, 1).withInstructionPointer(0);
+        Map<Register, Integer> startingRegisterValues = Map.of(
+                Register.A, 0,
+                Register.B, 0,
+                Register.C, 1,
+                Register.D, 0);
+        State startState = new State(startingRegisterValues, 0);
         return new AssembunnySolver(startState).solve(lines);
     }
     
