@@ -1,10 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 
+import java.util.function.IntConsumer;
 import java.util.stream.Stream;
 
-sealed interface Instruction permits CopyInstruction, IncreaseInstruction, DecreaseInstruction, JumpNotZeroInstruction, ToggleInstruction {
+sealed interface Instruction permits CopyInstruction, IncreaseInstruction, DecreaseInstruction, JumpNotZeroInstruction, ToggleInstruction, OutInstruction {
     
     static Instruction parse(String stringRepresentation) {
+        return parse(stringRepresentation, System.out::print);
+    }
+        
+    static Instruction parse(String stringRepresentation, IntConsumer outputHandler) {
         var parts = stringRepresentation.split(" ");
         
         var instructionString = parts[0];
@@ -20,6 +25,7 @@ sealed interface Instruction permits CopyInstruction, IncreaseInstruction, Decre
             case "dec" -> DecreaseInstruction.withParameters(parameters);
             case "jnz" -> JumpNotZeroInstruction.withParameters(parameters);
             case "tgl" -> ToggleInstruction.withParameters(parameters);
+            case "out" -> OutInstruction.withParameters(parameters, outputHandler);
             default -> throw new IllegalArgumentException("Unsupported instruction: " + stringRepresentation);
         };
     }
