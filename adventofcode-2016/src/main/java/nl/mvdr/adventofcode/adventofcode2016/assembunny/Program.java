@@ -3,7 +3,9 @@ package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BooleanSupplier;
 import java.util.function.IntConsumer;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -23,8 +25,16 @@ public record Program(List<Instruction> instructions, Map<Register, Integer> reg
     }
     
     public Program execute() {
+        return executeWhile(program -> program.instructionPointer() < program.instructions.size());
+    }
+
+    public Program executeWhile(BooleanSupplier guard) {
+        return executeWhile(_ -> guard.getAsBoolean());
+    }
+    
+    public Program executeWhile(Predicate<Program> guard) {
         Program program = this;
-        while (program.instructionPointer() < program.instructions.size()) {
+        while (guard.test(program)) {
             LOGGER.debug("{}", program);
             var instruction = program.instructions().get(program.instructionPointer());
             program = instruction.execute(program);
