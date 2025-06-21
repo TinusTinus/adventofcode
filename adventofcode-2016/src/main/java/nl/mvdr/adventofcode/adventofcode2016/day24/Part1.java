@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2016.day24;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +27,13 @@ public class Part1 implements IntSolver {
     public int solve(Stream<String> lines) {
         var distances = calculateDistances(lines.toList());
 
-        return 3; // TODO implement
+        var remainingLocations = distances.keySet()
+                .stream()
+                .map(Path::from)
+                .filter(location -> location.intValue() != 0)
+                .collect(Collectors.toSet());
+        
+        return shortestPathLength(distances, 0, remainingLocations);
     }
 
     /// Determines the distance between each pair of numbered locations.
@@ -62,6 +69,27 @@ public class Part1 implements IntSolver {
                         .map(to -> new Path(from, to)))
                 .collect(Collectors.toMap(Function.identity(), path -> 
                 shortestPathAlgorithm.getPath(locationsOfInterest.get(path.from()), locationsOfInterest.get(path.to())).getLength()));
+    }
+    
+    /// Determines the length of the shortest path visiting all of the given remaining locations from the given current location.
+    private int shortestPathLength(Map<Path, Integer> distances, int currentLocation, Set<Integer> remainingLocations) {
+        int result;
+        if (remainingLocations.isEmpty()) {
+            result = 0;
+        } else {
+            result = remainingLocations.stream()
+                    .mapToInt(Integer::valueOf)
+                    .map(nextLocation -> {
+                        var distance = distances.get(new Path(currentLocation, nextLocation)).intValue();
+                        var newRemainingLocations = remainingLocations.stream()
+                                .filter(location -> location.intValue() != nextLocation)
+                                .collect(Collectors.toSet());
+                        return distance + shortestPathLength(distances, nextLocation, newRemainingLocations);
+                    })
+                    .min()
+                    .orElseThrow();
+        }
+        return result;
     }
     
     public static void main(String[] args) {
