@@ -3,6 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2016.assembunny;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.IntConsumer;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -13,7 +14,11 @@ public record Program(List<Instruction> instructions, Map<Register, Integer> reg
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
     
     public static Program parse(Stream<String> input, Map<Register, Integer> registers) {
-        var instructions = input.map(Instruction::parse).toList();
+        return parse(input, registers, output -> LOGGER.info("{}", output));
+    }
+    
+    public static Program parse(Stream<String> input, Map<Register, Integer> registers, IntConsumer outputHandler) {
+        var instructions = input.map(line -> Instruction.parse(line, outputHandler)).toList();
         return new Program(instructions, registers, 0);
     }
     

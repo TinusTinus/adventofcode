@@ -5,10 +5,6 @@ import java.util.stream.Stream;
 
 sealed interface Instruction permits CopyInstruction, IncreaseInstruction, DecreaseInstruction, JumpNotZeroInstruction, ToggleInstruction, OutInstruction {
     
-    static Instruction parse(String stringRepresentation) {
-        return parse(stringRepresentation, System.out::print);
-    }
-        
     static Instruction parse(String stringRepresentation, IntConsumer outputHandler) {
         var parts = stringRepresentation.split(" ");
         
