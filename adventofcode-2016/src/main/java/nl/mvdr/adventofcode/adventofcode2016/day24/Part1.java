@@ -1,10 +1,15 @@
 package nl.mvdr.adventofcode.adventofcode2016.day24;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jgrapht.Graph;
+import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.slf4j.Logger;
@@ -19,13 +24,16 @@ public class Part1 implements IntSolver {
 
     @Override
     public int solve(Stream<String> lines) {
-        // First, let's determine the distances between each pair of numbered locations.
+        var distances = calculateDistances(lines.toList());
+
+        return 3; // TODO implement
+    }
+
+    /// Determines the distance between each pair of numbered locations.
+    private Map<Path, Integer> calculateDistances(List<String> lines) {
         Map<Integer, Point> locationsOfInterest = new HashMap<>();
-        
         Graph<Point, DefaultEdge> graph = new DefaultUndirectedGraph<>(DefaultEdge.class);
-        
-        Point.parse2DMap(lines.toList(), (point, character) -> {
-            
+        Point.parse2DMap(lines, (point, character) -> {
             if (Character.isDigit(character)) {
                 int number = Integer.parseInt("" + character);
                 locationsOfInterest.put(Integer.valueOf(number), point);
@@ -44,8 +52,16 @@ public class Part1 implements IntSolver {
                 .filter(graph::containsVertex)
                 .forEach(neighbour -> graph.addEdge(vertex, neighbour)));
 
+        ShortestPathAlgorithm<Point, DefaultEdge> shortestPathAlgorithm = new DijkstraShortestPath<>(graph);
         
-        return 3; // TODO implement
+        return locationsOfInterest.keySet()
+                .stream()
+                .flatMap(from -> locationsOfInterest.keySet()
+                        .stream()
+                        .filter(to -> !from.equals(to))
+                        .map(to -> new Path(from, to)))
+                .collect(Collectors.toMap(Function.identity(), path -> 
+                shortestPathAlgorithm.getPath(locationsOfInterest.get(path.from()), locationsOfInterest.get(path.to())).getLength()));
     }
     
     public static void main(String[] args) {
