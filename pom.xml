@@ -36,7 +36,7 @@
         <!-- dependency versions -->
         <commons-codec.version>1.18.0</commons-codec.version>
         <commons-collections.version>4.5.0</commons-collections.version>
-        <commons-lang.version>3.17.0</commons-lang.version>
+        <commons-lang.version>3.18.0</commons-lang.version>
         <commons-math.version>3.6.1</commons-math.version>
         <jackson.version>2.19.1</jackson.version>
         <jgrapht.version>1.5.2</jgrapht.version>
