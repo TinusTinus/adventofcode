@@ -42,7 +42,7 @@
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>5.13.4</junit.version>
         <kotlin.version>2.2.10</kotlin.version>
-        <kotlin-logging.version>7.0.12</kotlin-logging.version>
+        <kotlin-logging.version>7.0.13</kotlin-logging.version>
         <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <slf4j.version>2.0.17</slf4j.version>
         <z3-turnkey.version>4.14.1</z3-turnkey.version>
