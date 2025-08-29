@@ -38,7 +38,7 @@
         <commons-collections.version>4.5.0</commons-collections.version>
         <commons-lang.version>3.18.0</commons-lang.version>
         <commons-math.version>3.6.1</commons-math.version>
-        <jackson.version>2.19.2</jackson.version>
+        <jackson.version>2.20.0</jackson.version>
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>5.13.4</junit.version>
         <kotlin.version>2.2.10</kotlin.version>
