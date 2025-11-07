@@ -34,7 +34,7 @@
         <kotlin.jvm.target>${java.version}</kotlin.jvm.target>
 
         <!-- dependency versions -->
-        <commons-codec.version>1.19.0</commons-codec.version>
+        <commons-codec.version>1.20.0</commons-codec.version>
         <commons-collections.version>4.5.0</commons-collections.version>
         <commons-lang.version>3.19.0</commons-lang.version>
         <commons-math.version>3.6.1</commons-math.version>
