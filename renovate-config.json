@@ -10,11 +10,6 @@
       "description": "Automerge non-major updates",
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
-    },
-    {
-      "description": "Prevent automatic Kotlin updates",
-      "matchPackageNames": ["org.jetbrains.kotlin:*"],
-      "enabled": false
     }
   ]
 }
