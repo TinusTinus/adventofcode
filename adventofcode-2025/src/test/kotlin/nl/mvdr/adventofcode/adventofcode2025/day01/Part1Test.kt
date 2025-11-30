@@ -1,0 +1,15 @@
+package nl.mvdr.adventofcode.adventofcode2025.day01
+
+import nl.mvdr.adventofcode.solver.FunctionSolverTest
+import org.junit.jupiter.params.provider.Arguments
+
+class Part1Test: FunctionSolverTest<Int>(::solvePart1) {
+    companion object {
+        @JvmStatic
+        fun testSolution(): List<Arguments> {
+            return listOf(
+                Arguments.of("3", "example-day01.txt") // TODO update the test case for the actual puzzle
+            )
+        }
+    }
+}
