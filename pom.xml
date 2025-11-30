@@ -32,7 +32,9 @@
         <java.version>25</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <kotlin.jvm.target>24</kotlin.jvm.target> <!-- jvm target 25 requires at least Kotlin 2.3.0 -->
+        <!-- maximum version supported by IntelliJ -->
+        <!-- note: jvm target 25 requires at least Kotlin 2.3.0 -->
+        <kotlin.jvm.target>21</kotlin.jvm.target>
 
         <!-- dependency versions -->
         <commons-codec.version>1.20.0</commons-codec.version>
@@ -42,7 +44,7 @@
         <jackson.version>2.20.1</jackson.version>
         <jgrapht.version>1.5.2</jgrapht.version>
         <junit.version>6.0.1</junit.version>
-        <kotlin.version>2.2.21</kotlin.version>
+        <kotlin.version>2.1.0</kotlin.version> <!-- maximum version supported by IntelliJ -->
         <kotlin-logging.version>7.0.13</kotlin-logging.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
         <slf4j.version>2.0.17</slf4j.version>
