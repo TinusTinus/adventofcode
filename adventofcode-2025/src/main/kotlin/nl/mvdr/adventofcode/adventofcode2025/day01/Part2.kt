@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import nl.mvdr.adventofcode.point.Direction
 import nl.mvdr.adventofcode.solver.FunctionSolver
 import kotlin.math.absoluteValue
+import kotlin.math.min
 
 private val logger = KotlinLogging.logger{}
 
@@ -14,42 +15,43 @@ fun solvePart2(lines: Sequence<String>): Int {
         val direction = Direction.parse(line.take(1))
         val distance = line.substring(1).toInt()
 
-        println("Direction: $direction, distance: $distance")
+        println("Dial: $dial, direction: $direction, distance: $distance")
 
-        val directionMultiplier = when (direction) {
-            Direction.LEFT -> -1
-            Direction.RIGHT -> 1
+        when (direction) {
+            Direction.RIGHT -> {
+                var remainingDistance = distance
+                while (0 < remainingDistance) {
+                    if (dial + remainingDistance < 100) {
+                        dial += remainingDistance
+                        remainingDistance = 0
+                    } else {
+                        zeroes++
+                        remainingDistance -= 100 - dial
+                        dial = 0
+                    }
+                }
+            }
+            Direction.LEFT -> {
+//                if (dial == 0) {
+//                    zeroes-- // to avoid counting this pass of 0 twice
+//                }
+
+                var remainingDistance = distance
+                while (0 < remainingDistance) {
+                    if (0 <= dial - remainingDistance) {
+                        dial -= remainingDistance
+                        remainingDistance = 0
+                    } else if (0 < dial) {
+                        zeroes++
+                        remainingDistance -= dial
+                        dial = 0
+                    } else if (dial == 0) {
+
+                    }
+                }
+            }
             else -> throw IllegalArgumentException("Unexpected direction: {direction}")
         }
-
-        dial += distance * directionMultiplier
-
-        while (dial < 0) {
-            dial += 100
-            zeroes++
-        }
-
-        while (100 <= dial) {
-            dial -= 100
-            zeroes++
-        }
-
-//        if (dial == 0) {
-//            zeroes++
-//        }
-
-        println("Dial: $dial, zeroes: $zeroes")
-
-//        // TODO remove?
-//        if (dial == 0) {
-//            zeroes++
-//        } else if (0 < dial) {
-//            zeroes += dial / 100
-//        } else {
-//            zeroes += 1 + dial.absoluteValue / 100
-//        }
-
-        dial %= 100
     }
 
     return zeroes
