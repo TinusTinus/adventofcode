@@ -9,34 +9,7 @@ import kotlin.math.min
 private val logger = KotlinLogging.logger{}
 
 fun solvePart2(lines: Sequence<String>): Int {
-    var dial = 50
-    var zeroes = 0
-    for (line in lines) {
-        val direction = Direction.parse(line.take(1))
-        val directionMultiplier = when(direction) {
-            Direction.LEFT -> -1
-            Direction.RIGHT -> 1
-            else -> throw IllegalArgumentException("Unexpected direction: {direction}")
-        }
-        val distance = line.substring(1).toInt() * directionMultiplier
-
-        val previousDial = dial
-        zeroes += (distance.absoluteValue / 100)
-        dial = (dial + distance) % 100
-        if (previousDial != 0 && dial != 0) {
-            if ((distance < 0 && previousDial < dial) ||
-                    (0 < distance && dial < previousDial)
-            ) {
-                zeroes += 1
-            }
-        }
-        if (dial == 0) {
-            zeroes += 1
-        }
-    }
-
-    return zeroes
-
+    return 3 // TODO implement!
 }
 
 fun main() {
