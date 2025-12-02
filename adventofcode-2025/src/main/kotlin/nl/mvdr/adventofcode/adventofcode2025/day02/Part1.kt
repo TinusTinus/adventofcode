@@ -1,7 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2025.day02
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.point.Direction
 import nl.mvdr.adventofcode.solver.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
