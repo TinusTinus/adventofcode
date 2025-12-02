@@ -6,13 +6,7 @@ import nl.mvdr.adventofcode.solver.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: Sequence<String>): Long =
-    lines.first()
-        .split(",")
-        .map { it -> it.split("-") }
-        .map { it -> it.first().toLong() .. it.last().toLong() }
-        .flatMap { it -> it.asSequence() }
-        .filter(::isInvalid)
-        .sum()
+    solve(lines, ::isInvalid)
 
 private fun isInvalid(id: Long): Boolean {
     val idString = id.toString()
