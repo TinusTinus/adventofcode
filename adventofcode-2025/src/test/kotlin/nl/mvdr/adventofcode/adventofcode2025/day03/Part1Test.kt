@@ -8,7 +8,7 @@ class Part1Test: FunctionSolverTest<Int>(::solvePart1) {
         @JvmStatic
         fun testSolution(): List<Arguments> {
             return listOf(
-                Arguments.of("?", "example-day03.txt")
+                Arguments.of("357", "example-day03.txt")
             )
         }
     }
