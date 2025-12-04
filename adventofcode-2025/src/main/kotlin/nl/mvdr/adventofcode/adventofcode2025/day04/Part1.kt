@@ -12,11 +12,6 @@ fun solvePart1(lines: Sequence<String>): Int {
     return rolls.count { roll -> roll.neighboursIncludingDiagonals().count(rolls::contains) < 4 }
 }
 
-private fun parseInput(lines: Sequence<String>): Set<Point> {
-    val result = mutableSetOf<Point>();
-    Point.parse2DMap(lines.toList(), CharacterConsumer { point, character -> if (character == '@') { result.add(point) } })
-    return result
-}
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day04.txt")
