@@ -2,7 +2,6 @@ package nl.mvdr.adventofcode.range;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -33,7 +32,7 @@ class LongRangeTest {
         var result = LongRange.reduce(ranges);
         
         assertEquals(1, result.size());
-        assertEquals(new LongRange(0, 20), result.get(0));
+        assertEquals(new LongRange(0, 20), result.getFirst());
     }
 
     @Test
@@ -48,7 +47,7 @@ class LongRangeTest {
         var result = LongRange.reduce(ranges);
         
         assertEquals(1, result.size());
-        assertEquals(new LongRange(0, 20), result.get(0));
+        assertEquals(new LongRange(0, 20), result.getFirst());
     }
     
     @Test
