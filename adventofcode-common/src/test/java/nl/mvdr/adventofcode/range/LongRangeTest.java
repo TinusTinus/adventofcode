@@ -1,11 +1,13 @@
 package nl.mvdr.adventofcode.range;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class LongRangeTest {
     
@@ -30,8 +32,8 @@ class LongRangeTest {
         
         var result = LongRange.reduce(ranges);
         
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals(new LongRange(0, 20), result.get(0));
+        assertEquals(1, result.size());
+        assertEquals(new LongRange(0, 20), result.get(0));
     }
 
     @Test
@@ -45,8 +47,8 @@ class LongRangeTest {
         
         var result = LongRange.reduce(ranges);
         
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals(new LongRange(0, 20), result.get(0));
+        assertEquals(1, result.size());
+        assertEquals(new LongRange(0, 20), result.get(0));
     }
     
     @Test
@@ -61,8 +63,28 @@ class LongRangeTest {
         
         var result = LongRange.reduce(ranges);
         
-        Assertions.assertEquals(2, result.size());
-        Assertions.assertTrue(result.contains(new LongRange(0, 13)));
-        Assertions.assertTrue(result.contains(new LongRange(15, 20)));
+        assertEquals(2, result.size());
+        assertTrue(result.contains(new LongRange(0, 13)));
+        assertTrue(result.contains(new LongRange(15, 20)));
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "3, 6, 3", "3, 6, 4", "3, 6, 5", "3, 6, 6", "-3, 2, 1", "-3, 2, -1", "-3, 2, 0", "-3, -1, -2" })
+    void testContains(long min, long max, long value) {
+        var range = new LongRange(min, max);
+
+        var result = range.contains(value);
+
+        assertTrue(result);
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "3, 6, 0", "3, 6, 2", "3, 6, 7", "3, 6, 8", "-3, 2, -4", "-3, 2, 3", "-3, 2, 111111111", "-3, -1, 1" })
+    void testDoesNotContain(long min, long max, long value) {
+        var range = new LongRange(min, max);
+
+        var result = range.contains(value);
+
+        assertFalse(result);
     }
 }

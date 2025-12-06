@@ -99,6 +99,10 @@ public record LongRange(long min, long max) implements Comparable<LongRange> {
     private LongRange merge(LongRange other) {
         return new LongRange(Math.min(this.min, other.min), Math.max(this.max, other.max));
     }
+
+    public boolean contains(long value) {
+        return this.min <= value && value <= this.max;
+    }
     
     @Override
     public int compareTo(LongRange other) {
