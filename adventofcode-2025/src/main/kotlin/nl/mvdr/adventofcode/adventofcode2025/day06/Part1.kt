@@ -5,9 +5,7 @@ import nl.mvdr.adventofcode.solver.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(linesSequence: Sequence<String>): Long {
-    return 3L // TODO implement
-}
+fun solvePart1(lines: Sequence<String>) = parse(lines.toList()).sumOf(Problem::solve)
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day06.txt")
