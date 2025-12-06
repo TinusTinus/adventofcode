@@ -103,6 +103,10 @@ public record LongRange(long min, long max) implements Comparable<LongRange> {
     public boolean contains(long value) {
         return this.min <= value && value <= this.max;
     }
+
+    public long size() {
+        return this.max - this.min + 1;
+    }
     
     @Override
     public int compareTo(LongRange other) {

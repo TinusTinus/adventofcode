@@ -86,4 +86,14 @@ class LongRangeTest {
 
         assertFalse(result);
     }
+
+    @ParameterizedTest
+    @CsvSource({ "0, 1, 2", "3, 8, 6", "2, 2, 1", "-3, -2, 2" })
+    void testSize(Long min, Long max, Long expectedSize) {
+        var range = new LongRange(min, max);
+
+        var result = range.size();
+
+        assertEquals(expectedSize, result);
+    }
 }
