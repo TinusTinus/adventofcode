@@ -5,7 +5,7 @@ import nl.mvdr.adventofcode.solver.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(linesSequence: Sequence<String>) = parseInput(linesSequence.toList()).countFreshIngredients()
+fun solvePart1(lines: Sequence<String>) = parseInput(lines.toList()).countFreshIngredients()
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day05.txt")
