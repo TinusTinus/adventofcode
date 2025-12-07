@@ -22,6 +22,16 @@ data class TachyonManifold(val start: Point, val splitters: Set<Point>) {
         )
     }
 
+    fun countTimelines() = countTimelinesStartingFrom(start)
+
+    private fun countTimelinesStartingFrom(point: Point): Int =
+        if (point.y == maxY + 1) {
+            1
+        } else if (splitters.contains(point)) {
+            countTimelinesStartingFrom(Point(point.x - 1, point.y + 1)) + countTimelinesStartingFrom(Point(point.x + 1, point.y + 1))
+        } else {
+            countTimelinesStartingFrom(Point(point.x, point.y + 1))
+        }
 }
 
 fun parseManifold(lines: List<String>): TachyonManifold {
