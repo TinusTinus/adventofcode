@@ -4,7 +4,7 @@ import nl.mvdr.adventofcode.point.Point
 
 data class TachyonManifold(val start: Point, val splitters: Set<Point>) {
     private val maxY = Point.maxY(splitters)
-    private val timelineCache = mutableMapOf<Point, Int>()
+    private val timelineCache = mutableMapOf<Point, Long>()
 
     fun countSplits() = countSplitsStartingFrom(start.y, setOf(start.x), 0)
 
@@ -25,7 +25,7 @@ data class TachyonManifold(val start: Point, val splitters: Set<Point>) {
 
     fun countTimelines() = countTimelinesStartingFrom(start)
 
-    private fun countTimelinesStartingFrom(point: Point): Int =
+    private fun countTimelinesStartingFrom(point: Point): Long =
         timelineCache.getOrPut(point) {
             if (point.y == maxY + 1) {
                 1
