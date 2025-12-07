@@ -6,34 +6,32 @@ data class TachyonManifold(val start: Point, val splitters: Set<Point>) {
     private val maxY = Point.maxY(splitters)
     private val timelineCache = mutableMapOf<Point, Long>()
 
-    fun countSplits() = countSplitsStartingFrom(start.y, setOf(start.x), 0)
-
-    private fun countSplitsStartingFrom(y: Int, beamXs: Set<Int>, splitsSoFar: Int): Int = when(y) {
+    fun countSplits(beamY: Int = start.y, beamXs: Set<Int> = setOf(start.x), splitsSoFar: Int = 0): Int = when(beamY) {
         maxY + 1 -> splitsSoFar
-        else -> countSplitsStartingFrom(
-            y + 1,
-            beamXs.flatMap { x ->
-                if (splitters.contains(Point(x, y))) {
-                    setOf(x - 1, x + 1)
+        else -> countSplits(
+            beamY + 1,
+            beamXs.flatMap { beamX ->
+                if (splitters.contains(Point(beamX, beamY))) {
+                    setOf(beamX - 1, beamX + 1)
                 } else {
-                    setOf(x)
+                    setOf(beamX)
                 }
             }.toSet(),
-            splitsSoFar + beamXs.count { x -> splitters.contains(Point(x, y)) }
+            splitsSoFar + beamXs.count { beamX -> splitters.contains(Point(beamX, beamY)) }
         )
     }
 
-    fun countTimelines() = countTimelinesStartingFrom(start)
-
-    private fun countTimelinesStartingFrom(point: Point): Long =
-        timelineCache.getOrPut(point) {
-            if (point.y == maxY + 1) {
+    fun countTimelines(beam: Point = start): Long =
+        timelineCache.getOrPut(beam) {
+            if (beam.y == maxY + 1) {
+                // The beam will never encounter another splitter
                 1
-            } else if (splitters.contains(point)) {
-                countTimelinesStartingFrom(Point(point.x - 1, point.y + 1)) +
-                        countTimelinesStartingFrom(Point(point.x + 1, point.y + 1))
+            } else if (splitters.contains(beam)) {
+                // The beam splits here
+                countTimelines(Point(beam.x - 1, beam.y + 1)) +
+                        countTimelines(Point(beam.x + 1, beam.y + 1))
             } else {
-                countTimelinesStartingFrom(Point(point.x, point.y + 1))
+                countTimelines(Point(beam.x, beam.y + 1))
             }
         }
 }
