@@ -9,13 +9,25 @@ private val logger = KotlinLogging.logger{}
 fun solvePart1(lines: Sequence<String>, numberOfPairs: Int = 1000): Int {
     val junctionBoxes = lines.map(Point3D::parse).toList()
 
-    val pairs = junctionBoxes.flatMap { firstBox -> junctionBoxes
+    val pairs = findPairs(junctionBoxes, numberOfPairs)
+
+    val circuits = findCircuits(junctionBoxes, pairs)
+
+    return circuits.map { it.size }
+        .sorted()
+        .takeLast(3)
+        .reduce(Int::times)
+}
+
+private fun findPairs(junctionBoxes: List<Point3D>, numberOfPairs: Int) =
+    junctionBoxes.flatMap { firstBox -> junctionBoxes
             .filter { secondBox -> firstBox != secondBox }
             .map { secondBox -> setOf(firstBox, secondBox) } }
         .distinct()
         .sortedBy { it.first().euclideanDistance(it.last()) }
         .take(numberOfPairs)
 
+private fun findCircuits(junctionBoxes: List<Point3D>, pairs: List<Set<Point3D>>): Set<Set<Point3D?>> {
     val circuits = junctionBoxes.map { setOf(it) }.toMutableSet()
 
     for (pair in pairs) {
@@ -33,10 +45,7 @@ fun solvePart1(lines: Sequence<String>, numberOfPairs: Int = 1000): Int {
         circuits.add(newCircuit)
     }
 
-    return circuits.map { it.size }
-        .sorted()
-        .takeLast(3)
-        .reduce(Int::times)
+    return circuits
 }
 
 fun main() {
