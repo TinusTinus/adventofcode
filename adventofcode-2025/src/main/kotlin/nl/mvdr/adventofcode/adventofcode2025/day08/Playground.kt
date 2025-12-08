@@ -4,13 +4,12 @@ import nl.mvdr.adventofcode.point.Point3D
 
 fun parseJunctionBoxes(lines: Sequence<String>) = lines.map(Point3D::parse).toList()
 
-fun findPairs(junctionBoxes: List<Point3D>, numberOfPairs: Int? = null) =
+fun findPairs(junctionBoxes: List<Point3D>) =
     junctionBoxes.flatMap { firstBox -> junctionBoxes
         .filter { secondBox -> firstBox != secondBox }
         .map { secondBox -> setOf(firstBox, secondBox) } }
         .distinct()
         .sortedBy { it.first().euclideanDistance(it.last()) }
-        .take(numberOfPairs ?: Int.MAX_VALUE)
 
 data class FindCircuitsResult(val circuits: Set<Set<Point3D>>, val lastPair: Set<Point3D>) {}
 

@@ -7,7 +7,7 @@ private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: Sequence<String>, numberOfPairs: Int = 1000): Int {
     val junctionBoxes = parseJunctionBoxes(lines)
-    val pairs = findPairs(junctionBoxes, numberOfPairs)
+    val pairs = findPairs(junctionBoxes).take(numberOfPairs)
     val circuits = findCircuits(junctionBoxes, pairs).circuits
     return circuits.map { it.size }
         .sorted()
