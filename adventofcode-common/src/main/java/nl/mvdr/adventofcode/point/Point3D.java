@@ -186,6 +186,21 @@ public record Point3D(int x, int y, int z) implements Comparable<Point3D> {
         return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
     }
 
+    /**
+     * Computes the <a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a>, also known as the
+     * straight-line distance, between this point and another.
+     *
+     * @param other the other point
+     * @return distance
+     */
+    public double euclideanDistance(Point3D other) {
+        return Math.sqrt(
+                Math.pow(this.x - other.x, 2) +
+                        Math.pow(this.y - other.y, 2) +
+                        Math.pow(this.z - other.z, 2)
+        );
+    }
+
     /** @return the 6 points neighbouring any of this points's sides */
     public Set<Point3D> neighbours() {
         return offsetOnAxes(1);
