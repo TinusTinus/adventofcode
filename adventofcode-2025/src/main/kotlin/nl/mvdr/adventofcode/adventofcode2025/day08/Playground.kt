@@ -4,18 +4,24 @@ import nl.mvdr.adventofcode.point.Point3D
 
 fun parseJunctionBoxes(lines: Sequence<String>) = lines.map(Point3D::parse).toList()
 
-fun findPairs(junctionBoxes: List<Point3D>, numberOfPairs: Int) =
+fun findPairs(junctionBoxes: List<Point3D>, numberOfPairs: Int? = null) =
     junctionBoxes.flatMap { firstBox -> junctionBoxes
         .filter { secondBox -> firstBox != secondBox }
         .map { secondBox -> setOf(firstBox, secondBox) } }
         .distinct()
         .sortedBy { it.first().euclideanDistance(it.last()) }
-        .take(numberOfPairs)
+        .take(numberOfPairs ?: Int.MAX_VALUE)
 
-fun findCircuits(junctionBoxes: List<Point3D>, pairs: List<Set<Point3D>>): Set<Set<Point3D?>> {
+data class FindCircuitsResult(val circuits: Set<Set<Point3D>>, val lastPair: Set<Point3D>) {}
+
+fun findCircuits(junctionBoxes: List<Point3D>, pairs: List<Set<Point3D>>): FindCircuitsResult {
+    val remainingPairs = pairs.toMutableList()
     val circuits = junctionBoxes.map { setOf(it) }.toMutableSet()
+    var pair: Set<Point3D>? = null
 
-    for (pair in pairs) {
+    while (!remainingPairs.isEmpty() && 1 < circuits.size) {
+        pair = remainingPairs.removeFirst()
+
         val firstCircuit = circuits.find { it.contains(pair.first()) }!!
         circuits.remove(firstCircuit)
 
@@ -30,5 +36,5 @@ fun findCircuits(junctionBoxes: List<Point3D>, pairs: List<Set<Point3D>>): Set<S
         circuits.add(newCircuit)
     }
 
-    return circuits
+    return FindCircuitsResult(circuits, pair!!)
 }
