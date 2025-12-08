@@ -9,10 +9,9 @@ private val logger = KotlinLogging.logger{}
 fun solvePart1(lines: Sequence<String>, numberOfPairs: Int = 1000): Int {
     val junctionBoxes = lines.map(Point3D::parse).toList()
 
-    val pairs = junctionBoxes.map { firstBox -> junctionBoxes
-            .map { secondBox -> setOf(firstBox, secondBox) }
-            .filter { it.size == 2 }
-            .minBy { it.first().euclideanDistance(it.last()) } }
+    val pairs = junctionBoxes.flatMap { firstBox -> junctionBoxes
+            .filter { secondBox -> firstBox != secondBox }
+            .map { secondBox -> setOf(firstBox, secondBox) } }
         .distinct()
         .sortedBy { it.first().euclideanDistance(it.last()) }
         .take(numberOfPairs)
@@ -20,8 +19,6 @@ fun solvePart1(lines: Sequence<String>, numberOfPairs: Int = 1000): Int {
     val circuits = junctionBoxes.map { setOf(it) }.toMutableSet()
 
     for (pair in pairs) {
-        println("Next pair of circuits: $pair") // TODO remove
-
         val firstCircuit = circuits.find { it.contains(pair.first()) }!!
         circuits.remove(firstCircuit)
 
@@ -33,11 +30,8 @@ fun solvePart1(lines: Sequence<String>, numberOfPairs: Int = 1000): Int {
         circuits.remove(secondCircuit)
 
         val newCircuit = firstCircuit union secondCircuit
-        println("New circuit: $newCircuit") // TODO remove
         circuits.add(newCircuit)
     }
-
-    println("Final circuits: $circuits") // TODO remove!
 
     return circuits.map { it.size }
         .sorted()
