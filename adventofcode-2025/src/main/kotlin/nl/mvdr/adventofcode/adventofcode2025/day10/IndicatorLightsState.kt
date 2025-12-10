@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2025.day10
 data class IndicatorLightsState(val lights: List<Boolean>) {
     fun toggle(button: Button): IndicatorLightsState {
         val newLights = lights.toMutableList()
-        button.lights.forEach { newLights[it] = !newLights[it] }
+        button.indexes.forEach { newLights[it] = !newLights[it] }
         return IndicatorLightsState(newLights)
     }
 }

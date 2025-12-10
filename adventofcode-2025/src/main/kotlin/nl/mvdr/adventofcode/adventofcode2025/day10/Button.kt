@@ -1,6 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2025.day10
 
-data class Button(val lights: Set<Int>)
+data class Button(val indexes: Set<Int>)
 
 fun parseButton(text: String): Button {
     if (!text.startsWith("(") || !text.endsWith(")")) {
