@@ -6,14 +6,13 @@ import nl.mvdr.adventofcode.solver.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>): Long {
+fun solvePart2(lines: Sequence<String>): Long {
     val points = lines.map(Point::parse).toSet()
 
-    return points.flatMap { firstCorner -> points.map { secondCorner -> Rectangle(firstCorner, secondCorner) } }
-        .maxOf(Rectangle::area)
+    return 3 // TODO
 }
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day09.txt")
+    val result = FunctionSolver(::solvePart2).solve("input-day09.txt")
     logger.info { result }
 }
