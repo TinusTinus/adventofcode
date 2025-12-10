@@ -1,9 +1,6 @@
 package nl.mvdr.adventofcode.adventofcode2025.day10
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.adventofcode2025.day08.findCircuits
-import nl.mvdr.adventofcode.adventofcode2025.day08.findPairs
-import nl.mvdr.adventofcode.adventofcode2025.day08.parseJunctionBoxes
 import nl.mvdr.adventofcode.solver.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
