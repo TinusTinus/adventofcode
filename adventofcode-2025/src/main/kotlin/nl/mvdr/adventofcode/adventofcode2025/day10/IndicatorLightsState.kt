@@ -23,6 +23,8 @@ fun parseState(text: String): IndicatorLightsState {
     return IndicatorLightsState(lights)
 }
 
+fun getInitialState(numberOfLights: Int) = IndicatorLightsState(generateSequence { false }.take(numberOfLights).toList())
+
 fun getPossibleStates(numberOfLights: Int) = getPossibleLights(numberOfLights).map { IndicatorLightsState(it) }
 
 private fun getPossibleLights(numberOfLights: Int): Set<List<Boolean>> =

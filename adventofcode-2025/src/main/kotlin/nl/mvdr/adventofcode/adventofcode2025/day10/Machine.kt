@@ -8,7 +8,7 @@ data class Machine(val targetLightsState: IndicatorLightsState, val buttons: Set
 
     fun computeFewestButtonPressesToInit(): Int {
         val numberOfLights = targetLightsState.lights.size
-        val initialState = IndicatorLightsState(generateSequence { false }.take(numberOfLights).toList())
+        val initialState = getInitialState(numberOfLights)
         val possibleStates = getPossibleStates(numberOfLights)
 
         val graph = SimpleDirectedGraph<IndicatorLightsState, DefaultEdge>(DefaultEdge::class.java)
