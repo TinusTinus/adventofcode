@@ -6,11 +6,7 @@ import nl.mvdr.adventofcode.solver.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart2(lines: Sequence<String>): Long {
-    val points = lines.map(Point::parse).toSet()
-
-    return 3 // TODO
-}
+fun solvePart2(lines: Sequence<String>) = parseTileFloor(lines).findLargestRedOrGreenRectangleArea()
 
 fun main() {
     val result = FunctionSolver(::solvePart2).solve("input-day09.txt")
