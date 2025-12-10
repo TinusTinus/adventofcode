@@ -10,8 +10,8 @@ private val logger = KotlinLogging.logger{}
 fun solvePart1(lines: Sequence<String>): Long {
     val points = lines.map(Point::parse).toSet()
 
-    return points.flatMap { firstCorner -> points.map { secondCorner -> (abs(firstCorner.x - secondCorner.x) + 1).toLong() * (abs(firstCorner.y - secondCorner.y) + 1).toLong() } }
-        .max()
+    return points.flatMap { firstCorner -> points.map { secondCorner -> Rectangle(firstCorner, secondCorner) } }
+        .maxOf(Rectangle::area)
 }
 
 fun main() {
