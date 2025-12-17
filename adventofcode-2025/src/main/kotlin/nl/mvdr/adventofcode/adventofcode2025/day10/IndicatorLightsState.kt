@@ -1,11 +1,25 @@
 package nl.mvdr.adventofcode.adventofcode2025.day10
 
-data class IndicatorLightsState(val lights: List<Boolean>) {
-    fun toggle(button: Button): IndicatorLightsState {
+data class IndicatorLightsState(val lights: List<Boolean>): State<IndicatorLightsState> {
+    override fun update(button: Button): IndicatorLightsState {
         val newLights = lights.toMutableList()
         button.indexes.forEach { newLights[it] = !newLights[it] }
         return IndicatorLightsState(newLights)
     }
+
+    override fun getInitialState() = IndicatorLightsState(generateSequence { false }.take(lights.size).toList())
+
+    override fun getPossibleStates() = getPossibleLights(lights.size)
+        .map { IndicatorLightsState(it) }
+        .toSet()
+
+    private fun getPossibleLights(numberOfLights: Int): Set<List<Boolean>> =
+        when (numberOfLights) {
+            0 -> setOf(listOf())
+            else -> getPossibleLights(numberOfLights - 1)
+                .flatMap { setOf(listOf(true) + it, listOf(false) + it) }
+                .toSet()
+        }
 }
 
 fun parseState(text: String): IndicatorLightsState {
@@ -23,15 +37,4 @@ fun parseState(text: String): IndicatorLightsState {
     return IndicatorLightsState(lights)
 }
 
-fun getInitialState(numberOfLights: Int) = IndicatorLightsState(generateSequence { false }.take(numberOfLights).toList())
-
-fun getPossibleStates(numberOfLights: Int) = getPossibleLights(numberOfLights).map { IndicatorLightsState(it) }
-
-private fun getPossibleLights(numberOfLights: Int): Set<List<Boolean>> =
-    when (numberOfLights) {
-        0 -> setOf(listOf())
-        else -> getPossibleLights(numberOfLights - 1)
-            .flatMap { setOf(listOf(true) + it, listOf(false) + it) }
-            .toSet()
-    }
 

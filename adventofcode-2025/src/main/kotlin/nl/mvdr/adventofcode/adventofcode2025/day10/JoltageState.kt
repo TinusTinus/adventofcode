@@ -1,13 +1,17 @@
 package nl.mvdr.adventofcode.adventofcode2025.day10
 
-data class JoltageState(val joltages: List<Int>) {
-    fun update(button: Button): JoltageState {
+data class JoltageState(val joltages: List<Int>): State<JoltageState> {
+    override fun update(button: Button): JoltageState {
         val newJoltages = joltages.toMutableList()
         button.indexes.forEach { newJoltages[it]++ }
         return JoltageState(newJoltages)
     }
 
-    fun getPossibleJoltages() = getPossibleJoltages(joltages.size).map { JoltageState(it) }
+    override fun getInitialState() = JoltageState(generateSequence { 0 }.take(joltages.size).toList())
+
+    override fun getPossibleStates() = getPossibleJoltages(joltages.size)
+        .map { JoltageState(it) }
+        .toSet()
 
     private fun getPossibleJoltages(numberOfJoltages: Int): Set<List<Int>> =
         when (numberOfJoltages) {
@@ -30,5 +34,3 @@ fun parseJoltageRequirements(text: String): JoltageState {
 
     return JoltageState(joltages)
 }
-
-fun getInitialJoltageState(numberOfJoltages: Int) = JoltageState(generateSequence { 0 }.take(numberOfJoltages).toList())
