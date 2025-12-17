@@ -26,10 +26,10 @@
             <artifactId>kotlin-logging-jvm</artifactId>
         </dependency>
 
-        <!-- graph algorithms -->
+        <!-- mathematical equation solver-->
         <dependency>
-            <groupId>org.jgrapht</groupId>
-            <artifactId>jgrapht-core</artifactId>
+            <groupId>tools.aqua</groupId>
+            <artifactId>z3-turnkey</artifactId>
         </dependency>
 
         <!-- unit testing -->

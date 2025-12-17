@@ -10,7 +10,7 @@ interface State<S : State<S>> {
     fun canReach(targetState: S): Boolean
 }
 
-fun <S: State<S>> computeFewestButtonPressesToReach(targetState: S, buttons: Set<Button>): Int {
+fun <S: State<S>> computeFewestButtonPressesToReach(targetState: S, buttons: List<Button>): Int {
     var current = setOf(targetState.getInitialState())
     var buttonPresses = 0
 
