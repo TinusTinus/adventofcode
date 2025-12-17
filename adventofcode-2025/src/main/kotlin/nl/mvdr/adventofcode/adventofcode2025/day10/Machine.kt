@@ -8,6 +8,23 @@ data class Machine(val targetLightsState: IndicatorLightsState, val buttons: Lis
     fun computeFewestButtonPressesToInit() = computeFewestButtonPressesToReach(targetLightsState, buttons)
 
     fun computeFewestButtonPressesToRequiredJoltage(): Int {
+        var result = computeButtonPressesToRequiredJoltage()!!
+
+        var nextResult = computeButtonPressesToRequiredJoltage(result - 1)
+        while (nextResult != null) {
+            result = nextResult
+            nextResult = computeButtonPressesToRequiredJoltage(result - 1)
+        }
+
+        return result
+    }
+
+    /**
+     * Note that this method is not guaranteed to return the minimum number of button presses.
+     * It just returns a valid number of button presses, which is at most equal to the given maximum,
+     * or null if such a number does not exist.
+     */
+    private fun computeButtonPressesToRequiredJoltage(max: Int = Int.MAX_VALUE): Int? {
         Context().use { context ->
             val solver = context.mkSolver()
 
@@ -29,19 +46,13 @@ data class Machine(val targetLightsState: IndicatorLightsState, val buttons: Lis
 
             val totalButtonPresses = context.mkIntConst("totalButtonPresses")
             solver.add(context.mkEq(totalButtonPresses, context.mkAdd(*buttonConstants)))
+            solver.add(context.mkLe(totalButtonPresses, context.mkInt(max)))
 
-            val result = when (solver.check()) {
-                Status.SATISFIABLE -> {
-                    buttonConstants.forEach { println("$it = ${solver.model.eval(it, false)}") } // TODO remove or turn into log statement
-                    solver.model.eval(totalButtonPresses, false).toString().toInt() // TODO find the minimum value of totalButtonPresses, instead of A value
-                }
-
-                else -> throw IllegalStateException("Could not solve for joltage requirements $joltageRequirements")
+            return when (solver.check()) {
+                Status.SATISFIABLE -> solver.model.eval(totalButtonPresses, false).toString().toInt()
+                Status.UNSATISFIABLE -> null
+                Status.UNKNOWN -> throw IllegalStateException("Status unknown")
             }
-
-            println("$result total button presses for $this") // TODO remove or turn into log statement
-
-            return result
         }
     }
 }
