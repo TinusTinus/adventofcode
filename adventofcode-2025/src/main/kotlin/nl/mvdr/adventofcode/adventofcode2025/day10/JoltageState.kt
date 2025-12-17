@@ -9,17 +9,7 @@ data class JoltageState(val joltages: List<Int>): State<JoltageState> {
 
     override fun getInitialState() = JoltageState(generateSequence { 0 }.take(joltages.size).toList())
 
-    override fun getPossibleStates() = getPossibleJoltages(joltages.size)
-        .map { JoltageState(it) }
-        .toSet()
-
-    private fun getPossibleJoltages(numberOfJoltages: Int): Set<List<Int>> =
-        when (numberOfJoltages) {
-            0 -> setOf(listOf())
-            else -> getPossibleJoltages(numberOfJoltages - 1)
-                .flatMap { (0 .. joltages[numberOfJoltages - 1]).map { joltage -> it + listOf(joltage) } }
-                .toSet()
-        }
+    override fun canReach(targetState: JoltageState) = (0 ..< joltages.size).all { joltages[it] <= targetState.joltages[it] }
 }
 
 fun parseJoltageRequirements(text: String): JoltageState {

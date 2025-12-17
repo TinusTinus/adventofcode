@@ -7,7 +7,7 @@ private val logger = KotlinLogging.logger{}
 interface State<S : State<S>> {
     fun update(button: Button): S
     fun getInitialState(): S
-    fun getPossibleStates(): Set<S>
+    fun canReach(targetState: S): Boolean
 }
 
 fun <S: State<S>> computeFewestButtonPressesToReach(targetState: S, buttons: Set<Button>): Int {
@@ -16,6 +16,7 @@ fun <S: State<S>> computeFewestButtonPressesToReach(targetState: S, buttons: Set
 
     while(!current.contains(targetState)) {
         current = current.flatMap { state -> buttons.map { state.update(it) } }
+            .filter { it.canReach(targetState) }
             .toSet()
         buttonPresses++
     }

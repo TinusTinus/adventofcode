@@ -9,17 +9,7 @@ data class IndicatorLightsState(val lights: List<Boolean>): State<IndicatorLight
 
     override fun getInitialState() = IndicatorLightsState(generateSequence { false }.take(lights.size).toList())
 
-    override fun getPossibleStates() = getPossibleLights(lights.size)
-        .map { IndicatorLightsState(it) }
-        .toSet()
-
-    private fun getPossibleLights(numberOfLights: Int): Set<List<Boolean>> =
-        when (numberOfLights) {
-            0 -> setOf(listOf())
-            else -> getPossibleLights(numberOfLights - 1)
-                .flatMap { setOf(listOf(true) + it, listOf(false) + it) }
-                .toSet()
-        }
+    override fun canReach(targetState: IndicatorLightsState) = true
 }
 
 fun parseState(text: String): IndicatorLightsState {
