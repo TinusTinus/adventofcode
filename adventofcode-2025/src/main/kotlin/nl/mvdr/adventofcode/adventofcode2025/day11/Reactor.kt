@@ -4,7 +4,9 @@ import org.jgrapht.alg.shortestpath.AllDirectedPaths
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.DirectedAcyclicGraph
 
-fun solve(lines: Sequence<String>, start: String, requiredDevices: Set<String> = setOf()): Int {
+fun createAlgorithm(lines: Sequence<String>) = AllDirectedPaths(createGraph(lines))
+
+private fun createGraph(lines: Sequence<String>): DirectedAcyclicGraph<String, DefaultEdge> {
     val graph = DirectedAcyclicGraph<String, DefaultEdge>(DefaultEdge::class.java)
 
     lines.forEach { line ->
@@ -18,8 +20,5 @@ fun solve(lines: Sequence<String>, start: String, requiredDevices: Set<String> =
         outputDevices.forEach { outputDevice -> graph.addEdge(inputDevice, outputDevice) }
     }
 
-    val algorithm = AllDirectedPaths(graph)
-    return algorithm.getAllPaths(start, "out", true, null)
-        .filter { it.vertexList.containsAll(requiredDevices) }
-        .size
+    return graph
 }

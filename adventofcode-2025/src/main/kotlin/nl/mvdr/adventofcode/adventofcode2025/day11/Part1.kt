@@ -5,7 +5,9 @@ import nl.mvdr.adventofcode.solver.FunctionSolver
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>) = solve(lines, "you")
+fun solvePart1(lines: Sequence<String>) = createAlgorithm(lines)
+    .getAllPaths("you", "out", true, null)
+    .size
 
 fun main() {
     val result = FunctionSolver(::solvePart1).solve("input-day11.txt")
