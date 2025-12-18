@@ -1,12 +1,8 @@
 package nl.mvdr.adventofcode.adventofcode2025.day11
 
-import io.github.oshai.kotlinlogging.KotlinLogging
-import nl.mvdr.adventofcode.solver.FunctionSolver
 import org.jgrapht.alg.shortestpath.AllDirectedPaths
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.DirectedAcyclicGraph
-
-private val logger = KotlinLogging.logger{}
 
 fun solve(lines: Sequence<String>, start: String, requiredDevices: Set<String> = setOf()): Int {
     val graph = DirectedAcyclicGraph<String, DefaultEdge>(DefaultEdge::class.java)
