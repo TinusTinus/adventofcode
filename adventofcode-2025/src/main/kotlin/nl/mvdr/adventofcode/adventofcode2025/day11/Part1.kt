@@ -6,7 +6,7 @@ import nl.mvdr.adventofcode.solver.FunctionSolver
 private val logger = KotlinLogging.logger{}
 
 fun solvePart1(lines: Sequence<String>) = createAlgorithm(lines)
-    .getAllPaths("you", "out", true, null)
+    .getAllPaths("you", "out")
     .size
 
 fun main() {

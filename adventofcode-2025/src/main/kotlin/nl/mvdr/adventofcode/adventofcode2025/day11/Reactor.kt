@@ -4,6 +4,8 @@ import org.jgrapht.alg.shortestpath.AllDirectedPaths
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.DirectedAcyclicGraph
 
+fun <V, E> AllDirectedPaths<V, E>.getAllPaths(sourceVertex: V, targetVertex: V) = this.getAllPaths(sourceVertex, targetVertex, true, null)
+
 fun createAlgorithm(lines: Sequence<String>) = AllDirectedPaths(createGraph(lines))
 
 private fun createGraph(lines: Sequence<String>): DirectedAcyclicGraph<String, DefaultEdge> {
