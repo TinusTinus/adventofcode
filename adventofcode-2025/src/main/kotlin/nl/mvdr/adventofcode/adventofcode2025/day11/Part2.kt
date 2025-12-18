@@ -8,14 +8,25 @@ private val logger = KotlinLogging.logger{}
 fun solvePart2(lines: Sequence<String>): Long {
     val algorithm = createAlgorithm(lines)
 
-    // Observation: there are no paths from dac to fft.
-    // This is true both in the example and in my actual input.
-    // We only need to consider paths that visit svr -> fft -> dac -> out
+    val svrToDacToFftToOut = when (val dacToFft = algorithm.getAllPaths("dac", "fft").size.toLong()) {
+        0L -> 0L
+        else -> {
+            val svrToDac = algorithm.getAllPaths("svr", "dac").size.toLong()
+            val fftToOut = algorithm.getAllPaths("fft", "out").size.toLong()
+            svrToDac * dacToFft * fftToOut
+        }
+    }
 
-    val svrToFft = algorithm.getAllPaths("svr", "fft").size.toLong()
-    val fftToDac = algorithm.getAllPaths("fft", "dac").size.toLong()
-    val dacToOut = algorithm.getAllPaths("dac", "out").size.toLong()
-    return svrToFft * fftToDac * dacToOut
+    val svrToFftToDacToOut = when(val fftToDac = algorithm.getAllPaths("fft", "dac").size.toLong()) {
+        0L -> 0L
+        else -> {
+            val svrToFft = algorithm.getAllPaths("svr", "fft").size.toLong()
+            val dacToOut = algorithm.getAllPaths("dac", "out").size.toLong()
+            svrToFft * fftToDac * dacToOut
+        }
+    }
+
+    return svrToDacToFftToOut + svrToFftToDacToOut
 }
 
 fun main() {
