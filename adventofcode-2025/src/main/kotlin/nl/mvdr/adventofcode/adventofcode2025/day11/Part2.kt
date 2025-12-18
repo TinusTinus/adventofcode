@@ -8,9 +8,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph
 
 private val logger = KotlinLogging.logger{}
 
-fun solvePart1(lines: Sequence<String>) = solve(lines, "you")
+fun solvePart2(lines: Sequence<String>) = solve(lines, "svr", setOf("dac", "fft"))
 
 fun main() {
-    val result = FunctionSolver(::solvePart1).solve("input-day11.txt")
+    val result = FunctionSolver(::solvePart2).solve("input-day11.txt")
     logger.info { result }
 }
