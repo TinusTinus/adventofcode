@@ -8,20 +8,20 @@ private val logger = KotlinLogging.logger{}
 fun solvePart2(lines: Sequence<String>): Long {
     val algorithm = createAlgorithm(lines)
 
-    val svrToDacToFftToOut = when (val dacToFft = algorithm.getAllPaths("dac", "fft").size.toLong()) {
+    val svrToDacToFftToOut = when (val dacToFft = algorithm.countAllPaths("dac", "fft")) {
         0L -> 0L
         else -> {
-            val svrToDac = algorithm.getAllPaths("svr", "dac").size.toLong()
-            val fftToOut = algorithm.getAllPaths("fft", "out").size.toLong()
+            val svrToDac = algorithm.countAllPaths("svr", "dac")
+            val fftToOut = algorithm.countAllPaths("fft", "out")
             svrToDac * dacToFft * fftToOut
         }
     }
 
-    val svrToFftToDacToOut = when(val fftToDac = algorithm.getAllPaths("fft", "dac").size.toLong()) {
+    val svrToFftToDacToOut = when(val fftToDac = algorithm.countAllPaths("fft", "dac")) {
         0L -> 0L
         else -> {
-            val svrToFft = algorithm.getAllPaths("svr", "fft").size.toLong()
-            val dacToOut = algorithm.getAllPaths("dac", "out").size.toLong()
+            val svrToFft = algorithm.countAllPaths("svr", "fft")
+            val dacToOut = algorithm.countAllPaths("dac", "out")
             svrToFft * fftToDac * dacToOut
         }
     }

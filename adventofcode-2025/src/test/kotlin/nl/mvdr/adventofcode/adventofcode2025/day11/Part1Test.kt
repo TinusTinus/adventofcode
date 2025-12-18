@@ -3,7 +3,7 @@ package nl.mvdr.adventofcode.adventofcode2025.day11
 import nl.mvdr.adventofcode.solver.FunctionSolverTest
 import org.junit.jupiter.params.provider.Arguments
 
-class Part1Test: FunctionSolverTest<Int>(::solvePart1) {
+class Part1Test: FunctionSolverTest<Long>(::solvePart1) {
     companion object {
         @JvmStatic
         fun testSolution(): List<Arguments> {
