@@ -29,10 +29,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
         <!-- Java version -->
-        <java.version>25</java.version>
+        <java.version>27</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <kotlin.jvm.target>${java.version}</kotlin.jvm.target>
+        <kotlin.jvm.target>26</kotlin.jvm.target>
 
         <!-- dependency versions -->
         <commons-codec.version>1.22.1</commons-codec.version>
